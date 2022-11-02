@@ -1,0 +1,31 @@
+.navbar {
+	background-color: $base;
+	height: 75px;
+	padding: 0 2rem;
+	position: sticky;
+	color: black;
+	top: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	z-index: 20;
+
+	.ul-items {
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+
+		.li-items {
+			a {
+				text-decoration: none;
+				color: $element;
+				margin: 0 2rem;
+				font-size: 22px;
+			}
+		}
+	}
+	&__social {
+		margin-right: 8rem;
+	}
+}

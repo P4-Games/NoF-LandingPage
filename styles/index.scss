@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech&family=Share+Tech+Mono&display=swap');
+@import './variables';
+@import './components/Navbar/_navbar.scss';
+@import './components/Footer/_footer.scss';
+@import './pages/sections/Hero/_hero.scss';
+@import './pages/sections/Book/_book.scss';
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+	background-color: $base;
+	font-family: 'Share Tech', sans-serif;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background: $element;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 4rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: $text;
+}
+
+a {
+	text-decoration: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		color-scheme: dark;
+	}
+	body {
+		color: white;
+		background: black;
+	}
+}

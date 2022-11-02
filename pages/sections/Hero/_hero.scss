@@ -1,0 +1,19 @@
+.hero {
+    background-image: url(https://i.postimg.cc/m2cd6vnB/prueba-background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 88vh;
+
+    &__box {
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+    }
+
+    &__text {
+        display: flex;
+        justify-content: center;
+        color: $text;
+        font-size: 20px;
+    }
+}
