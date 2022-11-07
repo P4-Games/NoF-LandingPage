@@ -4,7 +4,7 @@ import Image from 'next/image'
 function Book () {
   return (
     <div className='book' id='Nosotros'>
-      <div className=''>
+      <div className='__album'>
         <Image
           src='/../public/Book/book.png'
           alt=''

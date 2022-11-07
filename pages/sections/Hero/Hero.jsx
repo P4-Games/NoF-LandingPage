@@ -43,14 +43,6 @@ function Hero () {
               height={200}
             />
           </div>
-          <div className='hero__bot__cards__3'>
-            <Image
-              src='/../public/nof-icon/sailor-neptuno.png'
-              alt='nof-image'
-              width={200}
-              height={200}
-            />
-          </div>
         </div>
       </div>
     </div>

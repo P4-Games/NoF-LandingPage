@@ -3,4 +3,9 @@
     background-repeat: no-repeat;
     background-size: cover;
     height: 600px;
+    &__album {
+        display: flex;
+	    justify-content: center;
+	    align-items: center;
+    }
 }
