@@ -2,18 +2,69 @@
     background-image: url(https://i.postimg.cc/m2cd6vnB/prueba-background.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 88vh;
+    height: 90vh;
 
-    &__box {
+    &__top {
         display: flex;
         justify-content: center;
-        padding-top: 30px;
+        position: relative;
+        &__box {
+            display: flex;
+            justify-content: center;
+            padding-top: 30px;
+        }
     }
 
-    &__text {
+    &__bot {
+
         display: flex;
-        justify-content: center;
-        color: $text;
-        font-size: 20px;
+		justify-content: space-around;
+		align-items: center;
+
+        &__nof {
+            display: flex;
+            padding-top: 2%;
+        }
+
+        &__market {
+            padding-top: 20%;
+
+            &__Button {
+            box-shadow:inset 0px 0px 15px 3px #092b39;
+            background-color:#092b39;
+            border:4px solid #084f6b;
+            display:inline-block;
+            cursor: pointer;
+            color:#ffffff;
+            font-family:Arial;
+            font-size:15px;
+            padding:8px 13px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #092b39;
+            &__Button:hover {
+                background:linear-gradient(to bottom, #092b39 5%, #092b39 100%);
+                background-color:#ffffff;
+            }
+            &__Button:active {
+                position:relative;
+                top:1px;
+            }
+            }
+        }
+
+        &__cards {
+            display: flex;
+            position: relative;
+
+            &__1 {
+                padding-bottom: 20px;
+            }
+            &__2 {
+                padding-bottom: 30px;
+            }
+            &__3 {
+                padding-bottom: 25px;
+            }
+        }
     }
 }

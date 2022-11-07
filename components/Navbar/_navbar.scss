@@ -11,10 +11,15 @@
 	align-items: center;
 	z-index: 20;
 
+	&__icon {
+		cursor: pointer;
+	}
+
 	.ul-items {
 		list-style: none;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 
 		.li-items {
 			a {
@@ -22,6 +27,7 @@
 				color: $element;
 				margin: 0 2rem;
 				font-size: 22px;
+				cursor: pointer;
 			}
 		}
 	}

@@ -1,7 +1,14 @@
 .footer {
-    background-image: url(https://i.postimg.cc/T1pfVvZs/footer.png);
+    display: flex;
+	justify-content: center;
+	align-items: center;
+    background-image: url(../Footer/footer/botonera.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 200px;
+    height: 300px;
     z-index: 20;
+
+    &__coiner {
+        position: relative;
+    }
 }
