@@ -1,11 +1,13 @@
 .book {
-    background-image: url(https://i.postimg.cc/W34G0JCN/Tablas.png);
+    background-image: url(./background/Tablas.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 600px;
+    height: 100vh;
+    position: relative;
     &__album {
-        display: flex;
-	    justify-content: center;
-	    align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%)
     }
 }

@@ -4,7 +4,7 @@ import Image from 'next/image'
 function Footer () {
   return (
     <section className='footer' id='Contacto'>
-      <div className='footer__coiner'>
+      <div className='footer'>
         <Image
           src='/../public/footer/insert-coin.png'
           alt=''
@@ -12,7 +12,7 @@ function Footer () {
           height={100}
         />
       </div>
-      <div className='footer__coiner'>
+      <div className='footer__handle'>
         <Image
           src='/../public/footer/palanca-verde-hover.png'
           alt=''
@@ -20,37 +20,47 @@ function Footer () {
           height={150}
         />
       </div>
-      <div className='footer__coiner'>
-        <Image
-          src='/../public/footer/boton-azul.png'
-          alt=''
-          width={100}
-          height={60}
-        />
-      </div>
-      <div className='footer__coiner'>
-        <Image
-          src='/../public/footer/boton-rojo.png'
-          alt=''
-          width={100}
-          height={60}
-        />
-      </div>
-      <div className='footer__coiner'>
-        <Image
-          src='/../public/footer/boton-verde.png'
-          alt=''
-          width={100}
-          height={60}
-        />
-      </div>
-      <div className='footer__coiner'>
-        <Image
-          src='/../public/footer/boton-amarillo.png'
-          alt=''
-          width={100}
-          height={60}
-        />
+      <div className='footer__buttons'>
+        <div className='footer__buttons__blue'>
+          <Image
+            src='/../public/footer/blue-button.png'
+            alt=''
+            width={100}
+            height={60}
+            onMouseOver={e => (e.currentTarget.src = '/../public/footer/blue-button-hover.png')}
+            onMouseOut={e => (e.currentTarget.src = '/../public/footer/blue-button.png')}
+          />
+        </div>
+        <div className='footer__buttons__red'>
+          <Image
+            src='/../public/footer/red-button.png'
+            alt=''
+            width={100}
+            height={60}
+            onMouseOver={e => (e.currentTarget.src = '/../public/footer/red-button-hover.png')}
+            onMouseOut={e => (e.currentTarget.src = '/../public/footer/red-button.png')}
+          />
+        </div>
+        <div className='footer__buttons__green'>
+          <Image
+            src='/../public/footer/green-button.png'
+            alt=''
+            width={100}
+            height={60}
+            onMouseOver={e => (e.currentTarget.src = '/../public/footer/green-button-hover.png')}
+            onMouseOut={e => (e.currentTarget.src = '/../public/footer/green-button.png')}
+          />
+        </div>
+        <div className='footer__buttons__yellow'>
+          <Image
+            src='/../public/footer/yellow-button.png'
+            alt=''
+            width={100}
+            height={60}
+            onMouseOver={e => (e.currentTarget.src = '/../public/footer/yellow-button-hover.png')}
+            onMouseOut={e => (e.currentTarget.src = '/../public/footer/yellow-button.png')}
+          />
+        </div>
       </div>
       <div className='footer__coiner'>
         <Image

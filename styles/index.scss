@@ -13,6 +13,12 @@ body {
 	font-family: 'Share Tech', sans-serif;
 }
 
+p {
+	margin: 0 2rem;
+	font-size: 22px;
+	color: $element;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 }

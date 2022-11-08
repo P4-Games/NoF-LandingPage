@@ -2,13 +2,29 @@
     display: flex;
 	justify-content: center;
 	align-items: center;
-    background-image: url(./background/botonera.png);
+    background-image: url(./footer/botonera.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 300px;
-    z-index: 20;
+    height: 150px;
+    gap: 3%;
+    z-index: 1;
 
-    &__coiner {
+    &__buttons {
+        width: 40%;
+        display: flex;
         position: relative;
+        justify-content: space-between;
+        &__blue {
+            cursor: pointer;
+        }
+        &__red {
+            cursor: pointer;
+        }
+        &__green {
+            cursor: pointer;
+        }
+        &__yellow {
+            cursor: pointer;
+        }
     }
 }

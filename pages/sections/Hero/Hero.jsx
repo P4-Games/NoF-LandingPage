@@ -1,6 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 
+import Cards from '../../../components/Cards'
+
 function Hero () {
   return (
     <div className='hero' id='Hero'>
@@ -26,23 +28,8 @@ function Hero () {
             Marketplace
           </button>
         </div>
-        <div className='hero__bot__cards'>
-          <div className='hero__bot__cards__1'>
-            <Image
-              src='/../public/nof-icon/wolverine.png'
-              alt='nof-image'
-              width={200}
-              height={200}
-            />
-          </div>
-          <div className='hero__bot__cards__2'>
-            <Image
-              src='/../public/nof-icon/yu-gi.png'
-              alt='nof-image'
-              width={200}
-              height={200}
-            />
-          </div>
+        <div>
+          Lorem ipsum dolor sit, <br /> amet consectetur adipisicing elit.
         </div>
       </div>
     </div>
