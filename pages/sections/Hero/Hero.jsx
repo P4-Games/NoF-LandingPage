@@ -1,7 +1,16 @@
 import React from 'react'
 import Image from 'next/image'
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react'
 
-import Cards from '../../../components/Cards'
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/effect-cards'
+
+// import required modules
+import { EffectCards, Autoplay, Pagination } from 'swiper'
+// eslint-disable-next-line
+import 'swiper/css/bundle'
 
 function Hero () {
   return (
@@ -28,8 +37,35 @@ function Hero () {
             Marketplace
           </button>
         </div>
-        <div>
-          Lorem ipsum dolor sit, <br /> amet consectetur adipisicing elit.
+        <div className='hero__bot__swiper'>
+          <>
+            <Swiper
+              effect='cards'
+              grabCursor
+              modules={[EffectCards, Autoplay, Pagination]}
+              Loop
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false
+              }}
+              pagination={{
+                el: '.pagination',
+                clickable: true
+              }}
+              className='hero__bot__swiper__slide'
+            >
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+              <SwiperSlide />
+            </Swiper>
+            <div className='pagination' />
+          </>
         </div>
       </div>
     </div>

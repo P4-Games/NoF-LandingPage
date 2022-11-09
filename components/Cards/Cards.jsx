@@ -16,7 +16,7 @@ export default function Cards () {
         effect='cards'
         grabCursor
         modules={[EffectCards]}
-        className='mySwiper'
+        className='Swiper-slide'
       >
         <SwiperSlide>Slide 1</SwiperSlide>
         <SwiperSlide>Slide 2</SwiperSlide>
