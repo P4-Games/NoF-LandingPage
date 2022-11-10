@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -32,18 +33,20 @@ function Hero () {
             height={300}
           />
         </div>
-        <div className='hero__bot__market'>
-          <button to='https://opensea.io/collection/noftoken' className='hero__bot__market__Button'>
-            Marketplace
-          </button>
-        </div>
+        <Link href='https://opensea.io/collection/noftoken' target='_blank' rel='noreferrer'>
+          <div className='hero__bot__market'>
+            <button>
+              Marketplace
+            </button>
+          </div>
+        </Link>
         <div className='hero__bot__swiper'>
           <>
             <Swiper
               effect='cards'
               grabCursor
               modules={[EffectCards, Autoplay, Pagination]}
-              Loop
+              loop
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false

@@ -11,26 +11,46 @@
 	z-index: 20;
 
 	&__icon {
-		cursor: pointer;
+		margin-top: 60px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&__nof {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+		}
+
+		&__coin {
+			margin-left: 30px;
+			margin-top: 20px;
+			cursor: pointer;
+		}
 	}
 
 	.ul-items {
 		list-style: none;
 		display: flex;
-		justify-content: space-between;
+		justify-content: center;
 		align-items: center;
+		padding-right: 75px;
 
 		.li-items {
 			a {
 				text-decoration: none;
 				color: $element;
-				margin: 0 2rem;
-				font-size: 22px;
+				margin-right: 33px;
 				cursor: pointer;
 			}
 		}
 	}
 	&__social {
-		margin-right: 8rem;
+		padding-right: 104px;
+		display: flex;
+		margin-left: 0;
+		justify-content: center;
+		align-items: center;
 	}
 }
