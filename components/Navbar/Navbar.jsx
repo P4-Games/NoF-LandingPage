@@ -9,44 +9,38 @@ function Navbar () {
     <>
       <div className='navbar'>
         <div className='navbar__icon'>
-          <Link to='Hero' spy smooth offset={-100} duration={500}>
+          <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
             <div className='navbar__icon__nof'>
               <Image
                 src='/../public/nof-icon/logo-1.png'
                 alt='/'
-                width={175}
-                height={75}
+                width={246}
+                height={102}
               />
             </div>
           </Link>
-          <Link to='Hero' spy smooth offset={-100} duration={500}>
+          <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
             <div className='navbar__icon__coin'>
               <Image
                 src='/../public/nof-icon/logo-coin.png'
                 alt='/'
-                width={60}
-                height={60}
+                width={142}
+                height={139}
               />
             </div>
           </Link>
         </div>
-        <ul className='ul-items'>
-          <li className='li-items'>
-            <Link to='Nosotros' spy smooth offset={-80} duration={500}>
-              <Image
-                src='/../public/nof-icon/nosotros.png'
-                alt='About us'
-                width={160}
-                height={50}
-              />
+        <ul className='navbar__ul'>
+          <li className='navbar__ul__li'>
+            <Link to='Nosotros' spy='true' smooth='true' offset={-80} duration={500}>
+              <button className='navbar__ul__li__btn'>
+                Nosotros
+              </button>
             </Link>
-            <Link to='Contacto' spy smooth offset={-80} duration={500}>
-              <Image
-                src='/../public/nof-icon/contacto.png'
-                alt='Contact'
-                width={160}
-                height={50}
-              />
+            <Link to='Contacto' spy='true' smooth='true' offset={-80} duration={500}>
+              <button className='navbar__ul__li__btn'>
+                Contacto
+              </button>
             </Link>
             <Whitepaper />
           </li>

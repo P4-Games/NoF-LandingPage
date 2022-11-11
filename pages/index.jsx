@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Hero from '../pages/sections/Hero'
 import Book from '../pages/sections/Book'
-import Prueba from '../pages/sections/Prueba'
 
 function Home () {
   return (
@@ -18,7 +17,6 @@ function Home () {
       <Hero />
       <Book />
       <Footer />
-      <Prueba />
     </div>
   )
 }

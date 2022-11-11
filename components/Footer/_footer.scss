@@ -1,13 +1,22 @@
 .footer {
     display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
     background-image: url(./footer/botonera.png);
     background-repeat: no-repeat;
     background-size: cover;
     height: 150px;
-    gap: 3%;
     z-index: 1;
+
+    &__insert {
+        width: 200px;
+        height: 80px;
+        background-image: url(./footer/insert-coin.png);
+        position: relative;
+        background-size: 100% 100%;    
+        background-repeat: no-repeat;     
+        background-position: center;
+    }
 
     &__buttons {
         width: 40%;
@@ -15,16 +24,123 @@
         position: relative;
         justify-content: space-between;
         &__blue {
+            width: 100px;
+            height: 50px;
+            background-image: url(./footer/blue.png);
             cursor: pointer;
+            position: relative;
+            transition: all 0,2s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/blue-hover.png);
+                position: relative;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+            }
         }
         &__red {
+            width: 100px;
+            height: 50px;
+            background-image: url(./footer/red.png);
             cursor: pointer;
+            position: relative;
+            transition: all 0,2s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/red-hover.png);
+                position: relative;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+            }
         }
         &__green {
+            width: 100px;
+            height: 50px;
+            background-image: url(./footer/green.png);
             cursor: pointer;
+            position: relative;
+            transition: all 0,2s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/green-hover.png);
+                position: relative;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+            }
         }
         &__yellow {
+            width: 100px;
+            height: 50px;
+            background-image: url(./footer/yellow.png);
             cursor: pointer;
+            position: relative;
+            transition: all 0,2s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/yellow-hover.png);
+                position: relative;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+            }
+        }
+    }
+    &__handle {
+        width: 180px;
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+
+        &__green {
+            width: 118px;
+            height: 136px;
+            background-image: url(./footer/handle-green.png);
+            cursor: pointer;
+            position: relative;
+            transition: all 0,4s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/handle-green-hover.png);
+                position: relative;
+                width: 118px;
+                height: 136px;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+        }
+        }
+        &__red {
+            width: 118px;
+            height: 136px;
+            background-image: url(./footer/handle-red.png);
+            cursor: pointer;
+            position: relative;
+            transition: all 0,4s ease;
+            background-size: 100% 100%;     
+            background-repeat: no-repeat;     
+            background-position: center;
+            &:hover {
+                background-image: url(./footer/handle-red-hover.png);
+                position: relative;
+                width: 118px;
+                height: 136px;
+                background-size: 100% 100%;    
+                background-repeat: no-repeat;     
+                background-position: center;
+        }
         }
     }
 }

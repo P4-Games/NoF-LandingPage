@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import Button from './Button'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -33,13 +33,7 @@ function Hero () {
             height={300}
           />
         </div>
-        <Link href='https://opensea.io/collection/noftoken' target='_blank' rel='noreferrer'>
-          <div className='hero__bot__market'>
-            <button>
-              Marketplace
-            </button>
-          </div>
-        </Link>
+        <Button />
         <div className='hero__bot__swiper'>
           <>
             <Swiper
