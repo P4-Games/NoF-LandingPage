@@ -3,8 +3,8 @@ import Buttons from './Buttons'
 
 function Footer () {
   return (
-    <section className='footer' id='Contacto'>
-      <div className='footer__insert'>
+    <div className='footer__insert'>
+      <div>
         <></>
       </div>
       <div className='footer__handle__green'>
@@ -21,7 +21,7 @@ function Footer () {
           <br />all rights reserved.
         </p>
       </div>
-    </section>
+    </div>
   )
 }
 

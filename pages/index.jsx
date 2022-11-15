@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import Hero from '../pages/sections/Hero'
-import Book from '../pages/sections/Book'
+import Footer from '../components/Footer'
 
 function Home () {
   return (
@@ -15,7 +14,6 @@ function Home () {
       </Head>
       <Navbar />
       <Hero />
-      <Book />
       <Footer />
     </div>
   )

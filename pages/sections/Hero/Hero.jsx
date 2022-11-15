@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import Button from './Button'
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -16,25 +16,24 @@ import 'swiper/css/bundle'
 function Hero () {
   return (
     <div className='hero' id='Hero'>
-      <div className='hero__top__box'>
-        <Image
-          src='/../public/nof-icon/textbox.png'
-          alt='text box'
-          width={505}
-          height={160}
-        />
-      </div>
-      <div className='hero__bot'>
-        <div className='hero__bot__nof'>
+      <div className='hero__top'>
+        <div className='hero__top__nof'>
           <Image
-            src='/../public/nof-icon/logo-nof.png'
+            src='/../public/nof-icon/logo-nof0.png'
             alt='text box'
-            width={250}
-            height={300}
+            width={210}
+            height={380}
           />
         </div>
-        <Button />
-        <div className='hero__bot__swiper'>
+        <div className='hero__top__album'>
+          <Image
+            src='/../public/Book/book.png'
+            alt=''
+            width={800}
+            height={600}
+          />
+        </div>
+        <div className='hero__top__swiper'>
           <>
             <Swiper
               effect='cards'
@@ -49,7 +48,7 @@ function Hero () {
                 el: '.pagination',
                 clickable: true
               }}
-              className='hero__bot__swiper__slide'
+              className='hero__top__swiper__slide'
             >
               <SwiperSlide />
               <SwiperSlide />

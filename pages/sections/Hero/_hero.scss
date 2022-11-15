@@ -1,3 +1,7 @@
+$backWidth: 512px; $backHeight: 432px;
+$bushesWidth: 508px; $bushesHeight: 79px;
+$groundWidth: 68px; $groundHeight: 22px;
+
 #cards {
     display: flex;
     justify-content: center;
@@ -5,23 +9,51 @@
 }
 
 .hero {
-    background-image: url(./background/background.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-image:
+    url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
+    url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/ground.png?raw=true'),
+    url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/bushes.png?raw=true'),
+    url('https://raw.githubusercontent.com/Kageetai/mario-background-parallax/master/img/back.png?raw=true');
+    background-color: #F8E0B0;
+    background-repeat:
+    no-repeat,
+    repeat-x,
+    repeat-x,
+    repeat-x;
+    background-position:
+    left 30% bottom $groundHeight,
+    left 0px bottom 0px,
+    left 0px bottom $groundHeight,
+    left 0px bottom 0px;
+    animation: back 15s infinite linear;
     height: 90vh;
 
-    &__top {
-        display: flex;
-        justify-content: center;
-        position: relative;
-        &__box {
-            display: flex;
-            justify-content: center;
-            padding-top: 30px;
+    @keyframes back {
+        0% {
+          background-position:
+            left 30% bottom $groundHeight,
+            left 0px bottom 0px,
+            left 0px bottom $groundHeight,
+            left 0px bottom 0px;
         }
-    }
+        50% {
+          background-position:
+            left 50% bottom $groundHeight,
+            left (-($groundWidth * 12)) bottom 0px,
+            left (-($bushesWidth * 1)) bottom $groundHeight,
+            left (-($backWidth / 2)) bottom 0px;
+        }
+        100% {
+          background-position:
+            left 30% bottom $groundHeight,
+            left (-($groundWidth * 24)) bottom 0px,
+            left (-($bushesWidth * 2)) bottom $groundHeight,
+            left (-$backWidth) bottom 0px;
+        }
+      }
 
-    &__bot {
+
+    &__top {
         display: flex;
 		justify-content: space-around;
 		align-items: center;
@@ -31,59 +63,11 @@
         padding-top: 2%;
     }
 
-    &__mar {
-        list-style: none;
-        display: flex;
-        text-decoration: none;
-
-        &__ket {
-            &__btn {
-                font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-				font-size: 1.2em;
-				width: 280px;
-				height: 60px;
-				background: $element;
-				color: #fff;
-				border:0px;
-				position: relative;
-				box-shadow:
-					inset -4px 2px 1px 1px grey,
-					inset -4px -2px 1px 1px lightgray,
-					inset 4px 0px 1px 1px lightgray;
-				margin-right: 33px;
-				&:hover {
-					cursor: pointer;
-					background: #0D4055;
-				}
-				&:active {
-					top: 5px;
-					box-shadow:
-						-4px 2px 1px 1px grey,
-						-4px -2px 1px 1px lightgray,
-						px 0px 1px 1px lightgray;
-				}
-				&::after {
-					content: '';
-					background: black;
-					position: absolute;
-					left: -1.5%;
-					top: 0;
-					width: 103%;
-					height: 100%;
-					z-index: -1;
-				}
-				&::before {
-					content: '';
-					background: black;
-					position: absolute;
-					left: 0;
-					top: -6%;
-					width: 100%;
-					height: 112%;
-					z-index: -1;
-				}
-            }
-        }
+    &__album {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%)
     }
 
         .swiper {

@@ -1,20 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech&family=Share+Tech+Mono&display=swap');
 @import './variables';
+@import './_media-queries.scss';
 @import './components/Navbar/_navbar.scss';
 @import './components/Footer/_footer.scss';
 @import './pages/sections/Hero/_hero.scss';
-@import './pages/sections/Book/_book.scss';
 
 html,
 body {
+	height: 100%;
+  	width: 100%;
 	padding: 0;
 	margin: 0;
 	background-color: $base;
 	font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+
+	@include mobile {
+		overflow-x: hidden;
+	}
 }
 
 p {
-	font-size: 12px;
+	font-size: 62.5%;
 	color: $element;
 }
 

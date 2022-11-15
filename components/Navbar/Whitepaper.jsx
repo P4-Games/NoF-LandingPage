@@ -9,7 +9,7 @@ function Whitepaper () {
       rel='noreferrer'
       spy='true' smooth='true' offset={-80} duration={500}
     >
-      <button className='navbar__ul__li__btn'>
+      <button className='navbar__ul__li__whitepaper'>
         Whitepaper
       </button>
     </Link>
