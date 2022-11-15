@@ -10,12 +10,22 @@ function Navbar () {
       <div className='navbar'>
         <div className='navbar__icon'>
           <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
-            <div className='navbar__icon__coin'>
+            <div className='navbar__icon__nof'>
               <Image
                 src='/../public/nof-icon/logo-coin.png'
                 alt='/'
                 width={142}
                 height={139}
+              />
+            </div>
+          </Link>
+          <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
+            <div className='navbar__icon__coin'>
+              <Image
+                src='/../public/nof-icon/logo-1.png'
+                alt='/'
+                width={246}
+                height={102}
               />
             </div>
           </Link>
