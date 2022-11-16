@@ -13,8 +13,8 @@ $groundWidth: 68px; $groundHeight: 22px;
     url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
     url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/ground.png?raw=true'),
     url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/bushes.png?raw=true'),
-    url('../Hero/background/background1.png');
-    background-color: #809AEE;
+    url('../Hero/background/background2.png');
+    background-color: #000;
     background-repeat:
     no-repeat,
     repeat-x,
@@ -26,8 +26,8 @@ $groundWidth: 68px; $groundHeight: 22px;
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
     animation: back 30s infinite linear;
-    height: 90vh;
-    padding: 30px 7% 30px;
+    height: 100%;
+    padding: 30px 9% 30px;
 
     @keyframes back {
         0% {
@@ -62,7 +62,7 @@ $groundWidth: 68px; $groundHeight: 22px;
 
     &__nof {
         display: flex;
-        padding-top: 2%;
+        margin-bottom: 2%;
     }
 
     &__album {

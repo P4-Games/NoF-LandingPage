@@ -29,8 +29,8 @@ function Hero () {
           <Image
             src='/../public/Book/book.png'
             alt=''
-            width={1400}
-            height={1200}
+            width={800}
+            height={800}
           />
         </div>
         <div className='hero__top__swiper'>
