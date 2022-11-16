@@ -13,8 +13,8 @@ $groundWidth: 68px; $groundHeight: 22px;
     url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
     url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/ground.png?raw=true'),
     url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/bushes.png?raw=true'),
-    url('https://raw.githubusercontent.com/Kageetai/mario-background-parallax/master/img/back.png?raw=true');
-    background-color: #F8E0B0;
+    url('../Hero/background/background1.png');
+    background-color: #809AEE;
     background-repeat:
     no-repeat,
     repeat-x,
@@ -25,38 +25,40 @@ $groundWidth: 68px; $groundHeight: 22px;
     left 0px bottom 0px,
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
-    animation: back 15s infinite linear;
+    animation: back 30s infinite linear;
     height: 90vh;
+    padding: 30px 7% 30px;
 
     @keyframes back {
         0% {
-          background-position:
+            background-position:
             left 30% bottom $groundHeight,
             left 0px bottom 0px,
             left 0px bottom $groundHeight,
             left 0px bottom 0px;
         }
         50% {
-          background-position:
+            background-position:
             left 50% bottom $groundHeight,
             left (-($groundWidth * 12)) bottom 0px,
             left (-($bushesWidth * 1)) bottom $groundHeight,
             left (-($backWidth / 2)) bottom 0px;
         }
         100% {
-          background-position:
+            background-position:
             left 30% bottom $groundHeight,
             left (-($groundWidth * 24)) bottom 0px,
             left (-($bushesWidth * 2)) bottom $groundHeight,
             left (-$backWidth) bottom 0px;
         }
-      }
+    }
 
 
     &__top {
         display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
+        padding-top: 10%;
 
     &__nof {
         display: flex;

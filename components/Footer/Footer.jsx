@@ -3,8 +3,8 @@ import Buttons from './Buttons'
 
 function Footer () {
   return (
-    <div className='footer__insert'>
-      <div>
+    <div className='footer'>
+      <div className='footer__insert'>
         <></>
       </div>
       <div className='footer__handle__green'>

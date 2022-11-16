@@ -5,11 +5,11 @@
     background-image: url(./footer/botonera.png);
     background-repeat: no-repeat;
     background-size: cover;
-    height: 200px;
+    height: 100px;
     position: sticky;
-	bottom: 0;
 	width: 100%;
-    z-index: 1;
+    bottom: 0;
+    z-index: 222;
 
     &__insert {
         width: 200px;
@@ -22,13 +22,13 @@
     }
 
     &__buttons {
-        width: 40%;
+        width: 50%;
         display: flex;
         position: relative;
         justify-content: space-between;
         &__blue {
-            width: 100px;
-            height: 50px;
+            width: 150px;
+            height: 100px;
             background-image: url(./footer/blue.png);
             cursor: pointer;
             position: relative;
@@ -45,8 +45,8 @@
             }
         }
         &__red {
-            width: 100px;
-            height: 50px;
+            width: 150px;
+            height: 100px;
             background-image: url(./footer/red.png);
             cursor: pointer;
             position: relative;
@@ -63,8 +63,8 @@
             }
         }
         &__green {
-            width: 100px;
-            height: 50px;
+            width: 150px;
+            height: 100px;
             background-image: url(./footer/green.png);
             cursor: pointer;
             position: relative;
@@ -81,8 +81,8 @@
             }
         }
         &__yellow {
-            width: 100px;
-            height: 50px;
+            width: 150px;
+            height: 100px;
             background-image: url(./footer/yellow.png);
             cursor: pointer;
             position: relative;
@@ -100,14 +100,16 @@
         }
     }
     &__handle {
-        width: 180px;
+        width: 300px;
         display: flex;
-        position: relative;
         justify-content: space-between;
 
         &__green {
-            width: 118px;
-            height: 136px;
+            display: flex;
+			align-items: center;
+			justify-content: center;
+            width: 218px;
+            height: 236px;
             background-image: url(./footer/handle-green.png);
             cursor: pointer;
             position: relative;
@@ -115,19 +117,20 @@
             background-size: 100% 100%;     
             background-repeat: no-repeat;     
             background-position: center;
+            margin-bottom: 200px;
             &:hover {
                 background-image: url(./footer/handle-green-hover.png);
                 position: relative;
-                width: 118px;
-                height: 136px;
+                width: 218px;
+                height: 236px;
                 background-size: 100% 100%;    
                 background-repeat: no-repeat;     
                 background-position: center;
-        }
+            }
         }
         &__red {
-            width: 118px;
-            height: 136px;
+            width: 218px;
+            height: 236px;
             background-image: url(./footer/handle-red.png);
             cursor: pointer;
             position: relative;
@@ -135,15 +138,16 @@
             background-size: 100% 100%;     
             background-repeat: no-repeat;     
             background-position: center;
+            margin-bottom: 200px;
             &:hover {
                 background-image: url(./footer/handle-red-hover.png);
                 position: relative;
-                width: 118px;
-                height: 136px;
+                width: 218px;
+                height: 236px;
                 background-size: 100% 100%;    
                 background-repeat: no-repeat;     
                 background-position: center;
-        }
+            }
         }
     }
 }
