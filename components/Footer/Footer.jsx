@@ -15,8 +15,9 @@ function Footer () {
         <></>
       </div>
       <div>
-        <p>
-          Number One Fan <br />
+        <p className='footer__text'>
+          Number One Fan &<br />
+          <br />P4 Tech Solutions <br />
           <br />Copyright © 2022 <br />
           <br />all rights reserved.
         </p>

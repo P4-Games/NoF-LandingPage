@@ -7,19 +7,19 @@
 
 html,
 body {
+	background: transparent;
 	height: 100vh;
 	padding: 0;
 	margin: 0;
-	background-color: #000046;  /* fallback for old browsers */
-	background: -webkit-linear-gradient(to bottom, #1CB5E0, #000046);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to bottom, #1CB5E0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-	
 	font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+}
+
+header {
+	background: transparent;
 }
 
 p {
 	font-size: 62.5%;
-	color: $element;
 }
 
 ::-webkit-scrollbar {

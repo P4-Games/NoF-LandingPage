@@ -1,25 +1,32 @@
+header {
+	background: transparent;
+	position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+}
+
 .navbar {
-	background-color: $base;
 	height: 8vh;
-	padding: 30px 2% 30px;
-	position: sticky;
+	padding: 0px 2% 0px;
 	top: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	z-index: 20;
 	text-decoration: none;
+	background: transparent;
 
 	@include mobile {
 		width: 100%;
 		display: flex;
-		background: #12141c;
 		text-align: left;
 	}
 
 	&__icon {
-		margin-top: 60px;
+		margin-top: 4em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -60,6 +67,7 @@
 		align-items: center;
 		padding-right: 400px;
 		text-decoration: none;
+		margin-top: 4em;
 
 		&__li {
 			margin-left: -15px;
@@ -68,8 +76,8 @@
 				font-size: 1em;
 				width: 190px;
 				height: 50px;
-				background: #92CC41;
-				color: $element;
+				background: #68B346;
+				color: #000;
 				border:0px;
 				position: relative;
 				box-shadow:
@@ -79,7 +87,7 @@
 				margin-right: 33px;
 				&:hover {
 					cursor: pointer;
-					background: #a7e64f;
+					background: #097F40;
 				}
 				&:active {
 					top: 5px;
@@ -120,8 +128,8 @@
 				font-size: 1em;
 				width: 190px;
 				height: 50px;
-				background: #F7D51D;
-				color: $element;
+				background: #FAC144;
+				color: #000;
 				border:0px;
 				position: relative;
 				box-shadow:
@@ -131,7 +139,7 @@
 				margin-right: 33px;
 				&:hover {
 					cursor: pointer;
-					background: #edd657;
+					background: #F1864B;
 				}
 				&:active {
 					top: 5px;
@@ -167,8 +175,8 @@
 				font-size: 1em;
 				width: 190px;
 				height: 50px;
-				background: #209CEE;
-				color: $element;
+				background: #DC1C28;
+				color: #000;
 				border:0px;
 				position: relative;
 				box-shadow:
@@ -178,7 +186,7 @@
 				margin-right: 33px;
 				&:hover {
 					cursor: pointer;
-					background: #59b8f8;
+					background: #87181B;
 				}
 				&:active {
 					top: 5px;
@@ -219,6 +227,7 @@
 		justify-content: center;
 		align-items: center;
 		transition: 0.2s;
+		margin-top: 30px;
 		&:hover {
 			transform: scale(1.1);
 			transition: 0.2s;

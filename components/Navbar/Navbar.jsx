@@ -6,7 +6,7 @@ import Whitepaper from './Whitepaper.jsx'
 
 function Navbar () {
   return (
-    <>
+    <header>
       <div className='navbar'>
         <div className='navbar__icon'>
           <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
@@ -47,7 +47,7 @@ function Navbar () {
         </ul>
         <Links />
       </div>
-    </>
+    </header>
   )
 }
 
