@@ -1,6 +1,6 @@
 .navbar {
 	background-color: $base;
-	height: 85px;
+	height: 8vh;
 	padding: 30px 2% 30px;
 	position: sticky;
 	top: 0;
@@ -12,11 +12,10 @@
 	text-decoration: none;
 
 	@include mobile {
-		.navbar {
-			height: 50px;
-			background-position: center;
-			padding: 30px 3% 30px;
-		}
+		width: 100%;
+		display: flex;
+		background: #12141c;
+		text-align: left;
 	}
 
 	&__icon {
@@ -25,6 +24,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 6%;
+		
 
 		&__nof {
 			display: flex;
@@ -35,6 +35,9 @@
 			&:hover {
 			transform: scale(1.1);
 			transition: 0.2s;
+			@include mobile {
+				padding-top: 600px;
+				}
 			}
 		}
 

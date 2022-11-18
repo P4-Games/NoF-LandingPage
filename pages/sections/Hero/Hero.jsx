@@ -15,7 +15,7 @@ import 'swiper/css/bundle'
 
 function Hero () {
   return (
-    <div className='hero' id='Hero'>
+    <div className='hero' id='Hero' onClick='PlayAudio'>
       <div className='hero__top'>
         <div className='hero__top__nof'>
           <Image

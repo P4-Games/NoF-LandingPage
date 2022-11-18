@@ -9,6 +9,7 @@ $groundWidth: 68px; $groundHeight: 22px;
 }
 
 .hero {
+    height: 79.5vh;
     background-image:
     url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
     url('https://github.com/Kageetai/mario-background-parallax/blob/master/img/ground.png?raw=true'),
@@ -26,8 +27,7 @@ $groundWidth: 68px; $groundHeight: 22px;
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
     animation: back 30s infinite linear;
-    height: 100%;
-    padding: 30px 9% 30px;
+    padding: 0px 9% 0px;
 
     @keyframes back {
         0% {
@@ -51,6 +51,9 @@ $groundWidth: 68px; $groundHeight: 22px;
             left (-($bushesWidth * 2)) bottom $groundHeight,
             left (-$backWidth) bottom 0px;
         }
+    }
+    @include mobile {
+        width: 100vh;
     }
 
 
