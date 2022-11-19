@@ -9,7 +9,13 @@ function Navbar () {
     <header>
       <div className='navbar'>
         <div className='navbar__icon'>
-          <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
+          <Link
+            to='Hero'
+            spy='true'
+            smooth='true'
+            offset={-100}
+            duration={500}
+          >
             <div className='navbar__icon__coin'>
               <Image
                 src='/../public/nof-icon/logo-coin.png'
@@ -19,7 +25,13 @@ function Navbar () {
               />
             </div>
           </Link>
-          <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
+          <Link
+            to='Hero'
+            spy='true'
+            smooth='true'
+            offset={-100}
+            duration={500}
+          >
             <div className='navbar__icon__nof'>
               <Image
                 src='/../public/nof-icon/logo-1.png'
@@ -32,12 +44,24 @@ function Navbar () {
         </div>
         <ul className='navbar__ul'>
           <li className='navbar__ul__li'>
-            <Link to='Nosotros' spy='true' smooth='true' offset={-80} duration={500}>
+            <Link
+              to='Nosotros'
+              spy='true'
+              smooth='true'
+              offset={-80}
+              duration={500}
+            >
               <button className='navbar__ul__li__nosotros'>
                 Nosotros
               </button>
             </Link>
-            <Link to='Contacto' spy='true' smooth='true' offset={-80} duration={500}>
+            <Link
+              to='Contacto'
+              spy='true'
+              smooth='true'
+              offset={-80}
+              duration={500}
+            >
               <button className='navbar__ul__li__contacto'>
                 Contacto
               </button>

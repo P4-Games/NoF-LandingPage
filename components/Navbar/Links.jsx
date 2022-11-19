@@ -4,7 +4,13 @@ import Image from 'next/image'
 
 function Links () {
   return (
-    <Link href='https://discord.gg/4Bvp5bVmCz' spy='true' smooth='true' target='_blank' rel='noreferrer'>
+    <Link
+      href='https://discord.gg/4Bvp5bVmCz'
+      spy='true'
+      smooth='true'
+      target='_blank'
+      rel='noreferrer'
+    >
       <div className='navbar__social'>
         <Image
           src='/../public/nof-icon/Discord-logo.png'

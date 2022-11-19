@@ -7,7 +7,10 @@ function Whitepaper () {
       href='https://discord.gg/4Bvp5bVmCz'
       target='_blank'
       rel='noreferrer'
-      spy='true' smooth='true' offset={-80} duration={500}
+      spy='true'
+      smooth='true'
+      offset={-80}
+      duration={500}
     >
       <button className='navbar__ul__li__whitepaper'>
         Whitepaper
