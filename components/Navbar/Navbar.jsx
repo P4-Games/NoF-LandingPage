@@ -10,7 +10,7 @@ function Navbar () {
       <div className='navbar'>
         <div className='navbar__icon'>
           <Link to='Hero' spy='true' smooth='true' offset={-100} duration={500}>
-            <div className='navbar__icon__nof'>
+            <div className='navbar__icon__coin'>
               <Image
                 src='/../public/nof-icon/logo-coin.png'
                 alt='/'

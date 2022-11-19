@@ -1,6 +1,6 @@
 $backWidth: 512px; $backHeight: 432px;
 $bushesWidth: 508px; $bushesHeight: 79px;
-$groundWidth: 68px; $groundHeight: 22px;
+$groundWidth: 218px; $groundHeight: 22px;
 
 #cards {
     display: flex;
@@ -12,9 +12,9 @@ $groundWidth: 68px; $groundHeight: 22px;
     height: 87.5vh;
     background-image:
     url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
-    url('../Hero/background/front0.png'),
-    url('../Hero/background/Country.png'),
-    url('../Hero/background/background.png');
+    url('../Hero/background/front1.png'),
+    url('../Hero/background/Country0.png'),
+    url('../Hero/background/background0.png');
     background-color: #000;
     background-repeat:
     no-repeat,
@@ -26,7 +26,7 @@ $groundWidth: 68px; $groundHeight: 22px;
     left 0px bottom 0px,
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
-    animation: back 30s infinite linear;
+    animation: back 120s infinite linear;
     padding: 0px 9% 0px;
 
     @keyframes back {
@@ -56,12 +56,11 @@ $groundWidth: 68px; $groundHeight: 22px;
         width: 100vh;
     }
 
-
     &__top {
         display: flex;
 		justify-content: space-between;
 		align-items: center;
-        padding-top: 10%;
+        padding-top: 15%;
 
     &__nof {
         display: flex;
@@ -69,10 +68,80 @@ $groundWidth: 68px; $groundHeight: 22px;
     }
 
     &__album {
+        width: 800px;
+        height: 800px;
+        background-image: url('../Hero/background/book.png');
         position: absolute;
+        background-size: 100% 100%;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%)
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        text-align: center;
+        
+        &__page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            height: 600px;
+            background-size: 100% 100%;
+        }
+        &__page0 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../Hero/background/page.png');
+            width: 500px;
+            height: 600px;
+            background-size: 100% 100%;
+            top: 50%;
+            left: 50%;
+        }
+        &__page1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../Hero/background/page.png');
+            width: 500px;
+            height: 600px;
+            background-size: 100% 100%;
+            top: 50%;
+            left: 50%;
+        }
+        &__page2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../Hero/background/page.png');
+            width: 500px;
+            height: 600px;
+            background-size: 100% 100%;
+            top: 50%;
+            left: 50%;
+        }
+        &__page3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../Hero/background/page.png');
+            width: 500px;
+            height: 600px;
+            background-size: 100% 100%;
+            top: 50%;
+            left: 50%;
+        }
+        &__page4 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../Hero/background/page.png');
+            width: 500px;
+            height: 600px;
+            background-size: 100% 100%;
+            top: 50%;
+            left: 50%;
+        }
     }
 
         .swiper {
