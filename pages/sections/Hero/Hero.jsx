@@ -28,8 +28,17 @@ function Hero () {
           />
         </div>
         <div className='hero__top__album'>
-          <HTMLFlipBook width={400} height={500} className='hero__top__album__book'>
-            <div className='hero__top__album__book__page' data-density='hard'>
+          <HTMLFlipBook
+            id='demoBookExample'
+            width={200}
+            height={250}
+            autoSize
+            changeOrientation='portrait'
+            className='hero__top__album__book'
+            mobileScrollSupport='true'
+            turnToNextPage
+          >
+            <div className='hero__top__album__book__page' number={0} data-density='hard'>
               <h3>BIENVENIDOS!</h3>
               <div className='navbar__icon__coin'>
                 <Image
@@ -47,7 +56,7 @@ function Hero () {
                 <br />colección de álbumes NFT.
               </p>
             </div>
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0' number={1} data-density='hard'>
               <p> <br /> <br /> <br />
                 El objetivo de NOF es<br />
                 <br />convertirse en el mayor<br />
@@ -67,11 +76,11 @@ function Hero () {
                 </button>
               </Link>
             </div>
-            <div className='hero__top__album__book__page1' data-density='hard'>Page 3</div>
-            <div className='hero__top__album__book__page2' data-density='hard'>Page 4</div>
-            <div className='hero__top__album__book__page3' data-density='hard'>Page 5</div>
-            <div className='hero__top__album__book__page4' data-density='hard'>Page 6</div>
-            <div className='hero__top__album__book__page4' data-density='hard'>Page 7</div>
+            <div className='hero__top__album__book__page' number={2} data-density='hard'>Page 3</div>
+            <div className='hero__top__album__book__page0' number={3} data-density='hard'>Page 4</div>
+            <div className='hero__top__album__book__page' number={4} data-density='hard'>Page 5</div>
+            <div className='hero__top__album__book__page0' number={5} data-density='hard'>Page 6</div>
+            <div className='hero__top__album__book__page' number={6} data-density='hard'>Page 7</div>
           </HTMLFlipBook>
         </div>
         <div className='hero__top__swiper'>

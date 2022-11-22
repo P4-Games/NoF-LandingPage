@@ -24,8 +24,7 @@
         background-repeat: no-repeat;     
         background-position: center;
         @include mobile {
-            width: 120px;
-            height: 40px;
+            display: none;
         }
     }
 
@@ -34,10 +33,7 @@
         display: flex;
         position: relative;
         justify-content: space-between;
-        @include mobile {
-            width: 30%;
-            grid-template-columns: 2fr;
-        }
+        
         &__blue {
             width: 120px;
             height: 90px;
@@ -190,5 +186,8 @@
     }
     &__text {
         text-align: right;
+        @include mobile {
+            display: none;
+        }
     }
 }

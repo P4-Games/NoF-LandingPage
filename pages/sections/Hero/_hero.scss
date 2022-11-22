@@ -52,9 +52,6 @@ $groundWidth: 218px; $groundHeight: 22px;
             left (-$backWidth) bottom 0px;
         }
     }
-    @include mobile {
-        width: 100vh;
-    }
 
     &__top {
         display: flex;
@@ -65,6 +62,9 @@ $groundWidth: 218px; $groundHeight: 22px;
     &__nof {
         display: flex;
         margin-bottom: 2%;
+        @include mobile {
+			display: none;
+		}
     }
 
     &__album {
@@ -78,17 +78,28 @@ $groundWidth: 218px; $groundHeight: 22px;
         transform: translate(-50%, -50%);
         font-size: 20px;
         text-align: center;
+        @include mobile {
+            width: 90vw;
+            height: 60vh;
+            background-image: url('../Hero/background/libreta.png');
+        }
 
         &__book{
             top: 17%;
-            left: 6%;
-        
+            left: 5.7%;
+            @include mobile {
+                width: 90vw;
+                height: 60vh;
+            }
             &__page {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 background-image: url('../Hero/background/page-l.png');
                 background-size: 100% 100%;
+                @include mobile {
+                    background-image: url('../Hero/background/page-r.png');
+                }
             }
             &__page0 {
                 display: flex;
@@ -97,56 +108,15 @@ $groundWidth: 218px; $groundHeight: 22px;
                 background-image: url('../Hero/background/page-r.png');
                 background-size: 100% 100%;
             }
-            &__page1 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-image: url('../Hero/background/page-l.png');
-                width: 500px;
-                height: 600px;
-                background-size: 100% 100%;
-                top: 50%;
-                left: 50%;
-            }
-            &__page2 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-image: url('../Hero/background/page-r.png');
-                width: 500px;
-                height: 600px;
-                background-size: 100% 100%;
-                top: 50%;
-                left: 50%;
-            }
-            &__page3 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-image: url('../Hero/background/page-l.png');
-                width: 500px;
-                height: 600px;
-                background-size: 100% 100%;
-                top: 50%;
-                left: 50%;
-            }
-            &__page4 {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-image: url('../Hero/background/page-r.png');
-                width: 500px;
-                height: 12vh;
-                background-size: 100% 100%;
-                top: 50%;
-                left: 50%;
-            }
         }
     }
 
         .swiper {
             width: 250px;
             height: 250px;
+            @include mobile {
+                display: none;
+            }
         }
         
         .swiper-slide {
@@ -156,6 +126,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             font-size: 22px;
             font-weight: bold;
             color: #fff;
+            @include mobile {
+                display: none;
+            }
         }
         
         .swiper-slide:nth-child(1n) {
@@ -202,6 +175,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             align-items: center;
             justify-content: center;
             padding-top: 5%;
+            @include mobile {
+                display: none;
+            }
         
             .swiper-pagination-bullet {
                 background-color: #092B39;
