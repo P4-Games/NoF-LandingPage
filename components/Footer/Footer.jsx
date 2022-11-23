@@ -8,7 +8,7 @@ function Footer () {
         <></>
       </div>
       <div className='footer__handle__green'>
-        <button type='button' class='.btn-prev' />
+        {/* <button type='button' class='.btn-prev' /> */}
       </div>
       <Buttons />
       <div className='footer__handle__red'>

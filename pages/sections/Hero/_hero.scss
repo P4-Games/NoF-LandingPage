@@ -8,7 +8,7 @@ $groundWidth: 218px; $groundHeight: 22px;
     align-items: center;
 }
 
-.hero {
+.hero, .alpha {
     height: 87.5vh;
     background-image:
     url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
@@ -27,7 +27,7 @@ $groundWidth: 218px; $groundHeight: 22px;
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
     animation: back 120s infinite linear;
-    padding: 0px 9% 0px;
+    padding: 0px 9% 0px 0px;
 
     @keyframes back {
         0% {
