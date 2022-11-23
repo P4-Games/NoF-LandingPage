@@ -29,25 +29,16 @@ function Hero () {
         </div>
         <div className='hero__top__album'>
           <HTMLFlipBook
-            id='demoBookExample'
-            width={200}
-            height={250}
+            id='Book'
+            width={400}
+            height={500}
             autoSize
             changeOrientation='portrait'
             className='hero__top__album__book'
             mobileScrollSupport='true'
-            turnToNextPage
           >
             <div className='hero__top__album__book__page' number={0} data-density='hard'>
               <h3>BIENVENIDOS!</h3>
-              <div className='navbar__icon__coin'>
-                <Image
-                  src='/../public/nof-icon/logo-coin.png'
-                  alt='/'
-                  width={142}
-                  height={139}
-                />
-              </div>
               <p>Al primer collect-to-earn <br />
                 <br />del mundo web3 <br />
                 <br />donde los más fanáticos <br />

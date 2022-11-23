@@ -34,18 +34,30 @@ header {
 		gap: 6%;
 
 		&__nof {
+			width: 246px;
+            height: 102px;
+			background-image: url(./icons/logo-1.png);
+			cursor: pointer;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			cursor: pointer;
+			background-size: 100% 100%;
 			transition: 0.2s;
 			&:hover {
 			transform: scale(1.1);
 			transition: 0.2s;
 			}
+			@include mobile {
+                width: 130px;
+                height: 60px;
+            }
 		}
 
 		&__coin {
+			background-image: url(./icons/logo-coin.png);
+			width: 142px;
+            height: 139px;
+			background-size: 100% 100%;
 			margin-left: 30px;
 			margin-top: 20px;
 			cursor: pointer;
@@ -54,6 +66,11 @@ header {
 			transform: scale(1.1);
 			transition: 0.2s;
 			}
+			@include mobile {
+                width: 60px;
+                height: 60px;
+				margin-bottom: 15px;
+            }
 		}
 	}
 
@@ -62,7 +79,7 @@ header {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding-right: 400px;
+		padding-left: 100px;
 		text-decoration: none;
 		margin-top: 4em;
 		@include mobile {
@@ -221,6 +238,27 @@ header {
 			}
 		}
 	}
+
+	&__audio {
+		background-image: url(./icons/soundoff.png);
+		width: 100px;
+        height: 78px;
+		margin-top: 4em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		background-size: 100% 100%;
+		&:hover {
+			transform: scale(1.1);
+			transition: 0.2s;
+		}
+		@include mobile {
+			width: 80px;
+			height: 60px;
+		}
+	}
+
 	&__social {
 		top: 15px;
 		right: 104px;

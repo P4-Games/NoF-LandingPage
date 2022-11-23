@@ -13,6 +13,7 @@
     z-index: 222;
     @include mobile {
         width: 100%;
+        height: 8.5vh;
     }
 
     &__insert {
@@ -33,6 +34,10 @@
         display: flex;
         position: relative;
         justify-content: space-between;
+        @include mobile {
+            justify-content: space-around;
+            gap: 5%;
+        }
         
         &__blue {
             width: 120px;
@@ -127,6 +132,9 @@
         width: 300px;
         display: flex;
         justify-content: space-between;
+        @include mobile {
+            width: 110px;
+        }
 
         &__green {
             display: flex;
@@ -154,7 +162,8 @@
             @include mobile {
                 width: 110px;
                 height: 100px;
-                margin-bottom: 120px;
+                margin-bottom: 100px;
+                margin-right: 50px;
             }
         }
         &__red {
@@ -180,7 +189,8 @@
             @include mobile {
                 width: 110px;
                 height: 100px;
-                margin-bottom: 120px;
+                margin-bottom: 100px;
+                margin-left: 50px;
             }
         }
     }

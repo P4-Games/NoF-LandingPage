@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import { Link } from 'react-scroll'
 import Links from './Links.jsx'
 import Whitepaper from './Whitepaper.jsx'
@@ -17,12 +16,7 @@ function Navbar () {
             duration={500}
           >
             <div className='navbar__icon__coin'>
-              <Image
-                src='/../public/nof-icon/logo-coin.png'
-                alt='/'
-                width={142}
-                height={139}
-              />
+              <></>
             </div>
           </Link>
           <Link
@@ -33,12 +27,7 @@ function Navbar () {
             duration={500}
           >
             <div className='navbar__icon__nof'>
-              <Image
-                src='/../public/nof-icon/logo-1.png'
-                alt='/'
-                width={246}
-                height={102}
-              />
+              <></>
             </div>
           </Link>
         </div>
@@ -69,6 +58,9 @@ function Navbar () {
             <Whitepaper />
           </li>
         </ul>
+        <div className='navbar__audio'>
+          <></>
+        </div>
         <Links />
       </div>
     </header>

@@ -17,7 +17,8 @@
     "react-pageflip": "^2.0.3",
     "react-scroll": "^1.8.8",
     "sass": "^1.55.0",
-    "swiper": "^8.4.4"
+    "swiper": "^8.4.4",
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "standard": "^17.0.0"

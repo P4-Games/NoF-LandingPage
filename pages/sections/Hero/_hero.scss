@@ -52,6 +52,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             left (-$backWidth) bottom 0px;
         }
     }
+    @include mobile {
+        height: 91.5vh;
+    }
 
     &__top {
         display: flex;
@@ -99,6 +102,8 @@ $groundWidth: 218px; $groundHeight: 22px;
                 background-size: 100% 100%;
                 @include mobile {
                     background-image: url('../Hero/background/page-r.png');
+                    width: 90vw;
+                    height: 60vh;
                 }
             }
             &__page0 {
