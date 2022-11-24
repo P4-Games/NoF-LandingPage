@@ -1,17 +1,17 @@
 import React from 'react'
 import Buttons from './Buttons'
 
-function Footer () {
+function Footer ({ turnNextPage, turnPrevPage }) {
   return (
     <div className='footer'>
       <div className='footer__insert'>
         <></>
       </div>
-      <div className='footer__handle__green'>
+      <div className='footer__handle__green' onClick={turnPrevPage}>
         <></>
       </div>
       <Buttons />
-      <div className='footer__handle__red'>
+      <div className='footer__handle__red' onClick={turnNextPage}>
         <></>
       </div>
       <div>

@@ -24,7 +24,7 @@ function Album () {
   }
   )
   pageFlip.loadFromHTML(document.querySelectorAll('.page'),
-  
+
   return (
     <HTMLFlipBook width={400} height={500} id='Book'>
       <div className='hero__top__album__book__page' number={0} data-density='hard'>

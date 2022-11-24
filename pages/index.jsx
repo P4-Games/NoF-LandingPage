@@ -3,8 +3,16 @@ import Link from 'next/link'
 import Navbar from '../components/Navbar'
 import Hero from '../pages/sections/Hero'
 import Footer from '../components/Footer'
+import { useRef } from 'react'
 
 function Home () {
+  const book = useRef()
+  function turnNextPage () {
+    book.current.pageFlip().flipNext()
+  }
+  function turnPrevPage () {
+    book.current.pageFlip().flipPrev()
+  }
   return (
     <div className='home'>
       <Head>
@@ -13,8 +21,13 @@ function Home () {
         <Link rel='icon' href='./public/favicon.ico' />
       </Head>
       <Navbar />
-      <Hero />
-      <Footer />
+      <Hero
+        ref={book}
+      />
+      <Footer
+        turnNextPage={turnNextPage}
+        turnPrevPage={turnPrevPage}
+      />
     </div>
   )
 }

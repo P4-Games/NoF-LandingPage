@@ -1,7 +1,12 @@
 import React from 'react'
 import { Link } from 'react-scroll'
 import Links from './Links.jsx'
+import Image from 'next/image'
+
 import Whitepaper from './Whitepaper.jsx'
+
+import Coin from './icons/logo-coin.png'
+import Nof from './icons/logo-1.png'
 
 function Navbar () {
   return (
@@ -16,7 +21,13 @@ function Navbar () {
             duration={500}
           >
             <div className='navbar__icon__coin'>
-              <></>
+              <Image
+                src={Coin}
+                alt='Icon-Coin'
+                width={210}
+                height={380}
+                layout='responsive'
+              />
             </div>
           </Link>
           <Link
@@ -27,7 +38,13 @@ function Navbar () {
             duration={500}
           >
             <div className='navbar__icon__nof'>
-              <></>
+              <Image
+                src={Nof}
+                alt='NOF-Icon'
+                width={246}
+                height={102}
+                layout='responsive'
+              />
             </div>
           </Link>
         </div>
@@ -58,10 +75,12 @@ function Navbar () {
             <Whitepaper />
           </li>
         </ul>
-        <div className='navbar__audio'>
-          <></>
+        <div className='navbar__corner'>
+          <div className='navbar__corner__audio'>
+            <></>
+          </div>
+          <Links />
         </div>
-        <Links />
       </div>
     </header>
   )
