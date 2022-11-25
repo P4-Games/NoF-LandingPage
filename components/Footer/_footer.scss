@@ -63,6 +63,10 @@
                 width: 40px;
                 height: 30px;
             }
+            @include tablet {
+                width: 40px;
+                height: 30px;
+            }
             @include large-desktop {
                 width: 80px;
                 height: 40px;

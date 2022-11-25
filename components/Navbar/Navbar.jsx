@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-scroll'
 import Links from './Links.jsx'
 import Image from 'next/image'
+// import Music from './Music.jsx'
 
 import Whitepaper from './Whitepaper.jsx'
 

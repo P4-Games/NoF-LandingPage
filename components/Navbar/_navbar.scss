@@ -76,22 +76,23 @@ header {
 	&__ul {
 		list-style: none;
 		display: flex;
-		justify-content: center;
+		justify-content: space-around;
 		align-items: center;
-		left: 50%;
 		text-decoration: none;
 		margin-top: 4em;
+		margin-right: 300px;
 		@include mobile {
 			display: none;
 		}
 		@include large-desktop {
 			margin-top: 3em;
+			margin-left: -50px;
 		}
 
 		&__li {
-			margin-left: -15px;
+			justify-content: space-around;
 			@include large-desktop {
-				margin-right: 170px;
+				margin-left: 170px;
 			}
 			&__nosotros {
 				font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
@@ -106,7 +107,7 @@ header {
 					inset -4px 4px 1px 1px grey,
 					inset -4px -4px 1px 1px lightgray,
 					inset 4px 0px 1px 1px lightgray;
-				margin-right: 33px;
+				margin-right: 30px;
 				&:hover {
 					color: #fff;
 					cursor: pointer;
@@ -171,7 +172,7 @@ header {
 					inset -4px 4px 1px 1px grey,
 					inset -4px -4px 1px 1px lightgray,
 					inset 4px 0px 1px 1px lightgray;
-				margin-right: 33px;
+				margin-right: 30px;
 				&:hover {
 					color: #fff;
 					cursor: pointer;
@@ -237,7 +238,7 @@ header {
 					inset -4px 4px 1px 1px grey,
 					inset -4px -4px 1px 1px lightgray,
 					inset 4px 0px 1px 1px lightgray;
-				margin-right: 33px;
+				margin-right: 30px;
 				&:hover {
 					color: #fff;
 					cursor: pointer;
@@ -326,10 +327,10 @@ header {
 		}
 
 		&__social {
-			background-image: url(./icons/Discord-logo.png);
+			background-image: url(./icons/discord-logo0.png);
 			background-size: 100% 100%;
 			width: 100px;
-			height: 78px;
+			height: 100px;
 			transition: 0.2s;
 			&:hover {
 				transform: scale(1.1);

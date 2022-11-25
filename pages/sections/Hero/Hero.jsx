@@ -1,9 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
-import Link from 'next/link'
 
 import Noficon from './background/logo-nof.gif'
+import Bookmenu from './background/book-menu-1.png'
+import Gold from './background/oro.png'
+import Plate from './background/plata.png'
+import Bronce from './background/bronce.png'
+import Profiles from './background/profiles.png'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -34,52 +38,174 @@ const Hero = React.forwardRef((props, book) => {
           <HTMLFlipBook
             id='Book'
             size='stretch'
-            width={400}
+            width={360}
             height={500}
             minWidth={215}
-            maxWidth={400}
+            maxWidth={800}
             minHeight={150}
-            maxHeight={500}
+            maxHeight={800}
             ref={book}
             autoSize
+            drawShadow={false}
             changeOrientation='portrait'
             className='hero__top__album__book'
             mobileScrollSupport
           >
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>BIENVENIDOS!</h3>
-              <p>Al primer collect-to-earn <br />
-                <br />del mundo web3 <br />
-                <br />donde los más fanáticos <br />
-                <br />obtienen recompensas<br />
-                <br />por crear su propia <br />
-                <br />colección de álbumes NFT.
+              <Image
+                src={Bookmenu}
+                alt='text box'
+                width={340}
+                height={80}
+              />
+              <p>Number one es el primer<br />
+                collect-to-earn del mundo,<br />
+                donde los jugadores<br />
+                obtienen recompensas<br />
+                mientras crean su propia<br />
+                colección de álbumes NFT.
+              </p>
+            </div>
+
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <p> <br />
+                Nuestro objetivo es<br />
+                convertirnos en el mayor<br />
+                punto de encuentro<br />
+                de los grupos de fans, donde<br />
+                podrán revivir la afición<br />
+                de coleccionar figutitas.
+              </p>
+              <div>
+                <Image
+                  src={Gold}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                />
+                <Image
+                  src={Plate}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                />
+                <Image
+                  src={Bronce}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                />
+              </div>
+              <p>
+                Buscamos desarrollar<br />
+                un juego sostenible y<br />
+                al mismo tiempo crear<br />
+                la mayor enciclopedia<br />
+                gráfica de personajes<br />
+                pixelart de la historia.
+              </p>
+            </div>
+
+            <div className='hero__top__album__book__page' data-density='hard'>
+              <h3>CARTAS</h3>
+              <p>
+                Nuestras cartas representan<br />
+                a los personajes más famosos.<br />
+                Cada personaje cuenta con<br />
+                tres rarezas:<br /><br />
+                Una carta de Oro<br /><br />
+                Dos cartas de Plata<br /><br />
+                Tres cartas de Bronce<br /><br />
+              </p>
+              <p>
+                Todos nuestros NFTs<br />
+                pueden ser intercambiados<br />
+                de manera libre!.<br />
               </p>
             </div>
             <div className='hero__top__album__book__page0' data-density='hard'>
-              <p> <br /> <br /> <br />
-                El objetivo de NOF es<br />
-                <br />convertirse en el mayor<br />
-                <br />punto de encuentro<br />
-                <br />de los grupos de fans<br />
-                <br />y revivir la afición<br />
-                <br />por coleccionar figutitas.
-              </p> <br />
-              <Link
-                href='https://opensea.io/collection/noftoken'
-                target='_blank'
-                rel='noreferrer'
-              >
-                <button className='navbar__ul__li__whitepaper'>
-                  Market
-                </button>
-              </Link>
+              <h3>ÁLBUMES</h3>
+              <p>
+                Gana dinero completando<br />
+                álbumes.<br />
+                Existen 3 tipos de álbumes<br />
+                con distinas mecánicas jugables.<br />
+                <br /><br />
+                MEDAL: Define tu nivel<br />
+                de coleccionista.<br /><br />
+                STICKER: tu premio asegurado<br />
+                Mayor rareza mejor recompensa<br /><br />
+                SHOWDOWN: Concurso de popularidad,<br />
+                quien es el mas famoso!<br />
+              </p>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>Page 3</div>
-            <div className='hero__top__album__book__page0' data-density='hard'>Page 4</div>
-            <div className='hero__top__album__book__page' data-density='hard'>Page 5</div>
-            <div className='hero__top__album__book__page0' data-density='hard'>Page 6</div>
-            <div className='hero__top__album__book__page' data-density='hard'>Page 7</div>
+
+            <div className='hero__top__album__book__page' data-density='hard'>
+              <h3>COLECCIÓN</h3>
+              <p>
+                ALPHA: Juega y colecciona con<br />
+                tus amigos, se el primero en<br />
+                completar el álbum y obtener<br />
+                los mejores premios.<br />
+              </p>
+              <p>
+                GAMMA: colecciona tus personajes<br />
+                favoritos e
+                intercámbialos en la<br />
+                NoF town.<br />
+                <br />
+              </p>
+              <p>
+                OMEGA: El primer collect-to-earn.<br />
+                Donde a medida que creas<br />
+                tu colección<br />
+                Obtienes recompensas.<br />
+              </p>
+            </div>
+
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <h3>ECOSISTEMA</h3>
+              <p>
+                La economía de NoF está<br />
+                regulada por sus<br />
+                temporadas y los álbumes<br />
+                con distinas mecánicas jugables.<br />
+                <br />
+                En cada temporada se<br />
+                emiten nuevos personajes<br />
+                y álbumes de cada tipo.
+              </p>
+              <Image
+                src={Gold}
+                alt='text box'
+                width={80}
+                height={80}
+              />
+              <p>
+                Nuestro objetivo es:<br />
+                Crear un juego sano,<br />
+                divertido y disruptivo.
+              </p>
+            </div>
+            <div className='hero__top__album__book__page' data-density='hard'>
+              <h3>EQUIPO</h3>
+              <Image
+                src={Profiles}
+                alt='profiles'
+                width={300}
+                height={420}
+              />
+            </div>
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <h3>AMIGOS</h3>
+              <Image
+                src={Profiles}
+                alt='profiles'
+                width={300}
+                height={420}
+              />
+            </div>
           </HTMLFlipBook>
         </div>
         <div className='hero__top__swiper'>
