@@ -23,7 +23,9 @@ function Album () {
     )
   }
   )
-  pageFlip.loadFromHTML(document.querySelectorAll('.page'),
+
+  // FIXME:
+  // pageFlip.loadFromHTML(document.querySelectorAll('.page'),
 
   return (
     <HTMLFlipBook width={400} height={500} id='Book'>
