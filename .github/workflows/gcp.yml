@@ -48,10 +48,10 @@ jobs:
           docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
           docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:$GIT_TAG
 
-      # - name: Deploy to Cloud Run
-      #   id: deploy
-      #   uses: google-github-actions/deploy-cloudrun@v0
-      #   with:
-      #     service: ${{ env.SERVICE }}
-      #     region: ${{ env.REGION }}
-      #     image: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE_NAME }}:latest
