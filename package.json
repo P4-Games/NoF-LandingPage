@@ -17,6 +17,7 @@
     "react-pageflip": "^2.0.3",
     "react-scroll": "^1.8.8",
     "sass": "^1.55.0",
+    "sharp": "^0.31.2",
     "swiper": "^8.4.4",
     "url-loader": "^4.1.1"
   },
