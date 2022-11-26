@@ -1,28 +1,28 @@
 import React from 'react'
 import HTMLFlipBook from 'react-pageflip'
-import { PageFlip } from 'page-flip'
+// import { PageFlip } from 'page-flip'
 
 function Album () {
   document.addEventListener('DOMContentLoaded', function () {
-    const pageFlip = new PageFlip(
-      document.getElementById('Book'),
-      {
-        width: 550,
-        height: 733,
+    // FIXME:
+    // const pageFlip = new PageFlip(
+    //   document.getElementById('Book'),
+    //   {
+    //     width: 550,
+    //     height: 733,
 
-        size: 'stretch',
-        minWidth: 315,
-        maxWidth: 1000,
-        minHeight: 420,
-        maxHeight: 1350,
+    //     size: 'stretch',
+    //     minWidth: 315,
+    //     maxWidth: 1000,
+    //     minHeight: 420,
+    //     maxHeight: 1350,
 
-        maxShadowOpacity: 0.5,
-        showCover: true,
-        mobileScrollSupport: false
-      }
-    )
-  }
-  )
+    //     maxShadowOpacity: 0.5,
+    //     showCover: true,
+    //     mobileScrollSupport: false
+    //   }
+    // )
+  })
 
   // FIXME:
   // pageFlip.loadFromHTML(document.querySelectorAll('.page'),

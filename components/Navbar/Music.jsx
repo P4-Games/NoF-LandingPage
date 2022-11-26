@@ -6,7 +6,7 @@ function Music () {
   // FIXME:
   // const audioPlayer = new Audio(audio)
   btnPlay.addEventListener('click', (e) => {
-    audioPlayer.play()
+    // audioPlayer.play()
   })
   return (
     <div className='navbar__corner__audio'>
