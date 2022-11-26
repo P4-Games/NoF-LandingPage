@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Navbar from '../components/Navbar'
-import Hero from '../pages/sections/Hero'
+import Hero from './sections/Hero'
 import Footer from '../components/Footer'
 import { useRef } from 'react'
 
