@@ -7,18 +7,21 @@ import Bookmenu from './background/book-menu-1.png'
 import Gold from './background/oro.png'
 import Plate from './background/plata.png'
 import Bronce from './background/bronce.png'
-import Profiles from './background/profiles.png'
+import N from './background/n.png'
+import O from './background/o.png'
+import F from './background/f.png'
+import Albumfirst from './background/album3.png'
+import Albumsecond from './background/album6.png'
+import Albumthird from './background/album12.png'
 
-// Import Swiper React components
+import Profiles from './Profiles.json'
+
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/effect-cards'
 
-// import required modules
 import { EffectCards, Autoplay, Pagination } from 'swiper'
-// eslint-disable-next-line
 import 'swiper/css/bundle'
 
 const Hero = React.forwardRef((props, book) => {
@@ -53,12 +56,14 @@ const Hero = React.forwardRef((props, book) => {
           >
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>BIENVENIDOS!</h3>
+              <br />
               <Image
                 src={Bookmenu}
                 alt='text box'
-                width={340}
-                height={80}
+                width={350}
+                height={100}
               />
+              <br /><br />
               <p>Number one es el primer<br />
                 collect-to-earn del mundo,<br />
                 donde los jugadores<br />
@@ -109,15 +114,39 @@ const Hero = React.forwardRef((props, book) => {
 
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>CARTAS</h3>
+              <br />
               <p>
                 Nuestras cartas representan<br />
                 a los personajes más famosos.<br />
                 Cada personaje cuenta con<br />
-                tres rarezas:<br /><br />
-                Una carta de Oro<br /><br />
-                Dos cartas de Plata<br /><br />
-                Tres cartas de Bronce<br /><br />
+                tres rarezas:<br />
               </p>
+              <div className='hero__top__album__book__page__nof'>
+                <p id='cardstext'>
+                  <Image
+                    src={N}
+                    alt='N image'
+                    width={40}
+                    height={40}
+                  />
+                  Una carta de Oro<br />
+                  <Image
+                    src={O}
+                    alt='O image'
+                    width={40}
+                    height={40}
+                  />
+                  Dos cartas de Plata<br />
+                  <Image
+                    src={F}
+                    alt='F image'
+                    width={40}
+                    height={40}
+                  />
+                  Tres cartas de Bronce<br />
+                </p>
+              </div>
+              <br />
               <p>
                 Todos nuestros NFTs<br />
                 pueden ser intercambiados<br />
@@ -131,13 +160,33 @@ const Hero = React.forwardRef((props, book) => {
                 álbumes.<br />
                 Existen 3 tipos de álbumes<br />
                 con distinas mecánicas jugables.<br />
-                <br /><br />
+              </p>
+              <p>
                 MEDAL: Define tu nivel<br />
-                de coleccionista.<br /><br />
+                de coleccionista.
+                <Image
+                  src={Albumfirst}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                />
+                <br />
                 STICKER: tu premio asegurado<br />
-                Mayor rareza mejor recompensa<br /><br />
+                Mayor rareza mejor recompensa<br />
+                <Image
+                  src={Albumsecond}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                /><br />
                 SHOWDOWN: Concurso de popularidad,<br />
-                quien es el mas famoso!<br />
+                quien es el mas famoso!
+                <Image
+                  src={Albumthird}
+                  alt='text box'
+                  width={80}
+                  height={80}
+                /><br />
               </p>
             </div>
 
@@ -190,21 +239,47 @@ const Hero = React.forwardRef((props, book) => {
             </div>
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>EQUIPO</h3>
-              <Image
-                src={Profiles}
-                alt='profiles'
-                width={300}
-                height={420}
-              />
+              <div className='hero__top__album__book__page__profiles'>
+                {
+                  Profiles && Profiles.map(profile => {
+                    return (
+                      <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
+                        <Image
+                          width={80}
+                          height={80}
+                          src={profile.icon}
+                        />
+                        <br />
+                        {profile.caption}
+                        <br />
+                        {profile.position}
+                      </div>
+                    )
+                  })
+                }
+              </div>
             </div>
             <div className='hero__top__album__book__page0' data-density='hard'>
               <h3>AMIGOS</h3>
-              <Image
-                src={Profiles}
-                alt='profiles'
-                width={300}
-                height={420}
-              />
+              <div className='hero__top__album__book__page__profiles'>
+                {
+                  Profiles && Profiles.map(profile => {
+                    return (
+                      <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
+                        <Image
+                          width={80}
+                          height={80}
+                          src={profile.icon}
+                        />
+                        <br />
+                        {profile.caption}
+                        <br />
+                        {profile.position}
+                      </div>
+                    )
+                  })
+                }
+              </div>
             </div>
           </HTMLFlipBook>
         </div>
