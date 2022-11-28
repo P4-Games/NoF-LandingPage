@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
-
 import Noficon from './background/logo-nof.gif'
 import Bookmenu from './background/book-menu-1.png'
 import Gold from './background/oro.png'
@@ -13,15 +12,11 @@ import F from './background/f.png'
 import Albumfirst from './background/album3.png'
 import Albumsecond from './background/album6.png'
 import Albumthird from './background/album12.png'
-
 import Profiles from './Profiles.json'
 import Friends from './Friends.json'
-
 import { Swiper, SwiperSlide } from 'swiper/react'
-
 import 'swiper/css'
 import 'swiper/css/effect-cards'
-
 import { EffectCards, Autoplay, Pagination } from 'swiper'
 import 'swiper/css/bundle'
 
@@ -162,35 +157,49 @@ const Hero = React.forwardRef((props, book) => {
                 Existen 3 tipos de álbumes<br />
                 con distinas mecánicas jugables.<br />
               </p>
-              <p>
-                MEDAL: Define tu nivel<br />
-                de coleccionista.
-                <Image
-                  src={Albumfirst}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                />
-                <br />
-                STICKER: tu premio asegurado<br />
-                Mayor rareza mejor recompensa<br />
-                <Image
-                  src={Albumsecond}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                /><br />
-                SHOWDOWN: Concurso de popularidad,<br />
-                quien es el mas famoso!
-                <Image
-                  src={Albumthird}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                /><br />
-              </p>
-            </div>
+              <div className='albums_container'>
+                <div className='album1'>
+                  <div className='albumtitle'>
+                    <p>
+                      MEDAL: Define tu nivel
+                      de coleccionista.
+                    </p>
+                  </div>
+                  <div className='albumimg'>
+                    <Image alt='imagenalbum'
+                      src={Albumfirst}
+                      layout='fill' />
+                  </div>
+                </div>
+                <div className='album2'>
+                  <div className='albumtitle'>
+                    <p>
+                      STICKER: tu premio asegurado
+                      Mayor rareza mejor recompensa
+                    </p>
+                  </div>
+                  <div className='albumimg'>
+                    <Image alt='imagenalbum'
+                      src={Albumsecond}
+                      layout='fill' />
+                  </div>
+                </div>
+                <div className='album3'>
+                  <div className='albumtitle'>
+                    <p>
+                      SHOWDOWN: Concurso de popularidad,
+                      quien es el mas famoso!
+                    </p>
+                  </div>
+                  <div className='albumimg'>
+                    <Image alt='imagenalbum'
+                      src={Albumthird}
+                      layout='fill' />
+                  </div>
+                </div>
 
+              </div>
+            </div>
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>COLECCIÓN</h3>
               <p>
@@ -239,25 +248,26 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
             <div className='hero__top__album__book__page' data-density='hard'>
-              <h3>EQUIPO</h3>
               <div className='hero__top__album__book__page__profiles'>
-                {
-                  Profiles && Profiles.map(profile => {
-                    return (
-                      <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
-                        <Image
-                          width={80}
-                          height={80}
-                          src={profile.icon}
-                        />
-                        <br />
-                        {profile.caption}
-                        <br />
-                        {profile.position}
-                      </div>
-                    )
-                  })
-                }
+                <h3 className='hero__top__album__book__page__profiles__title'>EQUIPO</h3>
+                <div className='hero__top__album__book__page__profiles__content'>
+                  {
+                    Profiles && Profiles.map(profile => {
+                      return (
+                        <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
+                          <Image
+                            width={60}
+                            height={60}
+                            src={profile.icon}
+                          />
+
+                          <p>{profile.caption}</p>
+                          <p>{profile.position}</p></div>
+
+                      )
+                    })
+                  }
+                </div>
               </div>
             </div>
             <div className='hero__top__album__book__page0' data-density='hard'>
@@ -266,7 +276,7 @@ const Hero = React.forwardRef((props, book) => {
                 {
                   Friends && Friends.map(friend => {
                     return (
-                      <div className='hero__top__album__book__page0__friends__box' key={friend.id}>
+                      <div className='hero__top __album__book__page0__friends__box' key={friend.id}>
                         <Image
                           width={80}
                           height={80}

@@ -91,9 +91,9 @@ function Navbar() {
           <div onClick={() => handleClick()} className='navbar__corner__audio'>
             {/* <Image src={SoundOn} alt="" /> */}
             {click ?
-              <Image src={SoundOn} alt="" />
+              <Image src={SoundOn} alt="soundimg" />
               :
-              <Image src={SoundOff} alt="" />}
+              <Image src={SoundOff} alt="soundimg" />}
             <></>
           </div>
           <Links />

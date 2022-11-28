@@ -95,7 +95,6 @@ $groundWidth: 218px; $groundHeight: 22px;
                 font-size: 12px;
                 line-height: 20px;
             }
-
         &__book{
             left: 0.2%;
             width: 700px;
@@ -110,11 +109,9 @@ $groundWidth: 218px; $groundHeight: 22px;
                 height: 460px;
             }
             &__page {
-                padding-top: 60px;
-                padding-left: 35px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                position: relative;
+               height: 100%;
+                  width: 100%;
                 background-image: url('../Hero/background/page-1.png');
                 background-size: 100% 100%;
                 @include mobile {
@@ -127,17 +124,53 @@ $groundWidth: 218px; $groundHeight: 22px;
                     text-align: left;
                 }
                 &__profiles {
+                    position: relative;
+                    height: 100%;
+                    width: 80%;
+                    margin: 0 auto;
                     display: flex;
                     flex-wrap: wrap;
-                    flex: 0 0 30%;
-                    justify-content: center;
-                    font-size: 7px;
-                    line-height: 15px;
+                    align-content: flex-end;
+                    justify-content: space-between;
+                    &__title {
+                        position: relative;
+                        height: 5%;
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0;
+                    }
+                    &__content {
+                        position: relative;
+                        height: 85%;
+                        width: 100%;
+                        margin: 0 auto;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        align-content:flex-start;
+                        gap: 5%;
+                        flex-wrap: wrap;
+                        margin: 0;
+                        
+                    }
                     &__box {
-                        width: 30%;
-                        margin-top: 20px;
+                        height: 20%;
+                        width:30%;
+                        position: relative;
+                        margin-top: 5%;
+                        
+                        p{
+                            font-size: 0.5rem;
+                            letter-spacing: -2px;
+                            line-height: 20px;
+                        }
                         @include desktop {
                             max-width: 60px;
+                        }
+                        p{
+                            margin: 0;
                         }
                     }
                 }
@@ -169,7 +202,6 @@ $groundWidth: 218px; $groundHeight: 22px;
             }
         }
     }
-
         .swiper {
             margin-top: 19%;
             width: 250px;
@@ -256,6 +288,99 @@ $groundWidth: 218px; $groundHeight: 22px;
                 background-color: #CFA763;
                 opacity: 1.5;
             }
+        }
+    }
+}
+
+
+.albums_container{
+    position: relative;
+    height: 50%;
+    width: 80%;
+    margin: 0 auto;
+    
+    .album1{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .albumtitle{
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            h3{
+                font-size: 0.4rem;
+                text-align: left;
+            }
+        }
+        .albumimg{
+                position: relative;
+                height: 80%;
+                width: 30%;
+                justify-content: center;
+                align-items: center;
+                
+        }
+    }
+    .album2{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .albumtitle{
+            position: relative;
+            height: 100%;
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            h3{
+                font-size: 0.6rem;
+                text-align: left;
+            }
+        }
+        .albumimg{
+                position: relative;
+                height: 80%;
+                width: 30%;
+                justify-content: center;
+                align-items: center;
+                
+        }
+    }
+    .album3{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .albumtitle{
+            position: relative;
+            height: 100%;
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            h3{
+                font-size: 0rem;
+                text-align: left;
+            }
+        }
+        .albumimg{
+                position: relative;
+                height: 80%;
+                width: 30%;
+                justify-content: center;
+                align-items: center;
+                
         }
     }
 }
