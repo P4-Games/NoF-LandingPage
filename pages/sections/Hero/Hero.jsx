@@ -15,6 +15,7 @@ import Albumsecond from './background/album6.png'
 import Albumthird from './background/album12.png'
 
 import Profiles from './Profiles.json'
+import Friends from './Friends.json'
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -263,18 +264,16 @@ const Hero = React.forwardRef((props, book) => {
               <h3>AMIGOS</h3>
               <div className='hero__top__album__book__page__profiles'>
                 {
-                  Profiles && Profiles.map(profile => {
+                  Friends && Friends.map(friend => {
                     return (
-                      <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
+                      <div className='hero__top__album__book__page0__friends__box' key={friend.id}>
                         <Image
                           width={80}
                           height={80}
-                          src={profile.icon}
+                          src={friend.icon}
                         />
                         <br />
-                        {profile.caption}
-                        <br />
-                        {profile.position}
+                        {friend.caption}
                       </div>
                     )
                   })
