@@ -150,6 +150,22 @@ $groundWidth: 218px; $groundHeight: 22px;
                 align-items: center;
                 background-image: url('../Hero/background/page-2.png');
                 background-size: 100% 100%;
+                &__friends {
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex: 0 0 30%;
+                    justify-content: center;
+                    font-size: 7px;
+                    line-height: 15px;
+                    &__box {
+                        width: 30%;
+                        margin-top: 20px;
+                        padding-bottom: 15px;
+                        @include desktop {
+                            max-width: 60px;
+                        }
+                    }
+                }
             }
         }
     }
