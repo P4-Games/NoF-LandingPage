@@ -1,11 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 
-function Links () {
+function Links() {
   return (
     <Link
       href='https://discord.gg/4Bvp5bVmCz'
-      spy='true'
+      // spy='true'
       smooth='true'
       target='_blank'
       rel='noreferrer'

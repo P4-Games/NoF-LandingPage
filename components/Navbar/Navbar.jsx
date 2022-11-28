@@ -1,22 +1,33 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-scroll'
 import Links from './Links.jsx'
 import Image from 'next/image'
-// import Music from './Music.jsx'
-
+import Music from './Music.jsx'
+import audio from './music/Dungeon.mp3'
 import Whitepaper from './Whitepaper.jsx'
-
 import Coin from './icons/logo-coin.png'
 import Nof from './icons/logo-1.png'
+import SoundOn from './icons/sound.png'
+import SoundOff from './icons/soundoff.png'
+function Navbar() {
+  const ref = useRef(null);
+  const [click, setClick] = useState(false);
 
-function Navbar () {
+  const handleClick = () => {
+    setClick(!click);
+    if (!click) {
+      ref.current.play();
+    } else {
+      ref.current.pause();
+    }
+  };
   return (
     <header>
       <div className='navbar'>
         <div className='navbar__icon'>
           <Link
             to='Hero'
-            spy='true'
+            // spy='true'
             smooth='true'
             offset={-100}
             duration={500}
@@ -33,7 +44,7 @@ function Navbar () {
           </Link>
           <Link
             to='Hero'
-            spy='true'
+            // spy='true'
             smooth='true'
             offset={-100}
             duration={500}
@@ -53,7 +64,7 @@ function Navbar () {
           <li className='navbar__ul__li'>
             <Link
               to='Nosotros'
-              spy='true'
+              // spy='true'
               smooth='true'
               offset={-80}
               duration={500}
@@ -64,7 +75,7 @@ function Navbar () {
             </Link>
             <Link
               to='Contacto'
-              spy='true'
+              // spy='true'
               smooth='true'
               offset={-80}
               duration={500}
@@ -77,12 +88,18 @@ function Navbar () {
           </li>
         </ul>
         <div className='navbar__corner'>
-          <div className='navbar__corner__audio'>
+          <div onClick={() => handleClick()} className='navbar__corner__audio'>
+            {/* <Image src={SoundOn} alt="" /> */}
+            {click ?
+              <Image src={SoundOn} alt="" />
+              :
+              <Image src={SoundOff} alt="" />}
             <></>
           </div>
           <Links />
         </div>
       </div>
+      <audio src={audio} ref={ref} loop />
     </header>
   )
 }
