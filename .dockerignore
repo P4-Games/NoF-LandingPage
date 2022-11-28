@@ -1,10 +1,7 @@
 Dockerfile
-    .eslintrc.json
     .dockerignore
-    .eslintrc.json
 node_modules
 npm - debug.log
-    .eslintrc.json
 README.md
     .next
     .git
