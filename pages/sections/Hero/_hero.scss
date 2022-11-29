@@ -110,6 +110,7 @@ $groundWidth: 218px; $groundHeight: 22px;
             }
             &__page {
                 padding-top: 5%;
+                padding-left: 5%;
                 position: relative;
                 height: 100%;
                 width: 100%;
@@ -327,7 +328,7 @@ $groundWidth: 218px; $groundHeight: 22px;
                     align-content: flex-end;
                     justify-content: space-between;
                     &__title {
-                        padding-bottom: 10%;
+                        padding-bottom: 15%;
                         position: relative;
                         height: 5%;
                         width: 100%;
@@ -387,7 +388,7 @@ $groundWidth: 218px; $groundHeight: 22px;
                     align-content: flex-end;
                     justify-content: space-between;
                     &__title {
-                        padding-bottom: 10%;
+                        padding-bottom: 15%;
                         position: relative;
                         height: 5%;
                         width: 100%;
@@ -520,11 +521,156 @@ $groundWidth: 218px; $groundHeight: 22px;
     }
 }
 
+.coin_conteiner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    width: 70%;
+    margin: 0 auto;
+    .coinimg{
+        position: relative;
+        height: 100%;
+        width: 30%;
+        justify-content: center;
+        align-items: center;
+    }
+    .coinimg2{
+        position: relative;
+        height: 100%;
+        width: 30%;
+        justify-content: center;
+        align-items: center;
+    }
+    .coinimg3{
+        position: relative;
+        height: 100%;
+        width: 30%;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.book_container{
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.nof_container{
+    position: relative;
+    height: 25%;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 8%;
+    .nof1{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .noftitle{
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            h3{
+                font-size: 0.4rem;
+                text-align: right;
+            }
+        }
+        .nofimg{
+            position: relative;
+            height: 100%;
+            width: 30%;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .nof2{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .noftitle{
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            h3{
+                font-size: 0.4rem;
+                text-align: right;
+            }
+        }
+        .nofimg{
+            position: relative;
+            height: 100%;
+            width: 30%;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .nof3{
+        position: relative;
+        width:100%;
+        height: 33%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .noftitle{
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            h3{
+                font-size: 0.4rem;
+                text-align: right;
+            }
+        }
+        .nofimg{
+            position: relative;
+            height: 100%;
+            width: 30%;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.season_container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    width: 70%;
+    margin: 0 auto;
+    .seasonimg{
+        position: relative;
+        height: 100%;
+        width: 30%;
+        justify-content: center;
+        align-items: center;
+    }
+}
 
 .albums_container{
     position: relative;
     height: 50%;
-    width: 80%;
+    width: 75%;
     margin: 0 auto;
     
     .album1{

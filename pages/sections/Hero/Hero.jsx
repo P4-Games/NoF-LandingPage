@@ -9,6 +9,7 @@ import Bronce from './background/bronce.png'
 import N from './background/n.png'
 import O from './background/o.png'
 import F from './background/f.png'
+import Season from './background/f.png'
 import Albumfirst from './background/album3.png'
 import Albumsecond from './background/album6.png'
 import Albumthird from './background/album12.png'
@@ -54,14 +55,15 @@ const Hero = React.forwardRef((props, book) => {
             <div className='hero__top__album__book__page'>
               <h3>BIENVENIDOS!</h3>
               <br />
-              <Image
-                src={Bookmenu}
-                alt='text box'
-                width={350}
-                height={100}
-              />
-              <br /><br />
-              <p>Number one es el primer<br />
+              <div className='book_container'>
+                <Image
+                  src={Bookmenu}
+                  alt='text box'
+                  layout='fill'
+                />
+              </div>
+              <br />
+              <p>Number One Fan es el primer<br />
                 collect-to-earn del mundo,<br />
                 donde los jugadores<br />
                 obtienen recompensas<br />
@@ -79,25 +81,28 @@ const Hero = React.forwardRef((props, book) => {
                 podrán revivir la afición<br />
                 de coleccionar figutitas.
               </p>
-              <div>
-                <Image
-                  src={Gold}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                />
-                <Image
-                  src={Plate}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                />
-                <Image
-                  src={Bronce}
-                  alt='text box'
-                  width={80}
-                  height={80}
-                />
+              <div className='coin_conteiner'>
+                <div className='coinimg'>
+                  <Image
+                    src={Gold}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
+                <div className='coinimg2'>
+                  <Image
+                    src={Plate}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
+                <div className='coinimg3'>
+                  <Image
+                    src={Bronce}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
               </div>
               <p>
                 Buscamos desarrollar<br />
@@ -111,39 +116,56 @@ const Hero = React.forwardRef((props, book) => {
 
             <div className='hero__top__album__book__page'>
               <h3>CARTAS</h3>
-              <br />
               <p>
                 Nuestras cartas representan<br />
                 a los personajes más famosos.<br />
                 Cada personaje cuenta con<br />
                 tres rarezas:<br />
               </p>
-              <div className='hero__top__album__book__page__nof'>
-                <p id='cardstext'>
-                  <Image
-                    src={N}
-                    alt='N image'
-                    width={40}
-                    height={40}
-                  />
-                  Una carta de Oro<br />
-                  <Image
-                    src={O}
-                    alt='O image'
-                    width={40}
-                    height={40}
-                  />
-                  Dos cartas de Plata<br />
-                  <Image
-                    src={F}
-                    alt='F image'
-                    width={40}
-                    height={40}
-                  />
-                  Tres cartas de Bronce<br />
-                </p>
+              <div className='nof_container'>
+                <div className='nof1'>
+                  <div className='nofimg'>
+                    <Image
+                      src={N}
+                      alt='N image'
+                      layout='fill'
+                    />
+                  </div>
+                  <div className='noftitle'>
+                    <p>
+                      Una carta de Oro
+                    </p>
+                  </div>
+                </div>
+
+                <div className='nof2'>
+                  <div className='nofimg'>
+                    <Image
+                      src={O}
+                      alt='O image'
+                      layout='fill'
+                    />
+                  </div>
+                  <div className='noftitle'>
+                    <p>Dos cartas de Plata</p>
+                  </div>
+                </div>
+
+                <div className='nof3'>
+                  <div className='nofimg'>
+                    <Image
+                      src={F}
+                      alt='F image'
+                      layout='fill'
+                    />
+                  </div>
+                  <div className='noftitle'>
+                    <p>
+                      Tres cartas de Bronce
+                    </p>
+                  </div>
+                </div>
               </div>
-              <br />
               <p>
                 Todos nuestros NFTs<br />
                 pueden ser intercambiados<br />
@@ -167,7 +189,8 @@ const Hero = React.forwardRef((props, book) => {
                     </p>
                   </div>
                   <div className='albumimg'>
-                    <Image alt='imagenalbum'
+                    <Image
+                      alt='imagenalbum'
                       src={Albumfirst}
                       layout='fill' />
                   </div>
@@ -236,8 +259,7 @@ const Hero = React.forwardRef((props, book) => {
               <p>
                 OMEGA: El primer collect-to-earn.<br />
                 Donde a medida que creas<br />
-                tu colección<br />
-                Obtienes recompensas.<br />
+                tu colección obtienes recompensas.<br />
               </p>
               <Link
                 href='https://discord.gg/4Bvp5bVmCz'
@@ -262,12 +284,15 @@ const Hero = React.forwardRef((props, book) => {
                 emiten nuevos personajes<br />
                 y álbumes de cada tipo.
               </p>
-              <Image
-                src={Gold}
-                alt='text box'
-                width={80}
-                height={80}
-              />
+              <div className='season_container'>
+                <div className='seasonimg'>
+                  <Image
+                    src={Gold}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
+              </div>
               <p>
                 Nuestro objetivo es:<br />
                 Crear un juego sano,<br />
