@@ -45,6 +45,70 @@ a {
 	box-sizing: border-box;
 }
 
+// alpha starts
+
+.alpha_button {
+	cursor: pointer;
+	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
+	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
+	height: 30px;
+	width: 120px;
+	text-align: center;
+	font-size: 0.5em;
+}
+
+.alpha_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-size: 0.6em;
+	text-align: center;
+}
+
+.alpha_cards_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.alpha_card_container, .alpha_album_container {
+	width: 150px;
+	height: 150px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.alpha_card_container:hover > .alpha_card_hover {
+	opacity: 1;
+}
+
+.alpha_album {
+	width: 100%;
+}
+
+.alpha_card {
+	width: 100%;
+}
+
+.alpha_card_hover {
+	margin: 0;
+	padding: 0;
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background-color: rgba(255,255,255,0.5);
+	opacity: 0;
+	transition: all 0.2s;
+}
+
+// alpha ends
+
 @media (max-width: 576px) {
 	html,
 	body {

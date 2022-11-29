@@ -2,6 +2,7 @@ import { useContext, useState, useEffect, createContext } from 'react'
 import { ethers } from 'ethers'
 import router from 'next/router'
 import Web3Modal from 'web3modal'
+import { abi } from '../artifacts/contracts/NOF-SC.sol/NOF_Alpha'
 
 const EthersContext = createContext()
 
@@ -10,10 +11,13 @@ export function useEthers () {
 }
 
 export default function EthersProvider ({ children }) {
+  const [contract, setContract] = useState(null)
+  const [prov, setProv] = useState(null)
   const [account, setAccount] = useState(null)
   const [chainId, setChainId] = useState(null)
   const [notificationStatus, setNotificationStatus] = useState({ show: false, error: false })
   const validChainId = '0x13881' // Polygon testnet "Mumbai" (800001)
+  
 
   async function requestAccount () {
     const web3Modal = new Web3Modal()
@@ -21,10 +25,11 @@ export default function EthersProvider ({ children }) {
     try {
       const connection = await web3Modal.connect()
       provider = new ethers.providers.Web3Provider(connection)
+      setProv(provider)
       const address = await provider.getSigner().getAddress()
       setAccount(address)
     } catch (e) {
-      console.log(e)
+      console.log('requestAccount error:', e)
     }
 
     if (!provider) return
@@ -36,6 +41,19 @@ export default function EthersProvider ({ children }) {
     const currency = 'MATIC'
     const explorer = 'https://mumbai.polygonscan.com/'
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer)
+  }
+
+  function connectContract () {
+    try {
+      // const daiContract = '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'
+      const contractAddress = "0x7A887dBA79EeB98C024E20FaadEc44cA89553B5f" // test contract MUMBAI
+      const signer = prov.getSigner()
+      let nofContract = new ethers.Contract(contractAddress, abi, signer)
+      setContract(nofContract)
+      return nofContract
+    } catch (e) {
+      console.log({ e })
+    }
   }
 
   function logout () {
@@ -88,7 +106,6 @@ export default function EthersProvider ({ children }) {
       return
     }
 
-    // eslint-disable-next-line eqeqeq
     if (router.pathname != '/') {
       requestAccount()
     }
@@ -113,7 +130,10 @@ export default function EthersProvider ({ children }) {
         setChainId,
         isValidChain,
         notificationStatus,
-        setNotificationStatus
+        setNotificationStatus,
+        connectContract,
+        contract,
+        connectContract
       }}
     >
       {children}
