@@ -19,6 +19,7 @@ import 'swiper/css'
 import 'swiper/css/effect-cards'
 import { EffectCards, Autoplay, Pagination } from 'swiper'
 import 'swiper/css/bundle'
+import Link from 'next/link'
 
 const Hero = React.forwardRef((props, book) => {
   return (
@@ -50,7 +51,7 @@ const Hero = React.forwardRef((props, book) => {
             className='hero__top__album__book'
             mobileScrollSupport
           >
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page'>
               <h3>BIENVENIDOS!</h3>
               <br />
               <Image
@@ -69,7 +70,7 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
 
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0'>
               <p> <br />
                 Nuestro objetivo es<br />
                 convertirnos en el mayor<br />
@@ -108,7 +109,7 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
 
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page'>
               <h3>CARTAS</h3>
               <br />
               <p>
@@ -149,7 +150,7 @@ const Hero = React.forwardRef((props, book) => {
                 de manera libre!.<br />
               </p>
             </div>
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0'>
               <h3>ÁLBUMES</h3>
               <p>
                 Gana dinero completando<br />
@@ -200,7 +201,7 @@ const Hero = React.forwardRef((props, book) => {
 
               </div>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page'>
               <h3>COLECCIÓN</h3>
               <p>
                 ALPHA: Juega y colecciona con<br />
@@ -208,22 +209,48 @@ const Hero = React.forwardRef((props, book) => {
                 completar el álbum y obtener<br />
                 los mejores premios.<br />
               </p>
+              <Link
+                href='https://discord.gg/4Bvp5bVmCz'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <button className='hero__top__album__book__page__btn'>
+                  ALPHA
+                </button>
+              </Link>
               <p>
                 GAMMA: colecciona tus personajes<br />
                 favoritos e
                 intercámbialos en la<br />
                 NoF town.<br />
-                <br />
               </p>
+              <Link
+                href='https://discord.gg/4Bvp5bVmCz'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <button className='hero__top__album__book__page__btn2'>
+                  GAMMA
+                </button>
+              </Link>
               <p>
                 OMEGA: El primer collect-to-earn.<br />
                 Donde a medida que creas<br />
                 tu colección<br />
                 Obtienes recompensas.<br />
               </p>
+              <Link
+                href='https://discord.gg/4Bvp5bVmCz'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <button className='hero__top__album__book__page__btn3'>
+                  OMEGA
+                </button>
+              </Link>
             </div>
 
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0'>
               <h3>ECOSISTEMA</h3>
               <p>
                 La economía de NoF está<br />
@@ -247,7 +274,7 @@ const Hero = React.forwardRef((props, book) => {
                 divertido y disruptivo.
               </p>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page'>
               <div className='hero__top__album__book__page__profiles'>
                 <h3 className='hero__top__album__book__page__profiles__title'>EQUIPO</h3>
                 <div className='hero__top__album__book__page__profiles__content'>
@@ -262,32 +289,33 @@ const Hero = React.forwardRef((props, book) => {
                           />
 
                           <p>{profile.caption}</p>
-                          <p>{profile.position}</p></div>
-
+                          <p>{profile.position}</p>
+                        </div>
                       )
                     })
                   }
                 </div>
               </div>
             </div>
-            <div className='hero__top__album__book__page0' data-density='hard'>
-              <h3>AMIGOS</h3>
-              <div className='hero__top__album__book__page__profiles'>
-                {
-                  Friends && Friends.map(friend => {
-                    return (
-                      <div className='hero__top __album__book__page0__friends__box' key={friend.id}>
-                        <Image
-                          width={80}
-                          height={80}
-                          src={friend.icon}
-                        />
-                        <br />
-                        {friend.caption}
-                      </div>
-                    )
-                  })
-                }
+            <div className='hero__top__album__book__page0'>
+              <div className='hero__top__album__book__page0__friends'>
+                <h3 className='hero__top__album__book__page0__friends__title'>AMIGOS</h3>
+                <div className='hero__top__album__book__page0__friends__content'>
+                  {
+                    Friends && Friends.map(friend => {
+                      return (
+                        <div className='hero__top __album__book__page0__friends__box' key={friend.id}>
+                          <Image
+                            width={60}
+                            height={60}
+                            src={friend.icon}
+                          />
+                          <p>{friend.caption}</p>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
               </div>
             </div>
           </HTMLFlipBook>
