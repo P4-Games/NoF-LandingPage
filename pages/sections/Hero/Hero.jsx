@@ -47,12 +47,13 @@ const Hero = React.forwardRef((props, book) => {
             maxHeight={800}
             ref={book}
             autoSize
+            cursor='grabCursor'
             drawShadow={false}
             changeOrientation='portrait'
             className='hero__top__album__book'
             mobileScrollSupport
           >
-            <div className='hero__top__album__book__page'>
+            <div className='hero__top__album__book__page' data-density='hard'>
               <h3>BIENVENIDOS!</h3>
               <br />
               <div className='book_container'>
@@ -72,8 +73,8 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
 
-            <div className='hero__top__album__book__page0'>
-              <p> <br />
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <p> <br /><br />
                 Nuestro objetivo es<br />
                 convertirnos en el mayor<br />
                 punto de encuentro<br />
@@ -114,7 +115,7 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
 
-            <div className='hero__top__album__book__page'>
+            <div className='hero__top__album__book__page' data-density='hard'>
               <h3>CARTAS</h3>
               <p>
                 Nuestras cartas representan<br />
@@ -172,7 +173,7 @@ const Hero = React.forwardRef((props, book) => {
                 de manera libre!.<br />
               </p>
             </div>
-            <div className='hero__top__album__book__page0'>
+            <div className='hero__top__album__book__page0' data-density='hard'>
               <h3>ÁLBUMES</h3>
               <p>
                 Gana dinero completando<br />
@@ -224,7 +225,7 @@ const Hero = React.forwardRef((props, book) => {
 
               </div>
             </div>
-            <div className='hero__top__album__book__page'>
+            <div className='hero__top__album__book__page' data-density='hard'>
               <h3>COLECCIÓN</h3>
               <p>
                 ALPHA: Juega y colecciona con<br />
@@ -272,7 +273,7 @@ const Hero = React.forwardRef((props, book) => {
               </Link>
             </div>
 
-            <div className='hero__top__album__book__page0'>
+            <div className='hero__top__album__book__page0' data-density='hard'>
               <h3>ECOSISTEMA</h3>
               <p>
                 La economía de NoF está<br />
@@ -299,7 +300,7 @@ const Hero = React.forwardRef((props, book) => {
                 divertido y disruptivo.
               </p>
             </div>
-            <div className='hero__top__album__book__page'>
+            <div className='hero__top__album__book__page' data-density='hard'>
               <div className='hero__top__album__book__page__profiles'>
                 <h3 className='hero__top__album__book__page__profiles__title'>EQUIPO</h3>
                 <div className='hero__top__album__book__page__profiles__content'>
@@ -322,22 +323,22 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-            <div className='hero__top__album__book__page0'>
-              <div className='hero__top__album__book__page0__friends'>
-                <h3 className='hero__top__album__book__page0__friends__title0'>AMIGOS</h3>
-                <div className='hero__top__album__book__page0__friends__content0'>
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <div className='friends_container'>
+                <h3 className='title'>AMIGOS</h3>
+                <div className='content'>
                   {
                     Friends && Friends.map(friend => {
                       return (
-                        <div className='hero__top __album__book__page0__friends__box0' key={friend.id}>
+                        <div className='box' key={friend.id}>
                           <Image
                             width={60}
                             height={60}
                             src={friend.icon}
                           />
-                          <div>
+                          <br />
                             <p>{friend.caption}</p>
-                          </div>
+                          
                         </div>
                       )
                     })
