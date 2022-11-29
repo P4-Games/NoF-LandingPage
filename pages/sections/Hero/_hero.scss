@@ -95,342 +95,343 @@ $groundWidth: 218px; $groundHeight: 22px;
                 font-size: 12px;
                 line-height: 20px;
             }
-        &__book{
-            left: 0.2%;
-            width: 700px;
-            height: 630px;
-            @include mobile {
-                width: 200px;
-                height: 400px;
-            }
-            @include large-desktop {
-                top: -2%;
-                width: 640px;
-                height: 460px;
-            }
-            &__page {
-                padding-top: 5%;
-                padding-left: 5%;
-                position: relative;
-                height: 100%;
-                width: 100%;
-                background-image: url('../Hero/background/page-1.png');
-                background-size: 100% 100%;
+            &__book{
+                left: 0.2%;
+                width: 700px;
+                height: 630px;
                 @include mobile {
-                    background-image: url('../Hero/background/page-1.png');
                     width: 200px;
                     height: 400px;
                 }
-                &__nof {
-                    padding-left: 60px;
-                    text-align: left;
+                @include large-desktop {
+                    top: -2%;
+                    width: 640px;
+                    height: 460px;
                 }
-                &__btn {
-                    font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-                    font-size: 1em;
-                    width: 150px;
-                    height: 35px;
-                    background: #007ced;
-                    color: #000;
-                    border:0px;
-                    position: relative;
-                    box-shadow:
-                        inset -4px 4px 1px 1px grey,
-                        inset -4px -4px 1px 1px lightgray,
-                        inset 4px 0px 1px 1px lightgray;
-                    margin-right: 30px;
-                    &:hover {
-                        cursor: pointer;
-                        background: #3896ee;
-                    }
-                    &:active {
-                        top: 5px;
-                        box-shadow:
-                            -4px 4px 1px 1px grey,
-                            -4px -4px 1px 1px lightgray,
-                            4px 0px 1px 1px lightgray;
-                    }
-                    &::after {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: -1.5%;
-                        top: 0;
-                        width: 103%;
-                        height: 100%;
-                        z-index: -1;
-                    }
-                    &::before {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: 0;
-                        top: -6%;
-                        width: 100%;
-                        height: 112%;
-                        z-index: -1;
-                    }
-                    @include tablet {
-                        font-size: 0.55em;
-                        width: 100px;
-                        height: 30px;
-                        margin-right: 10px;
-                    }
-                    @include desktop {
-                        font-size: 0.3em;
-                        width: 80px;
-                        height: 30px;
-                        margin-right: 10px;
-                    }
-                    @include large-desktop {
-                        font-size: 0.7em;
-                        width: 90px;
-                        height: 25px;
-                        margin-right: 10px;
-                    }
-                }
-                &__btn2 {
-                    font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-                    font-size: 1em;
-                    width: 150px;
-                    height: 35px;
-                    background: #F60008;
-                    color: #000;
-                    border:0px;
-                    position: relative;
-                    box-shadow:
-                        inset -4px 4px 1px 1px grey,
-                        inset -4px -4px 1px 1px lightgray,
-                        inset 4px 0px 1px 1px lightgray;
-                    margin-right: 30px;
-                    &:hover {
-                        cursor: pointer;
-                        background: #fc272e;
-                    }
-                    &:active {
-                        top: 5px;
-                        box-shadow:
-                            -4px 4px 1px 1px grey,
-                            -4px -4px 1px 1px lightgray,
-                            4px 0px 1px 1px lightgray;
-                    }
-                    &::after {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: -1.5%;
-                        top: 0;
-                        width: 103%;
-                        height: 100%;
-                        z-index: -1;
-                    }
-                    &::before {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: 0;
-                        top: -6%;
-                        width: 100%;
-                        height: 112%;
-                        z-index: -1;
-                    }
-                    @include tablet {
-                        font-size: 0.55em;
-                        width: 100px;
-                        height: 30px;
-                        margin-right: 10px;
-                    }
-                    @include desktop {
-                        font-size: 0.3em;
-                        width: 80px;
-                        height: 30px;
-                        margin-right: 10px;
-                    }
-                    @include large-desktop {
-                        font-size: 0.7em;
-                        width: 90px;
-                        height: 25px;
-                        margin-right: 10px;
-                    }
-                }
-                &__btn3 {
-                    font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-                    font-size: 1em;
-                    width: 150px;
-                    height: 35px;
-                    background: #EEDA41;
-                    color: #000;
-                    border:0px;
-                    position: relative;
-                    box-shadow:
-                        inset -4px 4px 1px 1px grey,
-                        inset -4px -4px 1px 1px lightgray,
-                        inset 4px 0px 1px 1px lightgray;
-                    margin-right: 30px;
-                    &:hover {
-                        cursor: pointer;
-                        background: #f8ea83;
-                    }
-                    &:active {
-                        top: 5px;
-                        box-shadow:
-                            -4px 4px 1px 1px grey,
-                            -4px -4px 1px 1px lightgray,
-                            4px 0px 1px 1px lightgray;
-                    }
-                    &::after {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: -1.5%;
-                        top: 0;
-                        width: 103%;
-                        height: 100%;
-                        z-index: -1;
-                    }
-                    &::before {
-                        content: '';
-                        background: black;
-                        position: absolute;
-                        left: 0;
-                        top: -6%;
-                        width: 100%;
-                        height: 112%;
-                        z-index: -1;
-                    }
-                    @include tablet {
-                        font-size: 0.55em;
-                        width: 100px;
-                        height: 30px;
-                        margin-right: 10px;
-                    }
-                    @include desktop {
-                        font-size: 0.3em;
-                        width: 80px;
-                        height: 20px;
-                        margin-right: 10px;
-                    }
-                    @include large-desktop {
-                        font-size: 0.7em;
-                        width: 90px;
-                        height: 25px;
-                        margin-right: 10px;
-                    }
-                }
-                &__profiles {
-                    padding-bottom: 5%;
+                &__page {
+                    padding-top: 5%;
+                    padding-left: 5%;
                     position: relative;
                     height: 100%;
-                    width: 80%;
-                    margin: 0 auto;
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-content: flex-end;
-                    justify-content: space-between;
-                    &__title {
-                        padding-bottom: 15%;
-                        position: relative;
-                        height: 5%;
-                        width: 100%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 0;
+                    width: 100%;
+                    background-image: url('../Hero/background/page-1.png');
+                    background-size: 100% 100%;
+                    @include mobile {
+                        background-image: url('../Hero/background/page-1.png');
+                        width: 200px;
+                        height: 400px;
                     }
-                    &__content {
+                    &__nof {
+                        padding-left: 60px;
+                        text-align: left;
+                    }
+                    &__btn {
+                        font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+                        font-size: 1em;
+                        width: 150px;
+                        height: 35px;
+                        background: #007ced;
+                        color: #000;
+                        border:0px;
+                        position: relative;
+                        box-shadow:
+                            inset -4px 4px 1px 1px grey,
+                            inset -4px -4px 1px 1px lightgray,
+                            inset 4px 0px 1px 1px lightgray;
+                        margin-right: 30px;
+                        &:hover {
+                            cursor: pointer;
+                            background: #3896ee;
+                        }
+                        &:active {
+                            top: 5px;
+                            box-shadow:
+                                -4px 4px 1px 1px grey,
+                                -4px -4px 1px 1px lightgray,
+                                4px 0px 1px 1px lightgray;
+                        }
+                        &::after {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: -1.5%;
+                            top: 0;
+                            width: 103%;
+                            height: 100%;
+                            z-index: -1;
+                        }
+                        &::before {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: 0;
+                            top: -6%;
+                            width: 100%;
+                            height: 112%;
+                            z-index: -1;
+                        }
+                        @include tablet {
+                            font-size: 0.55em;
+                            width: 100px;
+                            height: 30px;
+                            margin-right: 10px;
+                        }
+                        @include desktop {
+                            font-size: 0.3em;
+                            width: 80px;
+                            height: 30px;
+                            margin-right: 10px;
+                        }
+                        @include large-desktop {
+                            font-size: 0.7em;
+                            width: 90px;
+                            height: 25px;
+                            margin-right: 10px;
+                        }
+                    }
+                    &__btn2 {
+                        font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+                        font-size: 1em;
+                        width: 150px;
+                        height: 35px;
+                        background: #F60008;
+                        color: #000;
+                        border:0px;
+                        position: relative;
+                        box-shadow:
+                            inset -4px 4px 1px 1px grey,
+                            inset -4px -4px 1px 1px lightgray,
+                            inset 4px 0px 1px 1px lightgray;
+                        margin-right: 30px;
+                        &:hover {
+                            cursor: pointer;
+                            background: #fc272e;
+                        }
+                        &:active {
+                            top: 5px;
+                            box-shadow:
+                                -4px 4px 1px 1px grey,
+                                -4px -4px 1px 1px lightgray,
+                                4px 0px 1px 1px lightgray;
+                        }
+                        &::after {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: -1.5%;
+                            top: 0;
+                            width: 103%;
+                            height: 100%;
+                            z-index: -1;
+                        }
+                        &::before {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: 0;
+                            top: -6%;
+                            width: 100%;
+                            height: 112%;
+                            z-index: -1;
+                        }
+                        @include tablet {
+                            font-size: 0.55em;
+                            width: 100px;
+                            height: 30px;
+                            margin-right: 10px;
+                        }
+                        @include desktop {
+                            font-size: 0.3em;
+                            width: 80px;
+                            height: 30px;
+                            margin-right: 10px;
+                        }
+                        @include large-desktop {
+                            font-size: 0.7em;
+                            width: 90px;
+                            height: 25px;
+                            margin-right: 10px;
+                        }
+                    }
+                    &__btn3 {
+                        font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+                        font-size: 1em;
+                        width: 150px;
+                        height: 35px;
+                        background: #EEDA41;
+                        color: #000;
+                        border:0px;
+                        position: relative;
+                        box-shadow:
+                            inset -4px 4px 1px 1px grey,
+                            inset -4px -4px 1px 1px lightgray,
+                            inset 4px 0px 1px 1px lightgray;
+                        margin-right: 30px;
+                        &:hover {
+                            cursor: pointer;
+                            background: #f8ea83;
+                        }
+                        &:active {
+                            top: 5px;
+                            box-shadow:
+                                -4px 4px 1px 1px grey,
+                                -4px -4px 1px 1px lightgray,
+                                4px 0px 1px 1px lightgray;
+                        }
+                        &::after {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: -1.5%;
+                            top: 0;
+                            width: 103%;
+                            height: 100%;
+                            z-index: -1;
+                        }
+                        &::before {
+                            content: '';
+                            background: black;
+                            position: absolute;
+                            left: 0;
+                            top: -6%;
+                            width: 100%;
+                            height: 112%;
+                            z-index: -1;
+                        }
+                        @include tablet {
+                            font-size: 0.55em;
+                            width: 100px;
+                            height: 30px;
+                            margin-right: 10px;
+                        }
+                        @include desktop {
+                            font-size: 0.3em;
+                            width: 80px;
+                            height: 20px;
+                            margin-right: 10px;
+                        }
+                        @include large-desktop {
+                            font-size: 0.7em;
+                            width: 90px;
+                            height: 25px;
+                            margin-right: 10px;
+                        }
+                    }
+                    &__profiles {
                         padding-bottom: 5%;
                         position: relative;
-                        height: 85%;
-                        width: 100%;
+                        height: 100%;
+                        width: 80%;
                         margin: 0 auto;
                         display: flex;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        align-content:flex-start;
-                        gap: 5%;
                         flex-wrap: wrap;
-                        margin: 0;
-                        
-                    }
-                    &__box {
-                        height: 20%;
-                        width:30%;
-                        position: relative;
-                        margin-top: 5%;
-                        p{
-                            font-size: 0.5rem;
-                            letter-spacing: -2px;
-                            line-height: 20px;
-                        }
-                        @include desktop {
-                            max-width: 60px;
-                        }
-                        p{
+                        align-content: flex-end;
+                        justify-content: space-between;
+                        &__title {
+                            padding-bottom: 5%;
+                            position: relative;
+                            height: 5%;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                             margin: 0;
+                        }
+                        &__content {
+                            position: relative;
+                            height: 90%;
+                            width: 100%;
+                            margin: 0 auto;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            align-content:flex-start;
+                            gap: 5%;
+                            flex-wrap: wrap;
+                            margin: 0;
+                            
+                        }
+                        &__box {
+                            height: 20%;
+                            width:30%;
+                            position: relative;
+                            margin-top: 5%;
+                            p{
+                                font-size: 0.35rem;
+                                letter-spacing: -2px;
+                                line-height: 15px;
+                            }
+                            @include desktop {
+                                max-width: 60px;
+                            }
+                            p{
+                                margin: 0;
+                            }
                         }
                     }
                 }
-            }
-            &__page0 {
-                padding-top: 5%;
-                position: relative;
-                height: 100%;
-                width: 100%;
-                background-image: url('../Hero/background/page-2.png');
-                background-size: 100% 100%;
-                &__friends {
+                &__page0 {
+                    padding-top: 5%;
                     position: relative;
                     height: 100%;
-                    width: 80%;
-                    margin: 0 auto;
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-content: flex-end;
-                    justify-content: space-between;
-                    &__title {
-                        padding-bottom: 15%;
+                    width: 100%;
+                    background-image: url('../Hero/background/page-2.png');
+                    background-size: 100% 100%;
+                    &__friends {
+                        padding-bottom: 5%;
                         position: relative;
-                        height: 5%;
-                        width: 100%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin: 0;
-                    }
-                    &__content {
-                        position: relative;
-                        height: 85%;
-                        width: 100%;
+                        height: 100%;
+                        width: 80%;
                         margin: 0 auto;
                         display: flex;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        align-content:flex-start;
-                        gap: 5%;
                         flex-wrap: wrap;
-                        margin: 0;
-                    }
-                    &__box {
-                        height: 20%;
-                        width:30%;
-                        position: relative;
-                        margin-top: 15%;
-                        p{
-                            font-size: 0.5rem;
-                            letter-spacing: -2px;
-                            line-height: 20px;
-                        }
-                        @include desktop {
-                            max-width: 60px;
-                        }
-                        p{
+                        align-content: flex-end;
+                        justify-content: space-between;
+                        &__title0 {
+                            padding-bottom: 5%;
+                            position: relative;
+                            height: 5%;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                             margin: 0;
+                        }
+                        &__content0 {
+                            position: relative;
+                            height: 90%;
+                            width: 100%;
+                            margin: 0 auto;
+                            display: flex;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            align-content:flex-start;
+                            gap: 5%;
+                            flex-wrap: wrap;
+                            margin: 0;
+                            
+                        }
+                        &__box0 {
+                            height: 20%;
+                            width:30%;
+                            position: relative;
+                            margin-top: 5%;
+                            p{
+                                font-size: 0.35rem;
+                                letter-spacing: -2px;
+                                line-height: 15px;
+                            }
+                            @include desktop {
+                                max-width: 60px;
+                            }
+                            p{
+                                margin: 0;
+                            }
                         }
                     }
                 }
             }
         }
-    }
         .swiper {
             margin-top: 19%;
             width: 250px;

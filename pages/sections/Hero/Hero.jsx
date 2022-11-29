@@ -9,7 +9,7 @@ import Bronce from './background/bronce.png'
 import N from './background/n.png'
 import O from './background/o.png'
 import F from './background/f.png'
-import Season from './background/f.png'
+import Season from './background/temporada.png'
 import Albumfirst from './background/album3.png'
 import Albumsecond from './background/album6.png'
 import Albumthird from './background/album12.png'
@@ -248,7 +248,7 @@ const Hero = React.forwardRef((props, book) => {
                 NoF town.<br />
               </p>
               <Link
-                href='https://discord.gg/4Bvp5bVmCz'
+                href='https://opensea.io/collection/nof-gamma'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -262,7 +262,7 @@ const Hero = React.forwardRef((props, book) => {
                 tu colección obtienes recompensas.<br />
               </p>
               <Link
-                href='https://discord.gg/4Bvp5bVmCz'
+                href='https://opensea.io/collection/nofomega'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -287,7 +287,7 @@ const Hero = React.forwardRef((props, book) => {
               <div className='season_container'>
                 <div className='seasonimg'>
                   <Image
-                    src={Gold}
+                    src={Season}
                     alt='text box'
                     layout='fill'
                   />
@@ -324,18 +324,20 @@ const Hero = React.forwardRef((props, book) => {
             </div>
             <div className='hero__top__album__book__page0'>
               <div className='hero__top__album__book__page0__friends'>
-                <h3 className='hero__top__album__book__page0__friends__title'>AMIGOS</h3>
-                <div className='hero__top__album__book__page0__friends__content'>
+                <h3 className='hero__top__album__book__page0__friends__title0'>AMIGOS</h3>
+                <div className='hero__top__album__book__page0__friends__content0'>
                   {
                     Friends && Friends.map(friend => {
                       return (
-                        <div className='hero__top __album__book__page0__friends__box' key={friend.id}>
+                        <div className='hero__top __album__book__page0__friends__box0' key={friend.id}>
                           <Image
                             width={60}
                             height={60}
                             src={friend.icon}
                           />
-                          <p>{friend.caption}</p>
+                          <div>
+                            <p>{friend.caption}</p>
+                          </div>
                         </div>
                       )
                     })
