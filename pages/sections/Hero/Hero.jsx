@@ -335,8 +335,8 @@ const Hero = React.forwardRef((props, book) => {
                             src={friend.icon}
                           />
                           <br />
-                            <p>{friend.caption}</p>
-                          
+                          <p>{friend.caption}</p>
+
                         </div>
                       )
                     })
@@ -346,7 +346,8 @@ const Hero = React.forwardRef((props, book) => {
             </div>
           </HTMLFlipBook>
         </div>
-        <div className='hero__top__conteiner__swiper'>
+        <div
+          className='hero__top__conteiner__swiper'>
           <div className='hero__top__swiper'>
             <Swiper
               effect='cards'

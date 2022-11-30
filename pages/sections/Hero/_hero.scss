@@ -62,13 +62,15 @@ $groundWidth: 218px; $groundHeight: 22px;
 		align-items: center;
 
         &__nof {
-            display: flex;
-            padding-top: 15%;
+            position: absolute;
+            bottom: 35%;
+            left: 6%;
             @include mobile {
                 display: none;
             }
             @include tablet {
-                padding-top: 85%;
+                bottom: 18%;
+                left: 26%;
             }
         }
 
@@ -380,6 +382,21 @@ $groundWidth: 218px; $groundHeight: 22px;
                     background-image: url('../Hero/background/page-2.png');
                     background-size: 100% 100%;
                 }
+            }
+        }
+        .hero__top__conteiner__swiper{
+            position:absolute;
+            bottom:40%;
+            right: 8%;
+            @include tablet {
+                position:absolute;
+                bottom:18%;
+                right: 20%;
+            }
+            @media all and (orientation: portrait) { 
+                position:absolute;
+                bottom:18%;
+                right: 20%;
             }
         }
         .swiper {

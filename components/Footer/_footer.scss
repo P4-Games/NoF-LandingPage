@@ -193,6 +193,7 @@
             background-repeat: no-repeat;     
             background-position: center;
             margin-bottom: 200px;
+            margin-right: 20px;
             &:hover {
                 background-image: url(./footer/handle-green-hover.png);
                 position: relative;
@@ -213,15 +214,16 @@
                 margin-bottom: 100px;
                 margin-right: 50px;
             }
-            @include tablet {
-                margin-right: 100px;
-            }
             @include large-desktop {
                 width: 110px;
                 height: 100px;
                 margin-bottom: 100px;
                 margin-right: 50px;
             }
+            @include tablet {
+               margin: 0;
+            }
+    
         }
         &__red {
             width: 218px;
@@ -234,6 +236,7 @@
             background-repeat: no-repeat;     
             background-position: center;
             margin-bottom: 200px;
+            margin-left: 20px;
             &:hover {
                 background-image: url(./footer/handle-red-hover.png);
                 position: relative;
@@ -258,6 +261,9 @@
                 width: 110px;
                 height: 100px;
                 margin-bottom: 100px;
+            }
+            @include tablet {
+                // margin-left: 100px;
             }
         }
     }
