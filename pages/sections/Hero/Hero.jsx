@@ -47,11 +47,9 @@ const Hero = React.forwardRef((props, book) => {
             maxHeight={800}
             ref={book}
             autoSize
-            cursor='grabCursor'
+            usePortrait={true}
             drawShadow={false}
-            changeOrientation='portrait'
             className='hero__top__album__book'
-            mobileScrollSupport
           >
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>BIENVENIDOS!</h3>
@@ -348,8 +346,8 @@ const Hero = React.forwardRef((props, book) => {
             </div>
           </HTMLFlipBook>
         </div>
-        <div className='hero__top__swiper'>
-          <>
+        <div className='hero__top__conteiner__swiper'>
+          <div className='hero__top__swiper'>
             <Swiper
               effect='cards'
               grabCursor
@@ -376,7 +374,7 @@ const Hero = React.forwardRef((props, book) => {
               <SwiperSlide />
             </Swiper>
             <div className='pagination' />
-          </>
+          </div>
         </div>
       </div>
     </div>

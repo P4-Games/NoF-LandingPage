@@ -67,6 +67,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             @include mobile {
                 display: none;
             }
+            @include tablet {
+                padding-top: 85%;
+            }
         }
 
         &__album {
@@ -81,13 +84,12 @@ $groundWidth: 218px; $groundHeight: 22px;
             line-height: 25px;
             text-align: center;
             @include mobile {
-                width: 200px;
-                height: 400px;
+                width: 60%;
+                height: 80%;
                 background-image: url('../Hero/background/libreta.png');
             }
             @include tablet {
-                width: 600px;
-                height: 500px;
+                top: 36%;
             }
             @include large-desktop {
                 width: 640px;
@@ -119,7 +121,6 @@ $groundWidth: 218px; $groundHeight: 22px;
                     @include mobile {
                         background-image: url('../Hero/background/page-1.png');
                         width: 200px;
-                        height: 400px;
                     }
                     &__nof {
                         padding-left: 60px;
@@ -388,6 +389,11 @@ $groundWidth: 218px; $groundHeight: 22px;
             @include mobile {
                 display: none;
             }
+            @include tablet {
+                width: 200px;
+                height: 200px;
+                margin-top: 300%;
+            }
             @include large-desktop {
                 width: 150px;
                 height: 150px;
@@ -402,6 +408,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             background-size: 100% 100%;
             @include mobile {
                 display: none;
+            }
+            @include tablet {
+                margin-top: 28%;
             }
         }
         
@@ -450,6 +459,9 @@ $groundWidth: 218px; $groundHeight: 22px;
             justify-content: center;
             padding-top: 5%;
             @include mobile {
+                display: none;
+            }
+            @include tablet {
                 display: none;
             }
         

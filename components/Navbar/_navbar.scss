@@ -26,7 +26,7 @@ header {
 		text-align: left;
 	}
 	@include tablet {
-		height: 8vh;
+		height: 5vh;
 		padidng: 0px 1% 0px;
 	}
 
@@ -84,6 +84,9 @@ header {
 		@include mobile {
 			display: none;
 		}
+		@include tablet {
+			margin-right: -100px;
+		}
 		@include large-desktop {
 			margin-top: 3em;
 			margin-left: -50px;
@@ -93,6 +96,9 @@ header {
 			justify-content: space-around;
 			@include large-desktop {
 				margin-left: 170px;
+			}
+			@include tablet {
+				margin-left: -110px;
 			}
 			&__nosotros {
 				font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
