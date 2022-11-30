@@ -9,7 +9,7 @@ import AlphaCards from '../components/AlphaCards'
 const Alpha = () => {
 
   return (
-    <div className='alpha'>
+    <div className='alpha_main'>
       <EthersProvider>
         <Head>
           <title>Number One Fan</title>

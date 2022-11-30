@@ -47,14 +47,23 @@ a {
 
 // alpha starts
 
+.alpha {
+	padding: 0;
+	height: 100vh;
+}
+
 .alpha_button {
 	cursor: pointer;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
-	height: 30px;
-	width: 120px;
+	height: 35px;
+	padding: 10px;
 	text-align: center;
 	font-size: 0.5em;
+}
+
+.alpha_display_none {
+	display: none;
 }
 
 .alpha_container {
