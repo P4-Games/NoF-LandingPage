@@ -86,6 +86,7 @@ $groundWidth: 218px; $groundHeight: 22px;
             line-height: 25px;
             text-align: center;
             @include mobile {
+                display: none;
                 width: 60%;
                 height: 80%;
                 background-image: url('../Hero/background/libreta.png');

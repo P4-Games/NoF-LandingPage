@@ -80,22 +80,24 @@ header {
 		align-items: center;
 		text-decoration: none;
 		margin-top: 4em;
-		margin-right: 200px;
+		margin-left: -400px;
 		@include mobile {
 			display: none;
 		}
 		@include tablet {
 			margin-right: -100px;
 		}
+		@include desktop {
+			margin-left: -300px;
+		}
 		@include large-desktop {
 			margin-top: 3em;
-			margin-left: -50px;
 		}
 
 		&__li {
 			justify-content: space-around;
 			@include large-desktop {
-				margin-left: 170px;
+				margin-left: 230px;
 			}
 			@include tablet {
 				margin-left: -110px;
