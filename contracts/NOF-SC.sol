@@ -42,6 +42,8 @@ contract NOF_Alpha is ERC721, ERC721URIStorage, Ownable, ContextMixin {
     mapping (string => address[]) private winners;
     mapping (address => mapping(string => Card[])) public cardsByUserBySeason;
     uint8[7] private prizes = [20, 14, 12, 10, 8, 6, 5];
+    string[] public seasonNames;
+    uint256[] public seasonPrices;
 
     address public DAI_TOKEN; 
 
@@ -157,6 +159,9 @@ contract NOF_Alpha is ERC721, ERC721URIStorage, Ownable, ContextMixin {
         require(price >= 100000000000000, "pack value must be at least 0.0001 DAI");
         seasons[name].price = price;
         seasons[name].folder = folder;
+        seasonNames.push(name);
+        seasonPrices.push(price);
+
         
         for(uint i = 1; i <= amount; i++) {
             if(i % 6 == 0) {
@@ -165,6 +170,10 @@ contract NOF_Alpha is ERC721, ERC721URIStorage, Ownable, ContextMixin {
                 seasons[name].cards.push(i);
             }
         }
+    }
+
+    function getSeasonData() public view returns(string[] memory, uint256[] memory) {
+        return (seasonNames, seasonPrices);
     }
 
     //Devuelve un array con las cartas disponibles

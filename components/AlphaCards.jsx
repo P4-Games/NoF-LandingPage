@@ -1,91 +1,149 @@
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
-import { useEthers } from "../context/EthersContext";
-import loadingIcon from "../public/BeanEater.svg"
-// PENDIENTES
-// Elegir entre mostrar cartas y comprar pack
-// Mostrar NFT cuando se completa el album
-// Mostrar errores
+import Web3Modal from "web3modal";
+import nofAbi from "../artifacts/contracts/NOF-SC.sol/NOF_Alpha";
+import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json";
 
-// const baseURI = "https://gateway.pinata.cloud/ipfs/QmZuSMk8d8Xru6J1PKMz5Gt6Qq8qVQ1Ak8p661zdGmGbGx/";
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
-const myAccount = "0x11b6fbD7cB2349281c3632faF2F2b6a03E4358a2";
+const contractAddress = "0x8fb2be9bD46ff1764728b3A6604b81cbBF2e3E2e"; // test contract mumbai network
+const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // test dai contract with unlimited minting
 
 const AlphaCards = () => {
-  const { account, contract, connectContract } = useEthers();
+  const [chainId, setChainId] = useState(null);
+  const validChainId = "0x13881";
+  const [errorMessage, setErrorMessage] = useState("")
+  const [loading, setLoading] = useState(null)
+  const [account, setAccount] = useState(null);
+  const [nofContract, setNofContract] = useState(null)
+  const [daiContract, setDaiContract] = useState(null)
+  const [pack, setPack] = useState(null)
+  const [packPrice, setPackPrice] = useState("")
+  const [seasonName, setSeasonName] = useState("")
+  const [receiverAccount, setReceiverAccount] = useState(null)
+  const [cardToTransfer, setCardToTransfer] = useState(null)
 
-  const [connected, setConnected] = useState(false);
-  const [addressError, setAddressError] = useState(false);
-  const [receiverAccount, setReceiverAccount] = useState("");
-  const [cardToTransfer, setCardToTransfer] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [pack, setPack] = useState([]);
-  const [error, setError] = useState("");
-  const [packAmount, setPackAmount] = useState(0);
-  const [seasonName, setSeasonName] = useState("temporada_1");
-
-  const connect = () => {
-    connectContract();
-    setConnected(true);
-    const elements = document.getElementsByClassName("when_connected_to_mm");
-    for (let i = 0; i < elements.length; i++) {
-      elements[i].classList.toggle("alpha_display_none");
+  async function requestAccount() {
+    const web3Modal = new Web3Modal();
+    let provider;
+    let address;
+    try {
+      const connection = await web3Modal.connect();
+      provider = new ethers.providers.Web3Provider(connection);
+      address = await provider.getSigner().getAddress();
+      setAccount(address);
+    } catch (e) {
+      console.log("requestAccount error:", e);
     }
-  };
 
-  useEffect(() => {
-    const loadingElem = document.getElementById('loading')
-    loading ? loadingElem.setAttribute('class', 'alpha_loading_elem') :
-    loadingElem.setAttribute('class', 'alpha_loading_elem alpha_display_none')
-  }, [loading])
+    if (!provider) return;
+    const chain = (await provider.getNetwork()).chainId;
+    setChainId(decToHex(chain));
 
-  const comprarPack = (_amount, _name) => {
-    const buyPack = async (_amount, _name) => {
-      console.log({ _amount }, { _name })
-      const pack = await contract.buyPack(_amount, _name);
-      setLoading(true);
-      await pack.wait();
-      setLoading(false);
-      return pack;
-    };
-    buyPack(_amount, _name)
-      .then(data => {
-        setPack(data)
-        showCards(account, seasonName)
-      })
-      .catch(error => setError(error.reason))
-  };
+    const chainName = "Mumbai";
+    const rpcUrl = "https://rpc-mumbai.maticvigil.com";
+    const currency = "MATIC";
+    const explorer = "https://mumbai.polygonscan.com/";
+    switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
+    return [provider, address];
+  }
 
-  const getUserCards = async (userAddress, seasonName) => {
-    const cards = await contract.getCardsByUserBySeason(
-      userAddress,
-      seasonName
-    );
-    return cards;
-  };
+  async function requestSeasonData(contract) {
+    const seasonData = await contract.getSeasonData();
+    const currentSeason = seasonData[0][seasonData[0].length - 1];
+    const currentPrice = seasonData[1][seasonData[1].length - 1];
+    setSeasonName(currentSeason); // sets the season name as the last season name created
+    setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
+    return [currentSeason, currentPrice];
+  }
 
-  const showCards = (userAddress, seasonName) => {
-    getUserCards(userAddress, seasonName)
-      .then((data) => {
-        if(data.length){
-          setPack(data)
-          setError("")
+  const getUserCards = async (address, seasonName) => {
+    const cards = await nofContract.getCardsByUserBySeason(address, seasonName);
+    return cards
+  }
+
+  const showCards = (address, seasonName) => {
+    getUserCards(address, seasonName)
+      .then(cards => {
+        if(cards.length){
+          setPack(cards)
+          setErrorMessage("")
+          document.getElementById("alpha_show_cards_button").style.display = "none"
+          document.getElementById("alpha_buy_pack_button").style.display = "none"
         } else {
-          setError("You need to buy a pack before!");
+          setErrorMessage("Necesitas comprar un Pack, primero.")
           setPack([])
         }
       })
-      .catch((error) => console.log({ error }));
-  };
+  }
 
-  const pasteCard = async (card, album) => {
-    const paste = await contract.pasteCards(card, album);
-    setLoading(true);
-    await paste.wait();
-    showCards(account, seasonName)
-    setLoading(false);
-    return paste;
-  };
+  const authorizeDaiContract = async () => {
+    const authorization = await daiContract.approve(contractAddress, packPrice)
+    setLoading(true)
+    await authorization.wait()
+    setLoading(false)
+    console.log(authorization)
+    return authorization
+  }
+
+  const checkApproved = async (approvedAddress, tokenOwner) => {
+    const approved = await daiContract.allowance(tokenOwner, approvedAddress);
+    return approved.gt(0);
+  }
+
+  const buyPack = (price, name) => {
+    if(pack && pack.length > 0) return
+    checkApproved(contractAddress, account)
+    .then(res => {
+      if(res){
+        const comprarPack = async (price, name) => {
+          const pack = await nofContract.buyPack(price, name)
+          setLoading(true)
+          await pack.wait()
+          setLoading(false)
+          return pack
+        }
+        comprarPack(price, name)
+      .then(pack => {
+        setPack(pack)
+        showCards(account, seasonName)
+      })
+      .catch(e => {
+        console.log({ e })
+        setErrorMessage(e.reason)
+      })
+      } else {
+        authorizeDaiContract()
+          .then(() => {
+
+          })
+          .catch(e => {
+            console.log({ e })
+            setErrorMessage(e.reason)
+          })
+      }
+    })
+    .catch(e => {
+      console.log({ e })
+      setErrorMessage(e.reason)
+    })
+  }
+
+  const pasteCard = (card, album) => {
+    console.log("hola")
+    const pegarCarta = async (card, album) => {
+      const paste = await nofContract.pasteCards(card, album)
+      setLoading(true)
+      await paste.wait()
+      setLoading(false)
+    }
+    pegarCarta(card, album)
+      .then(() => {
+        showCards(account, seasonName)
+      })
+      .catch(e => {
+        setErrorMessage(e.message)
+      })
+  }
 
   const checkInputAddress = (address) => {
     const hexa = "0123456789abcdefABCDEF";
@@ -94,102 +152,141 @@ const AlphaCards = () => {
       receiverAccount[0] !== "0" ||
       receiverAccount[1] !== "x"
     ) {
-      setAddressError(true);
+      setErrorMessage("La dirección de destino es inválida.");
       return false;
     }
     for (let i = 2; i < receiverAccount.length; i++) {
       if (!hexa.includes(receiverAccount[i])) {
-        setAddressError(true);
+        setErrorMessage("La dirección de destino es inválida.");
         return false;
       }
     }
+    return true
   };
 
   async function transferToken() {
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        if (!checkInputAddress(receiverAccount)) {
-          console.log({ contract });
-          console.log({ account }, { receiverAccount }, { cardToTransfer });
+    try {
+      if (!checkInputAddress(receiverAccount)) {
+        const transaction = await nofContract[
+          "safeTransferFrom(address,address,uint256)"
+        ](account, receiverAccount, cardToTransfer);
+        setAddressError(false);
+        setLoading(true);
+        await transaction.wait();
+        showCards(account, seasonName);
+        setLoading(false);
+      }
+    } catch (e) {
+      setErrorMessage(e.message)
+    }
+  }
 
-          const transaction = await contract[
-            "safeTransferFrom(address,address,uint256)"
-          ](account, receiverAccount, cardToTransfer);
-          setAddressError(false);
-          setLoading(true);
-          await transaction.wait();
-          showCards(account, seasonName);
-          setLoading(false);
+  function decToHex(number) {
+    return `0x${parseInt(number).toString(16)}`;
+  }
+
+  async function switchOrCreateNetwork(
+    chainIdHex,
+    chainName,
+    rpcUrl,
+    currency,
+    explorer
+  ) {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainIdHex }],
+      });
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: chainIdHex,
+                chainName: chainName,
+                rpcUrls: [rpcUrl],
+                nativeCurrency: {
+                  name: currency,
+                  symbol: currency,
+                  decimals: 18,
+                },
+                blockExplorerUrls: [explorer],
+              },
+            ],
+          });
+        } catch (e) {
+          console.log(e.message);
         }
-      } catch (err) {
-        console.log({ err });
       }
     }
   }
 
+  useEffect(() => {
+    requestAccount().then((data) => {
+      const [provider, address] = data;
+      const signer = provider.getSigner();
+      let nofContractInstance = new ethers.Contract(
+        contractAddress,
+        nofAbi.abi,
+        signer
+      );
+      setNofContract(nofContractInstance)
+      let daiContractInstance = new ethers.Contract(
+        daiAddress,
+        daiAbi.abi,
+        signer
+      );
+      setDaiContract(daiContractInstance)
+      requestSeasonData(nofContractInstance)
+      .then(data => {
+        const [currentSeason, currentPrice] = data;
+      })
+      .catch(e => {
+        setErrorMessage(e.message)
+        console.log({e})
+      });
+    })
+    .catch(e => {
+      setErrorMessage(e.message)
+      console.log({e})
+    });
+  }, []);
+
+  useEffect(() => {
+    const loadingElem = document.getElementById("loading");
+    loading
+      ? loadingElem.setAttribute("class", "loader alpha_loading_elem")
+      : loadingElem.setAttribute(
+          "class",
+          "loader alpha_loading_elem alpha_display_none"
+        );
+  }, [loading]);
+
   return (
-    <div
-      className="alpha"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <img src={loadingIcon.src} className="alpha_loading_elem alpha_display_none" id="loading"/>
-      {!account ? (
-        <div>Loading...</div>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <div className="alpha_account">
-            Bienvenido,{" "}
+    <div className="alpha">
+      <span
+        className="loader alpha_loading_elem alpha_display_none"
+        id="loading"
+      ></span>
+      {account && (
+        <div className="alpha_inner_container">
+          <div>
+            <div className="alpha_account">Hola,{" "}
             {account &&
               account.substring(0, 6) +
                 "..." +
                 account.substring(37, account.length - 1)}
-            !
+            !</div>
+            <div>Temporada: {seasonName}</div>
           </div>
-          <button
-            className="alpha_button when_connected_to_mm"
-            onClick={() => connect()}
-          >
-            CONECTAR CON NOF
-          </button>
-
-          <button
-            className="alpha_button when_connected_to_mm alpha_display_none"
-            onClick={() => showCards(account, seasonName)}
-          >
-            CARTAS
-          </button>
-          <input
-            className="alpha_input when_connected_to_mm alpha_display_none"
-            placeholder="Precio en DAI"
-            onChange={(e) => {
-              let value = e.target.value.toString() + "000000000000000000";
-              setPackAmount(value);
-            }}
-            disabled={pack.length}
-          />
-          <button
-            className="alpha_button when_connected_to_mm alpha_display_none"
-            onClick={() =>
-              comprarPack(ethers.BigNumber.from(packAmount), seasonName)
-            }
-            disabled={pack.length}
-          >
-            COMPRAR PACK
-          </button>
-          {error && <div className="alpha_error">{error}</div>}
-          {pack.length > 0 ? (
+          <div>
+            <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Muestra mis cartas</button>
+            <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar un Pack</button>
+          </div>
+          <div style={{"color":"red"}}>{errorMessage}</div>
+          {pack && pack.length > 0 ? (
             <div className="alpha_container">
               {pack.map((card, i) => {
                 const collection = ethers.BigNumber.from(
@@ -217,7 +314,9 @@ const AlphaCards = () => {
                   const collection = ethers.BigNumber.from(
                     card.collection
                   ).toNumber();
-                  const isCollection = collection == ethers.BigNumber.from(pack[0].collection).toNumber();
+                  const isCollection =
+                    collection ==
+                    ethers.BigNumber.from(pack[0].collection).toNumber();
                   const tokenId = ethers.BigNumber.from(
                     card.tokenId
                   ).toNumber();
@@ -232,8 +331,6 @@ const AlphaCards = () => {
                             className="alpha_button"
                             onClick={() =>
                               pasteCard(tokenId, album)
-                                .then(() => console.log("card pasted!"))
-                                .catch((error) => console.log({ error }))
                             }
                             disabled={!isCollection}
                           >
@@ -243,8 +340,13 @@ const AlphaCards = () => {
                             className="alpha_button"
                             onClick={() => {
                               setCardToTransfer(tokenId);
-                              const modal = document.getElementsByClassName("alpha_transfer_modal")[0]
-                              modal.setAttribute('class', 'alpha_transfer_modal')
+                              const modal = document.getElementsByClassName(
+                                "alpha_transfer_modal"
+                              )[0];
+                              modal.setAttribute(
+                                "class",
+                                "alpha_transfer_modal"
+                              );
                             }}
                           >
                             TRANSFERIR
@@ -261,15 +363,10 @@ const AlphaCards = () => {
                 })}
               </div>
             </div>
-          ) : (
-            null
-          )}
+          ) : null}
         </div>
       )}
       <div className="alpha_transfer_modal alpha_display_none">
-        <div>
-          {cardToTransfer ? `card to transfer: ${cardToTransfer}` : null}
-        </div>
         <input
           placeholder="Address"
           onChange={(e) => setReceiverAccount(e.target.value)}

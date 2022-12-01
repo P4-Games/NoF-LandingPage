@@ -2,7 +2,8 @@ import { useContext, useState, useEffect, createContext } from 'react'
 import { ethers } from 'ethers'
 import router from 'next/router'
 import Web3Modal from 'web3modal'
-import { abi } from '../artifacts/contracts/NOF-SC.sol/NOF_Alpha'
+import nofAbi from '../artifacts/contracts/NOF-SC.sol/NOF_Alpha'
+import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json"
 
 const EthersContext = createContext()
 
@@ -12,6 +13,7 @@ export function useEthers () {
 
 export default function EthersProvider ({ children }) {
   const [contract, setContract] = useState(null)
+  const [daiContract, setDaiContract] = useState(null)
   const [prov, setProv] = useState(null)
   const [account, setAccount] = useState(null)
   const [chainId, setChainId] = useState(null)
@@ -41,16 +43,19 @@ export default function EthersProvider ({ children }) {
     const currency = 'MATIC'
     const explorer = 'https://mumbai.polygonscan.com/'
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer)
+    return provider
   }
 
-  function connectContract () {
+  function connectContracts (provider) {
     try {
-      // const daiContract = '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'
-      const contractAddress = "0x7A887dBA79EeB98C024E20FaadEc44cA89553B5f" // test contract MUMBAI
-      const signer = prov.getSigner()
-      let nofContract = new ethers.Contract(contractAddress, abi, signer)
+      const contractAddress = "0x4868445F626c775869C5b241635466d3a46c31A7" // test contract MUMBAI
+      const daiAddress = '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615' // test dai
+      const signer = provider.getSigner()
+      let nofContract = new ethers.Contract(contractAddress, nofAbi.abi, signer)
+      let daiContractInstance = new ethers.Contract(daiAddress, daiAbi.abi, signer)
       setContract(nofContract)
-      return nofContract
+      setDaiContract(daiContractInstance)
+      return [nofContract, daiContractInstance]
     } catch (e) {
       console.log({ e })
     }
@@ -106,9 +111,9 @@ export default function EthersProvider ({ children }) {
       return
     }
 
-    if (router.pathname != '/') {
-      requestAccount()
-    }
+    // if (router.pathname != '/') {
+    //   requestAccount()
+    // }
 
     window.ethereum.on('accountsChanged', (accounts) => {
       const address = accounts[0]
@@ -131,9 +136,10 @@ export default function EthersProvider ({ children }) {
         isValidChain,
         notificationStatus,
         setNotificationStatus,
-        connectContract,
         contract,
-        connectContract
+        connectContracts,
+        // daiContract,
+        // connectDai
       }}
     >
       {children}
