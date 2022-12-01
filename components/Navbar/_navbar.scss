@@ -30,46 +30,54 @@ header {
 		padidng: 0px 1% 0px;
 	}
 
-	&__icon {
-		margin-top: 4em;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		gap: 6%;
-		@include large-desktop {
-			margin-top: 2em;
-		}
+	&__conteiner{
+		position: relative;
+		justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 30%;
 
-		&__nof {
-			cursor: pointer;
+		&__icon {
+			margin-top: 4em;
 			display: flex;
+			justify-content: space-around;
 			align-items: center;
-			justify-content: center;
-			transition: 0.2s;
-			&:hover {
-			transform: scale(1.1);
-			transition: 0.2s;
+			gap: 6%;
+			@include large-desktop {
+				margin-top: 2em;
 			}
-			@include mobile {
-                width: 130px;
-                height: 60px;
-            }
-		}
 
-		&__coin {
-			margin-left: 30px;
-			margin-top: 20px;
-			cursor: pointer;
-			transition: 0.2s;
-			&:hover {
-			transform: scale(1.1);
-			transition: 0.2s;
+			&__nof {
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: 0.2s;
+				&:hover {
+				transform: scale(1.1);
+				transition: 0.2s;
+				}
+				@include mobile {
+					width: 130px;
+					height: 60px;
+				}
 			}
-			@include mobile {
-                width: 60px;
-                height: 60px;
-				margin-bottom: 15px;
-            }
+
+			&__coin {
+				margin-left: 30px;
+				margin-top: 20px;
+				cursor: pointer;
+				transition: 0.2s;
+				&:hover {
+				transform: scale(1.1);
+				transition: 0.2s;
+				}
+				@include mobile {
+					width: 60px;
+					height: 60px;
+					margin-bottom: 15px;
+				}
+			}
 		}
 	}
 
