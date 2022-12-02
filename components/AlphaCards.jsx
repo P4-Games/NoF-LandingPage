@@ -62,18 +62,20 @@ const AlphaCards = () => {
   }
 
   const showCards = (address, seasonName) => {
-    getUserCards(address, seasonName)
+    const cards = getUserCards(address, seasonName)
       .then(cards => {
         if(cards.length){
           setPack(cards)
           setErrorMessage("")
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
+          return cards
         } else {
           setErrorMessage("Necesitas comprar un Pack, primero.")
           setPack([])
         }
       })
+      return cards
   }
 
   const authorizeDaiContract = async () => {
@@ -91,36 +93,53 @@ const AlphaCards = () => {
   }
 
   const buyPack = (price, name) => {
-    if(pack && pack.length > 0) return
+    showCards(account, seasonName)
+    .then((cards) => {
+      console.log({cards})
+      if(cards && cards.length > 0) return
     checkApproved(contractAddress, account)
     .then(res => {
+      const comprarPack = async (price, name) => {
+        const pack = await nofContract.buyPack(price, name)
+        setLoading(true)
+        await pack.wait()
+        setLoading(false)
+        return pack
+      }
+      console.log({ res })
       if(res){
-        const comprarPack = async (price, name) => {
-          const pack = await nofContract.buyPack(price, name)
-          setLoading(true)
-          await pack.wait()
-          setLoading(false)
-          return pack
-        }
         comprarPack(price, name)
-      .then(pack => {
-        setPack(pack)
-        showCards(account, seasonName)
-      })
-      .catch(e => {
-        console.log({ e })
-        setErrorMessage(e.reason)
-      })
-      } else {
-        authorizeDaiContract()
-          .then(() => {
-
+          .then(pack => {
+            setPack(pack)
+            showCards(account, seasonName)
           })
           .catch(e => {
             console.log({ e })
             setErrorMessage(e.reason)
           })
-      }
+      } else {
+        authorizeDaiContract()
+          .then(() => {
+            comprarPack(price, name)
+          .then(pack => {
+            setPack(pack)
+            showCards(account, seasonName)
+          })
+          .catch(e => {
+            console.log({ e })
+            setErrorMessage(e.reason)
+          })
+        })
+          .catch(e => {
+            console.log({ e })
+            setErrorMessage(e.reason)
+          })
+        }
+      })
+    .catch(e => {
+      console.log({ e })
+      setErrorMessage(e.reason)
+    })
     })
     .catch(e => {
       console.log({ e })
@@ -147,6 +166,7 @@ const AlphaCards = () => {
 
   const checkInputAddress = (address) => {
     const hexa = "0123456789abcdefABCDEF";
+    console.log(address)
     if (
       receiverAccount.length !== 42 ||
       receiverAccount[0] !== "0" ||
@@ -166,11 +186,11 @@ const AlphaCards = () => {
 
   async function transferToken() {
     try {
-      if (!checkInputAddress(receiverAccount)) {
+      if (checkInputAddress(receiverAccount)) {
         const transaction = await nofContract[
           "safeTransferFrom(address,address,uint256)"
         ](account, receiverAccount, cardToTransfer);
-        setAddressError(false);
+        setErrorMessage("");
         setLoading(true);
         await transaction.wait();
         showCards(account, seasonName);
