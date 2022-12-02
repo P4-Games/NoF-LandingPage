@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
 import Noficon from './background/logo-nof.gif'
@@ -23,6 +23,34 @@ import 'swiper/css/bundle'
 import Link from 'next/link'
 
 const Hero = React.forwardRef((props, book) => {
+  const [mobile, setMobile] = useState(false);
+  const [width, setWidth] = useState()
+  const [height, setHeight] = useState()
+  const [size, setSize] = useState('stretch')
+  console.log(mobile)
+  // const width = mobile ? 360 : 360
+  // const height = mobile ? 500 : 500
+  // const size = mobile ? 'fixed' : 'stretch'
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobile(true);
+      setSize('fixed')
+    } else {
+      setMobile(false);
+    }
+    const updateMedia = () => {
+      if (window.innerWidth < 600) {
+        setMobile(true);
+        setSize('fixed')
+      } else {
+        setMobile(false);
+
+      }
+    };
+    window.addEventListener('resize', updateMedia);
+    return () => window.removeEventListener('resize', updateMedia);
+  }, []);
+
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>
@@ -38,15 +66,15 @@ const Hero = React.forwardRef((props, book) => {
         <div className='hero__top__album'>
           <HTMLFlipBook
             id='Book'
-            size='stretch'
+            size={'stretch'}
             width={360}
             height={500}
-            minWidth={215}
+            minWidth={350}
             maxWidth={800}
-            minHeight={150}
+            minHeight={500}
             maxHeight={800}
+            autoSize={true}
             ref={book}
-            autoSize
             usePortrait={true}
             drawShadow={false}
             className='hero__top__album__book'
@@ -378,7 +406,7 @@ const Hero = React.forwardRef((props, book) => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 )

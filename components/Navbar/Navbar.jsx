@@ -21,44 +21,14 @@ function Navbar() {
     }
   };
   return (
-    <header>
+    <>
       <div className='navbar'>
-        <div className='navbar__container'>
-          <div className='navbar__icon'>
-            <Link
-              to='Hero'
-              // spy='true'
-              smooth='true'
-              offset={-100}
-              duration={500}
-            >
-              <div className='navbar__icon__coin'>
-                <Image
-                  src={Coin}
-                  alt='Icon-Coin'
-                  width={210}
-                  height={380}
-                  layout='responsive'
-                />
-              </div>
-            </Link>
-            <Link
-              to='Hero'
-              // spy='true'
-              smooth='true'
-              offset={-100}
-              duration={500}
-            >
-              <div className='navbar__icon__nof'>
-                <Image
-                  src={Nof}
-                  alt='NOF-Icon'
-                  width={246}
-                  height={102}
-                  layout='responsive'
-                />
-              </div>
-            </Link>
+        <div className='navbar__icon'>
+          <div id='coin'>
+            <Image src={Coin} id='coin' layout='fill' />
+          </div>
+          <div id='nof'>
+            <Image src={Nof} alt="" layout='fill' />
           </div>
         </div>
         <ul className='navbar__ul'>
@@ -100,8 +70,10 @@ function Navbar() {
           <Links />
         </div>
       </div>
+
+
       <audio src={audio} ref={ref} loop />
-    </header>
+    </>
   )
 }
 

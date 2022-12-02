@@ -7,26 +7,50 @@ header {
     z-index: 1000;
     display: flex;
 }
-
-.navbar {
-	height: 8vh;
-	padding: 0px 2% 0px;
-	top: 0;
-	width: 100%;
-	display: flex;
+.navbar__icon{
+    display: flex;
 	justify-content: space-between;
-	align-items: center;
-	text-decoration: none;
-	background: transparent;
-
+    align-items: center;
+	width:15%;
+	height: 100%;
+	position: relative;
+	#nof{
+		position: relative;
+		width: 55%;
+		height: 80%;
+	}
+	#coin{
+		position: relative;
+		width: 35%;
+		height: 80%;
+	}
+	@include mobile{
+		width: 50%;
+	}
+}
+.navbar__icon__nof{
+	height: 50%;
+}
+.navbar {
+	height: 12vh;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    background: transparent;
+    position: absolute;
+	justify-content: space-evenly;
+    gap: 6%;
 	@include mobile {
 		width: 100%;
-		height: 6vh;
+		height: 10vh;
 		display: flex;
 		text-align: left;
 	}
 	@include tablet {
-		height: 5vh;
+		height: 10vh;
 		padidng: 0px 1% 0px;
 	}
 
@@ -38,13 +62,12 @@ header {
         width: 30%;
 
 		&__icon {
-			margin-top: 4em;
+			
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
 			gap: 6%;
 			@include large-desktop {
-				margin-top: 2em;
 			}
 
 			&__nof {
@@ -64,7 +87,6 @@ header {
 			}
 
 			&__coin {
-				margin-left: 30px;
 				margin-top: 20px;
 				cursor: pointer;
 				transition: 0.2s;
@@ -87,28 +109,23 @@ header {
 		justify-content: space-around;
 		align-items: center;
 		text-decoration: none;
-		margin-top: 4em;
-		margin-left: -400px;
 		@include mobile {
 			display: none;
 		}
 		@include tablet {
-			margin-right: -100px;
+			
 		}
 		@include desktop {
-			margin-left: -300px;
+			
 		}
 		@include large-desktop {
-			margin-top: 3em;
 		}
 
 		&__li {
 			justify-content: space-around;
 			@include large-desktop {
-				margin-left: 230px;
 			}
 			@include tablet {
-				margin-left: -110px;
 			}
 			&__nosotros {
 				font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
@@ -313,10 +330,10 @@ header {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 4em;
 		gap: 2em;
 		@include large-desktop {
-			margin-top: 2em;
+			margin-top: 0em;
+			gap: 0;
 		}
 		&__audio {
 			// background-image: url(./icons/soundoff.png);
@@ -358,7 +375,7 @@ header {
 				transition: 0.2s;
 			}
 			@include mobile {
-				display: none;
+				
 			}
 			@include tablet {
 				width: 20px;
