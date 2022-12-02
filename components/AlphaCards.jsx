@@ -5,7 +5,7 @@ import nofAbi from "../artifacts/contracts/NOF-SC.sol/NOF_Alpha";
 import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json";
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
-const contractAddress = "0x8fb2be9bD46ff1764728b3A6604b81cbBF2e3E2e"; // test contract mumbai network
+const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
 const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // test dai contract with unlimited minting
 
 const AlphaCards = () => {
@@ -49,6 +49,7 @@ const AlphaCards = () => {
 
   async function requestSeasonData(contract) {
     const seasonData = await contract.getSeasonData();
+    console.log({ seasonData })
     const currentSeason = seasonData[0][seasonData[0].length - 1];
     const currentPrice = seasonData[1][seasonData[1].length - 1];
     setSeasonName(currentSeason); // sets the season name as the last season name created
@@ -128,6 +129,7 @@ const AlphaCards = () => {
           .catch(e => {
             console.log({ e })
             setErrorMessage(e.reason)
+            setLoading(false)
           })
         })
           .catch(e => {
@@ -148,7 +150,6 @@ const AlphaCards = () => {
   }
 
   const pasteCard = (card, album) => {
-    console.log("hola")
     const pegarCarta = async (card, album) => {
       const paste = await nofContract.pasteCards(card, album)
       setLoading(true)
@@ -194,6 +195,9 @@ const AlphaCards = () => {
         setLoading(true);
         await transaction.wait();
         showCards(account, seasonName);
+        setReceiverAccount("")
+        const modal = document.getElementsByClassName("alpha_transfer_modal")[0];
+        modal.setAttribute("class", "alpha_transfer_modal alpha_display_none");
         setLoading(false);
       }
     } catch (e) {
@@ -244,6 +248,16 @@ const AlphaCards = () => {
   }
 
   useEffect(() => {
+    if(typeof window.ethereum !== undefined){
+      window.ethereum.on('accountsChanged', (accounts) => {
+        const address = accounts[0]
+        setAccount(address)
+      })
+  
+      window.ethereum.on('chainChanged', newChain => {
+        setChainId(decToHex(newChain))
+      })
+    }
     requestAccount().then((data) => {
       const [provider, address] = data;
       const signer = provider.getSigner();
@@ -292,14 +306,14 @@ const AlphaCards = () => {
       ></span>
       {account && (
         <div className="alpha_inner_container">
-          <div>
+          <div className="alpha_data">
             <div className="alpha_account">Hola,{" "}
             {account &&
               account.substring(0, 6) +
                 "..." +
                 account.substring(37, account.length - 1)}
             !</div>
-            <div>Temporada: {seasonName}</div>
+            <div className="alpha_season">Temporada: {seasonName}</div>
           </div>
           <div>
             <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Muestra mis cartas</button>
@@ -389,6 +403,7 @@ const AlphaCards = () => {
       <div className="alpha_transfer_modal alpha_display_none">
         <input
           placeholder="Address"
+          value={receiverAccount}
           onChange={(e) => setReceiverAccount(e.target.value)}
         />
         <button className="alpha_button" onClick={() => transferToken()}>
