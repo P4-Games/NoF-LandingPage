@@ -422,8 +422,17 @@ $groundWidth: 218px; $groundHeight: 22px;
                         padding-top: 10%;
                         top: 100%;
                         left:10% !important;
-
                     }
+                }
+                &__pageswipe {
+                    display: none;
+                    padding-top: 5%;
+                    padding-right: 2%;
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    background-image: url('../Hero/background/page-2.png');
+                    background-size: 100% 100%;
                 }
             }
         }

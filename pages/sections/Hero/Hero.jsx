@@ -208,6 +208,7 @@ const Hero = React.forwardRef((props, book) => {
                 de manera libre!.<br />
               </p>
             </div>
+            
             <div className='hero__top__album__book__page0' data-density='hard'>
               <h3>ÁLBUMES</h3>
               <p>
@@ -378,6 +379,40 @@ const Hero = React.forwardRef((props, book) => {
                       )
                     })
                   }
+                </div>
+              </div>
+            </div>
+            <div className='hero__top__album__book__pageswipe' data-density='hard'>
+              <h3>Mirá nuestros coleccionables!</h3>
+              <div
+                className='hero__top__conteiner__swiper'>
+                <div className='hero__top__swiper'>
+                  <Swiper
+                    effect='cards'
+                    grabCursor
+                    modules={[EffectCards, Autoplay, Pagination]}
+                    loop
+                    autoplay={{
+                      delay: 3000,
+                      disableOnInteraction: false
+                    }}
+                    pagination={{
+                      el: '.pagination',
+                      clickable: true
+                    }}
+                    className='hero__top__swiper__slide'
+                  >
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                    <SwiperSlide />
+                  </Swiper>
+                  <div className='pagination' />
                 </div>
               </div>
             </div>
