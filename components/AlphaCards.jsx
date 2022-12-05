@@ -1,8 +1,19 @@
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
 import Web3Modal from "web3modal";
+import Swiper from 'swiper/bundle';
 import nofAbi from "../artifacts/contracts/NOF-SC.sol/NOF_Alpha";
 import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json";
+import vida0 from "../public/vida0.png"
+import vida1 from "../public/vida1.png"
+import vida2 from "../public/vida2.png"
+import vida3 from "../public/vida3.png"
+import vida4 from "../public/vida4.png"
+import vida5 from "../public/vida5.png"
+
+const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
+
+import 'swiper/css/bundle';
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
 const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
@@ -17,6 +28,11 @@ const AlphaCards = () => {
   const [nofContract, setNofContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [pack, setPack] = useState(null)
+  const [album, setAlbum] = useState([])
+  const [albumCollection, setAlbumCollection] = useState(null)
+  const [albumCompletion, setAlbumCompletion] = useState(null)
+  const [cards, setCards] = useState([])
+  const [vida, setVida] = useState(vida0.src)
   const [packPrice, setPackPrice] = useState("")
   const [seasonName, setSeasonName] = useState("")
   const [receiverAccount, setReceiverAccount] = useState(null)
@@ -64,13 +80,24 @@ const AlphaCards = () => {
 
   const showCards = (address, seasonName) => {
     const cards = getUserCards(address, seasonName)
-      .then(cards => {
-        if(cards.length){
-          setPack(cards)
+      .then(pack => {
+        if(pack.length){
+          let album = []
+          let cards = []
+          pack.forEach(card => {
+            card.class == 0 ? album.push(card) : cards.push(card);
+          })
+          setPack(pack)
+          setAlbum(album)
+          console.log(ethers.BigNumber.from(album[0].collection).toNumber())
+          setAlbumCollection(ethers.BigNumber.from(album[0].collection).toNumber())
+          setAlbumCompletion(ethers.BigNumber.from(album[0].completion).toNumber())
+          setVida(vidas[ethers.BigNumber.from(album[0].completion).toNumber()])
+          setCards(cards)
           setErrorMessage("")
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
-          return cards
+          return pack
         } else {
           setErrorMessage("Necesitas comprar un Pack, primero.")
           setPack([])
@@ -248,7 +275,7 @@ const AlphaCards = () => {
   }
 
   useEffect(() => {
-    if(typeof window.ethereum !== undefined){
+    if(window && window.ethereum !== undefined){
       window.ethereum.on('accountsChanged', (accounts) => {
         const address = accounts[0]
         setAccount(address)
@@ -298,6 +325,33 @@ const AlphaCards = () => {
         );
   }, [loading]);
 
+  useEffect(() => {
+    var swiper = new Swiper('.swiper-container', {
+      effect: 'cards',
+      loop: true,
+      loopAditionalSlides: 0,
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 1,
+      initialSlide: 0,
+      cardsEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+    console.log({swiper})
+  }, [pack])
+
   return (
     <div className="alpha">
       <span
@@ -313,58 +367,48 @@ const AlphaCards = () => {
                 "..." +
                 account.substring(37, account.length - 1)}
             !</div>
-            <div className="alpha_season">Temporada: {seasonName}</div>
+            <div className="alpha_season">{seasonName}</div>
+            <div className="alpha_start_buttons">
+              <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Muestra mis cartas</button>
+              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar un Pack</button>
+            </div>
           </div>
-          <div>
-            <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Muestra mis cartas</button>
-            <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar un Pack</button>
-          </div>
+          
           <div style={{"color":"red"}}>{errorMessage}</div>
-          {pack && pack.length > 0 ? (
-            <div className="alpha_container">
-              {pack.map((card, i) => {
-                const collection = ethers.BigNumber.from(
-                  card.collection
-                ).toNumber();
-                const completion = ethers.BigNumber.from(
-                  card.completion
-                ).toNumber();
-                return card.number % 6 == 0 ? (
-                  <div>
-                    <div key={i} className="alpha_album_container">
-                      <img
-                        src={storageUrl + card.number + ".png"}
-                        className="alpha_album"
-                      />
-                    </div>
-                    <span>Progreso: {completion}/5</span>
-                    <br></br>
-                    col: {collection}
-                  </div>
-                ) : null;
-              })}
+      
+          {pack && pack.length ? (
+          <div className="alpha_container">
+          
+            
+              <div className="alpha_album_container">
+                <img
+                  src={storageUrl + album[0].number + ".png"}
+                  className="alpha_album"
+                />
+              </div>
+              <div className="alpha_progress_container">
+                <span>Progreso: {albumCompletion}/5</span>
+                <img src={vida} />
+                <span>Colección: {albumCollection}</span>
+              </div>
+              
+              
               <div className="alpha_cards_container">
-                {pack.map((card, i) => {
-                  const collection = ethers.BigNumber.from(
-                    card.collection
-                  ).toNumber();
-                  const isCollection =
-                    collection ==
-                    ethers.BigNumber.from(pack[0].collection).toNumber();
-                  const tokenId = ethers.BigNumber.from(
-                    card.tokenId
-                  ).toNumber();
-                  const album = ethers.BigNumber.from(
-                    pack[0].tokenId
-                  ).toNumber();
-                  return card.number % 6 !== 0 ? (
-                    <div key={i}>
-                      <div className="alpha_card_container">
-                        <div className="alpha_card_hover">
+
+                <div className="swiper-container">
+                  <div className="swiper-wrapper">
+                    {cards.map((card, i) => {
+                      const collection = ethers.BigNumber.from(card.collection).toNumber();
+                      const isCollection = collection == album[0].collection;
+                      const tokenId = ethers.BigNumber.from(card.tokenId).toNumber();
+                      const albumTokenId = album[0].tokenId;
+                      return (
+                        <div className="swiper-slide" onChange={() => console.log(swiper.activeIndex)}>
+                          {/* <div className="alpha_card_hover">
                           <button
                             className="alpha_button"
                             onClick={() =>
-                              pasteCard(tokenId, album)
+                              pasteCard(tokenId, albumTokenId)
                             }
                             disabled={!isCollection}
                           >
@@ -385,19 +429,27 @@ const AlphaCards = () => {
                           >
                             TRANSFERIR
                           </button>
+                        </div> */}
+                          <img
+                            src={storageUrl + card.number + ".png"}
+                            className="alpha_card"
+                          />
                         </div>
-                        <img
-                          src={storageUrl + card.number + ".png"}
-                          className="alpha_card"
-                        />
-                      </div>
-                      col: {collection}
-                    </div>
-                  ) : null;
-                })}
+                      );
+                    })}
+                  </div>
+                  <div className="swiper-pagination"></div>
+                  <div className="swiper-button-prev"></div>
+                  <div className="swiper-button-next"></div>
+                </div>
+              
               </div>
-            </div>
+          
+            
+            
+          </div>
           ) : null}
+
         </div>
       )}
       <div className="alpha_transfer_modal alpha_display_none">

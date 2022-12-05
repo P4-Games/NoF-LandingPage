@@ -65,21 +65,22 @@ a {
 	100% {
 			transform: rotate(360deg);
 	}
-	} 
+} 
 
-.alpha {
-	padding: 0;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+// .alpha {
+// 	padding: 0;
+// 	height: 100vh;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// }
 
 .alpha_button {
 	cursor: pointer;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
 	height: 35px;
+	background-color: #ffce00;
 	padding: 10px;
 	text-align: center;
 	font-size: 0.5em;
@@ -89,59 +90,135 @@ a {
 	display: none;
 }
 
-.alpha_container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-size: 0.6em;
-	text-align: center;
-}
+// .alpha_container {
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// 	flex-direction: column;
+// 	font-size: 0.6em;
+// 	text-align: center;
+// 	outline: 1px solid red;
+// }
 
-.alpha_data {
-	text-align: center;
-}
+// .alpha_data {
+// 	text-align: center;
+// }
 
-.alpha_cards_container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+// .alpha_cards_container {
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// }
 
-.alpha_card_container, .alpha_album_container {
-	width: 150px;
-	height: 150px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+// .alpha_card_container, .alpha_album_container {
+// 	width: 150px;
+// 	height: 150px;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+// }
 
 .alpha_card_container:hover > .alpha_card_hover {
 	opacity: 1;
 }
 
-.alpha_album {
-	width: 100%;
-}
+// .alpha_card, .alpha_album {
+// 	width: 150px;
+// }
 
-.alpha_card {
-	width: 100%;
-}
-
-.alpha_card_hover {
-	margin: 0;
+.alpha {
 	padding: 0;
-	width: 150px;
-	height: 150px;
-	position: absolute;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.alpha_inner_container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	background-color: rgba(255,255,255,0.5);
-	opacity: 0;
-	transition: all 0.2s;
+	width: 100%;
+	height: 100vh;
 }
+
+.alpha_data {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.alpha_data div {
+	margin: 20px 0;
+}
+
+.alpha_start_buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.alpha_start_buttons button {
+	margin: 5px 0;
+}
+
+.alpha_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.alpha_album {
+	width: 250px;
+}
+
+.alpha_card {
+	width: 250px;
+}
+
+.alpha_progress_container {
+	margin: 50px;
+	height: 100%;
+	display: flex;
+	justify-content:space-evenly;
+	align-items: center;
+	flex-direction: column;
+}
+
+.swiper-container {
+  width: 300px;
+  height: 250px;
+}
+.swiper-slide {
+	// width: 250px !important;
+	// height: 250px !important;
+  text-align: center;
+  font-size: 18px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 
 // alpha ends
 
