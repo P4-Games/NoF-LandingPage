@@ -24,10 +24,10 @@ function Navbar() {
     <>
       <div className='navbar'>
         <div className='navbar__icon'>
-          <div id='coin'>
+          <div className='hover' id='coin'>
             <Image src={Coin} id='coin' layout='fill' />
           </div>
-          <div id='nof'>
+          <div className='hover' id='nof'>
             <Image src={Nof} alt="" layout='fill' />
           </div>
         </div>
