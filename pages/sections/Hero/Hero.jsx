@@ -26,25 +26,25 @@ const Hero = React.forwardRef((props, book) => {
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState()
   const [height, setHeight] = useState()
-  const [size, setSize] = useState('stretch')
-  console.log(mobile)
+  const [size, setSize] = useState(false)
   // const width = mobile ? 360 : 360
   // const height = mobile ? 500 : 500
   // const size = mobile ? 'fixed' : 'stretch'
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobile(true);
-      setSize('fixed')
+      setSize(true)
     } else {
       setMobile(false);
+      setSize(false)
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
         setMobile(true);
-        setSize('fixed')
+        setSize(true)
       } else {
         setMobile(false);
-
+        setSize(false)
       }
     };
     window.addEventListener('resize', updateMedia);
@@ -75,7 +75,7 @@ const Hero = React.forwardRef((props, book) => {
             maxHeight={800}
             autoSize={true}
             ref={book}
-            usePortrait={true}
+            usePortrait={size}
             drawShadow={false}
             className='hero__top__album__book'
           >
@@ -382,7 +382,8 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-            <div className='hero__top__album__book__pageswipe' data-density='hard'>
+           <div className='hero__top__album__book__page' data-density='hard'>
+              { mobile && <>
               <h3>Mirá nuestros coleccionables!</h3>
               <div
                 className='hero__top__conteiner__swiper'>
@@ -415,6 +416,7 @@ const Hero = React.forwardRef((props, book) => {
                   <div className='pagination' />
                 </div>
               </div>
+              </>}
             </div>
           </HTMLFlipBook>
         </div>
