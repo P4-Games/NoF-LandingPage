@@ -82,32 +82,15 @@ const Hero = React.forwardRef((props, book) => {
             <div className='hero__top__album__book__page' data-density='hard'>
               <h3>BIENVENIDOS!</h3>
               <br />
-              <div className='book_container'>
-                <Image
-                  src={Bookmenu}
-                  alt='text box'
-                  layout='fill'
-                />
+              <div className='nofi_conteiner'>
+                <div className='nofimg'>
+                  <Image
+                    src={Noficon}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
               </div>
-              <br />
-              <p>Number One Fan es el primer<br />
-                collect-to-earn del mundo,<br />
-                donde los jugadores<br />
-                obtienen recompensas<br />
-                mientras crean su propia<br />
-                colección de álbumes NFT.
-              </p>
-            </div>
-
-            <div className='hero__top__album__book__page0' data-density='hard'>
-              <p> <br /><br />
-                Nuestro objetivo es<br />
-                convertirnos en el mayor<br />
-                punto de encuentro<br />
-                de los grupos de fans, donde<br />
-                podrán revivir la afición<br />
-                de coleccionar figutitas.
-              </p>
               <div className='coin_conteiner'>
                 <div className='coinimg'>
                   <Image
@@ -130,6 +113,32 @@ const Hero = React.forwardRef((props, book) => {
                     layout='fill'
                   />
                 </div>
+              </div>
+              <br />
+              <p className='hero__top__album__book__page__text'>Number One Fan es el primer<br />
+                collect-to-earn del mundo,<br />
+                donde los jugadores<br />
+                obtienen recompensas<br />
+                mientras crean su propia<br />
+                colección de álbumes NFT.
+              </p>
+            </div>
+
+            <div className='hero__top__album__book__page0' data-density='hard'>
+              <p> <br /><br />
+                Nuestro objetivo es<br />
+                convertirnos en el mayor<br />
+                punto de encuentro<br />
+                de los grupos de fans, donde<br />
+                podrán revivir la afición<br />
+                de coleccionar figutitas.
+              </p>
+              <div className='book_container'>
+                <Image
+                  src={Bookmenu}
+                  alt='text box'
+                  layout='fill'
+                />
               </div>
               <p>
                 Buscamos desarrollar<br />
@@ -334,14 +343,14 @@ const Hero = React.forwardRef((props, book) => {
                     Profiles && Profiles.map(profile => {
                       return (
                         <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
-                          <Image
-                            width={60}
-                            height={60}
-                            src={profile.icon}
-                          />
-
-                          <p>{profile.caption}</p>
-                          <p>{profile.position}</p>
+                          <div className='img'>
+                            <Image
+                              layout='fill'
+                              src={profile.icon}
+                            />
+                          </div>
+                          <p>{profile.caption}
+                          <br/>{profile.position}</p>
                         </div>
                       )
                     })
@@ -357,12 +366,12 @@ const Hero = React.forwardRef((props, book) => {
                     Friends && Friends.map(friend => {
                       return (
                         <div className='box' key={friend.id}>
-                          <Image
-                            width={60}
-                            height={60}
-                            src={friend.icon}
-                          />
-                          <br />
+                          <div className='img'>
+                            <Image
+                              layout='fill'
+                              src={friend.icon}
+                            />
+                          </div>
                           <p>{friend.caption}</p>
 
                         </div>

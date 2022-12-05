@@ -96,7 +96,7 @@ $groundWidth: 218px; $groundHeight: 22px;
                 top: 40%;
             }
             @include mobile {
-                width: auto;
+                width: 380px;
                 height:500px;
                 top:46%;
                 background-image: url('../Hero/background/libreta.png');
@@ -111,14 +111,14 @@ $groundWidth: 218px; $groundHeight: 22px;
                     width: 640px;
                     height: 460px;
                 }
-                 @include mobile {
+                @include mobile {
                     width: 200px;
                     left:-4%;
                     top:-3%;
                 }
                 &__page {
                     padding-top: 5%;
-                    padding-left: 0%;
+                    padding-left: 3%;
                     position: relative;
                     height: 100% !important;
                     width: 100%;
@@ -130,7 +130,12 @@ $groundWidth: 218px; $groundHeight: 22px;
                         padding-top: 10%;
                         top: 100%;
                         left:10% !important;
+                    }
 
+                    &__text {
+                        @include mobile {
+                            display: none;
+                        }
                     }
                     
                     &__nof {
@@ -339,6 +344,9 @@ $groundWidth: 218px; $groundHeight: 22px;
                         flex-wrap: wrap;
                         align-content: flex-end;
                         justify-content: space-between;
+                        @include mobile {
+                            margin-right: 20px;
+                        }
                         &__title {
                             padding-bottom: 5%;
                             position: relative;
@@ -368,16 +376,34 @@ $groundWidth: 218px; $groundHeight: 22px;
                             width:30%;
                             position: relative;
                             margin-top: 5%;
-                            p{
-                                font-size: 0.35rem;
+                            @include mobile {
+                                height: 15%;
+                                width: 30%;
+                                top: 20px;
+                            }
+                            p{ 
+                                padding-top: 50px;
+                                font-size: 0.45rem;
                                 letter-spacing: -2px;
                                 line-height: 15px;
+                                @include mobile {
+                                    padding-top: 0px;
+                                    font-size: 0.3rem;
+                                    letter-spacing: -1px;
+                                }
+                                @include large-desktop {
+                                    padding-top: 25px;
+                                }
                             }
                             @include desktop {
                                 max-width: 60px;
                             }
                             p{
                                 margin: 0;
+                            }
+                            .img {
+                                width: 60px;
+                                height: 60px;
                             }
                         }
                     }
@@ -519,6 +545,19 @@ $groundWidth: 218px; $groundHeight: 22px;
 .navbar__icon{
     display: flex;
 }
+
+.nofi_conteiner {
+    display: none;
+    @include mobile {
+        display: contents;
+    }
+    .nofimg{
+        left: 80px;
+        width: 150px;
+        height: 280px;
+        position: relative;
+    }
+}
 .coin_conteiner {
     position: relative;
     display: flex;
@@ -527,6 +566,9 @@ $groundWidth: 218px; $groundHeight: 22px;
     height: 15%;
     width: 70%;
     margin: 0 auto;
+    @include mobile {
+        display: none;
+    }
     .coinimg{
         position: relative;
         height: 100%;
@@ -589,17 +631,22 @@ $groundWidth: 218px; $groundHeight: 22px;
         width:30%;
         position: relative;
         margin-top: 5%;
-        p{
-            font-size: 0.35rem;
+        p{ 
+            padding-top: 40px;
+            font-size: 0.45rem;
             letter-spacing: -2px;
             line-height: 15px;
+            @include large-desktop {
+                padding-top: 20px;
+            }
         }
         @include desktop {
             max-width: 60px;
         }
-        p{
-            margin: 0;
-        }
+    }
+    .img {
+        width: 60px;
+        height: 60px;
     }
 }
 
@@ -632,6 +679,7 @@ $groundWidth: 218px; $groundHeight: 22px;
             justify-content: flex-start;
             align-items: center;
             width: 100%;
+            left: 15px;
             h3{
                 font-size: 0.4rem;
                 text-align: right;
@@ -640,7 +688,7 @@ $groundWidth: 218px; $groundHeight: 22px;
         .nofimg{
             position: relative;
             height: 100%;
-            width: 30%;
+            width: 25%;
             justify-content: center;
             align-items: center;
         }
@@ -659,6 +707,7 @@ $groundWidth: 218px; $groundHeight: 22px;
             justify-content: flex-start;
             align-items: center;
             width: 100%;
+            left: 15px;
             h3{
                 font-size: 0.4rem;
                 text-align: right;
@@ -667,7 +716,7 @@ $groundWidth: 218px; $groundHeight: 22px;
         .nofimg{
             position: relative;
             height: 100%;
-            width: 30%;
+            width: 25%;
             justify-content: center;
             align-items: center;
         }
@@ -686,6 +735,7 @@ $groundWidth: 218px; $groundHeight: 22px;
             justify-content: flex-start;
             align-items: center;
             width: 100%;
+            left: 15px;
             h3{
                 font-size: 0.4rem;
                 text-align: right;
@@ -694,7 +744,7 @@ $groundWidth: 218px; $groundHeight: 22px;
         .nofimg{
             position: relative;
             height: 100%;
-            width: 30%;
+            width: 25%;
             justify-content: center;
             align-items: center;
         }

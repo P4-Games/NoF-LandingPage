@@ -178,9 +178,6 @@
         width: 250px;
         display: flex;
         justify-content: space-between;
-        @include mobile {
-            width: 210px;
-        }
 
         &__green {
             display: flex;
@@ -212,8 +209,7 @@
                 }
             }
             @include mobile {
-                width: 150px;
-                height: 120px;
+                visibility: hidden;
             }
             @include large-desktop {
                 width: 110px;
@@ -255,9 +251,9 @@
                     margin-bottom: 100px;
                 }
             }
+
             @include mobile {
-                width: 110px;
-                height: 100px;
+                visibility: hidden;
             }
             @include large-desktop {
                 width: 110px;

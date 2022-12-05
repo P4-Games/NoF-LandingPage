@@ -13,6 +13,7 @@ function Home() {
   function turnPrevPage() {
     book.current.pageFlip().flipPrev()
   }
+  
   return (
     <div className='home'>
       <Head>
