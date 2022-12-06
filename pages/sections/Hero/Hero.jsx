@@ -382,8 +382,8 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-           <div className='hero__top__album__book__page' data-density='hard'>
-              { mobile && <>
+            <div className='hero__top__album__book__page' data-density='hard'>
+              //{ mobile && <>
               <h3>Mirá nuestros coleccionables!</h3>
               <div
                 className='hero__top__conteiner__swiper'>

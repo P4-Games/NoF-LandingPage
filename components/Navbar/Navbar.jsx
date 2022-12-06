@@ -52,7 +52,7 @@ function Navbar() {
               duration={500}
             >
               <button className='navbar__ul__li__contacto'>
-                Contacto
+                Colecciones
               </button>
             </Link>
             <Whitepaper />

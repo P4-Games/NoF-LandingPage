@@ -7,10 +7,7 @@ function Whitepaper () {
       href='https://number-one-fan.gitbook.io/doc/'
       target='_blank'
       rel='noreferrer'
-      spy='true'
-      smooth='true'
-      offset={-80}
-      duration={500}
+      //spy='true'
     >
       <button className='navbar__ul__li__whitepaper'>
         Whitepaper
