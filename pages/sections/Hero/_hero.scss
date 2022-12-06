@@ -136,6 +136,8 @@ $groundWidth: 218px; $groundHeight: 22px;
                         width: 95% !important;
                         top: 100%;
                         left:10% !important;
+                        top: 3% !important;
+                        height: 100% !important;
                     }
 
                     &__text {
@@ -439,8 +441,9 @@ $groundWidth: 218px; $groundHeight: 22px;
                         width: 200px;
                         padding-top: 10%;
                         width: 95% !important;
-                        top: 100%;
                         left:10% !important;
+                        top: 3% !important;
+                        height: 100% !important;
                     }
                 }
             }
