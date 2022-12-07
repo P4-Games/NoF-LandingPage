@@ -10,12 +10,6 @@
     }
 }
 
-@mixin ipad {
-    @media screen and (max-width: 1024px) {
-        @content;
-    }
-}
-
 @mixin desktop {
     @media screen and (max-width: 1024px) {
         @content;

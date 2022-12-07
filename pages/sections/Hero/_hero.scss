@@ -364,11 +364,8 @@ $groundWidth: 218px; $groundHeight: 22px;
                         align-content: flex-end;
                         justify-content: space-between;
                         @include mobile {
-                            width: 70%;
-                            margin-right: 20px;
-                        }
-                        @include desktop {
                             width: 90%;
+                            margin-right: 20px;
                         }
                         &__title {
                             padding-bottom: 5%;
@@ -512,7 +509,7 @@ $groundWidth: 218px; $groundHeight: 22px;
 .hero__top__conteiner__swiper{
     position:absolute;
     bottom:40%;
-    right: 8%;
+    right: 7%;
     @media all and (orientation: portrait) {
         position:absolute;
         bottom:18%;
@@ -681,11 +678,8 @@ $groundWidth: 218px; $groundHeight: 22px;
     align-content: flex-end;
     justify-content: space-between;
     @include mobile {
-        width: 70%;
+        width: 85%;
         margin-right: 20px;
-    }
-    @include desktop {
-        width: 90%;
     }
     .title {
         padding-bottom: 5%;
