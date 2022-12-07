@@ -76,6 +76,10 @@ $groundWidth: 218px; $groundHeight: 22px;
                 bottom: 18%;
                 left: 26%;
             }
+            @include large-desktop {
+                width: 160px;
+                height: 285px;
+            }
             @media all and (orientation: portrait) { 
                 width: 105px;
                 height: 190px;
@@ -519,7 +523,7 @@ $groundWidth: 218px; $groundHeight: 22px;
     margin-top: 19%;
     width: 250px;
     height: 250px;
-    @include desktop {
+    @include large-desktop {
         width: 150px;
         height: 150px;
     }
