@@ -267,6 +267,7 @@
     }
     &__text {
         text-align: right;
+        visibility: hidden;
         @include mobile {
             display: none;
         }

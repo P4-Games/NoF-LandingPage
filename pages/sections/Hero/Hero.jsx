@@ -57,10 +57,8 @@ const Hero = React.forwardRef((props, book) => {
         <div className='hero__top__nof'>
           <Image
             src={Noficon}
-            alt='text box'
-            width={210}
-            height={380}
-            layout='responsive'
+            alt='Nof-Icon'
+            layout='fill'
           />
         </div>
         <div className='hero__top__album'>
@@ -270,9 +268,7 @@ const Hero = React.forwardRef((props, book) => {
                 los mejores premios.<br />
               </p>
               <Link
-                href='https://discord.gg/4Bvp5bVmCz'
-                target='_blank'
-                rel='noreferrer'
+                href='/Alpha'
               >
                 <button className='hero__top__album__book__page__btn'>
                   ALPHA
@@ -383,10 +379,16 @@ const Hero = React.forwardRef((props, book) => {
               </div>
             </div>
             <div className='hero__top__album__book__page' data-density='hard'>
-              //{ mobile && <>
-              <h3>Mirá nuestros coleccionables!</h3>
-              <div
-                className='hero__top__conteiner__swiper'>
+              <div className='text-blocker'>
+                <h4>
+                Number One Fan &<br />
+                <br />P4 Tech Solutions <br />
+                <br />Copyright © 2022 <br />
+                <br />all rights reserved.
+                </h4>
+              </div>
+              <h3 className='blocker'>Mirá nuestros coleccionables!</h3>
+              <div className='hero__top__conteiner__mobile'>
                 <div className='hero__top__swiper'>
                   <Swiper
                     effect='cards'
@@ -416,12 +418,10 @@ const Hero = React.forwardRef((props, book) => {
                   <div className='pagination' />
                 </div>
               </div>
-              </>}
             </div>
           </HTMLFlipBook>
         </div>
-        <div
-          className='hero__top__conteiner__swiper'>
+        <div className='hero__top__conteiner__swiper'>
           <div className='hero__top__swiper'>
             <Swiper
               effect='cards'
