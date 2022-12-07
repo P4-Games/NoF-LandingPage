@@ -509,11 +509,20 @@ $groundWidth: 218px; $groundHeight: 22px;
     position:absolute;
     bottom:40%;
     right: 8%;
+    @media all and (orientation: portrait) {
+        position:absolute;
+        bottom:18%;
+        right: 20%;
+    }
 }
 .swiper {
     margin-top: 19%;
     width: 250px;
     height: 250px;
+    @include desktop {
+        width: 150px;
+        height: 150px;
+    }
 }
 
 .swiper-slide {
