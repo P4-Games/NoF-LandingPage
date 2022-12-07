@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
 import Noficon from './background/logo-nof.gif'
@@ -23,6 +23,7 @@ import 'swiper/css/bundle'
 import Link from 'next/link'
 
 const Hero = React.forwardRef((props, book) => {
+  const [swipper,setSwipper] =useState(false)
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState()
   const [height, setHeight] = useState()
@@ -50,7 +51,15 @@ const Hero = React.forwardRef((props, book) => {
     window.addEventListener('resize', updateMedia);
     return () => window.removeEventListener('resize', updateMedia);
   }, []);
-
+  const onFlip = useCallback((e) => {
+    console.log('Current page: ' + e.data);
+    if (e.data === 8){
+      setSwipper(true)
+      return
+    }
+    setSwipper(false)
+    
+}, []);
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>
@@ -73,6 +82,7 @@ const Hero = React.forwardRef((props, book) => {
             maxHeight={800}
             autoSize={true}
             ref={book}
+            onFlip={onFlip}
             usePortrait={size}
             drawShadow={false}
             className='hero__top__album__book'
@@ -379,17 +389,18 @@ const Hero = React.forwardRef((props, book) => {
               </div>
             </div>
             <div className='hero__top__album__book__page' data-density='hard'>
-              <div className='text-blocker'>
+            {!mobile &&  <div className='text-blocker'>
                 <h4>
                 Number One Fan &<br />
                 <br />P4 Tech Solutions <br />
                 <br />Copyright © 2022 <br />
                 <br />all rights reserved.
                 </h4>
-              </div>
-              <h3 className='blocker'>Mirá nuestros coleccionables!</h3>
+              </div>}
+              <h3 >Mirá nuestros coleccionables!</h3>
+              { mobile && swipper && 
               <div className='hero__top__conteiner__mobile'>
-                <div className='hero__top__swiper'>
+                {swipper && <div className='hero__top__swiper'>
                   <Swiper
                     effect='cards'
                     grabCursor
@@ -416,12 +427,12 @@ const Hero = React.forwardRef((props, book) => {
                     <SwiperSlide />
                   </Swiper>
                   <div className='pagination' />
-                </div>
-              </div>
+                </div>}
+              </div>}
             </div>
           </HTMLFlipBook>
         </div>
-        <div className='hero__top__conteiner__swiper'>
+       {!mobile && <div className='hero__top__conteiner__swiper'>
           <div className='hero__top__swiper'>
             <Swiper
               effect='cards'
@@ -450,7 +461,7 @@ const Hero = React.forwardRef((props, book) => {
             </Swiper>
             <div className='pagination' />
           </div>
-        </div>
+        </div>}
       </div>
     </div >
   )
