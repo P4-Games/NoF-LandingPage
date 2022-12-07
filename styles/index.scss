@@ -47,9 +47,19 @@ a {
 
 // alpha starts
 
+.alpha_loader_container {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255,255,255,0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .loader {
-	width: 48px;
-	height: 48px;
+	width: 5rem;
+	height: 5rem;
 	border: 5px solid #FFF;
 	border-bottom-color: #FF3D00;
 	border-radius: 50%;
@@ -67,14 +77,6 @@ a {
 	}
 } 
 
-// .alpha {
-// 	padding: 0;
-// 	height: 100vh;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// }
-
 .alpha_button {
 	cursor: pointer;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
@@ -90,41 +92,9 @@ a {
 	display: none;
 }
 
-// .alpha_container {
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// 	flex-direction: column;
-// 	font-size: 0.6em;
-// 	text-align: center;
-// 	outline: 1px solid red;
-// }
-
-// .alpha_data {
-// 	text-align: center;
-// }
-
-// .alpha_cards_container {
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// }
-
-// .alpha_card_container, .alpha_album_container {
-// 	width: 150px;
-// 	height: 150px;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
-// }
-
 .alpha_card_container:hover > .alpha_card_hover {
 	opacity: 1;
 }
-
-// .alpha_card, .alpha_album {
-// 	width: 150px;
-// }
 
 .alpha {
 	padding: 0;
@@ -136,6 +106,7 @@ a {
 }
 
 .alpha_inner_container {
+	margin-top: -10%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
