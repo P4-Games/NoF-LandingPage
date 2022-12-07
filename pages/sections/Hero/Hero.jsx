@@ -397,7 +397,7 @@ const Hero = React.forwardRef((props, book) => {
                 <br />all rights reserved.
                 </h4>
               </div>}
-              <h3 >Mirá nuestros coleccionables!</h3>
+             {mobile && <h3 >Mirá nuestros coleccionables!</h3>}
               { mobile && swipper && 
               <div className='hero__top__conteiner__mobile'>
                 {swipper && <div className='hero__top__swiper'>
