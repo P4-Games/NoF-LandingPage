@@ -4,6 +4,7 @@ import Links from './Links.jsx'
 import Image from 'next/image'
 import audio from './music/Dungeon.mp3'
 import Whitepaper from './Whitepaper.jsx'
+import NofTown from './NofTown.jsx'
 import Coin from './icons/logo-coin.png'
 import Nof from './icons/logo-1.png'
 import SoundOn from './icons/sound.png'
@@ -33,17 +34,7 @@ function Navbar() {
         </div>
         <ul className='navbar__ul'>
           <li className='navbar__ul__li'>
-            <Link
-              to='Nosotros'
-              // spy='true'
-              smooth='true'
-              offset={-80}
-              duration={500}
-            >
-              <button className='navbar__ul__li__nosotros'>
-                Nosotros
-              </button>
-            </Link>
+          <NofTown />
             <Link
               to='Contacto'
               // spy='true'
