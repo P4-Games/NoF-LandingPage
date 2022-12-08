@@ -43,6 +43,12 @@
     },
     {
         "id": 8,
+        "caption": "J. Pérez",
+        "position": "Web3 Developer",
+        "icon": "/book/Perez.png"
+    },
+    {
+        "id": 9,
         "caption": "N. Huircapan",
         "position": "Web3 Developer",
         "icon": "/book/Huircapan.png"

@@ -13,6 +13,7 @@ import Season from './background/temporada.png'
 import Albumfirst from './background/album3.png'
 import Albumsecond from './background/album6.png'
 import Albumthird from './background/album12.png'
+import Tech from './background/p4tech.png'
 import Profiles from './Profiles.json'
 import Friends from './Friends.json'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -389,6 +390,15 @@ const Hero = React.forwardRef((props, book) => {
               </div>
             </div>
             <div className='hero__top__album__book__page' data-density='hard'>
+              <div className='tech_container'>
+                <div className='techimg'>
+                  <Image
+                    src={Tech}
+                    alt='p4tech-solutions'
+                    layout='fill'
+                  />
+                </div>
+              </div>
             {!mobile &&  <div className='text-blocker'>
                 <h4>
                 Number One Fan &<br />
@@ -397,7 +407,7 @@ const Hero = React.forwardRef((props, book) => {
                 <br />all rights reserved.
                 </h4>
               </div>}
-             {mobile && <h3 >Mirá nuestros coleccionables!</h3>}
+              {mobile && <h3 >Mirá nuestros coleccionables!</h3>}
               { mobile && swipper && 
               <div className='hero__top__conteiner__mobile'>
                 {swipper && <div className='hero__top__swiper'>

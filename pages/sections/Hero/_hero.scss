@@ -608,7 +608,7 @@ $groundWidth: 218px; $groundHeight: 22px;
 }
 
 .text-blocker {
-    padding-top: 60%;
+    padding-top: 5%;
     @include mobile {
         display: none;
     }
@@ -759,6 +759,22 @@ $groundWidth: 218px; $groundHeight: 22px;
     height: 15%;
     width: 70%;
     margin: 0 auto;
+}
+
+.tech_container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    .techimg{
+        height: 100%;
+        width: 100%;
+        padding-bottom: 250px;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .nof_container{
