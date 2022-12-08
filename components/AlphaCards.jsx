@@ -31,6 +31,7 @@ const AlphaCards = () => {
   const [album, setAlbum] = useState([])
   const [albumCollection, setAlbumCollection] = useState(null)
   const [albumCompletion, setAlbumCompletion] = useState(null)
+  const [isCollection, setIsCollection] = useState(false)
   const [cards, setCards] = useState([])
   const [cardIndex, setCardIndex] = useState(0)
   const [vida, setVida] = useState(vida0.src)
@@ -180,14 +181,16 @@ const AlphaCards = () => {
     })
   }
 
-  const pasteCard = (card, album) => {
-    const pegarCarta = async (card, album) => {
-      const paste = await nofContract.pasteCards(card, album)
+  const pasteCard = (cardIndex) => {
+    const pegarCarta = async (cardIndex) => {
+      const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
+      const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
+      const paste = await nofContract.pasteCards(tokenId, albumTokenId)
       setLoading(true)
       await paste.wait()
       setLoading(false)
     }
-    pegarCarta(card, album)
+    pegarCarta(cardIndex)
       .then(() => {
         showCards(account, seasonName)
       })
@@ -345,15 +348,15 @@ const AlphaCards = () => {
       pagination: {
         el: '.swiper-pagination',
       },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
     });
     
     swiper.on('slideChange', res => {
       setCardIndex(res.activeIndex)
-      console.log(res.activeIndex)
+      if(cards[res.activeIndex].collection == albumCollection){
+        setIsCollection(true)
+      } else {
+        setIsCollection(false)
+      }
     });
   }, [pack])
 
@@ -395,16 +398,12 @@ const AlphaCards = () => {
                 <img src={vida} />
                 <span>Colección: {albumCollection}</span>
                 <div>
-                {/* const collection = ethers.BigNumber.from(card.collection).toNumber();
-                const isCollection = collection == album[0].collection;
-                const tokenId = ethers.BigNumber.from(card.tokenId).toNumber();
-                const albumTokenId = album[0].tokenId; */}
                   <button
                     className="alpha_button"
                     onClick={() =>
-                      pasteCard(tokenId, albumTokenId)
+                      pasteCard(cardIndex)
                     }
-                    // disabled={!isCollection}
+                    disabled={!isCollection}
                   >
                     PEGAR
                   </button>
@@ -429,8 +428,10 @@ const AlphaCards = () => {
                 <div className="swiper-container">
                   <div className="swiper-wrapper">
                     {cards.map((card, i) => {
+                      const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
                         <div className="swiper-slide">
+                          <span className="alpha_card_collection">{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}
                             className="alpha_card"
@@ -440,8 +441,6 @@ const AlphaCards = () => {
                     })}
                   </div>
                   <div className="swiper-pagination"></div>
-                  <div className="swiper-button-prev"></div>
-                  <div className="swiper-button-next"></div>
                 </div>
               
               </div>
@@ -454,8 +453,12 @@ const AlphaCards = () => {
         </div>
       )}
       <div className="alpha_transfer_modal alpha_display_none">
+        <button className="alpha_transfer_modal_close" onClick={() => {
+          const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+          return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+        }}>X</button>
         <input
-          placeholder="Address"
+          placeholder="Inserte la wallet del destinatario"
           value={receiverAccount}
           onChange={(e) => setReceiverAccount(e.target.value)}
         />

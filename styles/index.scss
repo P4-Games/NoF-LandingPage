@@ -89,7 +89,9 @@ a {
 }
 
 .alpha_display_none {
-	display: none;
+	display: none !important;
+	opacity: 0;
+	transition: opacity 1s;
 }
 
 .alpha_card_container:hover > .alpha_card_hover {
@@ -186,6 +188,46 @@ a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.alpha_card_collection {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+}
+
+.alpha_transfer_modal {
+	position: absolute;
+	background-color: rgba(255,255,255,0.9);
+	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
+	border-radius: 5px;
+	width: 25rem;
+	height: 20rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.alpha_transfer_modal input {
+	width: 90%;
+	height: 35px;
+	margin-bottom: 25px;
+	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
+	font-size: 0.5rem;
+	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
+	padding-left: 10px;
+}
+
+.alpha_transfer_modal_close {
+	position: absolute;
+	top: 1rem;
+  right: 1rem;
+	opacity: 1;
+	transition: all 1s;
+	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
+	cursor: pointer;
+	border: 0px;
 }
 
 
