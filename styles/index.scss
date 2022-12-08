@@ -55,6 +55,7 @@ a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	z-index: 999;
 }
 
 .loader {
@@ -162,6 +163,17 @@ a {
 	flex-direction: column;
 }
 
+.alpha_progress_button_container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.alpha_progress_button_container button {
+	width: 7rem;
+	margin: 0 2px;
+}
+
 .alpha_cards_container {
 	width: 250px;
 }
@@ -198,7 +210,7 @@ a {
 
 .alpha_transfer_modal {
 	position: absolute;
-	background-color: rgba(255,255,255,0.9);
+	background-color: rgba(230,230,230,0.95);
 	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
 	border-radius: 5px;
 	width: 25rem;
@@ -207,6 +219,7 @@ a {
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	opacity: 1;
 }
 
 .alpha_transfer_modal input {
@@ -223,7 +236,7 @@ a {
 	position: absolute;
 	top: 1rem;
   right: 1rem;
-	opacity: 1;
+	background-color: transparent;
 	transition: all 1s;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	cursor: pointer;

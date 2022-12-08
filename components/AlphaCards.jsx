@@ -89,10 +89,21 @@ const AlphaCards = () => {
     })
   }
 
+  function emitSuccess(message) {
+    Swal.fire({
+      title: 'Success!',
+      text: message,
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
+
   const showCards = (address, seasonName) => {
     const cards = getUserCards(address, seasonName)
       .then(pack => {
         if(pack.length){
+          albumCompleted()
           let album = []
           let cards = []
           pack.forEach(card => {
@@ -193,6 +204,7 @@ const AlphaCards = () => {
     pegarCarta(cardIndex)
       .then(() => {
         showCards(account, seasonName)
+        emitSuccess("Tu carta ya está en el album")
       })
       .catch(e => {
         console.log({ e })
@@ -232,10 +244,16 @@ const AlphaCards = () => {
         const modal = document.getElementsByClassName("alpha_transfer_modal")[0];
         modal.setAttribute("class", "alpha_transfer_modal alpha_display_none");
         setLoading(false);
+        emitSuccess("Tu carta ha sido enviada")
       }
     } catch (e) {
       console.log({ e })
     }
+  }
+
+  const albumCompleted = () => {
+    const album = document.getElementsByClassName("alpha_album")[0]
+    console.log({album})
   }
 
   function decToHex(number) {
@@ -352,6 +370,7 @@ const AlphaCards = () => {
     
     swiper.on('slideChange', res => {
       setCardIndex(res.activeIndex)
+
       if(cards[res.activeIndex].collection == albumCollection){
         setIsCollection(true)
       } else {
@@ -397,7 +416,7 @@ const AlphaCards = () => {
                 <span>Progreso: {albumCompletion}/5</span>
                 <img src={vida} />
                 <span>Colección: {albumCollection}</span>
-                <div>
+                <div className="alpha_progress_button_container">
                   <button
                     className="alpha_button"
                     onClick={() =>
@@ -410,7 +429,7 @@ const AlphaCards = () => {
                   <button
                     className="alpha_button"
                     onClick={() => {
-                      // setCardToTransfer(cards[cardIndex].tokenId);
+                      setCardToTransfer(ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber());
                       const modal = document.getElementsByClassName(
                         "alpha_transfer_modal"
                       )[0];
