@@ -333,11 +333,13 @@ const AlphaCards = () => {
       effect: 'cards',
       grabCursor: true,
       centeredSlides: true,
+      setWrapperSize: true,
       slidesPerView: 1,
       initialSlide: 0,
       runCallbacksOnInit: true,
       cardsEffect: {
-        perSlideRotate: 2,
+        perSlideOffset: 8,
+        // perSlideRotate: 1,
         slideShadows: false,
       },
       pagination: {
@@ -351,6 +353,7 @@ const AlphaCards = () => {
     
     swiper.on('slideChange', res => {
       setCardIndex(res.activeIndex)
+      console.log(res.activeIndex)
     });
   }, [pack])
 
@@ -427,7 +430,7 @@ const AlphaCards = () => {
                   <div className="swiper-wrapper">
                     {cards.map((card, i) => {
                       return (
-                        <div className="swiper-slide" onDrag={() => console.log(swiper)}>
+                        <div className="swiper-slide">
                           <img
                             src={storageUrl + card.number + ".png"}
                             className="alpha_card"
