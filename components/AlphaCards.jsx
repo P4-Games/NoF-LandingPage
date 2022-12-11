@@ -237,12 +237,12 @@ const AlphaCards = () => {
         const transaction = await nofContract[
           "safeTransferFrom(address,address,uint256)"
         ](account, receiverAccount, cardToTransfer);
+        const modal = document.getElementsByClassName("alpha_transfer_modal")[0];
+        modal.setAttribute("class", "alpha_transfer_modal alpha_display_none");
         setLoading(true);
         await transaction.wait();
         showCards(account, seasonName);
         setReceiverAccount("")
-        const modal = document.getElementsByClassName("alpha_transfer_modal")[0];
-        modal.setAttribute("class", "alpha_transfer_modal alpha_display_none");
         setLoading(false);
         emitSuccess("Tu carta ha sido enviada")
       }
@@ -413,7 +413,7 @@ const AlphaCards = () => {
             </div>
             <div className="alpha_start_buttons">
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
-              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar Pack ($10)</button>
+              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">{`Comprar Pack ($${packPrice.substring(0,packPrice.length - 18)})`}</button>
             </div>
             <span style={{"color":"red"}}>{noCardsError}</span>
           </div>
