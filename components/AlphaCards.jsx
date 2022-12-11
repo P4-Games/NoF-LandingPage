@@ -11,6 +11,7 @@ import vida2 from "../public/vida2.png"
 import vida3 from "../public/vida3.png"
 import vida4 from "../public/vida4.png"
 import vida5 from "../public/vida5.png"
+import marco from "../public/marco.png"
 
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
@@ -33,6 +34,7 @@ const AlphaCards = () => {
   const [albumCompletion, setAlbumCompletion] = useState(null)
   const [isCollection, setIsCollection] = useState(false)
   const [cards, setCards] = useState([])
+  const [noCardsError, setNoCardsError] = useState("")
   const [cardIndex, setCardIndex] = useState(0)
   const [vida, setVida] = useState(vida0.src)
   const [packPrice, setPackPrice] = useState("")
@@ -67,7 +69,6 @@ const AlphaCards = () => {
 
   async function requestSeasonData(contract) {
     const seasonData = await contract.getSeasonData();
-    console.log({ seasonData })
     const currentSeason = seasonData[0][seasonData[0].length - 1];
     const currentPrice = seasonData[1][seasonData[1].length - 1];
     setSeasonName(currentSeason); // sets the season name as the last season name created
@@ -103,7 +104,6 @@ const AlphaCards = () => {
     const cards = getUserCards(address, seasonName)
       .then(pack => {
         if(pack.length){
-          albumCompleted()
           let album = []
           let cards = []
           pack.forEach(card => {
@@ -119,8 +119,7 @@ const AlphaCards = () => {
           document.getElementById("alpha_buy_pack_button").style.display = "none"
           return pack
         } else {
-          // emitError("Necesitas comprar un Pack, primero.")
-          // setPack([])
+          setNoCardsError("Necesitas comprar un pack, primero.")
         }
       })
       .catch(e => {
@@ -146,6 +145,7 @@ const AlphaCards = () => {
   const buyPack = (price, name) => {
     showCards(account, seasonName)
     .then((cards) => {
+      setNoCardsError("")
       if(cards && cards.length > 0) return
       checkApproved(contractAddress, account)
         .then(res => {
@@ -253,7 +253,7 @@ const AlphaCards = () => {
 
   const albumCompleted = () => {
     const album = document.getElementsByClassName("alpha_album")[0]
-    console.log({album})
+    console.log(album)
   }
 
   function decToHex(number) {
@@ -299,6 +299,7 @@ const AlphaCards = () => {
   }
 
   useEffect(() => {
+    console.log({albumCompleted})
     if(window && window.ethereum !== undefined){
       window.ethereum.on('accountsChanged', (accounts) => {
         const address = accounts[0]
@@ -379,6 +380,17 @@ const AlphaCards = () => {
     });
   }, [pack])
 
+  useEffect(() => {
+    const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
+    if(seasonName.length > 14){
+      seasonNameElem.style.fontSize = "0.7rem"
+    }
+    if(seasonName.length > 16){
+      seasonNameElem.style.fontSize = "0.6rem"
+      seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
+    }
+  }, [seasonName])
+
   return (
     <div className="alpha">
       <div className="alpha_loader_container alpha_display_none" id="loading">
@@ -389,17 +401,21 @@ const AlphaCards = () => {
       {account && (
         <div className="alpha_inner_container">
           <div className="alpha_data">
-            <div className="alpha_account">Hola,{" "}
+            {/* <div className="alpha_account">Hola,{" "}
             {account &&
               account.substring(0, 6) +
                 "..." +
                 account.substring(37, account.length - 1)}
-            !</div>
-            <div className="alpha_season">{seasonName}</div>
-            <div className="alpha_start_buttons">
-              <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Muestra mis cartas</button>
-              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar un Pack</button>
+            !</div> */}
+            <div className="alpha_season">
+              <img src={marco.src}/>
+              <span className="alpha_season_name">{seasonName}</span>
             </div>
+            <div className="alpha_start_buttons">
+              <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
+              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">Comprar Pack ($10)</button>
+            </div>
+            <span style={{"color":"red"}}>{noCardsError}</span>
           </div>
       
           {pack && pack.length ? (
@@ -449,8 +465,8 @@ const AlphaCards = () => {
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div className="swiper-slide">
-                          <span className="alpha_card_collection">{cardCollection}</span>
+                        <div className="swiper-slide" key={i}>
+                          <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}
                             className="alpha_card"
