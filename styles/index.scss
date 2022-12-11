@@ -8,6 +8,7 @@
 html,
 body {
 	background: transparent;
+	overflow: hidden;
 	height: 100vh;
 	width: 100vw;
 	padding: 0;
@@ -214,7 +215,6 @@ a {
 }
 
 .swiper-wrapper {
-	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -244,7 +244,7 @@ a {
 .alpha_transfer_modal input {
 	width: 90%;
 	height: 35px;
-	margin-bottom: 25px;
+	margin: 25px 0;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	font-size: 0.5rem;
 	box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgrey, inset 4px 0px 1px 1px lightgrey;
@@ -264,6 +264,10 @@ a {
 
 
 // alpha ends
+
+@media (max-width: 930px) {
+	
+}
 
 @media (max-width: 576px) {
 	html,

@@ -30,6 +30,7 @@ const AlphaCards = () => {
   const [daiContract, setDaiContract] = useState(null)
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
+  const [albumCard, setAlbumCard] = useState(null)
   const [albumCollection, setAlbumCollection] = useState(null)
   const [albumCompletion, setAlbumCompletion] = useState(null)
   const [isCollection, setIsCollection] = useState(false)
@@ -92,7 +93,7 @@ const AlphaCards = () => {
 
   function emitSuccess(message) {
     Swal.fire({
-      title: 'Success!',
+      title: '',
       text: message,
       icon: 'success',
       showConfirmButton: false,
@@ -112,8 +113,14 @@ const AlphaCards = () => {
           setPack(pack)
           setAlbum(album)
           setAlbumCollection(ethers.BigNumber.from(album[0].collection).toNumber())
-          setAlbumCompletion(ethers.BigNumber.from(album[0].completion).toNumber())
+          const completion = ethers.BigNumber.from(album[0].completion).toNumber()
+          setAlbumCompletion(completion)
           setVida(vidas[ethers.BigNumber.from(album[0].completion).toNumber()])
+          if(completion < 5){
+            setAlbumCard(storageUrl + album[0].number + ".png")
+          } else {
+            setAlbumCard(storageUrl + album[0].number + "F" + ".png")
+          }
           setCards(cards)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
@@ -146,7 +153,10 @@ const AlphaCards = () => {
     showCards(account, seasonName)
     .then((cards) => {
       setNoCardsError("")
-      if(cards && cards.length > 0) return
+      if(cards && cards.length > 0){
+        emitSuccess("Ya tienes cartas.")
+        return
+      }
       checkApproved(contractAddress, account)
         .then(res => {
         const comprarPack = async (price, name) => {
@@ -361,7 +371,6 @@ const AlphaCards = () => {
       runCallbacksOnInit: true,
       cardsEffect: {
         perSlideOffset: 8,
-        // perSlideRotate: 1,
         slideShadows: false,
       },
       pagination: {
@@ -424,7 +433,7 @@ const AlphaCards = () => {
             
               <div className="alpha_album_container">
                 <img
-                  src={storageUrl + album[0].number + ".png"}
+                  src={albumCard}
                   className="alpha_album"
                 />
               </div>
@@ -481,26 +490,26 @@ const AlphaCards = () => {
               </div>
           
             
-            
-          </div>
+              <div className="alpha_transfer_modal alpha_display_none">
+                <button className="alpha_transfer_modal_close" onClick={() => {
+                  const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+                  return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                }}>X</button>
+                <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards && ethers.BigNumber.from(cards[cardIndex].collection).toNumber()}</span>
+                <input
+                  placeholder="Inserte la wallet del destinatario"
+                  value={receiverAccount}
+                  onChange={(e) => setReceiverAccount(e.target.value)}
+                />
+                <button className="alpha_button" onClick={() => transferToken()}>
+                  TRANSFERIR
+                </button>
+              </div>
+            </div>
           ) : null}
 
         </div>
       )}
-      <div className="alpha_transfer_modal alpha_display_none">
-        <button className="alpha_transfer_modal_close" onClick={() => {
-          const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-          return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
-        }}>X</button>
-        <input
-          placeholder="Inserte la wallet del destinatario"
-          value={receiverAccount}
-          onChange={(e) => setReceiverAccount(e.target.value)}
-        />
-        <button className="alpha_button" onClick={() => transferToken()}>
-          TRANSFERIR
-        </button>
-      </div>
     </div>
   );
 };
