@@ -84,12 +84,11 @@ const Hero = React.forwardRef((props, book) => {
             maxHeight={800}
             autoSize={true}
             ref={book}
-            onFlip={onFlip}
             usePortrait={size}
             drawShadow={false}
             className='hero__top__album__book'
           >
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page' data-density='hard' number="1">
               <h3>BIENVENIDOS!</h3>
               <br />
               <div className='nofi_conteiner'>
@@ -143,7 +142,7 @@ const Hero = React.forwardRef((props, book) => {
               </div>
             </div>
 
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0' data-density='hard' number="2">
               <p> <br /><br />
                 Nuestro objetivo es<br />
                 convertirnos en el mayor<br />
@@ -169,7 +168,7 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
 
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page' data-density='hard' number="3">
               <h3>CARTAS</h3>
               <p>
                 Nuestras cartas representan<br />
@@ -228,7 +227,7 @@ const Hero = React.forwardRef((props, book) => {
               </p>
             </div>
             
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0' data-density='hard' number="4">
               <h3>ÁLBUMES</h3>
               <p>
                 Gana dinero completando<br />
@@ -280,7 +279,7 @@ const Hero = React.forwardRef((props, book) => {
 
               </div>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page' data-density='hard' number="5">
               <h3>COLECCIÓN</h3>
               <p>
                 ALPHA: Juega y colecciona con<br />
@@ -326,7 +325,7 @@ const Hero = React.forwardRef((props, book) => {
               </Link>
             </div>
 
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0' data-density='hard' number="6">
               <h3>ECOSISTEMA</h3>
               <p>
                 La economía de NoF está<br />
@@ -353,7 +352,7 @@ const Hero = React.forwardRef((props, book) => {
                 divertido y disruptivo.
               </p>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page' data-density='hard' number="7">
               <div className='hero__top__album__book__page__profiles'>
                 <h3 className='hero__top__album__book__page__profiles__title'>EQUIPO</h3>
                 <div className='hero__top__album__book__page__profiles__content'>
@@ -376,7 +375,7 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-            <div className='hero__top__album__book__page0' data-density='hard'>
+            <div className='hero__top__album__book__page0' data-density='hard' number="8">
               <div className='friends_container'>
                 <h3 className='title'>AMIGOS</h3>
                 <div className='content'>
@@ -399,7 +398,7 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-            <div className='hero__top__album__book__page' data-density='hard'>
+            <div className='hero__top__album__book__page' data-density='hard' number="9">
               <div className='tech_container'>
                 <div className='techimg'>
                   <Image
@@ -452,7 +451,7 @@ const Hero = React.forwardRef((props, book) => {
             </div>
           </HTMLFlipBook>
         </div>
-       {!mobile && <div className='hero__top__conteiner__swiper'>
+        {!mobile && <div className='hero__top__conteiner__swiper'>
           <div className='hero__top__swiper'>
             <Swiper
               effect='cards'

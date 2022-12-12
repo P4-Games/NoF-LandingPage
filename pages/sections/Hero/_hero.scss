@@ -1,6 +1,6 @@
 $backWidth: 512px; $backHeight: 432px;
 $bushesWidth: 508px; $bushesHeight: 79px;
-$groundWidth: 218px; $groundHeight: 22px;
+$groundWidth: 218px; $groundHeight: 40px;
 
 #cards {
     display: flex;
@@ -11,7 +11,7 @@ $groundWidth: 218px; $groundHeight: 22px;
 .hero {
     height: 87.5vh;
     background-image:
-    url('https://github.com/Kageetai/mario-bfackground-parallax/blob/master/img/mario.gif?raw='),
+    url('../Hero/background/NofCaballero.gif'),
     url('../Hero/background/front1.png'),
     url('../Hero/background/Country0.png'),
     url('../Hero/background/background0.png');
@@ -53,7 +53,7 @@ $groundWidth: 218px; $groundHeight: 22px;
         }
     }
     @include mobile {
-        height: 91.5vh;
+        height: 81.5vh;
     }
 
     &__top {

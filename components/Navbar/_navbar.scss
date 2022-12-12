@@ -123,6 +123,12 @@ header {
 			justify-content: space-around;
 			align-items: center;
 			margin-right: 90px;
+			@include desktop {
+				margin-right: none;
+			}
+			@include tablet {
+				margin-right: none;
+			}
 			&__nosotros {
 				font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 				font-size: 1em;
