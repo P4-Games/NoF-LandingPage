@@ -633,6 +633,21 @@ $groundWidth: 218px; $groundHeight: 22px;
         position: relative;
     }
 }
+
+.bookflip_conteiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include mobile {
+        display: none;
+    }
+    .bookimg{
+        width: 220px;
+        height: 130px;
+        position: relative;
+    }
+}
+
 .coin_conteiner {
     position: relative;
     display: flex;

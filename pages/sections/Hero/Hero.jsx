@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
 import Noficon from './background/logo-nof.gif'
+import Bookflip from './background/book_flip.gif'
 import Bookmenu from './background/book-menu-1.png'
 import Gold from './background/oro.png'
 import Plate from './background/plata.png'
@@ -131,6 +132,15 @@ const Hero = React.forwardRef((props, book) => {
                 mientras crean su propia<br />
                 colección de álbumes NFT.
               </p>
+              <div className='bookflip_conteiner'>
+                <div className='bookimg'>
+                  <Image
+                    src={Bookflip}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
+              </div>
             </div>
 
             <div className='hero__top__album__book__page0' data-density='hard'>

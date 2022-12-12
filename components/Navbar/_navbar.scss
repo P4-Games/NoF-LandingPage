@@ -117,23 +117,12 @@ header {
 		@include mobile {
 			display: none;
 		}
-		@include tablet {
-			
-		}
-		@include desktop {
-			
-		}
-		@include large-desktop {
-		}
 
 		&__li {
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
-			@include large-desktop {
-			}
-			@include tablet {
-			}
+			margin-right: 90px;
 			&__nosotros {
 				font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 				font-size: 1em;
