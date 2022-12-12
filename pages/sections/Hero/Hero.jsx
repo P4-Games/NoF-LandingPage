@@ -150,7 +150,7 @@ const Hero = React.forwardRef((props, book) => {
                 punto de encuentro<br />
                 de los grupos de fans, donde<br />
                 podrán revivir la afición<br />
-                de coleccionar figutitas.
+                de coleccionar figuritas.
               </p>
               <div className='book_container'>
                 <Image

@@ -10,7 +10,7 @@ function NofTown () {
             rel='noreferrer'
         >
             <button className='navbar__ul__li__nosotros'>
-                Nof Town
+                NoF Town
             </button>
         </Link>
     )
