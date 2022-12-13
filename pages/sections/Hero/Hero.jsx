@@ -288,7 +288,7 @@ const Hero = React.forwardRef((props, book) => {
                 los mejores premios.<br />
               </p>
               <Link
-                href='/Alpha'
+                href='/alpha'
               >
                 <button className='hero__top__album__book__page__btn'>
                   ALPHA
