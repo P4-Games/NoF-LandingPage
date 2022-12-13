@@ -21,6 +21,8 @@ const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; //
 const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
 const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // test dai contract with unlimited minting
 
+let swiper;
+
 const AlphaCards = () => {
   const validChainId = "0x13881";
   const [chainId, setChainId] = useState(null);
@@ -42,6 +44,7 @@ const AlphaCards = () => {
   const [seasonName, setSeasonName] = useState("")
   const [receiverAccount, setReceiverAccount] = useState(null)
   const [cardToTransfer, setCardToTransfer] = useState(null)
+  const [winnerPosition, setWinnerPosition] = useState(0)
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -101,29 +104,49 @@ const AlphaCards = () => {
     })
   }
 
+  const getWinners = async () => {
+    const winners = await nofContract.getWinners(seasonName)
+    return winners
+  }
+
   const showCards = (address, seasonName) => {
     const cards = getUserCards(address, seasonName)
       .then(pack => {
         if(pack.length){
-          let album = []
-          let cards = []
+          let albumData = []
+          let cardsData = []
           pack.forEach(card => {
-            card.class == 0 ? album.push(card) : cards.push(card);
+            card.class == 0 ? albumData.push(card) : cardsData.push(card);
           })
+          setNoCardsError("")
           setPack(pack)
-          setAlbum(album)
-          setAlbumCollection(ethers.BigNumber.from(album[0].collection).toNumber())
-          const completion = ethers.BigNumber.from(album[0].completion).toNumber()
+          setAlbum(albumData)
+          setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
+          // if(ethers.BigNumber.from(albumData[0].collection).toNumber() == ethers.BigNumber.from(cards[cardIndex].collection).toNumber()){
+          //   setIsCollection(true)
+          // }
+          const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
           setAlbumCompletion(completion)
-          setVida(vidas[ethers.BigNumber.from(album[0].completion).toNumber()])
+          setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
           if(completion < 5){
-            setAlbumCard(storageUrl + album[0].number + ".png")
+            setAlbumCard(storageUrl + albumData[0].number + ".png")
           } else {
-            setAlbumCard(storageUrl + album[0].number + "F" + ".png")
+            setAlbumCard(storageUrl + albumData[0].number + "F" + ".png")
+            getWinners()
+              .then(winners => {
+                if(winners.includes(account)){
+                  setWinnerPosition(winners.indexOf(account) + 1)
+                }
+              })
+              .catch(e => {
+                console.log({ e })
+              })
           }
-          setCards(cards)
+          setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
+          const container = document.getElementsByClassName('alpha_inner_container')[0]
+          container.setAttribute('class', 'alpha_inner_container alpha_inner_container_open')
           return pack
         } else {
           setNoCardsError("Necesitas comprar un pack, primero.")
@@ -309,7 +332,6 @@ const AlphaCards = () => {
   }
 
   useEffect(() => {
-    console.log({albumCompleted})
     if(window && window.ethereum !== undefined){
       window.ethereum.on('accountsChanged', (accounts) => {
         const address = accounts[0]
@@ -346,7 +368,8 @@ const AlphaCards = () => {
     .catch(e => {
       console.log({e})
     });
-  }, []);
+
+  }, [])
 
   useEffect(() => {
     const loadingElem = document.getElementById("loading");
@@ -358,8 +381,6 @@ const AlphaCards = () => {
         );
   }, [loading]);
 
-  let swiper;
-
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
       effect: 'cards',
@@ -369,25 +390,49 @@ const AlphaCards = () => {
       slidesPerView: 1,
       initialSlide: 0,
       runCallbacksOnInit: true,
+      observer: true,
       cardsEffect: {
-        perSlideOffset: 8,
+        // perSlideOffset: 8,
         slideShadows: false,
       },
       pagination: {
         el: '.swiper-pagination',
       },
-    });
-    
-    swiper.on('slideChange', res => {
-      setCardIndex(res.activeIndex)
-
-      if(cards[res.activeIndex].collection == albumCollection){
-        setIsCollection(true)
-      } else {
-        setIsCollection(false)
+      on: {
+        init: (res) => {
+          console.log({res})
+          console.log({swiper})
+          setCardIndex(res.activeIndex)
+          if(cards.length > 0){
+            if(cards[res.activeIndex].collection == albumCollection){
+              setIsCollection(true)
+            } else {
+              setIsCollection(false)
+            }
+          }
+        },
+        slideChange: (res) => {
+          setCardIndex(res.activeIndex)
+          if(cards[res.activeIndex].collection == albumCollection){
+            setIsCollection(true)
+          } else {
+            setIsCollection(false)
+          }    
+        },
+        observerUpdate: (res) => {
+          setCardIndex(res.activeIndex)
+          if(cards[res.activeIndex].collection == albumCollection){
+            setIsCollection(true)
+          } else {
+            setIsCollection(false)
+          }
+        },
+        slidesLengthChange: (res) => {
+          console.log('desde el slide length change')
+        }
       }
     });
-  }, [pack])
+  }, [pack, cards])
 
   useEffect(() => {
     const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
@@ -438,7 +483,7 @@ const AlphaCards = () => {
                 />
               </div>
               <div className="alpha_progress_container">
-                <span>Progreso: {albumCompletion}/5</span>
+                <span>{winnerPosition == 0 ? `Progreso: ${albumCompletion}/5` : `Posición: ${winnerPosition}`}</span>
                 <img src={vida} />
                 <span>Colección: {albumCollection}</span>
                 <div className="alpha_progress_button_container">
@@ -463,6 +508,7 @@ const AlphaCards = () => {
                         "alpha_transfer_modal"
                       );
                     }}
+                    disabled={!(cards.length > 0)}
                   >
                     TRANSFERIR
                   </button>
@@ -474,7 +520,7 @@ const AlphaCards = () => {
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div className="swiper-slide" key={i}>
+                        <div className="swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}
@@ -489,22 +535,25 @@ const AlphaCards = () => {
               
               </div>
           
-            
+            {cards.length > 0 ? (
               <div className="alpha_transfer_modal alpha_display_none">
-                <button className="alpha_transfer_modal_close" onClick={() => {
-                  const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                  return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
-                }}>X</button>
-                <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards && ethers.BigNumber.from(cards[cardIndex].collection).toNumber()}</span>
-                <input
-                  placeholder="Inserte la wallet del destinatario"
-                  value={receiverAccount}
-                  onChange={(e) => setReceiverAccount(e.target.value)}
-                />
-                <button className="alpha_button" onClick={() => transferToken()}>
-                  TRANSFERIR
-                </button>
-              </div>
+              <button className="alpha_transfer_modal_close" onClick={() => {
+                const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+                return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+              }}>X</button>
+              <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards[cardIndex] ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber() : ethers.BigNumber.from(cards[cardIndex-1].collection).toNumber()}</span>
+              <input
+                placeholder="Inserte la wallet del destinatario"
+                value={receiverAccount}
+                onChange={(e) => setReceiverAccount(e.target.value)}
+              />
+              <button className="alpha_button" onClick={() => transferToken()}>
+                TRANSFERIR
+              </button>
+            </div>
+            ) : null
+              
+            }
             </div>
           ) : null}
 
