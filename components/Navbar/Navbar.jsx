@@ -1,77 +1,67 @@
-import React from 'react'
-import Image from 'next/image'
+import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-scroll'
 import Links from './Links.jsx'
+import Image from 'next/image'
+import audio from './music/Dungeon.mp3'
 import Whitepaper from './Whitepaper.jsx'
+import NofTown from './NofTown.jsx'
+import Coin from './icons/logo-coin.png'
+import Nof from './icons/logo-1.png'
+import SoundOn from './icons/sound.png'
+import SoundOff from './icons/soundoff.png'
+function Navbar({ onFlip, goToCollections }) {
+  const ref = useRef(null);
+  const [click, setClick] = useState(false);
 
-function Navbar () {
+  const handleClick = () => {
+    setClick(!click);
+    if (!click) {
+      ref.current.play();
+    } else {
+      ref.current.pause();
+    }
+  };
   return (
-    <header>
+    <>
       <div className='navbar'>
         <div className='navbar__icon'>
-          <Link
-            to='Hero'
-            spy='true'
-            smooth='true'
-            offset={-100}
-            duration={500}
-          >
-            <div className='navbar__icon__coin'>
-              <Image
-                src='/../public/nof-icon/logo-coin.png'
-                alt='/'
-                width={142}
-                height={139}
-              />
-            </div>
-          </Link>
-          <Link
-            to='Hero'
-            spy='true'
-            smooth='true'
-            offset={-100}
-            duration={500}
-          >
-            <div className='navbar__icon__nof'>
-              <Image
-                src='/../public/nof-icon/logo-1.png'
-                alt='/'
-                width={246}
-                height={102}
-              />
-            </div>
-          </Link>
+          <div className='hover' id='coin'>
+            <Image src={Coin} id='coin' layout='fill' />
+          </div>
+          <div className='hover' id='nof'>
+            <Image src={Nof} alt="" layout='fill' />
+          </div>
         </div>
         <ul className='navbar__ul'>
           <li className='navbar__ul__li'>
-            <Link
-              to='Nosotros'
-              spy='true'
-              smooth='true'
-              offset={-80}
-              duration={500}
-            >
-              <button className='navbar__ul__li__nosotros'>
-                Nosotros
-              </button>
-            </Link>
+            <NofTown />
             <Link
               to='Contacto'
-              spy='true'
-              smooth='true'
-              offset={-80}
-              duration={500}
+            // spy='true'
             >
-              <button className='navbar__ul__li__contacto'>
-                Contacto
+              <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onclick={onFlip}>
+                Colecciones
               </button>
             </Link>
             <Whitepaper />
           </li>
         </ul>
-        <Links />
+        <div className='navbar__corner'>
+          <div onClick={() => handleClick()} className='navbar__corner__audio'>
+            {/* <Image src={SoundOn} alt="" /> */}
+            {click ?
+              <Image src={SoundOn} alt="soundimg" />
+              :
+              <Image src={SoundOff} alt="soundimg" />}
+            <></>
+          </div>
+          <Links />
+        </div>
       </div>
-    </header>
+
+
+      <audio src={audio} ref={ref} loop />
+    </>
   )
 }
 

@@ -4,13 +4,10 @@ import Link from 'next/link'
 function Whitepaper () {
   return (
     <Link
-      href='https://discord.gg/4Bvp5bVmCz'
+      href='https://number-one-fan.gitbook.io/doc/'
       target='_blank'
       rel='noreferrer'
-      spy='true'
-      smooth='true'
-      offset={-80}
-      duration={500}
+      //spy='true'
     >
       <button className='navbar__ul__li__whitepaper'>
         Whitepaper

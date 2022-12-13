@@ -29,9 +29,12 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "hardhat": "^2.12.2",
-    "standard": "^17.0.0"
+    "sharp": "^0.31.2",
+    "swiper": "^8.4.4",
+    "url-loader": "^4.1.1"
   },
-  "eslintConfig": {
-    "extends": "./node_modules/standard/eslintrc.json"
+  "devDependencies": {
+    "file-loader": "^6.2.0",
+    "standard": "^17.0.0"
   }
 }
