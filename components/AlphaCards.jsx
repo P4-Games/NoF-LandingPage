@@ -520,7 +520,7 @@ const AlphaCards = () => {
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div className="swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
+                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}

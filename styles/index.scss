@@ -203,6 +203,7 @@ a {
 }
 
 .swiper-slide {
+	background-image: none;
   text-align: center;
   font-size: 18px;
   display: -webkit-box;
@@ -308,6 +309,10 @@ a {
         box-sizing: border-box;
         max-width: 100%;
   }
+
+	.alpha {
+		height: 100vh;
+	}
 
 	.alpha_inner_container_open {
 		margin-top: 115%;
