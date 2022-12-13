@@ -9,7 +9,7 @@ import Coin from './icons/logo-coin.png'
 import Nof from './icons/logo-1.png'
 import SoundOn from './icons/sound.png'
 import SoundOff from './icons/soundoff.png'
-function Navbar({ onFlip }) {
+function Navbar({ onFlip, goToCollections }) {
   const ref = useRef(null);
   const [click, setClick] = useState(false);
 
@@ -34,12 +34,12 @@ function Navbar({ onFlip }) {
         </div>
         <ul className='navbar__ul'>
           <li className='navbar__ul__li'>
-          <NofTown />
+            <NofTown />
             <Link
               to='Contacto'
-              // spy='true'
+            // spy='true'
             >
-              <button className='navbar__ul__li__contacto' onclick={onFlip}>
+              <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onclick={onFlip}>
                 Colecciones
               </button>
             </Link>
