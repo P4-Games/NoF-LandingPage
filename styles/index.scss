@@ -108,7 +108,8 @@ a {
 }
 
 .alpha_inner_container {
-	// margin-top: -10%;
+	position: fixed;
+	margin: 20vh 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -275,7 +276,7 @@ a {
 	}
 
 	.alpha_inner_container_open {
-		margin-top: 40%;
+		margin-top: 70%;
 	}
 
 	.alpha_progress_container {
@@ -284,9 +285,15 @@ a {
 	}
 }
 
+@media (max-width: 820px) {
+	.alpha_inner_container_open {
+		margin-top: 90%;
+	}
+}
+
 @media (max-width: 610px) {
 	.alpha_inner_container_open {
-		margin-top: 60%;
+		margin-top: 100%;
 	}
 }
 
@@ -303,6 +310,12 @@ a {
   }
 
 	.alpha_inner_container_open {
-		margin-top: 80%;
+		margin-top: 115%;
+	}
+}
+
+@media (max-width: 480px) {
+	.alpha_inner_container_open {
+		margin-top: 100%;
 	}
 }
