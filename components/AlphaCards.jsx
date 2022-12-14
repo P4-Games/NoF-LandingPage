@@ -212,59 +212,60 @@ const AlphaCards = () => {
         emitSuccess("Ya tienes cartas.")
         return
       }
-      checkApproved(contractAddress, account)
-        .then(res => {
-        checkPacks()
+      checkPacks()
         .then(res => {
           if(!res || res.length == 0) {
             setNoCardsError("No hay más packs disponibles.")
             return
-          }
-        })
-        .catch(e => {
-          console.error({ e })
-        })
-        const comprarPack = async (price, name) => {
-        const pack = await nofContract.buyPack(price, name)
-        setLoading(true)
-        await pack.wait()
-        setLoading(false)
-        return pack
-      }
-      if(res){
-        comprarPack(price, name)
-          .then(pack => {
-            setPack(pack)
-            showCards(account, seasonName)
+          } else {
+            checkApproved(contractAddress, account)
+            .then(res => {
+              const comprarPack = async (price, name) => {
+              const pack = await nofContract.buyPack(price, name)
+              setLoading(true)
+              await pack.wait()
+              setLoading(false)
+              return pack
+            }
+            if(res){
+              comprarPack(price, name)
+                .then(pack => {
+                  setPack(pack)
+                  showCards(account, seasonName)
+                })
+                .catch(e => {
+                  console.error({ e })
+                })
+            } else {
+              authorizeDaiContract()
+                .then(() => {
+                  comprarPack(price, name)
+                .then(pack => {
+                  setPack(pack)
+                  showCards(account, seasonName)
+                })
+                .catch(e => {
+                  console.error({ e })
+                  setLoading(false)
+                })
+              })
+                .catch(e => {
+                  console.error({ e })
+                })
+              }
+              })
+              .catch(e => {
+                console.error({ e })
+              })
+                }
+              })
+              .catch(e => {
+                console.error({ e })
+              })
           })
-          .catch(e => {
-            console.error({ e })
-          })
-      } else {
-        authorizeDaiContract()
-          .then(() => {
-            comprarPack(price, name)
-          .then(pack => {
-            setPack(pack)
-            showCards(account, seasonName)
-          })
-          .catch(e => {
-            console.error({ e })
-            setLoading(false)
-          })
-        })
-          .catch(e => {
-            console.error({ e })
-          })
-        }
+      .catch(e => {
+        console.error({ e })
       })
-    .catch(e => {
-      console.error({ e })
-    })
-    })
-    .catch(e => {
-      console.error({ e })
-    })
   }
 
   const pasteCard = (cardIndex) => {
