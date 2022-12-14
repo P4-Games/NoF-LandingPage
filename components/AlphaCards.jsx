@@ -55,6 +55,7 @@ const AlphaCards = () => {
       provider = new ethers.providers.Web3Provider(connection);
       address = await provider.getSigner().getAddress();
       setAccount(address);
+      document.getElementById('connect_metamask_button').style.display = "none"
     } catch (e) {
       console.log("requestAccount error:", e);
     }
@@ -69,6 +70,35 @@ const AlphaCards = () => {
     const explorer = "https://mumbai.polygonscan.com/";
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
     return [provider, address];
+  }
+
+  function connectToMetamask() {
+    requestAccount().then((data) => {
+      const [provider, address] = data;
+      const signer = provider.getSigner();
+      let nofContractInstance = new ethers.Contract(
+        contractAddress,
+        nofAbi.abi,
+        signer
+      );
+      setNofContract(nofContractInstance)
+      let daiContractInstance = new ethers.Contract(
+        daiAddress,
+        daiAbi.abi,
+        signer
+      );
+      setDaiContract(daiContractInstance)
+      requestSeasonData(nofContractInstance)
+      .then(data => {
+        const [currentSeason, currentPrice] = data;
+      })
+      .catch(e => {
+        console.log({e})
+      });
+    })
+    .catch(e => {
+      console.log({e})
+    });
   }
 
   async function requestSeasonData(contract) {
@@ -284,11 +314,6 @@ const AlphaCards = () => {
     }
   }
 
-  const albumCompleted = () => {
-    const album = document.getElementsByClassName("alpha_album")[0]
-    console.log(album)
-  }
-
   function decToHex(number) {
     return `0x${parseInt(number).toString(16)}`;
   }
@@ -342,33 +367,6 @@ const AlphaCards = () => {
         setChainId(decToHex(newChain))
       })
     }
-    requestAccount().then((data) => {
-      const [provider, address] = data;
-      const signer = provider.getSigner();
-      let nofContractInstance = new ethers.Contract(
-        contractAddress,
-        nofAbi.abi,
-        signer
-      );
-      setNofContract(nofContractInstance)
-      let daiContractInstance = new ethers.Contract(
-        daiAddress,
-        daiAbi.abi,
-        signer
-      );
-      setDaiContract(daiContractInstance)
-      requestSeasonData(nofContractInstance)
-      .then(data => {
-        const [currentSeason, currentPrice] = data;
-      })
-      .catch(e => {
-        console.log({e})
-      });
-    })
-    .catch(e => {
-      console.log({e})
-    });
-
   }, [])
 
   useEffect(() => {
@@ -452,15 +450,10 @@ const AlphaCards = () => {
           className="loader"
         ></span>
       </div>
+      <button className="alpha_button" id="connect_metamask_button" onClick={() => connectToMetamask()}>Conectarse con Metamask</button>
       {account && (
         <div className="alpha_inner_container">
           <div className="alpha_data">
-            {/* <div className="alpha_account">Hola,{" "}
-            {account &&
-              account.substring(0, 6) +
-                "..." +
-                account.substring(37, account.length - 1)}
-            !</div> */}
             <div className="alpha_season">
               <img src={marco.src}/>
               <span className="alpha_season_name">{seasonName}</span>
