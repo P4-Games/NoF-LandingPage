@@ -93,11 +93,11 @@ const AlphaCards = () => {
         const [currentSeason, currentPrice] = data;
       })
       .catch(e => {
-        console.log({e})
+        console.error({ e })
       });
     })
     .catch(e => {
-      console.log({e})
+      console.error({ e })
     });
   }
 
@@ -152,9 +152,6 @@ const AlphaCards = () => {
           setPack(pack)
           setAlbum(albumData)
           setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
-          // if(ethers.BigNumber.from(albumData[0].collection).toNumber() == ethers.BigNumber.from(cards[cardIndex].collection).toNumber()){
-          //   setIsCollection(true)
-          // }
           const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
           setAlbumCompletion(completion)
           setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
@@ -169,7 +166,7 @@ const AlphaCards = () => {
                 }
               })
               .catch(e => {
-                console.log({ e })
+                console.error({ e })
               })
           }
           setCards(cardsData)
@@ -183,7 +180,7 @@ const AlphaCards = () => {
         }
       })
       .catch(e => {
-        console.log({ e })
+        console.error({ e })
       })
       return cards
   }
@@ -202,6 +199,11 @@ const AlphaCards = () => {
     return approved.gt(0);
   }
 
+  const checkPacks = async () => {
+    const check = await nofContract.getSeasonAlbums(seasonName)
+    return check
+  }
+
   const buyPack = (price, name) => {
     showCards(account, seasonName)
     .then((cards) => {
@@ -212,6 +214,16 @@ const AlphaCards = () => {
       }
       checkApproved(contractAddress, account)
         .then(res => {
+        checkPacks()
+        .then(res => {
+          if(!res || res.length == 0) {
+            setNoCardsError("No hay más packs disponibles.")
+            return
+          }
+        })
+        .catch(e => {
+          console.error({ e })
+        })
         const comprarPack = async (price, name) => {
         const pack = await nofContract.buyPack(price, name)
         setLoading(true)
@@ -226,7 +238,7 @@ const AlphaCards = () => {
             showCards(account, seasonName)
           })
           .catch(e => {
-            console.log({ e })
+            console.error({ e })
           })
       } else {
         authorizeDaiContract()
@@ -237,21 +249,21 @@ const AlphaCards = () => {
             showCards(account, seasonName)
           })
           .catch(e => {
-            console.log({ e })
+            console.error({ e })
             setLoading(false)
           })
         })
           .catch(e => {
-            console.log({ e })
+            console.error({ e })
           })
         }
       })
     .catch(e => {
-      console.log({ e })
+      console.error({ e })
     })
     })
     .catch(e => {
-      console.log({ e })
+      console.error({ e })
     })
   }
 
@@ -270,7 +282,7 @@ const AlphaCards = () => {
         emitSuccess("Tu carta ya está en el album")
       })
       .catch(e => {
-        console.log({ e })
+        console.error({ e })
       })
   }
 
@@ -310,7 +322,7 @@ const AlphaCards = () => {
         emitSuccess("Tu carta ha sido enviada")
       }
     } catch (e) {
-      console.log({ e })
+      console.error({ e })
     }
   }
 
@@ -398,8 +410,6 @@ const AlphaCards = () => {
       },
       on: {
         init: (res) => {
-          console.log({res})
-          console.log({swiper})
           setCardIndex(res.activeIndex)
           if(cards.length > 0){
             if(cards[res.activeIndex].collection == albumCollection){
@@ -426,7 +436,7 @@ const AlphaCards = () => {
           }
         },
         slidesLengthChange: (res) => {
-          console.log('desde el slide length change')
+          // check function  
         }
       }
     });
