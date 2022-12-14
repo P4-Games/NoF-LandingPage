@@ -10,12 +10,12 @@ const Alpha = () => {
 
   return (
     <div className='alpha_main'>
+      <Head>
+        <title>Number One Fan</title>
+        <meta name='description' content='NoF Alpha' />
+        <Link rel='icon' href='./public/favicon.ico' />
+      </Head>
       <EthersProvider>
-        <Head>
-          <title>Number One Fan</title>
-          <meta name='description' content='NoF Alpha' />
-          <Link rel='icon' href='./public/favicon.ico' />
-        </Head>
         <AlphaCards />
         <Navbar />
         <Footer />
