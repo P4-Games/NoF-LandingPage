@@ -25,6 +25,7 @@ function Home() {
       <Head>
         <title>Number One Fan</title>
         <meta name='description' content='Number One Fan' />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel='icon' href='./favicon.ico' />
       </Head>
       <Navbar onFlip={onFlip} goToCollections={goToCollections} />
