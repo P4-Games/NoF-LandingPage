@@ -372,8 +372,7 @@ const AlphaCards = () => {
   useEffect(() => {
     if(window && window.ethereum !== undefined){
       window.ethereum.on('accountsChanged', (accounts) => {
-        const address = accounts[0]
-        setAccount(address)
+        connectToMetamask()
       })
   
       window.ethereum.on('chainChanged', newChain => {
