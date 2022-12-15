@@ -37,6 +37,7 @@ const Hero = React.forwardRef((props, book) => {
     if (window.innerWidth < 600) {
       setMobile(true);
       setSize(true)
+      setSwipper(true)
     } else {
       setMobile(false);
       setSize(false)
@@ -44,6 +45,7 @@ const Hero = React.forwardRef((props, book) => {
     const updateMedia = () => {
       if (window.innerWidth < 600) {
         setMobile(true);
+        setSwipper(true)
         setSize(true)
       } else {
         setMobile(false);
