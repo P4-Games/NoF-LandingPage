@@ -476,7 +476,10 @@ const AlphaCards = () => {
               <span className="alpha_season_name">{seasonName}</span>
               <select
                 value={seasonName}
-                onChange={e => setSeasonName(e.target.value)}
+                onChange={e => {
+                  setSeasonName(e.target.value)
+                  setPackPrice(ethers.BigNumber.from(packPrices[seasonNames.indexOf(e.target.value)]).toString())
+                }}
                 id="alpha_select_season_button" >
                 {seasonNames && seasonNames.map(name => {
                   return (
