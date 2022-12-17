@@ -16,6 +16,7 @@ import marco from "../public/marco.png"
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
 import 'swiper/css/bundle';
+import { id } from "ethers/lib/utils.js";
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
 const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
@@ -40,8 +41,10 @@ const AlphaCards = () => {
   const [noCardsError, setNoCardsError] = useState("")
   const [cardIndex, setCardIndex] = useState(0)
   const [vida, setVida] = useState(vida0.src)
-  const [packPrice, setPackPrice] = useState("")
+  const [seasonNames, setSeasonNames] = useState(null)
   const [seasonName, setSeasonName] = useState("")
+  const [packPrices, setPackPrices] = useState(null)
+  const [packPrice, setPackPrice] = useState("")
   const [receiverAccount, setReceiverAccount] = useState(null)
   const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
@@ -107,6 +110,9 @@ const AlphaCards = () => {
     const currentPrice = seasonData[1][seasonData[1].length - 1];
     setSeasonName(currentSeason); // sets the season name as the last season name created
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
+    setSeasonNames(seasonData[0])
+    setPackPrices(seasonData[1])
+    console.log(seasonData)
     return [currentSeason, currentPrice];
   }
 
@@ -172,6 +178,7 @@ const AlphaCards = () => {
           setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
+          document.getElementById("alpha_select_season_button").style.display = "none"
           const container = document.getElementsByClassName('alpha_inner_container')[0]
           container.setAttribute('class', 'alpha_inner_container alpha_inner_container_open')
           return pack
@@ -467,6 +474,16 @@ const AlphaCards = () => {
             <div className="alpha_season">
               <img src={marco.src}/>
               <span className="alpha_season_name">{seasonName}</span>
+              <select
+                value={seasonName}
+                onChange={e => setSeasonName(e.target.value)}
+                id="alpha_select_season_button" >
+                {seasonNames && seasonNames.map(name => {
+                  return (
+                    <option key={name}>{name}</option>
+                  )
+                })}
+              </select>
             </div>
             <div className="alpha_start_buttons">
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>

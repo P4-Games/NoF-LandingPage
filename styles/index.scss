@@ -89,6 +89,15 @@ a {
 	font-size: 0.5em;
 }
 
+#alpha_select_season_button {
+	z-index: 999;
+	width: 210px;
+	text-align: center;
+	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
+	background-color: #eec48a;
+	border: 0px;
+}
+
 .alpha_display_none {
 	display: none !important;
 	opacity: 0;
