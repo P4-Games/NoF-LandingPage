@@ -60,7 +60,7 @@ const AlphaCards = () => {
       setAccount(address);
       document.getElementById('connect_metamask_button').style.display = "none"
     } catch (e) {
-      console.log("requestAccount error:", e);
+      console.error({ e });
     }
 
     if (!provider) return;
@@ -112,7 +112,6 @@ const AlphaCards = () => {
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
     setSeasonNames(seasonData[0])
     setPackPrices(seasonData[1])
-    console.log(seasonData)
     return [currentSeason, currentPrice];
   }
 
@@ -197,7 +196,6 @@ const AlphaCards = () => {
     setLoading(true)
     await authorization.wait()
     setLoading(false)
-    console.log(authorization)
     return authorization
   }
 
@@ -296,7 +294,6 @@ const AlphaCards = () => {
 
   const checkInputAddress = (address) => {
     const hexa = "0123456789abcdefABCDEF";
-    console.log(address)
     if (
       receiverAccount.length !== 42 ||
       receiverAccount[0] !== "0" ||
@@ -370,7 +367,7 @@ const AlphaCards = () => {
             ],
           });
         } catch (e) {
-          console.log(e.message);
+          console.error(e.message);
         }
       }
     }
