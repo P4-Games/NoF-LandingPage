@@ -535,12 +535,12 @@ const AlphaCards = () => {
                 </div>
               </div>
               <div className="alpha_cards_container">
-                <div className="swiper-container">
-                  <div className="swiper-wrapper">
+                <div className="swiper-container alpha-swiper-container">
+                  <div className="swiper-wrapper alpha-swiper-wrapper">
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
+                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}

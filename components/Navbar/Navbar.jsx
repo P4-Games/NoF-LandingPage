@@ -26,7 +26,9 @@ function Navbar({ onFlip, goToCollections }) {
       <div className='navbar'>
         <div className='navbar__icon'>
           <div className='hover' id='coin'>
-            <Image src={Coin} id='coin' layout='fill' />
+            <a href='/'>
+              <Image src={Coin} id='coin' layout='fill' />
+            </a>
           </div>
           <div className='hover' id='nof'>
             <Image src={Nof} alt="" layout='fill' />
