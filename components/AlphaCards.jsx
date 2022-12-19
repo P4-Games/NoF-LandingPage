@@ -48,6 +48,7 @@ const AlphaCards = () => {
   const [receiverAccount, setReceiverAccount] = useState(null)
   const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
+  const [transferError, setTransferError] = useState("")
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -299,12 +300,12 @@ const AlphaCards = () => {
       receiverAccount[0] !== "0" ||
       receiverAccount[1] !== "x"
     ) {
-      emitError("La dirección de destino es inválida.")
+      setTransferError("La dirección de destino es inválida.")
       return false;
     }
     for (let i = 2; i < receiverAccount.length; i++) {
       if (!hexa.includes(receiverAccount[i])) {
-        emitError("La dirección de destino es inválida.")
+        setTransferError("La dirección de destino es inválida.")
         return false;
       }
     }
@@ -314,6 +315,7 @@ const AlphaCards = () => {
   async function transferToken() {
     try {
       if (checkInputAddress(receiverAccount)) {
+        setTransferError("")
         const transaction = await nofContract[
           "safeTransferFrom(address,address,uint256)"
         ](account, receiverAccount, cardToTransfer);
@@ -328,6 +330,9 @@ const AlphaCards = () => {
       }
     } catch (e) {
       console.error({ e })
+      if(e.reason.includes("Receiver is not playing this season")){
+        setTransferError("Este usuario no está jugando esta temporada.")
+      }
     }
   }
 
@@ -559,7 +564,9 @@ const AlphaCards = () => {
               <div className="alpha_transfer_modal alpha_display_none">
               <button className="alpha_transfer_modal_close" onClick={() => {
                 const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                setTransferError("")
+                setReceiverAccount("")
               }}>X</button>
               <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards[cardIndex] ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber() : ethers.BigNumber.from(cards[cardIndex-1].collection).toNumber()}</span>
               <input
@@ -570,6 +577,7 @@ const AlphaCards = () => {
               <button className="alpha_button" onClick={() => transferToken()}>
                 TRANSFERIR
               </button>
+              <span className="alpha_transfer_error">{transferError}</span>
             </div>
             ) : null
               
