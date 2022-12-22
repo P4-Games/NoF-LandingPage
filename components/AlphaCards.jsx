@@ -16,6 +16,7 @@ import marco from "../public/marco.png"
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
 import 'swiper/css/bundle';
+import { id } from "ethers/lib/utils.js";
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
 const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
@@ -40,11 +41,14 @@ const AlphaCards = () => {
   const [noCardsError, setNoCardsError] = useState("")
   const [cardIndex, setCardIndex] = useState(0)
   const [vida, setVida] = useState(vida0.src)
-  const [packPrice, setPackPrice] = useState("")
+  const [seasonNames, setSeasonNames] = useState(null)
   const [seasonName, setSeasonName] = useState("")
+  const [packPrices, setPackPrices] = useState(null)
+  const [packPrice, setPackPrice] = useState("")
   const [receiverAccount, setReceiverAccount] = useState(null)
   const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
+  const [transferError, setTransferError] = useState("")
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -57,7 +61,7 @@ const AlphaCards = () => {
       setAccount(address);
       document.getElementById('connect_metamask_button').style.display = "none"
     } catch (e) {
-      console.log("requestAccount error:", e);
+      console.error({ e });
     }
 
     if (!provider) return;
@@ -107,6 +111,8 @@ const AlphaCards = () => {
     const currentPrice = seasonData[1][seasonData[1].length - 1];
     setSeasonName(currentSeason); // sets the season name as the last season name created
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
+    setSeasonNames(seasonData[0])
+    setPackPrices(seasonData[1])
     return [currentSeason, currentPrice];
   }
 
@@ -172,6 +178,7 @@ const AlphaCards = () => {
           setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
+          document.getElementById("alpha_select_season_button").style.display = "none"
           const container = document.getElementsByClassName('alpha_inner_container')[0]
           container.setAttribute('class', 'alpha_inner_container alpha_inner_container_open')
           return pack
@@ -190,7 +197,6 @@ const AlphaCards = () => {
     setLoading(true)
     await authorization.wait()
     setLoading(false)
-    console.log(authorization)
     return authorization
   }
 
@@ -289,18 +295,17 @@ const AlphaCards = () => {
 
   const checkInputAddress = (address) => {
     const hexa = "0123456789abcdefABCDEF";
-    console.log(address)
     if (
       receiverAccount.length !== 42 ||
       receiverAccount[0] !== "0" ||
       receiverAccount[1] !== "x"
     ) {
-      emitError("La dirección de destino es inválida.")
+      setTransferError("La dirección de destino es inválida.")
       return false;
     }
     for (let i = 2; i < receiverAccount.length; i++) {
       if (!hexa.includes(receiverAccount[i])) {
-        emitError("La dirección de destino es inválida.")
+        setTransferError("La dirección de destino es inválida.")
         return false;
       }
     }
@@ -310,6 +315,7 @@ const AlphaCards = () => {
   async function transferToken() {
     try {
       if (checkInputAddress(receiverAccount)) {
+        setTransferError("")
         const transaction = await nofContract[
           "safeTransferFrom(address,address,uint256)"
         ](account, receiverAccount, cardToTransfer);
@@ -324,6 +330,9 @@ const AlphaCards = () => {
       }
     } catch (e) {
       console.error({ e })
+      if(e.reason.includes("Receiver is not playing this season")){
+        setTransferError("Este usuario no está jugando esta temporada.")
+      }
     }
   }
 
@@ -363,7 +372,7 @@ const AlphaCards = () => {
             ],
           });
         } catch (e) {
-          console.log(e.message);
+          console.error(e.message);
         }
       }
     }
@@ -467,6 +476,19 @@ const AlphaCards = () => {
             <div className="alpha_season">
               <img src={marco.src}/>
               <span className="alpha_season_name">{seasonName}</span>
+              <select
+                value={seasonName}
+                onChange={e => {
+                  setSeasonName(e.target.value)
+                  setPackPrice(ethers.BigNumber.from(packPrices[seasonNames.indexOf(e.target.value)]).toString())
+                }}
+                id="alpha_select_season_button" >
+                {seasonNames && seasonNames.map(name => {
+                  return (
+                    <option key={name}>{name}</option>
+                  )
+                })}
+              </select>
             </div>
             <div className="alpha_start_buttons">
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
@@ -518,12 +540,12 @@ const AlphaCards = () => {
                 </div>
               </div>
               <div className="alpha_cards_container">
-                <div className="swiper-container">
-                  <div className="swiper-wrapper">
+                <div className="swiper-container alpha-swiper-container">
+                  <div className="swiper-wrapper alpha-swiper-wrapper">
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
+                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + card.number + ".png"}
@@ -542,7 +564,9 @@ const AlphaCards = () => {
               <div className="alpha_transfer_modal alpha_display_none">
               <button className="alpha_transfer_modal_close" onClick={() => {
                 const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                return modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                setTransferError("")
+                setReceiverAccount("")
               }}>X</button>
               <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards[cardIndex] ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber() : ethers.BigNumber.from(cards[cardIndex-1].collection).toNumber()}</span>
               <input
@@ -553,6 +577,7 @@ const AlphaCards = () => {
               <button className="alpha_button" onClick={() => transferToken()}>
                 TRANSFERIR
               </button>
+              <span className="alpha_transfer_error">{transferError}</span>
             </div>
             ) : null
               
