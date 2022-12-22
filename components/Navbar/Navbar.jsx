@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-scroll'
-import Links from './Links.jsx'
 import Image from 'next/image'
 import audio from './music/Dungeon.mp3'
 import Whitepaper from './Whitepaper.jsx'
@@ -9,6 +8,8 @@ import Coin from './icons/logo-coin.png'
 import Nof from './icons/logo-1.png'
 import SoundOn from './icons/sound.png'
 import SoundOff from './icons/soundoff.png'
+import TranslationComponent from './translationComponent.jsx'
+
 function Navbar({ onFlip, goToCollections }) {
   const ref = useRef(null);
   const [click, setClick] = useState(false);
@@ -55,10 +56,10 @@ function Navbar({ onFlip, goToCollections }) {
               <Image src={SoundOff} alt="soundimg" />}
             <></>
           </div>
-          <Links />
+          <TranslationComponent
+          />
         </div>
       </div>
-
 
       <audio src={audio} ref={ref} loop />
     </>

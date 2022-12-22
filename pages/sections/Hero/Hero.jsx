@@ -126,7 +126,8 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
               <br />
-              <p className='hero__top__album__book__page__text'>Number One Fan es el primer<br />
+              <p className='hero__top__album__book__page__text'>
+                Number One Fan es el primer<br />
                 collect-to-earn del mundo,<br />
                 donde los jugadores<br />
                 obtienen recompensas<br />
@@ -161,12 +162,12 @@ const Hero = React.forwardRef((props, book) => {
                 />
               </div>
               <p>
-                Buscamos desarrollar<br />
-                un juego sostenible y<br />
-                al mismo tiempo crear<br />
-                la mayor enciclopedia<br />
-                gráfica de personajes<br />
-                pixelart de la historia.
+              Nuestro objetivo es<br />
+                convertirnos en el mayor<br />
+                punto de encuentro<br />
+                de los grupos de fans, donde<br />
+                podrán revivir la afición<br />
+                de coleccionar figuritas.
               </p>
             </div>
 

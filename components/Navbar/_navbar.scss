@@ -365,28 +365,41 @@ header {
 				height: 50px;
 			}
 		}
-
-		&__social {
-			background-image: url(./icons/discord-logo0.png);
-			background-size: 100% 100%;
-			width: 100px;
-			height: 100px;
-			transition: 0.2s;
-			&:hover {
-				transform: scale(1.1);
-				transition: 0.2s;
-			}
-			@include mobile {
-				
-			}
-			@include tablet {
-				width: 20px;
-				height: 30px;
-			}
-			@include large-desktop {
-				width: 60px;
-				height: 50px;
-			}
-		}
 	}
+}
+
+.link {
+	background: none;
+	border: none;
+	text-decoration: none;
+	font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+	cursor: pointer;
+	padding: 0;
+}
+
+.dropdown > .link:focus,
+.link:hover {
+	color: red;
+	}
+
+.dropdown {
+	position: relative;
+}
+
+.dropdown-menu {
+	position: absolute;
+	right: 0;
+	top: calc(100% + .25rem);
+	background-color: white;
+	padding: .75rem;
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-10px);
+	transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.dropdown > .link:focus + .dropdown-menu {
+	opacity: 1;
+	transform: translateY(0);
+	pointer-events: auto;
 }

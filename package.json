@@ -24,6 +24,7 @@
     "sweetalert2": "^11.6.15",
     "swiper": "^8.4.5",
     "url-loader": "^4.1.1",
+    "use-local-storage": "^2.3.6",
     "wagmi": "^0.9.2",
     "web3modal": "^1.9.9"
   },
