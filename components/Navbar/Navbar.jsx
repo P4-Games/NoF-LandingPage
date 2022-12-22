@@ -44,7 +44,7 @@ function Navbar({ onFlip, goToCollections }) {
               to='Contacto'
             // spy='true'
             >
-              <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onclick={onFlip}>
+              <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onFlip={onFlip}>
                 Colecciones
               </button>
             </Link>

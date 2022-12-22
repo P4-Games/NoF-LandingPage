@@ -2,25 +2,28 @@ import useTranslation from "./useTranslation.jsx"
 import Br from './icons/br.png'
 import En from './icons/en.png'
 import Sp from './icons/es.png'
+import Image from "next/image.js"
 
 function TranslationComponent() {
-    /*document.addEventListener('click', e => {
-        const isDropdownButton = e.target.matches('[data-dropdown-button]')
-        if (!isDropdownButton && e.target.closest('[data-dropdown]') != null) return
 
-        let currentDropdown
-        if (isDropdownButton) {
-            currentDropdown = e.target.closest('[data-dropdown]')
-            currentDropdown.classList.toggle('active')
-        }
-        document.querySelectorAll('[data-dropdown].active').forEach(dropdown => {
-            if (dropdown === currentDropdown) return
-            dropdown.classList.remove('active')
+    if (typeof window !== "undefined") {
+        document.addEventListener('click', e => {
+            const isDropdownButton = e.target.matches('[data-dropdown-button]')
+            if (!isDropdownButton && e.target.closest('[data-dropdown]') != null) return
+
+            let currentDropdown
+            if (isDropdownButton) {
+                currentDropdown = e.target.closest('[data-dropdown]')
+                currentDropdown.classList.toggle('active')
+            }
+            document.querySelectorAll('[data-dropdown].active').forEach(dropdown => {
+                if (dropdown === currentDropdown) return
+                dropdown.classList.remove('active')
+            })
         })
-    })*/
+    }
 
-    const { language, setLanguage, setFallbackLanguage, t } = useTranslation
-    ()
+    const { language, setLanguage, setFallbackLanguage, t } = useTranslation()
 
     return (
         <>
