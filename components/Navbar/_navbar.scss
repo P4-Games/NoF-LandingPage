@@ -408,7 +408,7 @@ header {
 	top: calc(100% + .25rem);
 	background-color: none;
 	opacity: 0;
-	pointer-events: none;
+	z-index: -10;
 	transform: translateY(-20px);
 	transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
@@ -416,8 +416,11 @@ header {
 .dropdown > .link:focus + .dropdown-menu {
 	opacity: 1;
 	transform: translateY(0);
-	pointer-events: auto;
+	// pointer-events: auto;
+	z-index: 110;
+	display: block;
 }
+
 
 .language_ul {
 	list-style: none;

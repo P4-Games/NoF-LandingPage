@@ -8,7 +8,10 @@ import Coin from './icons/logo-coin.png'
 import Nof from './icons/logo-1.png'
 import SoundOn from './icons/sound.png'
 import SoundOff from './icons/soundoff.png'
-import TranslationComponent from './translationComponent.jsx'
+import dynamic from 'next/dynamic'
+// import TranslationComponent from './translationComponent.jsx'
+
+const TranslationComponent = dynamic(() => import("./translationComponent.jsx"), { ssr: false })
 
 function Navbar({ onFlip, goToCollections }) {
   const ref = useRef(null);
