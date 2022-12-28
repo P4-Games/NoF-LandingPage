@@ -1,7 +1,7 @@
 .alpha_loader_container {
 	position: absolute;
 	width: 100vw;
-	height: 115vh;
+	height: 112.5vh;
 	background-color: rgba(255,255,255,0.5);
 	display: flex;
 	justify-content: center;
@@ -18,7 +18,7 @@
 	display: inline-block;
 	box-sizing: border-box;
 	animation: rotation 1s linear infinite;
-	}
+}
 
 	@keyframes rotation {
 	0% {
@@ -205,6 +205,7 @@
 	align-items: center;
 	flex-direction: column;
 	opacity: 1;
+	transition: opacity 1s;
 }
 
 .alpha_transfer_modal input {
@@ -222,7 +223,6 @@
 	top: 1rem;
   right: 1rem;
 	background-color: transparent;
-	transition: all 1s;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	cursor: pointer;
 	border: 0px;
