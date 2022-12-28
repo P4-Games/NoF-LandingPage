@@ -60,8 +60,7 @@ function Navbar({ onFlip, goToCollections }) {
               <Image src={SoundOff} alt="soundimg" />}
             <></>
           </div>
-          <TranslationComponent
-          />
+          <TranslationComponent />
         </div>
       </div>
 
