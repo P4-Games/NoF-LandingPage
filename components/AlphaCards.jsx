@@ -107,10 +107,20 @@ const AlphaCards = () => {
 
   async function requestSeasonData(contract) {
     const seasonData = await contract.getSeasonData();
-    const currentSeason = seasonData[0][seasonData[0].length - 1];
-    const currentPrice = seasonData[1][seasonData[1].length - 1];
+    let currentSeason;
+    let currentPrice;
+    setLoading(true);
+    for(let i=0;i<seasonData[0].length;i++){
+      let season = await contract.getSeasonAlbums(seasonData[0][i])
+      if(season.length > 0){
+        currentSeason = seasonData[0][i];
+        currentPrice = seasonData[1][i];
+        break;
+      }
+    }
     setSeasonName(currentSeason); // sets the season name as the last season name created
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
+    setLoading(false);
     setSeasonNames(seasonData[0])
     setPackPrices(seasonData[1])
     return [currentSeason, currentPrice];
@@ -239,8 +249,9 @@ const AlphaCards = () => {
                   setPack(pack)
                   showCards(account, seasonName)
                 })
-                .catch(e => {
-                  console.error({ e })
+                .catch(err => {
+                  console.error({ err })
+                  setLoading(false)
                 })
             } else {
               authorizeDaiContract()
@@ -257,20 +268,24 @@ const AlphaCards = () => {
               })
                 .catch(e => {
                   console.error({ e })
+                  setLoading(false)
                 })
               }
               })
               .catch(e => {
                 console.error({ e })
+                setLoading(false)
               })
                 }
               })
               .catch(e => {
                 console.error({ e })
+                setLoading(false)
               })
           })
       .catch(e => {
         console.error({ e })
+        setLoading(false)
       })
   }
 
