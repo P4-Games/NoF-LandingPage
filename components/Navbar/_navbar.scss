@@ -338,7 +338,6 @@ header {
 			gap: 0;
 		}
 		&__audio {
-			// background-image: url(./icons/soundoff.png);
 			width: 100px;
 			height: 78px;
 			cursor: pointer;
@@ -369,32 +368,48 @@ header {
 }
 
 .link {
+	width: 60px;
+	height: 50px;
 	background: none;
 	border: none;
-	text-decoration: none;
-	font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 	cursor: pointer;
-	padding: 0;
-}
-
-.dropdown > .link:focus,
-.link:hover {
-	color: red;
+	transition: scale .2s ease-in-out;
+	&:hover {
+		transform: scale(1.1);
+		transition: 0.2s;
 	}
+	@include mobile {
+		width: 80px;
+		height: 60px;
+	}
+	@include tablet {
+		width: 40px;
+		height: 30px;
+	}
+	@include desktop {
+		width: 40px;
+		height: 30px;
+	}
+	@include large-desktop {
+		width: 70px;
+		height: 60px;
+	}
+}
 
 .dropdown {
 	position: relative;
+	z-index: 222;
 }
 
 .dropdown-menu {
+	height: 220px;
 	position: absolute;
 	right: 0;
 	top: calc(100% + .25rem);
-	background-color: white;
-	padding: .75rem;
+	background-color: none;
 	opacity: 0;
 	pointer-events: none;
-	transform: translateY(-10px);
+	transform: translateY(-20px);
 	transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
@@ -402,4 +417,24 @@ header {
 	opacity: 1;
 	transform: translateY(0);
 	pointer-events: auto;
+}
+
+.language_ul {
+	list-style: none;
+	text-decoration: none;
+	columns: 1;
+}
+
+.language_li {
+	height: 40px;
+}
+
+.lang-btn {
+	border: none;
+	cursor: pointer;
+	background: none;
+	transition: scale .2s ease-in-out;
+	&:hover {
+		scale: 1.1;
+	}
 }

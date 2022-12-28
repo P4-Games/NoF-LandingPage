@@ -1,24 +1,25 @@
-import useTranslation from "./useTranslation.jsx"
-import Br from './icons/br.png'
-import En from './icons/en.png'
-import Sp from './icons/es.png'
+import useTranslation from "./useTranslation"
+import World from './icons/world.png'
+import Brazilean from './icons/br.png'
+import English from './icons/en.png'
+import Spanish from './icons/es.png'
 import Image from "next/image.js"
 
 function TranslationComponent() {
 
     if (typeof window !== "undefined") {
-        document.addEventListener('click', e => {
-            const isDropdownButton = e.target.matches('[data-dropdown-button]')
-            if (!isDropdownButton && e.target.closest('[data-dropdown]') != null) return
+        document.addEventListener("click", e => {
+            const isDropdownButton = e.target.matches("[data-dropdown-button]")
+            if (!isDropdownButton && e.target.closest("[data-dropdown]") != null) return
 
             let currentDropdown
             if (isDropdownButton) {
-                currentDropdown = e.target.closest('[data-dropdown]')
-                currentDropdown.classList.toggle('active')
+                currentDropdown = e.target.closest("[data-dropdown]")
+                currentDropdown.classList.toggle("active")
             }
-            document.querySelectorAll('[data-dropdown].active').forEach(dropdown => {
+            document.querySelectorAll("[data-dropdown].active").forEach(dropdown => {
                 if (dropdown === currentDropdown) return
-                dropdown.classList.remove('active')
+                dropdown.classList.remove("active")
             })
         })
     }
@@ -27,22 +28,47 @@ function TranslationComponent() {
 
     return (
         <>
+            <div>{t("collections")}</div>
             <div className='dropdown' data-dropdown>
-                <button className='link' data-dropdown-button> {t('collections')} </button>
+                <button className='link' data-dropdown-button>
+                    <Image src={World} alt="language button" layout='fill' />
+                </button>
                 <div className='dropdown-menu'>
-                    <div>
-                        <ul>
-                            <button onClick={() => setLanguage("En")}>
-                                <Image src={En} alt="" layout='fill' />
-                            </button>
-                            <button onClick={() => setLanguage("Br")}>
-                                <Image src={Br} alt="" layout='fill' />
-                            </button>
-                            <button onClick={() => setLanguage("Sp")}>
-                                <Image src={Sp} alt="" layout='fill' />
-                            </button>
+                        <ul className='language_ul'>
+                            <li className= 'language_li'>
+                                <button 
+                                    className='lang-btn'
+                                    onClick={() => setLanguage("en")}
+                                >
+                                    <Image
+                                    src={English}
+                                    alt="English button"
+                                    height={30} width={50} />
+                                </button>
+                            </li>
+                            <li className= 'language_li'>
+                                <button 
+                                className='lang-btn'
+                                onClick={() => setLanguage("br")}
+                                >
+                                    <Image
+                                    src={Brazilean}
+                                    alt="Brazilean button"
+                                    height={30} width={50} />
+                                </button>
+                            </li>
+                            <li className= 'language_li'>
+                                <button 
+                                className='lang-btn'
+                                onClick={() => setLanguage("sp")}
+                                >
+                                    <Image
+                                    src={Spanish}
+                                    alt="Spanish button"
+                                    height={30} width={50} />
+                                </button>
+                            </li>
                         </ul>
-                    </div>
                 </div>
             </div>
         </>

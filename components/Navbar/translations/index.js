@@ -1,3 +1,3 @@
-export * as sp from "./Sp.json"
-export * as en from "./En.json"
-export * as pt from "./Br.json"
+export * as en from "./en.json"
+export * as br from "./br.json"
+export * as sp from "./sp.json"
