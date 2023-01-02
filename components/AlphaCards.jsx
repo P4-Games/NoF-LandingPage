@@ -329,7 +329,7 @@ const AlphaCards = () => {
   }
 
   const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(contractAddress, packPrice)
+    const authorization = await daiContract.approve(contractAddress, packPrice, { gasLimit: 6000000 })
     setLoading(true)
     await authorization.wait()
     setLoading(false)
@@ -363,7 +363,7 @@ const AlphaCards = () => {
             checkApproved(contractAddress, account)
             .then(res => {
               const comprarPack = async (price, name) => {
-              const pack = await nofContract.buyPack(price, name)
+              const pack = await nofContract.buyPack(price, name, { gasLimit: 6000000 });
               setLoading(true)
               await pack.wait()
               setLoading(false)
@@ -419,7 +419,7 @@ const AlphaCards = () => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
       const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-      const paste = await nofContract.pasteCards(tokenId, albumTokenId)
+      const paste = await nofContract.pasteCards(tokenId, albumTokenId, { gasLimit: 6000000 })
       setLoading(true)
       await paste.wait()
       setLoading(false)
