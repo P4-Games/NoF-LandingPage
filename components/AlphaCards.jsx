@@ -16,16 +16,15 @@ import marco from "../public/marco.png"
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
 import 'swiper/css/bundle';
-import { id } from "ethers/lib/utils.js";
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
-const contractAddress = "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // test contract mumbai network
-const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // test dai contract with unlimited minting
+const contractAddress = "0x948676B87c585F25e31B50b4cF36F20DeD627B5c"; // contract POLYGON mainnet
+const daiAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"; // multisig receiver POLYGON mainnet
 
 let swiper;
 
 const AlphaCards = () => {
-  const validChainId = "0x13881";
+  const validChainId = "0x89";
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null);
@@ -68,10 +67,10 @@ const AlphaCards = () => {
     const chain = (await provider.getNetwork()).chainId;
     setChainId(decToHex(chain));
 
-    const chainName = "Mumbai";
-    const rpcUrl = "https://rpc-mumbai.maticvigil.com";
+    const chainName = "Polygon Mainnet";
+    const rpcUrl = "https://polygon-mainnet.infura.io";
     const currency = "MATIC";
-    const explorer = "https://mumbai.polygonscan.com/";
+    const explorer = "https://polygonscan.com/";
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
     return [provider, address];
   }
@@ -104,6 +103,133 @@ const AlphaCards = () => {
       console.error({ e })
     });
   }
+
+  function decToHex(number) {
+    return `0x${parseInt(number).toString(16)}`;
+  }
+
+  async function switchOrCreateNetwork(
+    chainIdHex,
+    chainName,
+    rpcUrl,
+    currency,
+    explorer
+  ) {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainIdHex }],
+      });
+    } catch (error) {
+      if (error.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: chainIdHex,
+                chainName: chainName,
+                rpcUrls: [rpcUrl],
+                nativeCurrency: {
+                  name: currency,
+                  symbol: currency,
+                  decimals: 18,
+                },
+                blockExplorerUrls: [explorer],
+              },
+            ],
+          });
+        } catch (e) {
+          console.error(e.message);
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    if(window && window.ethereum !== undefined){
+      window.ethereum.on('accountsChanged', (accounts) => {
+        connectToMetamask()
+      })
+  
+      window.ethereum.on('chainChanged', newChain => {
+        setChainId(decToHex(newChain))
+        connectToMetamask()
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    const loadingElem = document.getElementById("loading");
+    loading
+      ? loadingElem.setAttribute("class", "alpha_loader_container")
+      : loadingElem.setAttribute(
+          "class",
+          "alpha_loader_container alpha_display_none"
+        );
+  }, [loading]);
+
+  useEffect(() => {
+    swiper = new Swiper('.swiper-container', {
+      effect: 'cards',
+      grabCursor: true,
+      centeredSlides: true,
+      setWrapperSize: true,
+      slidesPerView: 1,
+      initialSlide: 0,
+      runCallbacksOnInit: true,
+      observer: true,
+      cardsEffect: {
+        // perSlideOffset: 8,
+        slideShadows: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+      on: {
+        init: (res) => {
+          setCardIndex(res.activeIndex)
+          if(cards.length > 0){
+            if(cards[res.activeIndex].collection == albumCollection){
+              setIsCollection(true)
+            } else {
+              setIsCollection(false)
+            }
+          }
+        },
+        slideChange: (res) => {
+          setCardIndex(res.activeIndex)
+          if(cards[res.activeIndex].collection == albumCollection){
+            setIsCollection(true)
+          } else {
+            setIsCollection(false)
+          }    
+        },
+        observerUpdate: (res) => {
+          setCardIndex(res.activeIndex)
+          if(cards[res.activeIndex].collection == albumCollection){
+            setIsCollection(true)
+          } else {
+            setIsCollection(false)
+          }
+        },
+        slidesLengthChange: (res) => {
+          // check function  
+        }
+      }
+    });
+  }, [pack, cards])
+
+  useEffect(() => {
+    const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
+    if(seasonName.length > 14){
+      seasonNameElem.style.fontSize = "0.7rem"
+    }
+    if(seasonName.length > 16){
+      seasonNameElem.style.fontSize = "0.6rem"
+      seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
+    }
+  }, [seasonName])
 
   async function requestSeasonData(contract) {
     const seasonData = await contract.getSeasonData();
@@ -350,132 +476,6 @@ const AlphaCards = () => {
       }
     }
   }
-
-  function decToHex(number) {
-    return `0x${parseInt(number).toString(16)}`;
-  }
-
-  async function switchOrCreateNetwork(
-    chainIdHex,
-    chainName,
-    rpcUrl,
-    currency,
-    explorer
-  ) {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainIdHex }],
-      });
-    } catch (error) {
-      if (error.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: chainIdHex,
-                chainName: chainName,
-                rpcUrls: [rpcUrl],
-                nativeCurrency: {
-                  name: currency,
-                  symbol: currency,
-                  decimals: 18,
-                },
-                blockExplorerUrls: [explorer],
-              },
-            ],
-          });
-        } catch (e) {
-          console.error(e.message);
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    if(window && window.ethereum !== undefined){
-      window.ethereum.on('accountsChanged', (accounts) => {
-        connectToMetamask()
-      })
-  
-      window.ethereum.on('chainChanged', newChain => {
-        setChainId(decToHex(newChain))
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    const loadingElem = document.getElementById("loading");
-    loading
-      ? loadingElem.setAttribute("class", "alpha_loader_container")
-      : loadingElem.setAttribute(
-          "class",
-          "alpha_loader_container alpha_display_none"
-        );
-  }, [loading]);
-
-  useEffect(() => {
-    swiper = new Swiper('.swiper-container', {
-      effect: 'cards',
-      grabCursor: true,
-      centeredSlides: true,
-      setWrapperSize: true,
-      slidesPerView: 1,
-      initialSlide: 0,
-      runCallbacksOnInit: true,
-      observer: true,
-      cardsEffect: {
-        // perSlideOffset: 8,
-        slideShadows: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-      },
-      on: {
-        init: (res) => {
-          setCardIndex(res.activeIndex)
-          if(cards.length > 0){
-            if(cards[res.activeIndex].collection == albumCollection){
-              setIsCollection(true)
-            } else {
-              setIsCollection(false)
-            }
-          }
-        },
-        slideChange: (res) => {
-          setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex].collection == albumCollection){
-            setIsCollection(true)
-          } else {
-            setIsCollection(false)
-          }    
-        },
-        observerUpdate: (res) => {
-          setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex].collection == albumCollection){
-            setIsCollection(true)
-          } else {
-            setIsCollection(false)
-          }
-        },
-        slidesLengthChange: (res) => {
-          // check function  
-        }
-      }
-    });
-  }, [pack, cards])
-
-  useEffect(() => {
-    const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
-    if(seasonName.length > 14){
-      seasonNameElem.style.fontSize = "0.7rem"
-    }
-    if(seasonName.length > 16){
-      seasonNameElem.style.fontSize = "0.6rem"
-      seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
-    }
-  }, [seasonName])
 
   return (
     <div className="alpha">
