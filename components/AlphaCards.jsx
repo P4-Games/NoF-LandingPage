@@ -17,14 +17,16 @@ const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src]
 
 import 'swiper/css/bundle';
 
+const deployment = true;
+
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
-const contractAddress = "0x948676B87c585F25e31B50b4cF36F20DeD627B5c"; // contract POLYGON mainnet
-const daiAddress = "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"; // multisig receiver POLYGON mainnet
+const contractAddress = deployment ? "0x948676B87c585F25e31B50b4cF36F20DeD627B5c" : "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // contract POLYGON mainnet
+const daiAddress = deployment ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // multisig receiver POLYGON mainnet
 
 let swiper;
 
 const AlphaCards = () => {
-  const validChainId = "0x89";
+  const validChainId = deployment ? "0x89" : "0x13881";
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null);
@@ -48,6 +50,7 @@ const AlphaCards = () => {
   const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
   const [transferError, setTransferError] = useState("")
+  const [disableTransfer, setDisableTransfer] = useState(null)
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -67,10 +70,10 @@ const AlphaCards = () => {
     const chain = (await provider.getNetwork()).chainId;
     setChainId(decToHex(chain));
 
-    const chainName = "Polygon Mainnet";
-    const rpcUrl = "https://polygon-mainnet.infura.io";
+    const chainName = deployment ? "Polygon Mainnet" : "Mumbai";
+    const rpcUrl = deployment ? "https://polygon-mainnet.infura.io" : "https://rpc-mumbai.maticvigil.com";
     const currency = "MATIC";
-    const explorer = "https://polygonscan.com/";
+    const explorer = deployment ? "https://polygonscan.com/" : "https://mumbai.polygonscan.com/";
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
     return [provider, address];
   }
@@ -257,15 +260,6 @@ const AlphaCards = () => {
     return cards
   }
 
-  function emitError(error) {
-    Swal.fire({
-      title: 'Error!',
-      text: error,
-      icon: 'error',
-      confirmButtonText: 'OK'
-    })
-  }
-
   function emitSuccess(message) {
     Swal.fire({
       title: '',
@@ -282,6 +276,17 @@ const AlphaCards = () => {
   }
 
   const showCards = (address, seasonName) => {
+    checkPacks()
+      .then(res => {
+      if(res.length == 0){
+        setDisableTransfer(false)
+      } else {
+        setDisableTransfer(true)
+      }
+    })
+      .catch(e => {
+        console.error({ e })
+      })
     const cards = getUserCards(address, seasonName)
       .then(pack => {
         if(pack.length){
@@ -589,7 +594,7 @@ const AlphaCards = () => {
                 value={receiverAccount}
                 onChange={(e) => setReceiverAccount(e.target.value)}
               />
-              <button className="alpha_button" onClick={() => transferToken()}>
+              <button className="alpha_button" onClick={() => transferToken()} disabled={disableTransfer}>
                 TRANSFERIR
               </button>
               <span className="alpha_transfer_error">{transferError}</span>
