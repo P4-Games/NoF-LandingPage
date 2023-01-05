@@ -21,7 +21,7 @@ import 'swiper/css/bundle';
 const deployment = true;
 
 const storageUrl = "https://storage.googleapis.com/hunterspride/NOFJSON/T1/"; // 1.png to 60.png
-const contractAddress = deployment ? "0x7fF77Fb241F1E2021b3542F1F96D0788b25c4Db8" : "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // contract POLYGON mainnet
+const contractAddress = deployment ? "0x948676B87c585F25e31B50b4cF36F20DeD627B5c" : "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // contract POLYGON mainnet
 const daiAddress = deployment ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615"; // multisig receiver POLYGON mainnet
 
 let swiper;
