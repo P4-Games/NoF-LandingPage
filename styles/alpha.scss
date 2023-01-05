@@ -27,7 +27,19 @@
 	100% {
 			transform: rotate(360deg);
 	}
-} 
+}
+
+.alpha_main_buttons_container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.alpha_main_button {
+	width: 100%;
+	margin: 10px 0;
+}
 
 .alpha_button {
 	cursor: pointer;
@@ -54,6 +66,18 @@
 	opacity: 0;
 	transition: opacity 1s;
 }
+
+.alpha_rules_container {
+	position: absolute;
+	display: none;
+}
+
+.alpha_rules_img {
+	width: 720px;
+	max-width: 100vw;
+}
+
+
 
 .alpha_card_container:hover > .alpha_card_hover {
 	opacity: 1;
@@ -218,14 +242,22 @@
 	padding-left: 10px;
 }
 
-.alpha_transfer_modal_close {
+.alpha_modal_close {
 	position: absolute;
-	top: 1rem;
-  right: 1rem;
 	background-color: transparent;
 	font-family: "Press Start 2P", "Share Tech Mono", "Share Tech", sans-serif;
 	cursor: pointer;
 	border: 0px;
+}
+
+.alpha_transfer_modal_close {
+	top: 1rem;
+  right: 1rem;
+}
+
+.alpha_rules_img_close {
+	top: 10rem;
+  right: 2rem;
 }
 
 .alpha_transfer_error {

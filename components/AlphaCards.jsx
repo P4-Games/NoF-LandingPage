@@ -12,6 +12,7 @@ import vida3 from "../public/vida3.png"
 import vida4 from "../public/vida4.png"
 import vida5 from "../public/vida5.png"
 import marco from "../public/marco.png"
+import reglas from "../public/reglas.png"
 
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
@@ -61,7 +62,7 @@ const AlphaCards = () => {
       provider = new ethers.providers.Web3Provider(connection);
       address = await provider.getSigner().getAddress();
       setAccount(address);
-      document.getElementById('connect_metamask_button').style.display = "none"
+      document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "none"
     } catch (e) {
       console.error({ e });
     }
@@ -334,7 +335,7 @@ const AlphaCards = () => {
   }
 
   const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(contractAddress, packPrice, { gasLimit: 6000000 })
+    const authorization = await daiContract.approve(contractAddress, packPrice, { gasLimit: 6543210 })
     setLoading(true)
     await authorization.wait()
     setLoading(false)
@@ -368,7 +369,7 @@ const AlphaCards = () => {
             checkApproved(contractAddress, account)
             .then(res => {
               const comprarPack = async (price, name) => {
-              const pack = await nofContract.buyPack(price, name, { gasLimit: 6000000 });
+              const pack = await nofContract.buyPack(price, name, { gasLimit: 6543210 });
               setLoading(true)
               await pack.wait()
               setLoading(false)
@@ -424,7 +425,7 @@ const AlphaCards = () => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
       const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-      const paste = await nofContract.pasteCards(tokenId, albumTokenId, { gasLimit: 6000000 })
+      const paste = await nofContract.pasteCards(tokenId, albumTokenId, { gasLimit: 6543210 })
       setLoading(true)
       await paste.wait()
       setLoading(false)
@@ -482,6 +483,24 @@ const AlphaCards = () => {
     }
   }
 
+  const showRules = () => {
+    document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "none"
+    document.getElementsByClassName('alpha_rules_container')[0].style.display = "block"
+    window.addEventListener('keydown', (e) => {
+      if(e.code == "Escape") {
+        document.getElementsByClassName('alpha_rules_container')[0].style.display = "none"
+        document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "flex"
+      }  
+    })
+  }
+
+  const closeRules = () => {
+    document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "flex"
+    document.getElementsByClassName('alpha_rules_container')[0].style.display = "none"
+  }
+
+  
+
   return (
     <div className="alpha">
       <div className="alpha_loader_container alpha_display_none" id="loading">
@@ -489,7 +508,15 @@ const AlphaCards = () => {
           className="loader"
         ></span>
       </div>
-      <button className="alpha_button" id="connect_metamask_button" onClick={() => connectToMetamask()}>Conectarse con Metamask</button>
+      <div className="alpha_main_buttons_container">
+        <button className="alpha_button alpha_main_button" id="connect_metamask_button" onClick={() => connectToMetamask()}>Conectar con Metamask</button>
+        <button className="alpha_button alpha_main_button" id="show_rules_button" onClick={() => showRules()}>Reglas</button>
+      </div>
+      <div className="alpha_rules_container">
+        <button className="alpha_rules_img_close alpha_modal_close" onClick={() => closeRules()}>X</button>
+        <img className="alpha_rules_img" src={reglas.src}  tabIndex="0" />
+      </div>
+      
       {account && (
         <div className="alpha_inner_container">
           <div className="alpha_data">
@@ -582,7 +609,7 @@ const AlphaCards = () => {
           
             {cards.length > 0 ? (
               <div className="alpha_transfer_modal alpha_display_none">
-              <button className="alpha_transfer_modal_close" onClick={() => {
+              <button className="alpha_transfer_modal_close alpha_modal_close" onClick={() => {
                 const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
                 modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
                 setTransferError("")
