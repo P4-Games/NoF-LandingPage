@@ -16,7 +16,7 @@ import reglas from "../public/reglas.png"
 
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
-import 'swiper/css/bundle';
+import 'swiper/css/bundle'
 
 const deployment = true;
 
