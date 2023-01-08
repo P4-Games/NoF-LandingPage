@@ -4,7 +4,7 @@ import Web3Modal from "web3modal";
 import Swiper from 'swiper/bundle';
 import Swal from 'sweetalert2'
 import nofAbi from "../artifacts/contracts/NOF-SC.sol/NOF_Alpha";
-import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json";
+import daiAbi from "../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import vida0 from "../public/vida0.png"
 import vida1 from "../public/vida1.png"
 import vida2 from "../public/vida2.png"
@@ -226,12 +226,14 @@ const AlphaCards = () => {
 
   useEffect(() => {
     const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
-    if(seasonName.length > 14){
-      seasonNameElem.style.fontSize = "0.7rem"
-    }
-    if(seasonName.length > 16){
-      seasonNameElem.style.fontSize = "0.6rem"
-      seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
+    if(seasonName){
+      if(seasonName.length > 14){
+        seasonNameElem.style.fontSize = "0.7rem"
+      }
+      if(seasonName.length > 16){
+        seasonNameElem.style.fontSize = "0.6rem"
+        seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
+      }
     }
   }, [seasonName])
 
@@ -246,6 +248,9 @@ const AlphaCards = () => {
         currentSeason = seasonData[0][i];
         currentPrice = seasonData[1][i];
         break;
+      } else {
+        currentSeason = seasonData[0][i];
+        currentPrice = seasonData[1][i];
       }
     }
     setSeasonName(currentSeason); // sets the season name as the last season name created
