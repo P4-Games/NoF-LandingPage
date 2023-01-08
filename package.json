@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.8.0",
     "@web3modal/ethereum": "^2.0.0-beta.8",
     "@web3modal/react": "^2.0.0-beta.8",
