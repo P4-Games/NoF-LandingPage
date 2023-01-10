@@ -12,7 +12,7 @@ const Alpha = () => {
       <Head>
         <title>Number One Fan</title>
         <meta name='description' content='NoF Alpha' />
-        <link rel='icon' href='./public/favicon.ico' />
+        <link rel='icon' href='./favicon.ico' />
       </Head>  
       <AlphaCards />
       <Navbar />
