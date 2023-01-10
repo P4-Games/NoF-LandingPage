@@ -1,7 +1,8 @@
 Dockerfile
-    .dockerignore
+.dockerignore
 node_modules
-npm - debug.log
+.eslintrc.json
+npm-debug.log
 README.md
-    .next
-    .git
+.next
+.git
