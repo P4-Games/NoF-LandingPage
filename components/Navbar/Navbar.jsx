@@ -13,10 +13,9 @@ import dynamic from 'next/dynamic'
 
 const TranslationComponent = dynamic(() => import("./translationComponent.jsx"), { ssr: false })
 
-function Navbar({ onFlip, goToCollections }) {
+function Navbar({ onFlip, goToCollections, language, setLanguage, t }) {
   const ref = useRef(null);
   const [click, setClick] = useState(false);
-
   const handleClick = () => {
     setClick(!click);
     if (!click) {
@@ -48,7 +47,7 @@ function Navbar({ onFlip, goToCollections }) {
             // spy='true'
             >
               <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onFlip={onFlip}>
-                Colecciones
+                {t("collections")}
               </button>
             </Link>
             <Whitepaper />
@@ -63,7 +62,10 @@ function Navbar({ onFlip, goToCollections }) {
               <Image src={SoundOff} alt="soundimg" />}
             <></>
           </div>
-          <TranslationComponent />
+          <TranslationComponent
+            language={language}
+            setLanguage={setLanguage}
+            t={t} />
         </div>
       </div>
 

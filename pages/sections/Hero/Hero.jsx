@@ -24,8 +24,9 @@ import { EffectCards, Autoplay, Pagination } from 'swiper'
 import 'swiper/css/bundle'
 import Link from 'next/link'
 
-const Hero = React.forwardRef((props, book) => {
-  const [swipper,setSwipper] =useState(false)
+const Hero = React.forwardRef((props, book,) => {
+  const { language, setLanguage, t } = props
+  const [swipper, setSwipper] = useState(false)
   const [mobile, setMobile] = useState(false);
   const [width, setWidth] = useState()
   const [height, setHeight] = useState()
@@ -57,13 +58,13 @@ const Hero = React.forwardRef((props, book) => {
   }, []);
   const onFlip = useCallback((e) => {
     console.log('Current page: ' + e.data);
-    if (e.data === 8){
+    if (e.data === 8) {
       setSwipper(true)
       return
     }
     setSwipper(false)
-    
-}, []);
+
+  }, []);
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>
@@ -91,7 +92,7 @@ const Hero = React.forwardRef((props, book) => {
             className='hero__top__album__book'
           >
             <div className='hero__top__album__book__page' data-density='hard' number="1">
-              <h3>BIENVENIDOS!</h3>
+              <h3> {t("WELCOME")}</h3>
               <br />
               <div className='nofi_conteiner'>
                 <div className='nofimg'>
@@ -126,13 +127,13 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
               <br />
-              <p className='hero__top__album__book__page__text'>
-                Number One Fan es el primer<br />
-                collect-to-earn del mundo,<br />
+              <p className='hero__top__album__book__page__text2'>
+                {t("number one fan")}
+                {/* collect-to-earn del mundo,<br />
                 donde los jugadores<br />
                 obtienen recompensas<br />
                 mientras crean su propia<br />
-                colección de álbumes NFT.
+                colección de álbumes NFT. */}
               </p>
               <div className='bookflip_conteiner'>
                 <div className='bookimg'>
@@ -144,106 +145,103 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
               </div>
             </div>
-
             <div className='hero__top__album__book__page0' data-density='hard' number="2">
-              <p> <br /><br />
-                Nuestro objetivo es<br />
-                convertirnos en el mayor<br />
-                punto de encuentro<br />
-                de los grupos de fans, donde<br />
-                podrán revivir la afición<br />
-                de coleccionar figuritas.
-              </p>
-              <div className='book_container'>
-                <Image
-                  src={Bookmenu}
-                  alt='text box'
-                  layout='fill'
-                />
+              <div style={{
+                position: 'relative', height: '100%', width: '100%',
+                backGround: 'black',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10%',
+                marginTop: '10%',
+              }}
+                className='hero__top__album__book__pagecontent'>
+                <p className='hero__top__album__book__page__text2'>
+                  {t("our goal")}
+                </p>
+                <div className='book_container'>
+                  <Image
+                    src={Bookmenu}
+                    alt='text box'
+                    layout='fill'
+                  />
+                </div>
+                <p className='hero__top__album__book__page__text2'>
+                  {t("sustainable game")}
+                </p>
               </div>
-              <p>
-              Nuestro objetivo es<br />
-                convertirnos en el mayor<br />
-                punto de encuentro<br />
-                de los grupos de fans, donde<br />
-                podrán revivir la afición<br />
-                de coleccionar figuritas.
-              </p>
-            </div>
 
+            </div>
             <div className='hero__top__album__book__page' data-density='hard' number="3">
-              <h3>CARTAS</h3>
-              <p>
-                Nuestras cartas representan<br />
-                a los personajes más famosos.<br />
-                Cada personaje cuenta con<br />
-                tres rarezas:<br />
-              </p>
-              <div className='nof_container'>
-                <div className='nof1'>
-                  <div className='nofimg'>
-                    <Image
-                      src={N}
-                      alt='N image'
-                      layout='fill'
-                    />
-                  </div>
-                  <div className='noftitle'>
-                    <p>
-                      Una carta de Oro
-                    </p>
-                  </div>
-                </div>
+              <div style={{
+                position: 'relative', height: '100%', width: '100%',
+                backGround: 'black',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10%',
 
-                <div className='nof2'>
-                  <div className='nofimg'>
-                    <Image
-                      src={O}
-                      alt='O image'
-                      layout='fill'
-                    />
+              }}>
+                <h3> {t("CARDS")}</h3>
+                <p className='hero__top__album__book__page__text2'>
+                  {t("our cards")}
+                </p>
+                <div className='nof_container'>
+                  <div className='nof1'>
+                    <div className='nofimg'>
+                      <Image
+                        src={N}
+                        alt='N image'
+                        layout='fill'
+                      />
+                    </div>
+                    <div className='noftitle'>
+                      <p>
+                        {t("gold")}
+                      </p>
+                    </div>
                   </div>
-                  <div className='noftitle'>
-                    <p>Dos cartas de Plata</p>
+                  <div className='nof2'>
+                    <div className='nofimg'>
+                      <Image
+                        src={O}
+                        alt='O image'
+                        layout='fill'
+                      />
+                    </div>
+                    <div className='noftitle'>
+                      {t("silver")}
+                    </div>
+                  </div>
+                  <div className='nof3'>
+                    <div className='nofimg'>
+                      <Image
+                        src={F}
+                        alt='F image'
+                        layout='fill'
+                      />
+                    </div>
+                    <div className='noftitle'>
+                      <p>
+                        {t("bronze")}
+                      </p>
+                    </div>
                   </div>
                 </div>
-
-                <div className='nof3'>
-                  <div className='nofimg'>
-                    <Image
-                      src={F}
-                      alt='F image'
-                      layout='fill'
-                    />
-                  </div>
-                  <div className='noftitle'>
-                    <p>
-                      Tres cartas de Bronce
-                    </p>
-                  </div>
-                </div>
+                <p>
+                  {t("our NFTs")}
+                </p>
               </div>
-              <p>
-                Todos nuestros NFTs<br />
-                pueden ser intercambiados<br />
-                de manera libre!.<br />
-              </p>
             </div>
-            
+
             <div className='hero__top__album__book__page0' data-density='hard' number="4">
-              <h3>ÁLBUMES</h3>
+              <h3> {t("ALBUMS")}</h3>
               <p>
-                Gana dinero completando<br />
-                álbumes.<br />
-                Existen 3 tipos de álbumes<br />
-                con distinas mecánicas jugables.<br />
+                {t("Earn money")}
               </p>
               <div className='albums_container'>
                 <div className='album1'>
                   <div className='albumtitle'>
                     <p>
-                      MEDAL: Define tu nivel
-                      de coleccionista.
+                      {t("medal")}
                     </p>
                   </div>
                   <div className='albumimg'>
@@ -256,8 +254,7 @@ const Hero = React.forwardRef((props, book) => {
                 <div className='album2'>
                   <div className='albumtitle'>
                     <p>
-                      STICKER: tu premio asegurado
-                      Mayor rareza mejor recompensa
+                      {t("Sticker")}
                     </p>
                   </div>
                   <div className='albumimg'>
@@ -269,8 +266,7 @@ const Hero = React.forwardRef((props, book) => {
                 <div className='album3'>
                   <div className='albumtitle'>
                     <p>
-                      SHOWDOWN: Concurso de popularidad,
-                      quien es el mas famoso!
+                      {t("showdown")}
                     </p>
                   </div>
                   <div className='albumimg'>
@@ -283,12 +279,9 @@ const Hero = React.forwardRef((props, book) => {
               </div>
             </div>
             <div className='hero__top__album__book__page' data-density='hard' number="5">
-              <h3>COLECCIÓN</h3>
-              <p>
-                ALPHA: Juega y colecciona con<br />
-                tus amigos, se el primero en<br />
-                completar el álbum y obtener<br />
-                los mejores premios.<br />
+              <h3> {t("COLLECTION")}</h3>
+              <p className='hero__top__album__book__page__text2'>
+                {t("alpha")}
               </p>
               <Link
                 href='/alpha'
@@ -297,11 +290,8 @@ const Hero = React.forwardRef((props, book) => {
                   ALPHA
                 </button>
               </Link>
-              <p>
-                GAMMA: colecciona tus personajes<br />
-                favoritos e
-                intercámbialos en la<br />
-                NoF town.<br />
+              <p className='hero__top__album__book__page__text2'>
+                {t("gamma")}
               </p>
               <Link
                 href='https://opensea.io/collection/nof-gamma'
@@ -312,10 +302,8 @@ const Hero = React.forwardRef((props, book) => {
                   GAMMA
                 </button>
               </Link>
-              <p>
-                OMEGA: El primer collect-to-earn.<br />
-                Donde a medida que creas<br />
-                tu colección obtienes recompensas.<br />
+              <p className='hero__top__album__book__page__text2'>
+                {t("omega")}
               </p>
               <Link
                 href='https://opensea.io/collection/nofomega'
@@ -329,16 +317,9 @@ const Hero = React.forwardRef((props, book) => {
             </div>
 
             <div className='hero__top__album__book__page0' data-density='hard' number="6">
-              <h3>ECOSISTEMA</h3>
-              <p>
-                La economía de NoF está<br />
-                regulada por sus<br />
-                temporadas y los álbumes<br />
-                con distinas mecánicas jugables.<br />
-                <br />
-                En cada temporada se<br />
-                emiten nuevos personajes<br />
-                y álbumes de cada tipo.
+              <h3> {t("ECONOMICS")}</h3>
+              <p className='hero__top__album__book__page__text2'>
+                {t("NoF economy")}
               </p>
               <div className='season_container'>
                 <div className='seasonimg'>
@@ -349,10 +330,11 @@ const Hero = React.forwardRef((props, book) => {
                   />
                 </div>
               </div>
-              <p>
-                Nuestro objetivo es:<br />
-                Crear un juego sano,<br />
-                divertido y disruptivo.
+              <p className='hero__top__album__book__page__text2'>
+                {t("our goals")}
+                {t("bring together")}
+                {t("create a nice game")}
+
               </p>
             </div>
             <div className='hero__top__album__book__page' data-density='hard' number="7">
@@ -370,7 +352,7 @@ const Hero = React.forwardRef((props, book) => {
                             />
                           </div>
                           <p>{profile.caption}
-                          <br/>{profile.position}</p>
+                            <br />{profile.position}</p>
                         </div>
                       )
                     })
@@ -411,80 +393,82 @@ const Hero = React.forwardRef((props, book) => {
                   />
                 </div>
               </div>
-            {!mobile &&  <div className='text-blocker'>
+              {!mobile && <div className='text-blocker'>
                 <h4>
-                Number One Fan &<br />
-                <br />P4 Tech Solutions <br />
-                <br />Copyright © 2022 <br />
-                <br />all rights reserved.
+                  Number One Fan &<br />
+                  <br />P4 Tech Solutions <br />
+                  <br />Copyright © 2022 <br />
+                  <br />all rights reserved.
                 </h4>
               </div>}
               {mobile && <h3 >Mirá nuestros coleccionables!</h3>}
-              { mobile && swipper && 
-              <div className='hero__top__conteiner__mobile'>
-                {swipper && <div className='hero__top__swiper'>
-                  <Swiper
-                    effect='cards'
-                    grabCursor
-                    modules={[EffectCards, Autoplay, Pagination]}
-                    loop
-                    autoplay={{
-                      delay: 3000,
-                      disableOnInteraction: false
-                    }}
-                    pagination={{
-                      el: '.pagination',
-                      clickable: true
-                    }}
-                    className='hero__top__swiper__slide'
-                  >
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                    <SwiperSlide />
-                  </Swiper>
-                  <div className='pagination' />
+              {mobile && swipper &&
+                <div className='hero__top__conteiner__mobile'>
+                  {swipper && <div className='hero__top__swiper'>
+                    <Swiper
+                      effect='cards'
+                      grabCursor
+                      modules={[EffectCards, Autoplay, Pagination]}
+                      loop
+                      autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false
+                      }}
+                      pagination={{
+                        el: '.pagination',
+                        clickable: true
+                      }}
+                      className='hero__top__swiper__slide'
+                    >
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                      <SwiperSlide />
+                    </Swiper>
+                    <div className='pagination' />
+                  </div>}
                 </div>}
-              </div>}
             </div>
           </HTMLFlipBook>
         </div>
-        {!mobile && <div className='hero__top__conteiner__swiper'>
-          <div className='hero__top__swiper'>
-            <Swiper
-              effect='cards'
-              grabCursor
-              modules={[EffectCards, Autoplay, Pagination]}
-              loop
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false
-              }}
-              pagination={{
-                el: '.pagination',
-                clickable: true
-              }}
-              className='hero__top__swiper__slide'
-            >
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-              <SwiperSlide />
-            </Swiper>
-            <div className='pagination' />
+        {
+          !mobile && <div className='hero__top__conteiner__swiper'>
+            <div className='hero__top__swiper'>
+              <Swiper
+                effect='cards'
+                grabCursor
+                modules={[EffectCards, Autoplay, Pagination]}
+                loop
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false
+                }}
+                pagination={{
+                  el: '.pagination',
+                  clickable: true
+                }}
+                className='hero__top__swiper__slide'
+              >
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+                <SwiperSlide />
+              </Swiper>
+              <div className='pagination' />
+            </div>
           </div>
-        </div>}
-      </div>
+        }
+      </div >
     </div >
   )
 }

@@ -1,14 +1,12 @@
-import useTranslation from "./useTranslation"
+
 import World from './icons/world.png'
 import Brazilean from './icons/br.png'
 import English from './icons/en.png'
 import Spanish from './icons/es.png'
 import Image from "next/image.js"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-function TranslationComponent() {
-
-
+function TranslationComponent({ t, setLanguage }) {
     if (typeof window !== "undefined") {
         document.addEventListener("click", e => {
             const isDropdownButton = e.target.matches("[data-dropdown-button]")
@@ -26,14 +24,11 @@ function TranslationComponent() {
         })
     }
 
-    const { language, setLanguage, setFallbackLanguage, t } = useTranslation()
-
     return (
         <>
-            <div>{t("collections")}</div>
             <div className='dropdown' data-dropdown>
                 <button className='link' data-dropdown-button>
-                    <Image src={World} alt="language button" layout='fill' />
+                    <Image src={World} alt="language button" fill />
                 </button>
                 <div className='dropdown-menu'>
                     <ul className='language_ul'>

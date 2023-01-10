@@ -151,12 +151,25 @@ $groundWidth: 218px; $groundHeight: 40px;
                         height: 100% !important;
                     }
 
-                    &__text {
+                    &__text {    
+                        position: relative;
+                        width: 80%;
+                        text-align: center;
+                        margin: 0 auto;
+                    
+                        
                         @include mobile {
                             display: none;
                         }
                     }
+                    &__text2 {    
+                        position: relative;
+                        width: 80%;
+                        text-align: center;
+                        margin: 0 auto;
                     
+                    }
+                  
                     &__nof {
                         padding-left: 60px;
                         text-align: left;
