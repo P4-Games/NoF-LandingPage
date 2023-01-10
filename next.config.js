@@ -7,7 +7,6 @@ module.exports = {
   images: {
     domains: ['storage.googleapis.com'],
   },
-  output: 'standalone',
   webpack(config, options) {
     const { isServer } = options;
     config.module.rules.push({

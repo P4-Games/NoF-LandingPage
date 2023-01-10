@@ -47,7 +47,7 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, t }) {
             // spy='true'
             >
               <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onFlip={onFlip}>
-                {t("collections")}
+                {t ? t("collections") : ''}
               </button>
             </Link>
             <Whitepaper />

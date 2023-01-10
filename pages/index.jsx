@@ -1,11 +1,12 @@
 import Head from 'next/head'
 // import Navbar from '../components/Navbar'
-import Hero from './sections/Hero'
+// import Hero from './sections/Hero'
 import Footer from '../components/Footer'
 import { useRef } from 'react'
 import useTranslation from "../components/Navbar/useTranslation"
 import dynamic from 'next/dynamic'
 const Navbar = dynamic(() => import("../components/Navbar"), { ssr: false })
+const Hero = dynamic(() => import("./sections/Hero"), { ssr: false })
 
 function Home() {
 
