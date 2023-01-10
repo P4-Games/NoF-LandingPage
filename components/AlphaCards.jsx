@@ -537,7 +537,7 @@ const AlphaCards = () => {
                 id="alpha_select_season_button" >
                 {seasonNames && seasonNames.map(name => {
                   console.log({name})
-                  if(name == "GAME_02" || name == "GAME_03"){
+                  if(name == "GAME_02"){
                     return (
                       <option key={name}>{name}</option>
                     )
