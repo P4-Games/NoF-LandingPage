@@ -237,10 +237,10 @@ const Hero = React.forwardRef((props, book,) => {
                         </div>
 
                         <div className='hero__top__album__book__page0' data-density='hard' number="4">
-                            {/* <h3> {t("ALBUMS")}</h3> */}
-                            <p>
-                                {/* {t("Earn money")} */}
-                                {t ? t("Earn money") : ''}
+                            <h3>  {t ? t("ALBUMS") : ''}</h3>
+                            <p className='hero__top__album__book__page__text2'>
+                                {/* {t("Earn Money")} */}
+                                {t ? t("Earn Money") : ''}
                             </p>
                             <div className='albums_container'>
                                 <div className='album1'>
