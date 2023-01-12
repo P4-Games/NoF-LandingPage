@@ -209,7 +209,9 @@ const Hero = React.forwardRef((props, book,) => {
                                             />
                                         </div>
                                         <div className='noftitle'>
+                                            <p>
                                             {t ? t("silver") : ''}
+                                            </p>
                                         </div>
                                     </div>
                                     <div className='nof3'>
@@ -222,16 +224,15 @@ const Hero = React.forwardRef((props, book,) => {
                                         </div>
                                         <div className='noftitle'>
                                             <p>
-
                                                 {t ? t("bronze") : ''}
                                             </p>
                                         </div>
                                     </div>
+                                         <p>
+                                           {/* {t("our NFTs")} */}
+                                           {t ? t("our NFTs") : ''}
+                                           </p>
                                 </div>
-                                <p>
-                                    {/* {t("our NFTs")} */}
-                                    {t ? t("our NFTs") : ''}
-                                </p>
                             </div>
                         </div>
 
@@ -259,12 +260,13 @@ const Hero = React.forwardRef((props, book,) => {
                                 <div className='album2'>
                                     <div className='albumtitle'>
                                         <p>
-                                            {/* {t("Sticker")} */}
-                                            {t ? t("Sticker") : ''}
+                                            {/* {t("sticker")} */}
+                                            {t ? t("sticker") : ''}
                                         </p>
                                     </div>
                                     <div className='albumimg'>
-                                        <Image alt='imagenalbum'
+                                        <Image
+                                            alt='imagenalbum'
                                             src={Albumsecond}
                                             layout='fill' />
                                     </div>
