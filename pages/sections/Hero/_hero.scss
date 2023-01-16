@@ -473,7 +473,7 @@ $groundHeight: 40px;
           display: flex;
           flex-direction: column;
           width: 80%;
-          height: 75%;
+          height: 70%;
           margin: 20px auto;
           justify-content: space-between;
         }
@@ -668,8 +668,6 @@ $groundHeight: 40px;
 .friends_container {
   padding-bottom: 5%;
   position: relative;
-  height: 100%;
-  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-end;
@@ -705,14 +703,14 @@ $groundHeight: 40px;
     width: 30%;
     position: relative;
     margin-top: 5%;
-       display: flex;
+    display: flex;
     flex-direction: column;
 
     p {
-        padding-top: 80%;
-        font-size: 0.45rem;
-        letter-spacing: -2px;
-        line-height: 15px;
+      padding-top: 80%;
+      font-size: 0.45rem;
+      letter-spacing: -2px;
+      line-height: 15px;
     }
   }
   .imgFriends {

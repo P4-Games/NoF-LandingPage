@@ -348,23 +348,25 @@ const Hero = React.forwardRef((props, book) => {
               number="8"
             >
               <div className="friends_container">
-                <h3 className="title">AMIGOS</h3>
-                <div className="content">
-                  {Friends &&
-                    Friends.map((friend) => {
-                      return (
-                        <div className="box" key={friend.id}>
-                          <Image
-                            className="imgFriends"
-                            layout="fill"
-                            src={friend.icon}
-                          />
-                          <div>
-                            <p>{friend.caption}</p>
+                <div className="hero__top__album__book__pagecontent">
+                  <h3 className="title">AMIGOS</h3>
+                  <div className="content">
+                    {Friends &&
+                      Friends.map((friend) => {
+                        return (
+                          <div className="box" key={friend.id}>
+                            <Image
+                              className="imgFriends"
+                              layout="fill"
+                              src={friend.icon}
+                            />
+                            <div>
+                              <p>{friend.caption}</p>
+                            </div>
                           </div>
-                        </div>
-                      )
-                    })}
+                        )
+                      })}
+                  </div>
                 </div>
               </div>
             </div>
