@@ -36,8 +36,15 @@
 	flex-direction: column;
 }
 
+.alpha_main_buttons_container span {
+	color: red;
+	font-size: 0.7em;
+	margin-top: 10px;
+}
+
 .alpha_main_button {
 	width: 100%;
+	max-width: 192px;
 	margin: 10px 0;
 }
 

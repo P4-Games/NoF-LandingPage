@@ -52,6 +52,7 @@ const AlphaCards = () => {
   const [winnerPosition, setWinnerPosition] = useState(0)
   const [transferError, setTransferError] = useState("")
   const [disableTransfer, setDisableTransfer] = useState(null)
+  const [noMetamaskError, setNoMetamaskError] = useState("")
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -80,32 +81,37 @@ const AlphaCards = () => {
   }
 
   function connectToMetamask() {
-    requestAccount().then((data) => {
-      const [provider, address] = data;
-      const signer = provider.getSigner();
-      let nofContractInstance = new ethers.Contract(
-        contractAddress,
-        nofAbi.abi,
-        signer
-      );
-      setNofContract(nofContractInstance)
-      let daiContractInstance = new ethers.Contract(
-        daiAddress,
-        daiAbi.abi,
-        signer
-      );
-      setDaiContract(daiContractInstance)
-      requestSeasonData(nofContractInstance)
-      .then(data => {
-        const [currentSeason, currentPrice] = data;
+    if(window.ethereum !== undefined){
+      setNoMetamaskError("");
+      requestAccount().then((data) => {
+        const [provider, address] = data;
+        const signer = provider.getSigner();
+        let nofContractInstance = new ethers.Contract(
+          contractAddress,
+          nofAbi.abi,
+          signer
+        );
+        setNofContract(nofContractInstance)
+        let daiContractInstance = new ethers.Contract(
+          daiAddress,
+          daiAbi.abi,
+          signer
+        );
+        setDaiContract(daiContractInstance)
+        requestSeasonData(nofContractInstance)
+        .then(data => {
+          const [currentSeason, currentPrice] = data;
+        })
+        .catch(e => {
+          console.error({ e })
+        });
       })
       .catch(e => {
         console.error({ e })
       });
-    })
-    .catch(e => {
-      console.error({ e })
-    });
+    } else {
+      setNoMetamaskError("Por favor instala Metamask para continuar.")
+    }
   }
 
   function decToHex(number) {
@@ -516,6 +522,7 @@ const AlphaCards = () => {
       <div className="alpha_main_buttons_container">
         <button className="alpha_button alpha_main_button" id="connect_metamask_button" onClick={() => connectToMetamask()}>Conectar con Metamask</button>
         <button className="alpha_button alpha_main_button" id="show_rules_button" onClick={() => showRules()}>Reglas</button>
+        <span>{noMetamaskError}</span>
       </div>
       <div className="alpha_rules_container">
         <button className="alpha_rules_img_close alpha_modal_close" onClick={() => closeRules()}>X</button>
