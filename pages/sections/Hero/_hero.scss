@@ -83,8 +83,8 @@ $groundHeight: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 900px;
-      height: 590px;
+      // width: 900px;
+      // height: 590px;
       background-image: url("../Hero/background/book.png");
       position: absolute;
       background-size: 100% 100%;
@@ -97,12 +97,12 @@ $groundHeight: 40px;
         top: 36%;
       }
       @include large-desktop {
-        width: auto;
-        height: auto;
-        max-height: 75vh;
-        font-size: 12px;
-        line-height: 18px;
-        top: 45%;
+        // width: auto;
+        // height: auto;
+        // max-height: 75vh;
+        // font-size: 12px;
+        // line-height: 18px;
+        top: 43%;
       }
       @include mobile {
         width: 350px;

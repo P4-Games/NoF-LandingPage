@@ -28,20 +28,36 @@ const Hero = React.forwardRef((props, book) => {
   const { language, setLanguage, t } = props
   const [swipper, setSwipper] = useState(false)
   const [mobile, setMobile] = useState(false)
-  const [width, setWidth] = useState()
-  const [height, setHeight] = useState()
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
   const [size, setSize] = useState(false)
-  // const width = mobile ? 360 : 360
-  // const height = mobile ? 500 : 500
-  // const size = mobile ? 'fixed' : 'stretch'
+
   useEffect(() => {
-    if (window.innerWidth < 600) {
-      setMobile(true)
-      setSize(true)
-      setSwipper(true)
+    if (typeof window !== "undefined") {
+      if (window.innerWidth < 600) {
+        setMobile(true)
+        setSize(true)
+        setSwipper(true)
+        setWidth(window.innerWidth * 0.8)
+      } else {
+        setMobile(false)
+        setSize(false)
+        setWidth(window.innerWidth * 0.55)
+      }
+      setHeight(window.innerHeight * 0.7)
     } else {
-      setMobile(false)
-      setSize(false)
+      // en el servidor, no existe la propiedad window
+      if (window.innerWidth < 600) {
+        setMobile(true)
+        setSize(true)
+        setSwipper(true)
+        setWidth(props.width * 0.8)
+      } else {
+        setMobile(false)
+        setSize(false)
+        setWidth(props.width * 0.55)
+      }
+      setHeight(props.height * 0.7)
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
@@ -55,7 +71,8 @@ const Hero = React.forwardRef((props, book) => {
     }
     window.addEventListener("resize", updateMedia)
     return () => window.removeEventListener("resize", updateMedia)
-  }, [])
+  }, [props.width, props.height])
+
   const onFlip = useCallback((e) => {
     console.log("Current page: " + e.data)
     if (e.data === 8) {
@@ -70,17 +87,18 @@ const Hero = React.forwardRef((props, book) => {
         <div className="hero__top__nof">
           <Image src={Noficon} alt="Nof-Icon" layout="fill" />
         </div>
-        <div className="hero__top__album">
+        <div
+          className="hero__top__album"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+          }}
+        >
           <HTMLFlipBook
             id="Book"
-            size={"stretch"}
-            width={360}
-            height={500}
-            minWidth={350}
-            maxWidth={800}
-            minHeight={500}
-            maxHeight={800}
-            autoSize={true}
+            size="stretch"
+            width={width}
+            height={height}
             ref={book}
             usePortrait={size}
             drawShadow={false}
@@ -469,3 +487,13 @@ const Hero = React.forwardRef((props, book) => {
 })
 
 export default Hero
+
+Hero.getInitialProps = async ({ req }) => {
+  let width
+  let height
+  if (req) {
+    width = req.headers["user-agent"].includes("Mobile") ? 375 : 1440
+    height = req.headers["user-agent"].includes("Mobile") ? 828 : 700
+  }
+  return { width, height }
+}
