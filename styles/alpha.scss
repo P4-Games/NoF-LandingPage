@@ -278,44 +278,54 @@
 }
 
 @media (max-width: 930px) {
+	.alpha_inner_container_open {
+		position: fixed;
+		display: block;
+		margin: 0;
+		top: 0;
+		outline: 1px solid red;
+		height: 86vh;
+		overflow-y: scroll;
+		padding-top: 12vh;
+	}
+	
 	.alpha_container {
 		flex-direction: column;
 	}
 
-	.alpha_inner_container_open {
-		margin-top: 70%;
+	.alpha_season {
+		min-height: 90px;
 	}
 
-	.alpha_progress_container {
-		height: 250px;
-		margin: 20px;
+	.alpha_data div {
+		margin: 30px 0 0 0;
+	}
+
+	.alpha_progress_container span {
+		margin: 15px 0;
 	}
 }
 
 @media (max-width: 820px) {
+	
+}
+
+@media (max-width: 768px) {
 	.alpha_inner_container_open {
-		margin-top: 90%;
+		padding-top: 10vh;
 	}
 }
 
 @media (max-width: 610px) {
-	.alpha_inner_container_open {
-		margin-top: 100%;
-	}
+	
 }
 
 @media (max-width: 576px) {
-	.alpha {
-		height: 100vh;
-	}
-
 	.alpha_inner_container_open {
-		margin-top: 115%;
+		height: 90vh;
 	}
 }
 
 @media (max-width: 480px) {
-	.alpha_inner_container_open {
-		margin-top: 100%;
-	}
+	
 }
