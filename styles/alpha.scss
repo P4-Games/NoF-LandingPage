@@ -281,11 +281,11 @@
 	.alpha_inner_container_open {
 		position: fixed;
 		display: block;
-		margin: 0;
 		top: 0;
 		height: 86vh;
 		overflow-y: scroll;
-		margin-top: 12vh;
+		margin: 12vh;
+		padding-bottom: 12vh;
 	}
 	
 	.alpha_container {
@@ -312,6 +312,7 @@
 @media (max-width: 768px) {
 	.alpha_inner_container_open {
 		margin-top: 10vh;
+		padding-bottom: 10vh;
 	}
 }
 
