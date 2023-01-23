@@ -285,7 +285,7 @@
 		top: 0;
 		height: 86vh;
 		overflow-y: scroll;
-		padding-top: 12vh;
+		margin-top: 12vh;
 	}
 	
 	.alpha_container {
@@ -311,7 +311,7 @@
 
 @media (max-width: 768px) {
 	.alpha_inner_container_open {
-		padding-top: 10vh;
+		margin-top: 10vh;
 	}
 }
 
