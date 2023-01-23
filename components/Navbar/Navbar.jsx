@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic'
 
 const TranslationComponent = dynamic(() => import("./translationComponent.jsx"), { ssr: false })
 
-function Navbar({ onFlip, goToCollections, language, setLanguage, t }) {
+function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton, t }) {
   const ref = useRef(null);
   const [click, setClick] = useState(false);
   const handleClick = () => {
@@ -24,6 +24,7 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, t }) {
       ref.current.pause();
     }
   };
+
   return (
     <>
       <div className='navbar'>
@@ -46,7 +47,13 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, t }) {
               to='Contacto'
             // spy='true'
             >
-              <button onClick={() => goToCollections(5)} className='navbar__ul__li__contacto' onFlip={onFlip}>
+              <button onClick={() => {
+                if(window.history.state.url == "/alpha"){
+                  alphaMidButton()
+                }
+                goToCollections(5)
+              }}
+                      className='navbar__ul__li__contacto' onFlip={onFlip}>
                 {t ? t("collections") : ''}
               </button>
             </Link>

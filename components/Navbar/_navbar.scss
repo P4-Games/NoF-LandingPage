@@ -48,12 +48,14 @@ header {
 }
 .navbar {
 	height: 12vh;
+	z-index: 999;
+
     top: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: transparent;
+    background: rgba(255,255,255,0.1);
     position: absolute;
     gap: 6%;
 	padding: 1%;

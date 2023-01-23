@@ -18,10 +18,10 @@ const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src]
 
 import 'swiper/css/bundle'
 
-const deployment = true;
+const deployment = false;
 
-const storageUrl = "https://storage.googleapis.com/nof-alpha/T1/"; // 1.png to 60.png
-const contractAddress = deployment ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // contract POLYGON mainnet
+const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
+const contractAddress = deployment ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
 const daiAddress = deployment ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"; // multisig receiver POLYGON mainnet
 
 let swiper;
@@ -53,6 +53,7 @@ const AlphaCards = () => {
   const [transferError, setTransferError] = useState("")
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState("")
+  const [seasonFolder, setSeasonFolder] = useState(null)
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -272,6 +273,21 @@ const AlphaCards = () => {
     return cards
   }
 
+  const getSeasonFolder = async (seasonName) => {
+    const response = await nofContract.seasons(seasonName)
+    return response.folder
+  }
+
+  // const getImageData = async (folder, cardNumber) => {
+  //   try {
+  //     const response = await fetch(`${storageUrl}${folder}/${cardNumber}.json`, { mode: 'cors' })
+  //     const data = await response
+  //     console.log({ data })
+  //   } catch (e) {
+  //     console.error({ e })
+  //   }
+  // }
+
   function emitSuccess(message) {
     Swal.fire({
       title: '',
@@ -304,6 +320,7 @@ const AlphaCards = () => {
         if(pack.length){
           let albumData = []
           let cardsData = []
+          let folder = ""
           pack.forEach(card => {
             card.class == 0 ? albumData.push(card) : cardsData.push(card);
           })
@@ -314,20 +331,33 @@ const AlphaCards = () => {
           const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
           setAlbumCompletion(completion)
           setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
-          if(completion < 5){
-            setAlbumCard(storageUrl + albumData[0].number + ".png")
-          } else {
-            setAlbumCard(storageUrl + albumData[0].number + "F" + ".png")
-            getWinners()
-              .then(winners => {
-                if(winners.includes(account)){
-                  setWinnerPosition(winners.indexOf(account) + 1)
-                }
-              })
-              .catch(e => {
-                console.error({ e })
-              })
-          }
+          getSeasonFolder(seasonName)
+            .then(data => {
+              if(data == 'alpha_jsons'){
+                folder = "T1"
+                setSeasonFolder("T1")
+              } else {
+                folder = data
+                setSeasonFolder(data)
+              }
+              if(completion < 5){
+                setAlbumCard(storageUrl + folder + "/" + albumData[0].number + ".png")
+                console.log({albumCard})
+              } else {
+                setAlbumCard(storageUrl + folder + "/" + albumData[0].number + "F" + ".png")
+                getWinners()
+                  .then(winners => {
+                    if(winners.includes(account)){
+                      setWinnerPosition(winners.indexOf(account) + 1)
+                    }
+                  })
+                  .catch(e => {
+                    console.error({ e })
+                  })
+              }
+            })
+            .catch(e => console.error({ e }))
+            console.log({folder})
           setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
@@ -607,7 +637,7 @@ const AlphaCards = () => {
                         <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
-                            src={storageUrl + card.number + ".png"}
+                            src={storageUrl + seasonFolder + "/" + card.number + ".png"}
                             className="alpha_card"
                           />
                         </div>

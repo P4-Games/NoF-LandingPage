@@ -30,7 +30,9 @@ return (
 <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 <link rel='icon' href='./favicon.ico' />
 </Head>
-<Navbar onFlip={onFlip} goToCollections={goToCollections}
+<Navbar
+     onFlip={onFlip}
+     goToCollections={goToCollections}
      language={language}
      setLanguage={setLanguage}
      t={t} />
