@@ -14,6 +14,8 @@ import vida5 from "../public/vida5.png"
 import marco from "../public/marco.png"
 import reglas from "../public/reglas.png"
 
+import AlphaAlbums from "./AlphaAlbums";
+
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
 import 'swiper/css/bundle'
@@ -583,7 +585,7 @@ const AlphaCards = () => {
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
               <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">{`Comprar Pack ($${packPrice.substring(0,packPrice.length - 18)})`}</button>
             </div>
-            <span style={{"color":"red"}}>{noCardsError}</span>
+            <span style={{"color":"red", "textAlign": "center", "marginTop": "10px"}}>{noCardsError}</span>
           </div>
       
           {pack && pack.length ? (
@@ -668,12 +670,10 @@ const AlphaCards = () => {
               </button>
               <span className="alpha_transfer_error">{transferError}</span>
             </div>
-            ) : null
-              
-            }
-            </div>
+            ) : null }
+          </div>
           ) : null}
-
+        {/* <AlphaAlbums nofContract={nofContract} seasonNames={seasonNames} account={account} /> */}
         </div>
       )}
     </div>

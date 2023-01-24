@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 // import EthersProvider from '../context/EthersContext'
 import AlphaCards from '../components/AlphaCards'
-import AlphaAlbums from '../components/AlphaAlbums'
 
 const Alpha = () => {
 
@@ -19,7 +18,6 @@ const Alpha = () => {
       </Head>
       <Navbar alphaMidButton={alphaMidButton}/>
       <AlphaCards />
-      {/* <AlphaAlbums /> */}
       <Footer />
     </div>
   )
