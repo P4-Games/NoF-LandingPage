@@ -49,9 +49,10 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
             >
               <button onClick={() => {
                 if(window.history.state.url == "/alpha"){
-                  alphaMidButton()
+                  // alphaMidButton()
+                } else {
+                  goToCollections(5)
                 }
-                goToCollections(5)
               }}
                       className='navbar__ul__li__contacto' onFlip={onFlip}>
                 {t ? t("collections") : ''}

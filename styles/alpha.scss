@@ -109,6 +109,10 @@
 	height: 100vh;
 }
 
+.alpha_full_albums_container {
+	text-align: center;
+}
+
 .alpha_data {
 	display: flex;
 	justify-content: center;
@@ -159,7 +163,7 @@
 	width: 250px;
 }
 
-.alpha_card {
+.alpha_card, .alpha_album {
 	width: 250px;
 }
 
@@ -191,6 +195,12 @@
 	overflow: hidden !important;
 	width: 350px;
 	margin-left: -50px;
+}
+
+.alpha-albums-swiper-container {
+	overflow: hidden !important;
+	width: 350px;
+	
 }
 
 .alpha-swiper-slide {

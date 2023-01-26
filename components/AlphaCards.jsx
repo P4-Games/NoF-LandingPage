@@ -220,7 +220,7 @@ const AlphaCards = () => {
         },
         observerUpdate: (res) => {
           setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex].collection == albumCollection){
+          if(cards[res.activeIndex]?.collection == albumCollection){
             setIsCollection(true)
           } else {
             setIsCollection(false)
@@ -279,16 +279,6 @@ const AlphaCards = () => {
     const response = await nofContract.seasons(seasonName)
     return response.folder
   }
-
-  // const getImageData = async (folder, cardNumber) => {
-  //   try {
-  //     const response = await fetch(`${storageUrl}${folder}/${cardNumber}.json`, { mode: 'cors' })
-  //     const data = await response
-  //     console.log({ data })
-  //   } catch (e) {
-  //     console.error({ e })
-  //   }
-  // }
 
   function emitSuccess(message) {
     Swal.fire({
@@ -673,9 +663,15 @@ const AlphaCards = () => {
             ) : null }
           </div>
           ) : null}
-        {/* <AlphaAlbums nofContract={nofContract} seasonNames={seasonNames} account={account} /> */}
         </div>
       )}
+      {/* <AlphaAlbums
+          storageUrl={storageUrl}
+          nofContract={nofContract}
+          seasonNames={seasonNames}
+          account={account}
+          getSeasonFolder={getSeasonFolder}
+        /> */}
     </div>
   );
 };
