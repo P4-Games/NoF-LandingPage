@@ -204,7 +204,8 @@
 }
 
 .alpha-swiper-slide {
-	background-image: none;
+	background-image: none !important;
+	padding-top: 0;
   text-align: center;
   font-size: 18px;
   display: -webkit-box;

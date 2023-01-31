@@ -1,82 +1,102 @@
-import { ethers } from 'ethers'
-import { useState, useEffect } from 'react'
-import Swiper from 'swiper/bundle';
+import { useState } from "react";
 
-import 'swiper/css/bundle'
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import SwiperCore, {
+  Autoplay,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Parallax,
+  EffectCards,
+} from "swiper";
+SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
-let swiper;
-
-const AlphaAlbums = ({ storageUrl, nofContract, seasonNames, account, getSeasonFolder }) => {
-
-  const [urls, setUrls] = useState(null)
+const AlphaAlbums = ({
+  storageUrl,
+  nofContract,
+  seasonNames,
+  account,
+  getSeasonFolder,
+}) => {
+  const [urls, setUrls] = useState(null);
 
   const getAlbums = async () => {
-    let albums = []
-    for(let i=0;i<seasonNames.length;i++){
-      const album = await nofContract.getCardsByUserBySeason(account, seasonNames[i])
-      for(let j=0;j<album.length;j++){
-        if(album[j].class == 0 && album[j].completion == 1){
-          albums.push([album[j].season, album[j].number])
+    let albums = [];
+    for (let i = 0; i < seasonNames.length; i++) {
+      const album = await nofContract.getCardsByUserBySeason(
+        account,
+        seasonNames[i]
+      );
+      for (let j = 0; j < album.length; j++) {
+        if (album[j].class == 0 && album[j].completion == 1) {
+          albums.push([album[j].season, album[j].number]);
         }
       }
     }
-    let urls = []
-    for(let i=0;i<albums.length;i++){
-      const folder = await getSeasonFolder(albums[i][0])
-      urls.push(storageUrl + folder + "/" + albums[i][1] + ".png")
+    let urls = [];
+    for (let i = 0; i < albums.length; i++) {
+      const folder = await getSeasonFolder(albums[i][0]);
+      urls.push(storageUrl + folder + "/" + albums[i][1] + ".png");
     }
-    return urls
-  }
+    return urls;
+  };
 
   const handleClick = () => {
     getAlbums()
-      .then(albums => {
-        setUrls(albums)
-        const button = document.getElementsByClassName('alpha_albums_button')[0]
-        button.style.display = 'none'
+      .then((albums) => {
+        setUrls(albums);
+        const button = document.getElementsByClassName(
+          "alpha_albums_button"
+        )[0];
+        button.style.display = "none";
       })
-      .catch(e => console.error({ e }))
-  }
+      .catch((e) => console.error({ e }));
+  };
 
-
-  useEffect(() => {
-    swiper = new Swiper('.swiper-container-2', {
-      effect: 'fade',
-      grabCursor: true,
-      centeredSlides: true,
-      setWrapperSize: true,
-      slidesPerView: 1,
-      initialSlide: 0,
-      runCallbacksOnInit: true,
-      observer: true,
-      cardsEffect: {
-        slideShadows: false,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-      },
-    });
-  }, [urls])
-  
   return (
-    <div className='alpha_full_albums_container alpha_display_none'>
-      <button onClick={() => handleClick()} className="alpha_button alpha_albums_button">CARGAR ALBUMS</button>
+    <div className="alpha_full_albums_container alpha_display_none">
+      <button
+        onClick={() => handleClick()}
+        className="alpha_button alpha_albums_button"
+      >
+        CARGAR ALBUMS
+      </button>
       <div className="alpha_cards_container">
-        <div className="swiper-container-2">
-          <div className="swiper-wrapper"></div>
-            {urls?.map((url, i) => {
-              console.log({ url })
+        <Swiper
+          effect="cards"
+          grabCursor
+          modules={[EffectCards, Autoplay, Pagination]}
+          loop
+          pagination={{
+            el: ".pagination",
+            clickable: true,
+          }}
+          cardsEffect={{
+            slideShadows: false
+          }}
+          className="swiper-container"
+        >
+          {urls &&
+            urls.map((url, index) => {
               return (
-                <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide" key={Math.floor(Math.random() * 10000)}>
-                  <img src={url} alt="number one fan album card" className='alpha_album' />
-                </div>
-              )
+                <SwiperSlide
+                  key={index}
+                  className="swiper-slide alpha-swiper-slide"
+                >
+                  <img alt="portadas" src={url} className="alpha_card" />
+                </SwiperSlide>
+              );
             })}
-          </div>
-        <div className="swiper-pagination"></div>
-      </div>      
+          <div className="pagination"></div>
+        </Swiper>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default AlphaAlbums;
