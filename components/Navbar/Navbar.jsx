@@ -49,7 +49,7 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
             >
               <button onClick={() => {
                 if(window.history.state.url == "/alpha"){
-                  // alphaMidButton()
+                  alphaMidButton()
                 } else {
                   goToCollections(5)
                 }

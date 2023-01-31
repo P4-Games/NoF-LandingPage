@@ -40,8 +40,8 @@ const AlphaAlbums = ({ storageUrl, nofContract, seasonNames, account, getSeasonF
 
 
   useEffect(() => {
-    swiper = new Swiper('.swiper-container', {
-      effect: 'cards',
+    swiper = new Swiper('.swiper-container-2', {
+      effect: 'fade',
       grabCursor: true,
       centeredSlides: true,
       setWrapperSize: true,
@@ -55,38 +55,6 @@ const AlphaAlbums = ({ storageUrl, nofContract, seasonNames, account, getSeasonF
       pagination: {
         el: '.swiper-pagination',
       },
-      on: {
-        init: (res) => {
-          console.log(res.activeIndex)
-          // setCardIndex(res.activeIndex)
-          // if(cards.length > 0){
-          //   if(cards[res.activeIndex].collection == albumCollection){
-          //     setIsCollection(true)
-          //   } else {
-          //     setIsCollection(false)
-          //   }
-          // }
-        },
-        slideChange: (res) => {
-          // setCardIndex(res.activeIndex)
-          // if(cards[res.activeIndex].collection == albumCollection){
-          //   setIsCollection(true)
-          // } else {
-          //   setIsCollection(false)
-          // }    
-        },
-        observerUpdate: (res) => {
-          // setCardIndex(res.activeIndex)
-          // if(cards[res.activeIndex].collection == albumCollection){
-          //   setIsCollection(true)
-          // } else {
-          //   setIsCollection(false)
-          // }
-        },
-        slidesLengthChange: (res) => {
-          // check function  
-        }
-      }
     });
   }, [urls])
   
@@ -94,17 +62,18 @@ const AlphaAlbums = ({ storageUrl, nofContract, seasonNames, account, getSeasonF
     <div className='alpha_full_albums_container alpha_display_none'>
       <button onClick={() => handleClick()} className="alpha_button alpha_albums_button">CARGAR ALBUMS</button>
       <div className="alpha_cards_container">
-        <div className="swiper-container">
+        <div className="swiper-container-2">
           <div className="swiper-wrapper"></div>
             {urls?.map((url, i) => {
-              return(
+              console.log({ url })
+              return (
                 <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide" key={Math.floor(Math.random() * 10000)}>
-                  <img src={url} alt="number one fan album card" className='alpha_album' />                        
+                  <img src={url} alt="number one fan album card" className='alpha_album' />
                 </div>
               )
             })}
           </div>
-        <div className="swiper-pagination swiper-pagination1"></div>
+        <div className="swiper-pagination"></div>
       </div>      
     </div>
   )

@@ -20,7 +20,7 @@ const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src]
 
 import 'swiper/css/bundle'
 
-const deployment = true;
+const deployment = false;
 
 const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
 const contractAddress = deployment ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
@@ -56,6 +56,7 @@ const AlphaCards = () => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState("")
   const [seasonFolder, setSeasonFolder] = useState(null)
+  const [urls, setUrls] = useState([])
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -193,7 +194,6 @@ const AlphaCards = () => {
       runCallbacksOnInit: true,
       observer: true,
       cardsEffect: {
-        // perSlideOffset: 8,
         slideShadows: false,
       },
       pagination: {
@@ -231,6 +231,7 @@ const AlphaCards = () => {
         }
       }
     });
+    console.log({ swiper })
   }, [pack, cards])
 
   useEffect(() => {
@@ -349,7 +350,6 @@ const AlphaCards = () => {
               }
             })
             .catch(e => console.error({ e }))
-            console.log({folder})
           setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
@@ -532,8 +532,6 @@ const AlphaCards = () => {
     document.getElementsByClassName('alpha_rules_container')[0].style.display = "none"
   }
 
-  
-
   return (
     <div className="alpha">
       <div className="alpha_loader_container alpha_display_none" id="loading">
@@ -624,6 +622,7 @@ const AlphaCards = () => {
                 <div className="swiper-container alpha-swiper-container">
                   <div className="swiper-wrapper alpha-swiper-wrapper">
                     {cards.map((card, i) => {
+                      console.log({ card })
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
                         <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
@@ -665,13 +664,13 @@ const AlphaCards = () => {
           ) : null}
         </div>
       )}
-      {/* <AlphaAlbums
+      <AlphaAlbums
           storageUrl={storageUrl}
           nofContract={nofContract}
           seasonNames={seasonNames}
           account={account}
           getSeasonFolder={getSeasonFolder}
-        /> */}
+        />
     </div>
   );
 };
