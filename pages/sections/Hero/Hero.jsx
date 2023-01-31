@@ -365,15 +365,10 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
                 {!mobile && (
                   <div className="text-blocker">
-                    <h4>
-                      Number One Fan &<br />
-                      <br />
-                      P4 Tech Solutions <br />
-                      <br />
-                      Copyright © 2022 <br />
-                      <br />
-                      all rights reserved.
-                    </h4>
+                    <h5>
+                      Number One Fan & P4 Tech Solutions Copyright © 2022 all
+                      rights reserved.
+                    </h5>
                   </div>
                 )}
                 {mobile && <h3>Mirá nuestros coleccionables!</h3>}

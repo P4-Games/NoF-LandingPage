@@ -143,7 +143,6 @@ $groundHeight: 40px;
           &__page-content {
             display: flex;
             flex-direction: column;
-            background-color: rgba(0, 0, 0, 0.253);
             width: 80%;
             height: 85%;
             margin: 0 auto;
@@ -400,7 +399,12 @@ $groundHeight: 40px;
               height: 20%;
               width: 30%;
               position: relative;
-              margin-top: 5%;
+              margin-top: 10%;
+              display: flex;
+              padding-top: 17%;
+              line-height: 1;
+              flex-direction: column;
+              justify-content: space-between;
               @include mobile {
                 height: 15%;
                 width: 30%;
@@ -735,21 +739,17 @@ $groundHeight: 40px;
       max-width: 60px;
     }
     p {
-      padding-top: 25px;
+      margin-top: -5px;
       font-size: 0.45rem;
       letter-spacing: -2px;
-      line-height: 15px;
+      line-height: 10px;
       @include mobile {
-        padding-top: 20px;
         font-size: 0.3rem;
         letter-spacing: -1px;
       }
       @include desktop {
         font-size: 0.38rem;
         line-height: 10px;
-      }
-      @include large-desktop {
-        padding-top: 15px;
       }
     }
     @include desktop {
