@@ -78,7 +78,6 @@ const AlphaAlbums = ({
           effect="cards"
           grabCursor
           modules={[EffectCards, Autoplay, Pagination]}
-          loop
           pagination={{
             el: ".pagination",
             clickable: true,
