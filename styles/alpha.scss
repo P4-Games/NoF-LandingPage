@@ -124,7 +124,8 @@
 	margin: 30px 0;
 }
 
-.alpha_season {
+.alpha_season,
+.alpha_albums_season {
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -133,8 +134,14 @@
 	font-size: 0.9rem;
 }
 
-.alpha_season > img, .alpha_season > span {
+.alpha_season > img,
+.alpha_season > span,
+.alpha_albums_season > span {
 	position: absolute;
+}
+
+.alpha_albums_season {
+	font-size: 0.8rem;
 }
 
 .alpha_start_buttons {
@@ -165,6 +172,10 @@
 
 .alpha_card, .alpha_album {
 	width: 250px;
+}
+
+.alpha_albums_swiper_container {
+	margin-top: 0;
 }
 
 .alpha_progress_container {

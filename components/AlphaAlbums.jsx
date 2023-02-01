@@ -22,10 +22,13 @@ const AlphaAlbums = ({
     seasonNames,
     account,
     getSeasonFolder,
+    marco
   }) => {
   
+    console.log({ marco })
   const [urls, setUrls] = useState(null);
   const [noAlbumMessage, setNoAlbumMessage] = useState("")
+  const [seasonName, setSeasonName] = useState("")
 
   const getAlbums = async () => {
     let albums = [];
@@ -37,6 +40,7 @@ const AlphaAlbums = ({
       for (let j = 0; j < album.length; j++) {
         if (album[j].class == 0 && album[j].completion == 1) {
           albums.push([album[j].season, album[j].number]);
+          
         }
       }
     }
@@ -74,33 +78,39 @@ const AlphaAlbums = ({
       </button>
       <div>
         {urls ? (
-          <Swiper
-          effect="cards"
-          grabCursor
-          modules={[EffectCards, Autoplay, Pagination]}
-          pagination={{
-            el: ".pagination",
-            clickable: true,
-          }}
-          cardsEffect={{
-            slideShadows: false
-          }}
-          className="swiper-container"
-          id="alpha-albums-swiper-container"
-        >
-          {urls.map((url, index) => {
-              return (
-                <SwiperSlide
-                  key={index}
-                  className="swiper-slide"
-                  id="alpha-albums-swiper-slide"
-                >
-                  <img alt="portadas" src={url} className="alpha_card" />
-                </SwiperSlide>
-              );
-            })}
-          <div className="pagination"></div>
-        </Swiper>
+          <div>
+            <div className="alpha_albums_season">
+              <img src={marco.src}/>
+              <span className="alpha_albums_season_name">{seasonName ? seasonName : "Number One Fan"}</span>
+            </div>
+            <Swiper
+            effect="cards"
+            grabCursor
+            modules={[EffectCards, Autoplay, Pagination]}
+            pagination={{
+              el: ".pagination",
+              clickable: true,
+            }}
+            cardsEffect={{
+              slideShadows: false
+            }}
+            className="swiper-container alpha_albums_swiper_container"
+            id="alpha-albums-swiper-container"
+          >
+            {urls.map((url, index) => {
+                return (
+                  <SwiperSlide
+                    key={index}
+                    className="swiper-slide"
+                    id="alpha-albums-swiper-slide"
+                  >
+                    <img alt="portadas" src={url} className="alpha_card" />
+                  </SwiperSlide>
+                );
+              })}
+            <div className="pagination"></div>
+          </Swiper>
+          </div>
         ) : <div>{noAlbumMessage}</div>}
         
       </div>

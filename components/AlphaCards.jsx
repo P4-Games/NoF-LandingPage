@@ -668,6 +668,7 @@ const AlphaCards = () => {
           seasonNames={seasonNames}
           account={account}
           getSeasonFolder={getSeasonFolder}
+          marco={marco}
         />
     </div>
   );
