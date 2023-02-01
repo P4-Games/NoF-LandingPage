@@ -197,14 +197,16 @@
 	margin-left: -50px;
 }
 
-.alpha-albums-swiper-container {
+#alpha-albums-swiper-container {
 	overflow: hidden !important;
 	width: 350px;
-	
+	height: 350px;
 }
 
-.alpha-swiper-slide {
+.alpha-swiper-slide,
+#alpha-albums-swiper-slide {
 	background-image: none !important;
+	width: 250px;
 	padding-top: 0;
   text-align: center;
   font-size: 18px;
@@ -220,6 +222,11 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.alpha-albums-swiper-slide {
+	width: 250px !important;
+	height: 250px !important;
 }
 
 .alpha-swiper-wrapper {

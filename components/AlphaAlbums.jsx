@@ -17,13 +17,15 @@ import SwiperCore, {
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
 const AlphaAlbums = ({
-  storageUrl,
-  nofContract,
-  seasonNames,
-  account,
-  getSeasonFolder,
-}) => {
+    storageUrl,
+    nofContract,
+    seasonNames,
+    account,
+    getSeasonFolder,
+  }) => {
+  
   const [urls, setUrls] = useState(null);
+  const [noAlbumMessage, setNoAlbumMessage] = useState("")
 
   const getAlbums = async () => {
     let albums = [];
@@ -49,7 +51,11 @@ const AlphaAlbums = ({
   const handleClick = () => {
     getAlbums()
       .then((albums) => {
-        setUrls(albums);
+        if(albums.length > 0){
+          setUrls(albums);
+        } else {
+          setNoAlbumMessage('Juega para conseguir tu primer album!')
+        }
         const button = document.getElementsByClassName(
           "alpha_albums_button"
         )[0];
@@ -66,8 +72,9 @@ const AlphaAlbums = ({
       >
         CARGAR ALBUMS
       </button>
-      <div className="alpha_cards_container">
-        <Swiper
+      <div>
+        {urls ? (
+          <Swiper
           effect="cards"
           grabCursor
           modules={[EffectCards, Autoplay, Pagination]}
@@ -80,13 +87,14 @@ const AlphaAlbums = ({
             slideShadows: false
           }}
           className="swiper-container"
+          id="alpha-albums-swiper-container"
         >
-          {urls &&
-            urls.map((url, index) => {
+          {urls.map((url, index) => {
               return (
                 <SwiperSlide
                   key={index}
-                  className="swiper-slide alpha-swiper-slide"
+                  className="swiper-slide"
+                  id="alpha-albums-swiper-slide"
                 >
                   <img alt="portadas" src={url} className="alpha_card" />
                 </SwiperSlide>
@@ -94,6 +102,8 @@ const AlphaAlbums = ({
             })}
           <div className="pagination"></div>
         </Swiper>
+        ) : <div>{noAlbumMessage}</div>}
+        
       </div>
     </div>
   );
