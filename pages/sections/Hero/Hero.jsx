@@ -28,8 +28,12 @@ const Hero = React.forwardRef((props, book) => {
   const { language, setLanguage, t } = props;
   const [swipper, setSwipper] = useState(false);
   const [mobile, setMobile] = useState(false);
+  const [width, setWidth] = useState();
+  const [height, setHeight] = useState();
   const [size, setSize] = useState(false);
-
+  // const width = mobile ? 360 : 360
+  // const height = mobile ? 500 : 500
+  // const size = mobile ? 'fixed' : 'stretch'
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobile(true);
@@ -72,8 +76,13 @@ const Hero = React.forwardRef((props, book) => {
             size={"stretch"}
             width={360}
             height={500}
+            minWidth={350}
+            maxWidth={800}
+            minHeight={350}
+            maxHeight={500}
             autoSize={true}
             ref={book}
+            usePortrait={size}
             drawShadow={false}
             className="hero__top__album__book"
           >
@@ -84,6 +93,7 @@ const Hero = React.forwardRef((props, book) => {
             >
               <div className="hero__top__album__book__page__page-content">
                 <h3> {t ? t("WELCOME") : ""}</h3>
+
                 <div className="nofi_conteiner">
                   <div className="nofimg">
                     <Image src={Noficon} alt="text box" layout="fill" />
@@ -100,13 +110,14 @@ const Hero = React.forwardRef((props, book) => {
                     <Image src={Bronce} alt="text box" layout="fill" />
                   </div>
                 </div>
+
                 <p className="hero__top__album__book__page__text2">
                   {t ? t("number one fan") : ""}
                   {/* collect-to-earn del mundo,<br />
                 donde los jugadores<br />
                 obtienen recompensas<br />
                 mientras crean su propia<br />
-                colección de álbumes NFT. */}
+              colección de álbumes NFT. */}
                 </p>
                 <div className="bookflip_conteiner">
                   <div className="bookimg">
@@ -132,14 +143,12 @@ const Hero = React.forwardRef((props, book) => {
                 </p>
               </div>
             </div>
-
             <div
               className="hero__top__album__book__page"
               data-density="hard"
               number="3"
             >
               <div className="hero__top__album__book__page__page-content">
-                {" "}
                 <h3> {t ? t("CARDS") : ""}</h3>
                 <p className="hero__top__album__book__page__text2">
                   {t ? t("our cards") : ""}
@@ -170,13 +179,12 @@ const Hero = React.forwardRef((props, book) => {
                     </div>
                   </div>
                 </div>
-                <p className="hero__top__album__book__page__text2">
+                <p>
                   {/* {t("our NFTs")} */}
                   {t ? t("our NFTs") : ""}
                 </p>
               </div>
             </div>
-
             <div
               className="hero__top__album__book__page0"
               data-density="hard"
@@ -271,6 +279,7 @@ const Hero = React.forwardRef((props, book) => {
                 </Link>
               </div>
             </div>
+
             <div
               className="hero__top__album__book__page0"
               data-density="hard"
@@ -312,9 +321,12 @@ const Hero = React.forwardRef((props, book) => {
                             className="hero__top__album__book__page__profiles__box"
                             key={profile.id}
                           >
-                            <div className="img">
-                              <Image layout="fill" src={profile.icon} />
-                            </div>
+                            <Image
+                              layout="fill"
+                              className="img"
+                              src={profile.icon}
+                            />
+
                             <p>
                               {profile.caption}
                               <br />
@@ -332,6 +344,7 @@ const Hero = React.forwardRef((props, book) => {
               data-density="hard"
               number="8"
             >
+              {" "}
               <div className="hero__top__album__book__page__page-content">
                 <div className="friends_container">
                   <h3 className="title">AMIGOS</h3>
@@ -340,9 +353,12 @@ const Hero = React.forwardRef((props, book) => {
                       Friends.map((friend) => {
                         return (
                           <div className="box" key={friend.id}>
-                            <div className="img">
-                              <Image layout="fill" src={friend.icon} />
-                            </div>
+                            <Image
+                              layout="fill"
+                              className="img"
+                              src={friend.icon}
+                            />
+
                             <p>{friend.caption}</p>
                           </div>
                         );
@@ -364,10 +380,10 @@ const Hero = React.forwardRef((props, book) => {
                 </div>
                 {!mobile && (
                   <div className="text-blocker">
-                    <h5>
+                    <h4>
                       Number One Fan & P4 Tech Solutions Copyright © 2022 all
                       rights reserved.
-                    </h5>
+                    </h4>
                   </div>
                 )}
                 {mobile && <h3>Mirá nuestros coleccionables!</h3>}

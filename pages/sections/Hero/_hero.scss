@@ -102,7 +102,7 @@ $groundHeight: 40px;
         top: 45%;
       }
       @include mobile {
-        width: 350px;
+        width: 450px;
         height: 350px;
         top: 46%;
         background-image: url("../Hero/background/libreta.png");
@@ -403,18 +403,16 @@ $groundHeight: 40px;
               flex-direction: column;
               justify-content: space-between;
               @include mobile {
-                height: 15%;
                 width: 30%;
-                top: 20px;
+                margin-top: 15px;
               }
               p {
-                padding-top: 30%;
                 font-size: 0.45rem;
                 letter-spacing: -2px;
-                line-height: 15px;
+                line-height: 10px;
                 @include mobile {
-                  padding-top: 15px;
                   font-size: 0.3rem;
+                  margin-top: -15px;
                   letter-spacing: -3px;
                 }
                 @include desktop {
@@ -426,12 +424,14 @@ $groundHeight: 40px;
                   font-size: 0.4rem;
                 }
               }
-              p {
-                margin: 0;
-              }
               .img {
-                width: 60px;
-                height: 60px;
+                width: 60px !important;
+                height: 60px !important;
+                margin: 0 auto;
+                @include mobile {
+                  width: 50px !important;
+                  height: 50px !important;
+                }
               }
             }
           }
@@ -623,7 +623,6 @@ $groundHeight: 40px;
     display: contents;
   }
   .nofimg {
-    left: 65px;
     width: 150px;
     height: 280px;
     position: relative;
@@ -710,11 +709,7 @@ $groundHeight: 40px;
     align-content: flex-start;
     gap: 5%;
     flex-wrap: wrap;
-    margin: 0;
-    @include mobile {
-      width: 90%;
-    }
- 
+    margin: 0 auto;
   }
   .box {
     height: 20%;
@@ -722,12 +717,10 @@ $groundHeight: 40px;
     position: relative;
     margin-top: 5%;
     @include mobile {
-      height: 15%;
       width: 30%;
-      top: 20px;
     }
-     p {
-      margin-top: -5px;
+    p {
+      margin-top: 55px;
       font-size: 0.45rem;
       letter-spacing: -2px;
       line-height: 10px;
@@ -740,13 +733,15 @@ $groundHeight: 40px;
         line-height: 10px;
       }
     }
-    @include desktop {
-      max-width: 60px;
-    }
   }
   .img {
-    width: 60px;
-    height: 60px;
+    margin: 0 auto;
+    width: 60px !important;
+    height: 60px !important;
+    @include mobile {
+      width: 55px !important;
+      height: 55px !important;
+    }
   }
 }
 
