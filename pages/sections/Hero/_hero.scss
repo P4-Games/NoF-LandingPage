@@ -96,20 +96,17 @@ $groundHeight: 40px;
       @include tablet {
         top: 36%;
       }
-      // @include large-desktop {
-      //     width: auto;
-      //     height: auto;
-      //     max-height: 75vh;
-      //     font-size: 12px;
-      //     line-height: 18px;
-      //     top: 45%;
-      // }
-      // @include mobile {
-      //     width: 350px;
-      //     height:500px;
-      //     top:46%;
-      //     background-image: url('../Hero/background/libreta.png');
-      // }
+      @include large-desktop {
+        font-size: 12px;
+        line-height: 18px;
+        top: 45%;
+      }
+      @include mobile {
+        width: 350px;
+        height: 350px;
+        top: 46%;
+        background-image: url("../Hero/background/libreta.png");
+      }
 
       &__book {
         width: 700px;
@@ -691,10 +688,7 @@ $groundHeight: 40px;
   flex-wrap: wrap;
   align-content: flex-end;
   justify-content: space-between;
-  @include mobile {
-    width: 85%;
-    margin-right: 20px;
-  }
+
   .title {
     padding-bottom: 5%;
     position: relative;
@@ -720,9 +714,7 @@ $groundHeight: 40px;
     @include mobile {
       width: 90%;
     }
-    @include desktop {
-      left: 30px;
-    }
+ 
   }
   .box {
     height: 20%;
@@ -734,11 +726,7 @@ $groundHeight: 40px;
       width: 30%;
       top: 20px;
     }
-    @include desktop {
-      height: 18%;
-      max-width: 60px;
-    }
-    p {
+     p {
       margin-top: -5px;
       font-size: 0.45rem;
       letter-spacing: -2px;

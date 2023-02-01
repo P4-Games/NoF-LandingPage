@@ -1,65 +1,65 @@
-import React, { useCallback, useEffect, useState } from "react"
-import Image from "next/image"
-import HTMLFlipBook from "react-pageflip"
-import Noficon from "./background/logo-nof.gif"
-import Bookflip from "./background/book_flip.gif"
-import Bookmenu from "./background/book-menu-1.png"
-import Gold from "./background/oro.png"
-import Plate from "./background/plata.png"
-import Bronce from "./background/bronce.png"
-import N from "./background/n.png"
-import O from "./background/o.png"
-import F from "./background/f.png"
-import Season from "./background/temporada.png"
-import Albumfirst from "./background/album3.png"
-import Albumsecond from "./background/album6.png"
-import Albumthird from "./background/album12.png"
-import Tech from "./background/p4tech.png"
-import Profiles from "./Profiles.json"
-import Friends from "./Friends.json"
-import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/css"
-import "swiper/css/effect-cards"
-import { EffectCards, Autoplay, Pagination } from "swiper"
-import "swiper/css/bundle"
-import Link from "next/link"
+import React, { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
+import HTMLFlipBook from "react-pageflip";
+import Noficon from "./background/logo-nof.gif";
+import Bookflip from "./background/book_flip.gif";
+import Bookmenu from "./background/book-menu-1.png";
+import Gold from "./background/oro.png";
+import Plate from "./background/plata.png";
+import Bronce from "./background/bronce.png";
+import N from "./background/n.png";
+import O from "./background/o.png";
+import F from "./background/f.png";
+import Season from "./background/temporada.png";
+import Albumfirst from "./background/album3.png";
+import Albumsecond from "./background/album6.png";
+import Albumthird from "./background/album12.png";
+import Tech from "./background/p4tech.png";
+import Profiles from "./Profiles.json";
+import Friends from "./Friends.json";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-cards";
+import { EffectCards, Autoplay, Pagination } from "swiper";
+import "swiper/css/bundle";
+import Link from "next/link";
 
 const Hero = React.forwardRef((props, book) => {
-  const { language, setLanguage, t } = props
-  const [swipper, setSwipper] = useState(false)
-  const [mobile, setMobile] = useState(false)
-  const [size, setSize] = useState(false)
+  const { language, setLanguage, t } = props;
+  const [swipper, setSwipper] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const [size, setSize] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 600) {
-      setMobile(true)
-      setSize(true)
-      setSwipper(true)
+      setMobile(true);
+      setSize(true);
+      setSwipper(true);
     } else {
-      setMobile(false)
-      setSize(false)
+      setMobile(false);
+      setSize(false);
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
-        setMobile(true)
-        setSwipper(true)
-        setSize(true)
+        setMobile(true);
+        setSwipper(true);
+        setSize(true);
       } else {
-        setMobile(false)
-        setSize(false)
+        setMobile(false);
+        setSize(false);
       }
-    }
-    window.addEventListener("resize", updateMedia)
-    return () => window.removeEventListener("resize", updateMedia)
-  }, [])
+    };
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  }, []);
   const onFlip = useCallback((e) => {
-    console.log("Current page: " + e.data)
+    console.log("Current page: " + e.data);
     if (e.data === 8) {
-      setSwipper(true)
-      return
+      setSwipper(true);
+      return;
     }
-    setSwipper(false)
-  }, [])
+    setSwipper(false);
+  }, []);
   return (
     <div className="hero" id="Hero">
       <div className="hero__top">
@@ -74,7 +74,6 @@ const Hero = React.forwardRef((props, book) => {
             height={500}
             autoSize={true}
             ref={book}
-            usePortrait={size}
             drawShadow={false}
             className="hero__top__album__book"
           >
@@ -322,7 +321,7 @@ const Hero = React.forwardRef((props, book) => {
                               {profile.position}
                             </p>
                           </div>
-                        )
+                        );
                       })}
                   </div>
                 </div>
@@ -346,7 +345,7 @@ const Hero = React.forwardRef((props, book) => {
                             </div>
                             <p>{friend.caption}</p>
                           </div>
-                        )
+                        );
                       })}
                   </div>
                 </div>
@@ -444,7 +443,7 @@ const Hero = React.forwardRef((props, book) => {
         )}
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Hero
+export default Hero;
