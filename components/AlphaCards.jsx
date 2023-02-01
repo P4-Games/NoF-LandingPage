@@ -231,7 +231,6 @@ const AlphaCards = () => {
         }
       }
     });
-    console.log({ swiper })
   }, [pack, cards])
 
   useEffect(() => {
@@ -622,7 +621,6 @@ const AlphaCards = () => {
                 <div className="swiper-container alpha-swiper-container">
                   <div className="swiper-wrapper alpha-swiper-wrapper">
                     {cards.map((card, i) => {
-                      console.log({ card })
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
                         <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
