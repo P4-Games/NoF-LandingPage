@@ -42,7 +42,7 @@ const AlphaAlbums = ({
         seasonNames[i]
       );
       for (let j = 0; j < album.length; j++) {
-        if (album[j].class == 0 && album[j].completion == 1) {
+        if (album[j].class == 0 && album[j].completion == 5) {
           const folder = await getSeasonFolder(album[j].season);
           albumsArr.push([album[j], folder]);
         }
