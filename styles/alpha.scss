@@ -124,7 +124,8 @@
 	margin: 30px 0;
 }
 
-.alpha_season {
+.alpha_season,
+.alpha_albums_season {
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -133,8 +134,14 @@
 	font-size: 0.9rem;
 }
 
-.alpha_season > img, .alpha_season > span {
+.alpha_season > img,
+.alpha_season > span,
+.alpha_albums_season > span {
 	position: absolute;
+}
+
+.alpha_albums_season {
+	font-size: 0.8rem;
 }
 
 .alpha_start_buttons {
@@ -167,6 +174,10 @@
 	width: 250px;
 }
 
+.alpha_albums_swiper_container {
+	margin-top: 0;
+}
+
 .alpha_progress_container {
 	margin: 50px;
 	height: 100%;
@@ -197,14 +208,17 @@
 	margin-left: -50px;
 }
 
-.alpha-albums-swiper-container {
+#alpha-albums-swiper-container {
 	overflow: hidden !important;
 	width: 350px;
-	
+	height: 350px;
 }
 
-.alpha-swiper-slide {
-	background-image: none;
+.alpha-swiper-slide,
+#alpha-albums-swiper-slide {
+	background-image: none !important;
+	width: 250px;
+	padding-top: 0;
   text-align: center;
   font-size: 18px;
   display: -webkit-box;
@@ -219,6 +233,11 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.alpha-albums-swiper-slide {
+	width: 250px !important;
+	height: 250px !important;
 }
 
 .alpha-swiper-wrapper {
