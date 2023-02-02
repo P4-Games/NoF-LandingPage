@@ -48,7 +48,6 @@ const AlphaAlbums = ({
         }
       }
     }
-    // storageUrl + albums[i][1] + "/" + albums[i].number + ".png"
     return albumsArr;
   };
 
@@ -86,6 +85,12 @@ const AlphaAlbums = ({
             <Swiper
             effect="cards"
             grabCursor
+            onSlideChange={(res) => {
+              return setSeasonName(albums[res.activeIndex][0].season)
+            }}
+            onInit={(res) => {
+              return setSeasonName(albums[res.activeIndex][0].season)
+            }}
             modules={[EffectCards, Autoplay, Pagination]}
             pagination={{
               el: ".pagination",
