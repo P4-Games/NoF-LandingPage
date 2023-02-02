@@ -38,7 +38,7 @@ const AlphaAlbums = ({
         seasonNames[i]
       );
       for (let j = 0; j < album.length; j++) {
-        if (album[j].class == 0 && album[j].completion == 1) {
+        if (album[j].class == 0 && album[j].completion == 5) {
           albums.push([album[j].season, album[j].number]);
           
         }
