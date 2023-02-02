@@ -20,16 +20,16 @@ const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src]
 
 import 'swiper/css/bundle'
 
-const deployment = false;
+const production = false;
 
 const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
-const contractAddress = deployment ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
-const daiAddress = deployment ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"; // multisig receiver POLYGON mainnet
+const contractAddress = production ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
+const daiAddress = production ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"; // multisig receiver POLYGON mainnet
 
 let swiper;
 
 const AlphaCards = () => {
-  const validChainId = deployment ? "0x89" : "0x13881";
+  const validChainId = production ? "0x89" : "0x13881";
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null);
@@ -76,10 +76,10 @@ const AlphaCards = () => {
     const chain = (await provider.getNetwork()).chainId;
     setChainId(decToHex(chain));
 
-    const chainName = deployment ? "Polygon Mainnet" : "Mumbai";
-    const rpcUrl = deployment ? "https://polygon-mainnet.infura.io" : "https://rpc-mumbai.maticvigil.com";
+    const chainName = production ? "Polygon Mainnet" : "Mumbai";
+    const rpcUrl = production ? "https://polygon-mainnet.infura.io" : "https://rpc-mumbai.maticvigil.com";
     const currency = "MATIC";
-    const explorer = deployment ? "https://polygonscan.com/" : "https://mumbai.polygonscan.com/";
+    const explorer = production ? "https://polygonscan.com/" : "https://mumbai.polygonscan.com/";
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
     return [provider, address];
   }
@@ -669,6 +669,8 @@ const AlphaCards = () => {
           account={account}
           getSeasonFolder={getSeasonFolder}
           marco={marco}
+          production={production}
+          contractAddress={contractAddress}
         />
     </div>
   );

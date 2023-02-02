@@ -14,6 +14,7 @@ import SwiperCore, {
   Parallax,
   EffectCards,
 } from "swiper";
+
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
 const AlphaAlbums = ({
@@ -22,43 +23,42 @@ const AlphaAlbums = ({
     seasonNames,
     account,
     getSeasonFolder,
-    marco
+    marco,
+    production,
+    contractAddress
   }) => {
+
   
-    console.log({ marco })
-  const [urls, setUrls] = useState(null);
+  const openSeaUrl = production ? `https://.opensea.io/assets/matic/${contractAddress}/` : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/`
+  const [albums, setAlbums] = useState(null);
   const [noAlbumMessage, setNoAlbumMessage] = useState("")
   const [seasonName, setSeasonName] = useState("")
 
   const getAlbums = async () => {
-    let albums = [];
+    let albumsArr = [];
     for (let i = 0; i < seasonNames.length; i++) {
       const album = await nofContract.getCardsByUserBySeason(
         account,
         seasonNames[i]
       );
       for (let j = 0; j < album.length; j++) {
-        if (album[j].class == 0 && album[j].completion == 5) {
-          albums.push([album[j].season, album[j].number]);
-          
+        if (album[j].class == 0 && album[j].completion == 1) {
+          const folder = await getSeasonFolder(album[j].season);
+          albumsArr.push([album[j], folder]);
         }
       }
     }
-    let urls = [];
-    for (let i = 0; i < albums.length; i++) {
-      const folder = await getSeasonFolder(albums[i][0]);
-      urls.push(storageUrl + folder + "/" + albums[i][1] + ".png");
-    }
-    return urls;
+    // storageUrl + albums[i][1] + "/" + albums[i].number + ".png"
+    return albumsArr;
   };
 
   const handleClick = () => {
     getAlbums()
       .then((albums) => {
         if(albums.length > 0){
-          setUrls(albums);
+          setAlbums(albums);
         } else {
-          setNoAlbumMessage('Juega para conseguir tu primer album!')
+          setNoAlbumMessage('Juega para completar tu primer album!')
         }
         const button = document.getElementsByClassName(
           "alpha_albums_button"
@@ -77,7 +77,7 @@ const AlphaAlbums = ({
         CARGAR ALBUMS
       </button>
       <div>
-        {urls ? (
+        {albums ? (
           <div>
             <div className="alpha_albums_season">
               <img src={marco.src}/>
@@ -97,14 +97,16 @@ const AlphaAlbums = ({
             className="swiper-container alpha_albums_swiper_container"
             id="alpha-albums-swiper-container"
           >
-            {urls.map((url, index) => {
+            {albums.map((album, index) => {
                 return (
                   <SwiperSlide
                     key={index}
                     className="swiper-slide"
                     id="alpha-albums-swiper-slide"
                   >
-                    <img alt="portadas" src={url} className="alpha_card" />
+                    <a href={`${openSeaUrl}/${album[0].tokenId}`} target="_blank">
+                      <img alt="portadas" src={storageUrl + album[1] + "/" + album[0].number + ".png"} className="alpha_card" />
+                    </a>
                   </SwiperSlide>
                 );
               })}
