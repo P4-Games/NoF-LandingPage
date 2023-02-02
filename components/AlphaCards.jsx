@@ -368,7 +368,7 @@ const AlphaCards = () => {
   }
 
   const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(contractAddress, packPrice, { gasLimit: 2500000 })
+    const authorization = await daiContract.approve(contractAddress, ethers.constants.MaxUint256, { gasLimit: 2500000 })
     setLoading(true)
     await authorization.wait()
     setLoading(false)
