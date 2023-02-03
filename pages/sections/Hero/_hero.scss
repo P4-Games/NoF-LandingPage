@@ -66,6 +66,11 @@ $groundHeight: 40px;
         bottom: 18%;
         left: 26%;
       }
+
+      @include tablet-landscape {
+        width: 105px !important;
+        height: 190px !important;
+      }
       @include large-desktop {
         width: 160px;
         height: 285px;
@@ -102,14 +107,29 @@ $groundHeight: 40px;
         width: 700px;
         height: 450px;
       }
-      @include desktop {
+      @include tablet-landscape {
+        width: 600px !important;
+        height: 420px !important;
       }
-      @include large-desktop {
-        width: 700px;
+      @include desktop {
+        width: 600px;
         height: 400px;
         font-size: 12px;
         line-height: 18px;
         top: 45%;
+      }
+
+      @include large-desktop {
+        width: 600px;
+        height: 400px;
+        font-size: 12px;
+        line-height: 18px;
+        top: 45%;
+      }
+
+      @include extra-large-desktop {
+        width: 900px;
+        height: 600px;
       }
 
       &__book {
@@ -171,6 +191,9 @@ $groundHeight: 40px;
             @include mobile {
               line-height: 1.5;
               font-size: 8px;
+            }
+            @include extra-large-desktop {
+              font-size: 12px;
             }
           }
 
@@ -432,6 +455,10 @@ $groundHeight: 40px;
                   padding-top: 20px;
                   font-size: 0.4rem;
                 }
+                @include extra-large-desktop {
+                  padding-top: 35px;
+                  font-size: 10px;
+                }
               }
               .img {
                 width: 60px !important;
@@ -440,6 +467,10 @@ $groundHeight: 40px;
                 @include mobile {
                   width: 50px !important;
                   height: 50px !important;
+                }
+                @include extra-large-desktop {
+                  width: 80px !important;
+                  height: 80px !important;
                 }
               }
             }
@@ -520,14 +551,23 @@ $groundHeight: 40px;
     bottom: 18%;
     right: 20%;
   }
+  @include tablet-landscape {
+    right: 3% !important;
+  }
 }
 .swiper {
   margin-top: 19%;
   width: 250px;
   height: 250px;
+
   @include large-desktop {
     width: 150px;
     height: 150px;
+  }
+
+  @include tablet-landscape {
+    width: 130px !important;
+    height: 130px !important;
   }
 }
 
@@ -743,6 +783,11 @@ $groundHeight: 40px;
         font-size: 0.38rem;
         line-height: 10px;
       }
+      @include extra-large-desktop {
+        margin-top: 88px;
+        font-size: 12px;
+        line-height: 12px;
+      }
     }
   }
   .img {
@@ -752,6 +797,10 @@ $groundHeight: 40px;
     @include mobile {
       width: 55px !important;
       height: 55px !important;
+    }
+    @include extra-large-desktop {
+      width: 80px !important;
+      height: 80px !important;
     }
   }
 }
@@ -808,6 +857,10 @@ $groundHeight: 40px;
       align-items: center;
       width: 100%;
       left: 15px;
+
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -838,6 +891,9 @@ $groundHeight: 40px;
       align-items: center;
       width: 100%;
       left: 15px;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -868,6 +924,9 @@ $groundHeight: 40px;
       align-items: center;
       width: 100%;
       left: 15px;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -922,6 +981,9 @@ $groundHeight: 40px;
       justify-content: center;
       align-items: center;
       line-height: 1;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: left;
@@ -951,6 +1013,9 @@ $groundHeight: 40px;
       justify-content: center;
       align-items: center;
       line-height: 1;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.6rem;
         text-align: left;
@@ -980,6 +1045,9 @@ $groundHeight: 40px;
       justify-content: center;
       align-items: center;
       line-height: 1;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0rem;
         text-align: left;
