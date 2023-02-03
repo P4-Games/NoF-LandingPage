@@ -76,10 +76,10 @@ const Hero = React.forwardRef((props, book) => {
             size={"stretch"}
             width={360}
             height={500}
-            minWidth={350}
+            minWidth={300}
             maxWidth={800}
             minHeight={350}
-            maxHeight={500}
+            maxHeight={600}
             autoSize={true}
             ref={book}
             usePortrait={size}

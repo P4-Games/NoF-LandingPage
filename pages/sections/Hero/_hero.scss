@@ -83,29 +83,33 @@ $groundHeight: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 700px;
-      height: 400px;
       background-image: url("../Hero/background/book.png");
       position: absolute;
       background-size: 100% 100%;
       top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
-      line-height: 22px;
-      text-align: center;
+
+      @include mobile {
+        margin-top: 50px;
+        width: 316px !important;
+        height: 412px !important;
+        background-image: url("../Hero/background/libreta.png");
+      }
+
       @include tablet {
-        top: 36%;
+        top: 35% !important;
+        width: 700px;
+        height: 450px;
+      }
+      @include desktop {
       }
       @include large-desktop {
+        width: 700px;
+        height: 400px;
         font-size: 12px;
         line-height: 18px;
         top: 45%;
-      }
-      @include mobile {
-        width: 450px;
-        height: 350px;
-        top: 46%;
-        background-image: url("../Hero/background/libreta.png");
       }
 
       &__book {
@@ -142,6 +146,7 @@ $groundHeight: 40px;
             flex-direction: column;
             width: 80%;
             height: 85%;
+            padding: 10px;
             margin: 0 auto;
             align-items: center;
             justify-content: space-between;
@@ -162,7 +167,11 @@ $groundHeight: 40px;
             text-align: center;
             margin: 0 auto;
             line-height: 2;
-            font-size: 0.5rem;
+            font-size: 8px;
+            @include mobile {
+              line-height: 1.5;
+              font-size: 8px;
+            }
           }
 
           &__nof {
@@ -412,7 +421,7 @@ $groundHeight: 40px;
                 line-height: 10px;
                 @include mobile {
                   font-size: 0.3rem;
-                  margin-top: -15px;
+                  margin-top: -1px;
                   letter-spacing: -3px;
                 }
                 @include desktop {
@@ -623,8 +632,8 @@ $groundHeight: 40px;
     display: contents;
   }
   .nofimg {
-    width: 150px;
-    height: 280px;
+    width: 60px;
+    height: 120px;
     position: relative;
   }
 }
@@ -715,17 +724,19 @@ $groundHeight: 40px;
     height: 20%;
     width: 30%;
     position: relative;
-    margin-top: 5%;
+    margin-top: 10%;
     @include mobile {
       width: 30%;
     }
     p {
-      margin-top: 55px;
+      margin-top: 62px;
       font-size: 0.45rem;
       letter-spacing: -2px;
       line-height: 10px;
+      text-align: center;
       @include mobile {
-        font-size: 0.3rem;
+        margin-top: 58px;
+        font-size: 0.4rem !important;
         letter-spacing: -1px;
       }
       @include desktop {
@@ -905,7 +916,7 @@ $groundHeight: 40px;
     .albumtitle {
       position: relative;
       height: 100%;
-      width: 70%;
+      width: 90%;
       display: flex;
       font-size: 0.8rem;
       justify-content: center;
