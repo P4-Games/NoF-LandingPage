@@ -20,7 +20,7 @@ const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src]
 
 import 'swiper/css/bundle'
 
-const production = true;
+const production = false;
 
 const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
 const contractAddress = production ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
@@ -334,7 +334,6 @@ const AlphaCards = () => {
               }
               if(completion < 5){
                 setAlbumCard(storageUrl + folder + "/" + albumData[0].number + ".png")
-                console.log({albumCard})
               } else {
                 setAlbumCard(storageUrl + folder + "/" + albumData[0].number + "F" + ".png")
                 getWinners()
@@ -453,6 +452,11 @@ const AlphaCards = () => {
       })
   }
 
+  const getAlbumData = async (tokenId) => {
+    const albumData = await nofContract.cards(tokenId);
+    return albumData
+  }
+
   const pasteCard = (cardIndex) => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
@@ -461,11 +465,20 @@ const AlphaCards = () => {
       setLoading(true)
       await paste.wait()
       setLoading(false)
+      return albumTokenId
     }
     pegarCarta(cardIndex)
-      .then(() => {
+      .then((tokenId) => {
         showCards(account, seasonName)
-        emitSuccess("Tu carta ya está en el album")
+        getAlbumData(tokenId)
+          .then(res => {
+            console.log({ res })
+            if(res.completion == 5){
+              emitSuccess("Felicidades! Has completado el album!")
+            } else {
+              emitSuccess("Tu carta ya está en el album")
+            }
+          })
       })
       .catch(e => {
         console.error({ e })
