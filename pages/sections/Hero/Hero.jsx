@@ -23,7 +23,8 @@ import "swiper/css/effect-cards";
 import { EffectCards, Autoplay, Pagination } from "swiper";
 import "swiper/css/bundle";
 import Link from "next/link";
-
+import Whitepaper from "../../../components/Navbar/Whitepaper";
+import NofTown from "../../../components/Navbar/NofTown";
 const Hero = React.forwardRef((props, book) => {
   const { language, setLanguage, t } = props;
   const [swipper, setSwipper] = useState(false);
@@ -179,8 +180,7 @@ const Hero = React.forwardRef((props, book) => {
                     </div>
                   </div>
                 </div>
-                <p>
-                  {/* {t("our NFTs")} */}
+                <p className="hero__top__album__book__page__text2">
                   {t ? t("our NFTs") : ""}
                 </p>
               </div>
@@ -244,7 +244,7 @@ const Hero = React.forwardRef((props, book) => {
             >
               <div className="hero__top__album__book__page__page-content">
                 <h3> {t ? t("COLLECTION") : ""}</h3>
-                <p className="hero__top__album__book__page__text2">
+                <p className="hero__top__album__book__page__text2 hero__top__album__book__page__collection-text">
                   {t ? t("alpha") : ""}
                 </p>
                 <Link href="/alpha">
@@ -252,7 +252,7 @@ const Hero = React.forwardRef((props, book) => {
                     ALPHA
                   </button>
                 </Link>
-                <p className="hero__top__album__book__page__text2">
+                <p className="hero__top__album__book__page__text2 hero__top__album__book__page__collection-text">
                   {t ? t("gamma") : ""}
                 </p>
                 <Link
@@ -264,7 +264,7 @@ const Hero = React.forwardRef((props, book) => {
                     GAMMA
                   </button>
                 </Link>
-                <p className="hero__top__album__book__page__text2">
+                <p className="hero__top__album__book__page__text2 hero__top__album__book__page__collection-text">
                   {/* {t("omega")} */}
                   {t ? t("omega") : ""}
                 </p>
@@ -311,7 +311,7 @@ const Hero = React.forwardRef((props, book) => {
               <div className="hero__top__album__book__page__page-content">
                 <div className="hero__top__album__book__page__profiles">
                   <h3 className="hero__top__album__book__page__profiles__title">
-                    EQUIPO
+                    {t ? t("TEAM") : ""}
                   </h3>
                   <div className="hero__top__album__book__page__profiles__content">
                     {Profiles &&
@@ -347,7 +347,7 @@ const Hero = React.forwardRef((props, book) => {
               {" "}
               <div className="hero__top__album__book__page__page-content">
                 <div className="friends_container">
-                  <h3 className="title">AMIGOS</h3>
+                  <h3 className="title">{t ? t("FRIENDS") : ""}</h3>
                   <div className="content">
                     {Friends &&
                       Friends.map((friend) => {
@@ -372,56 +372,60 @@ const Hero = React.forwardRef((props, book) => {
               data-density="hard"
               number="9"
             >
-              <div className="hero__top__album__book__page__page-content">
-                <div className="tech_container">
-                  <div className="techimg">
-                    <Image src={Tech} alt="p4tech-solutions" layout="fill" />
+              {!mobile && (
+                <div className="hero__top__album__book__page__page-content">
+                  <div className="tech_container">
+                    <div className="techimg">
+                      <Image src={Tech} alt="p4tech-solutions" layout="fill" />
+                    </div>
                   </div>
-                </div>
-                {!mobile && (
+
                   <div className="text-blocker">
                     <h4>
                       Number One Fan & P4 Tech Solutions Copyright © 2022 all
                       rights reserved.
                     </h4>
                   </div>
-                )}
-                {mobile && <h3>Mirá nuestros coleccionables!</h3>}
-                {mobile && swipper && (
-                  <div className="hero__top__conteiner__mobile">
-                    {swipper && (
-                      <div className="hero__top__swiper">
-                        <Swiper
-                          effect="cards"
-                          grabCursor
-                          modules={[EffectCards, Autoplay, Pagination]}
-                          loop
-                          autoplay={{
-                            delay: 3000,
-                            disableOnInteraction: false,
-                          }}
-                          pagination={{
-                            el: ".pagination",
-                            clickable: true,
-                          }}
-                          className="hero__top__swiper__slide"
-                        >
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                          <SwiperSlide />
-                        </Swiper>
-                        <div className="pagination" />
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+
+              {mobile && swipper && (
+                <div className="hero__top__conteiner__mobile">
+                  <h3 className="title">{t ? t("collections") : ""}</h3>
+                  {swipper && (
+                    <div className="hero__top__swiper">
+                      <Swiper
+                        effect="cards"
+                        grabCursor
+                        modules={[EffectCards, Autoplay, Pagination]}
+                        loop
+                        autoplay={{
+                          delay: 3000,
+                          disableOnInteraction: false,
+                        }}
+                        pagination={{
+                          el: ".pagination",
+                          clickable: true,
+                        }}
+                        className="hero__top__swiper__slide"
+                      >
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                        <SwiperSlide />
+                      </Swiper>
+                      <div className="pagination" />
+                    </div>
+                  )}
+                  <Whitepaper />
+                  <NofTown />
+                </div>
+              )}
             </div>
           </HTMLFlipBook>
         </div>
