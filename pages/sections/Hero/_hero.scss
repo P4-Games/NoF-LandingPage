@@ -464,6 +464,10 @@ $groundHeight: 40px;
                   padding-top: 30px;
                   font-size: 10px;
                 }
+                @include extra-large-desktop {
+                  padding-top: 35px;
+                  font-size: 10px;
+                }
               }
               .img {
                 width: 60px !important;
@@ -476,6 +480,10 @@ $groundHeight: 40px;
                 @include extra-large-desktop {
                   width: 95px !important;
                   height: 95px !important;
+                }
+                @include extra-large-desktop {
+                  width: 80px !important;
+                  height: 80px !important;
                 }
               }
             }
@@ -824,6 +832,10 @@ $groundHeight: 40px;
     @include extra-large-desktop {
       width: 95px !important;
       height: 95px !important;
+    }
+    @include extra-large-desktop {
+      width: 80px !important;
+      height: 80px !important;
     }
   }
 }
