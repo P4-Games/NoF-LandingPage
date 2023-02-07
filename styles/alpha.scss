@@ -109,6 +109,10 @@
 	height: 100vh;
 }
 
+.alpha_full_albums_container {
+	text-align: center;
+}
+
 .alpha_data {
 	display: flex;
 	justify-content: center;
@@ -120,7 +124,8 @@
 	margin: 30px 0;
 }
 
-.alpha_season {
+.alpha_season,
+.alpha_albums_season {
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -129,8 +134,14 @@
 	font-size: 0.9rem;
 }
 
-.alpha_season > img, .alpha_season > span {
+.alpha_season > img,
+.alpha_season > span,
+.alpha_albums_season > span {
 	position: absolute;
+}
+
+.alpha_albums_season {
+	font-size: 0.8rem;
 }
 
 .alpha_start_buttons {
@@ -159,8 +170,12 @@
 	width: 250px;
 }
 
-.alpha_card {
+.alpha_card, .alpha_album {
 	width: 250px;
+}
+
+.alpha_albums_swiper_container {
+	margin-top: 0;
 }
 
 .alpha_progress_container {
@@ -193,8 +208,17 @@
 	margin-left: -50px;
 }
 
-.alpha-swiper-slide {
-	background-image: none;
+#alpha-albums-swiper-container {
+	overflow: hidden !important;
+	width: 350px;
+	height: 350px;
+}
+
+.alpha-swiper-slide,
+#alpha-albums-swiper-slide {
+	background-image: none !important;
+	width: 250px;
+	padding-top: 0;
   text-align: center;
   font-size: 18px;
   display: -webkit-box;
@@ -209,6 +233,11 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.alpha-albums-swiper-slide {
+	width: 250px !important;
+	height: 250px !important;
 }
 
 .alpha-swiper-wrapper {
@@ -263,8 +292,8 @@
 }
 
 .alpha_rules_img_close {
-	top: 10rem;
-  right: 2rem;
+	top: 22%;
+  right: 5%;
 }
 
 .alpha_transfer_error {
@@ -281,11 +310,11 @@
 	.alpha_inner_container_open {
 		position: fixed;
 		display: block;
-		margin: 0;
 		top: 0;
 		height: 86vh;
 		overflow-y: scroll;
-		padding-top: 12vh;
+		margin: 12vh;
+		padding-bottom: 12vh;
 	}
 	
 	.alpha_container {
@@ -311,7 +340,8 @@
 
 @media (max-width: 768px) {
 	.alpha_inner_container_open {
-		padding-top: 10vh;
+		margin-top: 10vh;
+		padding-bottom: 10vh;
 	}
 }
 

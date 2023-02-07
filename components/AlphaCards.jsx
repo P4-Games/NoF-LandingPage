@@ -14,20 +14,22 @@ import vida5 from "../public/vida5.png"
 import marco from "../public/marco.png"
 import reglas from "../public/reglas.png"
 
+import AlphaAlbums from "./AlphaAlbums";
+
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
 
 import 'swiper/css/bundle'
 
-const deployment = true;
+const production = true;
 
-const storageUrl = "https://storage.googleapis.com/nof-alpha/T1/"; // 1.png to 60.png
-const contractAddress = deployment ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0x8F0784f7A7919C8420B7a06a44891430deA0e079"; // contract POLYGON mainnet
-const daiAddress = deployment ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"; // multisig receiver POLYGON mainnet
+const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
+const contractAddress = production ? "0xb187769912a3e52091477D885D95dDF2EC9c718e" : "0xa6E15E39ede08d7960359882696EC34D504b111A"; // contract POLYGON mainnet
+const daiAddress = production ? "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063" : "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"; // multisig receiver POLYGON mainnet
 
 let swiper;
 
 const AlphaCards = () => {
-  const validChainId = deployment ? "0x89" : "0x13881";
+  const validChainId = production ? "0x89" : "0x13881";
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null);
@@ -53,6 +55,8 @@ const AlphaCards = () => {
   const [transferError, setTransferError] = useState("")
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState("")
+  const [seasonFolder, setSeasonFolder] = useState(null)
+  const [urls, setUrls] = useState([])
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -72,10 +76,10 @@ const AlphaCards = () => {
     const chain = (await provider.getNetwork()).chainId;
     setChainId(decToHex(chain));
 
-    const chainName = deployment ? "Polygon Mainnet" : "Mumbai";
-    const rpcUrl = deployment ? "https://polygon-mainnet.infura.io" : "https://rpc-mumbai.maticvigil.com";
+    const chainName = production ? "Polygon Mainnet" : "Mumbai";
+    const rpcUrl = production ? "https://polygon-mainnet.infura.io" : "https://rpc-mumbai.maticvigil.com";
     const currency = "MATIC";
-    const explorer = deployment ? "https://polygonscan.com/" : "https://mumbai.polygonscan.com/";
+    const explorer = production ? "https://polygonscan.com/" : "https://mumbai.polygonscan.com/";
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer);
     return [provider, address];
   }
@@ -190,7 +194,6 @@ const AlphaCards = () => {
       runCallbacksOnInit: true,
       observer: true,
       cardsEffect: {
-        // perSlideOffset: 8,
         slideShadows: false,
       },
       pagination: {
@@ -217,7 +220,7 @@ const AlphaCards = () => {
         },
         observerUpdate: (res) => {
           setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex].collection == albumCollection){
+          if(cards[res.activeIndex]?.collection == albumCollection){
             setIsCollection(true)
           } else {
             setIsCollection(false)
@@ -272,6 +275,11 @@ const AlphaCards = () => {
     return cards
   }
 
+  const getSeasonFolder = async (seasonName) => {
+    const response = await nofContract.seasons(seasonName)
+    return response.folder
+  }
+
   function emitSuccess(message) {
     Swal.fire({
       title: '',
@@ -304,6 +312,7 @@ const AlphaCards = () => {
         if(pack.length){
           let albumData = []
           let cardsData = []
+          let folder = ""
           pack.forEach(card => {
             card.class == 0 ? albumData.push(card) : cardsData.push(card);
           })
@@ -314,20 +323,31 @@ const AlphaCards = () => {
           const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
           setAlbumCompletion(completion)
           setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
-          if(completion < 5){
-            setAlbumCard(storageUrl + albumData[0].number + ".png")
-          } else {
-            setAlbumCard(storageUrl + albumData[0].number + "F" + ".png")
-            getWinners()
-              .then(winners => {
-                if(winners.includes(account)){
-                  setWinnerPosition(winners.indexOf(account) + 1)
-                }
-              })
-              .catch(e => {
-                console.error({ e })
-              })
-          }
+          getSeasonFolder(seasonName)
+            .then(data => {
+              if(data == 'alpha_jsons'){
+                folder = "T1"
+                setSeasonFolder("T1")
+              } else {
+                folder = data
+                setSeasonFolder(data)
+              }
+              if(completion < 5){
+                setAlbumCard(storageUrl + folder + "/" + albumData[0].number + ".png")
+              } else {
+                setAlbumCard(storageUrl + folder + "/" + albumData[0].number + "F" + ".png")
+                getWinners()
+                  .then(winners => {
+                    if(winners.includes(account)){
+                      setWinnerPosition(winners.indexOf(account) + 1)
+                    }
+                  })
+                  .catch(e => {
+                    console.error({ e })
+                  })
+              }
+            })
+            .catch(e => console.error({ e }))
           setCards(cardsData)
           document.getElementById("alpha_show_cards_button").style.display = "none"
           document.getElementById("alpha_buy_pack_button").style.display = "none"
@@ -346,7 +366,7 @@ const AlphaCards = () => {
   }
 
   const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(contractAddress, packPrice, { gasLimit: 2500000 })
+    const authorization = await daiContract.approve(contractAddress, ethers.constants.MaxUint256, { gasLimit: 2500000 })
     setLoading(true)
     await authorization.wait()
     setLoading(false)
@@ -432,6 +452,11 @@ const AlphaCards = () => {
       })
   }
 
+  const getAlbumData = async (tokenId) => {
+    const albumData = await nofContract.cards(tokenId);
+    return albumData
+  }
+
   const pasteCard = (cardIndex) => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
@@ -440,11 +465,20 @@ const AlphaCards = () => {
       setLoading(true)
       await paste.wait()
       setLoading(false)
+      return albumTokenId
     }
     pegarCarta(cardIndex)
-      .then(() => {
+      .then((tokenId) => {
         showCards(account, seasonName)
-        emitSuccess("Tu carta ya está en el album")
+        getAlbumData(tokenId)
+          .then(res => {
+            console.log({ res })
+            if(res.completion == 5){
+              emitSuccess("Felicidades! Has completado el album!")
+            } else {
+              emitSuccess("Tu carta ya está en el album")
+            }
+          })
       })
       .catch(e => {
         console.error({ e })
@@ -510,8 +544,6 @@ const AlphaCards = () => {
     document.getElementsByClassName('alpha_rules_container')[0].style.display = "none"
   }
 
-  
-
   return (
     <div className="alpha">
       <div className="alpha_loader_container alpha_display_none" id="loading">
@@ -553,7 +585,7 @@ const AlphaCards = () => {
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
               <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">{`Comprar Pack ($${packPrice.substring(0,packPrice.length - 18)})`}</button>
             </div>
-            <span style={{"color":"red"}}>{noCardsError}</span>
+            <span style={{"color":"red", "textAlign": "center", "marginTop": "10px"}}>{noCardsError}</span>
           </div>
       
           {pack && pack.length ? (
@@ -607,7 +639,7 @@ const AlphaCards = () => {
                         <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
-                            src={storageUrl + card.number + ".png"}
+                            src={storageUrl + seasonFolder + "/" + card.number + ".png"}
                             className="alpha_card"
                           />
                         </div>
@@ -638,14 +670,21 @@ const AlphaCards = () => {
               </button>
               <span className="alpha_transfer_error">{transferError}</span>
             </div>
-            ) : null
-              
-            }
-            </div>
+            ) : null }
+          </div>
           ) : null}
-
         </div>
       )}
+      <AlphaAlbums
+          storageUrl={storageUrl}
+          nofContract={nofContract}
+          seasonNames={seasonNames}
+          account={account}
+          getSeasonFolder={getSeasonFolder}
+          marco={marco}
+          production={production}
+          contractAddress={contractAddress}
+        />
     </div>
   );
 };
