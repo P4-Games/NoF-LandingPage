@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
@@ -37,6 +37,7 @@ const GammaInventory = React.forwardRef((props, book) => {
       </Head>
       <Navbar />
       <div className="hero__top">
+        {!mobile && <div className="gammaAlbums"></div>}
         <div className="hero__top__album">
           <HTMLFlipBook
             id="Book"
@@ -82,6 +83,7 @@ const GammaInventory = React.forwardRef((props, book) => {
             </div>
           </HTMLFlipBook>
         </div>
+        {!mobile && <div className="gammaFigures"></div>}
       </div>
       <Footer />
     </div>
