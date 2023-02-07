@@ -145,11 +145,10 @@ $groundHeight: 40px;
         &__page {
           top: 0% !important;
           padding-top: 5%;
-          padding-left: 3%;
           position: relative;
           height: 100% !important;
           width: 50% !important;
-          left: 0% !important;
+          // left: 0% !important;
           background-image: url("../Hero/background/page-1.png");
           background-size: 100% 100%;
           @include mobile {
@@ -157,8 +156,9 @@ $groundHeight: 40px;
             width: 200px;
             padding-top: 10%;
             width: 95% !important;
+            margin-left: 3%;
             top: 100%;
-            left: 7% !important;
+            // left: 7% !important;
             height: 100% !important;
           }
           &__page-content {
@@ -547,8 +547,9 @@ $groundHeight: 40px;
             background-image: url("../Hero/background/page-2.png");
             width: 200px;
             padding-top: 10%;
+            margin-left: 3%;
             width: 95% !important;
-            left: 7% !important;
+            // left: 7% !important;
             height: 100% !important;
           }
         }
