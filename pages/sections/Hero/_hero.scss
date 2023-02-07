@@ -148,6 +148,10 @@ $groundHeight: 40px;
           position: relative;
           height: 100% !important;
           width: 50% !important;
+          // margin-left: -2%;
+          @media (min-width: 600px) {
+           left: 0% !important;
+          }
           // left: 0% !important;
           background-image: url("../Hero/background/page-1.png");
           background-size: 100% 100%;
@@ -158,7 +162,7 @@ $groundHeight: 40px;
             width: 95% !important;
             margin-left: 3%;
             top: 100%;
-            // left: 7% !important;
+            // margin-left: 3%;
             height: 100% !important;
           }
           &__page-content {
