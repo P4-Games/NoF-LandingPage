@@ -14,6 +14,7 @@ $groundHeight: 40px;
 .hero,
 .alpha,
 .gamma_main {
+
   height: 87.5vh;
   background-image: url("../Hero/background/NofCaballero.gif"),
     url("../Hero/background/front1.png"), url("../Hero/background/Country0.png"),
@@ -67,6 +68,11 @@ $groundHeight: 40px;
         bottom: 18%;
         left: 26%;
       }
+      @include tablet-landscape {
+        width: 105px !important;
+        height: 190px !important;
+      }
+
       @include large-desktop {
         width: 160px;
         height: 285px;
@@ -84,32 +90,48 @@ $groundHeight: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 900px;
-      height: 590px;
       background-image: url("../Hero/background/book.png");
       position: absolute;
       background-size: 100% 100%;
-      top: 50%;
+      top: 45%;
       left: 50%;
       transform: translate(-50%, -50%);
-      line-height: 22px;
-      text-align: center;
-      @include tablet {
-        top: 36%;
+
+      @include mobile {
+        margin-top: 50px;
+        width: 316px !important;
+        height: 412px !important;
+        background-image: url("../Hero/background/libreta.png");
       }
-      @include large-desktop {
-        width: auto;
-        height: auto;
-        max-height: 75vh;
+
+      @include tablet {
+        top: 35% !important;
+        width: 700px;
+        height: 450px;
+      }
+      @include tablet-landscape {
+        width: 600px !important;
+        height: 420px !important;
+      }
+      @include desktop {
+        width: 600px;
+        height: 400px;
         font-size: 12px;
         line-height: 18px;
         top: 45%;
       }
-      @include mobile {
-        width: 350px;
-        height: 500px;
-        top: 46%;
-        background-image: url("../Hero/background/libreta.png");
+
+      @include large-desktop {
+        width: 600px;
+        height: 400px;
+        font-size: 12px;
+        line-height: 18px;
+        top: 45%;
+      }
+
+      @include extra-large-desktop {
+        width: 900px;
+        height: 600px;
       }
 
       &__book {
@@ -125,11 +147,14 @@ $groundHeight: 40px;
         &__page {
           top: 0% !important;
           padding-top: 5%;
-          padding-left: 3%;
           position: relative;
           height: 100% !important;
           width: 50% !important;
-          left: 0% !important;
+          // margin-left: -2%;
+          @media (min-width: 600px) {
+           left: 0% !important;
+          }
+          // left: 0% !important;
           background-image: url("../Hero/background/page-1.png");
           background-size: 100% 100%;
           @include mobile {
@@ -137,11 +162,21 @@ $groundHeight: 40px;
             width: 200px;
             padding-top: 10%;
             width: 95% !important;
+            margin-left: 3%;
             top: 100%;
-            left: 7% !important;
+            // margin-left: 3%;
             height: 100% !important;
           }
-
+          &__page-content {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            height: 85%;
+            padding: 20px 0 20px 0;
+            margin: 0 auto;
+            align-items: center;
+            justify-content: space-between;
+          }
           &__text {
             position: relative;
             width: 80%;
@@ -154,9 +189,21 @@ $groundHeight: 40px;
           }
           &__text2 {
             position: relative;
-            width: 80%;
+            width: 95%;
             text-align: center;
             margin: 0 auto;
+            line-height: 1.5;
+            font-size: 8px;
+            @include mobile {
+              line-height: 1.5;
+              font-size: 8px;
+            }
+            @include extra-large-desktop {
+              font-size: 12px;
+            }
+          }
+          &__collection-text {
+            line-height: 1.7;
           }
 
           &__nof {
@@ -347,10 +394,9 @@ $groundHeight: 40px;
             }
           }
           &__profiles {
-            padding-bottom: 5%;
             position: relative;
             height: 100%;
-            width: 80%;
+            width: 100%;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
@@ -382,35 +428,34 @@ $groundHeight: 40px;
               gap: 5%;
               flex-wrap: wrap;
               margin: 0;
+              row-gap: 40px;
+              @include extra-large-desktop {
+                row-gap: 60px;
+              }
               @include mobile {
                 width: 90%;
-              }
-              @include desktop {
-                left: 30px;
+                row-gap: 20px;
               }
             }
             &__box {
               height: 20%;
               width: 30%;
               position: relative;
-              margin-top: 5%;
+              display: flex;
+              padding-top: 17%;
+              flex-direction: column;
+              justify-content: space-between;
               @include mobile {
-                height: 15%;
                 width: 30%;
-                top: 20px;
-              }
-              @include desktop {
-                height: 18%;
-                max-width: 60px;
+                margin-top: 15px;
               }
               p {
-                padding-top: 35px;
-                font-size: 0.45rem;
                 letter-spacing: -2px;
-                line-height: 15px;
+                text-align: center;
+                line-height: 1.2;
                 @include mobile {
-                  padding-top: 15px;
                   font-size: 0.3rem;
+                  margin-top: 15px;
                   letter-spacing: -3px;
                 }
                 @include desktop {
@@ -418,31 +463,54 @@ $groundHeight: 40px;
                   line-height: 10px;
                 }
                 @include large-desktop {
-                  padding-top: 20px;
-                  font-size: 0.4rem;
+                  padding-top: 15px;
+                  font-size: 7.5px;
+                }
+                @include extra-large-desktop {
+                  padding-top: 30px;
+                  font-size: 10px;
+                }
+                @include extra-large-desktop {
+                  padding-top: 35px;
+                  font-size: 10px;
                 }
               }
-              p {
-                margin: 0;
-              }
               .img {
-                width: 60px;
-                height: 60px;
+                width: 60px !important;
+                height: 60px !important;
+                margin: 0 auto;
+                @include mobile {
+                  width: 60px !important;
+                  height: 60px !important;
+                }
+                @include extra-large-desktop {
+                  width: 95px !important;
+                  height: 95px !important;
+                }
+                @include extra-large-desktop {
+                  width: 80px !important;
+                  height: 80px !important;
+                }
               }
             }
           }
           .hero__top__conteiner__mobile {
-            position: absolute;
-            bottom: 30%;
-            right: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            height: 85%;
           }
           .swiper {
-            width: 200px;
-            height: 200px;
+            width: 170px;
+            height: 170px;
+            @include mobile {
+              width: 135px !important;
+              height: 135px !important;
+            }
           }
 
           .swiper-slide {
-            padding-top: 15%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -464,7 +532,6 @@ $groundHeight: 40px;
               cursor: pointer;
               border-radius: 0;
             }
-
             .swiper-pagination-bullet-active {
               background-color: #cfa763;
               opacity: 1.5;
@@ -485,8 +552,9 @@ $groundHeight: 40px;
             background-image: url("../Hero/background/page-2.png");
             width: 200px;
             padding-top: 10%;
+            margin-left: 3%;
             width: 95% !important;
-            left: 7% !important;
+            // left: 7% !important;
             height: 100% !important;
           }
         }
@@ -507,14 +575,24 @@ $groundHeight: 40px;
     bottom: 18%;
     right: 20%;
   }
+  @include tablet-landscape {
+    right: 3% !important;
+  }
 }
 .swiper {
   margin-top: 19%;
   width: 250px;
   height: 250px;
+  @include mobile {
+    margin-top: 0px !important;
+  }
   @include large-desktop {
     width: 150px;
     height: 150px;
+  }
+  @include tablet-landscape {
+    width: 130px !important;
+    height: 130px !important;
   }
 }
 
@@ -601,8 +679,17 @@ $groundHeight: 40px;
 
 .text-blocker {
   padding-top: 25%;
+  line-height: 2;
+  text-align: center;
+
   @include mobile {
     display: none;
+  }
+  @include large-desktop {
+    font-size: 13px;
+  }
+  @include extra-large-desktop {
+    font-size: 19px;
   }
 }
 
@@ -619,9 +706,8 @@ $groundHeight: 40px;
     display: contents;
   }
   .nofimg {
-    left: 65px;
-    width: 150px;
-    height: 280px;
+    width: 60px;
+    height: 120px;
     position: relative;
   }
 }
@@ -634,8 +720,9 @@ $groundHeight: 40px;
     display: none;
   }
   .bookimg {
-    width: 220px;
-    height: 130px;
+
+    width: 200px;
+    height: 110px;
     position: relative;
   }
 }
@@ -645,7 +732,7 @@ $groundHeight: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 15%;
+  height: 50px;
   width: 70%;
   margin: 0 auto;
   @include mobile {
@@ -653,21 +740,21 @@ $groundHeight: 40px;
   }
   .coinimg {
     position: relative;
-    height: 100%;
+    height: 50px;
     width: 30%;
     justify-content: center;
     align-items: center;
   }
   .coinimg2 {
     position: relative;
-    height: 100%;
+    height: 50px;
     width: 30%;
     justify-content: center;
     align-items: center;
   }
   .coinimg3 {
     position: relative;
-    height: 100%;
+    height: 50px;
     width: 30%;
     justify-content: center;
     align-items: center;
@@ -675,23 +762,16 @@ $groundHeight: 40px;
 }
 
 .friends_container {
-  padding-bottom: 5%;
   position: relative;
   height: 100%;
-  width: 80%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   align-content: flex-end;
   justify-content: space-between;
-  @include mobile {
-    width: 85%;
-    margin-right: 20px;
-  }
   .title {
     padding-bottom: 5%;
     position: relative;
-    height: 5%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -709,53 +789,59 @@ $groundHeight: 40px;
     align-content: flex-start;
     gap: 5%;
     flex-wrap: wrap;
-    margin: 0;
-    @include mobile {
-      width: 90%;
-    }
-    @include desktop {
-      left: 30px;
+    margin: 0 auto;
+    row-gap: 40px;
+    @include extra-large-desktop {
+      row-gap: 60px;
     }
   }
   .box {
     height: 20%;
     width: 30%;
     position: relative;
-    margin-top: 5%;
     @include mobile {
-      height: 15%;
       width: 30%;
-      top: 20px;
-    }
-    @include desktop {
-      height: 18%;
-      max-width: 60px;
     }
     p {
-      padding-top: 25px;
+      margin-top: 62px;
       font-size: 0.45rem;
       letter-spacing: -2px;
-      line-height: 15px;
+      line-height: 10px;
+      text-align: center;
       @include mobile {
-        padding-top: 20px;
-        font-size: 0.3rem;
-        letter-spacing: -1px;
+        font-size: 8px;
+        margin-top: 65px;
+        letter-spacing: -3px;
       }
       @include desktop {
         font-size: 0.38rem;
         line-height: 10px;
       }
       @include large-desktop {
-        padding-top: 15px;
+        font-size: 7.5px;
       }
-    }
-    @include desktop {
-      max-width: 60px;
+      @include extra-large-desktop {
+        padding-top: 30px;
+        font-size: 10px;
+      }
     }
   }
   .img {
-    width: 60px;
-    height: 60px;
+    margin: 0 auto;
+    width: 60px !important;
+    height: 60px !important;
+    @include mobile {
+      width: 60px !important;
+      height: 60px !important;
+    }
+    @include extra-large-desktop {
+      width: 95px !important;
+      height: 95px !important;
+    }
+    @include extra-large-desktop {
+      width: 80px !important;
+      height: 80px !important;
+    }
   }
 }
 
@@ -791,10 +877,8 @@ $groundHeight: 40px;
 
 .nof_container {
   position: relative;
-  height: 30%;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
-  margin-bottom: 8%;
   .nof1 {
     position: relative;
     width: 100%;
@@ -803,13 +887,19 @@ $groundHeight: 40px;
     justify-content: center;
     align-items: center;
     .noftitle {
+      font-size: 0.8rem;
       position: relative;
       height: 100%;
       display: flex;
+      text-align: left;
       justify-content: flex-start;
       align-items: center;
       width: 100%;
       left: 15px;
+
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -831,13 +921,18 @@ $groundHeight: 40px;
     justify-content: center;
     align-items: center;
     .noftitle {
+      font-size: 0.8rem;
       position: relative;
       height: 100%;
       display: flex;
+      text-align: left;
       justify-content: flex-start;
       align-items: center;
       width: 100%;
       left: 15px;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -859,13 +954,18 @@ $groundHeight: 40px;
     justify-content: center;
     align-items: center;
     .noftitle {
+      font-size: 0.8rem;
       position: relative;
       height: 100%;
       display: flex;
+      text-align: left;
       justify-content: flex-start;
       align-items: center;
       width: 100%;
       left: 15px;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: right;
@@ -900,10 +1000,8 @@ $groundHeight: 40px;
 
 .albums_container {
   position: relative;
-  height: 50%;
-  width: 75%;
+  width: 90%;
   margin: 0 auto;
-
   .album1 {
     position: relative;
     width: 100%;
@@ -914,10 +1012,16 @@ $groundHeight: 40px;
     .albumtitle {
       position: relative;
       height: 100%;
+      width: 90%;
       display: flex;
+      font-size: 0.8rem;
       justify-content: center;
       align-items: center;
-      width: 70%;
+      text-align: center;
+      line-height: 1.3;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.4rem;
         text-align: left;
@@ -943,8 +1047,14 @@ $groundHeight: 40px;
       height: 100%;
       width: 70%;
       display: flex;
+      font-size: 0.8rem;
       justify-content: center;
       align-items: center;
+      text-align: center;
+      line-height: 1.3;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0.6rem;
         text-align: left;
@@ -970,8 +1080,14 @@ $groundHeight: 40px;
       height: 100%;
       width: 70%;
       display: flex;
+      font-size: 0.8rem;
       justify-content: center;
       align-items: center;
+      text-align: center;
+      line-height: 1.3;
+      @include extra-large-desktop {
+        font-size: 16px;
+      }
       h3 {
         font-size: 0rem;
         text-align: left;
