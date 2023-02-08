@@ -47,9 +47,9 @@ const GammaInventory = React.forwardRef((props, book) => {
             size={"stretch"}
             width={360}
             height={500}
-            minWidth={350}
+            minWidth={300}
             maxWidth={800}
-            minHeight={500}
+            minHeight={350}
             maxHeight={800}
             autoSize={true}
             drawShadow={false}
@@ -62,18 +62,19 @@ const GammaInventory = React.forwardRef((props, book) => {
               data-density="hard"
               number="1"
             >
-              <div className="grid-wrapper">
-                {images.map((item, index) => {
-                  return (
-                    <div key={index} className="grid-item">
-                      <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
-                      <FcCheckmark />
-                      <div className='quantity'>03</div>
-                    </div>
-                  )
-                })}
+              <div className="hero__top__album__book__page__page-content">
+                <div className="grid-wrapper">
+                  {images.map((item, index) => {
+                    return (
+                      <div key={index} className="grid-item">
+                        <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
+                        <FcCheckmark />
+                        <div className='quantity'>03</div>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-
             </div>
             <div
               className="hero__top__album__book__page0"
