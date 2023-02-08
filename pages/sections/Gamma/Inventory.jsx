@@ -3,6 +3,8 @@ import Head from "next/head";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import HTMLFlipBook from "react-pageflip";
+import { FcCheckmark } from 'react-icons/fc'
+
 
 const GammaInventory = React.forwardRef((props, book) => {
   const [mobile, setMobile] = useState(false);
@@ -27,6 +29,7 @@ const GammaInventory = React.forwardRef((props, book) => {
     window.addEventListener("resize", updateMedia);
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
+  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
   return (
     <div className="gamma_main">
@@ -59,17 +62,32 @@ const GammaInventory = React.forwardRef((props, book) => {
               data-density="hard"
               number="1"
             >
-              <div className="hero__top__album__book__page__page-content">
-                Prueba
+              <div className="grid-wrapper">
+                {images.map((item, index) => {
+                  return (
+                    <div key={index} className="grid-item">
+                      <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
+                      <FcCheckmark />
+                      <div className='quantity'>03</div>
+                    </div>
+                  )
+                })}
               </div>
+
             </div>
             <div
               className="hero__top__album__book__page0"
               data-density="hard"
               number="2"
             >
-              <div className="hero__top__album__book__page__page-content">
-                Prueba2
+              <div className="grid-wrapperright">
+                {images.map((item, index) => {
+                  return (
+                    <div key={item} className="grid-item">
+                      <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
+                    </div>
+                  )
+                })}
               </div>
             </div>
             <div
