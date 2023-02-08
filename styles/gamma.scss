@@ -1,0 +1,133 @@
+.gammaFigures {
+  position: absolute;
+  bottom: 40%;
+  right: 7%;
+  width: 10%;
+  height: 20%;
+  background-color: black;
+  background: url('../public/assets/gamma/SobreGamma.png');
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+
+.gammaAlbums {
+  position: absolute;
+  bottom: 40%;
+  left: 7%;
+  width: 10%;
+  height: 20%;
+  background: url('../public/assets/gamma/AlbumGamma.png');
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+}
+
+.grid-wrapper {
+  display: grid;
+  // grid-template-columns: repeat(3, 0.3fr);
+  grid-template-columns: repeat(3, minmax(50px, 90px));
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+  max-width: 90%;
+  // margin: 0 auto;
+  place-items: center;
+  place-content: center;
+  top: 10%;
+  position: absolute;
+  left: 17%;
+  @media (max-width: 600px) {
+    top: 10%;
+    position: absolute;
+    left: 5%;
+    max-width: 80%;
+  }
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(3, minmax(50px, 110px));
+  }
+
+
+
+  .grid-item {
+    position: relative;
+     // box-shadow: 0px 0px 0px black;
+     .quantity{
+     position: absolute;
+     right: 7%;
+     bottom:2%;
+     font-size: 0.5rem;
+     
+     }
+     transition: .8s;
+     background: url('../public/assets/gamma/BordeGamma.png');
+     background-size: cover !important;
+     background-repeat: no-repeat;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     svg{
+      position: absolute;
+      font-size: 3rem;
+      display: block;
+      color: pink;
+      filter: drop-shadow(2px 2px 2px black);
+     }
+     img  {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+     }
+  }
+  .grid-item:hover {
+     box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.837);
+     transition: .8s;
+  }
+}
+.grid-wrapperright {
+  display: grid;
+  // grid-template-columns: repeat(3, 0.3fr);
+  grid-template-columns: repeat(3, minmax(50px, 90px));
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 2px;
+  grid-row-gap: 2px;
+  max-width: 90%;
+  // margin: 0 auto;
+  place-items: center;
+  place-content: center;
+  top: 10%;
+  position: absolute;
+  right:17%;
+ filter: saturate(0.2);
+  @media (min-width: 1400px) {
+    grid-template-columns: repeat(3, minmax(50px, 110px));
+  }
+
+  @media (max-width: 600px) {
+    top: 10%;
+    position: absolute;
+    left: 5%;
+    max-width: 80%;
+    right: 0%;
+  }
+
+  .grid-item {
+     // box-shadow: 0px 0px 0px black;
+     transition: .8s;
+     background: url('../public/assets/gamma/BordeGamma.png');
+     background-size: cover !important;
+     background-repeat: no-repeat;
+
+     img  {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+     }
+  }
+
+  .grid-item:hover {
+     box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.837);
+     transition: .8s;
+  }
+}
+

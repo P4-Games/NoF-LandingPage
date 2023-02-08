@@ -12,7 +12,9 @@ $groundHeight: 40px;
 }
 
 .hero,
-.alpha {
+.alpha,
+.gamma_main {
+
   height: 87.5vh;
   background-image: url("../Hero/background/NofCaballero.gif"),
     url("../Hero/background/front1.png"), url("../Hero/background/Country0.png"),
@@ -66,11 +68,11 @@ $groundHeight: 40px;
         bottom: 18%;
         left: 26%;
       }
-
       @include tablet-landscape {
         width: 105px !important;
         height: 190px !important;
       }
+
       @include large-desktop {
         width: 160px;
         height: 285px;
@@ -530,7 +532,6 @@ $groundHeight: 40px;
               cursor: pointer;
               border-radius: 0;
             }
-
             .swiper-pagination-bullet-active {
               background-color: #cfa763;
               opacity: 1.5;
@@ -589,7 +590,6 @@ $groundHeight: 40px;
     width: 150px;
     height: 150px;
   }
-
   @include tablet-landscape {
     width: 130px !important;
     height: 130px !important;
@@ -720,6 +720,7 @@ $groundHeight: 40px;
     display: none;
   }
   .bookimg {
+
     width: 200px;
     height: 110px;
     position: relative;
@@ -768,7 +769,6 @@ $groundHeight: 40px;
   flex-wrap: wrap;
   align-content: flex-end;
   justify-content: space-between;
-
   .title {
     padding-bottom: 5%;
     position: relative;
@@ -1002,7 +1002,6 @@ $groundHeight: 40px;
   position: relative;
   width: 90%;
   margin: 0 auto;
-
   .album1 {
     position: relative;
     width: 100%;
