@@ -12,15 +12,17 @@ const query = `
 `
 
 export const fetchData = async () => {
-  const response = await fetch(THE_GRAPH_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ query }),
-  });
-  
-  const json = await response.json();
-  return json
-
+  try {
+    const response = await fetch(THE_GRAPH_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ query }),
+    }); 
+    const json = await response.json();
+    return json
+  } catch (e) {
+    console.error({ e })
+  }
 }

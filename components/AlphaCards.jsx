@@ -264,16 +264,15 @@ const AlphaCards = () => {
       }
     }
     let seasonWinnersCount = {}
-    try {
-      const winnersQuery = await fetchData()
-      const { winners } = winnersQuery.data
-      for(let i=0;i<winners.length;i++){
-        if(!seasonWinnersCount[winners[i].season]){
-          seasonWinnersCount[winners[i].season] = 1
-        } else {
-          seasonWinnersCount[winners[i].season]++
-        }
+    const winnersQuery = await fetchData()
+    const { winners } = winnersQuery.data
+    for(let i=0;i<winners.length;i++){
+      if(!seasonWinnersCount[winners[i].season]){
+        seasonWinnersCount[winners[i].season] = 1
+      } else {
+        seasonWinnersCount[winners[i].season]++
       }
+    }
     const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
     let activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
     setSeasonName(currentSeason); // sets the season name as the oldest season with cards still available
@@ -282,9 +281,6 @@ const AlphaCards = () => {
     setSeasonNames(activeSeasons)
     setPackPrices(seasonData[1])
     return [currentSeason, currentPrice];
-    } catch(e){
-      console.error({ e })
-    }
   }
 
   const getUserCards = async (address, seasonName) => {
