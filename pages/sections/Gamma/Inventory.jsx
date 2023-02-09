@@ -4,7 +4,7 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import HTMLFlipBook from "react-pageflip";
 import { FcCheckmark } from 'react-icons/fc'
-import pagination from "./placeholders";
+import pagination from "../../../artifacts/utils/placeholders";
 
 
 const GammaInventory = React.forwardRef((props, book) => {
