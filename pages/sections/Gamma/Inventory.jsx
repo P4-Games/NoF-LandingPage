@@ -4,6 +4,7 @@ import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
 import HTMLFlipBook from "react-pageflip";
 import { FcCheckmark } from 'react-icons/fc'
+import pagination from "./placeholders";
 
 
 const GammaInventory = React.forwardRef((props, book) => {
@@ -64,15 +65,20 @@ const GammaInventory = React.forwardRef((props, book) => {
             >
               <div className="hero__top__album__book__page__page-content">
                 <div className="grid-wrapper">
-                  {images.map((item, index) => {
+                  {pagination.page1.map((item, index) => {
                     return (
-                      <div key={index} className="grid-item">
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
-                        <FcCheckmark />
-                        <div className='quantity'>03</div>
+                      <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                        <img onClick={console.log(item)} src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                        {pagination.fakeUser[item].stamped && <FcCheckmark />}
+                        <div className='number'>{pagination.fakeUser[item].name}</div>
+                        {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
+                          &&
+                          <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
+                        }
                       </div>
                     )
                   })}
+                  {/* {Object.entries(pagination).map((item))} */}
                 </div>
               </div>
             </div>
@@ -82,10 +88,16 @@ const GammaInventory = React.forwardRef((props, book) => {
               number="2"
             >
               <div className="grid-wrapperright">
-                {images.map((item, index) => {
+                {pagination.page2.map((item, index) => {
                   return (
-                    <div key={item} className="grid-item">
-                      <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" alt="img" />
+                    <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                      <img onClick={console.log(item)} src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                      {pagination.fakeUser[item].stamped && <FcCheckmark />}
+                      <div className='number'>{pagination.fakeUser[item].name}</div>
+                      {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
+                        &&
+                        <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
+                      }
                     </div>
                   )
                 })}
