@@ -60,8 +60,7 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
               <button onClick={() => {
                 if (page == "/alpha") {
                   alphaMidButton()
-                }
-                if (page == "/gamma") {
+                } else if (page == "/gamma") {
                   setInventory((inventory) => !inventory)
                 } else {
                   goToCollections(5)
