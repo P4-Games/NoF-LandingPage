@@ -14,6 +14,8 @@ import vida5 from "../public/vida5.png"
 import marco from "../public/marco.png"
 import reglas from "../public/reglas.png"
 
+import { fetchData } from "../services/graph/alpha";
+
 import AlphaAlbums from "./AlphaAlbums";
 
 const vidas = [vida0.src, vida1.src, vida2.src, vida3.src, vida4.src, vida5.src];
@@ -56,7 +58,6 @@ const AlphaCards = () => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState("")
   const [seasonFolder, setSeasonFolder] = useState(null)
-  const [urls, setUrls] = useState([])
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
@@ -262,10 +263,22 @@ const AlphaCards = () => {
         currentPrice = seasonData[1][i];
       }
     }
-    setSeasonName(currentSeason); // sets the season name as the last season name created
+    let seasonWinnersCount = {}
+    const winnersQuery = await fetchData()
+    const { winners } = winnersQuery.data
+    for(let i=0;i<winners.length;i++){
+      if(!seasonWinnersCount[winners[i].season]){
+        seasonWinnersCount[winners[i].season] = 1
+      } else {
+        seasonWinnersCount[winners[i].season]++
+      }
+    }
+    const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
+    let activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
+    setSeasonName(currentSeason); // sets the season name as the oldest season with cards still available
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
     setLoading(false);
-    setSeasonNames(seasonData[0])
+    setSeasonNames(activeSeasons)
     setPackPrices(seasonData[1])
     return [currentSeason, currentPrice];
   }
@@ -452,11 +465,6 @@ const AlphaCards = () => {
       })
   }
 
-  const getAlbumData = async (tokenId) => {
-    const albumData = await nofContract.cards(tokenId);
-    return albumData
-  }
-
   const pasteCard = (cardIndex) => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
@@ -469,16 +477,21 @@ const AlphaCards = () => {
     }
     pegarCarta(cardIndex)
       .then((tokenId) => {
-        showCards(account, seasonName)
-        getAlbumData(tokenId)
-          .then(res => {
-            console.log({ res })
-            if(res.completion == 5){
-              emitSuccess("Felicidades! Has completado el album!")
-            } else {
-              emitSuccess("Tu carta ya está en el album")
-            }
-          })
+        const pack = showCards(account, seasonName)
+        let album;
+        for(let i=0;i<pack.length;i++){
+          if(pack[i].tokenId == tokenId) album = pack[i];
+        }
+        const prizes = [2, 1.4, 1.2, 1, 0.8, 0.6, 0.5];
+        if(album.completion == 5) {
+          if(winnerPosition > 0){
+            emitSuccess(`Felicidades! Has completado el album! Tu premio es de ${packPrice * prizes[winnerPosition - 1]}`)
+          } else {
+            emitSuccess("Felicidades! Has completado el album!")
+          }
+        } else {
+          emitSuccess("Tu carta ya está en el album!")
+        }
       })
       .catch(e => {
         console.error({ e })
