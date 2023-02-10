@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic'
 
 const TranslationComponent = dynamic(() => import("./translationComponent.jsx"), { ssr: false })
 
-function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton, t }) {
+function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton, t, inventory, setInventory }) {
 
   const [midButton, setMidButton] = useState("")
   const [page, setPage] = useState("")
@@ -32,6 +32,7 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
   useEffect(() => {
     setPage(window.history.state.url)
     window.history.state.url == "/alpha" ? setMidButton('Albums') : null
+    window.history.state.url == "/gamma" ? setMidButton('Inventory') : null
   }, [])
 
   return (
@@ -57,13 +58,16 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
             // spy='true'
             >
               <button onClick={() => {
-                if(page == "/alpha"){
+                if (page == "/alpha") {
                   alphaMidButton()
+                }
+                if (page == "/gamma") {
+                  setInventory((inventory) => !inventory)
                 } else {
                   goToCollections(5)
                 }
               }}
-                      className='navbar__ul__li__contacto' onFlip={onFlip}>
+                className='navbar__ul__li__contacto' onFlip={onFlip}>
                 {t ? t("collections") : midButton}
               </button>
             </Link>

@@ -1,4 +1,4 @@
-import GammaInventory from "./sections/Gamma/Inventory";
+import GammaInventory from "./sections/Gamma";
 
 const Gamma = () => {
   return <GammaInventory />;
