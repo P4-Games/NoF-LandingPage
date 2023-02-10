@@ -18,21 +18,22 @@ import SwiperCore, {
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
 const AlphaAlbums = ({
-    storageUrl,
-    nofContract,
-    seasonNames,
-    account,
-    getSeasonFolder,
-    marco,
-    production,
-    contractAddress
-  }) => {
-
-  
-  const openSeaUrl = production ? `https://.opensea.io/assets/matic/${contractAddress}/` : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/`
+  storageUrl,
+  nofContract,
+  seasonNames,
+  account,
+  getSeasonFolder,
+  marco,
+  production,
+  contractAddress,
+  loadAlbums,
+}) => {
+  const openSeaUrl = production
+    ? `https://.opensea.io/assets/matic/${contractAddress}/`
+    : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/`;
   const [albums, setAlbums] = useState(null);
-  const [noAlbumMessage, setNoAlbumMessage] = useState("")
-  const [seasonName, setSeasonName] = useState("")
+  const [noAlbumMessage, setNoAlbumMessage] = useState("");
+  const [seasonName, setSeasonName] = useState("");
 
   const getAlbums = async () => {
     let albumsArr = [];
@@ -54,10 +55,10 @@ const AlphaAlbums = ({
   const handleClick = () => {
     getAlbums()
       .then((albums) => {
-        if(albums.length > 0){
+        if (albums.length > 0) {
           setAlbums(albums);
         } else {
-          setNoAlbumMessage('Juega para completar tu primer album!')
+          setNoAlbumMessage("Juega para completar tu primer album!");
         }
         const button = document.getElementsByClassName(
           "alpha_albums_button"
@@ -66,60 +67,67 @@ const AlphaAlbums = ({
       })
       .catch((e) => console.error({ e }));
   };
+  loadAlbums && handleClick();
 
   return (
     <div className="alpha_full_albums_container alpha_display_none">
-      <button
-        onClick={() => handleClick()}
-        className="alpha_button alpha_albums_button"
-      >
-        CARGAR ALBUMS
-      </button>
       <div>
         {albums ? (
           <div>
             <div className="alpha_albums_season">
-              <img src={marco.src}/>
-              <span className="alpha_albums_season_name">{seasonName ? seasonName : "Number One Fan"}</span>
+              <img src={marco.src} />
+              <span className="alpha_albums_season_name">
+                {seasonName ? seasonName : "Number One Fan"}
+              </span>
             </div>
             <Swiper
-            effect="cards"
-            grabCursor
-            onSlideChange={(res) => {
-              return setSeasonName(albums[res.activeIndex][0].season)
-            }}
-            onInit={(res) => {
-              return setSeasonName(albums[res.activeIndex][0].season)
-            }}
-            modules={[EffectCards, Autoplay, Pagination]}
-            pagination={{
-              el: ".pagination",
-              clickable: true,
-            }}
-            cardsEffect={{
-              slideShadows: false
-            }}
-            className="swiper-container alpha_albums_swiper_container"
-            id="alpha-albums-swiper-container"
-          >
-            {albums.map((album, index) => {
+              effect="cards"
+              grabCursor
+              onSlideChange={(res) => {
+                return setSeasonName(albums[res.activeIndex][0].season);
+              }}
+              onInit={(res) => {
+                return setSeasonName(albums[res.activeIndex][0].season);
+              }}
+              modules={[EffectCards, Autoplay, Pagination]}
+              pagination={{
+                el: ".pagination",
+                clickable: true,
+              }}
+              cardsEffect={{
+                slideShadows: false,
+              }}
+              className="swiper-container alpha_albums_swiper_container"
+              id="alpha-albums-swiper-container"
+            >
+              {albums.map((album, index) => {
                 return (
                   <SwiperSlide
                     key={index}
                     className="swiper-slide"
                     id="alpha-albums-swiper-slide"
                   >
-                    <a href={`${openSeaUrl}/${album[0].tokenId}`} target="_blank">
-                      <img alt="portadas" src={storageUrl + album[1] + "/" + album[0].number + ".png"} className="alpha_card" />
+                    <a
+                      href={`${openSeaUrl}/${album[0].tokenId}`}
+                      target="_blank"
+                    >
+                      <img
+                        alt="portadas"
+                        src={
+                          storageUrl + album[1] + "/" + album[0].number + ".png"
+                        }
+                        className="alpha_card"
+                      />
                     </a>
                   </SwiperSlide>
                 );
               })}
-            <div className="pagination"></div>
-          </Swiper>
+              <div className="pagination"></div>
+            </Swiper>
           </div>
-        ) : <div>{noAlbumMessage}</div>}
-        
+        ) : (
+          <div>{noAlbumMessage}</div>
+        )}
       </div>
     </div>
   );

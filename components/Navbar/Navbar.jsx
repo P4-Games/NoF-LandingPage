@@ -1,22 +1,33 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { Link } from 'react-scroll'
-import Image from 'next/image'
-import audio from './music/Dungeon.mp3'
-import Whitepaper from './Whitepaper.jsx'
-import NofTown from './NofTown.jsx'
-import Coin from './icons/logo-coin.png'
-import Nof from './icons/logo-1.png'
-import SoundOn from './icons/sound.png'
-import SoundOff from './icons/soundoff.png'
-import dynamic from 'next/dynamic'
+import React, { useRef, useState, useEffect } from "react";
+import { Link } from "react-scroll";
+import Image from "next/image";
+import audio from "./music/Dungeon.mp3";
+import Whitepaper from "./Whitepaper.jsx";
+import NofTown from "./NofTown.jsx";
+import Coin from "./icons/logo-coin.png";
+import Nof from "./icons/logo-1.png";
+import SoundOn from "./icons/sound.png";
+import SoundOff from "./icons/soundoff.png";
+import dynamic from "next/dynamic";
 // import TranslationComponent from './translationComponent.jsx'
 
-const TranslationComponent = dynamic(() => import("./translationComponent.jsx"), { ssr: false })
+const TranslationComponent = dynamic(
+  () => import("./translationComponent.jsx"),
+  { ssr: false }
+);
 
-function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton, t }) {
-
-  const [midButton, setMidButton] = useState("")
-  const [page, setPage] = useState("")
+function Navbar({
+  onFlip,
+  goToCollections,
+  language,
+  setLanguage,
+  alphaMidButton,
+  t,
+  setLoadAlbums,
+  loadAlbums,
+}) {
+  const [midButton, setMidButton] = useState("");
+  const [page, setPage] = useState("");
 
   const ref = useRef(null);
   const [click, setClick] = useState(false);
@@ -30,65 +41,72 @@ function Navbar({ onFlip, goToCollections, language, setLanguage, alphaMidButton
   };
 
   useEffect(() => {
-    setPage(window.history.state.url)
-    window.history.state.url == "/alpha" ? setMidButton('Albums') : null
-  }, [])
+    setPage(window.history.state.url);
+    window.history.state.url == "/alpha" ? setMidButton("Albums") : null;
+  }, []);
 
   return (
     <>
-      <div className='navbar'>
-        <div className='navbar__icon'>
-          <div className='hover' id='coin'>
-            <a href='/'>
-              <Image src={Coin} id='coin' layout='fill' />
+      <div className="navbar">
+        <div className="navbar__icon">
+          <div className="hover" id="coin">
+            <a href="/">
+              <Image src={Coin} id="coin" layout="fill" />
             </a>
           </div>
-          <div className='hover' id='nof'>
-            <a href='/'>
-              <Image src={Nof} alt="" layout='fill' />
+          <div className="hover" id="nof">
+            <a href="/">
+              <Image src={Nof} alt="" layout="fill" />
             </a>
           </div>
         </div>
-        <ul className='navbar__ul'>
-          <li className='navbar__ul__li'>
+        <ul className="navbar__ul">
+          <li className="navbar__ul__li">
             <NofTown />
             <Link
-              to='Contacto'
-            // spy='true'
+              to="Contacto"
+              // spy='true'
             >
-              <button onClick={() => {
-                if(page == "/alpha"){
-                  alphaMidButton()
-                } else {
-                  goToCollections(5)
-                }
-              }}
-                      className='navbar__ul__li__contacto' onFlip={onFlip}>
+              <button
+                onClick={() => {
+                  if (page == "/alpha") {
+                    alphaMidButton();
+                    setLoadAlbums && setLoadAlbums(!loadAlbums);
+                  } else {
+                    goToCollections(5);
+                    setLoadAlbums && setLoadAlbums(!loadAlbums);
+                  }
+                }}
+                className="navbar__ul__li__contacto"
+                onFlip={onFlip}
+              >
                 {t ? t("collections") : midButton}
               </button>
             </Link>
             <Whitepaper />
           </li>
         </ul>
-        <div className='navbar__corner'>
-          <div onClick={() => handleClick()} className='navbar__corner__audio'>
+        <div className="navbar__corner">
+          <div onClick={() => handleClick()} className="navbar__corner__audio">
             {/* <Image src={SoundOn} alt="" /> */}
-            {click ?
+            {click ? (
               <Image src={SoundOn} alt="soundimg" />
-              :
-              <Image src={SoundOff} alt="soundimg" />}
+            ) : (
+              <Image src={SoundOff} alt="soundimg" />
+            )}
             <></>
           </div>
           <TranslationComponent
             language={language}
             setLanguage={setLanguage}
-            t={t} />
+            t={t}
+          />
         </div>
       </div>
 
       <audio src={audio} ref={ref} loop />
     </>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
