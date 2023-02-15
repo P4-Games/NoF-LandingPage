@@ -188,7 +188,7 @@
 .alpha_album {
   width: 250px;
   @include mobile {
-    width: 100px;
+    width: 110px;
   }
 }
 
@@ -272,6 +272,10 @@
   top: 25px;
   left: 65px;
   background-color: rgba(255, 255, 255, 0.7);
+  @include mobile{
+    top: 6px;
+    left: 150px;
+  }
 }
 
 .alpha_transfer_modal {
