@@ -8,6 +8,7 @@ import pagination from "../../../artifacts/utils/placeholders";
 import InventoryAlbum from "./InventoryAlbum";
 import GammaAlbum from "./GammaAlbum";
 import book from "../Hero/background/book.png"
+import GammaPack from "./GammaPack";
 
 
 const index = React.forwardRef((props, book) => {
@@ -35,9 +36,11 @@ const index = React.forwardRef((props, book) => {
   }, []);
   const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [inventory, setInventory] = useState(true)
+  const [openPack, setOpenPack] = useState(false)
 
   return (
     <div className="gamma_main">
+      {openPack && <GammaPack setOpenPack={setOpenPack} />}
       <Head>
         <title>Number One Fan</title>
         <meta name="description" content="NoF Gamma" />
@@ -50,7 +53,7 @@ const index = React.forwardRef((props, book) => {
           {inventory && <InventoryAlbum />}
           {!inventory && <GammaAlbum />}
         </div>
-        {!mobile && <div className="gammaFigures"></div>}
+        {!mobile && <div onClick={() => setOpenPack(true)} className="gammaFigures"></div>}
       </div>
       <Footer />
     </div >

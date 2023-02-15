@@ -77,7 +77,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                     {pagination.page2.map((item, index) => {
                         return (
                             <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
-                                <img onClick={console.log(item)} src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
                                 {pagination.fakeUser[item].stamped && <FcCheckmark />}
                                 <div className='number'>{pagination.fakeUser[item].name}</div>
                                 {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
