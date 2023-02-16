@@ -1,6 +1,9 @@
 import StarShine from "../../../utils/Sparkles"
 import { useEffect, useRef, useState } from 'react';
 import { motion } from "framer-motion"
+import { AiOutlineCloseCircle } from 'react-icons/ai'
+import Packfiguritas from "../../../utils/PackFiguritas";
+
 const GammaPack = ({ setOpenPack }) => {
     const [openPackage, setOpenPackage] = useState(false)
     const starshineRef = useRef(null);
@@ -39,22 +42,28 @@ const GammaPack = ({ setOpenPack }) => {
         <>
             <div className='packcontainer'>
                 <div id="starshine" ref={starshineRef}>
+
                     <div className="template shine" ref={templateRef}></div>
                 </div>
-                <div
+                <motion.div
+                    animate={openPackage ? { display: 'none' } : ''}
+                    transition={{ delay: 5 }}
                     onClick={() => { setOpenPackage(true), console.log('probando') }}
                     className="pack">
                     <motion.img
                         animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
-                        transition={{ duration: 2, delay: 1 }} id='top' src="/assets/gamma/SobreTop.png" alt="" />
+                        transition={{ duration: 2, delay: 0 }} id='top' src="/assets/gamma/SobreTop.png" alt="" />
                     <motion.img
                         animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
                         transition={{ duration: 1, delay: 3 }} id='bottom' src="/assets/gamma/SobreBottom.png" alt="" />
                     <motion.img
                         animate={openPackage ? { y: -100, } : ''}
-                        transition={{ duration: 3, delay: 0.5 }}
+                        transition={{ duration: 3, delay: 1 }}
                         id='imagetest' src={`https://storage.googleapis.com/nof-gamma/T1/${1}.png`} alt="img" />
-                </div>
+                </motion.div>
+                <AiOutlineCloseCircle onClick={() => setOpenPack(false)} className="closebutton" />
+                {openPackage && <Packfiguritas openPackage={openPackage} />}
+
 
             </div>
         </>
