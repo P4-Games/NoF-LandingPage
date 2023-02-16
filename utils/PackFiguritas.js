@@ -1,4 +1,4 @@
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js';
 import { Draggable } from "gsap/dist/Draggable";
 import { useEffect } from 'react';

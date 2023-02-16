@@ -2,7 +2,7 @@ import StarShine from "../../../utils/Sparkles"
 import { useEffect, useRef, useState } from 'react';
 import { motion } from "framer-motion"
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import Packfiguritas from "../../../utils/PackFiguritas";
+import PackFiguritas from "../../../utils/PackFiguritas";
 
 const GammaPack = ({ setOpenPack }) => {
     const [openPackage, setOpenPackage] = useState(false)
@@ -62,7 +62,7 @@ const GammaPack = ({ setOpenPack }) => {
                         id='imagetest' src={`https://storage.googleapis.com/nof-gamma/T1/${1}.png`} alt="img" />
                 </motion.div>
                 <AiOutlineCloseCircle onClick={() => setOpenPack(false)} className="closebutton" />
-                {openPackage && <Packfiguritas openPackage={openPackage} />}
+                {openPackage && <PackFiguritas openPackage={openPackage} />}
 
 
             </div>
