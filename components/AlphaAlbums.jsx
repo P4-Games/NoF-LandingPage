@@ -42,8 +42,9 @@ const AlphaAlbums = ({
         account,
         seasonNames[i]
       );
+      console.log(album);
       for (let j = 0; j < album.length; j++) {
-        if (album[j].class == 0 && album[j].completion == 5) {
+        if (album[j].class == 0 ) {
           const folder = await getSeasonFolder(album[j].season);
           albumsArr.push([album[j], folder]);
         }
