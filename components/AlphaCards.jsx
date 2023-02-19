@@ -424,6 +424,18 @@ const AlphaCards = ({ loadAlbums }) => {
     return check;
   };
 
+  // This code is a function that checks the balance of an account.
+  // It uses the daiContract.balanceOf() method to get the balance of the account,
+  // then parses it into a JSON object and converts it to a string.
+  // It then sets a minimum balance of 1000000000000000000 and returns true if the number is greater than this minimum,
+  // or false if it is not.
+  const checkBalance = async () => {
+    const balance = await daiContract.balanceOf(account);
+    const number = JSON.parse(ethers.BigNumber.from(balance).toString());
+    const minimun = 1000000000000000000;
+    return number > minimun;
+  };
+
   const buyPack = (price, name) => {
     showCards(account, seasonName)
       .then((cards) => {
@@ -438,50 +450,60 @@ const AlphaCards = ({ loadAlbums }) => {
               setNoCardsError("No hay más packs disponibles.");
               return;
             } else {
-              checkApproved(contractAddress, account)
-                .then((res) => {
-                  const comprarPack = async (price, name) => {
-                    const pack = await nofContract.buyPack(price, name, {
-                      gasLimit: 2500000,
-                    });
-                    setLoading(true);
-                    await pack.wait();
+              if (checkBalance(account)) {
+                checkApproved(contractAddress, account)
+                  .then((res) => {
+                    const comprarPack = async (price, name) => {
+                      const pack = await nofContract.buyPack(price, name, {
+                        gasLimit: 2500000,
+                      });
+                      setLoading(true);
+                      await pack.wait();
+                      setLoading(false);
+                      return pack;
+                    };
+                    if (res) {
+                      comprarPack(price, name)
+                        .then((pack) => {
+                          setPack(pack);
+                          showCards(account, seasonName);
+                        })
+                        .catch((err) => {
+                          console.error({ err });
+                          setLoading(false);
+                        });
+                    } else {
+                      authorizeDaiContract()
+                        .then(() => {
+                          comprarPack(price, name)
+                            .then((pack) => {
+                              setPack(pack);
+                              showCards(account, seasonName);
+                            })
+                            .catch((e) => {
+                              console.error({ e });
+                              setLoading(false);
+                            });
+                        })
+                        .catch((e) => {
+                          console.error({ e });
+                          setLoading(false);
+                        });
+                    }
+                  })
+                  .catch((e) => {
+                    console.error({ e });
                     setLoading(false);
-                    return pack;
-                  };
-                  if (res) {
-                    comprarPack(price, name)
-                      .then((pack) => {
-                        setPack(pack);
-                        showCards(account, seasonName);
-                      })
-                      .catch((err) => {
-                        console.error({ err });
-                        setLoading(false);
-                      });
-                  } else {
-                    authorizeDaiContract()
-                      .then(() => {
-                        comprarPack(price, name)
-                          .then((pack) => {
-                            setPack(pack);
-                            showCards(account, seasonName);
-                          })
-                          .catch((e) => {
-                            console.error({ e });
-                            setLoading(false);
-                          });
-                      })
-                      .catch((e) => {
-                        console.error({ e });
-                        setLoading(false);
-                      });
-                  }
-                })
-                .catch((e) => {
-                  console.error({ e });
-                  setLoading(false);
+                  });
+              } else {
+                Swal.fire({
+                  title: "oops!",
+                  text: "No tienes suficientes DAI!",
+                  icon: "error",
+                  showConfirmButton: false,
+                  timer: 1500,
                 });
+              }
             }
           })
           .catch((e) => {
