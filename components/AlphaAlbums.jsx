@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -14,7 +14,7 @@ import SwiperCore, {
   Parallax,
   EffectCards,
 } from "swiper";
-
+import Swal from "sweetalert2";
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y]);
 
 const AlphaAlbums = ({
@@ -34,6 +34,27 @@ const AlphaAlbums = ({
   const [albums, setAlbums] = useState(null);
   const [noAlbumMessage, setNoAlbumMessage] = useState("");
   const [seasonName, setSeasonName] = useState("");
+  const router = useRouter();
+  /**
+   * Redirects the user to the OpenSea marketplace for a specific album token ID in a new tab/window,
+   * or shows an error message and redirects the user to the Alpha page if the album is not complete.
+   *
+   * @param {Array} album - An array of album objects. Should contain only one object.
+   */
+  function handleRedirectAlbum(album) {
+    // Check if the album is complete
+    if (album[0].completion === 5) {
+      // If the album is complete, open the album on OpenSea in a new tab/window
+      window.open(`${openSeaUrl}/${album[0].tokenId}`, "_blank");
+    } else {
+      // If the album is not complete, redirect the user to the Alpha page and show an error message using Swal
+      router.replace("/alpha");
+      Swal.fire({
+        text: "Tienes que seguir jugando para completar el album",
+        timer: 2500,
+      });
+    }
+  }
 
   const getAlbums = async () => {
     let albumsArr = [];
@@ -42,9 +63,8 @@ const AlphaAlbums = ({
         account,
         seasonNames[i]
       );
-      console.log(album);
       for (let j = 0; j < album.length; j++) {
-        if (album[j].class == 0 ) {
+        if (album[j].class == 0) {
           const folder = await getSeasonFolder(album[j].season);
           albumsArr.push([album[j], folder]);
         }
@@ -108,18 +128,15 @@ const AlphaAlbums = ({
                     className="swiper-slide"
                     id="alpha-albums-swiper-slide"
                   >
-                    <a
-                      href={`${openSeaUrl}/${album[0].tokenId}`}
-                      target="_blank"
-                    >
-                      <img
-                        alt="portadas"
-                        src={
-                          storageUrl + album[1] + "/" + album[0].number + ".png"
-                        }
-                        className="alpha_card"
-                      />
-                    </a>
+                    <img
+                      alt="portadas"
+                      style={{ cursor: "pointer" }}
+                      src={
+                        storageUrl + album[1] + "/" + album[0].number + ".png"
+                      }
+                      className="alpha_card"
+                      onClick={() => handleRedirectAlbum(album)}
+                    />
                   </SwiperSlide>
                 );
               })}
