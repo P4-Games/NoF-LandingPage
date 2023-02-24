@@ -283,7 +283,10 @@ function PackFiguritas({ openPackage }) {
         }
     }, [])
 
-
+    function generateRandomNumber() {
+        return Math.floor(Math.random() * 100) + 1;
+    }
+    const randomNumber = generateRandomNumber();
 
     return (
         <>
@@ -296,7 +299,7 @@ function PackFiguritas({ openPackage }) {
                     initial={{ display: 'none' }}
                     animate={openPackage ? { display: 'flex' } : ''}
                     transition={{ delay: 5 }} className="boxes">
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/1.png)" }}>
+                    <div className="box" style={{ "--src": `url(https://storage.googleapis.com/nof-gamma/T1/1.png)` }}>
                         <span>1</span>
                         <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" />
                     </div>
@@ -304,9 +307,9 @@ function PackFiguritas({ openPackage }) {
                         <span>2</span>
                         <img src="https://storage.googleapis.com/nof-gamma/T1/2.png" />
                     </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
+                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/10.png)" }}>
                         <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
+                        <img src="https://storage.googleapis.com/nof-gamma/T1/10.png" />
                     </div>
                     <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
                         <span>3</span>
@@ -320,21 +323,21 @@ function PackFiguritas({ openPackage }) {
                         <span>3</span>
                         <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
                     </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
+                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/15.png)" }}>
                         <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
+                        <img src="https://storage.googleapis.com/nof-gamma/T1/15.png" />
                     </div>
                     <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
                         <span>3</span>
                         <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
                     </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
+                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/30.png)" }}>
                         <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
+                        <img src="https://storage.googleapis.com/nof-gamma/T1/30.png" />
                     </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
+                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/33.png)" }}>
                         <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
+                        <img src="https://storage.googleapis.com/nof-gamma/T1/33.png" />
                     </div>
                 </motion.div>
                 <div className="controls"><button class="next"><span>Previous album</span><svg viewBox="0 0 448 512" width="100" title="Previous Album">

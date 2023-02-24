@@ -92,9 +92,9 @@ const GammaInventory = React.forwardRef((props, book) => {
                 data-density="hard"
                 number="3"
             >
-                <div className="hero__top__album__book__page__page-content">
+                {/* <div className="hero__top__album__book__page__page-content">
                     Prueba3
-                </div>
+                </div> */}
             </div>
         </HTMLFlipBook>
     );

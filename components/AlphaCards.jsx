@@ -86,7 +86,7 @@ const AlphaCards = () => {
   }
 
   function connectToMetamask() {
-    if(window.ethereum !== undefined){
+    if (window.ethereum !== undefined) {
       setNoMetamaskError("");
       requestAccount().then((data) => {
         const [provider, address] = data;
@@ -104,16 +104,16 @@ const AlphaCards = () => {
         );
         setDaiContract(daiContractInstance)
         requestSeasonData(nofContractInstance)
-        .then(data => {
-          const [currentSeason, currentPrice] = data;
-        })
+          .then(data => {
+            const [currentSeason, currentPrice] = data;
+          })
+          .catch(e => {
+            console.error({ e })
+          });
+      })
         .catch(e => {
           console.error({ e })
         });
-      })
-      .catch(e => {
-        console.error({ e })
-      });
     } else {
       setNoMetamaskError("Por favor instala Metamask para continuar.")
     }
@@ -162,11 +162,11 @@ const AlphaCards = () => {
   }
 
   useEffect(() => {
-    if(window && window.ethereum !== undefined){
+    if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
         connectToMetamask()
       })
-  
+
       window.ethereum.on('chainChanged', newChain => {
         setChainId(decToHex(newChain))
         connectToMetamask()
@@ -179,9 +179,9 @@ const AlphaCards = () => {
     loading
       ? loadingElem.setAttribute("class", "alpha_loader_container")
       : loadingElem.setAttribute(
-          "class",
-          "alpha_loader_container alpha_display_none"
-        );
+        "class",
+        "alpha_loader_container alpha_display_none"
+      );
   }, [loading]);
 
   useEffect(() => {
@@ -203,8 +203,8 @@ const AlphaCards = () => {
       on: {
         init: (res) => {
           setCardIndex(res.activeIndex)
-          if(cards.length > 0){
-            if(cards[res.activeIndex].collection == albumCollection){
+          if (cards.length > 0) {
+            if (cards[res.activeIndex].collection == albumCollection) {
               setIsCollection(true)
             } else {
               setIsCollection(false)
@@ -213,15 +213,15 @@ const AlphaCards = () => {
         },
         slideChange: (res) => {
           setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex].collection == albumCollection){
+          if (cards[res.activeIndex].collection == albumCollection) {
             setIsCollection(true)
           } else {
             setIsCollection(false)
-          }    
+          }
         },
         observerUpdate: (res) => {
           setCardIndex(res.activeIndex)
-          if(cards[res.activeIndex]?.collection == albumCollection){
+          if (cards[res.activeIndex]?.collection == albumCollection) {
             setIsCollection(true)
           } else {
             setIsCollection(false)
@@ -236,13 +236,13 @@ const AlphaCards = () => {
 
   useEffect(() => {
     const seasonNameElem = document.getElementsByClassName('alpha_season_name')[0];
-    if(seasonName){
-      if(seasonName.length > 14){
+    if (seasonName) {
+      if (seasonName.length > 14) {
         seasonNameElem.style.fontSize = "0.7rem"
       }
-      if(seasonName.length > 16){
+      if (seasonName.length > 16) {
         seasonNameElem.style.fontSize = "0.6rem"
-        seasonNameElem.innerText = seasonNameElem.innerText.substring(0,16) + "..."
+        seasonNameElem.innerText = seasonNameElem.innerText.substring(0, 16) + "..."
       }
     }
   }, [seasonName])
@@ -252,9 +252,9 @@ const AlphaCards = () => {
     let currentSeason;
     let currentPrice;
     setLoading(true);
-    for(let i=0;i<seasonData[0].length;i++){
+    for (let i = 0; i < seasonData[0].length; i++) {
       let season = await contract.getSeasonAlbums(seasonData[0][i])
-      if(season.length > 0){
+      if (season.length > 0) {
         currentSeason = seasonData[0][i];
         currentPrice = seasonData[1][i];
         break;
@@ -266,8 +266,8 @@ const AlphaCards = () => {
     let seasonWinnersCount = {}
     const winnersQuery = await fetchData()
     const { winners } = winnersQuery.data
-    for(let i=0;i<winners.length;i++){
-      if(!seasonWinnersCount[winners[i].season]){
+    for (let i = 0; i < winners.length; i++) {
+      if (!seasonWinnersCount[winners[i].season]) {
         seasonWinnersCount[winners[i].season] = 1
       } else {
         seasonWinnersCount[winners[i].season]++
@@ -311,18 +311,18 @@ const AlphaCards = () => {
   const showCards = (address, seasonName) => {
     checkPacks()
       .then(res => {
-      if(res.length == 0){
-        setDisableTransfer(false)
-      } else {
-        setDisableTransfer(true)
-      }
-    })
+        if (res.length == 0) {
+          setDisableTransfer(false)
+        } else {
+          setDisableTransfer(true)
+        }
+      })
       .catch(e => {
         console.error({ e })
       })
     const cards = getUserCards(address, seasonName)
       .then(pack => {
-        if(pack.length){
+        if (pack.length) {
           let albumData = []
           let cardsData = []
           let folder = ""
@@ -338,20 +338,20 @@ const AlphaCards = () => {
           setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
           getSeasonFolder(seasonName)
             .then(data => {
-              if(data == 'alpha_jsons'){
+              if (data == 'alpha_jsons') {
                 folder = "T1"
                 setSeasonFolder("T1")
               } else {
                 folder = data
                 setSeasonFolder(data)
               }
-              if(completion < 5){
+              if (completion < 5) {
                 setAlbumCard(storageUrl + folder + "/" + albumData[0].number + ".png")
               } else {
                 setAlbumCard(storageUrl + folder + "/" + albumData[0].number + "F" + ".png")
                 getWinners()
                   .then(winners => {
-                    if(winners.includes(account)){
+                    if (winners.includes(account)) {
                       setWinnerPosition(winners.indexOf(account) + 1)
                     }
                   })
@@ -375,7 +375,7 @@ const AlphaCards = () => {
       .catch(e => {
         console.error({ e })
       })
-      return cards
+    return cards
   }
 
   const authorizeDaiContract = async () => {
@@ -398,67 +398,67 @@ const AlphaCards = () => {
 
   const buyPack = (price, name) => {
     showCards(account, seasonName)
-    .then((cards) => {
-      setNoCardsError("")
-      if(cards && cards.length > 0){
-        emitSuccess("Ya tienes cartas.")
-        return
-      }
-      checkPacks()
-        .then(res => {
-          if(!res || res.length == 0) {
-            setNoCardsError("No hay más packs disponibles.")
-            return
-          } else {
-            checkApproved(contractAddress, account)
-            .then(res => {
-              const comprarPack = async (price, name) => {
-              const pack = await nofContract.buyPack(price, name, { gasLimit: 2500000 });
-              setLoading(true)
-              await pack.wait()
-              setLoading(false)
-              return pack
-            }
-            if(res){
-              comprarPack(price, name)
-                .then(pack => {
-                  setPack(pack)
-                  showCards(account, seasonName)
-                })
-                .catch(err => {
-                  console.error({ err })
-                  setLoading(false)
-                })
+      .then((cards) => {
+        setNoCardsError("")
+        if (cards && cards.length > 0) {
+          emitSuccess("Ya tienes cartas.")
+          return
+        }
+        checkPacks()
+          .then(res => {
+            if (!res || res.length == 0) {
+              setNoCardsError("No hay más packs disponibles.")
+              return
             } else {
-              authorizeDaiContract()
-                .then(() => {
-                  comprarPack(price, name)
-                .then(pack => {
-                  setPack(pack)
-                  showCards(account, seasonName)
+              checkApproved(contractAddress, account)
+                .then(res => {
+                  const comprarPack = async (price, name) => {
+                    const pack = await nofContract.buyPack(price, name, { gasLimit: 2500000 });
+                    setLoading(true)
+                    await pack.wait()
+                    setLoading(false)
+                    return pack
+                  }
+                  if (res) {
+                    comprarPack(price, name)
+                      .then(pack => {
+                        setPack(pack)
+                        showCards(account, seasonName)
+                      })
+                      .catch(err => {
+                        console.error({ err })
+                        setLoading(false)
+                      })
+                  } else {
+                    authorizeDaiContract()
+                      .then(() => {
+                        comprarPack(price, name)
+                          .then(pack => {
+                            setPack(pack)
+                            showCards(account, seasonName)
+                          })
+                          .catch(e => {
+                            console.error({ e })
+                            setLoading(false)
+                          })
+                      })
+                      .catch(e => {
+                        console.error({ e })
+                        setLoading(false)
+                      })
+                  }
                 })
                 .catch(e => {
                   console.error({ e })
                   setLoading(false)
                 })
-              })
-                .catch(e => {
-                  console.error({ e })
-                  setLoading(false)
-                })
-              }
-              })
-              .catch(e => {
-                console.error({ e })
-                setLoading(false)
-              })
-                }
-              })
-              .catch(e => {
-                console.error({ e })
-                setLoading(false)
-              })
+            }
           })
+          .catch(e => {
+            console.error({ e })
+            setLoading(false)
+          })
+      })
       .catch(e => {
         console.error({ e })
         setLoading(false)
@@ -479,12 +479,12 @@ const AlphaCards = () => {
       .then((tokenId) => {
         const pack = showCards(account, seasonName)
         let album;
-        for(let i=0;i<pack.length;i++){
-          if(pack[i].tokenId == tokenId) album = pack[i];
+        for (let i = 0; i < pack.length; i++) {
+          if (pack[i].tokenId == tokenId) album = pack[i];
         }
         const prizes = [2, 1.4, 1.2, 1, 0.8, 0.6, 0.5];
-        if(album.completion == 5) {
-          if(winnerPosition > 0){
+        if (album.completion == 5) {
+          if (winnerPosition > 0) {
             emitSuccess(`Felicidades! Has completado el album! Tu premio es de ${packPrice * prizes[winnerPosition - 1]}`)
           } else {
             emitSuccess("Felicidades! Has completado el album!")
@@ -535,7 +535,7 @@ const AlphaCards = () => {
       }
     } catch (e) {
       console.error({ e })
-      if(e.reason.includes("Receiver is not playing this season")){
+      if (e.reason.includes("Receiver is not playing this season")) {
         setTransferError("Este usuario no está jugando esta temporada.")
       }
     }
@@ -545,10 +545,10 @@ const AlphaCards = () => {
     document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "none"
     document.getElementsByClassName('alpha_rules_container')[0].style.display = "block"
     window.addEventListener('keydown', (e) => {
-      if(e.code == "Escape") {
+      if (e.code == "Escape") {
         document.getElementsByClassName('alpha_rules_container')[0].style.display = "none"
         document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "flex"
-      }  
+      }
     })
   }
 
@@ -571,14 +571,14 @@ const AlphaCards = () => {
       </div>
       <div className="alpha_rules_container">
         <button className="alpha_rules_img_close alpha_modal_close" onClick={() => closeRules()}>X</button>
-        <img className="alpha_rules_img" src={reglas.src}  tabIndex="0" />
+        <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
       </div>
-      
+
       {account && (
         <div className="alpha_inner_container">
           <div className="alpha_data">
             <div className="alpha_season">
-              <img src={marco.src}/>
+              <img src={marco.src} />
               <span className="alpha_season_name">{seasonName}</span>
               <select
                 value={seasonName}
@@ -588,23 +588,23 @@ const AlphaCards = () => {
                 }}
                 id="alpha_select_season_button" >
                 {seasonNames && seasonNames.map(name => {
-                    return (
-                      <option key={name}>{name}</option>
-                    )
+                  return (
+                    <option key={name}>{name}</option>
+                  )
                 })}
               </select>
             </div>
             <div className="alpha_start_buttons">
               <button onClick={() => showCards(account, seasonName)} className="alpha_button" id="alpha_show_cards_button">Ver cartas</button>
-              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">{`Comprar Pack ($${packPrice.substring(0,packPrice.length - 18)})`}</button>
+              <button onClick={() => buyPack(packPrice, seasonName)} className="alpha_button" id="alpha_buy_pack_button">{`Comprar Pack ($${packPrice.substring(0, packPrice.length - 18)})`}</button>
             </div>
-            <span style={{"color":"red", "textAlign": "center", "marginTop": "10px"}}>{noCardsError}</span>
+            <span style={{ "color": "red", "textAlign": "center", "marginTop": "10px" }}>{noCardsError}</span>
           </div>
-      
+
           {pack && pack.length ? (
-          <div className="alpha_container">
-          
-            
+            <div className="alpha_container">
+
+
               <div className="alpha_album_container">
                 <img
                   src={albumCard}
@@ -649,7 +649,7 @@ const AlphaCards = () => {
                     {cards.map((card, i) => {
                       const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                       return (
-                        <div style={{"backgroundImage":"none", "paddingTop": "0"}} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
+                        <div style={{ "backgroundImage": "none", "paddingTop": "0" }} className="swiper-slide alpha-swiper-slide" key={ethers.BigNumber.from(card.tokenId).toNumber()}>
                           <span className="alpha_card_collection">C:{cardCollection}</span>
                           <img
                             src={storageUrl + seasonFolder + "/" + card.number + ".png"}
@@ -661,43 +661,43 @@ const AlphaCards = () => {
                   </div>
                   <div className="swiper-pagination"></div>
                 </div>
-              
+
               </div>
-          
-            {cards.length > 0 ? (
-              <div className="alpha_transfer_modal alpha_display_none">
-              <button className="alpha_transfer_modal_close alpha_modal_close" onClick={() => {
-                const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
-                setTransferError("")
-                setReceiverAccount("")
-              }}>X</button>
-              <span style={{"fontSize":"0.9rem"}}>Carta de colección {cards[cardIndex] ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber() : ethers.BigNumber.from(cards[cardIndex-1].collection).toNumber()}</span>
-              <input
-                placeholder="Inserte la wallet del destinatario"
-                value={receiverAccount}
-                onChange={(e) => setReceiverAccount(e.target.value)}
-              />
-              <button className="alpha_button" onClick={() => transferToken()} disabled={disableTransfer}>
-                TRANSFERIR
-              </button>
-              <span className="alpha_transfer_error">{transferError}</span>
+
+              {cards.length > 0 ? (
+                <div className="alpha_transfer_modal alpha_display_none">
+                  <button className="alpha_transfer_modal_close alpha_modal_close" onClick={() => {
+                    const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+                    modal.setAttribute('class', "alpha_transfer_modal alpha_display_none")
+                    setTransferError("")
+                    setReceiverAccount("")
+                  }}>X</button>
+                  <span style={{ "fontSize": "0.9rem" }}>Carta de colección {cards[cardIndex] ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber() : ethers.BigNumber.from(cards[cardIndex - 1].collection).toNumber()}</span>
+                  <input
+                    placeholder="Inserte la wallet del destinatario"
+                    value={receiverAccount}
+                    onChange={(e) => setReceiverAccount(e.target.value)}
+                  />
+                  <button className="alpha_button" onClick={() => transferToken()} disabled={disableTransfer}>
+                    TRANSFERIR
+                  </button>
+                  <span className="alpha_transfer_error">{transferError}</span>
+                </div>
+              ) : null}
             </div>
-            ) : null }
-          </div>
           ) : null}
         </div>
       )}
       <AlphaAlbums
-          storageUrl={storageUrl}
-          nofContract={nofContract}
-          seasonNames={seasonNames}
-          account={account}
-          getSeasonFolder={getSeasonFolder}
-          marco={marco}
-          production={production}
-          contractAddress={contractAddress}
-        />
+        storageUrl={storageUrl}
+        nofContract={nofContract}
+        seasonNames={seasonNames}
+        account={account}
+        getSeasonFolder={getSeasonFolder}
+        marco={marco}
+        production={production}
+        contractAddress={contractAddress}
+      />
     </div>
   );
 };
