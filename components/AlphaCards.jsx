@@ -39,7 +39,7 @@ const daiAddress = production
 
 let swiper;
 
-const AlphaCards = ({ loadAlbums }) => {
+const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const validChainId = production ? "0x89" : "0x13881";
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -68,6 +68,7 @@ const AlphaCards = ({ loadAlbums }) => {
   const [noMetamaskError, setNoMetamaskError] = useState("");
   const [seasonFolder, setSeasonFolder] = useState(null);
   const [urls, setUrls] = useState([]);
+
   async function requestAccount() {
     const web3Modal = new Web3Modal();
     let provider;
@@ -229,7 +230,7 @@ const AlphaCards = ({ loadAlbums }) => {
         },
         slideChange: (res) => {
           setCardIndex(res.activeIndex);
-          if (cards[res.activeIndex].collection == albumCollection) {
+          if (cards[res.activeIndex]?.collection == albumCollection) {
             setIsCollection(true);
           } else {
             setIsCollection(false);
@@ -424,16 +425,23 @@ const AlphaCards = ({ loadAlbums }) => {
     return check;
   };
 
-  // This code is a function that checks the balance of an account.
-  // It uses the daiContract.balanceOf() method to get the balance of the account,
-  // then parses it into a JSON object and converts it to a string.
-  // It then sets a minimum balance of 1000000000000000000 and returns true if the number is greater than this minimum,
-  // or false if it is not.
+  /**
+This function checks the balance of a specified account on the Dai contract and returns whether it meets a minimum value.
+@async
+@function
+@returns {boolean} - True if the account balance is greater than the minimum value, false otherwise.
+*/
   const checkBalance = async () => {
+    // Get the account balance from the Dai contract
     const balance = await daiContract.balanceOf(account);
+    // Convert the balance from a BigNumber to a number
     const number = JSON.parse(ethers.BigNumber.from(balance).toString());
-    const minimun = 1000000000000000000;
-    return number > minimun;
+
+    // Set the minimum balance value to 1 Dai
+    const minimum = 1000000000000000000;
+
+    // Return true if the account balance is greater than the minimum value, false otherwise
+    return number > minimum;
   };
 
   const buyPack = (price, name) => {
@@ -826,6 +834,9 @@ const AlphaCards = ({ loadAlbums }) => {
         </div>
       )}
       <AlphaAlbums
+        alphaMidButton={alphaMidButton}
+        setLoadAlbums={setLoadAlbums}
+        setSeasonName={setSeasonName}
         loadAlbums={loadAlbums}
         storageUrl={storageUrl}
         nofContract={nofContract}

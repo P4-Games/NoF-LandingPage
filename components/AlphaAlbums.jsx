@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
@@ -27,31 +26,32 @@ const AlphaAlbums = ({
   production,
   contractAddress,
   loadAlbums,
+  setSeasonName,
+  setLoadAlbums,
+  alphaMidButton,
 }) => {
   const openSeaUrl = production
     ? `https://.opensea.io/assets/matic/${contractAddress}/`
     : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/`;
   const [albums, setAlbums] = useState(null);
   const [noAlbumMessage, setNoAlbumMessage] = useState("");
-  const [seasonName, setSeasonName] = useState("");
-  const router = useRouter();
-  /**
-   * Redirects the user to the OpenSea marketplace for a specific album token ID in a new tab/window,
-   * or shows an error message and redirects the user to the Alpha page if the album is not complete.
-   *
-   * @param {Array} album - An array of album objects. Should contain only one object.
-   */
+  const [seasonNameAlbum, setSeasonNameAlbums] = useState("");
+
+  /**This function handles the redirection of the user to the appropriate page based
+   *  on the completion status of their album.
+*/
   function handleRedirectAlbum(album) {
-    // Check if the album is complete
     if (album[0].completion === 5) {
-      // If the album is complete, open the album on OpenSea in a new tab/window
+      // Open the album on OpenSea if the completion status is 5
       window.open(`${openSeaUrl}/${album[0].tokenId}`, "_blank");
     } else {
-      // If the album is not complete, redirect the user to the Alpha page and show an error message using Swal
-      router.replace("/alpha");
+      // Otherwise, display a message to the user and perform some actions
+      setSeasonName(album[0].season);
+      alphaMidButton();
+      setLoadAlbums(false);
       Swal.fire({
         text: "Tienes que seguir jugando para completar el album",
-        timer: 2500,
+        timer: 2000,
       });
     }
   }
@@ -98,17 +98,17 @@ const AlphaAlbums = ({
             <div className="alpha_albums_season">
               <img src={marco.src} />
               <span className="alpha_albums_season_name">
-                {seasonName ? seasonName : "Number One Fan"}
+                {seasonNameAlbum ? seasonNameAlbum : "Number One Fan"}
               </span>
             </div>
             <Swiper
               effect="cards"
               grabCursor
               onSlideChange={(res) => {
-                return setSeasonName(albums[res.activeIndex][0].season);
+                return setSeasonNameAlbums(albums[res.activeIndex][0].season);
               }}
               onInit={(res) => {
-                return setSeasonName(albums[res.activeIndex][0].season);
+                return setSeasonNameAlbums(albums[res.activeIndex][0].season);
               }}
               modules={[EffectCards, Autoplay, Pagination]}
               pagination={{
