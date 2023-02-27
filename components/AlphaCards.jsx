@@ -14,6 +14,8 @@ import vida5 from "../public/vida5.png";
 import marco from "../public/marco.png";
 import reglas from "../public/reglas.png";
 
+import { fetchData } from "../services/graph/alpha";
+
 import AlphaAlbums from "./AlphaAlbums";
 
 const vidas = [
@@ -188,6 +190,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         setChainId(decToHex(newChain));
         connectToMetamask();
       });
+
     }
   }, []);
 
@@ -196,9 +199,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     loading
       ? loadingElem.setAttribute("class", "alpha_loader_container")
       : loadingElem.setAttribute(
-          "class",
-          "alpha_loader_container alpha_display_none"
-        );
+        "class",
+        "alpha_loader_container alpha_display_none"
+      );
   }, [loading]);
 
   useEffect(() => {
@@ -223,6 +226,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           if (cards.length > 0) {
             if (cards[res.activeIndex].collection == albumCollection) {
               setIsCollection(true);
+
             } else {
               setIsCollection(false);
             }
@@ -262,6 +266,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         seasonNameElem.style.fontSize = "0.6rem";
         seasonNameElem.innerText =
           seasonNameElem.innerText.substring(0, 16) + "...";
+
       }
     }
   }, [seasonName]);
@@ -273,6 +278,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     setLoading(true);
     for (let i = 0; i < seasonData[0].length; i++) {
       let season = await contract.getSeasonAlbums(seasonData[0][i]);
+
       if (season.length > 0) {
         currentSeason = seasonData[0][i];
         currentPrice = seasonData[1][i];
@@ -282,11 +288,24 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         currentPrice = seasonData[1][i];
       }
     }
-    setSeasonName(currentSeason); // sets the season name as the last season name created
+    let seasonWinnersCount = {}
+    const winnersQuery = await fetchData()
+    const { winners } = winnersQuery.data
+    for (let i = 0; i < winners.length; i++) {
+      if (!seasonWinnersCount[winners[i].season]) {
+        seasonWinnersCount[winners[i].season] = 1
+      } else {
+        seasonWinnersCount[winners[i].season]++
+      }
+    }
+    const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
+    let activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
+    setSeasonName(currentSeason); // sets the season name as the oldest season with cards still available
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
     setLoading(false);
     setSeasonNames(seasonData[0]);
     setPackPrices(seasonData[1]);
+
     return [currentSeason, currentPrice];
   }
 
@@ -323,6 +342,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         } else {
           setDisableTransfer(true);
         }
+
       })
       .catch((e) => {
         console.error({ e });
@@ -334,6 +354,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           let cardsData = [];
           let folder = "";
           pack.forEach((card) => {
+
             card.class == 0 ? albumData.push(card) : cardsData.push(card);
           });
           setNoCardsError("");
@@ -354,6 +375,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
               if (data == "alpha_jsons") {
                 folder = "T1";
                 setSeasonFolder("T1");
+
               } else {
                 folder = data;
                 setSeasonFolder(data);
@@ -362,6 +384,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                 setAlbumCard(
                   storageUrl + folder + "/" + albumData[0].number + ".png"
                 );
+
               } else {
                 setAlbumCard(
                   storageUrl + folder + "/" + albumData[0].number + "F" + ".png"
@@ -370,6 +393,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                   .then((winners) => {
                     if (winners.includes(account)) {
                       setWinnerPosition(winners.indexOf(account) + 1);
+
                     }
                   })
                   .catch((e) => {
@@ -402,6 +426,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       });
     return cards;
   };
+
 
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
@@ -555,6 +580,7 @@ This function checks the balance of a specified account on the Dai contract and 
             emitSuccess("Tu carta ya está en el album");
           }
         });
+
       })
       .catch((e) => {
         console.error({ e });
@@ -602,6 +628,7 @@ This function checks the balance of a specified account on the Dai contract and 
       console.error({ e });
       if (e.reason.includes("Receiver is not playing this season")) {
         setTransferError("Este usuario no está jugando esta temporada.");
+
       }
     }
   }
@@ -784,6 +811,7 @@ This function checks the balance of a specified account on the Dai contract and 
                   </div>
                   <div className="swiper-pagination"></div>
                 </div>
+
               </div>
 
               {cards.length > 0 ? (
@@ -824,6 +852,7 @@ This function checks the balance of a specified account on the Dai contract and 
                     onClick={() => transferToken()}
                     disabled={disableTransfer}
                   >
+
                     TRANSFERIR
                   </button>
                   <span className="alpha_transfer_error">{transferError}</span>
@@ -838,6 +867,7 @@ This function checks the balance of a specified account on the Dai contract and 
         setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
         loadAlbums={loadAlbums}
+
         storageUrl={storageUrl}
         nofContract={nofContract}
         seasonNames={seasonNames}

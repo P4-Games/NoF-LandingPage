@@ -58,7 +58,7 @@ const Hero = React.forwardRef((props, book) => {
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
   const onFlip = useCallback((e) => {
-    console.log("Current page: " + e.data);
+
     if (e.data === 8) {
       setSwipper(true);
       return;

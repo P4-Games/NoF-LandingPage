@@ -29,6 +29,7 @@ function Navbar({
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
 
+
   const ref = useRef(null);
   const [click, setClick] = useState(false);
   const handleClick = () => {
@@ -44,6 +45,7 @@ function Navbar({
     setPage(window.history.state.url);
     window.history.state.url == "/alpha" ? setMidButton("Albums") : null;
   }, []);
+
 
   return (
     <>
@@ -80,6 +82,7 @@ function Navbar({
                 className="navbar__ul__li__contacto"
                 onFlip={onFlip}
               >
+
                 {t ? t("collections") : midButton}
               </button>
             </Link>
