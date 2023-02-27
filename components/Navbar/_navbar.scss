@@ -56,6 +56,7 @@ header {
   gap: 6%;
   z-index: 1000;
   padding: 1%;
+  z-index: 999;
   @include mobile {
     width: 100%;
     height: 10vh;
