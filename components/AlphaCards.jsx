@@ -29,7 +29,7 @@ const vidas = [
 
 import "swiper/css/bundle";
 
-const production = false;
+const production = true;
 
 const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
 const contractAddress = production
@@ -836,11 +836,11 @@ This function checks the balance of a specified account on the Dai contract and 
                     Carta de colección{" "}
                     {cards[cardIndex]
                       ? ethers.BigNumber.from(
-                          cards[cardIndex].collection
-                        ).toNumber()
+                        cards[cardIndex].collection
+                      ).toNumber()
                       : ethers.BigNumber.from(
-                          cards[cardIndex - 1].collection
-                        ).toNumber()}
+                        cards[cardIndex - 1].collection
+                      ).toNumber()}
                   </span>
                   <input
                     placeholder="Inserte la wallet del destinatario"
