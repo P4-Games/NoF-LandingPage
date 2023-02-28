@@ -9,37 +9,41 @@ const GammaPack = ({ setOpenPack }) => {
     const starshineRef = useRef(null);
     const templateRef = useRef(null);
 
-    // const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
-    // const bodyJson = {
-    //     "address": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
-    //     "packet_number": 0
-    // }
+    const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
+    const bodyJson = {
+        "address": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", // address del usuario
+        "packet_number": 0 // numero de paquete que se esta abriendo
+    }
 
-    // const openPack = async () => {
-    //     const open = await gammaPacksContract.openPack(packNumber, packData, signature)
-    //     await open.wait()
-    //     return open
-    // }
+    // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
+    const openPack = async () => {
+        const open = await gammaPacksContract.openPack(packNumber, packData, signature)
+        await open.wait()
+        return open
+    }
 
-    // const fetchPackData = async () => {
-    //     try {
-    //         const response = await fetch(api_endpoint, {
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             method: "POST",
-    //             body: JSON.stringify(bodyJson),
-    //         })
-    //         const data = await response.json()
-    //         console.log({ data })
+    // llamada a la api para que nos de la data a pasar en la llamada al contrato
+    const fetchPackData = async () => {
+        try {
+            const response = await fetch(api_endpoint, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify(bodyJson),
+            })
+            const data = await response.json()
+            console.log({ data })
 
-    //         const { packet_data, signature } = data;
-    //         openPack(packNumber, packet_data, signature)
+            // de aca sacamos la data que necesitamos de la api: las cartas y la firma
+            const { packet_data, signature } = data;
+            // llamada al contrato
+            openPack(packNumber, packet_data, signature)
 
-    //     } catch (e) {
-    //         console.error({ e })
-    //     }
-    // }
+        } catch (e) {
+            console.error({ e })
+        }
+    }
 
     useEffect(() => {
         const body = starshineRef.current;
