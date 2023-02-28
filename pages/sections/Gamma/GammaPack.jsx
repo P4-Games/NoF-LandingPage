@@ -9,6 +9,38 @@ const GammaPack = ({ setOpenPack }) => {
     const starshineRef = useRef(null);
     const templateRef = useRef(null);
 
+    // const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
+    // const bodyJson = {
+    //     "address": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
+    //     "packet_number": 0
+    // }
+
+    // const openPack = async () => {
+    //     const open = await gammaPacksContract.openPack(packNumber, packData, signature)
+    //     await open.wait()
+    //     return open
+    // }
+
+    // const fetchPackData = async () => {
+    //     try {
+    //         const response = await fetch(api_endpoint, {
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             method: "POST",
+    //             body: JSON.stringify(bodyJson),
+    //         })
+    //         const data = await response.json()
+    //         console.log({ data })
+
+    //         const { packet_data, signature } = data;
+    //         openPack(packNumber, packet_data, signature)
+
+    //     } catch (e) {
+    //         console.error({ e })
+    //     }
+    // }
+
     useEffect(() => {
         const body = starshineRef.current;
         const template = templateRef.current;
@@ -37,7 +69,10 @@ const GammaPack = ({ setOpenPack }) => {
 
             createStar();
         }
+
     }, []);
+
+
     return (
         <>
             <div className='packcontainer'>
