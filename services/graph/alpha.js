@@ -19,10 +19,11 @@ export const fetchData = async () => {
         "content-type": "application/json",
       },
       body: JSON.stringify({ query }),
-    }); 
+    });
     const json = await response.json();
     return json
   } catch (e) {
     console.error({ e })
   }
 }
+

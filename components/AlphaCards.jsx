@@ -303,7 +303,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     setSeasonName(currentSeason); // sets the season name as the oldest season with cards still available
     setPackPrice(currentPrice.toString()); // sets the season price as the last season price created
     setLoading(false);
-    setSeasonNames(seasonData[0]);
+    setSeasonNames(activeSeasons);
     setPackPrices(seasonData[1]);
 
     return [currentSeason, currentPrice];

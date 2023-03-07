@@ -20,7 +20,7 @@ import Web3Modal from "web3modal";
 const index = React.forwardRef((props, book) => {
 
   // sets for metamask // 
-  const production = true;
+  const production = false;
   const [account, setAccount] = useState(null);
   const [noMetamaskError, setNoMetamaskError] = useState("")
   const [chainId, setChainId] = useState(null);
@@ -30,7 +30,145 @@ const index = React.forwardRef((props, book) => {
   const [daiContract, setDaiContract] = useState(null)
   const [loading, setLoading] = useState(null)
 
-  // /////// sets for metamask 
+
+  //// autorizations /////
+  const authorizeDaiContract = async () => {
+    const authorization = await daiContract.approve(
+      cardsContractAddress,
+      ethers.constants.MaxUint256,
+      { gasLimit: 2500000 }
+    );
+    setLoading(true);
+    await authorization.wait();
+    setLoading(false);
+    return authorization;
+  };
+
+  const checkApproved = async (approvedAddress, tokenOwner) => {
+    const approved = await daiContract.allowance(tokenOwner, approvedAddress);
+    return approved.gt(0);
+  };
+
+  const buyPack = (price, name) => {
+    showCards(account, seasonName)
+      .then((cards) => {
+        setNoCardsError("");
+        if (cards && cards.length > 0) {
+          emitSuccess("Ya tienes cartas.");
+          return;
+        }
+        checkPacks()
+          .then((res) => {
+            if (!res || res.length == 0) {
+              setNoCardsError("No hay más packs disponibles.");
+              return;
+            } else {
+              if (checkBalance(account)) {
+                checkApproved(contractAddress, account)
+                  .then((res) => {
+                    const comprarPack = async (price, name) => {
+                      const pack = await nofContract.buyPack(price, name, {
+                        gasLimit: 2500000,
+                      });
+                      setLoading(true);
+                      await pack.wait();
+                      setLoading(false);
+                      return pack;
+                    };
+                    if (res) {
+                      comprarPack(price, name)
+                        .then((pack) => {
+                          setPack(pack);
+                          showCards(account, seasonName);
+                        })
+                        .catch((err) => {
+                          console.error({ err });
+                          setLoading(false);
+                        });
+                    } else {
+                      authorizeDaiContract()
+                        .then(() => {
+                          comprarPack(price, name)
+                            .then((pack) => {
+                              setPack(pack);
+                              showCards(account, seasonName);
+                            })
+                            .catch((e) => {
+                              console.error({ e });
+                              setLoading(false);
+                            });
+                        })
+                        .catch((e) => {
+                          console.error({ e });
+                          setLoading(false);
+                        });
+                    }
+                  })
+                  .catch((e) => {
+                    console.error({ e });
+                    setLoading(false);
+                  });
+              } else {
+                Swal.fire({
+                  title: "oops!",
+                  text: "No tienes suficientes DAI!",
+                  icon: "error",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            }
+          })
+          .catch((e) => {
+            console.error({ e });
+            setLoading(false);
+          });
+      })
+      .catch((e) => {
+        console.error({ e });
+        setLoading(false);
+      });
+  };
+
+  const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
+  const bodyJson = {
+    "address": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", // address del usuario
+    "packet_number": 0 // numero de paquete que se esta abriendo
+  }
+
+  // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
+  const openPacks = async (packNumber, packData, signature) => {
+    console.log(packNumber)
+    const open = await packsContract.openPack(packNumber, packData, signature)
+    await open.wait()
+    console.log(open)
+    return open
+  }
+
+
+  // llamada a la api para que nos de la data a pasar en la llamada al contrato
+  const fetchPackData = async () => {
+    try {
+      const response = await fetch(api_endpoint, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(bodyJson),
+      })
+      const data = await response.json()
+      console.log({ data })
+
+      // de aca sacamos la data que necesitamos de la api: las cartas y la firma
+      const { packet_data, signature } = data;
+      // llamada al contrato
+      openPacks(data.packet_number, packet_data, signature)
+
+    } catch (e) {
+      console.error({ e })
+    }
+  }
+  /////////////////
   const [mobile, setMobile] = useState(false);
   const [size, setSize] = useState(false);
   useEffect(() => {
@@ -221,7 +359,7 @@ const index = React.forwardRef((props, book) => {
             {inventory && <InventoryAlbum />}
             {!inventory && <GammaAlbum />}
           </div>
-          {!mobile && <div onClick={() => setOpenPack(true)} className="gammaFigures"></div>}
+          {!mobile && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
         </div>
       </div >}
       <Footer />
