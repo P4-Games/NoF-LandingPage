@@ -20,7 +20,7 @@ import Web3Modal from "web3modal";
 const index = React.forwardRef((props, book) => {
 
   // sets for metamask // 
-  const production = false;
+  const production = true;
   const [account, setAccount] = useState(null);
   const [noMetamaskError, setNoMetamaskError] = useState("")
   const [chainId, setChainId] = useState(null);
@@ -139,7 +139,7 @@ const index = React.forwardRef((props, book) => {
   // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
   const openPacks = async (packNumber, packData, signature) => {
     console.log(packNumber)
-    const open = await packsContract.openPack(packNumber, packData, signature)
+    const open = await cardsContract.openPack(packNumber, packData, signature)
     await open.wait()
     console.log(open)
     return open
@@ -316,6 +316,15 @@ const index = React.forwardRef((props, book) => {
       })
     }
   }, [])
+
+  const checkPacks = async () => {
+    try {
+      const packs = await packsContract.balanceOf(account);
+      return packs;
+    } catch(e) {
+      console.error({ e })
+    }
+  }
 
   // useEffect(() => {
   //   const loadingElem = document.getElementById("loading");
