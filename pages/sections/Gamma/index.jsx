@@ -16,11 +16,10 @@ import gammaCardsAbi from "../../../artifacts/contracts/GammaCards.sol/GammaCard
 import daiAbi from "../../../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
 
-
 const index = React.forwardRef((props, book) => {
 
   // sets for metamask // 
-  const production = true;
+  const production = false;
   const [account, setAccount] = useState(null);
   const [noMetamaskError, setNoMetamaskError] = useState("")
   const [chainId, setChainId] = useState(null);
@@ -210,8 +209,6 @@ const index = React.forwardRef((props, book) => {
       provider = new ethers.providers.Web3Provider(connection);
       address = await provider.getSigner().getAddress();
       setAccount(address);
-      console.log(account)
-      // document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = "none"
     } catch (e) {
       console.error({ e });
     }
@@ -232,20 +229,19 @@ const index = React.forwardRef((props, book) => {
     if (window.ethereum !== undefined) {
       setNoMetamaskError("");
       requestAccount().then((data) => {
-        // console.log(data)
         const [provider, address] = data;
         const signer = provider.getSigner();
         let gammaPacksContractInstance = new ethers.Contract(
           packsContractAddress,
-          gammaPacksAbi.abi,
+          gammaPacksAbi,
           signer
-        )
+        );
         setPacksContract(gammaPacksContractInstance);
         let gammaCardsContractInstance = new ethers.Contract(
           cardsContractAddress,
-          gammaCardsAbi.abi,
+          gammaCardsAbi,
           signer
-        )
+        );
         setCardsContract(gammaCardsContractInstance);
         let daiContractInstance = new ethers.Contract(
           daiAddress,
