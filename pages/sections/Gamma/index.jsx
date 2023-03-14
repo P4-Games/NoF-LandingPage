@@ -195,9 +195,9 @@ const index = React.forwardRef((props, book) => {
   const [openPack, setOpenPack] = useState(false)
 
   ///// ////////////
-  const packsContractAddress = '0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b'
-  const cardsContractAddress = " 0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
-  const daiAddress = " 0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
+  const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
+  const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
+  const daiAddress = "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
   async function requestAccount() {
@@ -316,7 +316,7 @@ const index = React.forwardRef((props, book) => {
   const checkPacks = async () => {
     try {
       const packs = await packsContract.getPacksByUser(account);
-      console.log(packs)
+      console.log({packs})
       return packs;
     } catch (e) {
       console.error({ e })
