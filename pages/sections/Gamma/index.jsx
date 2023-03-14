@@ -196,8 +196,8 @@ const index = React.forwardRef((props, book) => {
   const [openPack, setOpenPack] = useState(false)
 
   ///// ////////////
-  const packsContractAddress = '0x8C7BBBE25B95BAde8aCd06a5cd21D093446Cf7eF'
-  const cardsContractAddress = " 0x3957311EA2229bd557E7173BB12c9633BFeC5B12"
+  const packsContractAddress = '0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b'
+  const cardsContractAddress = " 0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
   const daiAddress = " 0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
@@ -319,9 +319,10 @@ const index = React.forwardRef((props, book) => {
 
   const checkPacks = async () => {
     try {
-      const packs = await packsContract.balanceOf(account);
+      const packs = await packsContract.getPacksByUser(account);
+      console.log(packs)
       return packs;
-    } catch(e) {
+    } catch (e) {
       console.error({ e })
     }
   }
@@ -368,7 +369,7 @@ const index = React.forwardRef((props, book) => {
             {inventory && <InventoryAlbum />}
             {!inventory && <GammaAlbum />}
           </div>
-          {!mobile && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
+          {!mobile && <div onClick={() => { setOpenPack(true), checkPacks() }} className="gammaFigures"></div>}
         </div>
       </div >}
       <Footer />
