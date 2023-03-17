@@ -8,6 +8,12 @@
   background: url('../public/assets/gamma/SobreGamma.png');
   background-size:100% 100%;
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2{
+    font-size: 0.8rem;
+  }
 }
 
 .gammaAlbums {

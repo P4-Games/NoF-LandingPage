@@ -17,6 +17,7 @@ import daiAbi from "../../../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
 
 const index = React.forwardRef((props, book) => {
+  const [packsEnable, setPacksEnable] = useState(false)
 
   // sets for metamask // 
   const production = false;
@@ -33,7 +34,7 @@ const index = React.forwardRef((props, book) => {
   //// autorizations /////
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
-      cardsContractAddress,
+      packsContractAddress,
       ethers.constants.MaxUint256,
       { gasLimit: 2500000 }
     );
@@ -48,14 +49,76 @@ const index = React.forwardRef((props, book) => {
     return approved.gt(0);
   };
 
+  const checkBalance = async () => {
+    // Get the account balance from the Dai contract
+    const balance = await daiContract.balanceOf(account);
+    // Convert the balance from a BigNumber to a number
+    const number = JSON.parse(ethers.BigNumber.from(balance).toString());
+
+    // Set the minimum balance value to 1 Dai
+    const minimum = 1000000000000000000;
+
+    // Return true if the account balance is greater than the minimum value, false otherwise
+    return number > minimum;
+  };
+  const buypackk = () => {
+    if (checkBalance(account)) {
+      checkApproved(packsContractAddress, account)
+        .then((res) => {
+          const comprarPack = async (price, name) => {
+            const packBought = await packsContract.buyPack({ gasLimit: 2500000 });
+            setLoading(true);
+            await packBought.wait();
+            setLoading(false);
+            return packBought;
+          };
+          if (res) {
+            comprarPack(price, name)
+              .then((pack) => {
+                setPack(pack);
+                showCards(account, seasonName);
+              })
+              .catch((err) => {
+                console.error({ err });
+                setLoading(false);
+              });
+          } else {
+            authorizeDaiContract()
+              .then(() => {
+                comprarPack(price, name)
+                  .then((pack) => {
+                    setPack(pack);
+                    showCards(account, seasonName);
+                  })
+                  .catch((e) => {
+                    console.error({ e });
+                    setLoading(false);
+                  });
+              })
+              .catch((e) => {
+                console.error({ e });
+                setLoading(false);
+              });
+          }
+        })
+        .catch((e) => {
+          console.error({ e });
+          setLoading(false);
+        });
+    } else {
+      Swal.fire({
+        title: "oops!",
+        text: "No tienes suficientes DAI!",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
+  }
   const buyPack = (price, name) => {
     showCards(account, seasonName)
       .then((cards) => {
-        setNoCardsError("");
-        if (cards && cards.length > 0) {
-          emitSuccess("Ya tienes cartas.");
-          return;
-        }
         checkPacks()
           .then((res) => {
             if (!res || res.length == 0) {
@@ -316,12 +379,33 @@ const index = React.forwardRef((props, book) => {
   const checkPacks = async () => {
     try {
       const packs = await packsContract.getPacksByUser(account);
-      console.log({packs})
+      console.log(packs)
+      if (packs.length == 0) {
+        setPacksEnable(false)
+      }
+      if (packs.length >= 1) {
+        setPacksEnable(true)
+      }
       return packs;
     } catch (e) {
       console.error({ e })
     }
   }
+  const buyPacks = async () => {
+    try {
+      const packBought = await packsContract.buyPack({ gasLimit: 2500000 });
+
+      console.log(packBought)
+      return packBought
+
+    } catch (e) {
+      console.error({ e })
+    }
+  }
+  useEffect(() => {
+    checkPacks()
+  }, [])
+
 
   // useEffect(() => {
   //   const loadingElem = document.getElementById("loading");
@@ -365,7 +449,8 @@ const index = React.forwardRef((props, book) => {
             {inventory && <InventoryAlbum />}
             {!inventory && <GammaAlbum />}
           </div>
-          {!mobile && <div onClick={() => { setOpenPack(true), checkPacks() }} className="gammaFigures"></div>}
+          {!mobile && packsEnable && <div onClick={() => { setOpenPack(true) }} className="gammaFigures"></div>}
+          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buyPacks() }} className="gammaFigures"><h2>Buypack</h2></div>}
         </div>
       </div >}
       <Footer />
