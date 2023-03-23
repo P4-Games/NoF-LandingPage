@@ -65,43 +65,32 @@ const index = React.forwardRef((props, book) => {
     if (checkBalance(account)) {
       checkApproved(packsContractAddress, account)
         .then((res) => {
-          const comprarPack = async (price, name) => {
+          const comprarPack = async () => {
             const packBought = await packsContract.buyPack({ gasLimit: 2500000 });
             setLoading(true);
             await packBought.wait();
             setLoading(false);
+            console.log(` esto es el ${packBought}`)
             return packBought;
           };
           if (res) {
-            comprarPack(price, name)
-              .then((pack) => {
-                setPack(pack);
-                showCards(account, seasonName);
-              })
-              .catch((err) => {
-                console.error({ err });
-                setLoading(false);
-              });
+            comprarPack()
+            console.log('entro el if res linea 78')
           } else {
+            console.log('entro el else')
             authorizeDaiContract()
               .then(() => {
-                comprarPack(price, name)
-                  .then((pack) => {
-                    setPack(pack);
-                    showCards(account, seasonName);
-                  })
+                comprarPack()
                   .catch((e) => {
+                    console.log('entro el 1 catch')
                     console.error({ e });
                     setLoading(false);
                   });
               })
-              .catch((e) => {
-                console.error({ e });
-                setLoading(false);
-              });
           }
         })
         .catch((e) => {
+          console.log('entro el  tercer catch')
           console.error({ e });
           setLoading(false);
         });
@@ -201,7 +190,7 @@ const index = React.forwardRef((props, book) => {
   // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
   const openPacks = async (packNumber, packData, signature) => {
     console.log(packNumber)
-    const open = await cardsContract.openPack(packNumber, packData, signature)
+    const open = await cardsContract?.openPack(packNumber, packData, signature, { gasLimit: 2500000 })
     await open.wait()
     console.log(open)
     return open
@@ -224,7 +213,7 @@ const index = React.forwardRef((props, book) => {
       // de aca sacamos la data que necesitamos de la api: las cartas y la firma
       const { packet_data, signature } = data;
       // llamada al contrato
-      openPacks(data.packet_number, packet_data, signature)
+      openPacks(data.packet_number, packet_data, signature.signature)
 
     } catch (e) {
       console.error({ e })
@@ -378,7 +367,7 @@ const index = React.forwardRef((props, book) => {
 
   const checkPacks = async () => {
     try {
-      const packs = await packsContract.getPacksByUser(account);
+      const packs = await packsContract?.getPacksByUser(account);
       console.log(packs)
       if (packs.length == 0) {
         setPacksEnable(false)
@@ -391,12 +380,15 @@ const index = React.forwardRef((props, book) => {
       console.error({ e })
     }
   }
-  const buyPacks = async () => {
-    try {
-      const packBought = await packsContract.buyPack({ gasLimit: 2500000 });
+  const openAvailablePack = async () => {
 
-      console.log(packBought)
-      return packBought
+    try {
+      const openedPack = await packsContract.openPack(1, {
+        gasLimit: 2500000,
+      });
+
+      console.log(openedPack)
+      return openedPack
 
     } catch (e) {
       console.error({ e })
@@ -404,7 +396,7 @@ const index = React.forwardRef((props, book) => {
   }
   useEffect(() => {
     checkPacks()
-  }, [])
+  }, [packsContract])
 
 
   // useEffect(() => {
@@ -449,8 +441,8 @@ const index = React.forwardRef((props, book) => {
             {inventory && <InventoryAlbum />}
             {!inventory && <GammaAlbum />}
           </div>
-          {!mobile && packsEnable && <div onClick={() => { setOpenPack(true) }} className="gammaFigures"></div>}
-          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buyPacks() }} className="gammaFigures"><h2>Buypack</h2></div>}
+          {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
+          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buypack</h2></div>}
         </div>
       </div >}
       <Footer />
