@@ -25,6 +25,8 @@ function Navbar({
   t,
   setLoadAlbums,
   loadAlbums,
+  setInventory,
+  inventory
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
@@ -44,6 +46,7 @@ function Navbar({
   useEffect(() => {
     setPage(window.history.state.url);
     window.history.state.url == "/alpha" ? setMidButton("Albums") : null;
+    window.history.state.url == "/gamma" ? setMidButton("Inventory") : null;
   }, []);
 
 
@@ -74,7 +77,11 @@ function Navbar({
                   if (page == "/alpha") {
                     alphaMidButton();
                     setLoadAlbums && setLoadAlbums(!loadAlbums);
-                  } else {
+                  } 
+                  else if (page == "/gamma") {
+                    setInventory(true)
+                    // setLoadAlbums && setLoadAlbums(!loadAlbums);
+                  }else {
                     goToCollections(5);
                     setLoadAlbums && setLoadAlbums(!loadAlbums);
                   }
