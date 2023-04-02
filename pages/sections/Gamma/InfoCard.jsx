@@ -110,7 +110,7 @@ const InfoCard = React.forwardRef((props, book) => {
                         </div>
                         <div  onClick={() =>
                         Swal.fire({
-                            text: 'Quieres poner un precio o elegir cartas?',
+                            text: 'Quieres elegir una carta, o publicarlo por su precio fijo?',
                             showDenyButton: true,
                             showCancelButton: true,
                             confirmButtonText: 'Precio',
@@ -128,13 +128,9 @@ const InfoCard = React.forwardRef((props, book) => {
                             /* Read more about isConfirmed, isDenied below */
                             if (result.isConfirmed) {
                                 Swal.fire({
-                                    title: 'Precio',
-                                    input: 'text',
-                                    inputAttributes: {
-                                      autocapitalize: 'off'
-                                    },
+                                    text: 'Publicar?',
                                     showCancelButton: true,
-                                    confirmButtonText: 'Agregar precio',
+                                    confirmButtonText: 'Confirmar publicacion',
                                     showLoaderOnConfirm: true,
                                     preConfirm: (login) => {
                                       return fetch(`//api.github.com/users/${login}`)
@@ -170,7 +166,20 @@ const InfoCard = React.forwardRef((props, book) => {
                                     }
                                   })
                             } else if (result.isDenied) {
-                              Swal.fire('Changes are not saved', '', 'info')
+                                Swal.fire({
+                                    text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
+                                    // imageUrl:`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`,
+                                    color:`black`,
+                                    backdrop:"#0000009e",
+                                    customClass: {
+                                        image: 'cardalertimg',
+                                        input: 'alertinput',
+                                        // container: 'cardcontainer',
+                                        popup: 'cardspopup',
+                                        confirmButton: 'okbutton',
+                                        cancelButton: 'alertcancelbutton',
+                                    },
+                                  })
                             }
                           })}
                           className="option3">

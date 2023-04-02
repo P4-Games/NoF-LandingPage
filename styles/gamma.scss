@@ -585,3 +585,21 @@ background-size: 100% 100%;
   background-repeat: no-repeat !important;
 
 }
+
+.cardspopup{
+  width: 50vw !important;
+  height: auto;
+  min-height: 20vh;
+  background-color: red !important;
+}
+
+.okbutton{
+  background-color: pink !important;
+  &:focus{
+    outline: 0 !important;
+  }
+  &:active{
+    outline:0 !important;
+  }
+
+}
