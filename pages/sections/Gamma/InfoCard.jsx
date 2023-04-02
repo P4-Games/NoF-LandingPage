@@ -19,6 +19,9 @@ import SwiperCore, {
 import Swal from "sweetalert2";
 
 const InfoCard = React.forwardRef((props, book) => {
+
+    console.log({props})
+
     const [mobile, setMobile] = useState(false);
     const [size, setSize] = useState(false);
     useEffect(() => {
@@ -42,6 +45,17 @@ const InfoCard = React.forwardRef((props, book) => {
         return () => window.removeEventListener("resize", updateMedia);
     }, []);
     const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    const mint = async () => {
+        const { imageNumber, cardsContract } = props;
+        try {
+            const transaction = await cardsContract.mintCard(imageNumber);
+            transaction.wait()
+            return transaction
+        } catch (e) {
+            console.error({ e })
+        }
+    }
 
     return (
         <HTMLFlipBook
@@ -86,7 +100,7 @@ const InfoCard = React.forwardRef((props, book) => {
                     <div className="transactions">
                         <div
                           className="option"
-                          // onClick={() => mint()}
+                          onClick={() => mint()}
                         >Mintear
 
                         </div>

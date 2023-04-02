@@ -288,13 +288,13 @@ const index = React.forwardRef((props, book) => {
         const signer = provider.getSigner();
         let gammaPacksContractInstance = new ethers.Contract(
           packsContractAddress,
-          gammaPacksAbi,
+          gammaPacksAbi.abi,
           signer
         );
         setPacksContract(gammaPacksContractInstance);
         let gammaCardsContractInstance = new ethers.Contract(
           cardsContractAddress,
-          gammaCardsAbi,
+          gammaCardsAbi.abi,
           signer
         );
         setCardsContract(gammaCardsContractInstance);
@@ -443,12 +443,12 @@ const index = React.forwardRef((props, book) => {
         <div className="hero__top">
           {!mobile && <div onClick={() => setInventory(false)} className="gammaAlbums"></div>}
           <div style={inventory ? { backgroundImage: `url('assets/gamma/InventarioFondo.png')` } : { backgroundImage: `url('assets/gamma/GammaFondo.png')` }} className="hero__top__album">
-            {inventory && !cardInfo && <InventoryAlbum  setImageNumber={setImageNumber}setCardInfo={setCardInfo} cardInfo={cardInfo} />}
+            {inventory && !cardInfo && <InventoryAlbum  setImageNumber={setImageNumber} setCardInfo={setCardInfo} cardInfo={cardInfo} />}
             {!inventory && <GammaAlbum />}
-            {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber}/>}
+            {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} />}
           </div>
           {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
-          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buypack</h2></div>}
+          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>}
         </div>
       </div >}
       <Footer />
