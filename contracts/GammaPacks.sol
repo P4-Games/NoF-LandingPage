@@ -1,32 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-// - 5000 copias de cada carta (120 personajes únicos) = 600.000 cartas de personajes
-// - se venden de a sobres a ciegas, trae 12 cartas y puede o no traer un album extra aleatoriamente
-// - los albumes de 120 figuritas son de toda la colección (los 120 personajes)
-// - los albumes de 60 figuritas son albumes de quema y no importa la figurita que pongan
-// - la carta al pegarse en el album se quema
-// - en total van a haber 3000 albumes de 120 figuritas, 5000 albumes de 60 figuritas, 6000 figuritas, 600000 cartas en total, 50000 sobres.
-// - el album completo de 120 paga 15 dolares
-// - el album completo de 60 paga 1 dolar
-// - el sobre sale 1,20 dolares
-// - pago total por albumes completos 49000
-// - total profit bruto si se venden todos los sobres 60000
-// - el ticket del album de un dolar da entrada para un jackpot que reparte 1000 dolares al final de la temporada
-// - total profit neto si se venden todos los sobres y se completan todos los albumes 10000 menos gastos de gas
-// - importante de la implementación que los albumes estén uniformemente repartidos en los sobres a lo largo del tiempo
-// - fee de transacción del 2.5%
-
-// buy pack: mint
-// transfer pack ?
-// open pack: llamar al contrato de cartas y quemar pack
-
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
-import "hardhat/console.sol";
 
 interface ICardsContract {
     function receivePrizesBalance(uint256 amount) external;
@@ -75,7 +53,6 @@ contract GammaPacks is Ownable {
     }
 
     function deleteTokenId(uint256 tokenId) internal {
-        console.log(tokenId);
         for(uint256 i=0;i<packsByUser[msg.sender].length;i++){
             if(packsByUser[msg.sender][i] == tokenId) {
                 packsByUser[msg.sender][i] = packsByUser[msg.sender][packsByUser[msg.sender].length - 1];
@@ -99,9 +76,7 @@ contract GammaPacks is Ownable {
     function openPack(uint256 tokenId) public {
         require(msg.sender == address(cardsContract), "No es contrato de cartas");
         deleteTokenId(tokenId);
-        console.log(msg.sender, tokenId);
         delete packs[tokenId];
-        console.log("Hola desde el final");
     }
 
     function changePrice(uint256 _newPrice) public onlyOwner {

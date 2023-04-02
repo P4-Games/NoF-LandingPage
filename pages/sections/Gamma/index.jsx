@@ -12,7 +12,7 @@ import GammaPack from "./GammaPack";
 
 import { ethers } from "ethers";
 import gammaPacksAbi from "../../../artifacts/contracts/GammaPacks.sol/GammaPacks.json";
-import gammaCardsAbi from "../../../artifacts/contracts/GammaCards.sol/GammaCards.json";
+import gammaCardsAbi from "../../../artifacts/contracts/GammaCardsV2.sol/GammaCardsV2.json";
 import daiAbi from "../../../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
 import InfoCard from "./InfoCard";
@@ -248,8 +248,10 @@ const index = React.forwardRef((props, book) => {
   const [openPack, setOpenPack] = useState(false)
 
   ///// ////////////
-  const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
-  const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
+  // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
+  const packsContractAddress = "0xCe34F22aA619705130A5af266Ed1B48AcdB4ff81"
+  // const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
+  const cardsContractAddress = "0x0Ebe1E11E416968680276225e0DAB820C88d2aE9"
   const daiAddress = "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
