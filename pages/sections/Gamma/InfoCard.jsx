@@ -55,7 +55,7 @@ const InfoCard = React.forwardRef((props, book) => {
             setLoading(false)
             Swal.fire({
                 title: "",
-                text: "Carta Minteada!",
+                text: `Carta Minteada! Puedes verla aquí: https://testnets.opensea.io/assets/mumbai/${cardsContract.address}/${imageNumber}`,
                 icon: "success",
                 showConfirmButton: false,
                 timer: 1500,
