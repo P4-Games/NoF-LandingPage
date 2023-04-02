@@ -119,11 +119,13 @@ const InfoCard = React.forwardRef((props, book) => {
                         </div>
                         <div  onClick={() =>
                         Swal.fire({
-                            text: 'Quieres elegir una carta, o publicarlo por su precio fijo?',
+                            title: 'Elige las cartas que quieres a cambio',
+                            html:
+                                '<input type="text" id="quiero" class="swal2-input" placeholder="Cartas">',
                             showDenyButton: true,
                             showCancelButton: true,
-                            confirmButtonText: 'Precio',
-                            denyButtonText: `Cartas`,
+                            confirmButtonText: 'Publicar',
+                            denyButtonText: `Cancelar`,
                             color:"black",
                             background:"white",
                             customClass: {
