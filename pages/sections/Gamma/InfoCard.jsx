@@ -4,7 +4,7 @@ import HTMLFlipBook from "react-pageflip";
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from "../../../artifacts/utils/placeholders";
 
-const InventoryAlbum = React.forwardRef((props, book) => {
+const InfoCard = React.forwardRef((props, book) => {
     const [mobile, setMobile] = useState(false);
     const [size, setSize] = useState(false);
     useEffect(() => {
@@ -51,21 +51,15 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                 number="1"
             >
                 <div className="hero__top__album__book__page__page-content">
-                    <div className="grid-wrapper">
-                        {pagination.page1.map((item, index) => {
-                            return (
-                                <div onClick={() =>{props.setCardInfo(true), props.setImageNumber(item)}}
-                                style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
-                                    <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
-                                    {pagination.fakeUser[item].stamped && <FcCheckmark />}
-                                    <div className='number'>{pagination.fakeUser[item].name}</div>
-                                    {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
-                                        &&
-                                        <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
-                                    }
-                                </div>
-                            )
-                        })}
+                    <div className='cardinfo'>
+                        <div className='cardinfoimg'>
+                            <img src={`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`} alt="img" />
+                        </div>
+                        <h3>#{props.imageNumber}</h3>
+                        <div className='cardnof'>
+                           
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -74,8 +68,22 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                 data-density="hard"
                 number="2"
             >
-                <div className="grid-wrapperright">
-                    {pagination.page2.map((item, index) => {
+                <div className="cardinfo">
+                    <div className="transactions">
+                        <div className="option">Mintear
+
+                        </div>
+                        <div className="option2">
+                            Ofertas
+
+                        </div>
+                        <div className="option3">
+                            Publicar
+                        </div>
+                    </div>
+
+                </div>
+                {/* {pagination.page2.map((item, index) => {
                         return (
                             <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
                                 <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
@@ -87,20 +95,10 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                                 }
                             </div>
                         )
-                    })}
-                </div>
-            </div>
-            <div
-                className="hero__top__album__book__page"
-                data-density="hard"
-                number="3"
-            >
-                {/* <div className="hero__top__album__book__page__page-content">
-                    Prueba3
-                </div> */}
+                    })} */}
             </div>
         </HTMLFlipBook>
     );
 });
 
-export default InventoryAlbum
+export default InfoCard

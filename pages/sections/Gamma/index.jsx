@@ -15,6 +15,7 @@ import gammaPacksAbi from "../../../artifacts/contracts/GammaPacks.sol/GammaPack
 import gammaCardsAbi from "../../../artifacts/contracts/GammaCards.sol/GammaCards.json";
 import daiAbi from "../../../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
+import InfoCard from "./InfoCard";
 
 const index = React.forwardRef((props, book) => {
   const [packsEnable, setPacksEnable] = useState(false)
@@ -397,6 +398,8 @@ const index = React.forwardRef((props, book) => {
   useEffect(() => {
     checkPacks()
   }, [packsContract])
+  const [cardInfo,setCardInfo] = useState(false)
+  const [imageNumber,setImageNumber] = useState(0)
 
 
   // useEffect(() => {
@@ -427,7 +430,7 @@ const index = React.forwardRef((props, book) => {
           <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
-      <Navbar inventory={inventory} setInventory={setInventory} />
+      <Navbar  cardInfo={cardInfo} setCardInfo={setCardInfo}inventory={inventory} setInventory={setInventory} />
       {account && <div className="gamma_main">
         {openPack && <GammaPack setOpenPack={setOpenPack} />}
         <Head>
@@ -438,8 +441,9 @@ const index = React.forwardRef((props, book) => {
         <div className="hero__top">
           {!mobile && <div onClick={() => setInventory(false)} className="gammaAlbums"></div>}
           <div style={inventory ? { backgroundImage: `url('assets/gamma/InventarioFondo.png')` } : { backgroundImage: `url('assets/gamma/GammaFondo.png')` }} className="hero__top__album">
-            {inventory && <InventoryAlbum />}
+            {inventory && !cardInfo && <InventoryAlbum  setImageNumber={setImageNumber}setCardInfo={setCardInfo} cardInfo={cardInfo} />}
             {!inventory && <GammaAlbum />}
+            {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber}/>}
           </div>
           {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
           {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buypack</h2></div>}

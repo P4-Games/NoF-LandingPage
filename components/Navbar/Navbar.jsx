@@ -26,7 +26,9 @@ function Navbar({
   setLoadAlbums,
   loadAlbums,
   setInventory,
-  inventory
+  inventory,
+  setCardInfo,
+  cardInfo
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
@@ -79,9 +81,14 @@ function Navbar({
                     setLoadAlbums && setLoadAlbums(!loadAlbums);
                   } 
                   else if (page == "/gamma") {
-                    setInventory(true)
+                    if (cardInfo) {
+                      setCardInfo(false)
+                      setInventory(true)
+                    }
+                   else  setInventory(true)
                     // setLoadAlbums && setLoadAlbums(!loadAlbums);
-                  }else {
+                  }
+                  else {
                     goToCollections(5);
                     setLoadAlbums && setLoadAlbums(!loadAlbums);
                   }

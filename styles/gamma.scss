@@ -485,3 +485,92 @@ background-size: 100% 100%;
      background-repeat: no-repeat;
 	}
 }
+
+
+.cardinfo{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  // gap: 5%;
+  h3{
+    color:black;
+    font-weight: lighter;
+    filter: drop-shadow(1px 1px 1px white);
+  }
+  .cardnof{
+    width: 50%;
+    height: 10%;
+    background: url('../components/Navbar/icons/logo-1.png');
+    background-size: 100% 100%;
+    background-position: center;
+    img{
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .transactions{
+   
+    height: 70%;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    
+    .option{
+      padding: 10px 20px;
+      background: url('../public/marco.png');
+      background-size: 100% 100%;
+      background-position: center;
+      transition: all ease-in 0.1s;
+      cursor: pointer;
+      &:hover{
+        transform: scale(1.03);
+      }
+
+    }
+    .option2{
+      padding: 10px 20px;
+      background: url('../public/marco.png');
+      background-size: 100% 100%;
+      background-position: center;
+      transition: all ease-in 0.1s;
+      cursor: pointer;
+      &:hover{
+        transform: scale(1.03);
+      }
+
+    }
+    .option3{
+      padding: 10px 20px;
+      background: url('../public/marco.png');
+      background-size: 100% 100%;
+      background-position: center;
+      transition: all ease-in 0.1s;
+      cursor: pointer;
+      &:hover{
+        transform: scale(1.03);
+      }
+
+    }
+
+  }
+  .cardinfoimg{
+    width: 60%;
+    background: url('../public/assets/gamma/BordeGamma.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 50%;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+ 
+}
