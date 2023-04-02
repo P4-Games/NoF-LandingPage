@@ -57,8 +57,8 @@ const InfoCard = React.forwardRef((props, book) => {
                 title: "",
                 text: `Carta Minteada! Puedes verla ${(<a href="https://testnets.opensea.io/assets/mumbai/${cardsContract.address}/${imageNumber}">aquí</a>)}`,
                 icon: "success",
-                showConfirmButton: false,
-                timer: 1500,
+                showConfirmButton: true,
+                // timer: 1500,
               })
             return transaction
         } catch (e) {
