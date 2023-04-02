@@ -84,7 +84,10 @@ const InfoCard = React.forwardRef((props, book) => {
             >
                 <div className="cardinfo">
                     <div className="transactions">
-                        <div className="option">Mintear
+                        <div
+                          className="option"
+                          // onClick={() => mint()}
+                        >Mintear
 
                         </div>
                         <div className="option2">

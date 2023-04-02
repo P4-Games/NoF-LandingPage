@@ -23,88 +23,103 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract GammaPacks is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
+import "hardhat/console.sol";
+
+interface ICardsContract {
+    function receivePrizesBalance(uint256 amount) external;
+    function changePackPrice(uint256 amount) external;
+}
+
+contract GammaPacks is Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
     address public DAI_TOKEN;
-    address public cardsContract;
-    string public baseUri;
-    uint256 public MAX_INT = 2**256-1;
-    uint256 public packPrice; // 1200000000000000000 --- 1.2 DAI
-    // uint256 public prizesBalance;
+    ICardsContract public cardsContract;
+    uint256 private immutable MAX_INT = 2**256-1;
+    uint256 public packPrice = 1200000000000000000; // 1.2 DAI
     uint256 public constant totalSupply = 50000;
     address public balanceReceiver;
+
+    mapping(uint256 tokenId => address owner) public packs;
+    mapping(address owner => uint256[] tokenIds) public packsByUser;
 
     event PackPurchase(address buyer, uint256 tokenId);
     event NewPrice(uint256 newPrice);
     event NewCardsContract(address newCardsContract);
+    event PackTransfer(address from, address to, uint256 tokenId);
 
-    constructor(
-            address _daiTokenAddress,
-            uint256 _packPrice,
-            address _balanceReceiver,
-            string memory _baseUri
-        ) ERC721("GammaPacks", "NOF_GP") {
-            baseUri = _baseUri;
-            DAI_TOKEN = _daiTokenAddress;
-            packPrice = _packPrice;
-            balanceReceiver = _balanceReceiver;
+    constructor(address _daiTokenAddress, address _balanceReceiver) {
+        DAI_TOKEN = _daiTokenAddress;
+        balanceReceiver = _balanceReceiver;
     }
 
-    function buyPack(uint256 price) public {
-        require(cardsContract != address(0), "Contrato de cartas no seteado");
-        require(price == packPrice, "Debes enviar el precio exacto");
-        safeMint(msg.sender, baseUri);
-        uint256 prizesAmount = price - price / 6;
-        // prizesBalance += prizesAmount;
-        IERC20(DAI_TOKEN).transferFrom(msg.sender, cardsContract, prizesAmount); // envia monto de premios al contrato de cartas
-        IERC20(DAI_TOKEN).transferFrom(msg.sender, balanceReceiver, price - prizesAmount); // envia monto de profit a cuenta de NoF
-    }
-
-    function openPack(uint256 tokenId) public {
-        // agregar require para que solo pueda ser llamado por cardsContract
-        _burn(tokenId);
-    }
-
-    function safeMint(address to, string memory uri) internal {
+    function buyPack() public {
+        require(address(cardsContract) != address(0), "Contrato de cartas no seteado"); // chequear tambien que el cards contract sea el correcto y no cualquiera
         uint256 tokenId = _tokenIdCounter.current();
         require(tokenId < totalSupply, "Se acabaron los sobres");
         _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
         
+        packs[tokenId] = msg.sender;
+        packsByUser[msg.sender].push(tokenId);
+        
+        uint256 prizesAmount = packPrice - packPrice / 6;
+        cardsContract.receivePrizesBalance(prizesAmount);
+        IERC20(DAI_TOKEN).transferFrom(msg.sender, address(cardsContract), prizesAmount); // envia monto de premios al contrato de cartas
+        IERC20(DAI_TOKEN).transferFrom(msg.sender, balanceReceiver, packPrice - prizesAmount); // envia monto de profit a cuenta de NoF
+
         emit PackPurchase(msg.sender, tokenId);
+    }
+
+    function deleteTokenId(uint256 tokenId) internal {
+        console.log(tokenId);
+        for(uint256 i=0;i<packsByUser[msg.sender].length;i++){
+            if(packsByUser[msg.sender][i] == tokenId) {
+                packsByUser[msg.sender][i] = packsByUser[msg.sender][packsByUser[msg.sender].length - 1];
+                packsByUser[msg.sender].pop();
+            }
+            continue;
+        }
+    }
+
+    function transferPack(address to, uint256 tokenId) public {
+        require(packs[tokenId] == msg.sender, "Este paquete no es tuyo");
+        require(to != address(0), "Quemar no permitido");
+
+        packs[tokenId] = to;
+        deleteTokenId(tokenId);
+        packsByUser[to].push(tokenId);
+
+        emit PackTransfer(msg.sender, to, tokenId);
+    }
+
+    function openPack(uint256 tokenId) public {
+        require(msg.sender == address(cardsContract), "No es contrato de cartas");
+        deleteTokenId(tokenId);
+        console.log(msg.sender, tokenId);
+        delete packs[tokenId];
+        console.log("Hola desde el final");
     }
 
     function changePrice(uint256 _newPrice) public onlyOwner {
         packPrice = _newPrice;
+        cardsContract.changePackPrice(_newPrice);
         emit NewPrice(_newPrice);
     }
 
     function setCardsContract(address _cardsContract) public onlyOwner {
-        cardsContract = _cardsContract;
+        cardsContract = ICardsContract(_cardsContract);
         emit NewCardsContract(_cardsContract);
     }
 
-    // The following functions are overrides required by Solidity.
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
+    function getPacksByUser(address owner) public view returns(uint256[] memory) {
+        return packsByUser[owner];
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
+    function getPackOwner(uint256 tokenId) public view returns(address) {
+        return packs[tokenId];
     }
 }

@@ -11,9 +11,15 @@
           "type": "uint256"
         }
       ],
-      "name": "openPack",
-      "outputs": [],
-      "stateMutability": "nonpayable",
+      "name": "getPackOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -24,15 +30,9 @@
           "type": "uint256"
         }
       ],
-      "name": "ownerOf",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
+      "name": "openPack",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],
