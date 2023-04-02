@@ -3,6 +3,20 @@ import Footer from "../../../components/Footer";
 import HTMLFlipBook from "react-pageflip";
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from "../../../artifacts/utils/placeholders";
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import SwiperCore, {
+  Autoplay,
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Parallax,
+  EffectCards,
+} from "swiper";
+import Swal from "sweetalert2";
 
 const InfoCard = React.forwardRef((props, book) => {
     const [mobile, setMobile] = useState(false);
@@ -77,7 +91,72 @@ const InfoCard = React.forwardRef((props, book) => {
                             Ofertas
 
                         </div>
-                        <div className="option3">
+                        <div  onClick={() =>
+                        Swal.fire({
+                            text: 'Quieres poner un precio o elegir cartas?',
+                            showDenyButton: true,
+                            showCancelButton: true,
+                            confirmButtonText: 'Precio',
+                            denyButtonText: `Cartas`,
+                            color:"black",
+                            background:"white",
+                            customClass: {
+                                image: 'cardalertimg',
+                                input: 'alertinput',
+                                // container: 'cardcontainer',
+                                confirmButton: 'alertbuttonvender',
+                                cancelButton: 'alertcancelbutton',
+                            },
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                Swal.fire({
+                                    title: 'Precio',
+                                    input: 'text',
+                                    inputAttributes: {
+                                      autocapitalize: 'off'
+                                    },
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Agregar precio',
+                                    showLoaderOnConfirm: true,
+                                    preConfirm: (login) => {
+                                      return fetch(`//api.github.com/users/${login}`)
+                                        .then(response => {
+                                          if (!response.ok) {
+                                            throw new Error(response.statusText)
+                                          }
+                                          return response.json()
+                                        })
+                                        .catch(error => {
+                                          Swal.showValidationMessage(
+                                            `Request failed: ${error}`
+                                          )
+                                        })
+                                    },
+                                    allowOutsideClick: () => !Swal.isLoading()
+                                  }).then((result) => {
+                                    if (result.isConfirmed) {
+                                      Swal.fire({
+                                        text: `El precio elegido es ${result.value.login}`,
+                                        imageUrl:`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`,
+                                        color:`whitesmoke`,
+                                        backdrop:"#0000009e",
+                                        customClass: {
+                                            image: 'cardalertimg',
+                                            input: 'alertinput',
+                                            // container: 'cardcontainer',
+                                            popup: 'cardcontainer',
+                                            confirmButton: 'alertbuttonvender',
+                                            cancelButton: 'alertcancelbutton',
+                                        },
+                                      })
+                                    }
+                                  })
+                            } else if (result.isDenied) {
+                              Swal.fire('Changes are not saved', '', 'info')
+                            }
+                          })}
+                          className="option3">
                             Publicar
                         </div>
                     </div>
