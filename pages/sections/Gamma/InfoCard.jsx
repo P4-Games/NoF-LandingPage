@@ -47,10 +47,19 @@ const InfoCard = React.forwardRef((props, book) => {
     const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
     const mint = async () => {
-        const { imageNumber, cardsContract } = props;
+        const { imageNumber, cardsContract, setLoading } = props;
         try {
             const transaction = await cardsContract.mintCard(imageNumber);
+            setLoading(true)
             transaction.wait()
+            setLoading(false)
+            Swal.fire({
+                title: "",
+                text: `Carta Minteada! Puedes verla ${(<a href="https://testnets.opensea.io/assets/mumbai/${cardsContract.address}/${imageNumber}">aquí</a>)}`,
+                icon: "success",
+                showConfirmButton: true,
+                // timer: 1500,
+              })
             return transaction
         } catch (e) {
             console.error({ e })
