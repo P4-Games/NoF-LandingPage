@@ -11,8 +11,6 @@ const InventoryAlbum = React.forwardRef((props, book) => {
     const [size, setSize] = useState(false);
     const [cardsArray, setCardsArray] = useState([])
 
-    console.log({props})
-
     useEffect(() => {
         if (window.innerWidth < 600) {
             setMobile(true);
