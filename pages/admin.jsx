@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import gammaPacksAbi from "../artifacts/contracts/GammaPacks.sol/GammaPacks.json";
-import gammaCardsAbi from "../artifacts/contracts/GammaCards.sol/GammaCards.json";
+import gammaCardsAbi from "../artifacts/contracts/GammaCardsV2.sol/GammaCardsV2.json";
 import daiAbi from "../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
 
