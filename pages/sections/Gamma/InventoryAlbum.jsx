@@ -5,8 +5,14 @@ import { FcCheckmark } from 'react-icons/fc'
 import pagination from "../../../artifacts/utils/placeholders";
 
 const InventoryAlbum = React.forwardRef((props, book) => {
+    
+    const { account, cardsContract } = props;
     const [mobile, setMobile] = useState(false);
     const [size, setSize] = useState(false);
+    const [cardsArray, setCardsArray] = useState([])
+
+    console.log({props})
+
     useEffect(() => {
         if (window.innerWidth < 600) {
             setMobile(true);
@@ -27,7 +33,20 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         window.addEventListener("resize", updateMedia);
         return () => window.removeEventListener("resize", updateMedia);
     }, []);
-    const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+    useEffect(() => {
+        getUserCards()        
+    }, [account, cardsContract])
+
+    const getUserCards = async () => {
+        try {
+            const cardsArr = await cardsContract.getCardsByUser(account)
+            console.log(cardsArr)
+            setCardsArray(cardsArr)
+        } catch(e) {
+            console.error({ e })
+        }
+    }
 
     return (
         <HTMLFlipBook

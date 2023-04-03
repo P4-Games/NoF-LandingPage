@@ -443,7 +443,13 @@ const index = React.forwardRef((props, book) => {
         <div className="hero__top">
           {!mobile && <div onClick={() => setInventory(false)} className="gammaAlbums"></div>}
           <div style={inventory ? { backgroundImage: `url('assets/gamma/InventarioFondo.png')` } : { backgroundImage: `url('assets/gamma/GammaFondo.png')` }} className="hero__top__album">
-            {inventory && !cardInfo && <InventoryAlbum  setImageNumber={setImageNumber} setCardInfo={setCardInfo} cardInfo={cardInfo} />}
+            {inventory && !cardInfo && <InventoryAlbum
+                                          account={account}
+                                          cardsContract={cardsContract}
+                                          setImageNumber={setImageNumber}
+                                          setCardInfo={setCardInfo}
+                                          cardInfo={cardInfo}
+                                        />}
             {!inventory && <GammaAlbum />}
             {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading}/>}
           </div>
