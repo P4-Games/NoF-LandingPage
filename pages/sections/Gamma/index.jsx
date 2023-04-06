@@ -371,7 +371,6 @@ const index = React.forwardRef((props, book) => {
   const checkPacks = async () => {
     try {
       const packs = await packsContract?.getPacksByUser(account);
-      console.log(packs)
       if (packs.length == 0) {
         setPacksEnable(false)
       }
@@ -453,8 +452,9 @@ const index = React.forwardRef((props, book) => {
             {!inventory && <GammaAlbum />}
             {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading}/>}
           </div>
-          {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures"></div>}
-          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>}
+          {/* {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
+          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
+          {!mobile && <div className="gammaShop"></div>}
         </div>
       </div >}
       <Footer />

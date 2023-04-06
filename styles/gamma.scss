@@ -16,16 +16,35 @@
   }
 }
 
+.gammaShop {
+  position: absolute;
+  bottom: 32%;
+  right: 7%;
+  width: 18%;
+  height: 40%;
+  background-color: black;
+  background: url('../public/assets/gamma/shop.png');
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2{
+    font-size: 0.8rem;
+  }
+}
+
 .gammaAlbums {
   position: absolute;
   bottom: 40%;
   left: 7%;
   width: 10%;
   aspect-ratio: 0.8;
-  background: url('../public/assets/gamma/AlbumGamma2.png');
+  background: url('../public/assets/gamma/albums.png');
   background-size:100% 100%;
   background-repeat: no-repeat;
 }
+
 .closebutton{
   position: absolute;
   display: flex;
