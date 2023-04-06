@@ -9,9 +9,17 @@ const InventoryAlbum = React.forwardRef((props, book) => {
     const { account, cardsContract } = props;
     const [mobile, setMobile] = useState(false);
     const [size, setSize] = useState(false);
-    const [cardsArray, setCardsArray] = useState([])
+    const [paginationObj, setPaginationObj] = useState({})
 
     useEffect(() => {
+        windowSize()
+    }, []);
+
+    useEffect(() => {
+        getUserCards()
+    }, [account, cardsContract])
+
+    const windowSize = () => {
         if (window.innerWidth < 600) {
             setMobile(true);
             setSize(true);
@@ -30,23 +38,25 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         };
         window.addEventListener("resize", updateMedia);
         return () => window.removeEventListener("resize", updateMedia);
-    }, []);
-
-    useEffect(() => {
-        getUserCards()        
-    }, [account, cardsContract])
+    }
 
     const getUserCards = async () => {
         try {
             const cardsArr = await cardsContract.getCardsByUser(account)
-            console.log(cardsArr)
-            setCardsArray(cardsArr)
+            const cardsObj = pagination;
+            for(let i=0;i<cardsArr[0].length;i++){
+                cardsObj.fakeUser[cardsArr[0][i]].stamped = true;
+                cardsObj.fakeUser[cardsArr[0][i]].quantity = cardsArr[1][i];
+            }
+            setPaginationObj(cardsObj)
         } catch(e) {
             console.error({ e })
         }
     }
 
-    return (
+    return paginationObj.page1 ?
+    
+    (
         <HTMLFlipBook
             id="Book"
             size={"stretch"}
@@ -69,16 +79,16 @@ const InventoryAlbum = React.forwardRef((props, book) => {
             >
                 <div className="hero__top__album__book__page__page-content">
                     <div className="grid-wrapper">
-                        {pagination.page1.map((item, index) => {
+                        {paginationObj && paginationObj.page1.map((item, index) => {
                             return (
                                 <div onClick={() =>{props.setCardInfo(true), props.setImageNumber(item)}}
-                                style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                style={paginationObj.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
                                     <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
-                                    {pagination.fakeUser[item].stamped && <FcCheckmark />}
-                                    <div className='number'>{pagination.fakeUser[item].name}</div>
-                                    {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
+                                    {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                    <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                    {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
                                         &&
-                                        <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
+                                        <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
                                     }
                                 </div>
                             )
@@ -92,15 +102,183 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                 number="2"
             >
                 <div className="grid-wrapperright">
-                    {pagination.page2.map((item, index) => {
+                    {paginationObj && paginationObj.page2.map((item, index) => {
                         return (
                             <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
                                 <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
-                                {pagination.fakeUser[item].stamped && <FcCheckmark />}
-                                <div className='number'>{pagination.fakeUser[item].name}</div>
-                                {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
                                     &&
-                                    <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="3"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page3.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="4"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page4.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="5"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page5.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="6"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page6.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="7"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page7.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="8"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page8.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="9"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page9.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <div
+                className="hero__top__album__book__page0"
+                data-density="hard"
+                number="10"
+            >
+                <div className="grid-wrapperright">
+                    {paginationObj && paginationObj.page10.map((item, index) => {
+                        return (
+                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                {paginationObj.fakeUser[item].stamped && <FcCheckmark />}
+                                <div className='number'>{paginationObj.fakeUser[item].name}</div>
+                                {paginationObj.fakeUser[item].quantity != 0 && paginationObj.fakeUser[item].quantity != 1
+                                    &&
+                                    <div className='quantity'>X:{paginationObj.fakeUser[item].quantity}</div>
                                 }
                             </div>
                         )
@@ -117,7 +295,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                 </div>
             </div> */}
         </HTMLFlipBook>
-    );
+    ) : null;
 });
 
 export default InventoryAlbum
