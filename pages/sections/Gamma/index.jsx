@@ -7,7 +7,7 @@ import { FcCheckmark } from 'react-icons/fc'
 import pagination from "../../../artifacts/utils/placeholders";
 import InventoryAlbum from "./InventoryAlbum";
 import GammaAlbum from "./GammaAlbum";
-import book from "../Hero/background/book.png"
+import albums from "../../../public/assets/gamma/albums.png"
 import GammaPack from "./GammaPack";
 
 import { ethers } from "ethers";
@@ -440,7 +440,8 @@ const index = React.forwardRef((props, book) => {
           <link rel="icon" href="./favicon.ico" />
         </Head>
         <div className="hero__top">
-          {!mobile && <div onClick={() => setInventory(false)} className="gammaAlbums"></div>}
+          {!mobile &&  inventory && <img  src="assets/gamma/albums.png" onClick={() => setInventory(false)} className="gammaAlbums"></img>}
+          {!mobile &&  !inventory && <div onClick={() => setInventory(false)} className="gammaAlbums2"></div>}
           <div style={inventory ? { backgroundImage: `url('assets/gamma/InventarioFondo.png')` } : { backgroundImage: `url('assets/gamma/GammaFondo.png')` }} className="hero__top__album">
             {inventory && !cardInfo && <InventoryAlbum
                                           account={account}
@@ -454,7 +455,13 @@ const index = React.forwardRef((props, book) => {
           </div>
           {/* {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
           {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
-          {!mobile && <div className="gammaShop"></div>}
+          {!mobile && inventory &&  <div className="gammaShop"></div>}
+          {!mobile && !inventory && 
+          <div className="gammaComplete">
+            <h3>Album</h3>
+            <h3>24/120</h3>
+            <h3>Completar</h3>
+            </div>}
         </div>
       </div >}
       <Footer />

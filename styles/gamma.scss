@@ -18,7 +18,7 @@
 
 .gammaShop {
   position: absolute;
-  bottom: 32%;
+  bottom: 39%;
   right: 7%;
   width: 18%;
   height: 40%;
@@ -33,16 +33,62 @@
     font-size: 0.8rem;
   }
 }
+.gammaComplete {
+  position: absolute;
+  bottom: 39%;
+  right: 7%;
+  width: 18%;
+  height: 40%;
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  h2{
+    font-size: 0.8rem;
+  }
+  h3{
+    padding: 10px;
+    transition: all 0.2s ease-in;
+    background: #006885;
+    color: #000;
+    border: 0px;
+    position: relative;
+    box-shadow: inset -4px 4px 1px 1px grey, inset -4px -4px 1px 1px lightgray, inset 4px 0px 1px 1px lightgray;
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+}
+
 
 .gammaAlbums {
   position: absolute;
   bottom: 40%;
   left: 7%;
-  width: 10%;
-  aspect-ratio: 0.8;
-  background: url('../public/assets/gamma/albums.png');
+  width: auto;
+  height: 25%;
+  // aspect-ratio: 1;
+  // background: url('../public/assets/gamma/albums.png');
   background-size:100% 100%;
   background-repeat: no-repeat;
+  min-height: 25%;
+  transition: all 0.2s ease-in;
+  &:hover{
+    transform: scale(1.05);
+  }
+}
+.gammaAlbums2 {
+  position: absolute;
+  bottom: 40%;
+  left: 7%;
+  width: auto;
+  aspect-ratio: 0.9;
+  background: url('../public/assets/gamma/AlbumGamma2.png');
+  background-size:100% 100%;
+  background-repeat: no-repeat;
+  min-height: 30%;
 }
 
 .closebutton{
