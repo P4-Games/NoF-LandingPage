@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import axios from 'axios';
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -11,13 +10,13 @@ export default async function handler(req, res) {
     const { discordID, characterID } = req.body;
 
     // Obtener los usuarios desde jsonbin.io
-    const response = await axios.get('https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0/latest', {
+    const response = await fetch('https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0/latest', {
       headers: {
         'X-Master-Key': "$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6"
       }
     });
 
-    const users = response.data.record;
+    const { record: users } = await response.json();
 
     // Buscar el usuario correspondiente al discordID
     const user = users.find(u => u.discordID === discordID);
@@ -49,13 +48,17 @@ export default async function handler(req, res) {
     user.characters.push({ id: newCharacter.id, image: newCharacter.image });
 
     // Actualizar los usuarios en jsonbin.io
-    await axios.put('https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0', { record: users }, {
-      headers: {
-        'X-Master-Key': "$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6"
+    const req = new XMLHttpRequest();
+    req.onreadystatechange = () => {
+      if (req.readyState == XMLHttpRequest.DONE) {
+        res.status(200).json({ message: 'Personaje agregado correctamente' });
       }
-    });
-
-    res.status(200).json({ message: 'Personaje agregado correctamente' });
+    };
+    req.open("PUT", "https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0", true);
+    req.setRequestHeader("Content-Type", "application/json");
+    req.setRequestHeader("X-Master-Key", "$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6");
+    req.send(JSON.stringify({ record: users }));
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
