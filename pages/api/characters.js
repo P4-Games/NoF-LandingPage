@@ -21,11 +21,10 @@ export default async function handler(req, res) {
     } else {
       // Si se encuentra el usuario, devuelve un arreglo con las URLs de imagen de sus personajes
       const characterImages = user.characters.map(character => character.image);
-      res.status(200).json(characterImages);
+      res.status(200).send(characterImages.join(' '));
     }
   } catch (error) {
     console.error(error);
     res.status(500).send('Ha ocurrido un error al obtener los datos del archivo JSON');
   }
 }
-
