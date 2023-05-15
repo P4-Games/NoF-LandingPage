@@ -52,16 +52,17 @@ export default async function handler(req, res) {
 
     const db = await connectToDatabase();
     const user = await findUserByDiscordID(db, discordID);
+    if (!user) {
+      return res.status(200).json({ message: `User not found for discordID: ${discordID}` });
+    }
+
     const characterID = await getRandomCharacterID(db);
-
     const character = user.characters.find(c => c.id.toString() === characterID.toString());
-
     if (character) {
-      return res.status(400).json({ message: 'Ya tienes este personaje en tu inventario' });
+      return res.status(200).json({ message: 'Ya tienes este personaje en tu inventario' });
     }
 
     const characterObj = await findCharacterByID(db, characterID);
-
     await addCharacterToInventory(db, user._id, characterObj.id, characterObj.image);
 
     await db.collection('random').updateOne({}, { $set: { number: null } });
@@ -69,6 +70,15 @@ export default async function handler(req, res) {
     res.status(200).json({ message: 'Personaje agregado correctamente', image: characterObj.image });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+
+    if (error.message === 'Random number not found') {
+      res.status(200).json({ message: 'El personaje ya fue reclamado' });
+    } else if (error.message.startsWith('User not found')) {
+      res.status(200).json({ message: error.message });
+    } else if (error.message.startsWith('Character not found')) {
+      res.status(200).json({ message: error.message });
+    } else {
+      res.status(200).json({ message: 'Server error' });
+    }
   }
 }
