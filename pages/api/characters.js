@@ -23,8 +23,13 @@ export default async function handler(req, res) {
     const characters = await charactersCollection.find({ id: { $in: user.characters.map((c) => c.id) } }).toArray();
     const characterImages = characters.map((c) => c.image);
 
-    // Cargar las imágenes
-    const images = await Promise.all(characterImages.map((imageUrl) => Jimp.read(imageUrl)));
+    // Cargar y redimensionar las imágenes
+    const imagePromises = characterImages.map(async (imageUrl) => {
+      const image = await Jimp.read(imageUrl);
+      image.resize(80, 80); // Redimensionar la imagen al tamaño deseado
+      return image;
+    });
+    const images = await Promise.all(imagePromises);
 
     // Calcular el tamaño del lienzo del collage
     const maxImagesPerRow = 4;
@@ -73,3 +78,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }
+
