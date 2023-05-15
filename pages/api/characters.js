@@ -59,8 +59,15 @@ export default async function handler(req, res) {
     // Establecer el encabezado Content-Type
     res.setHeader('Content-Type', 'image/png');
 
-    // Enviar la imagen como respuesta
-    return res.status(200).send(collageBuffer);
+    // Agregar una cadena de consulta única al enlace de la imagen
+    const timestamp = new Date().getTime();
+    const imageUrlWithQuery = `https://nof.town/api/characters?discordID=${discordID}&timestamp=${timestamp}`;
+
+    // Establecer la cabecera de caché para que Discord no guarde en caché la imagen
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+
+    // Enviar la imagen como respuesta con la URL modificada
+    return res.status(200).send(collageBuffer, imageUrlWithQuery);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "An error occurred while processing your request." });
