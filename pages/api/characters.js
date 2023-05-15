@@ -1,30 +1,32 @@
-import axios from 'axios';
+import connectToDatabase from '../../utils/db';
 
 export default async function handler(req, res) {
-  const { discordID } = req.query;
+  const { query: { discordID } } = req;
+
+  if (!discordID) {
+    return res.status(400).json({ error: "Discord ID is missing from query parameters." });
+  }
 
   try {
-    // Realiza una solicitud GET para obtener los datos del archivo JSON
-    const response = await axios.get('https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0/latest', {
-      headers: {
-        'X-Master-Key': '$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6'
-      }
-    });
-    const usersData = response.data.record;
+    const db = await connectToDatabase();
+    const usersCollection = db.collection("users");
+    const charactersCollection = db.collection("characters");
 
-    // Busca el usuario con el discordID correspondiente en el archivo JSON de usuarios
-    const user = usersData.users.find(user => user.discordID === discordID);
-
+    // Buscar el usuario por su discordID
+    const user = await usersCollection.findOne({ discordID });
     if (!user) {
-      // Si no se encuentra ningún usuario con el discordID especificado, devuelve un arreglo vacío
-      res.status(200).json([]);
-    } else {
-      // Si se encuentra el usuario, devuelve un arreglo con las URLs de imagen de sus personajes
-      const characterImages = user.characters.map(character => character.image);
-      res.status(200).send(characterImages.join(' '));
+      return res.status(404).json({ error: "User not found." });
     }
+
+    // Obtener los personajes del usuario y devolver sus imágenes
+    const characters = await charactersCollection.find({ id: { $in: user.characters.map((c) => c.id) } }).toArray();
+    const characterImages = characters.map((c) => c.image).join(" ");
+    const numCharacters = characters.length;
+    const totalCharacters = 120;
+
+    return res.status(200).send(`${characterImages} Personajes atrapados: ${numCharacters} de ${totalCharacters}.`);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Ha ocurrido un error al obtener los datos del archivo JSON');
+    console.log(error);
+    return res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }

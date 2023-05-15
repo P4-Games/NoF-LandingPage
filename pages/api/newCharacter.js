@@ -1,5 +1,46 @@
-import fs from 'fs';
-import path from 'path';
+import { MongoClient } from 'mongodb';
+import connectToDatabase from '../../utils/db';
+
+const getRandomCharacterID = async (db) => {
+  const randomCollection = db.collection('random');
+  const randomDocument = await randomCollection.findOne();
+  const characterID = randomDocument?.number;
+
+  if (!characterID) {
+    throw new Error('Random number not found');
+  }
+
+  return characterID;
+};
+
+const findUserByDiscordID = async (db, discordID) => {
+  const collection = db.collection('users');
+  const user = await collection.findOne({ discordID });
+
+  if (!user) {
+    throw new Error(`User not found for discordID: ${discordID}`);
+  }
+
+  return user;
+};
+
+const findCharacterByID = async (db, characterID) => {
+  const characterImage = `https://storage.googleapis.com/nof-gamma/T1/${characterID}.png`;
+  const charactersCollection = db.collection('characters');
+  const character = await charactersCollection.findOne({ image: characterImage });
+
+  if (!character) {
+    throw new Error(`Character not found or missing image for characterID: ${characterID}`);
+  }
+
+  return { id: characterID, image: characterImage };
+};
+
+const addCharacterToInventory = async (db, userID, characterID, characterImage) => {
+  const userCollection = db.collection('users');
+
+  await userCollection.updateOne({ _id: userID }, { $addToSet: { characters: { id: characterID, image: characterImage } } });
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -7,58 +48,25 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { discordID, characterID } = req.body;
+    const { discordID } = req.body;
 
-    // Obtener los usuarios desde jsonbin.io
-    const response = await fetch('https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0/latest', {
-      headers: {
-        'X-Master-Key': "$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6"
-      }
-    });
+    const db = await connectToDatabase();
+    const user = await findUserByDiscordID(db, discordID);
+    const characterID = await getRandomCharacterID(db);
 
-    const { record: users } = await response.json();
-
-    // Buscar el usuario correspondiente al discordID
-    const user = users.find(u => u.discordID === discordID);
-
-    if (!user) {
-      return res.status(400).json({ message: 'User not found' });
-    }
-
-    // Verificar si el personaje ya está en el inventario del usuario
-    const character = user.characters.find(c => c.id === characterID);
+    const character = user.characters.find(c => c.id.toString() === characterID.toString());
 
     if (character) {
       return res.status(400).json({ message: 'Ya tienes este personaje en tu inventario' });
     }
 
-    // Obtener los personajes desde un archivo local
-    const charactersPath = path.join(process.cwd(), 'characters.json');
-    const charactersData = fs.readFileSync(charactersPath);
-    const characters = JSON.parse(charactersData);
+    const characterObj = await findCharacterByID(db, characterID);
 
-    // Buscar el personaje correspondiente al characterID
-    const newCharacter = characters.find(c => c.id === characterID);
+    await addCharacterToInventory(db, user._id, characterObj.id, characterObj.image);
 
-    if (!newCharacter) {
-      return res.status(400).json({ message: 'Character not found' });
-    }
+    await db.collection('random').updateOne({}, { $set: { number: null } });
 
-    // Agregar el nuevo personaje al inventario del usuario
-    user.characters.push({ id: newCharacter.id, image: newCharacter.image });
-
-    // Actualizar los usuarios en jsonbin.io
-    const req = new XMLHttpRequest();
-    req.onreadystatechange = () => {
-      if (req.readyState == XMLHttpRequest.DONE) {
-        res.status(200).json({ message: 'Personaje agregado correctamente' });
-      }
-    };
-    req.open("PUT", "https://api.jsonbin.io/v3/b/645e3e318e4aa6225e9b9ed0", true);
-    req.setRequestHeader("Content-Type", "application/json");
-    req.setRequestHeader("X-Master-Key", "$2b$10$F0trbhCY6YrpjDlyC3lilu8xwycimMfmenE.ak1eC5nhHrXX/g5B6");
-    req.send(JSON.stringify({ record: users }));
-    
+    res.status(200).json({ message: 'Personaje agregado correctamente', image: characterObj.image });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
