@@ -23,11 +23,10 @@ export default async function handler(req, res) {
     const characters = await charactersCollection.find({ id: { $in: user.characters.map((c) => c.id) } }).toArray();
     const characterImages = characters.map((c) => c.image);
 
-    // Cargar y redimensionar las imágenes
+    // Cargar las imágenes de forma paralela y redimensionarlas
     const imagePromises = characterImages.map(async (imageUrl) => {
       const image = await Jimp.read(imageUrl);
-      image.resize(80, 80); // Redimensionar la imagen al tamaño deseado
-      return image;
+      return image.resize(80, 80); // Redimensionar la imagen al tamaño deseado
     });
     const images = await Promise.all(imagePromises);
 
