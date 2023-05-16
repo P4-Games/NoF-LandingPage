@@ -2,32 +2,40 @@ import { MongoClient } from 'mongodb';
 import connectToDatabase from '../../utils/db';
 
 const getUserInfo = async (db, discordID) => {
-    const usersCollection = db.collection('users');
-    const user = await usersCollection.findOne({ discordID });
-  
-    if (!user) {
-      throw new Error(`User not found for discordID: ${discordID}`);
-    }
-  
-    const charactersCount = user.characters.length;
-    const inventoryCompletion = Math.floor((charactersCount / 120) * 100);
-  
-    const usersCount = await usersCollection.countDocuments();
-    const charactersCaptured = await usersCollection.aggregate([
-      { $project: { _id: 0, characters: 1 } },
-      { $unwind: "$characters" },
-      { $group: { _id: null, count: { $sum: 1 } } }
-    ]).toArray();
-  
-    return {
-      Nick: user.nick,
-      DiscordID: user.discordID,
-      CharactersInInventory: charactersCount,
-      InventoryCompletion: inventoryCompletion,
-      UsersRegistered: usersCount,
-      CharactersCaptured: charactersCaptured[0].count
-    };
+  const usersCollection = db.collection('users');
+  const user = await usersCollection.findOne({ discordID });
+
+  if (!user) {
+    throw new Error(`User not found for discordID: ${discordID}`);
+  }
+
+  const charactersCount = user.characters.length;
+  const inventoryCompletion = Math.floor((charactersCount / 120) * 100);
+
+  const usersCount = await usersCollection.countDocuments();
+  const charactersCaptured = await usersCollection.aggregate([
+    { $project: { _id: 0, characters: 1 } },
+    { $unwind: "$characters" },
+    { $group: { _id: null, count: { $sum: 1 } } }
+  ]).toArray();
+
+  const rankingCursor = await usersCollection.aggregate([
+    { $project: { _id: 0, characters: { $size: "$characters" } } },
+    { $sort: { characters: -1 } }
+  ]);
+  const userRanking = await rankingCursor.toArray();
+  const userPosition = userRanking.findIndex(item => item.characters === charactersCount) + 1;
+
+  return {
+    Nick: user.nick,
+    DiscordID: user.discordID,
+    CharactersInInventory: charactersCount,
+    InventoryCompletion: inventoryCompletion,
+    UsersRegistered: usersCount,
+    CharactersCaptured: charactersCaptured[0].count,
+    Ranking: userPosition
   };
+};
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
