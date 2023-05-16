@@ -1,11 +1,15 @@
-import connectToDatabase from '../../utils/db';
-import Jimp from 'jimp';
+import connectToDatabase from "../../utils/db";
+import Jimp from "jimp";
 
 export default async function handler(req, res) {
-  const { query: { discordID } } = req;
+  const {
+    query: { discordID },
+  } = req;
 
   if (!discordID) {
-    return res.status(400).json({ error: "Discord ID is missing from query parameters." });
+    return res
+      .status(400)
+      .json({ error: "Discord ID is missing from query parameters." });
   }
 
   try {
@@ -20,7 +24,9 @@ export default async function handler(req, res) {
     }
 
     // Obtener los personajes del usuario y sus imágenes
-    const characters = await charactersCollection.find({ id: { $in: user.characters.map((c) => c.id) } }).toArray();
+    const characters = await charactersCollection
+      .find({ id: { $in: user.characters.map((c) => c.id) } })
+      .toArray();
     const characterImages = characters.map((c) => c.image);
 
     // Cargar las imágenes de forma paralela y redimensionarlas
@@ -65,14 +71,19 @@ export default async function handler(req, res) {
     const imageUrlWithQuery = `https://nof.town/api/characters?discordID=${discordID}&timestamp=${timestamp}`;
 
     // Establecer los encabezados Content-Type y Cache-Control adecuadamente
-    res.setHeader('Content-Type', 'image/png');
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Location', imageUrlWithQuery);
+    res.setHeader("Content-Type", "image/png");
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.setHeader("Location", imageUrlWithQuery);
 
     // Enviar la imagen como respuesta
     return res.status(200).send(collageBuffer);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "An error occurred while processing your request." });
+    return res
+      .status(500)
+      .json({ error: "An error occurred while processing your request." });
   }
 }
