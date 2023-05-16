@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     const images = await Promise.all(imagePromises);
 
     // Calcular el tamaño del lienzo del collage
-    const maxImagesPerRow = 4;
+    const maxImagesPerRow = 5;
     const maxImagesPerColumn = Math.ceil(images.length / maxImagesPerRow);
     const imageWidth = images[0].bitmap.width;
     const imageHeight = images[0].bitmap.height;
@@ -61,21 +61,19 @@ export default async function handler(req, res) {
     // Obtener la imagen del collage como un buffer
     const collageBuffer = await collage.getBufferAsync(Jimp.MIME_PNG);
 
-    // Establecer el encabezado Content-Type
-    res.setHeader('Content-Type', 'image/png');
-
     // Agregar una cadena de consulta única al enlace de la imagen
     const timestamp = new Date().getTime();
     const imageUrlWithQuery = `https://nof.town/api/characters?discordID=${discordID}&timestamp=${timestamp}`;
 
-    // Establecer la cabecera de caché para que Discord no guarde en caché la imagen
+    // Establecer los encabezados Content-Type y Cache-Control adecuadamente
+    res.setHeader('Content-Type', 'image/png');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Location', imageUrlWithQuery);
 
-    // Enviar la imagen como respuesta con la URL modificada
-    return res.status(200).send(collageBuffer, imageUrlWithQuery);
+    // Enviar la imagen como respuesta
+    return res.status(200).send(collageBuffer);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "An error occurred while processing your request." });
   }
 }
-
