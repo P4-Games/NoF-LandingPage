@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import connectToDatabase from "../../utils/db";
 import Jimp from "jimp";
 
@@ -66,16 +67,17 @@ export default async function handler(req, res) {
     // Obtener la imagen del collage como un buffer
     const collageBuffer = await collage.getBufferAsync(Jimp.MIME_PNG);
 
-    // Agregar una cadena de consulta única al enlace de la imagen
-    const timestamp = new Date().getTime();
-    const imageUrlWithQuery = `https://nof.town/api/characters?discordID=${discordID}&timestamp=${timestamp}`;
+    // Generar una cadena de consulta única
+    const query = uuidv4();
+
+    // Agregar la cadena de consulta única a la URL de la imagen
+    const imageUrlWithQuery = `https://nof.town/api/characters/${discordID}?query=${query}`;
 
     // Establecer los encabezados Content-Type y Cache-Control adecuadamente
     res.setHeader("Content-Type", "image/png");
-    res.setHeader(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
+    res.setHeader("Cache-Control", "no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
     res.setHeader("Location", imageUrlWithQuery);
 
     // Enviar la imagen como respuesta
