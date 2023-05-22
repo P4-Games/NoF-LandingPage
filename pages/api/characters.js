@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const images = await Promise.all(imagePromises);
 
     // Calcular el tamaño del lienzo del collage
-    const maxImagesPerRow = 5;
+    const maxImagesPerRow = getNumberOfColumns(images.length);
     const maxImagesPerColumn = Math.ceil(images.length / maxImagesPerRow);
     const imageWidth = images[0].bitmap.width;
     const imageHeight = images[0].bitmap.height;
@@ -87,5 +87,17 @@ export default async function handler(req, res) {
     return res
       .status(500)
       .json({ error: "An error occurred while processing your request." });
+  }
+}
+
+function getNumberOfColumns(imageCount) {
+  if (imageCount <= 30) {
+    return 6;
+  } else if (imageCount <= 60) {
+    return 7;
+  } else if (imageCount <= 90) {
+    return 8;
+  } else {
+    return 9;
   }
 }

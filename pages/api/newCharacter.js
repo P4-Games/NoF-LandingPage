@@ -1,12 +1,19 @@
 import { MongoClient } from 'mongodb';
 import connectToDatabase from '../../utils/db';
 
-const getRandomCharacterID = async (db) => {
-  const randomCollection = db.collection('random');
-  const randomDocument = await randomCollection.findOne();
-  const characterID = randomDocument?.number;
+const getRandomCharacterID = async (db, channelId) => {
+  const serversCollection = db.collection('servers');
+  const server = await serversCollection.findOne({ channelId });
 
-  if (!characterID) {
+  if (!server) {
+    throw new Error(`Server not found for channelId: ${channelId}`);
+  }
+
+  const characterID = server.nofy;
+
+  if (characterID === null) {
+    return null; // Personaje ya fue reclamado
+  } else if (!characterID) {
     throw new Error('Random number not found');
   }
 
@@ -48,7 +55,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { discordID } = req.body;
+    const { discordID, channelID } = req.body;
 
     const db = await connectToDatabase();
     const user = await findUserByDiscordID(db, discordID);
@@ -56,7 +63,11 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: `User not found for discordID: ${discordID}` });
     }
 
-    const characterID = await getRandomCharacterID(db);
+    const characterID = await getRandomCharacterID(db, channelID);
+    if (characterID === null) {
+      return res.status(200).json({ message: 'Personaje ya fue reclamado' });
+    }
+
     const character = user.characters.find(c => c.id.toString() === characterID.toString());
     if (character) {
       return res.status(200).json({ message: 'Ya tienes este personaje en tu inventario' });
@@ -65,17 +76,18 @@ export default async function handler(req, res) {
     const characterObj = await findCharacterByID(db, characterID);
     await addCharacterToInventory(db, user._id, characterObj.id, characterObj.image);
 
-    await db.collection('random').updateOne({}, { $set: { number: null } });
+    const serversCollection = db.collection('servers');
+    await serversCollection.updateOne({ channelId: channelID }, { $set: { nofy: null } });
 
     res.status(200).json({ message: 'Personaje agregado correctamente', image: characterObj.image });
   } catch (error) {
     console.error(error);
 
-    if (error.message === 'Random number not found') {
-      res.status(200).json({ message: 'El personaje ya fue reclamado' });
-    } else if (error.message.startsWith('User not found')) {
-      res.status(200).json({ message: error.message });
-    } else if (error.message.startsWith('Character not found')) {
+    if (
+      error.message.startsWith('Server not found') ||
+      error.message.startsWith('User not found') ||
+      error.message.startsWith('Character not found')
+    ) {
       res.status(200).json({ message: error.message });
     } else {
       res.status(200).json({ message: 'Server error' });
