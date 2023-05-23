@@ -13,19 +13,20 @@ const getRandomCharacterID = async (db, channelId) => {
 
   if (characterID === null) {
     return null; // Personaje ya fue reclamado
-  } else if (!characterID) {
-    throw new Error('Random number not found');
+  } else if (characterID === 0) {
+    return 0; // Número aleatorio no encontrado
   }
 
   return characterID;
 };
+
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users');
   const user = await collection.findOne({ discordID });
 
   if (!user) {
-    throw new Error(`User not found for discordID: ${discordID}`);
+    throw new Error(`Usuario con discordID: ${discordID} no encontrado, si es aun no te has registrado usa el comando /start para empezar a jugar.`);
   }
 
   return user;
@@ -60,7 +61,7 @@ export default async function handler(req, res) {
     const db = await connectToDatabase();
     const user = await findUserByDiscordID(db, discordID);
     if (!user) {
-      return res.status(200).json({ message: `User not found for discordID: ${discordID}` });
+      return res.status(200).json({ message: `Usuario con discordID: ${discordID} no encontrado, si es aun no te has registrado usa el comando /start para empezar a jugar.` });
     }
 
     const characterID = await getRandomCharacterID(db, channelID);
