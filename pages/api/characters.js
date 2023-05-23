@@ -30,11 +30,31 @@ export default async function handler(req, res) {
       .toArray();
     const characterImages = characters.map((c) => c.image);
 
-    // Cargar las imágenes de forma paralela y redimensionarlas
+    // Cargar las imágenes de forma paralela y redimensionarlas con reintento
     const imagePromises = characterImages.map(async (imageUrl) => {
-      const image = await Jimp.read(imageUrl);
-      return image.resize(80, 80); // Redimensionar la imagen al tamaño deseado
+      let retryCount = 0;
+      let image = null;
+
+      for (retryCount = 0; retryCount < 3; retryCount++) {
+        try {
+          image = await Jimp.read(imageUrl);
+          break; // Si no hay error, salir del bucle de reintentos
+        } catch (error) {
+          console.log(`Error al procesar la imagen: ${imageUrl}`, error);
+        }
+      }
+
+      if (retryCount === 3 && !image) {
+        console.log(`No se pudo procesar la imagen después de 3 intentos: ${imageUrl}`);
+      }
+
+      if (image) {
+        return image.resize(80, 80);
+      } else {
+        return null;
+      }
     });
+
     const images = await Promise.all(imagePromises);
 
     // Calcular el tamaño del lienzo del collage
@@ -54,13 +74,15 @@ export default async function handler(req, res) {
     let currentY = 0;
 
     for (let i = 0; i < images.length; i++) {
-      collage.composite(images[i], currentX, currentY);
+      if (images[i]) {
+        collage.composite(images[i], currentX, currentY);
 
-      // Actualizar las coordenadas para la siguiente imagen
-      currentX += imageWidth;
-      if (currentX >= collageWidth) {
-        currentX = 0;
-        currentY += imageHeight;
+        // Actualizar las coordenadas para la siguiente imagen
+        currentX += imageWidth;
+        if (currentX >= collageWidth) {
+          currentX = 0;
+          currentY += imageHeight;
+        }
       }
     }
 
