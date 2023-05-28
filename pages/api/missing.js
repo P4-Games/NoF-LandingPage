@@ -26,12 +26,16 @@ export default async function handler(req, res) {
     }
 
     // Obtener los personajes del usuario y sus imágenes
-    const characters = await charactersCollection
-      .find({ id: { $in: user.characters.map((c) => c.id) } })
-      .toArray();
+    const characters = await charactersCollection.find({}).toArray();
 
-    // Obtener las rutas de las imágenes locales redimensionadas
-    const characterImagePaths = characters.map((c) =>
+    // Obtener los personajes que aún no están en el inventario del usuario
+    const charactersNotInInventory = characters.filter(
+      (character) =>
+        !user.characters.some((userCharacter) => userCharacter.id === character.id)
+    );
+
+    // Obtener las rutas de las imágenes locales redimensionadas de los personajes no presentes en el inventario
+    const characterImagePaths = charactersNotInInventory.map((c) =>
       join(process.cwd(), "characters", `${c.id}.png`)
     );
 
