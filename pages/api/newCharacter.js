@@ -20,13 +20,12 @@ const getRandomCharacterID = async (db, channelId) => {
   return characterID;
 };
 
-
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users');
   const user = await collection.findOne({ discordID });
 
   if (!user) {
-    throw new Error(`Usuario con discordID: ${discordID} no encontrado, si es aun no te has registrado usa el comando /start para empezar a jugar.`);
+    throw new Error(`Usuario con discordID: ${discordID} no encontrado, si es aún no te has registrado usa el comando /start para empezar a jugar.`);
   }
 
   return user;
@@ -60,16 +59,19 @@ export default async function handler(req, res) {
 
     const db = await connectToDatabase();
     const user = await findUserByDiscordID(db, discordID);
+
     if (!user) {
-      return res.status(200).json({ message: `Usuario con discordID: ${discordID} no encontrado, si es aun no te has registrado usa el comando /start para empezar a jugar.` });
+      return res.status(200).json({ message: `Usuario con discordID: ${discordID} no encontrado, si es aún no te has registrado usa el comando /start para empezar a jugar.` });
     }
 
     const characterID = await getRandomCharacterID(db, channelID);
+
     if (characterID === null) {
       return res.status(200).json({ message: 'Personaje ya fue reclamado' });
     }
 
     const character = user.characters.find(c => c.id.toString() === characterID.toString());
+
     if (character) {
       return res.status(200).json({ message: 'Ya tienes este personaje en tu inventario' });
     }
@@ -84,11 +86,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(error);
 
-    if (
-      error.message.startsWith('Server not found') ||
-      error.message.startsWith('User not found') ||
-      error.message.startsWith('Character not found')
-    ) {
+    if (error.message.includes('Usuario con discordID')) {
       res.status(200).json({ message: error.message });
     } else {
       res.status(200).json({ message: 'Server error' });
