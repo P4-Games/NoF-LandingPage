@@ -34,6 +34,13 @@ export default async function handler(req, res) {
         !user.characters.some((userCharacter) => userCharacter.id === character.id)
     );
 
+    // Verificar si el usuario tiene todos los personajes
+    if (charactersNotInInventory.length === 0) {
+      return res.status(200).json({
+        message: "Felicitaciones, ya has coleccionado todos los nofys.",
+      });
+    }
+
     // Obtener las rutas de las imágenes locales redimensionadas de los personajes no presentes en el inventario
     const characterImagePaths = charactersNotInInventory.map((c) =>
       join(process.cwd(), "characters", `${c.id}.png`)
