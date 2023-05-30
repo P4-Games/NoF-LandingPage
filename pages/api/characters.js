@@ -30,13 +30,6 @@ export default async function handler(req, res) {
       .find({ id: { $in: user.characters.map((c) => c.id) } })
       .toArray();
 
-    // Verificar si el usuario tiene personajes en su inventario
-    if (characters.length === 0) {
-      return res.status(200).json({
-        message: "Aun no has coleccionado ningún nofy, cuando veas uno usa el comando /collect.",
-      });
-    }
-
     // Obtener las rutas de las imágenes locales redimensionadas
     const characterImagePaths = characters.map((c) =>
       join(process.cwd(), "characters", `${c.id}.png`)
