@@ -25,25 +25,32 @@ const calculateMedals = (characters, currentMedals) => {
 
 // Función para obtener la información del usuario y actualizar sus medallas y personajes en la base de datos
 const updateMedals = async (db, discordID) => {
-  const usersCollection = db.collection('users');
-  const user = await usersCollection.findOne({ discordID });
-
-  if (!user) {
-    throw new Error(`Usuario discordID: ${discordID} no resitrado. Para usar este comando debes previamente hacer **/start**`);
-  }
-
-  const { medals, characters } = user;
-
-  const updatedMedals = calculateMedals(characters, medals);
-
-  // Actualizar las medallas en la base de datos del usuario
-  await usersCollection.updateOne(
-    { discordID },
-    { $set: { medals: updatedMedals, characters: [] } }
-  );
-
-  return updatedMedals;
-};
+    const usersCollection = db.collection('users');
+    const user = await usersCollection.findOne({ discordID });
+  
+    if (!user) {
+      throw new Error(`Usuario discordID: ${discordID} no resitrado. Para usar este comando debes previamente hacer **/start**`);
+    }
+  
+    const { medals, characters } = user;
+  
+    const updatedMedals = calculateMedals(characters, medals);
+    const charactersCount = characters.length;
+  
+    let updateObject = { medals: updatedMedals };
+  
+    if (charactersCount === 120 && updatedMedals.length > medals.length) {
+      updateObject.characters = [];
+    }
+  
+    // Actualizar las medallas en la base de datos del usuario
+    await usersCollection.updateOne(
+      { discordID },
+      { $set: updateObject }
+    );
+  
+    return updatedMedals;
+  };
 
 // Manejador de la API para obtener las medallas de un usuario
 export default async function handler(req, res) {
