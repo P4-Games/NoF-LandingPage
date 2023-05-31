@@ -39,7 +39,7 @@ const updateMedals = async (db, discordID) => {
   // Actualizar las medallas en la base de datos del usuario
   await usersCollection.updateOne(
     { discordID },
-    { $set: { medals: updatedMedals }, $unset: { characters: '' } }
+    { $set: { medals: updatedMedals, characters: [] } }
   );
 
   return updatedMedals;
