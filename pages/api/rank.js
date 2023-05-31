@@ -5,7 +5,7 @@ const getUsersRank = async () => {
   const db = await connectToDatabase();
   const usersCollection = db.collection('users');
 
-  const userRanking = await usersCollection.find().limit(10).toArray(); // Limitar a los primeros 10 jugadores
+  const userRanking = await usersCollection.find().toArray(); // Obtener todos los usuarios
 
   const sortedRanking = userRanking.sort((a, b) => {
     const aMedalRank = calculateMedalRank(a.medals);
@@ -48,7 +48,9 @@ const getUsersRank = async () => {
     }
   });
 
-  const rankingList = sortedRanking.map((user, index) => {
+  const limitedRanking = sortedRanking.slice(0, 10); // Limitar el ranking a los primeros 10 jugadores
+
+  const rankingList = limitedRanking.map((user, index) => {
     return {
       Position: index + 1,
       Nick: user.nick,
@@ -75,9 +77,6 @@ const calculateMedalRank = (medals) => {
 const countMedals = (medals, medalType) => {
   return medals.filter(medal => medal === medalType).length;
 };
-
-
-
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
