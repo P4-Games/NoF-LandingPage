@@ -5,7 +5,7 @@ const getUsersRank = async () => {
   const db = await connectToDatabase();
   const usersCollection = db.collection('users');
 
-  const userRanking = await usersCollection.find().toArray();
+  const userRanking = await usersCollection.find().limit(10).toArray(); // Limitar a los primeros 10 jugadores
 
   const sortedRanking = userRanking.sort((a, b) => {
     const aMedalRank = calculateMedalRank(a.medals);
