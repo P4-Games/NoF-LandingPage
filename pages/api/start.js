@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
     // Crear un nuevo usuario
     console.log('Creando un nuevo usuario');
-    const newUser = { nick, discordID, characters: [] };
+    const newUser = { nick, discordID, characters: [], medals: [] };
     const result = await collection.insertOne(newUser);
 
     console.log('Usuario creado con éxito');
