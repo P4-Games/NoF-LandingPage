@@ -325,13 +325,18 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    img {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
     gap: 2em;
     @include large-desktop {
       margin-top: 0em;
       gap: 0;
     }
     &__audio {
-      width: 100px;
+      width: auto;
       height: 78px;
       cursor: pointer;
       background-size: 100% 100%;

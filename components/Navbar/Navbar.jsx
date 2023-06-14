@@ -8,7 +8,11 @@ import Coin from "./icons/logo-coin.png";
 import Nof from "./icons/logo-1.png";
 import SoundOn from "./icons/sound.png";
 import SoundOff from "./icons/soundoff.png";
+import Shopimg from "./icons/shop.png";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+
 // import TranslationComponent from './translationComponent.jsx'
 
 const TranslationComponent = dynamic(
@@ -32,8 +36,8 @@ function Navbar({
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
-
-
+  const [wantedSobres, setWantedSobres] = useState(null)
+  const router = useRouter();
   const ref = useRef(null);
   const [click, setClick] = useState(false);
   const handleClick = () => {
@@ -51,7 +55,34 @@ function Navbar({
     window.history.state.url == "/gamma" ? setMidButton("Inventory") : null;
   }, []);
 
+  const buySobres = () => {
+    Swal.fire({
+      text: "Elige la cantidad de sobres que quieres comprar",
+      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="text" id="quiero" class="swal2-input" placeholder="Sobres" pattern="[0-9,]+" >',
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: "Comprar",
+      confirmButtonColor: "#005EA3",
+      color: "black",
+      background: "white",
+      customClass: {
+        image: "cardalertimg",
+        input: "alertinput",
+        // container: 'cardcontainer',
+        // confirmButton: 'alertbuttonvender',
+        // cancelButton: 'alertcancelbutton',
+      },
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        const input = Swal.getPopup().querySelector("#quiero");
+        setWantedSobres(input.value)
+        alert("Confirmado");
 
+      }
+    })
+
+  }
   return (
     <>
       <div className="navbar">
@@ -72,20 +103,20 @@ function Navbar({
             <NofTown />
             <Link
               to="Contacto"
-              // spy='true'
+            // spy='true'
             >
               <button
                 onClick={() => {
                   if (page == "/alpha") {
                     alphaMidButton();
                     setLoadAlbums && setLoadAlbums(!loadAlbums);
-                  } 
+                  }
                   else if (page == "/gamma") {
                     if (cardInfo) {
                       setCardInfo(false)
                       setInventory(true)
                     }
-                   else  setInventory(true)
+                    else setInventory(true)
                     // setLoadAlbums && setLoadAlbums(!loadAlbums);
                   }
                   else {
@@ -104,6 +135,11 @@ function Navbar({
           </li>
         </ul>
         <div className="navbar__corner">
+          {(router?.pathname == '/gamma')
+            &&
+            <div onClick={buySobres} className="navbar__corner__audio">
+              <Image src={Shopimg} alt="shop" />
+            </div>}
           <div onClick={() => handleClick()} className="navbar__corner__audio">
             {/* <Image src={SoundOn} alt="" /> */}
             {click ? (

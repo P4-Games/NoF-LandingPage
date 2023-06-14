@@ -18,12 +18,12 @@
 
 .gammaShop {
   position: absolute;
-  bottom: 39%;
+  bottom: 41%;
   right: 7%;
-  width: 18%;
-  height: 40%;
+  width: 16%;
+  height: 35%;
   background-color: black;
-  background: url('../public/assets/gamma/shop.png');
+  background: url('../public/assets/gamma/SobreGamma.png');
   background-size:100% 100%;
   background-repeat: no-repeat;
   display: flex;
@@ -31,6 +31,26 @@
   align-items: center;
   h2{
     font-size: 0.8rem;
+    margin: 0;
+    filter: url();
+  }
+  h3{
+    transition: all 0.1s ease;
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+  .album{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24%;
+    bottom: -2%;
+    filter: url();
+    color: red;
+    margin: 0;
   }
 }
 .gammaComplete {

@@ -9,7 +9,7 @@ import InventoryAlbum from "./InventoryAlbum";
 import GammaAlbum from "./GammaAlbum";
 import albums from "../../../public/assets/gamma/albums.png"
 import GammaPack from "./GammaPack";
-
+import { TfiEnvelope } from 'react-icons/tfi';
 import { ethers } from "ethers";
 import gammaPacksAbi from "../../../artifacts/contracts/GammaPacks.sol/GammaPacks.json";
 import gammaCardsAbi from "../../../artifacts/contracts/GammaCardsV2.sol/GammaCardsV2.json";
@@ -399,8 +399,8 @@ const index = React.forwardRef((props, book) => {
   useEffect(() => {
     checkPacks()
   }, [packsContract])
-  const [cardInfo,setCardInfo] = useState(false)
-  const [imageNumber,setImageNumber] = useState(0)
+  const [cardInfo, setCardInfo] = useState(false)
+  const [imageNumber, setImageNumber] = useState(0)
 
 
   // useEffect(() => {
@@ -431,7 +431,7 @@ const index = React.forwardRef((props, book) => {
           <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
-      <Navbar  cardInfo={cardInfo} setCardInfo={setCardInfo}inventory={inventory} setInventory={setInventory} />
+      <Navbar cardInfo={cardInfo} setCardInfo={setCardInfo} inventory={inventory} setInventory={setInventory} />
       {account && <div className="gamma_main">
         {openPack && <GammaPack setOpenPack={setOpenPack} />}
         <Head>
@@ -440,27 +440,34 @@ const index = React.forwardRef((props, book) => {
           <link rel="icon" href="./favicon.ico" />
         </Head>
         <div className="hero__top">
-          {!mobile &&  inventory && <img  src="assets/gamma/albums.png" onClick={() => setInventory(false)} className="gammaAlbums"></img>}
-          {!mobile &&  !inventory && <div onClick={() => setInventory(false)} className="gammaAlbums2"></div>}
+          {!mobile && inventory && <img src="assets/gamma/albums.png" onClick={() => setInventory(false)} className="gammaAlbums"></img>}
+          {!mobile && !inventory && <div onClick={() => setInventory(false)} className="gammaAlbums2"></div>}
           <div style={inventory ? { backgroundImage: `url('assets/gamma/InventarioFondo.png')` } : { backgroundImage: `url('assets/gamma/GammaFondo.png')` }} className="hero__top__album">
             {inventory && !cardInfo && <InventoryAlbum
-                                          account={account}
-                                          cardsContract={cardsContract}
-                                          setImageNumber={setImageNumber}
-                                          setCardInfo={setCardInfo}
-                                          cardInfo={cardInfo}
-                                        />}
+              account={account}
+              cardsContract={cardsContract}
+              setImageNumber={setImageNumber}
+              setCardInfo={setCardInfo}
+              cardInfo={cardInfo}
+            />}
             {!inventory && <GammaAlbum />}
-            {inventory && cardInfo &&  <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading}/>}
+            {inventory && cardInfo && <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading} />}
           </div>
           {/* {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
           {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
-          {!mobile && inventory &&  <div className="gammaShop"></div>}
-          {!mobile && !inventory && 
-          <div className="gammaComplete">
-            <h3>Album</h3>
-            <h3>24/120</h3>
-            <h3>Completar</h3>
+          {!mobile && inventory &&
+            <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaShop">
+              <div className="album">
+                <h2>5</h2>
+                <h3>TRANSFER</h3>
+              </div>
+            </div>}
+
+          {!mobile && !inventory &&
+            <div className="gammaComplete">
+              <h3>Album</h3>
+              <h3>24/120</h3>
+              <h3>Completar</h3>
             </div>}
         </div>
       </div >}
