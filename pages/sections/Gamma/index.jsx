@@ -249,9 +249,9 @@ const index = React.forwardRef((props, book) => {
 
   ///// ////////////
   // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
-  const packsContractAddress = "0xCe34F22aA619705130A5af266Ed1B48AcdB4ff81"
+  const packsContractAddress = "0x05f982ccE36202a78D998a17963c9Fc463ca94fF"
   // const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
-  const cardsContractAddress = "0x0Ebe1E11E416968680276225e0DAB820C88d2aE9"
+  const cardsContractAddress = "0x12F6758DDA6deBF2BaDe04935DcA9139D38b667b"
   const daiAddress = "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
