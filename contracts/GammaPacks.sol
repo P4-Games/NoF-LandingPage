@@ -48,7 +48,7 @@ contract GammaPacks is Ownable {
     mapping(address owner => uint256[] tokenIds) public packsByUser;
 
     event PackPurchase(address buyer, uint256 tokenId);
-    event PacksPurchase(address buyer, uint256 amountOfPacks);
+    event PacksPurchase(address buyer, uint256[] tokenIds);
     event NewPrice(uint256 newPrice);
     event NewCardsContract(address newCardsContract);
     event PackTransfer(address from, address to, uint256 tokenId);
@@ -58,7 +58,7 @@ contract GammaPacks is Ownable {
         balanceReceiver = _balanceReceiver;
     }
 
-    function buyPack() public {
+    function buyPack() public returns (uint256){
         require(address(cardsContract) != address(0), "Contrato de cartas no seteado"); // chequear tambien que el cards contract sea el correcto y no cualquiera
         uint256 tokenId = _tokenIdCounter.current();
         require(tokenId < totalSupply, "Se acabaron los sobres");
@@ -71,13 +71,15 @@ contract GammaPacks is Ownable {
         cardsContract.receivePrizesBalance(prizesAmount);
         IERC20(DAI_TOKEN).transferFrom(msg.sender, address(cardsContract), prizesAmount); // envia monto de premios al contrato de cartas
         IERC20(DAI_TOKEN).transferFrom(msg.sender, balanceReceiver, packPrice - prizesAmount); // envia monto de profit a cuenta de NoF
-
+        
         emit PackPurchase(msg.sender, tokenId);
+        return tokenId;
     }
 
-    function buyPacks(uint256 numberOfPacks) public {
+    function buyPacks(uint256 numberOfPacks) public returns(uint256[] memory){
         require(address(cardsContract) != address(0), "Contrato de cartas no seteado"); // chequear tambien que el cards contract sea el correcto y no cualquiera
         uint256 prizesAmount = (packPrice - packPrice / 6) * numberOfPacks;
+        uint256[] memory tokenIds = new uint256[](numberOfPacks);
         for(uint256 i;i < numberOfPacks;i++){
             uint256 tokenId = _tokenIdCounter.current();
             require(tokenId < totalSupply, "Se acabaron los sobres");
@@ -85,12 +87,15 @@ contract GammaPacks is Ownable {
             
             packs[tokenId] = msg.sender;
             packsByUser[msg.sender].push(tokenId);
+            tokenIds[i] = tokenId;
         }
         cardsContract.receivePrizesBalance(prizesAmount);
         IERC20(DAI_TOKEN).transferFrom(msg.sender, address(cardsContract), prizesAmount); // envia monto de premios al contrato de cartas
         IERC20(DAI_TOKEN).transferFrom(msg.sender, balanceReceiver, packPrice * numberOfPacks - prizesAmount); // envia monto de profit a cuenta de NoF
 
-        emit PacksPurchase(msg.sender, numberOfPacks);
+        emit PacksPurchase(msg.sender, tokenIds);
+        
+        return tokenIds;
     }
 
     function deleteTokenId(uint256 tokenId) internal {
