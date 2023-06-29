@@ -32,7 +32,8 @@ function Navbar({
   setInventory,
   inventory,
   setCardInfo,
-  cardInfo
+  cardInfo,
+  packsContract
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
@@ -55,6 +56,16 @@ function Navbar({
     window.history.state.url == "/gamma" ? setMidButton("Inventory") : null;
   }, []);
 
+  const callContract = async (numberOfPacks) => {
+    try {
+      const call = await packsContract.buyPacks(numberOfPacks);
+      await call.wait()
+      return call;
+    } catch(e) {
+      console.error({ e })
+    }
+  }
+
   const buySobres = () => {
     Swal.fire({
       text: "Elige la cantidad de sobres que quieres comprar",
@@ -67,10 +78,7 @@ function Navbar({
       background: "white",
       customClass: {
         image: "cardalertimg",
-        input: "alertinput",
-        // container: 'cardcontainer',
-        // confirmButton: 'alertbuttonvender',
-        // cancelButton: 'alertcancelbutton',
+        input: "alertinput"
       },
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
@@ -78,11 +86,12 @@ function Navbar({
         const input = Swal.getPopup().querySelector("#quiero");
         setWantedSobres(input.value)
         alert("Confirmado");
-
+        callContract(input.value);
       }
     })
 
   }
+
   return (
     <>
       <div className="navbar">

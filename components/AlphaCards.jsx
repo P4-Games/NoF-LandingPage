@@ -29,7 +29,7 @@ const vidas = [
 
 import "swiper/css/bundle";
 
-const production = true;
+const production = false;
 
 const storageUrl = "https://storage.googleapis.com/nof-alpha/"; // 1.png to 60.png
 const contractAddress = production

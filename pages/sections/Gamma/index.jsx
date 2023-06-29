@@ -431,7 +431,7 @@ const index = React.forwardRef((props, book) => {
           <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
-      <Navbar cardInfo={cardInfo} setCardInfo={setCardInfo} inventory={inventory} setInventory={setInventory} />
+      <Navbar cardInfo={cardInfo} setCardInfo={setCardInfo} inventory={inventory} setInventory={setInventory} packsContract={packsContract}/>
       {account && <div className="gamma_main">
         {openPack && <GammaPack setOpenPack={setOpenPack} />}
         <Head>
