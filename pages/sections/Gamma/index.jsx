@@ -62,7 +62,7 @@ const index = React.forwardRef((props, book) => {
     // Return true if the account balance is greater than the minimum value, false otherwise
     return number > minimum;
   };
-  const buypackk = () => {
+  const buypack = () => {
     if (checkBalance(account)) {
       checkApproved(packsContractAddress, account)
         .then((res) => {
@@ -71,19 +71,15 @@ const index = React.forwardRef((props, book) => {
             setLoading(true);
             await packBought.wait();
             setLoading(false);
-            console.log(` esto es el ${packBought}`)
             return packBought;
           };
           if (res) {
             comprarPack()
-            console.log('entro el if res linea 78')
           } else {
-            console.log('entro el else')
             authorizeDaiContract()
               .then(() => {
                 comprarPack()
                   .catch((e) => {
-                    console.log('entro el 1 catch')
                     console.error({ e });
                     setLoading(false);
                   });
@@ -249,9 +245,9 @@ const index = React.forwardRef((props, book) => {
 
   ///// ////////////
   // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
-  const packsContractAddress = "0x05f982ccE36202a78D998a17963c9Fc463ca94fF"
+  const packsContractAddress = "0x503B9aF955AfDCEB12DA420D5A148Ba4faf58136"
   // const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
-  const cardsContractAddress = "0x12F6758DDA6deBF2BaDe04935DcA9139D38b667b"
+  const cardsContractAddress = "0x7C2221E68222057ccc15076b94f9415e62e5d024"
   const daiAddress = "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
@@ -431,7 +427,18 @@ const index = React.forwardRef((props, book) => {
           <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
-      <Navbar cardInfo={cardInfo} setCardInfo={setCardInfo} inventory={inventory} setInventory={setInventory} packsContract={packsContract}/>
+      
+      <Navbar
+        account={account}
+        cardInfo={cardInfo}
+        setCardInfo={setCardInfo}
+        inventory={inventory}
+        setInventory={setInventory}
+        packsContract={packsContract}
+        checkApproved={checkApproved}
+        authorizeDaiContract={authorizeDaiContract}
+      />
+
       {account && <div className="gamma_main">
         {openPack && <GammaPack setOpenPack={setOpenPack} />}
         <Head>

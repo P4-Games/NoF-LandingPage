@@ -27,13 +27,16 @@ function Navbar({
   setLanguage,
   alphaMidButton,
   t,
+  account,
   setLoadAlbums,
   loadAlbums,
   setInventory,
   inventory,
   setCardInfo,
   cardInfo,
-  packsContract
+  packsContract,
+  checkApproved,
+  authorizeDaiContract
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
@@ -57,11 +60,20 @@ function Navbar({
   }, []);
 
   const callContract = async (numberOfPacks) => {
+    packsContract.on("PacksPurchase", (returnValue, theEvent) => {
+      console.log(returnValue, theEvent);
+    })
+    
     try {
-      const call = await packsContract.buyPacks(numberOfPacks);
-      await call.wait()
-      return call;
-    } catch(e) {
+      const approval =  await checkApproved(packsContract.address, account)
+      if(!approval){
+        authorizeDaiContract()
+      } else {
+        const call = await packsContract.buyPacks(numberOfPacks);
+        await call.wait()
+        return call;
+      }
+    } catch (e) {
       console.error({ e })
     }
   }
