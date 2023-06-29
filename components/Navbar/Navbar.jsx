@@ -67,12 +67,19 @@ function Navbar({
     try {
       const approval =  await checkApproved(packsContract.address, account)
       if(!approval){
-        authorizeDaiContract()
+        
+        await authorizeDaiContract()
+        
+        const call = await packsContract.buyPacks(numberOfPacks);
+        await call.wait()
+        return call;
+
       } else {
         const call = await packsContract.buyPacks(numberOfPacks);
         await call.wait()
         return call;
       }
+      
     } catch (e) {
       console.error({ e })
     }
