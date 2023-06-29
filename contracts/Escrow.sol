@@ -64,7 +64,7 @@ contract Escrow is Ownable{
         Trade memory _trade = trades[_tradeId];
         require(isCardWanted(_trade.wantedCards, _wantedCard), "You are not offering the card the offeror is asking for");
         updateTradeIndex(_tradeId);
-        gammaCardsContract.transferFromEscrow(_trade.offeror, _trade.offeredCard, msg.sender, _wantedCard);
+        // gammaCardsContract.transferFromEscrow(_trade.offeror, _trade.offeredCard, msg.sender, _wantedCard);
         emit TradeAccepted(_tradeId, _trade.offeror, _trade.offeredCard, msg.sender, _wantedCard);
     }
 
@@ -87,7 +87,7 @@ contract Escrow is Ownable{
         Sale memory _sale = sales[_saleId];
         updateSaleIndex(_saleId);
         DAI_TOKEN.safeTransferFrom(msg.sender, _sale.seller, CARD_PRICE);
-        gammaCardsContract.sendCard(_sale.seller, _sale.offeredCard, msg.sender);
+        // gammaCardsContract.sendCard(_sale.seller, _sale.offeredCard, msg.sender);
         emit SaleCompleted(_saleId, _sale.seller, msg.sender, _sale.offeredCard);
 
     }
