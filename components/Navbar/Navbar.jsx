@@ -79,7 +79,7 @@ function Navbar({
         await call.wait()
         return call;
       }
-      
+
     } catch (e) {
       console.error({ e })
     }
@@ -88,7 +88,7 @@ function Navbar({
   const buySobres = () => {
     Swal.fire({
       text: "Elige la cantidad de sobres que quieres comprar",
-      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="text" id="quiero" class="swal2-input" placeholder="Sobres" pattern="[0-9,]+" >',
+      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="number" id="quiero" class="swal2-input" placeholder="Sobres">',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Comprar",
