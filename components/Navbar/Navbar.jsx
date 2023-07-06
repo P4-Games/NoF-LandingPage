@@ -12,6 +12,7 @@ import Shopimg from "./icons/shop.png";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { ethers } from 'ethers'
 
 // import TranslationComponent from './translationComponent.jsx'
 
@@ -61,7 +62,11 @@ function Navbar({
 
   const callContract = async (numberOfPacks) => {
     packsContract.on("PacksPurchase", (returnValue, theEvent) => {
-      console.log(returnValue, theEvent);
+      
+      for(let i=0;i<theEvent.length;i++){
+        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+        console.log({ pack_number })
+      }
     })
     
     try {
@@ -88,7 +93,7 @@ function Navbar({
   const buySobres = () => {
     Swal.fire({
       text: "Elige la cantidad de sobres que quieres comprar",
-      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="number" id="quiero" class="swal2-input" placeholder="Sobres">',
+      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="number" id="quiero" class="swal2-input" placeholder="Sobres" /> ',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Comprar",
@@ -100,15 +105,12 @@ function Navbar({
         input: "alertinput"
       },
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         const input = Swal.getPopup().querySelector("#quiero");
         setWantedSobres(input.value)
-        alert("Confirmado");
         callContract(input.value);
       }
     })
-
   }
 
   return (
