@@ -16,6 +16,8 @@ import gammaCardsAbi from "../../../artifacts/contracts/GammaCardsV2.sol/GammaCa
 import daiAbi from "../../../artifacts/contracts/TestDAI.sol/UChildDAI.json";
 import Web3Modal from "web3modal";
 import InfoCard from "./InfoCard";
+import { fetchPackData } from "../../../services/backend/gamma";
+import { checkPacksByUser, openPack } from "../../../services/contracts/gamma";
 
 const index = React.forwardRef((props, book) => {
   const [packsEnable, setPacksEnable] = useState(false)
@@ -105,7 +107,7 @@ const index = React.forwardRef((props, book) => {
   const buyPack = (price, name) => {
     showCards(account, seasonName)
       .then((cards) => {
-        checkPacks()
+        checkPacksByUser(account, packsContract)
           .then((res) => {
             if (!res || res.length == 0) {
               setNoCardsError("No hay más packs disponibles.");
@@ -178,47 +180,18 @@ const index = React.forwardRef((props, book) => {
       });
   };
 
-  const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
-  const bodyJson = {
-    "address": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4", // address del usuario
-    "packet_number": 0 // numero de paquete que se esta abriendo
-  }
-
   // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
-  const openPacks = async (packNumber, packData, signature) => {
-    console.log(packNumber)
-    const open = await cardsContract?.openPack(packNumber, packData, signature, { gasLimit: 2500000 })
-    await open.wait()
-    console.log(open)
-    return open
-  }
+  // const openPacks = async (packNumber, packData, signature) => {
+  //   console.log(packNumber)
+  //   const open = await cardsContract?.openPack(packNumber, packData, signature, { gasLimit: 2500000 })
+  //   await open.wait()
+  //   console.log(open)
+  //   return open
+  // }
 
-
-  // llamada a la api para que nos de la data a pasar en la llamada al contrato
-  const fetchPackData = async () => {
-    try {
-      const response = await fetch(api_endpoint, {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(bodyJson),
-      })
-      const data = await response.json()
-      console.log({ data })
-
-      // de aca sacamos la data que necesitamos de la api: las cartas y la firma
-      const { packet_data, signature } = data;
-      // llamada al contrato
-      openPacks(data.packet_number, packet_data, signature.signature)
-
-    } catch (e) {
-      console.error({ e })
-    }
-  }
-  /////////////////
   const [mobile, setMobile] = useState(false);
   const [size, setSize] = useState(false);
+  
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobile(true);
@@ -237,11 +210,13 @@ const index = React.forwardRef((props, book) => {
       }
     };
     window.addEventListener("resize", updateMedia);
+
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
+
   const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [inventory, setInventory] = useState(true)
-  const [openPack, setOpenPack] = useState(false)
+  const [packIsOpen, setPackIsOpen] = useState(false)
 
   ///// ////////////
   // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
@@ -364,37 +339,31 @@ const index = React.forwardRef((props, book) => {
     }
   }, [])
 
-  const checkPacks = async () => {
+  const openAvailablePack = async () => {
     try {
-      const packs = await packsContract?.getPacksByUser(account);
+      const packs = await checkPacksByUser(account, packsContract) // llamada al contrato
       if (packs.length == 0) {
         setPacksEnable(false)
+        alert("No tienes paquetes para abrir!")
       }
       if (packs.length >= 1) {
+        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+        const data = await fetchPackData(account, packNumber) // llamada al back
+
+        const { packet_data, signature } = data;
+        
         setPacksEnable(true)
+
+        const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
+        await openedPack.wait()
+        console.log({ openedPack })
+        return openedPack
       }
-      return packs;
     } catch (e) {
       console.error({ e })
     }
   }
-  const openAvailablePack = async () => {
 
-    try {
-      const openedPack = await packsContract.openPack(1, {
-        gasLimit: 2500000,
-      });
-
-      console.log(openedPack)
-      return openedPack
-
-    } catch (e) {
-      console.error({ e })
-    }
-  }
-  useEffect(() => {
-    checkPacks()
-  }, [packsContract])
   const [cardInfo, setCardInfo] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
 
@@ -440,7 +409,7 @@ const index = React.forwardRef((props, book) => {
       />
 
       {account && <div className="gamma_main">
-        {openPack && <GammaPack setOpenPack={setOpenPack} />}
+        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} />}
         <Head>
           <title>Number One Fan</title>
           <meta name="description" content="NoF Gamma" />
@@ -460,10 +429,10 @@ const index = React.forwardRef((props, book) => {
             {!inventory && <GammaAlbum />}
             {inventory && cardInfo && <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading} />}
           </div>
-          {/* {!mobile && packsEnable && <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
-          {!mobile && !packsEnable && <div onClick={() => { setOpenPack(true), buypackk() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
+          {/* {!mobile && packsEnable && <div onClick={() => { setPackIsOpen(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
+          {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
           {!mobile && inventory &&
-            <div onClick={() => { setOpenPack(true), fetchPackData() }} className="gammaShop">
+            <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className="gammaShop">
               <div className="album">
                 <h2>5</h2>
                 <h3>TRANSFER</h3>

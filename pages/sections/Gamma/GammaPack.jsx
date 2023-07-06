@@ -51,7 +51,7 @@ const GammaPack = ({ setOpenPack }) => {
                 <motion.div
                     animate={openPackage ? { display: 'none' } : ''}
                     transition={{ delay: 5 }}
-                    onClick={() => { setOpenPackage(true), console.log('probando') }}
+                    onClick={() => { setOpenPackage(true) }}
                     className="pack">
                     <motion.img
                         animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}

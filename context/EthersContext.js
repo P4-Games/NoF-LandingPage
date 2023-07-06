@@ -1,23 +1,27 @@
 import { useContext, useState, useEffect, createContext } from 'react'
 import { ethers } from 'ethers'
-import router from 'next/router'
+// import router from 'next/router'
 import Web3Modal from 'web3modal'
-import nofAbi from '../artifacts/contracts/NOF-SC.sol/NOF_Alpha'
-import daiAbi from "../artifacts/contracts/TestDAI.sol/Dai.json"
 
-const EthersContext = createContext()
+import daiAbi from "../artifacts/contracts/TestDAI.sol/UChildDAI.json"
+import alphaAbi from "../artifacts/contracts/NOF-SC.sol/NOF_Alpha.json"
+import gammaPacksAbi from "../artifacts/contracts/GammaPacks.sol/GammaPacks.json"
+import gammaCardsAbi from "../artifacts/contracts/GammaCardsV2.sol/GammaCardsV2.json"
+
+const EthersContext = createContext(null)
 
 export function useEthers () {
-  return useContext(EthersContext)
+  return useContext(EthersContext);
 }
 
 export default function EthersProvider ({ children }) {
-  const [contract, setContract] = useState(null)
+  const [alphaContract, setAlphaContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
+  const [gammaPacksContract, setGammaPacksContract] = useState(null)
+  const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [prov, setProv] = useState(null)
   const [account, setAccount] = useState(null)
   const [chainId, setChainId] = useState(null)
-  const [notificationStatus, setNotificationStatus] = useState({ show: false, error: false })
   const validChainId = '0x13881' // Polygon testnet "Mumbai" (800001)
   
 
@@ -48,14 +52,24 @@ export default function EthersProvider ({ children }) {
 
   function connectContracts (provider) {
     try {
-      const contractAddress = "0x4868445F626c775869C5b241635466d3a46c31A7" // test contract MUMBAI
-      const daiAddress = '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615' // test dai
+      const alphaAddress = "0x4868445F626c775869C5b241635466d3a46c31A7" // test contract MUMBAI
+      const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615" // test dai
+      const gammaPacksAddress = "0x503B9aF955AfDCEB12DA420D5A148Ba4faf58136"
+      const gammaCardsAddress = "0x7C2221E68222057ccc15076b94f9415e62e5d024"
+      
       const signer = provider.getSigner()
-      let nofContract = new ethers.Contract(contractAddress, nofAbi.abi, signer)
+      
       let daiContractInstance = new ethers.Contract(daiAddress, daiAbi.abi, signer)
-      setContract(nofContract)
+      let alphaContractInstance = new ethers.Contract(alphaAddress, alphaAbi.abi, signer)
+      let gammaPacksContractInstance = new ethers.Contract(gammaPacksAddress, gammaPacksAbi.abi, signer)
+      let gammaCardsContractInstance = new ethers.Contract(gammaCardsAddress, gammaCardsAbi.abi, signer)
+      
+      setAlphaContract(alphaContractInstance)
       setDaiContract(daiContractInstance)
-      return [nofContract, daiContractInstance]
+      setAlphaContract(alphaContractInstance)
+      setDaiContract(daiContractInstance)
+      
+      return [daiContractInstance, alphaContractInstance, gammaPacksContractInstance, gammaCardsContractInstance]
     } catch (e) {
       console.log({ e })
     }
@@ -134,12 +148,11 @@ export default function EthersProvider ({ children }) {
         chainId,
         setChainId,
         isValidChain,
-        notificationStatus,
-        setNotificationStatus,
-        contract,
         connectContracts,
-        // daiContract,
-        // connectDai
+        daiContract,
+        alphaContract,
+        gammaPacksContract,
+        gammaCardsContract
       }}
     >
       {children}

@@ -49,7 +49,6 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                 cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i];
             }
             setPaginationObj(cardsObj)
-            console.log(cardsObj.user)
         } catch (e) {
             console.error({ e })
         }

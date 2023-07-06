@@ -93,7 +93,7 @@ function Navbar({
   const buySobres = () => {
     Swal.fire({
       text: "Elige la cantidad de sobres que quieres comprar",
-      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input type="number" id="quiero" class="swal2-input" placeholder="Sobres" /> ',
+      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input autofocus type="number" id="quiero" class="swal2-input" placeholder="Sobres" />',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Comprar",
@@ -103,7 +103,7 @@ function Navbar({
       customClass: {
         image: "cardalertimg",
         input: "alertinput"
-      },
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         const input = Swal.getPopup().querySelector("#quiero");
