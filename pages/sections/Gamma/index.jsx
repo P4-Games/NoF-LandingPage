@@ -33,6 +33,7 @@ const index = React.forwardRef((props, book) => {
   const [daiContract, setDaiContract] = useState(null)
   const [loading, setLoading] = useState(null)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
+  const [numberOfPacks, setNumberOfPacks] = useState("hola")
 
 
   //// autorizations /////
@@ -215,6 +216,19 @@ const index = React.forwardRef((props, book) => {
     return () => window.removeEventListener("resize", updateMedia);
   }, []);
 
+  const checkNumberOfPacks = async () => {
+    try {
+      const numberOfPacks = await checkPacksByUser(account, packsContract)
+      setNumberOfPacks(numberOfPacks?.length.toString())
+      console.log({numberOfPacks})
+    } catch(e) {
+      console.error({ e })
+    }
+  }
+  useEffect(() => {
+    checkNumberOfPacks()
+  }, [account, packsContract])
+
   const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
@@ -349,17 +363,16 @@ const index = React.forwardRef((props, book) => {
       }
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-        
         const data = await fetchPackData(account, packNumber) // llamada al back
-
         const { packet_data, signature } = data;
-
+        
         setOpenPackCardsNumbers(packet_data)
         setPacksEnable(true)
 
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
         await openedPack.wait()
         console.log({ openedPack })
+        await checkNumberOfPacks()
         return openedPack
       }
     } catch (e) {
@@ -436,7 +449,7 @@ const index = React.forwardRef((props, book) => {
           {!mobile && inventory &&
             <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className="gammaShop">
               <div className="album">
-                <h2>5</h2>
+                <h2>{numberOfPacks}</h2>
                 <h3>TRANSFER</h3>
               </div>
             </div>}
