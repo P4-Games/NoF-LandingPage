@@ -54,143 +54,6 @@ const index = React.forwardRef((props, book) => {
     return approved.gt(0);
   };
 
-  const checkBalance = async () => {
-    // Get the account balance from the Dai contract
-    const balance = await daiContract.balanceOf(account);
-    // Convert the balance from a BigNumber to a number
-    const number = JSON.parse(ethers.BigNumber.from(balance).toString());
-
-    // Set the minimum balance value to 1 Dai
-    const minimum = 1000000000000000000;
-
-    // Return true if the account balance is greater than the minimum value, false otherwise
-    return number > minimum;
-  };
-  const buypack = () => {
-    if (checkBalance(account)) {
-      checkApproved(packsContractAddress, account)
-        .then((res) => {
-          const comprarPack = async () => {
-            const packBought = await packsContract.buyPack({ gasLimit: 2500000 });
-            setLoading(true);
-            await packBought.wait();
-            setLoading(false);
-            return packBought;
-          };
-          if (res) {
-            comprarPack()
-          } else {
-            authorizeDaiContract()
-              .then(() => {
-                comprarPack()
-                  .catch((e) => {
-                    console.error({ e });
-                    setLoading(false);
-                  });
-              })
-          }
-        })
-        .catch((e) => {
-          console.log('entro el  tercer catch')
-          console.error({ e });
-          setLoading(false);
-        });
-    } else {
-      Swal.fire({
-        title: "oops!",
-        text: "No tienes suficientes DAI!",
-        icon: "error",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-
-  }
-  const buyPack = (price, name) => {
-    showCards(account, seasonName)
-      .then((cards) => {
-        checkPacksByUser(account, packsContract)
-          .then((res) => {
-            if (!res || res.length == 0) {
-              setNoCardsError("No hay más packs disponibles.");
-              return;
-            } else {
-              if (checkBalance(account)) {
-                checkApproved(contractAddress, account)
-                  .then((res) => {
-                    const comprarPack = async (price, name) => {
-                      const pack = await nofContract.buyPack(price, name, {
-                        gasLimit: 2500000,
-                      });
-                      setLoading(true);
-                      await pack.wait();
-                      setLoading(false);
-                      return pack;
-                    };
-                    if (res) {
-                      comprarPack(price, name)
-                        .then((pack) => {
-                          setPack(pack);
-                          showCards(account, seasonName);
-                        })
-                        .catch((err) => {
-                          console.error({ err });
-                          setLoading(false);
-                        });
-                    } else {
-                      authorizeDaiContract()
-                        .then(() => {
-                          comprarPack(price, name)
-                            .then((pack) => {
-                              setPack(pack);
-                              showCards(account, seasonName);
-                            })
-                            .catch((e) => {
-                              console.error({ e });
-                              setLoading(false);
-                            });
-                        })
-                        .catch((e) => {
-                          console.error({ e });
-                          setLoading(false);
-                        });
-                    }
-                  })
-                  .catch((e) => {
-                    console.error({ e });
-                    setLoading(false);
-                  });
-              } else {
-                Swal.fire({
-                  title: "oops!",
-                  text: "No tienes suficientes DAI!",
-                  icon: "error",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-              }
-            }
-          })
-          .catch((e) => {
-            console.error({ e });
-            setLoading(false);
-          });
-      })
-      .catch((e) => {
-        console.error({ e });
-        setLoading(false);
-      });
-  };
-
-  // funcion para llamar al contrato, hay que pasarle el numero de pack, las cartas y la signature, para lo cual primero hay que llamar a la api
-  // const openPacks = async (packNumber, packData, signature) => {
-  //   console.log(packNumber)
-  //   const open = await cardsContract?.openPack(packNumber, packData, signature, { gasLimit: 2500000 })
-  //   await open.wait()
-  //   console.log(open)
-  //   return open
-  // }
-
   const [mobile, setMobile] = useState(false);
   const [size, setSize] = useState(false);
   
@@ -225,11 +88,11 @@ const index = React.forwardRef((props, book) => {
       console.error({ e })
     }
   }
+
   useEffect(() => {
     checkNumberOfPacks()
   }, [account, packsContract])
 
-  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
 
@@ -371,7 +234,6 @@ const index = React.forwardRef((props, book) => {
 
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
         await openedPack.wait()
-        console.log({ openedPack })
         await checkNumberOfPacks()
         return openedPack
       }
@@ -421,6 +283,7 @@ const index = React.forwardRef((props, book) => {
         packsContract={packsContract}
         checkApproved={checkApproved}
         authorizeDaiContract={authorizeDaiContract}
+        checkNumberOfPacks={checkNumberOfPacks}
       />
 
       {account && <div className="gamma_main">

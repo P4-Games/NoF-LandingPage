@@ -28,6 +28,7 @@ export default function EthersProvider ({ children }) {
   async function requestAccount () {
     const web3Modal = new Web3Modal()
     let provider
+    let address
     try {
       const connection = await web3Modal.connect()
       provider = new ethers.providers.Web3Provider(connection)

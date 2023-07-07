@@ -37,7 +37,8 @@ function Navbar({
   cardInfo,
   packsContract,
   checkApproved,
-  authorizeDaiContract
+  authorizeDaiContract,
+  checkNumberOfPacks
 }) {
   const [midButton, setMidButton] = useState("");
   const [page, setPage] = useState("");
@@ -77,6 +78,9 @@ function Navbar({
         
         const call = await packsContract.buyPacks(numberOfPacks);
         await call.wait()
+
+        await checkNumberOfPacks()
+
         return call;
 
       } else {
