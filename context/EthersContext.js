@@ -54,8 +54,8 @@ export default function EthersProvider ({ children }) {
     try {
       const alphaAddress = "0x4868445F626c775869C5b241635466d3a46c31A7" // test contract MUMBAI
       const daiAddress = "0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615" // test dai
-      const gammaPacksAddress = "0x503B9aF955AfDCEB12DA420D5A148Ba4faf58136"
-      const gammaCardsAddress = "0x7C2221E68222057ccc15076b94f9415e62e5d024"
+      const gammaPacksAddress = "0xDe30a1B73031ccB456967BE9f103DaF23A006d1b"
+      const gammaCardsAddress = "0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76"
       
       const signer = provider.getSigner()
       

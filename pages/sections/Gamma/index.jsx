@@ -220,9 +220,9 @@ const index = React.forwardRef((props, book) => {
 
   ///// ////////////
   // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
-  const packsContractAddress = "0x503B9aF955AfDCEB12DA420D5A148Ba4faf58136"
+  const packsContractAddress = "0xDe30a1B73031ccB456967BE9f103DaF23A006d1b"
   // const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
-  const cardsContractAddress = "0x7C2221E68222057ccc15076b94f9415e62e5d024"
+  const cardsContractAddress = "0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76"
   const daiAddress = "0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1"
 
 
@@ -348,6 +348,7 @@ const index = React.forwardRef((props, book) => {
       }
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+        
         const data = await fetchPackData(account, packNumber) // llamada al back
 
         const { packet_data, signature } = data;
