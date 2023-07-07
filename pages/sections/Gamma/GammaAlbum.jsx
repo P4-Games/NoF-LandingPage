@@ -58,11 +58,11 @@ const GammaInventory = React.forwardRef((props, book) => {
                         {pagination.page1.map((item, index) => {
                             return (
                                 <div style={{ background: 'none' }} key={index} className="grid-item">
-                                    {pagination.fakeUser[item].stamped
+                                    {pagination.user[item]?.stamped
                                         ? <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
                                         : <img src={`assets/gamma/Nofy.png`} alt="img" />
                                     }
-                                    {!pagination.fakeUser[item].stamped && <div className='numbershirt'>{pagination.fakeUser[item].name}</div>}
+                                    {!pagination.user[item]?.stamped && <div className='numbershirt'>{pagination.user[item]?.name}</div>}
                                 </div>
                             )
                         })}
@@ -78,11 +78,11 @@ const GammaInventory = React.forwardRef((props, book) => {
                     {pagination.page2.map((item, index) => {
                         return (
                             <div style={{ background: 'none' }} key={index} className="grid-item">
-                                {pagination.fakeUser[item].stamped
+                                {pagination.user[item]?.stamped
                                     ? <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
                                     : <img src={`assets/gamma/Nofy.png`} alt="img" />
                                 }
-                                {!pagination.fakeUser[item].stamped && <div className='numbershirt'>{pagination.fakeUser[item].name}</div>}
+                                {!pagination.user[item]?.stamped && <div className='numbershirt'>{pagination.user[item]?.name}</div>}
                             </div>
                         )
                     })}

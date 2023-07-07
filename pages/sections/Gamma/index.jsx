@@ -32,6 +32,7 @@ const index = React.forwardRef((props, book) => {
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [loading, setLoading] = useState(null)
+  const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
 
 
   //// autorizations /////
@@ -352,7 +353,8 @@ const index = React.forwardRef((props, book) => {
         const data = await fetchPackData(account, packNumber) // llamada al back
 
         const { packet_data, signature } = data;
-        
+
+        setOpenPackCardsNumbers(packet_data)
         setPacksEnable(true)
 
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
@@ -367,7 +369,6 @@ const index = React.forwardRef((props, book) => {
 
   const [cardInfo, setCardInfo] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
-
 
   // useEffect(() => {
   //   const loadingElem = document.getElementById("loading");
@@ -410,7 +411,7 @@ const index = React.forwardRef((props, book) => {
       />
 
       {account && <div className="gamma_main">
-        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} />}
+        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} cardsNumbers={openPackCardsNumbers} />}
         <Head>
           <title>Number One Fan</title>
           <meta name="description" content="NoF Gamma" />
