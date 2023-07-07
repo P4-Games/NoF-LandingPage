@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { motion } from "framer-motion"
 
 
-function PackFiguritas({ openPackage }) {
+function PackFiguritas({ openPackage, cardsNumbers }) {
     useEffect(() => {
         if (typeof window !== "undefined") {
 
@@ -299,46 +299,14 @@ function PackFiguritas({ openPackage }) {
                     initial={{ display: 'none' }}
                     animate={openPackage ? { display: 'flex' } : ''}
                     transition={{ delay: 5 }} className="boxes">
-                    <div className="box" style={{ "--src": `url(https://storage.googleapis.com/nof-gamma/T1/1.png)` }}>
-                        <span>1</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/1.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/2.png)" }}>
-                        <span>2</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/2.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/10.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/10.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/15.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/15.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/3.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/3.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/30.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/30.png" />
-                    </div>
-                    <div className="box" style={{ "--src": "url(https://storage.googleapis.com/nof-gamma/T1/33.png)" }}>
-                        <span>3</span>
-                        <img src="https://storage.googleapis.com/nof-gamma/T1/33.png" />
-                    </div>
+                    {(cardsNumbers.length > 0 && cardsNumbers.map((cardNumber, i) => {
+                        return (
+                            <div className="box" key={i} style={{ "--src": `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)` }}>
+                                <span>{cardNumber}</span>
+                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`} />
+                            </div>        
+                        )
+                    }))}
                 </motion.div>
                 <div className="controls"><button class="next"><span>Previous album</span><svg viewBox="0 0 448 512" width="100" title="Previous Album">
                     <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path>

@@ -4,11 +4,10 @@ import { motion } from "framer-motion"
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from "../../../utils/PackFiguritas";
 
-const GammaPack = ({ setOpenPack }) => {
+const GammaPack = ({ setOpenPack, cardsNumbers }) => {
     const [openPackage, setOpenPackage] = useState(false)
     const starshineRef = useRef(null);
     const templateRef = useRef(null);
-
 
     useEffect(() => {
         const body = starshineRef.current;
@@ -65,7 +64,7 @@ const GammaPack = ({ setOpenPack }) => {
                         id='imagetest' src={`https://storage.googleapis.com/nof-gamma/T1/${1}.png`} alt="img" />
                 </motion.div>
                 <AiOutlineCloseCircle onClick={() => setOpenPack(false)} className="closebutton" />
-                {openPackage && <PackFiguritas openPackage={openPackage} />}
+                {openPackage && <PackFiguritas openPackage={openPackage} cardsNumbers={cardsNumbers} />}
 
 
             </div>
