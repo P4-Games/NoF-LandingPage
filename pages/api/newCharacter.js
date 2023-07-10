@@ -25,7 +25,7 @@ const findUserByDiscordID = async (db, discordID) => {
   const user = await collection.findOne({ discordID });
 
   if (!user) {
-    throw new Error(`Usuario con discordID: ${discordID} no encontrado, si es aún no te has registrado usa el comando /start para empezar a jugar.`);
+    throw new Error(`User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`);
   }
 
   return user;
@@ -61,19 +61,19 @@ export default async function handler(req, res) {
     const user = await findUserByDiscordID(db, discordID);
 
     if (!user) {
-      return res.status(200).json({ message: `Usuario con discordID: ${discordID} no encontrado, si es aún no te has registrado usa el comando /start para empezar a jugar.` });
+      return res.status(200).json({ message: `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.` });
     }
 
     const characterID = await getRandomCharacterID(db, channelID);
 
     if (characterID === null) {
-      return res.status(200).json({ message: 'Personaje ya fue reclamado' });
+      return res.status(200).json({ message: 'The character has already been collected.' });
     }
 
     const character = user.characters.find(c => c.id.toString() === characterID.toString());
 
     if (character) {
-      return res.status(200).json({ message: 'Ya tienes este personaje en tu inventario' });
+      return res.status(200).json({ message: 'You already have this character in your inventory.' });
     }
 
     const characterObj = await findCharacterByID(db, characterID);
@@ -82,11 +82,11 @@ export default async function handler(req, res) {
     const serversCollection = db.collection('servers');
     await serversCollection.updateOne({ channelId: channelID }, { $set: { nofy: null } });
 
-    res.status(200).json({ message: 'Personaje agregado correctamente', image: characterObj.image });
+    res.status(200).json({ message: 'Character added successfully.', image: characterObj.image });
   } catch (error) {
     console.error(error);
 
-    if (error.message.includes('Usuario con discordID')) {
+    if (error.message.includes('User with Discord ID:')) {
       res.status(200).json({ message: error.message });
     } else {
       res.status(200).json({ message: 'Server error' });

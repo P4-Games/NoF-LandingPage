@@ -29,7 +29,7 @@ const updateMedals = async (db, discordID) => {
     const user = await usersCollection.findOne({ discordID });
   
     if (!user) {
-      throw new Error(`Usuario discordID: ${discordID} no resitrado. Para usar este comando debes previamente hacer **/start**`);
+      throw new Error(`User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`);
     }
   
     const { medals, characters } = user;
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(error);
 
-    if (error.message.startsWith('Para usar este comando debes previamente hacer **/start**')) {
+    if (error.message.startsWith('To use this command, you must first do **/start**')) {
       res.status(404).json({ message: error.message });
     } else {
       res.status(500).json({ message: 'Server error' });

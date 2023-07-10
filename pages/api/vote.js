@@ -57,16 +57,16 @@ export default async function handler(req, res) {
           const imageUrl = `https://storage.googleapis.com/nof-gamma/T1/${missingCharacter}.png`;
           res.status(200).json({ voted: true, missingCharacter, imageUrl });
         } else {
-          res.status(200).json({ voted: true, message: 'Tu inventario esta completo.' });
+          res.status(200).json({ voted: true, message: 'Your inventory is full.' });
         }
       } else {
-        res.status(200).json({ voted: true, message: 'Usuario no encontrado.' });
+        res.status(200).json({ voted: true, message: 'User not found.' });
       }
     } else {
       res.status(200).json({ voted: false });
     }
   } catch (error) {
-    console.error('Error al consultar el estado de voto:', error);
-    res.status(500).json({ error: 'Error al consultar el estado de voto' });
+    console.error('Error while checking the voting status:', error);
+    res.status(500).json({ error: 'Error while checking the voting status.' });
   }
 }
