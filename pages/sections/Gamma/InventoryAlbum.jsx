@@ -42,13 +42,15 @@ const InventoryAlbum = React.forwardRef((props, book) => {
 
     const getUserCards = async () => {
         try {
-            const cardsArr = await cardsContract.getCardsByUser(account)
+            const cardsArr = await cardsContract?.getCardsByUser(account)
             const cardsObj = pagination;
-            for (let i = 0; i < cardsArr[0].length; i++) {
-                cardsObj.user[cardsArr[0][i]].stamped = true;
-                cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i];
+            if(cardsArr?.length > 0){
+                for (let i = 0; i < cardsArr[0]?.length; i++) {
+                    cardsObj.user[cardsArr[0][i]].stamped = true;
+                    cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i];
+                }
+                setPaginationObj(cardsObj)
             }
-            setPaginationObj(cardsObj)
         } catch (e) {
             console.error({ e })
         }

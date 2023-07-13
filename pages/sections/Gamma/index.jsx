@@ -245,23 +245,21 @@ const index = React.forwardRef((props, book) => {
   const [cardInfo, setCardInfo] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
 
-  // useEffect(() => {
-  //   const loadingElem = document.getElementById("loading");
-  //   loading
-  //     ? loadingElem.setAttribute("class", "alpha_loader_container")
-  //     : loadingElem.setAttribute(
-  //       "class",
-  //       "alpha_loader_container alpha_display_none"
-  //     );
-  // }, [loading]);
+  useEffect(() => {
+    const loadingElem = document.getElementById("loading");
+    loading
+      ? loadingElem.setAttribute("class", "alpha_loader_container")
+      : loadingElem.setAttribute(
+        "class",
+        "alpha_loader_container alpha_display_none"
+      );
+  }, [loading]);
 
   return (
     <>
       {!account && <div className="alpha">
         <div className="alpha_loader_container alpha_display_none" id="loading">
-          <span
-            className="loader"
-          ></span>
+          <span className="loader"></span>
         </div>
         <div className="alpha_main_buttons_container">
           <button className="alpha_button alpha_main_button" id="connect_metamask_button" onClick={() => connectToMetamask()}>Conectar con Metamask</button>

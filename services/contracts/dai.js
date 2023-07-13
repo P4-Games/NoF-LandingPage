@@ -10,3 +10,8 @@ export const checkBalance = async () => {
   // Return true if the account balance is greater than the minimum value, false otherwise
   return number > minimum;
 };
+
+export const checkApproved = async (daiContract, approvedAddress, tokenOwner) => {
+  const approved = await daiContract.allowance(tokenOwner, approvedAddress);
+  return approved.gt(0);
+};
