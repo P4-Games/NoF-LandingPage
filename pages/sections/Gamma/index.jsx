@@ -33,7 +33,8 @@ const index = React.forwardRef((props, book) => {
   const [daiContract, setDaiContract] = useState(null)
   const [loading, setLoading] = useState(null)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
-  const [numberOfPacks, setNumberOfPacks] = useState("hola")
+  const [numberOfPacks, setNumberOfPacks] = useState("0")
+  const [openPackage, setOpenPackage] = useState(false)
 
 
   //// autorizations /////
@@ -234,6 +235,7 @@ const index = React.forwardRef((props, book) => {
 
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
         await openedPack.wait()
+        setOpenPackage(true)
         await checkNumberOfPacks()
         return openedPack
       }
@@ -285,7 +287,7 @@ const index = React.forwardRef((props, book) => {
       />
 
       {account && <div className="gamma_main">
-        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} cardsNumbers={openPackCardsNumbers} />}
+        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} cardsNumbers={openPackCardsNumbers} openPackage={openPackage} />}
         <Head>
           <title>Number One Fan</title>
           <meta name="description" content="NoF Gamma" />

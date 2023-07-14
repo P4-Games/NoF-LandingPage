@@ -1,4 +1,5 @@
-const api_endpoint = "https://cors-anywhere.herokuapp.com/https://gamma-microservice-7bteynlhua-uc.a.run.app/";
+// const api_endpoint = "https://gamma-microservice-7bteynlhua-uc.a.run.app/";
+const api_endpoint = 'http://localhost:8080'
 
 // llamada a la api para que nos de la data a pasar en la llamada al contrato
 export const fetchPackData = async (account, pack_number) => {
