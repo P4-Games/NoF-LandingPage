@@ -1,5 +1,4 @@
-// const api_endpoint = "https://gamma-microservice-7bteynlhua-uc.a.run.app/";
-const api_endpoint = 'http://localhost:8080'
+const api_endpoint = "https://gamma-microservice-7bteynlhua-uc.a.run.app/";
 
 // llamada a la api para que nos de la data a pasar en la llamada al contrato
 export const fetchPackData = async (account, pack_number) => {

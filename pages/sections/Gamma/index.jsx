@@ -234,10 +234,14 @@ const index = React.forwardRef((props, book) => {
         setPacksEnable(true)
 
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
-        await openedPack.wait()
-        setOpenPackage(true)
-        await checkNumberOfPacks()
-        return openedPack
+        if(openedPack){
+          await openedPack.wait()
+          setOpenPackage(true)
+          await checkNumberOfPacks()
+          return openedPack
+        } else {
+          return
+        }
       }
     } catch (e) {
       console.error({ e })
@@ -287,7 +291,12 @@ const index = React.forwardRef((props, book) => {
       />
 
       {account && <div className="gamma_main">
-        {packIsOpen && <GammaPack setPackIsOpen={setPackIsOpen} cardsNumbers={openPackCardsNumbers} openPackage={openPackage} />}
+        {packIsOpen && <GammaPack
+                          setPackIsOpen={setPackIsOpen}
+                          cardsNumbers={openPackCardsNumbers}
+                          setOpenPackage={setOpenPackage}
+                          openPackage={openPackage}
+                        />}
         <Head>
           <title>Number One Fan</title>
           <meta name="description" content="NoF Gamma" />
