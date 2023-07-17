@@ -218,8 +218,10 @@ const index = React.forwardRef((props, book) => {
     }
   }, [])
 
+  // funcion para abrir uno a uno los sobres disponibles
   const openAvailablePack = async () => {
     try {
+      // llama al contrato para ver cantidad de sobres que tiene el usuario
       const packs = await checkPacksByUser(account, packsContract) // llamada al contrato
       if (packs.length == 0) {
         setPacksEnable(false)
@@ -227,12 +229,13 @@ const index = React.forwardRef((props, book) => {
       }
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+        // llama a la api para recibir los numeros de cartas del sobre y la firma
         const data = await fetchPackData(account, packNumber) // llamada al back
         const { packet_data, signature } = data;
         
         setOpenPackCardsNumbers(packet_data)
         setPacksEnable(true)
-
+        // llama al contrato de cartas para abrir el sobre
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
         if(openedPack){
           await openedPack.wait()
