@@ -17,3 +17,19 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
     console.error({ e })
   }
 }
+
+export const getUserCards = async (cardsContract, account, pagination) => {
+  try {
+      const cardsArr = await cardsContract?.getCardsByUser(account)
+      const cardsObj = pagination;
+      if(cardsArr?.length > 0){
+          for (let i = 0; i < cardsArr[0]?.length; i++) {
+              cardsObj.user[cardsArr[0][i]].stamped = true;
+              cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i];
+          }
+      }
+      return cardsObj
+  } catch (e) {
+      console.error({ e })
+  }
+}

@@ -3,6 +3,7 @@ import Footer from "../../../components/Footer";
 import HTMLFlipBook from "react-pageflip";
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from "../../../artifacts/utils/placeholders";
+import { getUserCards } from "../../../services/contracts/gamma";
 
 const InventoryAlbum = React.forwardRef((props, book) => {
 
@@ -16,7 +17,11 @@ const InventoryAlbum = React.forwardRef((props, book) => {
     }, []);
 
     useEffect(() => {
-        getUserCards()
+        const fetchCardsData = async () => {
+            const userCards = await getUserCards(cardsContract, account, pagination)
+            setPaginationObj(userCards)
+        }
+        fetchCardsData()
     }, [account, cardsContract])
 
     const windowSize = () => {
@@ -38,22 +43,6 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         };
         window.addEventListener("resize", updateMedia);
         return () => window.removeEventListener("resize", updateMedia);
-    }
-
-    const getUserCards = async () => {
-        try {
-            const cardsArr = await cardsContract?.getCardsByUser(account)
-            const cardsObj = pagination;
-            if(cardsArr?.length > 0){
-                for (let i = 0; i < cardsArr[0]?.length; i++) {
-                    cardsObj.user[cardsArr[0][i]].stamped = true;
-                    cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i];
-                }
-                setPaginationObj(cardsObj)
-            }
-        } catch (e) {
-            console.error({ e })
-        }
     }
 
     return paginationObj.page1 ?
