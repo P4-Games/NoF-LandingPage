@@ -7,7 +7,7 @@ const calculateMedals = (characters, currentMedals) => {
 
   const charactersCount = characters.length; // Obtener la cantidad de caracteres
 
-  if (charactersCount >= 120) { // Verificar si se supera el límite de caracteres (120)
+  if (charactersCount >= 132) { // Verificar si se supera el límite de caracteres (132)
     if (medals.includes('bronze')) {
       // Si hay una medalla de bronce, convertirla en medalla de plata
       medals[medals.indexOf('bronze')] = 'silver';
