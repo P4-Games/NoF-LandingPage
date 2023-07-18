@@ -108,7 +108,9 @@ function getNumberOfColumns(imageCount) {
     return 7;
   } else if (imageCount <= 90) {
     return 8;
-  } else {
+  } else if (imageCount <= 120) {
     return 10;
+  } else {
+    return 11;
   }
 }

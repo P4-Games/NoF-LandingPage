@@ -39,7 +39,7 @@ const updateMedals = async (db, discordID) => {
   
     let updateObject = { medals: updatedMedals };
   
-    if (charactersCount === 120) {
+    if (charactersCount === 132) {
       updateObject.characters = [];
     }
   

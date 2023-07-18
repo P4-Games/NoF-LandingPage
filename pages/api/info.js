@@ -23,7 +23,7 @@ const getUserInfo = async (db, discordID) => {
   const charactersCount = user.characters.length;
 
   // Calcular el porcentaje de completitud del inventario del usuario
-  const inventoryCompletion = Math.floor((charactersCount / 120) * 100);
+  const inventoryCompletion = Math.floor((charactersCount / 132) * 100);
 
   // Obtener la cantidad total de usuarios registrados
   const usersCount = await usersCollection.countDocuments();
