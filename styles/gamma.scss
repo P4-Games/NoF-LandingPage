@@ -29,12 +29,22 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  h1{
+    left: 40%;
+    top: 35%;
+    position: absolute;
+    font-size: 3rem;
+    filter: drop-shadow(2px 4px 6px white);
+    font-weight: lighter;
+  }
   h2{
     font-size: 0.8rem;
     margin: 0;
     // filter: url();
   }
   h3{
+    font-size:1rem;
+    margin: 0;
     transition: all 0.1s ease;
     cursor: pointer;
     &:hover{
@@ -47,9 +57,9 @@
     justify-content: center;
     align-items: center;
     gap: 24%;
-    bottom: -2%;
+    bottom:0%;
     // filter: url();
-    color: red;
+    color:black;
     margin: 0;
   }
 }
@@ -312,6 +322,7 @@ z-index: 100000;
    height: 70%;
 
 }
+
 #imagetest{
   width: 100%;
     height: 60%;
@@ -324,6 +335,53 @@ z-index: 100000;
     background-repeat: no-repeat;
 
 }
+}
+.packloader{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  border-radius: 2px;
+  margin-bottom: 0;
+  overflow: hidden;
+  filter: grayscale(0.9);
+
+  &:only-child {
+    margin-top:0;
+  }
+
+  &:before {
+    content: '';
+    height: 110px;
+    display: block;
+  }
+
+  &:after {
+   filter: grayscale(0.5);
+    content: '';
+    background-color: #333;
+    width: 50%;
+    height: 90%;
+    position: absolute;
+    top: 5%;
+    left: 30%;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-name: loader-animate;
+    animation-timing-function: linear;
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 30%, rgba(255,255,255,0) 81%);
+    background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 30%, rgba(255,255,255,0) 81%);
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 30%, rgba(255,255,255,0) 81%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#00ffffff',GradientType=1 );
+  }
+}
+ 
+
+@keyframes loader-animate{
+ 0%{
+    transform: translate3d(-100%, 0, 0);
+  }
+ 100%{
+    transform: translate3d(100%, 0, 0);
+  }
 }
 // @keyframes openPackage{
 //  90%{

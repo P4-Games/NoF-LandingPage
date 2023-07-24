@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from "../../../utils/PackFiguritas";
 
-const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers }) => {
+const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
     const starshineRef = useRef(null);
     const templateRef = useRef(null);
 
@@ -49,7 +49,7 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers })
                 <motion.div
                     animate={openPackage ? { display: 'none' } : ''}
                     transition={{ delay: 5 }}
-                    className="pack">
+                    className={loaderPack ? 'pack packloader' : 'pack'}>
                     <motion.img
                         animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
                         transition={{ duration: 2, delay: 0 }} id='top' src="/assets/gamma/SobreTop.png" alt="" />

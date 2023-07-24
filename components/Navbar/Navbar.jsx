@@ -63,19 +63,19 @@ function Navbar({
 
   const callContract = async (numberOfPacks) => {
     packsContract.on("PacksPurchase", (returnValue, theEvent) => {
-      
-      for(let i=0;i<theEvent.length;i++){
+
+      for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
         console.log({ pack_number })
       }
     })
-    
+
     try {
-      const approval =  await checkApproved(packsContract.address, account)
-      if(!approval){
-        
+      const approval = await checkApproved(packsContract.address, account)
+      if (!approval) {
+
         await authorizeDaiContract()
-        
+
         const call = await packsContract.buyPacks(numberOfPacks);
         await call.wait()
 
@@ -93,11 +93,28 @@ function Navbar({
       console.error({ e })
     }
   }
+  const [inputValue, setInputValue] = useState('');
+  const [result, setResult] = useState('');
+
+  // const handleInputChange = (event) => {
+  //   const value = event.target.value;
+  //   setInputValue(value);
+
+  //   // Comprueba si el valor ingresado es un número válido antes de multiplicar
+  //   const parsedValue = parseFloat(value);
+  //   if (!isNaN(parsedValue)) {
+  //     const multipliedValue = parsedValue * 1.3;
+  //     setResult(`${parsedValue}x1.3 = ${multipliedValue}`);
+  //   } else {
+  //     setResult('');
+  //   }
+  // };
 
   const buySobres = () => {
+
     Swal.fire({
       text: "Elige la cantidad de sobres que quieres comprar",
-      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input autofocus type="number" id="quiero" class="swal2-input" placeholder="Sobres" />',
+      html: `<h3> Elige la cantidad de sobres que quieres comprar</h3><input autofocus type="number" id="quiero" class="swal2-input" placeholder="Sobres"/>`,
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: "Comprar",
@@ -108,13 +125,14 @@ function Navbar({
         image: "cardalertimg",
         input: "alertinput"
       }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const input = Swal.getPopup().querySelector("#quiero");
-        setWantedSobres(input.value)
-        callContract(input.value);
-      }
     })
+      .then((result) => {
+        if (result.isConfirmed) {
+          const input = Swal.getPopup().querySelector("#quiero");
+          setWantedSobres(input.value)
+          callContract(input.value);
+        }
+      })
   }
 
   return (

@@ -79,7 +79,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                                         <div className='number'>{paginationObj.user[item]?.name}</div>
                                         {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1
                                             &&
-                                            <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
+                                            <div className='quantity'>X:{paginationObj?.user[item]?.quantity}</div>
                                         }
                                     </div>
                                 )

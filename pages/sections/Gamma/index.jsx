@@ -57,7 +57,7 @@ const index = React.forwardRef((props, book) => {
 
   const [mobile, setMobile] = useState(false);
   const [size, setSize] = useState(false);
-  
+
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobile(true);
@@ -84,8 +84,8 @@ const index = React.forwardRef((props, book) => {
     try {
       const numberOfPacks = await checkPacksByUser(account, packsContract)
       setNumberOfPacks(numberOfPacks?.length.toString())
-      console.log({numberOfPacks})
-    } catch(e) {
+      console.log({ numberOfPacks })
+    } catch (e) {
       console.error({ e })
     }
   }
@@ -217,12 +217,15 @@ const index = React.forwardRef((props, book) => {
       })
     }
   }, [])
+  const [loaderPack, setLoaderPack] = useState(false)
 
   // funcion para abrir uno a uno los sobres disponibles
   const openAvailablePack = async () => {
     try {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
       const packs = await checkPacksByUser(account, packsContract) // llamada al contrato
+      setLoaderPack(true)
+      console.log('entro dspues del loader')
       if (packs.length == 0) {
         setPacksEnable(false)
         alert("No tienes paquetes para abrir!")
@@ -232,17 +235,19 @@ const index = React.forwardRef((props, book) => {
         // llama a la api para recibir los numeros de cartas del sobre y la firma
         const data = await fetchPackData(account, packNumber) // llamada al back
         const { packet_data, signature } = data;
-        
+
         setOpenPackCardsNumbers(packet_data)
         setPacksEnable(true)
         // llama al contrato de cartas para abrir el sobre
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
-        if(openedPack){
+        if (openedPack) {
           await openedPack.wait()
           setOpenPackage(true)
+          setLoaderPack(false)
           await checkNumberOfPacks()
           return openedPack
         } else {
+          setLoaderPack(false)
           return
         }
       }
@@ -257,8 +262,8 @@ const index = React.forwardRef((props, book) => {
   useEffect(() => {
     const loadingElem = document.getElementById("loading");
     loading
-      ? loadingElem.setAttribute("class", "alpha_loader_container")
-      : loadingElem.setAttribute(
+      ? loadingElem?.setAttribute("class", "alpha_loader_container")
+      : loadingElem?.setAttribute(
         "class",
         "alpha_loader_container alpha_display_none"
       );
@@ -280,7 +285,7 @@ const index = React.forwardRef((props, book) => {
           <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
-      
+
       <Navbar
         account={account}
         cardInfo={cardInfo}
@@ -295,11 +300,12 @@ const index = React.forwardRef((props, book) => {
 
       {account && <div className="gamma_main">
         {packIsOpen && <GammaPack
-                          setPackIsOpen={setPackIsOpen}
-                          cardsNumbers={openPackCardsNumbers}
-                          setOpenPackage={setOpenPackage}
-                          openPackage={openPackage}
-                        />}
+          loaderPack={loaderPack}
+          setPackIsOpen={setPackIsOpen}
+          cardsNumbers={openPackCardsNumbers}
+          setOpenPackage={setOpenPackage}
+          openPackage={openPackage}
+        />}
         <Head>
           <title>Number One Fan</title>
           <meta name="description" content="NoF Gamma" />
@@ -323,8 +329,9 @@ const index = React.forwardRef((props, book) => {
           {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
           {!mobile && inventory &&
             <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className="gammaShop">
+              <h1>{numberOfPacks}</h1>
               <div className="album">
-                <h2>{numberOfPacks}</h2>
+                {/* <h2>{numberOfPacks}</h2> */}
                 <h3>TRANSFER</h3>
               </div>
             </div>}
