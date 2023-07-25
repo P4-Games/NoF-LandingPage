@@ -32,7 +32,7 @@ const findUserByDiscordID = async (db, discordID) => {
 };
 
 const findCharacterByID = async (db, characterID) => {
-  const characterImage = `https://storage.googleapis.com/nof-gamma/T1/${characterID}.png`;
+  const characterImage = `https://storage.googleapis.com/nof-gamma/T2/${characterID}.png`;
   const charactersCollection = db.collection('characters');
   const character = await charactersCollection.findOne({ image: characterImage });
 

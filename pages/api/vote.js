@@ -54,7 +54,7 @@ export default async function handler(req, res) {
           // Actualizar la base de datos con el nuevo personaje
           await usersCollection.updateOne({ discordID }, { $set: { characters } });
 
-          const imageUrl = `https://storage.googleapis.com/nof-gamma/T1/${missingCharacter}.png`;
+          const imageUrl = `https://storage.googleapis.com/nof-gamma/T2/${missingCharacter}.png`;
           res.status(200).json({ voted: true, missingCharacter, imageUrl });
         } else {
           res.status(200).json({ voted: true, message: 'Your inventory is full.' });

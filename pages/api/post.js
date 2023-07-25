@@ -39,7 +39,7 @@ export default async function handler(req, res) {
           // Actualizar la base de datos con el nuevo personaje
           await usersCollection.updateOne({ discordID }, { $set: { characters } });
 
-          const response = await axios.get(`https://storage.googleapis.com/nof-gamma/T1/${randomCharacterID}.png`, { responseType: 'arraybuffer' });
+          const response = await axios.get(`https://storage.googleapis.com/nof-gamma/T2/${randomCharacterID}.png`, { responseType: 'arraybuffer' });
 
           res.setHeader('Content-Type', 'image/png');
           res.status(200).send(response.data);
