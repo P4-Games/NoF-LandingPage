@@ -2,9 +2,12 @@ import React from 'react'
 import Buttons from './Buttons'
 
 function Footer ({ turnNextPage, turnPrevPage }) {
+  const openNewWindow = () => {
+    window.open('https://tama.nof.town/', '_blank');
+  };
   return (
     <div className='footer'>
-      <div className='footer__insert'>
+      <div className='footer__insert' onClick={openNewWindow}>
         <></>
       </div>
       <div className='footer__handle__green' onClick={turnPrevPage}>
