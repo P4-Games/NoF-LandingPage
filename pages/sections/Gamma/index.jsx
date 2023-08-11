@@ -329,7 +329,7 @@ const index = React.forwardRef((props, book) => {
           {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
           {!mobile && inventory &&
             <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className="gammaShop">
-              <h1>{numberOfPacks}</h1>
+              <h1>{numberOfPacks ? numberOfPacks : ""}</h1>
               <div className="album">
                 {/* <h2>{numberOfPacks}</h2> */}
                 <h3>TRANSFER</h3>
@@ -350,3 +350,6 @@ const index = React.forwardRef((props, book) => {
 });
 
 export default index
+
+
+
