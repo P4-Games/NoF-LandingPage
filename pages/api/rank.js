@@ -42,7 +42,7 @@ const getUsersRank = async () => {
       Position: index + 1,
       Nick: user.nick,
       Characters: user.characters.length,
-      Medals: user.medals
+      Medals: user.medals,
     };
   });
 
@@ -63,7 +63,7 @@ const calculateMedalRank = (medals) => {
 
 // Función para contar la cantidad de un tipo de medalla específico
 const countMedals = (medals, medalType) => {
-  return medals.filter(medal => medal === medalType).length;
+  return medals.filter((medal) => medal === medalType).length;
 };
 
 // Controlador de la API

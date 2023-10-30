@@ -1,10 +1,10 @@
-const Jimp = require("jimp");
-const fs = require("fs");
+const Jimp = require('jimp');
+const fs = require('fs');
 
 async function resizeAndSaveImages() {
   try {
     // Read the list of image filenames from the "/characters/T2" folder
-    const imageFilenames = fs.readdirSync("./characters/T2");
+    const imageFilenames = fs.readdirSync('./characters/T2');
 
     // Recorrer y redimensionar las imágenes
     for (let i = 0; i < imageFilenames.length; i++) {
@@ -19,10 +19,10 @@ async function resizeAndSaveImages() {
       await image.writeAsync(`./characters/${filename}`);
     }
 
-    console.log("Images resized and saved successfully.");
+    console.log('Images resized and saved successfully.');
   } catch (error) {
     console.log(error);
-    console.log("An error occurred while processing the images.");
+    console.log('An error occurred while processing the images.');
   }
 }
 

@@ -29,18 +29,20 @@ const getUserInfo = async (db, discordID) => {
   const usersCount = await usersCollection.countDocuments();
 
   // Obtener la cantidad total de personajes capturados por todos los usuarios
-  const charactersCaptured = await usersCollection.aggregate([
-    { $project: { _id: 0, characters: 1 } },
-    { $unwind: "$characters" },
-    { $group: { _id: null, count: { $sum: 1 } } }
-  ]).toArray();
+  const charactersCaptured = await usersCollection
+    .aggregate([
+      { $project: { _id: 0, characters: 1 } },
+      { $unwind: '$characters' },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ])
+    .toArray();
 
   // Obtener el ranking de usuarios y ordenarlo
   const userRanking = await usersCollection.find().toArray();
   const sortedRanking = calculateRank(userRanking);
 
   // Obtener la posición del usuario en el ranking
-  const userPosition = sortedRanking.findIndex(item => item.nick === user.nick) + 1;
+  const userPosition = sortedRanking.findIndex((item) => item.nick === user.nick) + 1;
 
   // Construir y retornar el objeto de información del usuario
   return {
@@ -50,7 +52,7 @@ const getUserInfo = async (db, discordID) => {
     InventoryCompletion: inventoryCompletion,
     UsersRegistered: usersCount,
     CharactersCaptured: charactersCaptured[0].count,
-    Ranking: userPosition
+    Ranking: userPosition,
   };
 };
 
@@ -88,7 +90,7 @@ const calculateMedalRank = (medals) => {
   const silverMedals = countMedals(medals, 'silver');
   const bronzeMedals = countMedals(medals, 'bronze');
 
-  return (goldMedals * 3) + (silverMedals * 2) + bronzeMedals;
+  return goldMedals * 3 + silverMedals * 2 + bronzeMedals;
 };
 
 /**
@@ -98,7 +100,7 @@ const calculateMedalRank = (medals) => {
  * @returns {number} - Cantidad de medallas del tipo especificado.
  */
 const countMedals = (medals, medalType) => {
-  return medals.filter(medal => medal === medalType).length;
+  return medals.filter((medal) => medal === medalType).length;
 };
 
 /**

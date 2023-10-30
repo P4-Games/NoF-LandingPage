@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
-import connectToDatabase from "../../utils/db";
-import { join } from "path";
-import Jimp from "jimp";
+import { v4 as uuidv4 } from 'uuid';
+import connectToDatabase from '../../utils/db';
+import { join } from 'path';
+import Jimp from 'jimp';
 
 export default async function handler(req, res) {
   const {
@@ -9,20 +9,18 @@ export default async function handler(req, res) {
   } = req;
 
   if (!discordID) {
-    return res
-      .status(400)
-      .json({ error: "Discord ID is missing from query parameters." });
+    return res.status(400).json({ error: 'Discord ID is missing from query parameters.' });
   }
 
   try {
     const db = await connectToDatabase();
-    const usersCollection = db.collection("users");
-    const charactersCollection = db.collection("characters");
+    const usersCollection = db.collection('users');
+    const charactersCollection = db.collection('characters');
 
     // Buscar el usuario por su discordID
     const user = await usersCollection.findOne({ discordID });
     if (!user) {
-      return res.status(404).json({ error: "User not found." });
+      return res.status(404).json({ error: 'User not found.' });
     }
 
     // Obtener los personajes del usuario y sus imágenes
@@ -32,7 +30,7 @@ export default async function handler(req, res) {
 
     // Obtener las rutas de las imágenes locales redimensionadas
     const characterImagePaths = characters.map((c) =>
-      join(process.cwd(), "characters", `${c.id}.png`)
+      join(process.cwd(), 'characters', `${c.id}.png`)
     );
 
     // Crear una matriz de promesas para cargar las imágenes
@@ -81,19 +79,17 @@ export default async function handler(req, res) {
     const imageUrlWithQuery = `https://nof.town/api/characters/${discordID}?query=${query}`;
 
     // Establecer los encabezados Content-Type y Cache-Control adecuadamente
-    res.setHeader("Content-Type", "image/png");
-    res.setHeader("Cache-Control", "no-store, must-revalidate");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", "0");
-    res.setHeader("Location", imageUrlWithQuery);
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Location', imageUrlWithQuery);
 
     // Enviar la imagen como respuesta
     return res.status(200).send(collageBuffer);
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ error: "An error occurred while processing your request." });
+    return res.status(500).json({ error: 'An error occurred while processing your request.' });
   }
 }
 
