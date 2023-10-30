@@ -37,14 +37,12 @@ const getUsersRank = async () => {
   const limitedRanking = sortedRanking.slice(0, 10);
 
   // Crear la lista de ranking con la posición, el nombre, la cantidad de personajes y las medallas
-  const rankingList = limitedRanking.map((user, index) => {
-    return {
-      Position: index + 1,
-      Nick: user.nick,
-      Characters: user.characters.length,
-      Medals: user.medals
-    };
-  });
+  const rankingList = limitedRanking.map((user, index) => ({
+    Position: index + 1,
+    Nick: user.nick,
+    Characters: user.characters.length,
+    Medals: user.medals,
+  }));
 
   return rankingList;
 };
@@ -62,9 +60,7 @@ const calculateMedalRank = (medals) => {
 };
 
 // Función para contar la cantidad de un tipo de medalla específico
-const countMedals = (medals, medalType) => {
-  return medals.filter(medal => medal === medalType).length;
-};
+const countMedals = (medals, medalType) => medals.filter((medal) => medal === medalType).length;
 
 // Controlador de la API
 export default async function handler(req, res) {

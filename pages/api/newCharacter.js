@@ -25,7 +25,9 @@ const findUserByDiscordID = async (db, discordID) => {
   const user = await collection.findOne({ discordID });
 
   if (!user) {
-    throw new Error(`User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`);
+    throw new Error(
+      `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`
+    );
   }
 
   return user;
@@ -46,7 +48,10 @@ const findCharacterByID = async (db, characterID) => {
 const addCharacterToInventory = async (db, userID, characterID, characterImage) => {
   const userCollection = db.collection('users');
 
-  await userCollection.updateOne({ _id: userID }, { $addToSet: { characters: { id: characterID, image: characterImage } } });
+  await userCollection.updateOne(
+    { _id: userID },
+    { $addToSet: { characters: { id: characterID, image: characterImage } } }
+  );
 };
 
 export default async function handler(req, res) {
@@ -61,7 +66,9 @@ export default async function handler(req, res) {
     const user = await findUserByDiscordID(db, discordID);
 
     if (!user) {
-      return res.status(200).json({ message: `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.` });
+      return res.status(200).json({
+        message: `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`,
+      });
     }
 
     const characterID = await getRandomCharacterID(db, channelID);
@@ -70,10 +77,12 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: 'The character has already been collected.' });
     }
 
-    const character = user.characters.find(c => c.id.toString() === characterID.toString());
+    const character = user.characters.find((c) => c.id.toString() === characterID.toString());
 
     if (character) {
-      return res.status(200).json({ message: 'You already have this character in your inventory.' });
+      return res
+        .status(200)
+        .json({ message: 'You already have this character in your inventory.' });
     }
 
     const characterObj = await findCharacterByID(db, characterID);

@@ -15,19 +15,22 @@ export default async function handler(req, res) {
 
   try {
     const db = await connectToDatabase(); // Conexión a la base de datos
-    const usersCollection = db.collection("users");
-    const charactersCollection = db.collection("characters");
+    const usersCollection = db.collection('users');
+    const charactersCollection = db.collection('characters');
     const user = await findUserByDiscordID(db, discordID);
 
     if (user) {
       const characters = user.characters;
 
       // Encontrar los personajes que faltan en el inventario del usuario
-      const missingCharacters = charactersToCheck.filter((characterID) => !characters.some((character) => character.id === characterID));
+      const missingCharacters = charactersToCheck.filter(
+        (characterID) => !characters.some((character) => character.id === characterID)
+      );
 
       if (missingCharacters.length > 0) {
         // Seleccionar un personaje aleatorio entre los faltantes
-        const randomCharacterID = missingCharacters[Math.floor(Math.random() * missingCharacters.length)];
+        const randomCharacterID =
+          missingCharacters[Math.floor(Math.random() * missingCharacters.length)];
 
         // Obtener los datos del personaje aleatorio
         const missingCharacterData = await charactersCollection.findOne({ id: randomCharacterID });
@@ -39,7 +42,10 @@ export default async function handler(req, res) {
           // Actualizar la base de datos con el nuevo personaje
           await usersCollection.updateOne({ discordID }, { $set: { characters } });
 
-          const response = await axios.get(`https://storage.googleapis.com/nof-gamma/T2/${randomCharacterID}.png`, { responseType: 'arraybuffer' });
+          const response = await axios.get(
+            `https://storage.googleapis.com/nof-gamma/T2/${randomCharacterID}.png`,
+            { responseType: 'arraybuffer' }
+          );
 
           res.setHeader('Content-Type', 'image/png');
           res.status(200).send(response.data);

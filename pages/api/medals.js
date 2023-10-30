@@ -3,11 +3,12 @@ import connectToDatabase from '../../utils/db';
 
 // Función para calcular las medallas del usuario según la cantidad de personajes en su inventario
 const calculateMedals = (characters, currentMedals) => {
-  let medals = [...currentMedals]; // Copiar las medallas actuales en un nuevo arreglo
+  const medals = [...currentMedals]; // Copiar las medallas actuales en un nuevo arreglo
 
   const charactersCount = characters.length; // Obtener la cantidad de caracteres
 
-  if (charactersCount >= 132) { // Verificar si se supera el límite de caracteres (132)
+  if (charactersCount >= 132) {
+    // Verificar si se supera el límite de caracteres (132)
     if (medals.includes('bronze')) {
       // Si hay una medalla de bronce, convertirla en medalla de plata
       medals[medals.indexOf('bronze')] = 'silver';
@@ -25,32 +26,31 @@ const calculateMedals = (characters, currentMedals) => {
 
 // Función para obtener la información del usuario y actualizar sus medallas y personajes en la base de datos
 const updateMedals = async (db, discordID) => {
-    const usersCollection = db.collection('users');
-    const user = await usersCollection.findOne({ discordID });
-  
-    if (!user) {
-      throw new Error(`User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`);
-    }
-  
-    const { medals, characters } = user;
-  
-    const updatedMedals = calculateMedals(characters, medals);
-    const charactersCount = characters.length;
-  
-    let updateObject = { medals: updatedMedals };
-  
-    if (charactersCount === 132) {
-      updateObject.characters = [];
-    }
-  
-    // Actualizar las medallas en la base de datos del usuario
-    await usersCollection.updateOne(
-      { discordID },
-      { $set: updateObject }
+  const usersCollection = db.collection('users');
+  const user = await usersCollection.findOne({ discordID });
+
+  if (!user) {
+    throw new Error(
+      `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`
     );
-  
-    return updatedMedals;
-  };
+  }
+
+  const { medals, characters } = user;
+
+  const updatedMedals = calculateMedals(characters, medals);
+  const charactersCount = characters.length;
+
+  const updateObject = { medals: updatedMedals };
+
+  if (charactersCount === 132) {
+    updateObject.characters = [];
+  }
+
+  // Actualizar las medallas en la base de datos del usuario
+  await usersCollection.updateOne({ discordID }, { $set: updateObject });
+
+  return updatedMedals;
+};
 
 // Manejador de la API para obtener las medallas de un usuario
 export default async function handler(req, res) {

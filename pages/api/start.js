@@ -1,5 +1,4 @@
-import { MongoClient } from 'mongodb';
-import { ObjectId } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 import connectToDatabase from '../../utils/db';
 
@@ -26,10 +25,7 @@ export default async function handler(req, res) {
         nick: nick || existingUser.nick,
         discordID: discordID || existingUser.discordID,
       };
-      const result = await collection.updateOne(
-        { _id: existingUser._id },
-        { $set: updatedUser }
-      );
+      const result = await collection.updateOne({ _id: existingUser._id }, { $set: updatedUser });
       console.log('User successfully updated.');
       return res.status(200).json({ message: 'User updated successfully', user: updatedUser });
     }
@@ -41,7 +37,6 @@ export default async function handler(req, res) {
 
     console.log('User created successfully.');
     res.status(201).json({ message: 'User created successfully.', id: result.insertedId });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

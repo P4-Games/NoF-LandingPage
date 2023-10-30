@@ -9,7 +9,8 @@ const findUserByDiscordID = async (db, discordID) => {
 
 export default async function handler(req, res) {
   const { discordID } = req.query;
-  const topGGToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMDgzNzg0NjI4MjczMjM0NTMiLCJib3QiOnRydWUsImlhdCI6MTY4NzUyMDU4Nn0.PJ4gm55wh-VB5V-9Mh2cWfIden2DAL5qsM6NH-XfE70';
+  const topGGToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMDgzNzg0NjI4MjczMjM0NTMiLCJib3QiOnRydWUsImlhdCI6MTY4NzUyMDU4Nn0.PJ4gm55wh-VB5V-9Mh2cWfIden2DAL5qsM6NH-XfE70';
   const botID = '1108378462827323453';
 
   try {
@@ -27,8 +28,8 @@ export default async function handler(req, res) {
     if (voted) {
       // Consultar la base de datos para obtener los personajes del usuario
       const db = await connectToDatabase(); // Conexión a la base de datos
-      const usersCollection = db.collection("users");
-      const charactersCollection = db.collection("characters");
+      const usersCollection = db.collection('users');
+      const charactersCollection = db.collection('characters');
       const user = await findUserByDiscordID(db, discordID);
 
       if (user) {
