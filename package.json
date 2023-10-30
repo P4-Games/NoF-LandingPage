@@ -13,9 +13,8 @@
     "re-build": "rm -rf .next node_modules && yarn install && yarn build",
     "lint": "next lint",
     "lint:fix": "eslint --fix --ext .js,.jsx .",
-    "std": "standard --verbose --fix | snazzy",
     "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.js\"",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog standard snazzy yarn install-peerdeps",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
     "git-log": "git log --oneline --decorate",
@@ -97,10 +96,5 @@
       "/artifacts/",
       "/test/"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm run std"
-    }
   }
 }

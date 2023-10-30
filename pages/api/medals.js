@@ -3,7 +3,7 @@ import connectToDatabase from '../../utils/db';
 
 // Función para calcular las medallas del usuario según la cantidad de personajes en su inventario
 const calculateMedals = (characters, currentMedals) => {
-  let medals = [...currentMedals]; // Copiar las medallas actuales en un nuevo arreglo
+  const medals = [...currentMedals]; // Copiar las medallas actuales en un nuevo arreglo
 
   const charactersCount = characters.length; // Obtener la cantidad de caracteres
 
@@ -40,7 +40,7 @@ const updateMedals = async (db, discordID) => {
   const updatedMedals = calculateMedals(characters, medals);
   const charactersCount = characters.length;
 
-  let updateObject = { medals: updatedMedals };
+  const updateObject = { medals: updatedMedals };
 
   if (charactersCount === 132) {
     updateObject.characters = [];

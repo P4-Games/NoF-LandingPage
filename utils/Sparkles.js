@@ -37,7 +37,7 @@ const Starshine = () => {
 
   return (
     <div id="starshine" ref={starshineRef}>
-      <div className="template shine" ref={templateRef}></div>
+      <div className="template shine" ref={templateRef} />
     </div>
   );
 };

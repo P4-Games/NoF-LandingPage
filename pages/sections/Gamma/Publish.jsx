@@ -1,7 +1,7 @@
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import 'swiper/css'
+import 'swiper/css/effect-fade'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 import SwiperCore, {
   Autoplay,
   Navigation,
@@ -9,17 +9,13 @@ import SwiperCore, {
   Scrollbar,
   A11y,
   Parallax,
-  EffectCards,
-} from "swiper";
-import Swal from "sweetalert2";
+  EffectCards
+} from 'swiper'
+import Swal from 'sweetalert2'
 
-const Publish  = () =>{
-    return(
-        <div className="publicar">
-            
-        </div>
+const Publish = () => (
+  <div className='publicar' />
 
-    )
-}
+)
 
 export default Publish

@@ -61,8 +61,8 @@ const getUserInfo = async (db, discordID) => {
  * @param {Array} users - Lista de usuarios.
  * @returns {Array} - Ranking de usuarios ordenado.
  */
-const calculateRank = (users) => {
-  return users.sort((a, b) => {
+const calculateRank = (users) =>
+  users.sort((a, b) => {
     // Obtener el rango de medallas de los usuarios
     const aMedalRank = calculateMedalRank(a.medals);
     const bMedalRank = calculateMedalRank(b.medals);
@@ -77,7 +77,6 @@ const calculateRank = (users) => {
       return compareCharacters(a, b);
     }
   });
-};
 
 /**
  * Calcula el rango de medallas de un usuario.
@@ -99,9 +98,7 @@ const calculateMedalRank = (medals) => {
  * @param {string} medalType - Tipo de medalla.
  * @returns {number} - Cantidad de medallas del tipo especificado.
  */
-const countMedals = (medals, medalType) => {
-  return medals.filter((medal) => medal === medalType).length;
-};
+const countMedals = (medals, medalType) => medals.filter((medal) => medal === medalType).length;
 
 /**
  * Compara la cantidad de personajes entre dos usuarios.

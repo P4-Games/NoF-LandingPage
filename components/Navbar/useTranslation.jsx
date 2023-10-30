@@ -1,34 +1,32 @@
-import useLocalStorage from "use-local-storage"
+import useLocalStorage from 'use-local-storage'
 import * as translations from './translations'
 
 export default function useTranslation () {
-    const [language, setLanguage] = useLocalStorage("language", "en")
-    const [fallbackLanguage, setFallbackLanguage] = useLocalStorage(
-        "fallbackLanguage",
-        "en"
-    )
+  const [language, setLanguage] = useLocalStorage('language', 'en')
+  const [fallbackLanguage, setFallbackLanguage] = useLocalStorage(
+    'fallbackLanguage',
+    'en'
+  )
 
-    const translate = key => {
-        const keys = key.split(".")
+  const translate = key => {
+    const keys = key.split('.')
 
-        return (
-            getNestedTranslation(language, keys) ??
+    return (
+      getNestedTranslation(language, keys) ??
             getNestedTranslation(fallbackLanguage, keys) ??
             key
-        )
-    }
+    )
+  }
 
-    return {
-        language,
-        setLanguage,
-        fallbackLanguage,
-        setFallbackLanguage,
-        t: translate,
-    }
+  return {
+    language,
+    setLanguage,
+    fallbackLanguage,
+    setFallbackLanguage,
+    t: translate
+  }
 }
 
 function getNestedTranslation (language, keys) {
-    return keys.reduce((obj, key) => {
-        return obj?.[key]
-    }, translations [language])
+  return keys.reduce((obj, key) => obj?.[key], translations[language])
 }

@@ -1,8 +1,6 @@
-import GammaInventory from "./sections/Gamma";
-import EthersProvider from "../context/EthersContext";
+import GammaInventory from './sections/Gamma'
+import EthersProvider from '../context/EthersContext'
 
-const Gamma = () => {
-  return <GammaInventory />
-};
+const Gamma = () => <GammaInventory />
 
-export default Gamma;
+export default Gamma

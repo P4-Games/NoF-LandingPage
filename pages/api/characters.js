@@ -34,9 +34,7 @@ export default async function handler(req, res) {
     );
 
     // Crear una matriz de promesas para cargar las imágenes
-    const imagePromises = characterImagePaths.map(async (imagePath) => {
-      return await Jimp.read(imagePath);
-    });
+    const imagePromises = characterImagePaths.map(async (imagePath) => await Jimp.read(imagePath));
 
     const images = await Promise.all(imagePromises);
 

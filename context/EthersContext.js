@@ -59,14 +59,14 @@ export default function EthersProvider({ children }) {
 
       const signer = provider.getSigner();
 
-      let daiContractInstance = new ethers.Contract(daiAddress, daiAbi.abi, signer);
-      let alphaContractInstance = new ethers.Contract(alphaAddress, alphaAbi.abi, signer);
-      let gammaPacksContractInstance = new ethers.Contract(
+      const daiContractInstance = new ethers.Contract(daiAddress, daiAbi.abi, signer);
+      const alphaContractInstance = new ethers.Contract(alphaAddress, alphaAbi.abi, signer);
+      const gammaPacksContractInstance = new ethers.Contract(
         gammaPacksAddress,
         gammaPacksAbi.abi,
         signer
       );
-      let gammaCardsContractInstance = new ethers.Contract(
+      const gammaCardsContractInstance = new ethers.Contract(
         gammaCardsAddress,
         gammaCardsAbi.abi,
         signer
@@ -114,7 +114,7 @@ export default function EthersProvider({ children }) {
             params: [
               {
                 chainId: chainIdHex,
-                chainName: chainName,
+                chainName,
                 rpcUrls: [rpcUrl],
                 nativeCurrency: {
                   name: currency,
