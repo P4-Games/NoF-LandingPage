@@ -64,9 +64,8 @@ export const openSeaUrl = is_production
   ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddressV2}/`
   : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddressV2}/`;
 
-
-export const adminAccounts = 
-  (process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E')
+export const adminAccounts =
+  process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E';
 
 /*
 page alphaCards: (v1)
