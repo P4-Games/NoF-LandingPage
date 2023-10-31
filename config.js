@@ -44,12 +44,12 @@ export const CONTRACTS = {
     process.env.NEXT_PUBLIC_DAI_ADDRESS_V1 ||
     (is_production
       ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-      : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'),
+      : '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'),
   daiAddressV2:
     process.env.NEXT_PUBLIC_DAI_ADDRESS_V2 ||
     (is_production
       ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-      : '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'),
+      : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'),
   gammaPackAddressV1:
     process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS_V1 || '0x8C7BBBE25B95BAde8aCd06a5cd21D093446Cf7eF',
   gammaCardsAddressV1:
