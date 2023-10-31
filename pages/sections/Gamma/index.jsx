@@ -75,7 +75,6 @@ const index = React.forwardRef((props, book) => {
     try {
       const numberOfPacks = await checkPacksByUser(account, packsContract)
       setNumberOfPacks(numberOfPacks?.length.toString())
-      console.log({ numberOfPacks })
     } catch (e) {
       console.error({ e })
     }
@@ -209,11 +208,12 @@ const index = React.forwardRef((props, book) => {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
       const packs = await checkPacksByUser(account, packsContract) // llamada al contrato
       setLoaderPack(true)
-      console.log('entro dspues del loader')
+
       if (packs.length == 0) {
         setPacksEnable(false)
         alert('No tienes paquetes para abrir!')
       }
+
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         // llama a la api para recibir los numeros de cartas del sobre y la firma

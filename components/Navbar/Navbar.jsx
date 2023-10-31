@@ -66,7 +66,6 @@ function Navbar ({
     packsContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        console.log({ pack_number })
       }
     })
 

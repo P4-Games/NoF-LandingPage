@@ -4,6 +4,7 @@ import '../styles/alpha.scss'
 import '../styles/gamma.scss'
 import '../styles/admin.scss'
 
+
 function MyApp ({ Component, pageProps }) {
   return (
     <EthersProvider>
@@ -12,4 +13,4 @@ function MyApp ({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default MyApp;

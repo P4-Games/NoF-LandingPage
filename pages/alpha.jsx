@@ -18,7 +18,7 @@ const Alpha = () => {
       game.classList.toggle('alpha_display_none')
     }
   }
-  console.log('desde alpha', loadAlbums)
+
   return (
     <div className='alpha_main'>
       <Head>

@@ -50,7 +50,6 @@ const index = React.forwardRef((props, book) => {
             provider = new ethers.providers.Web3Provider(connection);
             address = await provider.getSigner().getAddress();
             setAccount(address);
-            console.log(account)
         } catch (e) {
             console.error({ e });
         }

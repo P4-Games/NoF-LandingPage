@@ -548,7 +548,6 @@ This function checks the balance of a specified account on the Dai contract and 
       .then((tokenId) => {
         showCards(account, seasonName)
         getAlbumData(tokenId).then((res) => {
-          console.log({ res })
           if (res.completion == 5) {
             emitSuccess('Felicidades! Has completado el album!')
           } else {
