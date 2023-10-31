@@ -3,7 +3,6 @@ import Brazilean from './icons/br.png'
 import English from './icons/en.png'
 import Spanish from './icons/es.png'
 import Image from 'next/image.js'
-import { useEffect, useState } from 'react'
 
 function TranslationComponent ({ t, setLanguage }) {
   if (typeof window !== 'undefined') {
