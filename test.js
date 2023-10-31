@@ -3,7 +3,7 @@ const fs = require('fs');
 
 async function resizeAndSaveImages() {
   try {
-    const basePath = './characters'
+    const basePath = './characters';
     // Read the list of image filenames from the "/characters/T2" folder
     const imageFilenames = fs.readdirSync(`${basePath}/T2`);
 
