@@ -159,7 +159,7 @@ const index = React.forwardRef((props, book) => {
   }, [])
 
   const adminAccess = () => {
-    return adminAccess.includes(account)
+    return adminAccounts.includes(account)
   }
 
   const showRules = () => {

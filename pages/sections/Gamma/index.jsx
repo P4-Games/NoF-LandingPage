@@ -13,18 +13,14 @@ import Web3Modal from 'web3modal'
 import InfoCard from './InfoCard'
 import { fetchPackData } from '../../../services/backend/gamma'
 import { checkPacksByUser, openPack } from '../../../services/contracts/gamma'
-import { CONTRACTS } from '../../../config'
+import { CONTRACTS, NETWORK } from '../../../config'
 
 
 const index = React.forwardRef((props, book) => {
   const [packsEnable, setPacksEnable] = useState(false)
-
-  const localhost = true
-  const production = false
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [chainId, setChainId] = useState(null)
-  const validChainId = localhost ? '0x539' : (production ? '0x89' : '0x13881')
   const [packsContract, setPacksContract] = useState(null)
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
@@ -108,14 +104,13 @@ const index = React.forwardRef((props, book) => {
     if (!provider) return
     const chain = (await provider.getNetwork()).chainId
     setChainId(decToHex(chain))
-
-    const chainName = production ? 'Polygon Mainnet' : 'Mumbai'
-    const rpcUrl = localhost
-      ? 'http://localhost:8545'
-      : (production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com')
-    const currency = localhost ? 'ETH' : 'MATIC'
-    const explorer = production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/'
-    switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer)
+    switchOrCreateNetwork(
+      NETWORK.chainId,
+      NETWORK.chainName,
+      NETWORK.ChainRpcUrl,
+      NETWORK.chainCurrency,
+      NETWORK.chainExplorerUrl
+    );
     return [provider, address]
   }
 

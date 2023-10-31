@@ -3,12 +3,13 @@ const fs = require('fs');
 
 async function resizeAndSaveImages() {
   try {
+    const basePath = './characters';
     // Read the list of image filenames from the "/characters/T2" folder
-    const imageFilenames = fs.readdirSync('./characters/T2');
+    const imageFilenames = fs.readdirSync(`${basePath}/T2`);
 
     // Recorrer y redimensionar las imágenes
     for (let i = 0; i < imageFilenames.length; i++) {
-      const imageUrl = `./characters/T2/${imageFilenames[i]}`;
+      const imageUrl = `${basePath}/T2/${imageFilenames[i]}`;
       const image = await Jimp.read(imageUrl);
       image.resize(80, 80);
 
@@ -16,7 +17,7 @@ async function resizeAndSaveImages() {
       const filename = imageFilenames[i];
 
       // Guardar la imagen redimensionada en la carpeta "characters"
-      await image.writeAsync(`./characters/${filename}`);
+      await image.writeAsync(`${basePath}/T2/${filename}`);
     }
 
     console.log('Images resized and saved successfully.');

@@ -7,57 +7,55 @@
 
 html,
 body {
-	background: transparent;
-	height: 100vh;
-	width: 100vw;
-	padding: 0;
-	margin: 0;
-	font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  background: transparent;
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  margin: 0;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 }
 
 header {
-	background: transparent;
+  background: transparent;
 }
 
 p {
-	font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 ::-webkit-scrollbar {
-	width: 10px;
-	background: $base;
+  width: 10px;
+  background: $base;
 }
 ::-webkit-scrollbar-thumb {
-	background: $element;
-	justify-content: space-between;
-	margin: 0 4rem;
+  background: $element;
+  justify-content: space-between;
+  margin: 0 4rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background: #0D4055;
+  background: #0d4055;
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 // alpha starts
 
-
-
 @media (max-width: 576px) {
-	html,
-	body {
-		height: 100vh;
-		width: 100%;
-		padding: 0;
-		margin: 0;
-        background-position: center;
-        box-sizing: border-box;
-        max-width: 100%;
+  html,
+  body {
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-position: center;
+    box-sizing: border-box;
+    max-width: 100%;
   }
 }

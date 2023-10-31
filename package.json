@@ -13,7 +13,7 @@
     "re-build": "rm -rf .next node_modules && yarn install && yarn build",
     "lint": "next lint",
     "lint:fix": "eslint --fix --ext .js,.jsx,.scss .",
-    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.js\"",
+    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{js,scss,tsx}\"",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
@@ -38,7 +38,6 @@
     "mongodb": "^5.5.0",
     "nes.css": "^2.3.0",
     "next": "13.0.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -60,7 +59,7 @@
   "devDependencies": {
     "eslint-config-next": "^14.0.1",
     "file-loader": "^6.2.0",
-    "standard": "^17.1.0"
+    "pre-commit": "^1.2.2"
   },
   "cacheDirectories": [
     ".next/cache"
@@ -82,19 +81,8 @@
     "npm": "^8.1.0 || ^8.5.0",
     "yarn": "^1.22.10 || ^1.22.19"
   },
-  "standard": {
-    "ignore": [
-      "**/node_modules/",
-      "/.vscode/",
-      "/.github/",
-      "/.next/",
-      "/build/",
-      "/public/",
-      "/styles/",
-      "/characters/",
-      "/contracts/",
-      "/artifacts/",
-      "/test/"
-    ]
+  "pre-commit": {
+    "precommit.silent": true,
+    "run": ["prettier"]
   }
 }
