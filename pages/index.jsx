@@ -14,7 +14,6 @@ function Home () {
     book.current.pageFlip().flipPrev()
   }
   function onFlip () {
-    console.log('asdadsasdasd')
     // page.onFlip() // page not defined
   }
   function goToCollections (number) {

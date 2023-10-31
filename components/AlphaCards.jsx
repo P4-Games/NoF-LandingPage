@@ -15,10 +15,9 @@ import marco from '../public/marco.png'
 import reglas from '../public/reglas.png'
 
 import { fetchData } from '../services/graph/alpha'
-
 import AlphaAlbums from './AlphaAlbums'
-
 import 'swiper/css/bundle'
+import { storageUrl, CONTRACTS, NETWORK } from '../config'
 
 const vidas = [
   vida0.src,
@@ -29,20 +28,9 @@ const vidas = [
   vida5.src
 ]
 
-const production = false
-
-const storageUrl = 'https://storage.googleapis.com/nof-alpha/' // 1.png to 60.png
-const contractAddress = production
-  ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
-  : '0xa6E15E39ede08d7960359882696EC34D504b111A' // contract POLYGON mainnet
-const daiAddress = production
-  ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-  : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1' // multisig receiver POLYGON mainnet
-
 let swiper
 
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
-  const validChainId = production ? '0x89' : '0x13881'
   const [chainId, setChainId] = useState(null)
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null)
@@ -90,16 +78,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     if (!provider) return
     const chain = (await provider.getNetwork()).chainId
     setChainId(decToHex(chain))
-
-    const chainName = production ? 'Polygon Mainnet' : 'Mumbai'
-    const rpcUrl = production
-      ? 'https://polygon-mainnet.infura.io'
-      : 'https://rpc-mumbai.maticvigil.com'
-    const currency = 'MATIC'
-    const explorer = production
-      ? 'https://polygonscan.com/'
-      : 'https://mumbai.polygonscan.com/'
-    switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer)
+    switchOrCreateNetwork(NETWORK.chainId, NETWORK.chainName, NETWORK.ChainRpcUrl, NETWORK.chainCurrency, NETWORK.chainExplorerUrl)
     return [provider, address]
   }
 
@@ -111,13 +90,13 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           const [provider, address] = data
           const signer = provider.getSigner()
           const nofContractInstance = new ethers.Contract(
-            contractAddress,
+            CONTRACTS.alphaAddressV1,
             nofAbi.abi,
             signer
           )
           setNofContract(nofContractInstance)
           const daiContractInstance = new ethers.Contract(
-            daiAddress,
+            CONTRACTS.daiAddressV1,
             daiAbi.abi,
             signer
           )
@@ -421,7 +400,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
-      contractAddress,
+      CONTRACTS.alphaAddressV1,
       ethers.constants.MaxUint256,
       { gasLimit: 2500000 }
     )
@@ -474,7 +453,7 @@ This function checks the balance of a specified account on the Dai contract and 
               setNoCardsError('No hay más packs disponibles.')
             } else {
               if (checkBalance(account)) {
-                checkApproved(contractAddress, account)
+                checkApproved(CONTRACTS.alphaAddressV1, account)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
                       const pack = await nofContract.buyPack(price, name, {
@@ -858,15 +837,12 @@ This function checks the balance of a specified account on the Dai contract and 
         setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
         loadAlbums={loadAlbums}
-
         storageUrl={storageUrl}
         nofContract={nofContract}
         seasonNames={seasonNames}
         account={account}
         getSeasonFolder={getSeasonFolder}
         marco={marco}
-        production={production}
-        contractAddress={contractAddress}
       />
     </div>
   )

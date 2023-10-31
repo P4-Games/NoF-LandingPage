@@ -293,20 +293,18 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
           className="boxes"
         >
           {cardsNumbers.length > 0 &&
-            cardsNumbers.map((cardNumber, i) => {
-              return (
-                <div
-                  className="box"
-                  key={i}
-                  style={{
-                    '--src': `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)`,
-                  }}
-                >
-                  <span>{cardNumber}</span>
-                  <img src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`} />
-                </div>
-              );
-            })}
+            cardsNumbers.map((cardNumber, i) => (
+              <div
+                className="box"
+                key={i}
+                style={{
+                  '--src': `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)`,
+                }}
+              >
+                <span>{cardNumber}</span>
+                <img src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`} />
+              </div>
+            ))}
         </motion.div>
         <div className="controls">
           <button className="next">

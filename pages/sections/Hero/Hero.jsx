@@ -315,23 +315,23 @@ const Hero = React.forwardRef((props, book) => {
                   <div className='hero__top__album__book__page__profiles__content'>
                     {Profiles &&
                       Profiles.map((profile) => (
-                        <div
-                          className='hero__top__album__book__page__profiles__box'
-                          key={profile.id}
-                        >
-                          <Image
-                            layout='fill'
-                            className='img'
-                            src={profile.icon}
-                          />
+                          <div
+                            className='hero__top__album__book__page__profiles__box'
+                            key={profile.id}
+                          >
+                            <Image
+                              layout='fill'
+                              className='img'
+                              src={profile.icon}
+                            />
 
-                          <p>
-                            {profile.caption}
-                            <br />
-                            {profile.position}
-                          </p>
-                        </div>
-                      ))}
+                            <p>
+                              {profile.caption}
+                              <br />
+                              {profile.position}
+                            </p>
+                          </div>
+                        ))}
                   </div>
                 </div>
               </div>
@@ -348,16 +348,16 @@ const Hero = React.forwardRef((props, book) => {
                   <div className='content'>
                     {Friends &&
                       Friends.map((friend) => (
-                        <div className='box' key={friend.id}>
-                          <Image
-                            layout='fill'
-                            className='img'
-                            src={friend.icon}
-                          />
+                          <div className='box' key={friend.id}>
+                            <Image
+                              layout='fill'
+                              className='img'
+                              src={friend.icon}
+                            />
 
-                          <p>{friend.caption}</p>
-                        </div>
-                      ))}
+                            <p>{friend.caption}</p>
+                          </div>
+                        ))}
                   </div>
                 </div>
               </div>

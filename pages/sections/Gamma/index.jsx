@@ -2,14 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Navbar from '../../../components/Navbar'
 import Footer from '../../../components/Footer'
-import HTMLFlipBook from 'react-pageflip'
-import { FcCheckmark } from 'react-icons/fc'
-import pagination from '../../../artifacts/utils/placeholders'
 import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
-import albums from '../../../public/assets/gamma/albums.png'
 import GammaPack from './GammaPack'
-import { TfiEnvelope } from 'react-icons/tfi'
 import { ethers } from 'ethers'
 import gammaPacksAbi from '../../../artifacts/contracts/GammaPacks.sol/GammaPacks.json'
 import gammaCardsAbi from '../../../artifacts/contracts/GammaCardsV2.sol/GammaCardsV2.json'
@@ -18,16 +13,18 @@ import Web3Modal from 'web3modal'
 import InfoCard from './InfoCard'
 import { fetchPackData } from '../../../services/backend/gamma'
 import { checkPacksByUser, openPack } from '../../../services/contracts/gamma'
+import { CONTRACTS } from '../../../config'
+
 
 const index = React.forwardRef((props, book) => {
   const [packsEnable, setPacksEnable] = useState(false)
 
-  // sets for metamask //
+  const localhost = true
   const production = false
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [chainId, setChainId] = useState(null)
-  const validChainId = production ? '0x89' : '0x13881'
+  const validChainId = localhost ? '0x539' : (production ? '0x89' : '0x13881')
   const [packsContract, setPacksContract] = useState(null)
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
@@ -36,7 +33,6 @@ const index = React.forwardRef((props, book) => {
   const [numberOfPacks, setNumberOfPacks] = useState('0')
   const [openPackage, setOpenPackage] = useState(false)
 
-  /// / autorizations /////
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
       packsContractAddress,
@@ -96,13 +92,6 @@ const index = React.forwardRef((props, book) => {
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
 
-  /// // ////////////
-  // const packsContractAddress = "0xA7bBa4378E69e4dF9E45f1cd39Cc39b7660BD42b"
-  const packsContractAddress = '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b'
-  // const cardsContractAddress = "0xAB3D0ba4dB15381f96EFCDbB15d93CE0835857FE"
-  const cardsContractAddress = '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76'
-  const daiAddress = '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'
-
   async function requestAccount () {
     const web3Modal = new Web3Modal()
     let provider
@@ -121,8 +110,10 @@ const index = React.forwardRef((props, book) => {
     setChainId(decToHex(chain))
 
     const chainName = production ? 'Polygon Mainnet' : 'Mumbai'
-    const rpcUrl = production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'
-    const currency = 'MATIC'
+    const rpcUrl = localhost
+      ? 'http://localhost:8545'
+      : (production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com')
+    const currency = localhost ? 'ETH' : 'MATIC'
     const explorer = production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/'
     switchOrCreateNetwork(validChainId, chainName, rpcUrl, currency, explorer)
     return [provider, address]
@@ -135,19 +126,19 @@ const index = React.forwardRef((props, book) => {
         const [provider, address] = data
         const signer = provider.getSigner()
         const gammaPacksContractInstance = new ethers.Contract(
-          packsContractAddress,
+          CONTRACTS.gammaPackAddress,
           gammaPacksAbi.abi,
           signer
         )
         setPacksContract(gammaPacksContractInstance)
         const gammaCardsContractInstance = new ethers.Contract(
-          cardsContractAddress,
+          CONTRACTS.gammaCardsAddress,
           gammaCardsAbi.abi,
           signer
         )
         setCardsContract(gammaCardsContractInstance)
         const daiContractInstance = new ethers.Contract(
-          daiAddress,
+          CONTRACTS.daiAddressV2,
           daiAbi.abi,
           signer
         )
