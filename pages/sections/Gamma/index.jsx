@@ -133,7 +133,7 @@ const index = React.forwardRef((props, book) => {
         )
         setCardsContract(gammaCardsContractInstance)
         const daiContractInstance = new ethers.Contract(
-          CONTRACTS.daiAddressV2,
+          CONTRACTS.daiAddress,
           daiAbi.abi,
           signer
         )
