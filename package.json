@@ -59,8 +59,7 @@
   "devDependencies": {
     "eslint-config-next": "^14.0.1",
     "file-loader": "^6.2.0",
-    "pre-commit": "^1.2.2",
-    "standard": "^17.1.0"
+    "pre-commit": "^1.2.2"
   },
   "cacheDirectories": [
     ".next/cache"
@@ -81,21 +80,6 @@
     "node": "^16 || ^17 || ^18",
     "npm": "^8.1.0 || ^8.5.0",
     "yarn": "^1.22.10 || ^1.22.19"
-  },
-  "standard": {
-    "ignore": [
-      "**/node_modules/",
-      "/.vscode/",
-      "/.github/",
-      "/.next/",
-      "/build/",
-      "/public/",
-      "/styles/",
-      "/characters/",
-      "/contracts/",
-      "/artifacts/",
-      "/test/"
-    ]
   },
   "pre-commit": {
     "precommit.silent": true,
