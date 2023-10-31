@@ -67,34 +67,6 @@ export const openSeaUrl = is_production
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E';
 
-/*
-page alphaCards: (v1)
-const contractAddress = production
-  ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
-  : '0xa6E15E39ede08d7960359882696EC34D504b111A' 
-const daiAddress = production
-  ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-  : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1' 
-
-file etherContext: (v2)
-      const alphaAddress = '0x4868445F626c775869C5b241635466d3a46c31A7'; 
-      const daiAddress = '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'; 
-      const gammaPacksAddress = '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b';
-      const gammaCardsAddress = '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76';
-
-file gamma / index:
-  const packsContractAddress = '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b'
-  const cardsContractAddress = '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76'
-  const daiAddress = '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'
-
-file admmin:
-  const packsContractAddress = '0x8C7BBBE25B95BAde8aCd06a5cd21D093446Cf7eF'
-  const cardsContractAddress = ' 0x3957311EA2229bd557E7173BB12c9633BFeC5B12'
-  const daiAddress = localhost ? process.env.NEXT_PUBLIC_DAI_ADDRESS : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'
-
-
-*/
-
 // ------------------------------------------------------------------
 
 console.log(process.env.NODE_ENV, environment);
