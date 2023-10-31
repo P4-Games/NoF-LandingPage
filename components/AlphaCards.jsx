@@ -78,7 +78,13 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     if (!provider) return
     const chain = (await provider.getNetwork()).chainId
     setChainId(decToHex(chain))
-    switchOrCreateNetwork(NETWORK.chainId, NETWORK.chainName, NETWORK.ChainRpcUrl, NETWORK.chainCurrency, NETWORK.chainExplorerUrl)
+    switchOrCreateNetwork(
+      NETWORK.chainId,
+      NETWORK.chainName,
+      NETWORK.ChainRpcUrl,
+      NETWORK.chainCurrency,
+      NETWORK.chainExplorerUrl
+    );
     return [provider, address]
   }
 
