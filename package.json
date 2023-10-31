@@ -76,11 +76,13 @@
   },
   "engines": {
     "node": "^16 || ^17 || ^18",
-    "npm": "^8.1.0 || ^8.5.0",
+    "npm": "^8.1.0 || ^8.5.0 || ^9.8.1",
     "yarn": "^1.22.10 || ^1.22.19"
   },
   "pre-commit": {
     "precommit.silent": true,
-    "run": ["prettier"]
+    "run": [
+      "prettier"
+    ]
   }
 }
