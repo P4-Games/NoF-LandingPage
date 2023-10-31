@@ -31,7 +31,7 @@ const index = React.forwardRef((props, book) => {
 
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
-      packsContractAddress,
+      CONTRACTS.gammaPackAddress,
       ethers.constants.MaxUint256,
       { gasLimit: 2500000 }
     )
