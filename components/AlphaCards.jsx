@@ -96,13 +96,13 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           const [provider, address] = data
           const signer = provider.getSigner()
           const nofContractInstance = new ethers.Contract(
-            CONTRACTS.alphaAddressV1,
+            CONTRACTS.alphaAddress,
             nofAbi.abi,
             signer
           )
           setNofContract(nofContractInstance)
           const daiContractInstance = new ethers.Contract(
-            CONTRACTS.daiAddressV2,
+            CONTRACTS.daiAddress,
             daiAbi.abi,
             signer
           )
@@ -406,7 +406,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
-      CONTRACTS.alphaAddressV1,
+      CONTRACTS.alphaAddress,
       ethers.constants.MaxUint256,
       { gasLimit: 2500000 }
     )
@@ -459,7 +459,7 @@ This function checks the balance of a specified account on the Dai contract and 
               setNoCardsError('No hay más packs disponibles.')
             } else {
               if (checkBalance(account)) {
-                checkApproved(CONTRACTS.alphaAddressV1, account)
+                checkApproved(CONTRACTS.alphaAddress, account)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
                       const pack = await nofContract.buyPack(price, name, {
