@@ -102,7 +102,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           )
           setNofContract(nofContractInstance)
           const daiContractInstance = new ethers.Contract(
-            CONTRACTS.daiAddressV1,
+            CONTRACTS.daiAddressV2,
             daiAbi.abi,
             signer
           )
