@@ -55,4 +55,3 @@ export const adminAccounts =
 
 // ------------------------------------------------------------------
 
-console.log(process.env.NODE_ENV, environment);
