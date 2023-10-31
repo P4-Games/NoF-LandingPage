@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Link } from 'react-scroll'
+import { Link as LinkScroll } from 'react-scroll'
+import Link from 'next/link'
 import Image from 'next/image'
 import audio from './music/Dungeon.mp3'
 import Whitepaper from './Whitepaper.jsx'
@@ -135,20 +136,20 @@ function Navbar ({
       <div className='navbar'>
         <div className='navbar__icon'>
           <div className='hover' id='coin'>
-            <a href='/'>
-              <Image src={Coin} id='coin' layout='fill' />
-            </a>
+            <Link href='/'>
+              <Image alt='coin' src={Coin} id='coin' layout='fill' />
+            </Link>
           </div>
           <div className='hover' id='nof'>
-            <a href='/'>
-              <Image src={Nof} alt='' layout='fill' />
-            </a>
+            <Link href='/'>
+              <Image alt='nof' src={Nof} layout='fill' />
+            </Link>
           </div>
         </div>
         <ul className='navbar__ul'>
           <li className='navbar__ul__li'>
             <NofTown />
-            <Link
+            <LinkScroll
               to='Contacto'
             // spy='true'
             >
@@ -174,7 +175,7 @@ function Navbar ({
 
                 {t ? t('collections') : midButton}
               </button>
-            </Link>
+            </LinkScroll>
             <Whitepaper />
           </li>
         </ul>
@@ -184,7 +185,6 @@ function Navbar ({
               <Image src={Shopimg} alt='shop' />
             </div>}
           <div onClick={() => handleClick()} className='navbar__corner__audio'>
-            {/* <Image src={SoundOn} alt="" /> */}
             {click
               ? (
                 <Image src={SoundOn} alt='soundimg' />
