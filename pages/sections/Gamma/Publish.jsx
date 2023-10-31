@@ -14,8 +14,8 @@ import SwiperCore, {
 import Swal from 'sweetalert2'
 
 const Publish = () => (
-  <div className='publicar' />
+    <div className='publicar' />
 
-)
+  )
 
 export default Publish

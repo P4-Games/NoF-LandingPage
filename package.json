@@ -12,7 +12,7 @@
     "re-start": "rm -rf .next node_modules && yarn install && yarn dev",
     "re-build": "rm -rf .next node_modules && yarn install && yarn build",
     "lint": "next lint",
-    "lint:fix": "eslint --fix --ext .js,.jsx .",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.scss .",
     "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.js\"",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
     "git-prune": "git remote prune origin",

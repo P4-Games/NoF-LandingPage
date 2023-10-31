@@ -14,6 +14,8 @@ import SwiperCore, {
   EffectCards
 } from 'swiper'
 import Swal from 'sweetalert2'
+import { openSeaUrl } from '../config'
+
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
 const AlphaAlbums = ({
@@ -23,23 +25,15 @@ const AlphaAlbums = ({
   account,
   getSeasonFolder,
   marco,
-  production,
-  contractAddress,
   loadAlbums,
   setSeasonName,
   setLoadAlbums,
   alphaMidButton
 }) => {
-  const openSeaUrl = production
-    ? `https://.opensea.io/assets/matic/${contractAddress}/`
-    : `https://testnets.opensea.io/assets/mumbai/${contractAddress}/`
   const [albums, setAlbums] = useState(null)
   const [noAlbumMessage, setNoAlbumMessage] = useState('')
   const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
 
-  /** This function handles the redirection of the user to the appropriate page based
-   *  on the completion status of their album.
-*/
   function handleRedirectAlbum (album) {
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
