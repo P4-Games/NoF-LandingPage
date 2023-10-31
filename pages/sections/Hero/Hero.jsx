@@ -255,10 +255,7 @@ const Hero = React.forwardRef((props, book) => {
                   {t ? t('gamma') : ''}
                 </p>
                 <Link
-                  href='https://opensea.io/collection/nof-gamma'
-                  target='_blank'
-                  rel='noreferrer'
-                >
+                  href='/gamma'>
                   <button className='hero__top__album__book__page__btn2'>
                     GAMMA
                   </button>
