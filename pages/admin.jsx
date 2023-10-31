@@ -50,7 +50,6 @@ const index = React.forwardRef((props, book) => {
             provider = new ethers.providers.Web3Provider(connection);
             address = await provider.getSigner().getAddress();
             setAccount(address);
-            console.log(account)
         } catch (e) {
             console.error({ e });
         }
@@ -77,19 +76,19 @@ const index = React.forwardRef((props, book) => {
         const [provider, address] = data
         const signer = provider.getSigner()
         const gammaPacksContractInstance = new ethers.Contract(
-          CONTRACTS.gammaPackAddressV2,
+          CONTRACTS.gammaPackAddress,
           gammaPacksAbi.abi,
           signer
         )
         setPacksContract(gammaPacksContractInstance)
         const gammaCardsContractInstance = new ethers.Contract(
-          CONTRACTS.gammaCardsAddressV2,
+          CONTRACTS.gammaCardsAddress,
           gammaCardsAbi.abi,
           signer
         )
         setCardsContract(gammaCardsContractInstance)
         const daiContractInstance = new ethers.Contract(
-          CONTRACTS.daiAddressV2,
+          CONTRACTS.daiAddress,
           daiAbi.abi,
           signer
         )

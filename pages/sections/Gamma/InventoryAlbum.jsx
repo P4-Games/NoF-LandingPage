@@ -44,8 +44,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
     return () => window.removeEventListener('resize', updateMedia)
   }
 
-  return paginationObj.page1
-
+  return paginationObj && paginationObj.page1
     ? (
       <HTMLFlipBook
         id='Book'

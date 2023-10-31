@@ -30,43 +30,28 @@ export const NETWORK = {
 };
 
 export const CONTRACTS = {
-  alphaAddressV1:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS_V1 ||
+  alphaAddress:
+    process.env.NEXT_PUBLIC_ALPHA_ADDRESS ||
     (is_production
       ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
       : '0xa6E15E39ede08d7960359882696EC34D504b111A'),
-  alphaAddressV2:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS_V2 ||
-    (is_production
-      ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
-      : '0x4868445F626c775869C5b241635466d3a46c31A7'),
-  daiAddressV1:
-    process.env.NEXT_PUBLIC_DAI_ADDRESS_V1 ||
-    (is_production
-      ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-      : '0xF995C0BB2f4F2138ba7d78F2cFA7D3E23ce05615'),
-  daiAddressV2:
-    process.env.NEXT_PUBLIC_DAI_ADDRESS_V2 ||
+  daiAddress:
+    process.env.NEXT_PUBLIC_DAI_ADDRESS ||
     (is_production
       ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
       : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'),
-  gammaPackAddressV1:
-    process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS_V1 || '0x8C7BBBE25B95BAde8aCd06a5cd21D093446Cf7eF',
-  gammaCardsAddressV1:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS_V1 || '0x3957311EA2229bd557E7173BB12c9633BFeC5B12',
-  gammaPackAddressV2:
-    process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS_V2 || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b',
-  gammaCardsAddressV2:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS_V2 || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
+  gammaPackAddress:
+    process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b',
+  gammaCardsAddress:
+    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
 };
 
 export const openSeaUrl = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddressV2}/`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddressV2}/`;
+  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}/`
+  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}/`;
 
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E';
 
 // ------------------------------------------------------------------
 
-console.log(process.env.NODE_ENV, environment);

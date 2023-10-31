@@ -35,7 +35,7 @@ function TranslationComponent ({ t, setLanguage }) {
                 className='lang-btn'
               >
                 <Image
-                  onClick={() => setLanguage('es')}
+                  onClick={() => setLanguage('en')}
                   src={English}
                   alt='English button'
                   height={30} width={50}

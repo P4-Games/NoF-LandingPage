@@ -25,6 +25,7 @@ import 'swiper/css/bundle'
 import Link from 'next/link'
 import Whitepaper from '../../../components/Navbar/Whitepaper'
 import NofTown from '../../../components/Navbar/NofTown'
+
 const Hero = React.forwardRef((props, book) => {
   const { language, setLanguage, t } = props
   const [swipper, setSwipper] = useState(false)
@@ -32,9 +33,7 @@ const Hero = React.forwardRef((props, book) => {
   const [width, setWidth] = useState()
   const [height, setHeight] = useState()
   const [size, setSize] = useState(false)
-  // const width = mobile ? 360 : 360
-  // const height = mobile ? 500 : 500
-  // const size = mobile ? 'fixed' : 'stretch'
+
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobile(true)
@@ -459,3 +458,14 @@ const Hero = React.forwardRef((props, book) => {
 })
 
 export default Hero
+
+/*
+export async function getStaticProps ({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale))
+    }
+  }
+}
+*/
+

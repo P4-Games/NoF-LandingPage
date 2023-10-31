@@ -1,7 +1,6 @@
 export const checkPacksByUser = async (account, packsContract) => {
   try {
     const packs = await packsContract?.getPacksByUser(account);
-    console.log({ packs });
     return packs;
   } catch (e) {
     console.error({ e });
