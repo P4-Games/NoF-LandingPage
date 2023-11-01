@@ -109,7 +109,16 @@ function Navbar ({
   const buySobres = () => {
     Swal.fire({
       text: 'Elige la cantidad de sobres que quieres comprar',
-      html: '<h3> Elige la cantidad de sobres que quieres comprar</h3><input autofocus type="number" id="quiero" class="swal2-input" placeholder="Sobres"/>',
+      input: 'number',
+      inputAttributes: {
+        min: 1,
+        max: 10,
+      },
+      inputValidator: (value) => {
+        if (value < 1 || value > 10) {
+            return 'ingresa entre 1 y 10!';
+        }
+      },
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Comprar',
@@ -123,9 +132,9 @@ function Navbar ({
     })
       .then((result) => {
         if (result.isConfirmed) {
-          const input = Swal.getPopup().querySelector('#quiero')
-          setWantedSobres(input.value)
-          callContract(input.value)
+          const packsToBuy = result.value
+          setWantedSobres(packsToBuy)
+          callContract(packsToBuy)
         }
       })
   }
