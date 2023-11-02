@@ -62,7 +62,7 @@ function Navbar ({
     window.history.state.url == '/gamma' ? setMidButton('Inventory') : null
   }, [])
 
-  const callContract = async (numberOfPacks) => {
+  const buyPackscontact = async (numberOfPacks) => {
     packsContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
@@ -89,26 +89,12 @@ function Navbar ({
       console.error({ e })
     }
   }
-  const [inputValue, setInputValue] = useState('')
-  const [result, setResult] = useState('')
 
-  // const handleInputChange = (event) => {
-  //   const value = event.target.value;
-  //   setInputValue(value);
-
-  //   // Comprueba si el valor ingresado es un número válido antes de multiplicar
-  //   const parsedValue = parseFloat(value);
-  //   if (!isNaN(parsedValue)) {
-  //     const multipliedValue = parsedValue * 1.3;
-  //     setResult(`${parsedValue}x1.3 = ${multipliedValue}`);
-  //   } else {
-  //     setResult('');
-  //   }
-  // };
-
-  const buySobres = () => {
+  // TODO: exose pack price in contract ad read from there
+  const price = '1 DAI' 
+  const buyPacks = () => {
     Swal.fire({
-      text: 'Elige la cantidad de sobres que quieres comprar',
+      text: `Elige la cantidad de sobres que quieres comprar (c/u ${price})`,
       input: 'number',
       inputAttributes: {
         min: 1,
@@ -134,7 +120,7 @@ function Navbar ({
         if (result.isConfirmed) {
           const packsToBuy = result.value
           setWantedSobres(packsToBuy)
-          callContract(packsToBuy)
+          buyPackscontact(packsToBuy)
         }
       })
   }
@@ -189,7 +175,7 @@ function Navbar ({
         </ul>
         <div className='navbar__corner'>
           {(router?.pathname == '/gamma') &&
-            <div onClick={buySobres} className='navbar__corner__audio'>
+            <div onClick={buyPacks} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
           <div onClick={() => handleClick()} className='navbar__corner__audio'>
