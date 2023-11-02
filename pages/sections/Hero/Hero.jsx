@@ -67,7 +67,7 @@ const Hero = React.forwardRef((props, book) => {
     <div className='hero' id='Hero'>
       <div className='hero__top'>
         <div className='hero__top__nof'>
-          <Image src={Noficon} alt='Nof-Icon' layout='fill' />
+          <Image src={Noficon} alt='Nof-Icon' fill/>
         </div>
         <div className='hero__top__album'>
           <HTMLFlipBook
@@ -95,18 +95,18 @@ const Hero = React.forwardRef((props, book) => {
 
                 <div className='nofi_conteiner'>
                   <div className='nofimg'>
-                    <Image src={Noficon} alt='text box' layout='fill' />
+                    <Image src={Noficon} alt='text box' fill/>
                   </div>
                 </div>
                 <div className='coin_conteiner'>
                   <div className='coinimg'>
-                    <Image src={Gold} alt='text box' layout='fill' />
+                    <Image src={Gold} alt='text box' fill/>
                   </div>
                   <div className='coinimg2'>
-                    <Image src={Plate} alt='text box' layout='fill' />
+                    <Image src={Plate} alt='text box' fill/>
                   </div>
                   <div className='coinimg3'>
-                    <Image src={Bronce} alt='text box' layout='fill' />
+                    <Image src={Bronce} alt='text box' fill/>
                   </div>
                 </div>
 
@@ -120,7 +120,7 @@ const Hero = React.forwardRef((props, book) => {
                 </p>
                 <div className='bookflip_conteiner'>
                   <div className='bookimg'>
-                    <Image src={Bookflip} alt='text box' layout='fill' />
+                    <Image src={Bookflip} alt='text box' fill/>
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const Hero = React.forwardRef((props, book) => {
                   {t ? t('our goal') : ''}
                 </p>
                 <div className='book_container'>
-                  <Image src={Bookmenu} alt='text box' layout='fill' />
+                  <Image src={Bookmenu} alt='text box' fill/>
                 </div>
                 <p className='hero__top__album__book__page__text2'>
                   {t ? t('sustainable game') : ''}
@@ -155,7 +155,7 @@ const Hero = React.forwardRef((props, book) => {
                 <div className='nof_container'>
                   <div className='nof1'>
                     <div className='nofimg'>
-                      <Image src={N} alt='N image' layout='fill' />
+                      <Image src={N} alt='N image' fill/>
                     </div>
                     <div className='noftitle'>
                       <p>{t ? t('gold') : ''}</p>
@@ -163,7 +163,7 @@ const Hero = React.forwardRef((props, book) => {
                   </div>
                   <div className='nof2'>
                     <div className='nofimg'>
-                      <Image src={O} alt='O image' layout='fill' />
+                      <Image src={O} alt='O image' fill/>
                     </div>
                     <div className='noftitle'>
                       <p>{t ? t('silver') : ''}</p>
@@ -171,7 +171,7 @@ const Hero = React.forwardRef((props, book) => {
                   </div>
                   <div className='nof3'>
                     <div className='nofimg'>
-                      <Image src={F} alt='F image' layout='fill' />
+                      <Image src={F} alt='F image' fill/>
                     </div>
                     <div className='noftitle'>
                       <p>{t ? t('bronze') : ''}</p>
@@ -203,7 +203,7 @@ const Hero = React.forwardRef((props, book) => {
                       </p>
                     </div>
                     <div className='albumimg'>
-                      <Image alt='imagenalbum' src={Albumfirst} layout='fill' />
+                      <Image alt='imagenalbum' src={Albumfirst} fill/>
                     </div>
                   </div>
                   <div className='album2'>
@@ -229,7 +229,7 @@ const Hero = React.forwardRef((props, book) => {
                       </p>
                     </div>
                     <div className='albumimg'>
-                      <Image alt='imagenalbum' src={Albumthird} layout='fill' />
+                      <Image alt='imagenalbum' src={Albumthird} fill/>
                     </div>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ const Hero = React.forwardRef((props, book) => {
                 </p>
                 <div className='season_container'>
                   <div className='seasonimg'>
-                    <Image src={Season} alt='text box' layout='fill' />
+                    <Image src={Season} alt='text box' fill/>
                   </div>
                 </div>
                 <p className='hero__top__album__book__page__text2'>
@@ -316,6 +316,7 @@ const Hero = React.forwardRef((props, book) => {
                             key={profile.id}
                           >
                             <Image
+                              alt='album_pack'
                               layout='fill'
                               className='img'
                               src={profile.icon}
@@ -347,6 +348,7 @@ const Hero = React.forwardRef((props, book) => {
                           <div className='box' key={friend.id}>
                             <Image
                               layout='fill'
+                              alt='album_book'
                               className='img'
                               src={friend.icon}
                             />
@@ -367,7 +369,7 @@ const Hero = React.forwardRef((props, book) => {
                 <div className='hero__top__album__book__page__page-content'>
                   <div className='tech_container'>
                     <div className='techimg'>
-                      <Image src={Tech} alt='p4tech-solutions' layout='fill' />
+                      <Image src={Tech} alt='p4tech-solutions' fill/>
                     </div>
                   </div>
 
