@@ -145,12 +145,12 @@ function Navbar ({
         <div className='navbar__icon'>
           <div className='hover' id='coin'>
             <Link href='/'>
-              <Image alt='coin' src={Coin} id='coin' layout='fill' />
+              <Image alt='coin' src={Coin} id='coin' fill/>
             </Link>
           </div>
           <div className='hover' id='nof'>
             <Link href='/'>
-              <Image alt='nof' src={Nof} layout='fill' />
+              <Image alt='nof' src={Nof} fill/>
             </Link>
           </div>
         </div>
