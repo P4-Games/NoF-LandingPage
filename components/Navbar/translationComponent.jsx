@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types'
 import World from './icons/world.png'
 import Brazilean from './icons/br.png'
 import English from './icons/en.png'
 import Spanish from './icons/es.png'
 import Image from 'next/image.js'
 
-function TranslationComponent ({ t, setLanguage }) {
+function TranslationComponent ({ setLanguage }) {
   if (typeof window !== 'undefined') {
     document.addEventListener('click', e => {
       const isDropdownButton = e.target.matches('[data-dropdown-button]')
@@ -73,6 +74,10 @@ function TranslationComponent ({ t, setLanguage }) {
       </div>
     </>
   )
+}
+
+TranslationComponent.propTypes = {
+  setLanguage: PropTypes.func
 }
 
 export default TranslationComponent

@@ -1,13 +1,12 @@
+import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
-import Footer from '../../../components/Footer'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../../artifacts/utils/placeholders'
 import { getUserCards } from '../../../services/contracts/gamma'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
-  const { account, cardsContract } = props
-  const [mobile, setMobile] = useState(false)
+  const { account, cardsContract, setImageNumber, setCardInfo } = props
   const [size, setSize] = useState(false)
   const [paginationObj, setPaginationObj] = useState({})
 
@@ -25,18 +24,14 @@ const InventoryAlbum = React.forwardRef((props, book) => {
 
   const windowSize = () => {
     if (window.innerWidth < 600) {
-      setMobile(true)
       setSize(true)
     } else {
-      setMobile(false)
       setSize(false)
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
-        setMobile(true)
         setSize(true)
       } else {
-        setMobile(false)
         setSize(false)
       }
     }
@@ -70,7 +65,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
             <div className='grid-wrapper'>
               {paginationObj && paginationObj.page1.map((item, index) => (
                 <div
-                  onClick={() => { props.setCardInfo(true), props.setImageNumber(item) }}
+                  onClick={() => { setCardInfo(true), setImageNumber(item) }}
                   style={(paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'
                 >
                   <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
@@ -248,5 +243,13 @@ const InventoryAlbum = React.forwardRef((props, book) => {
       </HTMLFlipBook>
       ) : null
 })
+
+InventoryAlbum.propTypes = {
+  account: PropTypes.string,
+  cardsContract: PropTypes.object,
+  setImageNumber: PropTypes.func,
+  setCardInfo: PropTypes.func
+
+}
 
 export default InventoryAlbum

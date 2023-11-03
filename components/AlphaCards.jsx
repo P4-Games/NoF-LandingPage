@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import Web3Modal from 'web3modal'
@@ -28,10 +29,10 @@ const vidas = [
   vida5.src
 ]
 
-let swiper
+let swiper //eslint-disable-line 
 
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
-  const [chainId, setChainId] = useState(null)
+  const [, setChainId] = useState(null)
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null)
   const [nofContract, setNofContract] = useState(null)
@@ -57,7 +58,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [seasonFolder, setSeasonFolder] = useState(null)
-  const [urls, setUrls] = useState([])
+  // const [urls, setUrls] = useState([])
 
   async function requestAccount () {
     const web3Modal = new Web3Modal()
@@ -93,7 +94,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       setNoMetamaskError('')
       requestAccount()
         .then((data) => {
-          const [provider, address] = data
+          const [provider] = data
           const signer = provider.getSigner()
           const nofContractInstance = new ethers.Contract(
             CONTRACTS.alphaAddress,
@@ -108,9 +109,11 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           )
           setDaiContract(daiContractInstance)
           requestSeasonData(nofContractInstance)
+            /*  
             .then((data) => {
               const [currentSeason, currentPrice] = data
             })
+            */
             .catch((e) => {
               console.error({ e })
             })
@@ -167,7 +170,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   useEffect(() => {
     if (window && window.ethereum !== undefined) {
-      window.ethereum.on('accountsChanged', (accounts) => {
+      window.ethereum.on('accountsChanged', () => {
         connectToMetamask()
       })
 
@@ -176,7 +179,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         connectToMetamask()
       })
     }
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const loadingElem = document.getElementById('loading')
@@ -231,12 +234,12 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
             setIsCollection(false)
           }
         },
-        slidesLengthChange: (res) => {
+        slidesLengthChange: () => {
           // check function
         }
       }
     })
-  }, [pack, cards])
+  }, [pack, cards, albumCollection])
 
   useEffect(() => {
     const seasonNameElem =
@@ -316,6 +319,21 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     return winners
   }
 
+  const setValidAlbumCard = (imageName) => {
+    // seasonFolder = 'T1'
+    setAlbumCard(`${storageUrl}${seasonFolder}/${imageName}`)
+  }
+
+  const getCardImageUrl = (imageNumber) => {
+    // seasonFolder = 'T1'
+    return `${storageUrl}${seasonFolder}/${imageNumber}.png`
+  }
+
+  const getAlbumImageUrl = () => {
+    return albumCard
+  }
+
+
   const showCards = (address, seasonName) => {
     checkPacks()
       .then((res) => {
@@ -330,10 +348,10 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       })
     const cards = getUserCards(address, seasonName)
       .then((pack) => {
+        console.log('pack', pack)
         if (pack.length) {
           const albumData = []
           const cardsData = []
-          let folder = ''
           pack.forEach((card) => {
             card.class == 0 ? albumData.push(card) : cardsData.push(card)
           })
@@ -353,20 +371,14 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           getSeasonFolder(seasonName)
             .then((data) => {
               if (data == 'alpha_jsons') {
-                folder = 'T1'
                 setSeasonFolder('T1')
               } else {
-                folder = data
-                setSeasonFolder(data)
+                setSeasonFolder(data || 'UNKNOWN_FOLDER')
               }
               if (completion < 5) {
-                setAlbumCard(
-                  storageUrl + folder + '/' + albumData[0].number + '.png'
-                )
+                setValidAlbumCard(albumData[0].number + '.png')
               } else {
-                setAlbumCard(
-                  storageUrl + folder + '/' + albumData[0].number + 'F' + '.png'
-                )
+                setValidAlbumCard(albumData[0].number + 'F' + '.png')
                 getWinners()
                   .then((winners) => {
                     if (winners.includes(account)) {
@@ -560,7 +572,7 @@ This function checks the balance of a specified account on the Dai contract and 
       })
   }
 
-  const checkInputAddress = (address) => {
+  const checkInputAddress = () => {
     const hexa = '0123456789abcdefABCDEF'
     if (
       receiverAccount.length !== 42 ||
@@ -660,14 +672,14 @@ This function checks the balance of a specified account on the Dai contract and 
         >
           X
         </button>
-        <img className='alpha_rules_img' src={reglas.src} tabIndex='0' />
+        <img alt='alpha-rules' className='alpha_rules_img' src={reglas.src} tabIndex='0' />
       </div>
 
       {account && (
         <div className='alpha_inner_container'>
           <div className='alpha_data'>
             <div className='alpha_season'>
-              <img src={marco.src} />
+              <img alt='marco' src={marco.src} />
               <span className='alpha_season_name'>{seasonName}</span>
               <select
                 value={seasonName}
@@ -682,9 +694,7 @@ This function checks the balance of a specified account on the Dai contract and 
                 id='alpha_select_season_button'
               >
                 {seasonNames &&
-                  seasonNames.map((name) => {
-                    return <option key={name}>{name}</option>
-                  })}
+                  seasonNames.map((name) => <option key={name}>{name}</option>)}
               </select>
             </div>
             <div className='alpha_start_buttons'>
@@ -715,7 +725,7 @@ This function checks the balance of a specified account on the Dai contract and 
           {pack && pack.length ? (
             <div className='alpha_container'>
               <div className='alpha_album_container'>
-                <img src={albumCard} className='alpha_album' />
+                <img alt='alpha-album' src={getAlbumImageUrl()} className='alpha_album' />
               </div>
               <div className='alpha_progress_container'>
                 <span>
@@ -723,7 +733,7 @@ This function checks the balance of a specified account on the Dai contract and 
                     ? `Progreso: ${albumCompletion}/5`
                     : `Posición: ${winnerPosition}`}
                 </span>
-                <img src={vida} />
+                <img alt='vida' src={vida} />
                 <span>Colección: {albumCollection}</span>
                 <div className='alpha_progress_button_container'>
                   <button
@@ -755,7 +765,7 @@ This function checks the balance of a specified account on the Dai contract and 
               <div className='alpha_cards_container'>
                 <div className='swiper-container alpha-swiper-container'>
                   <div className='swiper-wrapper alpha-swiper-wrapper'>
-                    {cards.map((card, i) => {
+                    {cards.map((card) => {
                       const cardCollection = ethers.BigNumber.from(
                         card.collection
                       ).toNumber()
@@ -769,13 +779,8 @@ This function checks the balance of a specified account on the Dai contract and 
                             C:{cardCollection}
                           </span>
                           <img
-                            src={
-                              storageUrl +
-                              seasonFolder +
-                              '/' +
-                              card.number +
-                              '.png'
-                            }
+                            alt='img'
+                            src={getCardImageUrl(card.number)}
                             className='alpha_card'
                           />
                         </div>
@@ -851,6 +856,12 @@ This function checks the balance of a specified account on the Dai contract and 
       />
     </div>
   )
+}
+
+AlphaCards.propTypes = {
+  loadAlbums: PropTypes.bool,
+  setLoadAlbums: PropTypes.func,
+  alphaMidButton: PropTypes.func
 }
 
 export default AlphaCards

@@ -19,7 +19,7 @@ function Home () {
   function goToCollections (number) {
     book.current.pageFlip().flip(number)
   }
-  const { language, setLanguage, setFallbackLanguage, t } = useTranslation()
+  const { language, setLanguage, t } = useTranslation()
 
   return (
     <div className='home'>

@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import Image from 'next/image'
 import HTMLFlipBook from 'react-pageflip'
 import Noficon from './background/logo-nof.gif'
@@ -25,14 +26,13 @@ import 'swiper/css/bundle'
 import Link from 'next/link'
 import Whitepaper from '../../../components/Navbar/Whitepaper'
 import NofTown from '../../../components/Navbar/NofTown'
+import useTranslation from '../../../components/Navbar/useTranslation'
 
 const Hero = React.forwardRef((props, book) => {
-  const { language, setLanguage, t } = props
   const [swipper, setSwipper] = useState(false)
   const [mobile, setMobile] = useState(false)
-  const [width, setWidth] = useState()
-  const [height, setHeight] = useState()
   const [size, setSize] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (window.innerWidth < 600) {
@@ -56,6 +56,8 @@ const Hero = React.forwardRef((props, book) => {
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
+  
+  /*
   const onFlip = useCallback((e) => {
     if (e.data === 8) {
       setSwipper(true)
@@ -63,6 +65,8 @@ const Hero = React.forwardRef((props, book) => {
     }
     setSwipper(false)
   }, [])
+  */
+
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>
@@ -458,6 +462,11 @@ const Hero = React.forwardRef((props, book) => {
     </div>
   )
 })
+
+Hero.propTypes = {
+  book: PropTypes.object
+}
+
 
 export default Hero
 

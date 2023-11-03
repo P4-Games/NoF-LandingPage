@@ -6,74 +6,65 @@ import daiAbi from '../artifacts/contracts/TestDAI.sol/UChildDAI.json'
 import Web3Modal from 'web3modal'
 import { CONTRACTS, NETWORK, adminAccounts } from '../config'
 
-const index = React.forwardRef((props, book) => {
-  const production = true
-  const localhost = true
+const index = React.forwardRef(() => {
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
-  const [chainId, setChainId] = useState(null)
-  const [packsContract, setPacksContract] = useState(null)
-  const [cardsContract, setCardsContract] = useState(null)
-  const [daiContract, setDaiContract] = useState(null)
-  const [loading, setLoading] = useState(null)
-
-  const [mobile, setMobile] = useState(false)
-  const [size, setSize] = useState(false)
+  const [, setChainId] = useState(null)
+  const [, setPacksContract] = useState(null)
+  const [, setCardsContract] = useState(null)
+  const [, setDaiContract] = useState(null)
+  const [, setSize] = useState(false)
+ 
   useEffect(() => {
     if (window.innerWidth < 600) {
-      setMobile(true)
       setSize(true)
     } else {
-      setMobile(false)
       setSize(false)
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
-        setMobile(true)
         setSize(true)
       } else {
-        setMobile(false)
         setSize(false)
       }
     }
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
-  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-    async function requestAccount() {
-        const web3Modal = new Web3Modal();
-        let provider;
-        let address;
-        try {
-            const connection = await web3Modal.connect();
-            provider = new ethers.providers.Web3Provider(connection);
-            address = await provider.getSigner().getAddress();
-            setAccount(address);
-        } catch (e) {
-            console.error({ e });
-        }
-
-        if (!provider) return;
-        const chain = (await provider.getNetwork()).chainId;
-        setChainId(decToHex(chain));
-
-        switchOrCreateNetwork(
-          NETWORK.chainId,
-          NETWORK.chainName,
-          NETWORK.ChainRpcUrl,
-          NETWORK.chainCurrency,
-          NETWORK.chainExplorerUrl
-        );
-        return [provider, address];
+  
+  async function requestAccount() {
+    const web3Modal = new Web3Modal();
+    let provider;
+    let address;
+    try {
+        const connection = await web3Modal.connect();
+        provider = new ethers.providers.Web3Provider(connection);
+        address = await provider.getSigner().getAddress();
+        setAccount(address);
+    } catch (e) {
+        console.error({ e });
     }
-    
+
+    if (!provider) return;
+    const chain = (await provider.getNetwork()).chainId;
+    setChainId(decToHex(chain));
+
+    switchOrCreateNetwork(
+      NETWORK.chainId,
+      NETWORK.chainName,
+      NETWORK.ChainRpcUrl,
+      NETWORK.chainCurrency,
+      NETWORK.chainExplorerUrl
+    );
+    return [provider, address];
+  }
+  
 
   function connectToMetamask () {
     if (window.ethereum !== undefined) {
       setNoMetamaskError('')
       requestAccount().then((data) => {
-        const [provider, address] = data
+        const [provider] = data
         const signer = provider.getSigner()
         const gammaPacksContractInstance = new ethers.Contract(
           CONTRACTS.gammaPackAddress,
@@ -146,7 +137,7 @@ const index = React.forwardRef((props, book) => {
 
   useEffect(() => {
     if (window && window.ethereum !== undefined) {
-      window.ethereum.on('accountsChanged', (accounts) => {
+      window.ethereum.on('accountsChanged', () => {
         connectToMetamask()
       })
 
@@ -155,15 +146,10 @@ const index = React.forwardRef((props, book) => {
         connectToMetamask()
       })
     }
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const adminAccess = () => {
-    return adminAccounts.includes(account)
-  }
-
-  const showRules = () => {
-    // TBC
-  }
+  const adminAccess = () => adminAccounts.includes(account)
+  const showRules = () => { /* TBC */ }
 
   return (
     <>

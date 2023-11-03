@@ -1,4 +1,3 @@
-import { MongoClient } from 'mongodb';
 import connectToDatabase from '../../utils/db';
 
 // Función para calcular las medallas del usuario según la cantidad de personajes en su inventario

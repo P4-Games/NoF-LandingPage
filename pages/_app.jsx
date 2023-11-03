@@ -1,4 +1,5 @@
 import EthersProvider from '../context/EthersContext'
+import PropTypes from 'prop-types'
 import '../styles/index.scss'
 import '../styles/alpha.scss'
 import '../styles/gamma.scss'
@@ -11,6 +12,11 @@ function MyApp ({ Component, pageProps }) {
       <Component {...pageProps} />
     </EthersProvider>
   )
+}
+
+MyApp.propTypes = {
+  Component: PropTypes.func,
+  pageProps: PropTypes.object
 }
 
 export default MyApp;
