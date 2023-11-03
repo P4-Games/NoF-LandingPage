@@ -174,7 +174,7 @@ function Navbar ({
           </li>
         </ul>
         <div className='navbar__corner'>
-          {(router?.pathname == '/gamma') &&
+          {(router?.pathname == '/gamma') && account &&
             <div onClick={buyPacks} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
