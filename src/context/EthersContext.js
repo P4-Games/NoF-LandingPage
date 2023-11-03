@@ -19,14 +19,13 @@ export default function EthersProvider({ children }) {
   const [daiContract, setDaiContract] = useState(null);
   const [gammaPacksContract] = useState(null);
   const [gammaCardsContract] = useState(null);
-  const [prov, setProv] = useState(null);
+  const [, setProv] = useState(null);
   const [account, setAccount] = useState(null);
   const [chainId, setChainId] = useState(null);
 
   async function requestAccount() {
     const web3Modal = new Web3Modal();
     let provider;
-    let address;
     try {
       const connection = await web3Modal.connect();
       provider = new ethers.providers.Web3Provider(connection);

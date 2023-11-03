@@ -1,4 +1,6 @@
-export const checkBalance = async () => {
+import { ethers } from 'ethers'
+
+export const checkBalance = async (daiContract, account) => {
   // Get the account balance from the Dai contract
   const balance = await daiContract.balanceOf(account);
   // Convert the balance from a BigNumber to a number

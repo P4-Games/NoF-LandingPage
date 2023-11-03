@@ -302,7 +302,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
                 }}
               >
                 <span>{cardNumber}</span>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`} />
+                <img alt= 'img' src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`} />
               </div>
             ))}
         </motion.div>

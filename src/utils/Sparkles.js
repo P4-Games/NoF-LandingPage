@@ -1,3 +1,4 @@
+/*
 import { useEffect, useRef } from 'react';
 
 const Starshine = () => {
@@ -41,3 +42,4 @@ const Starshine = () => {
     </div>
   );
 };
+*/

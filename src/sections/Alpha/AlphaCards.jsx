@@ -319,19 +319,13 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
 
   const setValidAlbumCard = (imageName) => {
-    seasonFolder = 'T1'
+    // seasonFolder = 'T1'
     setAlbumCard(`${storageUrl}${seasonFolder}/${imageName}`)
   }
 
-  const getCardImageUrl = (imageNumber) => {
-    seasonFolder = 'T1'
-    return `${storageUrl}${seasonFolder}/${imageNumber}.png`
-  }
-
-  const getAlbumImageUrl = () => {
-    return albumCard
-  }
-
+    // seasonFolder = 'T1'
+  const getCardImageUrl = (imageNumber) => `${storageUrl}${seasonFolder}/${imageNumber}.png`
+  const getAlbumImageUrl = () => albumCard
 
   const showCards = (address, seasonName) => {
     checkPacks()
