@@ -1,4 +1,3 @@
-import { MongoClient } from 'mongodb';
 import connectToDatabase from '../../utils/db';
 
 // Función para obtener el ranking de los usuarios

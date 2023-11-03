@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Buttons from './Buttons'
 
 function Footer ({ turnNextPage, turnPrevPage }) {
@@ -27,6 +28,12 @@ function Footer ({ turnNextPage, turnPrevPage }) {
       </div>
     </div>
   )
+}
+
+
+Footer.propTypes = {
+  turnNextPage: PropTypes.func,
+  turnPrevPage: PropTypes.func
 }
 
 export default Footer

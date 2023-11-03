@@ -16,11 +16,11 @@ import { checkPacksByUser, openPack } from '../../../services/contracts/gamma'
 import { CONTRACTS, NETWORK } from '../../../config'
 
 
-const index = React.forwardRef((props, book) => {
-  const [packsEnable, setPacksEnable] = useState(false)
+const index = React.forwardRef(() => {
+  // const [packsEnable, setPacksEnable] = useState(false)
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
-  const [chainId, setChainId] = useState(null)
+  const [, setChainId] = useState(null)
   const [packsContract, setPacksContract] = useState(null)
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
@@ -47,7 +47,7 @@ const index = React.forwardRef((props, book) => {
   }
 
   const [mobile, setMobile] = useState(false)
-  const [size, setSize] = useState(false)
+  const [, setSize] = useState(false)
 
   useEffect(() => {
     if (window.innerWidth < 600) {
@@ -82,7 +82,7 @@ const index = React.forwardRef((props, book) => {
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [account, packsContract])
+  }, [account, packsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
@@ -117,7 +117,7 @@ const index = React.forwardRef((props, book) => {
     if (window.ethereum !== undefined) {
       setNoMetamaskError('')
       requestAccount().then((data) => {
-        const [provider, address] = data
+        const [provider] = data
         const signer = provider.getSigner()
         const gammaPacksContractInstance = new ethers.Contract(
           CONTRACTS.gammaPackAddress,
@@ -190,7 +190,7 @@ const index = React.forwardRef((props, book) => {
 
   useEffect(() => {
     if (window && window.ethereum !== undefined) {
-      window.ethereum.on('accountsChanged', (accounts) => {
+      window.ethereum.on('accountsChanged', () => {
         connectToMetamask()
       })
 
@@ -199,7 +199,7 @@ const index = React.forwardRef((props, book) => {
         connectToMetamask()
       })
     }
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
   const [loaderPack, setLoaderPack] = useState(false)
 
   // funcion para abrir uno a uno los sobres disponibles
@@ -210,7 +210,7 @@ const index = React.forwardRef((props, book) => {
       setLoaderPack(true)
 
       if (packs.length == 0) {
-        setPacksEnable(false)
+        // setPacksEnable(false)
         alert('No tienes paquetes para abrir!')
       }
 
@@ -221,7 +221,7 @@ const index = React.forwardRef((props, book) => {
         const { packet_data, signature } = data
 
         setOpenPackCardsNumbers(packet_data)
-        setPacksEnable(true)
+        // ssetPacksEnable(true)
         // llama al contrato de cartas para abrir el sobre
         const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
         if (openedPack) {
@@ -269,7 +269,7 @@ const index = React.forwardRef((props, book) => {
         </div>
         {/* <div className="alpha_rules_container">
           <button className="alpha_rules_img_close alpha_modal_close" onClick={() => closeRules()}>X</button>
-          <img className="alpha_rules_img" src={reglas.src} tabIndex="0" />
+          <img alt='img' className="alpha_rules_img" src={reglas.src} tabIndex="0" />
         </div> */}
       </div>}
 
@@ -299,7 +299,7 @@ const index = React.forwardRef((props, book) => {
           <link rel='icon' href='./favicon.ico' />
         </Head>
         <div className='hero__top'>
-          {!mobile && inventory && <img src='assets/gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
+          {!mobile && inventory && <img alt='albums' src='assets/gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
           {!mobile && !inventory && <div onClick={() => setInventory(false)} className='gammaAlbums2' />}
           <div style={inventory ? { backgroundImage: 'url(\'assets/gamma/InventarioFondo.png\')' } : { backgroundImage: 'url(\'assets/gamma/GammaFondo.png\')' }} className='hero__top__album'>
             {inventory && !cardInfo && <InventoryAlbum

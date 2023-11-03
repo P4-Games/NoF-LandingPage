@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
@@ -91,7 +92,7 @@ const AlphaAlbums = ({
           ? (
             <div>
               <div className='alpha_albums_season'>
-                <img src={marco.src} />
+                <img alt='alpha-full' src={marco.src} />
                 <span className='alpha_albums_season_name'>
                   {seasonNameAlbum || 'Number One Fan'}
                 </span>
@@ -99,12 +100,8 @@ const AlphaAlbums = ({
               <Swiper
                 effect='cards'
                 grabCursor
-                onSlideChange={(res) => {
-                  return setSeasonNameAlbums(albums[res.activeIndex][0].season)
-                }}
-                onInit={(res) => {
-                  return setSeasonNameAlbums(albums[res.activeIndex][0].season)
-                }}
+                onSlideChange={(res) => setSeasonNameAlbums(albums[res.activeIndex][0].season)}
+                onInit={(res) => setSeasonNameAlbums(albums[res.activeIndex][0].season)}
                 modules={[EffectCards, Autoplay, Pagination]}
                 pagination={{
                   el: '.pagination',
@@ -116,8 +113,7 @@ const AlphaAlbums = ({
                 className='swiper-container alpha_albums_swiper_container'
                 id='alpha-albums-swiper-container'
               >
-                {albums.map((album, index) => {
-                  return (
+                {albums.map((album, index) => (
                     <SwiperSlide
                       key={index}
                       className='swiper-slide'
@@ -133,8 +129,7 @@ const AlphaAlbums = ({
                         onClick={() => handleRedirectAlbum(album)}
                       />
                     </SwiperSlide>
-                  )
-                })}
+                ))}
                 <div className='pagination' />
               </Swiper>
             </div>
@@ -146,5 +141,19 @@ const AlphaAlbums = ({
     </div>
   )
 }
+
+AlphaAlbums.propTypes = {
+  storageUrl: PropTypes.string,
+  nofContract: PropTypes.object,
+  seasonNames: PropTypes.array,
+  account: PropTypes.string,
+  getSeasonFolder: PropTypes.func,
+  marco: PropTypes.object,
+  loadAlbums: PropTypes.bool,
+  setSeasonName: PropTypes.func,
+  setLoadAlbums: PropTypes.func,
+  alphaMidButton: PropTypes.func
+}
+
 
 export default AlphaAlbums

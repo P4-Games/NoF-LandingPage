@@ -1,4 +1,3 @@
-import { MongoClient } from 'mongodb';
 import connectToDatabase from '../../utils/db';
 
 const getRandomCharacterID = async (db, channelId) => {

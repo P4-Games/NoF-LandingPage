@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Link as LinkScroll } from 'react-scroll'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -13,9 +14,6 @@ import Shopimg from './icons/shop.png'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
-import { ethers } from 'ethers'
-
-// import TranslationComponent from './translationComponent.jsx'
 
 const TranslationComponent = dynamic(
   () => import('./translationComponent.jsx'),
@@ -25,7 +23,7 @@ const TranslationComponent = dynamic(
 function Navbar ({
   onFlip,
   goToCollections,
-  language,
+  // language,
   setLanguage,
   alphaMidButton,
   t,
@@ -33,7 +31,7 @@ function Navbar ({
   setLoadAlbums,
   loadAlbums,
   setInventory,
-  inventory,
+  // inventory,
   setCardInfo,
   cardInfo,
   packsContract,
@@ -43,7 +41,6 @@ function Navbar ({
 }) {
   const [midButton, setMidButton] = useState('')
   const [page, setPage] = useState('')
-  const [wantedSobres, setWantedSobres] = useState(null)
   const router = useRouter()
   const ref = useRef(null)
   const [click, setClick] = useState(false)
@@ -63,11 +60,13 @@ function Navbar ({
   }, [])
 
   const buyPackscontact = async (numberOfPacks) => {
+    /*
     packsContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
       }
     })
+    */
 
     try {
       const approval = await checkApproved(packsContract.address, account)
@@ -90,7 +89,7 @@ function Navbar ({
     }
   }
 
-  // TODO: exose pack price in contract ad read from there
+  // TODO: expose pack price in contract ad read from there
   const price = '1 DAI' 
   const buyPacks = () => {
     Swal.fire({
@@ -119,7 +118,6 @@ function Navbar ({
       .then((result) => {
         if (result.isConfirmed) {
           const packsToBuy = result.value
-          setWantedSobres(packsToBuy)
           buyPackscontact(packsToBuy)
         }
       })
@@ -189,9 +187,7 @@ function Navbar ({
             <></>
           </div>
           <TranslationComponent
-            language={language}
             setLanguage={setLanguage}
-            t={t}
           />
         </div>
       </div>
@@ -199,6 +195,24 @@ function Navbar ({
       <audio src={audio} ref={ref} loop />
     </>
   )
+}
+
+Navbar.propTypes = {
+  onFlip: PropTypes.func,
+  goToCollections: PropTypes.func,
+  setLanguage: PropTypes.func,
+  alphaMidButton: PropTypes.func,
+  t: PropTypes.func,
+  account: PropTypes.string,
+  setLoadAlbums: PropTypes.func,
+  loadAlbums: PropTypes.bool,
+  setInventory: PropTypes.func,
+  setCardInfo: PropTypes.func,
+  cardInfo: PropTypes.bool,
+  packsContract: PropTypes.object,
+  checkApproved: PropTypes.func,
+  authorizeDaiContract: PropTypes.func,
+  checkNumberOfPacks: PropTypes.func
 }
 
 export default Navbar

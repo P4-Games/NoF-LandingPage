@@ -1,8 +1,9 @@
-import StarShine from '../../../utils/Sparkles'
-import { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from '../../../utils/PackFiguritas'
+// import { prototype } from 'file-loader'
 
 const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
   const starshineRef = useRef(null)
@@ -75,4 +76,13 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
     </>
   )
 }
+
+GammaPack.propTypes = {
+  setPackIsOpen: PropTypes.func,
+  openPackage: PropTypes.bool,
+  setOpenPackage: PropTypes.func,
+  cardsNumbers: PropTypes.array,
+  loaderPack: PropTypes.bool
+}
+
 export default GammaPack

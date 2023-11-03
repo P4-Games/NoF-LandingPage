@@ -1,12 +1,13 @@
+import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
-import Footer from '../../../components/Footer'
 import HTMLFlipBook from 'react-pageflip'
-import { FcCheckmark } from 'react-icons/fc'
-import pagination from '../../../artifacts/utils/placeholders'
+// import { FcCheckmark } from 'react-icons/fc'
+// import pagination from '../../../artifacts/utils/placeholders'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+/*
 import SwiperCore, {
   Autoplay,
   Navigation,
@@ -16,34 +17,30 @@ import SwiperCore, {
   Parallax,
   EffectCards
 } from 'swiper'
+*/
 import Swal from 'sweetalert2'
 
 const InfoCard = React.forwardRef((props, book) => {
-  const [mobile, setMobile] = useState(false)
   const [size, setSize] = useState(false)
-  const [wantedCards, setWantedCards] = useState(null)
+  // const [wantedCards, setWantedCards] = useState(null)
 
   useEffect(() => {
     if (window.innerWidth < 600) {
-      setMobile(true)
       setSize(true)
     } else {
-      setMobile(false)
       setSize(false)
     }
     const updateMedia = () => {
       if (window.innerWidth < 600) {
-        setMobile(true)
         setSize(true)
       } else {
-        setMobile(false)
         setSize(false)
       }
     }
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
-  const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  // const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
   const mint = async () => {
     const { imageNumber, cardsContract, setLoading } = props
@@ -67,6 +64,12 @@ const InfoCard = React.forwardRef((props, book) => {
     } catch (e) {
       console.error({ e })
     }
+  }
+
+  mint.propTypes = {
+    imageNumber: PropTypes.number,
+    cardsContract: PropTypes.object,
+    setLoading: PropTypes.func
   }
 
   return (
@@ -135,8 +138,8 @@ const InfoCard = React.forwardRef((props, book) => {
                 }).then((result) => {
                   /* Read more about isConfirmed, isDenied below */
                   if (result.isConfirmed) {
-                    const input = Swal.getPopup().querySelector('#quiero')
-                    setWantedCards(input.value)
+                    // const input = Swal.getPopup().querySelector('#quiero')
+                    // setWantedCards(input.value)
                     alert('Confirmado')
                     //     Swal.fire({
                     //         text: 'Publicar?',
@@ -216,5 +219,7 @@ const InfoCard = React.forwardRef((props, book) => {
     </HTMLFlipBook>
   )
 })
+
+
 
 export default InfoCard
