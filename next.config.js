@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
 };
+const path = require('path');
 module.exports = nextConfig;
 module.exports = {
   images: {
@@ -10,6 +11,7 @@ module.exports = {
   output: 'standalone',
   webpack(config, options) {
     const { isServer } = options;
+    config.resolve.modules.push(path.resolve('./src'));
     config.module.rules.push({
       test: /\.(ogg|mp3|wav|flac|mpe?g)$/i,
       exclude: config.exclude,
@@ -31,4 +33,3 @@ module.exports = {
     return config;
   },
 };
-
