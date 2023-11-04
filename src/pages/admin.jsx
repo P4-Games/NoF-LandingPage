@@ -6,7 +6,6 @@ import daiAbi from '../context/abis/TestDAI.sol/UChildDAI.json'
 import Web3Modal from 'web3modal'
 import { CONTRACTS, NETWORK, adminAccounts } from '../config'
 
-
 const index = React.forwardRef(() => {
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
@@ -149,18 +148,18 @@ const index = React.forwardRef(() => {
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const adminAccess = () => adminAccounts.includes(account)
-  const showRules = () => { /* TBC */ }
-
   return (
     <>
       <div className='admincontainer'>
         {!account && <div className='alpha_main_buttons_container'>
-          <button className='alpha_button alpha_main_button' id='connect_metamask_button' onClick={() => connectToMetamask()}>Conectar con Metamask</button>
-          <button className='alpha_button alpha_main_button' id='show_rules_button' onClick={() => showRules()}>Reglas</button>
+          <button 
+            className='alpha_button alpha_main_button'
+            id='connect_metamask_button'
+            onClick={() => connectToMetamask()}>Conectar con Metamask
+          </button>
           <span>{noMetamaskError}</span>
         </div>}
-        {adminAccess() &&
+        {(adminAccounts.includes(account)) &&
           <div className='adminpanel' />}
       </div>
     </>

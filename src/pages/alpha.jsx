@@ -4,7 +4,6 @@ import Footer from '../components/Footer'
 import { AlphaCards } from '../sections/Alpha'
 import { useState } from 'react'
 
-
 const Alpha = () => {
   const [loadAlbums, setLoadAlbums] = useState(false)
   function alphaMidButton () {

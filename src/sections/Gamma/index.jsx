@@ -15,6 +15,7 @@ import GammaPack from './GammaPack'
 import { fetchPackData } from '../../services/backend/gamma'
 import { checkPacksByUser, openPack } from '../../services/contracts/gamma'
 import { CONTRACTS, NETWORK } from '../../config'
+import { showRules, closeRules } from '../../utils/rules'
 
 const index = React.forwardRef(() => {
   const [account, setAccount] = useState(null)
@@ -251,9 +252,6 @@ const index = React.forwardRef(() => {
       )
   }, [loading])
 
-  const showRules = () => {
-    // TBC
-  }
   
   return (
     <>
@@ -266,10 +264,15 @@ const index = React.forwardRef(() => {
           <button className='alpha_button alpha_main_button' id='show_rules_button' onClick={() => showRules()}>Reglas</button>
           <span>{noMetamaskError}</span>
         </div>
-        {/* <div className="alpha_rules_container">
-          <button className="alpha_rules_img_close alpha_modal_close" onClick={() => closeRules()}>X</button>
-          <img alt='img' className="alpha_rules_img" src={reglas.src} tabIndex="0" />
-        </div> */}
+        <div className='alpha_rules_container'>
+          <button
+            className='alpha_rules_img_close alpha_modal_close'
+            onClick={() => closeRules()}
+          >
+            X
+          </button>
+          <img alt='gamma-rules' className='alpha_rules_img' src={'/reglas-gamma.png'} tabIndex='0' />
+        </div>
       </div>}
 
       <Navbar
