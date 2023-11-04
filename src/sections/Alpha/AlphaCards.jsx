@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
 import { fetchData } from '../../services/graph/alpha'
 import { storageUrl, CONTRACTS, NETWORK } from '../../config'
+import { showRules, closeRules } from '../../utils/rules'
 
 import nofAbi from '../../context/abis/NOF-SC.sol/NOF_Alpha.json'
 import daiAbi from '../../context/abis/TestDAI.sol/UChildDAI.json'
@@ -608,32 +609,6 @@ This function checks the balance of a specified account on the Dai contract and 
         setTransferError('Este usuario no está jugando esta temporada.')
       }
     }
-  }
-
-  const showRules = () => {
-    document.getElementsByClassName(
-      'alpha_main_buttons_container'
-    )[0].style.display = 'none'
-    document.getElementsByClassName('alpha_rules_container')[0].style.display =
-      'block'
-    window.addEventListener('keydown', (e) => {
-      if (e.code == 'Escape') {
-        document.getElementsByClassName(
-          'alpha_rules_container'
-        )[0].style.display = 'none'
-        document.getElementsByClassName(
-          'alpha_main_buttons_container'
-        )[0].style.display = 'flex'
-      }
-    })
-  }
-
-  const closeRules = () => {
-    document.getElementsByClassName(
-      'alpha_main_buttons_container'
-    )[0].style.display = 'flex'
-    document.getElementsByClassName('alpha_rules_container')[0].style.display =
-      'none'
   }
 
   return (

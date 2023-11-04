@@ -5,7 +5,7 @@ import gammaCardsAbi from '../context/abis/GammaCardsV2.sol/GammaCardsV2.json'
 import daiAbi from '../context/abis/TestDAI.sol/UChildDAI.json'
 import Web3Modal from 'web3modal'
 import { CONTRACTS, NETWORK, adminAccounts } from '../config'
-
+import { showRules, closeRules } from '../utils/rules'
 
 const index = React.forwardRef(() => {
   const [account, setAccount] = useState(null)
@@ -150,7 +150,6 @@ const index = React.forwardRef(() => {
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   const adminAccess = () => adminAccounts.includes(account)
-  const showRules = () => { /* TBC */ }
 
   return (
     <>
@@ -158,6 +157,15 @@ const index = React.forwardRef(() => {
         {!account && <div className='alpha_main_buttons_container'>
           <button className='alpha_button alpha_main_button' id='connect_metamask_button' onClick={() => connectToMetamask()}>Conectar con Metamask</button>
           <button className='alpha_button alpha_main_button' id='show_rules_button' onClick={() => showRules()}>Reglas</button>
+          <div className='alpha_rules_container'>
+            <button
+              className='alpha_rules_img_close alpha_modal_close'
+              onClick={() => closeRules()}
+            >
+              X
+            </button>
+            <img alt='alpha-rules' className='alpha_rules_img' src={'/reglas.png'} tabIndex='0' />
+          </div>
           <span>{noMetamaskError}</span>
         </div>}
         {adminAccess() &&
