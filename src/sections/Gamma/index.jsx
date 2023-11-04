@@ -306,8 +306,7 @@ const index = React.forwardRef(() => {
               cardsContract={cardsContract}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}
-              cardInfo={cardInfo}
-                                       />}
+              cardInfo={cardInfo}/>}
             {!inventory && <GammaAlbum />}
             {inventory && cardInfo && <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading} />}
           </div>

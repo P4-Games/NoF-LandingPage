@@ -1,3 +1,5 @@
+import { ethers } from 'ethers'
+
 export const checkPacksByUser = async (account, packsContract) => {
   try {
     const packs = await packsContract?.getPacksByUser(account);
@@ -28,6 +30,17 @@ export const getUserCards = async (cardsContract, account, pagination) => {
       }
     }
     return cardsObj;
+  } catch (e) {
+    console.error({ e });
+  }
+};
+
+
+export const getPackPrice = async (cardsContract) => {
+  try {
+    const price = await cardsContract.packPrice()
+    const result = ethers.utils.formatUnits(price, 18)
+    return result
   } catch (e) {
     console.error({ e });
   }
