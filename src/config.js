@@ -5,17 +5,17 @@
 // server-side environment variables
 
 // ------------------------------------------------------------------
-export const BASE_URL = process.env.BASE_URL;
-export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017';
-export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase();
-export const is_production = environment === 'production' || environment === 'prod';
+export const BASE_URL = process.env.BASE_URL
+export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
+export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase()
+export const is_production = environment === 'production' || environment === 'prod'
 
 // ------------------------------------------------------------------
 // client-side environment variables
 
 // TODO: move storageUrl to server-side
 export const storageUrl =
-  process.env.NEXT_PUBLIC_STORAGE_URL || 'https://storage.googleapis.com/nof-alpha/'; // 1.png to 60.png
+  process.env.NEXT_PUBLIC_STORAGE_URL || 'https://storage.googleapis.com/nof-alpha/' // 1.png to 60.png
 
 export const NETWORK = {
   chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),
@@ -27,7 +27,7 @@ export const NETWORK = {
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
     (is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/'),
-};
+}
 
 export const CONTRACTS = {
   alphaAddress:
@@ -44,13 +44,13 @@ export const CONTRACTS = {
     process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b',
   gammaCardsAddress:
     process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
-};
+}
 
 export const openSeaUrl = is_production
   ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}/`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}/`;
+  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}/`
 
 export const adminAccounts =
-  process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E';
+  process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 
 // ------------------------------------------------------------------
