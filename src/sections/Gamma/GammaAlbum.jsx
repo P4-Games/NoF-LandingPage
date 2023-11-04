@@ -4,6 +4,7 @@ import pagination from '../../utils/placeholders'
 
 const GammaInventory = React.forwardRef((props, book) => {
   const [size, setSize] = useState(false)
+  
   useEffect(() => {
     if (window.innerWidth < 600) {
       setSize(true)
