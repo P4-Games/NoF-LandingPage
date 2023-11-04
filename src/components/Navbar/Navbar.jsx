@@ -14,6 +14,8 @@ import Shopimg from './images/shop.png'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
+import { getPackPrice } from '../../services/contracts/gamma'
+
 
 const TranslationComponent = dynamic(
   () => import('../translation'),
@@ -44,6 +46,7 @@ function Navbar ({
   const router = useRouter()
   const ref = useRef(null)
   const [click, setClick] = useState(false)
+  
   const handleClick = () => {
     setClick(!click)
     if (!click) {
@@ -58,6 +61,7 @@ function Navbar ({
     window.history.state.url == '/alpha' ? setMidButton('Albums') : null
     window.history.state.url == '/gamma' ? setMidButton('Inventory') : null
   }, [])
+
 
   const buyPackscontact = async (numberOfPacks) => {
     /*
@@ -89,37 +93,40 @@ function Navbar ({
     }
   }
 
-  // TODO: expose pack price in contract ad read from there
-  const price = '1 DAI' 
-  const buyPacks = () => {
-    Swal.fire({
-      text: `Elige la cantidad de sobres que quieres comprar (c/u ${price})`,
-      input: 'number',
-      inputAttributes: {
-        min: 1,
-        max: 10,
-      },
-      inputValidator: (value) => {
-        if (value < 1 || value > 10) {
-            return 'ingresa entre 1 y 10!';
-        }
-      },
-      showDenyButton: false,
-      showCancelButton: true,
-      confirmButtonText: 'Comprar',
-      confirmButtonColor: '#005EA3',
-      color: 'black',
-      background: 'white',
-      customClass: {
-        image: 'cardalertimg',
-        input: 'alertinput'
-      }
-    })
-      .then((result) => {
-        if (result.isConfirmed) {
-          const packsToBuy = result.value
-          buyPackscontact(packsToBuy)
-        }
+
+  const handleBuyPackClick = () => {
+    getPackPrice(packsContract)
+      .then ((price) => {
+
+        Swal.fire({
+          text: `Elige la cantidad de sobres que quieres comprar (c/u ${price || '1'} DAI)`,
+          input: 'number',
+          inputAttributes: {
+            min: 1,
+            max: 10,
+          },
+          inputValidator: (value) => {
+            if (value < 1 || value > 10) {
+                return 'ingresa entre 1 y 10!';
+            }
+          },
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: 'Comprar',
+          confirmButtonColor: '#005EA3',
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          }
+        })
+          .then((result) => {
+            if (result.isConfirmed) {
+              const packsToBuy = result.value
+              buyPackscontact(packsToBuy)
+            }
+          })
       })
   }
 
@@ -173,7 +180,7 @@ function Navbar ({
         </ul>
         <div className='navbar__corner'>
           {(router?.pathname == '/gamma') && account &&
-            <div onClick={buyPacks} className='navbar__corner__audio'>
+            <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
           <div onClick={() => handleClick()} className='navbar__corner__audio'>
