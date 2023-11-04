@@ -271,7 +271,7 @@ const index = React.forwardRef(() => {
           >
             X
           </button>
-          <img alt='alpha-rules' className='alpha_rules_img' src={'/reglas.png'} tabIndex='0' />
+          <img alt='gamma-rules' className='alpha_rules_img' src={'/reglas-gamma.png'} tabIndex='0' />
         </div>
       </div>}
 
