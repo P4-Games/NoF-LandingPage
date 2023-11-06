@@ -5,7 +5,7 @@ import Jimp from 'jimp'
 
 export default async function handler(req, res) {
   const {
-    query: { discordID },
+    query: { discordID }
   } = req
 
   if (!discordID) {

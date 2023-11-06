@@ -16,11 +16,11 @@ export default async function handler(req, res) {
   try {
     const response = await axios.get(`https://top.gg/api/bots/${botID}/check`, {
       headers: {
-        Authorization: topGGToken,
+        Authorization: topGGToken
       },
       params: {
-        userId: discordID,
-      },
+        userId: discordID
+      }
     })
 
     const voted = response.data.voted

@@ -1,15 +1,15 @@
 export const showRules = () => {
-  document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = 'none'
-  document.getElementsByClassName('alpha_rules_container')[0].style.display = 'block'
+  document.getElementsByClassName('main_buttons_container')[0].style.display = 'none'
+  document.getElementsByClassName('rules_container')[0].style.display = 'block'
   window.addEventListener('keydown', (e) => {
     if (e.code == 'Escape') {
-      document.getElementsByClassName('alpha_rules_container')[0].style.display = 'none'
-      document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = 'flex'
+      document.getElementsByClassName('main_buttons_container')[0].style.display = 'flex'
+      document.getElementsByClassName('rules_container')[0].style.display = 'none'
     }
   })
 }
 
 export const closeRules = () => {
-  document.getElementsByClassName('alpha_main_buttons_container')[0].style.display = 'flex'
-  document.getElementsByClassName('alpha_rules_container')[0].style.display = 'none'
+  document.getElementsByClassName('main_buttons_container')[0].style.display = 'flex'
+  document.getElementsByClassName('rules_container')[0].style.display = 'none'
 }

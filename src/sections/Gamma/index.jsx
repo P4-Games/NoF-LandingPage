@@ -261,7 +261,7 @@ const index = React.forwardRef(() => {
         <div className='alpha_loader_container alpha_display_none' id='loading'>
           <span className='loader' />
         </div>
-        <div className='alpha_main_buttons_container'>
+        <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
             id='connect_metamask_button'
@@ -270,20 +270,42 @@ const index = React.forwardRef(() => {
           <button
             className='alpha_button alpha_main_button'
             id='show_rules_button'
-            onClick={() => showRules()}>{t('reglas')}
+            onClick={() => showRules()}
+          >
+            {t('reglas')}
           </button>
           <span>{noMetamaskError}</span>
         </div>
-        <div className='alpha_rules_container'>
+
+        <div className='rules_container'>
           <button
-            className='alpha_rules_img_close alpha_modal_close'
+            className='rules_img_close alpha_modal_close'
             onClick={() => closeRules()}
           >
             X
           </button>
-          <img alt='gamma-rules' className='alpha_rules_img' src={'/reglas-gamma.png'} tabIndex='0' />
+
+          <div className='rules_text_content'>
+            <div className='rules_title'>
+              <p>{t('reglas')}</p>
+            </div>
+            <div className='rules_text_left'>
+              <p>{t('rules_gamma_left_text_1')}</p>
+              <p>{t('rules_gamma_left_text_2')}</p>
+              <p>{t('rules_gamma_left_text_3')}</p>
+              <p>{t('rules_gamma_left_text_4')}</p>
+            </div>
+            <div className='rules_text_right'>
+              <p>{t('rules_gamma_right_text_1')}</p>
+              <p>{t('rules_gamma_right_text_2')}</p>
+              <p>{t('rules_gamma_right_text_3')}</p>
+              <p>{t('rules_gamma_right_text_4')}</p>
+            </div>
+          </div>
         </div>
-      </div>}
+
+      </div>
+      }
 
       <Navbar
         account={account}

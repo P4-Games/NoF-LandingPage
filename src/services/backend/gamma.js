@@ -5,15 +5,15 @@ export const fetchPackData = async (account, pack_number) => {
   try {
     const body = {
       address: account, // address del usuario
-      packet_number: pack_number, // numero de paquete que se esta abriendo
+      packet_number: pack_number // numero de paquete que se esta abriendo
     }
 
     const response = await fetch(api_endpoint, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       method: 'POST',
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     })
     const data = await response.json()
     return data

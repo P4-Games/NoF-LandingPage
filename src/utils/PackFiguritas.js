@@ -11,7 +11,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
       gsap.registerPlugin(Draggable)
 
       gsap.set('.box', {
-        yPercent: -50,
+        yPercent: -50
       })
 
       const STAGGER = 0.1
@@ -22,7 +22,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
       const LOOP = gsap.timeline({
         paused: true,
         repeat: -1,
-        ease: 'none',
+        ease: 'none'
       })
 
       const SHIFTS = [...BOXES, ...BOXES, ...BOXES]
@@ -34,7 +34,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
             xPercent: 250,
             rotateY: -50,
             opacity: 0,
-            scale: 0.5,
+            scale: 0.5
           })
           // Opacity && Scale
           .to(
@@ -42,7 +42,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
             {
               opacity: 1,
               scale: 1,
-              duration: 0.1,
+              duration: 0.1
             },
             0
           )
@@ -51,7 +51,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
             {
               opacity: 0,
               scale: 0.5,
-              duration: 0.1,
+              duration: 0.1
             },
             0.9
           )
@@ -59,13 +59,13 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
           .fromTo(
             BOX,
             {
-              xPercent: 250,
+              xPercent: 250
             },
             {
               xPercent: -350,
               duration: 1,
               immediateRender: false,
-              ease: 'power1.inOut',
+              ease: 'power1.inOut'
             },
             0
           )
@@ -73,13 +73,13 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
           .fromTo(
             BOX,
             {
-              rotateY: -50,
+              rotateY: -50
             },
             {
               rotateY: 50,
               immediateRender: false,
               duration: 1,
-              ease: 'power4.inOut',
+              ease: 'power4.inOut'
             },
             0
           )
@@ -91,14 +91,14 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
               scale: 1.25,
               duration: 0.1,
               repeat: 1,
-              yoyo: true,
+              yoyo: true
             },
             0.4
           )
           .fromTo(
             BOX,
             {
-              zIndex: 1,
+              zIndex: 1
             },
             {
               zIndex: BOXES.length,
@@ -106,7 +106,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
               yoyo: true,
               ease: 'none',
               duration: 0.5,
-              immediateRender: false,
+              immediateRender: false
             },
             0
           )
@@ -119,19 +119,19 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
       const LOOP_HEAD = gsap.fromTo(
         LOOP,
         {
-          totalTime: START_TIME,
+          totalTime: START_TIME
         },
         {
           totalTime: `+=${CYCLE_DURATION}`,
           duration: 1,
           ease: 'none',
           repeat: -1,
-          paused: true,
+          paused: true
         }
       )
 
       const PLAYHEAD = {
-        position: 0,
+        position: 0
       }
 
       const POSITION_WRAP = gsap.utils.wrap(0, LOOP_HEAD.duration())
@@ -143,7 +143,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
         },
         paused: true,
         duration: 0.25,
-        ease: 'power3',
+        ease: 'power3'
       })
 
       let iteration = 0
@@ -165,7 +165,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
             SCRUB.vars.position = NEW_POS
             SCRUB.invalidate().restart()
           }
-        },
+        }
       })
 
       const WRAP = (iterationDelta, scrollTo) => {
@@ -253,7 +253,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
       gsap.set('.box', { display: 'block' })
 
       gsap.set('button', {
-        z: 200,
+        z: 200
       })
 
       Draggable.create('.drag-proxy', {
@@ -268,7 +268,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
         },
         onDragEnd() {
           scrollToPosition(SCRUB.vars.position)
-        },
+        }
       })
     }
   }, [])
@@ -298,7 +298,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
                 className="box"
                 key={i}
                 style={{
-                  '--src': `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)`,
+                  '--src': `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)`
                 }}
               >
                 <span>{cardNumber}</span>

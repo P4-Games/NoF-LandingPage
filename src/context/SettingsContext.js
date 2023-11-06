@@ -11,18 +11,18 @@ const initialState = {
   onToggleLanguageSetted: () => {},
   onChangeLanguagePresets: () => {},
   setLanguage: languagePresets[0],
-  languageOption: [],
+  languageOption: []
 }
 
 const SettingsContext = createContext(initialState)
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }
 
 function SettingsProvider({ children }) {
   const [settings, setSettings] = useLocalStorage('settings', {
-    ...defaultSettings,
+    ...defaultSettings
   })
 
   const onToggleLanguageSetted = (newLng = 'es') => {
@@ -42,7 +42,7 @@ function SettingsProvider({ children }) {
     if (mustChange) {
       setSettings({
         ...settings,
-        languageSetted: newLng,
+        languageSetted: newLng
       })
 
       const getUrl = window.location
@@ -61,7 +61,7 @@ function SettingsProvider({ children }) {
   const onChangeLanguagePresets = (event) => {
     setSettings({
       ...settings,
-      language: event.target.value,
+      language: event.target.value
     })
   }
 
@@ -76,8 +76,8 @@ function SettingsProvider({ children }) {
         setLanguage: getLanguagePresets(settings.languagePresets),
         languageOption: languagePresets.map((lng) => ({
           name: lng.name,
-          value: lng.value,
-        })),
+          value: lng.value
+        }))
       }}
     >
       {children}

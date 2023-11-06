@@ -40,7 +40,7 @@ const getUsersRank = async () => {
     Position: index + 1,
     Nick: user.nick,
     Characters: user.characters.length,
-    Medals: user.medals,
+    Medals: user.medals
   }))
 
   return rankingList

@@ -71,7 +71,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       address = await provider.getSigner().getAddress()
       setAccount(address)
       document.getElementsByClassName(
-        'alpha_main_buttons_container'
+        'main_buttons_container'
       )[0].style.display = 'none'
     } catch (e) {
       console.error({ e })
@@ -617,7 +617,7 @@ This function checks the balance of a specified account on the Dai contract and 
       <div className='alpha_loader_container alpha_display_none' id='loading'>
         <span className='loader' />
       </div>
-      <div className='alpha_main_buttons_container'>
+      <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
           id='connect_metamask_button'
@@ -632,14 +632,34 @@ This function checks the balance of a specified account on the Dai contract and 
         </button>
         <span>{noMetamaskError}</span>
       </div>
-      <div className='alpha_rules_container'>
+      
+      <div className='rules_container'>
         <button
-          className='alpha_rules_img_close alpha_modal_close'
+          className='rules_img_close alpha_modal_close'
           onClick={() => closeRules()}
         >
           X
         </button>
-        <img alt='alpha-rules' className='alpha_rules_img' src={'/reglas-alpha.png'} tabIndex='0' />
+
+        <div className='rules_text_content'>
+          <div className='rules_title'>
+            <p>{t('reglas')}</p>
+          </div>
+          <div className='rules_text_left'>
+            <p>{t('rules_alpha_left_text_1')}</p>
+            <p>{t('rules_alpha_left_text_2')}</p>
+            <p>{t('rules_alpha_left_text_3')}</p>
+            <p>{t('rules_alpha_left_text_4')}</p>
+            <p>{t('rules_alpha_left_text_5')}</p>
+          </div>
+          <div className='rules_text_right'>
+            <p>{t('rules_alpha_right_text_1')}</p>
+            <p>{t('rules_alpha_right_text_2')}</p>
+            <p>{t('rules_alpha_right_text_3')}</p>
+            <p>{t('rules_alpha_right_text_4')}</p>
+            <p>{t('rules_alpha_right_text_5')}</p>
+          </div>
+        </div>
       </div>
 
       {account && (

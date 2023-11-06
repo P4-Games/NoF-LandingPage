@@ -74,6 +74,26 @@
     "buy_pack_title_2": "each",
     "buy_pack_input_validator": "Enter between 1 and 10!",
     "buy_pack_button": "Buy",
-    "contacto": "Contact"
+    "contacto": "Contact",
+
+    "rules_alpha_left_text_1": "A thematic minigame with 60 cards that complete 10 different thematic collections, each with 5 characters and an album.",
+    "rules_alpha_left_text_2": "The goal is to complete an album with the 5 characters corresponding to the collection.",
+    "rules_alpha_left_text_3": "To play, it's necessary to connect a wallet to the Polygon network.",
+    "rules_alpha_left_text_4": "The entry fee is 1 DAI, and you need to have Matic for transaction fees.",
+    "rules_alpha_left_text_5": "Prize exchanges are delivered upon completion of the full album.",
+    "rules_alpha_right_text_1": "Those who complete their albums first receive the largest rewards in DAI.",
+    "rules_alpha_right_text_2": "Alpha seasons will last for one month to collect complete collections and earn additional seasonal rewards.",
+    "rules_alpha_right_text_3": "Players can use a Discord chat with the corresponding game number to exchange cards.",
+    "rules_alpha_right_text_4": "Card exchanges are enabled once all 10 spots are filled.",
+    "rules_alpha_right_text_5": "Multiple accounts are not allowed.",
+
+    "rules_gamma_left_text_1": "The Gamma edition consists of 120 unique characters, with 5000 copies of each and 3000 NFT albums.",
+    "rules_gamma_left_text_2": "The random distribution of cards and their burning when pasted into albums adds excitement and challenge to completing them.",
+    "rules_gamma_left_text_3": "To play, it's necessary to connect a wallet to the Polygon network.",
+    "rules_gamma_left_text_4": "You also need Matic for transaction fees and some DAI to purchase packs.",
+    "rules_gamma_right_text_1": "Upon completing an album, you receive a collectible NFT and a 25% profit.",
+    "rules_gamma_right_text_2": "In addition to collecting cards and completing albums, the Gamma edition also allows you to participate in NoFTown's free trading zone.",
+    "rules_gamma_right_text_3": "NoFTown enables you to interact with other players quickly and safely, facilitating NFT exchanges.",
+    "rules_gamma_right_text_4": "Multiple accounts are not allowed."
 
 }

@@ -74,6 +74,27 @@
     "buy_pack_title_2": "c/u",
     "buy_pack_input_validator": "ingresa entre 1 y 10!",
     "buy_pack_button": "Comprar",
-    "contacto": "Contacto"
+    "contacto": "Contacto",
+
+    "rules_alpha_left_text_1": "Un minijuego temático con 60 cartas que completan 10 colecciones temáticas diferentes con 5 personajes y un álbum cada uno.",
+    "rules_alpha_left_text_2": "El objetivo es completar un álbum con los 5 personajes correspondientes a la colección.",
+    "rules_alpha_left_text_3": "Para jugar es necesario conectar una billetera a la red de Polygon.",
+    "rules_alpha_left_text_4": "El valor de la entrada es de 1 DAI y es necesario tener Matic para el fee de las transacciones.",
+    "rules_alpha_left_text_5": "Los intercambios de premios son entregados al momento del minteo del álbum completo.",
+    "rules_alpha_right_text_1": "Quienes completen sus álbunes primero obtienen las mayores recompensas en DAI.",
+    "rules_alpha_right_text_2": "Las temporadas alpha tendrán una duración de un mes para conseguir las colecciones completas y obtener los premios adicionales de temporada.",
+    "rules_alpha_right_text_3": "Para intercambiar las cartas los jugadores disponen de un chat en discord con el número de game correspondiente.",
+    "rules_alpha_right_text_4": "Los intercambios de cada game se habilitan una vez completos los 10 lugares.",
+    "rules_alpha_right_text_5": "No están permitidas las multicuentas.",
+
+    "rules_gamma_left_text_1": "La edición Gamma consiste en 120 personajes únicos, con 5000 copias de cada uno y 3000 álbumes NFT.",
+    "rules_gamma_left_text_2": "La distribución aleatoria de las cartas y la quema de las mismas al pegarlas en los álbumes aumenta la emoción y el desafío de completarlos.",
+    "rules_gamma_left_text_3": "Para jugar es necesario conectar una billetera a la red de Polygon.",
+    "rules_gamma_left_text_4": "También es necesario tener Matic para el fee de las transacciones y algunos DAI para comprar los sobres.",
+    "rules_gamma_right_text_1": "Al completar un álbum, se obtiene un NFT coleccionable y una ganancia del 25%.",
+    "rules_gamma_right_text_2": "Además de coleccionar cartas y completar álbumes, la edición Gamma también te permite participar en la zona libre de intercambio de NoFTown.",
+    "rules_gamma_right_text_3": "NofTown te permite interactuar con otros jugadores de forma rápida y segura, realizando intercambios de NFT de forma sencilla.",
+    "rules_gamma_right_text_4": "No están permitidas las multicuentas."
+
 
 }

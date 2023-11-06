@@ -9,14 +9,14 @@ const pagination = {
   page8: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
   page9: [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107],
   page10: [108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119],
-  user: {},
+  user: {}
 }
 
 for (let i = 1; i < 121; i++) {
   pagination.user[i] = {
     name: i.toString(),
     stamped: false,
-    quantity: 0,
+    quantity: 0
   }
 }
 

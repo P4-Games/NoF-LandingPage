@@ -1,22 +1,22 @@
 const presetsKey = {
   es: 'es',
   en: 'en',
-  br: 'br',
+  br: 'br'
 }
 
 export const languagePresets = [
   {
     name: 'Spanish',
-    value: 'es',
+    value: 'es'
   },
   {
     name: 'English',
-    value: 'en',
+    value: 'en'
   },
   {
     name: 'Portuguese',
-    value: 'br',
-  },
+    value: 'br'
+  }
 ]
 
 const getPreset = (presetsKey) => languagePresets.filter((item) => item.name === presetsKey)[0]
