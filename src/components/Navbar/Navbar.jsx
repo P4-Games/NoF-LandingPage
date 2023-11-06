@@ -23,7 +23,6 @@ const TranslationComponent = dynamic(
 )
 
 function Navbar ({
-  onFlip,
   goToCollections,
   // language,
   setLanguage,
@@ -169,7 +168,6 @@ function Navbar ({
                   }
                 }}
                 className='navbar__ul__li__contacto'
-                onFlip={onFlip}
               >
 
                 {t ? t('collections') : midButton}
@@ -205,7 +203,6 @@ function Navbar ({
 }
 
 Navbar.propTypes = {
-  onFlip: PropTypes.func,
   goToCollections: PropTypes.func,
   setLanguage: PropTypes.func,
   alphaMidButton: PropTypes.func,

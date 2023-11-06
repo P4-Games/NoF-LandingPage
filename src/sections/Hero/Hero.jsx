@@ -58,16 +58,6 @@ const Hero = React.forwardRef((props, book) => {
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
-  
-  /*
-  const onFlip = useCallback((e) => {
-    if (e.data === 8) {
-      setSwipper(true)
-      return
-    }
-    setSwipper(false)
-  }, [])
-  */
 
   return (
     <div className='hero' id='Hero'>
