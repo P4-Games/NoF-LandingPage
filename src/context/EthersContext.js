@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 
 import daiAbi from './abis/TestDAI.sol/UChildDAI.json'
-import alphaAbi from './abis//NOF-SC.sol/NOF_Alpha.json'
+import alphaAbi from './abis/NOF-SC.sol/NOF_Alpha.json'
 import gammaPacksAbi from './abis/GammaPacks.sol/GammaPacks.json'
 import gammaCardsAbi from './abis/GammaCardsV2.sol/GammaCardsV2.json'
 import { CONTRACTS, NETWORK } from '../config'
