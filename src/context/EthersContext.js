@@ -79,7 +79,7 @@ export default function EthersProvider({ children }) {
         daiContractInstance,
         alphaContractInstance,
         gammaPacksContractInstance,
-        gammaCardsContractInstance,
+        gammaCardsContractInstance
       ]
     } catch (e) {
       console.log({ e })
@@ -102,7 +102,7 @@ export default function EthersProvider({ children }) {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainIdHex }],
+        params: [{ chainId: chainIdHex }]
       })
     } catch (error) {
       if (error.code === 4902) {
@@ -117,11 +117,11 @@ export default function EthersProvider({ children }) {
                 nativeCurrency: {
                   name: currency,
                   symbol: currency,
-                  decimals: 18,
+                  decimals: 18
                 },
-                blockExplorerUrls: [explorer],
-              },
-            ],
+                blockExplorerUrls: [explorer]
+              }
+            ]
           })
         } catch (e) {
           console.log(e.message)
@@ -159,7 +159,7 @@ export default function EthersProvider({ children }) {
         daiContract,
         alphaContract,
         gammaPacksContract,
-        gammaCardsContract,
+        gammaCardsContract
       }}
     >
       {children}

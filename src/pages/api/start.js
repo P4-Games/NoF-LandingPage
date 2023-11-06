@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       const updatedUser = {
         ...existingUser,
         nick: nick || existingUser.nick,
-        discordID: discordID || existingUser.discordID,
+        discordID: discordID || existingUser.discordID
       }
       await collection.updateOne({ _id: existingUser._id }, { $set: updatedUser })
       console.log('User successfully updated.')

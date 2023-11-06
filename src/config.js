@@ -26,7 +26,7 @@ export const NETWORK = {
     (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/'),
+    (is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/')
 }
 
 export const CONTRACTS = {
@@ -43,7 +43,7 @@ export const CONTRACTS = {
   gammaPackAddress:
     process.env.NEXT_PUBLIC_GAMMA_PACK_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b',
   gammaCardsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
+    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76'
 }
 
 export const openSeaUrl = is_production
@@ -57,6 +57,5 @@ export const adminAccounts =
 
 export const defaultSettings = {
   languagePresets: 'es',
-  languageSetted: 'es',
+  languageSetted: 'es'
 }
-

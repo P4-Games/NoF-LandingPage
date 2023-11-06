@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 
     if (!user) {
       return res.status(200).json({
-        message: `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`,
+        message: `User with Discord ID: ${discordID} not found. If you haven't registered yet, please use the command **/start** to begin playing.`
       })
     }
 

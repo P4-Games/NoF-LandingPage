@@ -108,27 +108,27 @@
 
 .alpha_rules_img_close {
   top: 22%;
-  right: 5%; 
+  right: 5%;
 }
 
 .alpha_rules_title {
   position: absolute;
   font-weight: bold;
-  margin-left:20%;
+  margin-left: 20%;
   padding-top: 22%;
   font-size: 26px;
 }
 
-.alpha_rules_text_left, .alpha_rules_text_right {
+.alpha_rules_text_left,
+.alpha_rules_text_right {
   margin-top: 28%;
   margin-left: 5%;
   margin-right: 5%;
   padding-left: 10px;
   padding-right: 12px;
-  flex-basis: 40%; 
+  flex-basis: 40%;
   text-align: center;
 }
-
 
 .alpha_card_container:hover > .alpha_card_hover {
   opacity: 1;
@@ -167,7 +167,6 @@
 .alpha_data div {
   margin: 30px 0;
 }
-
 
 .alpha_season,
 .alpha_albums_season {

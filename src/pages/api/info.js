@@ -33,7 +33,7 @@ const getUserInfo = async (db, discordID) => {
     .aggregate([
       { $project: { _id: 0, characters: 1 } },
       { $unwind: '$characters' },
-      { $group: { _id: null, count: { $sum: 1 } } },
+      { $group: { _id: null, count: { $sum: 1 } } }
     ])
     .toArray()
 
@@ -52,7 +52,7 @@ const getUserInfo = async (db, discordID) => {
     InventoryCompletion: inventoryCompletion,
     UsersRegistered: usersCount,
     CharactersCaptured: charactersCaptured[0].count,
-    Ranking: userPosition,
+    Ranking: userPosition
   }
 }
 
