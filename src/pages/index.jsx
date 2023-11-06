@@ -7,19 +7,19 @@ import useTranslation from '../hooks/useTranslation'
 
 function Home () {
   const book = useRef(null)
+  const { language, setLanguage, t } = useTranslation()
+
   function turnNextPage () {
     book.current.pageFlip().flipNext()
   }
+
   function turnPrevPage () {
     book.current.pageFlip().flipPrev()
   }
-  function onFlip () {
-    // page.onFlip() // page not defined
-  }
+
   function goToCollections (number) {
     book.current.pageFlip().flip(number)
   }
-  const { language, setLanguage, t } = useTranslation()
 
   return (
     <div className='home'>
@@ -33,7 +33,6 @@ function Home () {
         <link rel='icon' href='./favicon.ico' />
       </Head>
       <Navbar
-        onFlip={onFlip}
         goToCollections={goToCollections}
         language={language}
         setLanguage={setLanguage}
