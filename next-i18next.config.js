@@ -7,5 +7,5 @@ module.exports = {
   },
 
   localePath: './public/locales',
-  reloadOnPrerender: process.env.NODE_ENV === 'development',
+  reloadOnPrerender: process.env.NODE_ENV === 'development'
 }
