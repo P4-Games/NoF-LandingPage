@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AlphaCards } from '../sections/Alpha'
 import { useState } from 'react'
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 
 const Alpha = () => {
   const [loadAlbums, setLoadAlbums] = useState(false)
@@ -22,7 +23,7 @@ const Alpha = () => {
       <Head>
         <title>Number One Fan</title>
         <meta name='description' content='NoF Alpha' />
-        <link rel='icon' href='./favicon.ico' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <Navbar
         alphaMidButton={alphaMidButton}
@@ -40,3 +41,11 @@ const Alpha = () => {
 }
 
 export default Alpha
+
+export async function getStaticProps ({locale}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale))
+    }
+  }
+}

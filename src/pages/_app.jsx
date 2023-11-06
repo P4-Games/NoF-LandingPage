@@ -3,13 +3,17 @@ import '../styles/index.scss'
 import '../styles/alpha.scss'
 import '../styles/gamma.scss'
 import '../styles/admin.scss'
+import { appWithTranslation } from 'next-i18next'
 import EthersProvider from '../context/EthersContext'
+import { SettingsProvider } from '../context/SettingsContext'
 
 function MyApp ({ Component, pageProps }) {
   return (
-    <EthersProvider>
-      <Component {...pageProps} />
-    </EthersProvider>
+    <SettingsProvider>
+      <EthersProvider>
+        <Component {...pageProps} />
+      </EthersProvider>
+    </SettingsProvider>
   )
 }
 
@@ -18,4 +22,4 @@ MyApp.propTypes = {
   pageProps: PropTypes.object
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp)

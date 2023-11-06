@@ -1,3 +1,3 @@
-import TranslationComponent from './TranslationComponent'
+import LanguageSelection from './LanguageSelection'
 
-export default TranslationComponent
+export default LanguageSelection

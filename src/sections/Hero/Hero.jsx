@@ -28,13 +28,13 @@ import Friends from './Friends.json'
 
 import Whitepaper from '../../components/Navbar/Whitepaper'
 import NofTown from '../../components/Navbar/NofTown'
-import useTranslation from '../../hooks/useTranslation'
+import {useTranslation} from 'next-i18next'
 
 const Hero = React.forwardRef((props, book) => {
   const [swipper, setSwipper] = useState(false)
   const [mobile, setMobile] = useState(false)
   const [size, setSize] = useState(false)
-  const { t } = useTranslation()
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (window.innerWidth < 600) {
@@ -343,7 +343,7 @@ const Hero = React.forwardRef((props, book) => {
                       Friends.map((friend) => (
                           <div className='box' key={friend.id}>
                             <Image
-                              layout='fill'
+                              fill
                               alt='album_book'
                               className='img'
                               src={friend.icon}
@@ -459,16 +459,5 @@ Hero.propTypes = {
   book: PropTypes.object
 }
 
-
 export default Hero
-
-/*
-export async function getStaticProps ({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale))
-    }
-  }
-}
-*/
 

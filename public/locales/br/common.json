@@ -32,5 +32,49 @@
   "create a nice game": "Desenvolver um jogo divertido, único e disruptivo.",
 
   "TEAM": "EQUIPE",
-  "FRIENDS": "AMIGOS"
+  "FRIENDS": "AMIGOS",
+
+  "connect_metamask": "Conecte-se com metamask",
+  "whitepaper": "Papel Branco",
+
+  "reglas": "Regras",
+  "ver_cartas": "Ver cartas",
+  "comprar_pack": "Comprar Pacote",
+  "progreso": "Progresso",
+  "posicion": "Posição",
+  "coleccion": "Coleção",
+  "pegar": "COLAR",
+  "transferir": "TRANSFERIR",
+  "carta_de_coleccion": "Carta da coleção",
+  "juega_para_completar": "Jogue para completar seu primeiro álbum",
+  "necesitas_comprar_pack": "Você precisa comprar um pacote primeiro.",
+  "ya_tienes_cartas": "Você já possui cartas.",
+  "no_mas_packs": "Não há mais pacotes disponíveis.",
+  "no_dai": "Você não tem DAI suficiente!",
+  "album_completo": "Parabéns! Você completou o álbum!",
+  "carta_en_album": "Sua carta já está no álbum",
+  "direccion_destino_error": "O endereço de destino é inválido.",
+  "carta_enviada": "Sua carta foi enviada",
+  "usuario_no_en_temporada": "Este usuário não está jogando nesta temporada.",
+
+  "no_paquetes_para_abrir": "Você não tem pacotes para abrir!",
+  "album": "Álbum",
+  "completar": "Completar",
+
+  "carta_minteada": "Carta Minted! Você pode vê-la",
+  "aqui": "aqui",
+  "mintear": "Mint",
+  "ofertas": "Ofertas",
+  "cartas_a_cambio": "Escolha as cartas que deseja em troca",
+  "publicar": "Publicar",
+  "confirmado": "Confirmado",
+  "wallet_destinatario": "Insira a carteira do destinatário",
+
+  "buy_pack_title_1": "Escolha a quantidade de pacotes que deseja comprar",
+  "buy_pack_title_2": "cada",
+  "buy_pack_input_validator": "Insira entre 1 e 10!",
+  "buy_pack_button": "Comprar",
+  "contacto": "Contato"
+
+
 }

@@ -3,11 +3,10 @@ import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Hero from '../sections/Hero'
-import useTranslation from '../hooks/useTranslation'
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 
 function Home () {
   const book = useRef(null)
-  const { language, setLanguage, t } = useTranslation()
 
   function turnNextPage () {
     book.current.pageFlip().flipNext()
@@ -30,19 +29,13 @@ function Home () {
           name='viewport'
           content='width=device-width, initial-scale=1.0'
         />
-        <link rel='icon' href='./favicon.ico' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <Navbar
         goToCollections={goToCollections}
-        language={language}
-        setLanguage={setLanguage}
-        t={t}
       />
       <Hero
         ref={book}
-        language={language}
-        setLanguage={setLanguage}
-        t={t}
         turnNextPage={turnNextPage}
         turnPrevPage={turnPrevPage}
       />
@@ -52,3 +45,11 @@ function Home () {
 }
 
 export default Home
+
+export async function getStaticProps ({locale}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale))
+    }
+  }
+}

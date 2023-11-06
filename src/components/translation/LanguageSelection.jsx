@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types'
 import World from './images/world.png'
 import Brazilean from './images/br.png'
 import English from './images/en.png'
 import Spanish from './images/es.png'
 import Image from 'next/image.js'
+import { useSettings } from '../../hooks'
 
-function TranslationComponent ({ setLanguage }) {
+function LanguageSelection () {
+  const { onToggleLanguageSetted } = useSettings()
+
   if (typeof window !== 'undefined') {
     document.addEventListener('click', e => {
       const isDropdownButton = e.target.matches('[data-dropdown-button]')
@@ -23,6 +25,12 @@ function TranslationComponent ({ setLanguage }) {
     })
   }
 
+
+  const handleChangeLang = (newLang) => {
+    onToggleLanguageSetted(newLang)
+  }
+
+
   return (
     <>
       <div className='dropdown' data-dropdown>
@@ -34,9 +42,10 @@ function TranslationComponent ({ setLanguage }) {
             <li className='language_li'>
               <button
                 className='lang-btn'
+                onClick={() => handleChangeLang('en')}
               >
                 <Image
-                  onClick={() => setLanguage('en')}
+                  onClick={() => handleChangeLang('en')}
                   src={English}
                   alt='English button'
                   height={30} width={50}
@@ -46,10 +55,10 @@ function TranslationComponent ({ setLanguage }) {
             <li className='language_li'>
               <button
                 className='lang-btn'
-                onClick={() => setLanguage('br')}
+                onClick={() => handleChangeLang('br')}
               >
                 <Image
-                  onClick={() => setLanguage('br')}
+                  onClick={() => handleChangeLang('br')}
                   src={Brazilean}
                   alt='Brazilean button'
                   height={30} width={50}
@@ -59,10 +68,10 @@ function TranslationComponent ({ setLanguage }) {
             <li className='language_li'>
               <button
                 className='lang-btn'
-                onClick={() => setLanguage('sp')}
+                onClick={() => handleChangeLang('es')}
               >
                 <Image
-                  onClick={() => setLanguage('sp')}
+                  onClick={() => handleChangeLang('es')}
                   src={Spanish}
                   alt='Spanish button'
                   height={30} width={50}
@@ -76,8 +85,4 @@ function TranslationComponent ({ setLanguage }) {
   )
 }
 
-TranslationComponent.propTypes = {
-  setLanguage: PropTypes.func
-}
-
-export default TranslationComponent
+export default LanguageSelection

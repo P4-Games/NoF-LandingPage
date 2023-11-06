@@ -15,24 +15,20 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import { getPackPrice } from '../../services/contracts/gamma'
+import {useTranslation} from 'next-i18next'
 
-
-const TranslationComponent = dynamic(
+const LanguageSelection = dynamic(
   () => import('../translation'),
   { ssr: false }
 )
 
 function Navbar ({
   goToCollections,
-  // language,
-  setLanguage,
   alphaMidButton,
-  t,
   account,
   setLoadAlbums,
   loadAlbums,
   setInventory,
-  // inventory,
   setCardInfo,
   cardInfo,
   packsContract,
@@ -40,6 +36,7 @@ function Navbar ({
   authorizeDaiContract,
   checkNumberOfPacks
 }) {
+  const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
   const [page, setPage] = useState('')
   const router = useRouter()
@@ -98,7 +95,7 @@ function Navbar ({
       .then ((price) => {
 
         Swal.fire({
-          text: `Elige la cantidad de sobres que quieres comprar (c/u ${price || '1'} DAI)`,
+          text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
           input: 'number',
           inputAttributes: {
             min: 1,
@@ -106,12 +103,12 @@ function Navbar ({
           },
           inputValidator: (value) => {
             if (value < 1 || value > 10) {
-                return 'ingresa entre 1 y 10!';
+                return `${t('buy_pack_input_validator')}`
             }
           },
           showDenyButton: false,
           showCancelButton: true,
-          confirmButtonText: 'Comprar',
+          confirmButtonText: `${t('buy_pack_button')}`,
           confirmButtonColor: '#005EA3',
           color: 'black',
           background: 'white',
@@ -148,8 +145,7 @@ function Navbar ({
           <li className='navbar__ul__li'>
             <NofTown />
             <LinkScroll
-              to='Contacto'
-            // spy='true'
+              to={t('contacto')}
             >
               <button
                 onClick={() => {
@@ -191,8 +187,8 @@ function Navbar ({
                 )}
             <></>
           </div>
-          <TranslationComponent
-            setLanguage={setLanguage}
+          <LanguageSelection
+
           />
         </div>
       </div>
@@ -204,9 +200,7 @@ function Navbar ({
 
 Navbar.propTypes = {
   goToCollections: PropTypes.func,
-  setLanguage: PropTypes.func,
   alphaMidButton: PropTypes.func,
-  t: PropTypes.func,
   account: PropTypes.string,
   setLoadAlbums: PropTypes.func,
   loadAlbums: PropTypes.bool,

@@ -16,8 +16,10 @@ import { fetchPackData } from '../../services/backend/gamma'
 import { checkPacksByUser, openPack } from '../../services/contracts/gamma'
 import { CONTRACTS, NETWORK } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
+import {useTranslation} from 'next-i18next'
 
 const index = React.forwardRef(() => {
+  const {t} = useTranslation()
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [, setChainId] = useState(null)
@@ -211,7 +213,7 @@ const index = React.forwardRef(() => {
 
       if (packs.length == 0) {
         // setPacksEnable(false)
-        alert('No tienes paquetes para abrir!')
+        alert(t('no_paquetes_para_abrir'))
       }
 
       if (packs.length >= 1) {
@@ -260,8 +262,16 @@ const index = React.forwardRef(() => {
           <span className='loader' />
         </div>
         <div className='alpha_main_buttons_container'>
-          <button className='alpha_button alpha_main_button' id='connect_metamask_button' onClick={() => connectToMetamask()}>Conectar con Metamask</button>
-          <button className='alpha_button alpha_main_button' id='show_rules_button' onClick={() => showRules()}>Reglas</button>
+          <button
+            className='alpha_button alpha_main_button'
+            id='connect_metamask_button'
+            onClick={() => connectToMetamask()}>{t('connect_metamask')}
+          </button>
+          <button
+            className='alpha_button alpha_main_button'
+            id='show_rules_button'
+            onClick={() => showRules()}>{t('reglas')}
+          </button>
           <span>{noMetamaskError}</span>
         </div>
         <div className='alpha_rules_container'>
@@ -298,12 +308,12 @@ const index = React.forwardRef(() => {
         <Head>
           <title>Number One Fan</title>
           <meta name='description' content='NoF Gamma' />
-          <link rel='icon' href='./favicon.ico' />
+          <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className='hero__top'>
-          {!mobile && inventory && <img alt='albums' src='gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
+          {!mobile && inventory && <img alt='albums' src='/gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
           {!mobile && !inventory && <div onClick={() => setInventory(false)} className='gammaAlbums2' />}
-          <div style={inventory ? { backgroundImage: 'url(\'gamma/InventarioFondo.png\')' } : { backgroundImage: 'url(\'gamma/GammaFondo.png\')' }} className='hero__top__album'>
+          <div style={inventory ? { backgroundImage: 'url(\'/gamma/InventarioFondo.png\')' } : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }} className='hero__top__album'>
             {inventory && !cardInfo && <InventoryAlbum
               account={account}
               cardsContract={cardsContract}
@@ -320,15 +330,15 @@ const index = React.forwardRef(() => {
               <h1>{numberOfPacks || ''}</h1>
               <div className='album'>
                 {/* <h2>{numberOfPacks}</h2> */}
-                <h3>TRANSFER</h3>
+                <h3>{t('transferir')}</h3>
               </div>
             </div>}
 
           {!mobile && !inventory &&
             <div className='gammaComplete'>
-              <h3>Album</h3>
+              <h3>{t('album')}</h3>
               <h3>24/120</h3>
-              <h3>Completar</h3>
+              <h3>{t('completar')}</h3>
             </div>}
         </div>
       </div>}
