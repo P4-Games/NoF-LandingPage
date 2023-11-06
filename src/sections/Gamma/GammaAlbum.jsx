@@ -4,7 +4,7 @@ import pagination from '../../utils/placeholders'
 
 const GammaInventory = React.forwardRef((props, book) => {
   const [size, setSize] = useState(false)
-  
+
   useEffect(() => {
     if (window.innerWidth < 600) {
       setSize(true)
@@ -49,7 +49,7 @@ const GammaInventory = React.forwardRef((props, book) => {
                 <div style={{ background: 'none' }} key={index} className='grid-item'>
                   {pagination.user[item]?.stamped
                     ? <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
-                    : <img src='gamma/Nofy.png' alt='img' />}
+                    : <img src='/gamma/Nofy.png' alt='img' />}
                   {!pagination.user[item]?.stamped && <div className='numbershirt'>{pagination.user[item]?.name}</div>}
                 </div>
               ))}
@@ -66,7 +66,7 @@ const GammaInventory = React.forwardRef((props, book) => {
               <div style={{ background: 'none' }} key={index} className='grid-item'>
                 {pagination.user[item]?.stamped
                   ? <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
-                  : <img src='gamma/Nofy.png' alt='img' />}
+                  : <img src='/gamma/Nofy.png' alt='img' />}
                 {!pagination.user[item]?.stamped && <div className='numbershirt'>{pagination.user[item]?.name}</div>}
               </div>
             ))}

@@ -16,6 +16,7 @@ import SwiperCore, {
 } from 'swiper'
 import Swal from 'sweetalert2'
 import { openSeaUrl } from '../../config'
+import {useTranslation} from 'next-i18next'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
@@ -30,6 +31,7 @@ const AlphaAlbums = ({
   setLoadAlbums,
   alphaMidButton
 }) => {
+  const {t} = useTranslation()
   const [albums, setAlbums] = useState(null)
   const [noAlbumMessage, setNoAlbumMessage] = useState('')
   const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
@@ -73,11 +75,9 @@ const AlphaAlbums = ({
         if (albums.length > 0) {
           setAlbums(albums)
         } else {
-          setNoAlbumMessage('Juega para completar tu primer album!')
+          setNoAlbumMessage(t('juega_para_completar'))
         }
-        const button = document.getElementsByClassName(
-          'alpha_albums_button'
-        )[0]
+        const button = document.getElementsByClassName('alpha_albums_button')[0]
         button.style.display = 'none'
       })
       .catch((e) => console.error({ e }))

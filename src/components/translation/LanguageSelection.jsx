@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import World from './images/world.png'
 import Brazilean from './images/br.png'
 import English from './images/en.png'
@@ -6,9 +5,8 @@ import Spanish from './images/es.png'
 import Image from 'next/image.js'
 import { useSettings } from '../../hooks'
 
-function TranslationComponent ({  }) {
-  const { languageOption } = useSettings()
-  const { languageSetted, onToggleLanguageSetted } = useSettings()
+function LanguageSelection () {
+  const { onToggleLanguageSetted } = useSettings()
 
   if (typeof window !== 'undefined') {
     document.addEventListener('click', e => {
@@ -87,8 +85,4 @@ function TranslationComponent ({  }) {
   )
 }
 
-TranslationComponent.propTypes = {
-  setLanguage: PropTypes.func
-}
-
-export default TranslationComponent
+export default LanguageSelection

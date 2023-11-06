@@ -60,7 +60,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [seasonFolder, setSeasonFolder] = useState(null)
-  // const [urls, setUrls] = useState([])
 
   async function requestAccount () {
     const web3Modal = new Web3Modal()
@@ -403,7 +402,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           )
           return pack
         } else {
-          setNoCardsError('Necesitas comprar un pack, primero.')
+          setNoCardsError(t('necesitas_comprar_pack'))
         }
       })
       .catch((e) => {
@@ -458,13 +457,13 @@ This function checks the balance of a specified account on the Dai contract and 
       .then((cards) => {
         setNoCardsError('')
         if (cards && cards.length > 0) {
-          emitSuccess('Ya tienes cartas.')
+          emitSuccess(t('ya_tienes_cartas'))
           return
         }
         checkPacks()
           .then((res) => {
             if (!res || res.length == 0) {
-              setNoCardsError('No hay más packs disponibles.')
+              setNoCardsError(t('no_mas_packs'))
             } else {
               if (checkBalance(account)) {
                 checkApproved(CONTRACTS.alphaAddress, account)
@@ -514,7 +513,7 @@ This function checks the balance of a specified account on the Dai contract and 
               } else {
                 Swal.fire({
                   title: 'oops!',
-                  text: 'No tienes suficientes DAI!',
+                  text: t('no_dai'),
                   icon: 'error',
                   showConfirmButton: false,
                   timer: 1500
@@ -557,9 +556,9 @@ This function checks the balance of a specified account on the Dai contract and 
         showCards(account, seasonName)
         getAlbumData(tokenId).then((res) => {
           if (res.completion == 5) {
-            emitSuccess('Felicidades! Has completado el album!')
+            emitSuccess(t('album_completo'))
           } else {
-            emitSuccess('Tu carta ya está en el album')
+            emitSuccess(t('carta_en_album'))
           }
         })
       })
@@ -575,12 +574,12 @@ This function checks the balance of a specified account on the Dai contract and 
       receiverAccount[0] !== '0' ||
       receiverAccount[1] !== 'x'
     ) {
-      setTransferError('La dirección de destino es inválida.')
+      setTransferError(t('direccion_destino_error'))
       return false
     }
     for (let i = 2; i < receiverAccount.length; i++) {
       if (!hexa.includes(receiverAccount[i])) {
-        setTransferError('La dirección de destino es inválida.')
+        setTransferError(t('direccion_destino_error'))
         return false
       }
     }
@@ -603,12 +602,12 @@ This function checks the balance of a specified account on the Dai contract and 
         showCards(account, seasonName)
         setReceiverAccount('')
         setLoading(false)
-        emitSuccess('Tu carta ha sido enviada')
+        emitSuccess(t('carta_enviada'))
       }
     } catch (e) {
       console.error({ e })
       if (e.reason.includes('Receiver is not playing this season')) {
-        setTransferError('Este usuario no está jugando esta temporada.')
+        setTransferError(t('usuario_no_en_temporada'))
       }
     }
   }
@@ -629,7 +628,7 @@ This function checks the balance of a specified account on the Dai contract and 
           id='show_rules_button'
           onClick={() => showRules()}
         >
-          Reglas
+          {t('reglas')}
         </button>
         <span>{noMetamaskError}</span>
       </div>
@@ -671,13 +670,13 @@ This function checks the balance of a specified account on the Dai contract and 
                 className='alpha_button'
                 id='alpha_show_cards_button'
               >
-                Ver cartas
+                {t('ver_cartas')}
               </button>
               <button
                 onClick={() => buyPack(packPrice, seasonName)}
                 className='alpha_button'
                 id='alpha_buy_pack_button'
-              >{`Comprar Pack ($${packPrice.substring(
+              >{`${t('comprar_pack')} ($${packPrice.substring(
                 0,
                 packPrice.length - 18
               )})`}
@@ -698,18 +697,18 @@ This function checks the balance of a specified account on the Dai contract and 
               <div className='alpha_progress_container'>
                 <span>
                   {winnerPosition == 0
-                    ? `Progreso: ${albumCompletion}/5`
-                    : `Posición: ${winnerPosition}`}
+                    ? `${t('progreso')}: ${albumCompletion}/5`
+                    : `${t('posicion')}: ${winnerPosition}`}
                 </span>
                 <img alt='vida' src={vida} />
-                <span>Colección: {albumCollection}</span>
+                <span>{t('coleccion')}: {albumCollection}</span>
                 <div className='alpha_progress_button_container'>
                   <button
                     className='alpha_button'
                     onClick={() => pasteCard(cardIndex)}
                     disabled={!isCollection}
                   >
-                    PEGAR
+                    {t('pegar')}
                   </button>
                   <button
                     className='alpha_button'
@@ -726,7 +725,7 @@ This function checks the balance of a specified account on the Dai contract and 
                     }}
                     disabled={!(cards.length > 0)}
                   >
-                    TRANSFERIR
+                    {t('transferir')}
                   </button>
                 </div>
               </div>
@@ -780,7 +779,7 @@ This function checks the balance of a specified account on the Dai contract and 
                       X
                     </button>
                     <span style={{ fontSize: '0.9rem' }}>
-                      Carta de colección{' '}
+                      {t('carta_de_coleccion')}{' '}
                       {cards[cardIndex]
                         ? ethers.BigNumber.from(
                           cards[cardIndex].collection
@@ -790,7 +789,7 @@ This function checks the balance of a specified account on the Dai contract and 
                         ).toNumber()}
                     </span>
                     <input
-                      placeholder='Inserte la wallet del destinatario'
+                      placeholder={t('wallet_destinatario')}
                       value={receiverAccount}
                       onChange={(e) => setReceiverAccount(e.target.value)}
                     />
@@ -799,8 +798,7 @@ This function checks the balance of a specified account on the Dai contract and 
                       onClick={() => transferToken()}
                       disabled={disableTransfer}
                     >
-
-                      TRANSFERIR
+                      {t('transferir')}
                     </button>
                     <span className='alpha_transfer_error'>{transferError}</span>
                   </div>

@@ -35,5 +35,45 @@
     "FRIENDS": "FRIENDS",
 
     "connect_metamask": "Connect with metamask",
-    "whitepaper": "Whitepaper"
+    "whitepaper": "Whitepaper",
+
+    "reglas": "Rules",
+    "ver_cartas": "View Cards",
+    "comprar_pack": "Buy Pack",
+    "progreso": "Progress",
+    "posicion": "Position",
+    "coleccion": "Collection",
+    "pegar": "PASTE",
+    "transferir": "TRANSFER",
+    "carta_de_coleccion": "Collection Card",
+    "juega_para_completar": "Play to complete your first album",
+    "necesitas_comprar_pack": "You need to buy a pack first.",
+    "ya_tienes_cartas": "You already have cards.",
+    "no_mas_packs": "No more packs available.",
+    "no_dai": "You don't have enough DAI!",
+    "album_completo": "Congratulations! You have completed the album!",
+    "carta_en_album": "Your card is already in the album",
+    "direccion_destino_error": "The destination address is invalid.",
+    "carta_enviada": "Your card has been sent",
+    "usuario_no_en_temporada": "This user is not playing this season.",
+
+    "no_paquetes_para_abrir": "You have no packs to open!",
+    "album": "Album",
+    "completar": "Complete",
+
+    "carta_minteada": "Minted Card! You can view it",
+    "aqui": "here",
+    "mintear": "Mint",
+    "ofertas": "Offers",
+    "cartas_a_cambio": "Choose the cards you want in exchange",
+    "publicar": "Publish",
+    "confirmado": "Confirmed",
+    "wallet_destinatario": "Insert the recipient's wallet",
+
+    "buy_pack_title_1": "Choose the number of packs you want to buy",
+    "buy_pack_title_2": "each",
+    "buy_pack_input_validator": "Enter between 1 and 10!",
+    "buy_pack_button": "Buy",
+    "contacto": "Contact"
+
 }

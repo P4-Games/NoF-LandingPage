@@ -6,8 +6,10 @@ import 'swiper/css/effect-fade'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
+import {useTranslation} from 'next-i18next'
 
 const InfoCard = React.forwardRef((props, book) => {
+  const {t} = useTranslation()
   const [size, setSize] = useState(false)
 
   useEffect(() => {
@@ -26,7 +28,6 @@ const InfoCard = React.forwardRef((props, book) => {
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
-  // const images = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
   const mint = async () => {
     const { imageNumber, cardsContract, setLoading } = props
@@ -37,14 +38,13 @@ const InfoCard = React.forwardRef((props, book) => {
       setLoading(false)
       Swal.fire({
         title: '',
-        text: `Carta Minteada! Puedes verla ${(
+        text: `${t('carta_minteada')} ${(
           <a href='https://testnets.opensea.io/assets/mumbai/${cardsContract.address}/${imageNumber}'>
-            aquí
+            ${t('aqui')}
           </a>
         )}`,
         icon: 'success',
         showConfirmButton: true
-        // timer: 1500,
       })
       return transaction
     } catch (e) {
@@ -100,17 +100,17 @@ const InfoCard = React.forwardRef((props, book) => {
         <div className='cardinfo'>
           <div className='transactions'>
             <div className='option' onClick={() => mint()}>
-              Mintear
+              {t('mintear')}
             </div>
-            <div className='option2'>Ofertas</div>
+            <div className='option2'>{t('ofertas')}</div>
             <div
               onClick={() =>
                 Swal.fire({
-                  text: 'Elige las cartas que quieres a cambio',
-                  html: '<h3> Elige las cartas que quieres a cambio</h3><input type="text" id="quiero" class="swal2-input" placeholder="Cartas" pattern="[0-9,]+" >',
+                  text: `${t('cartas_a_cambio')}`,
+                  html: `<h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
                   showDenyButton: false,
                   showCancelButton: true,
-                  confirmButtonText: 'Publicar',
+                  confirmButtonText: `${t('publicar')}`,
                   confirmButtonColor: '#005EA3',
                   color: 'black',
                   background: 'white',
@@ -126,7 +126,7 @@ const InfoCard = React.forwardRef((props, book) => {
                   if (result.isConfirmed) {
                     // const input = Swal.getPopup().querySelector('#quiero')
                     // setWantedCards(input.value)
-                    alert('Confirmado')
+                    alert(`${t('confirmado')}`)
                     //     Swal.fire({
                     //         text: 'Publicar?',
                     //         showCancelButton: true,
@@ -184,7 +184,7 @@ const InfoCard = React.forwardRef((props, book) => {
                 })}
               className='option3'
             >
-              Publicar
+              {t('publicar')}
             </div>
           </div>
         </div>

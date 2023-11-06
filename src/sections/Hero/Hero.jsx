@@ -343,7 +343,7 @@ const Hero = React.forwardRef((props, book) => {
                       Friends.map((friend) => (
                           <div className='box' key={friend.id}>
                             <Image
-                              layout='fill'
+                              fill
                               alt='album_book'
                               className='img'
                               src={friend.icon}
