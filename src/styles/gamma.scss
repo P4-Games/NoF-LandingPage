@@ -16,6 +16,51 @@
   }
 }
 
+.rules_container {
+  position: absolute;
+  display: none;
+}
+
+.rules_text_content {
+  background-image: url('/rules.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 720px;
+  width: 720px;
+  max-width: 100vw;
+  line-height: 1.5;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px;
+  font-size: 17px;
+}
+
+.rules_img_close {
+  top: 22%;
+  right: 5%; 
+}
+
+.rules_title {
+  position: absolute;
+  font-weight: bold;
+  margin-left:20%;
+  padding-top: 22%;
+  font-size: 26px;
+}
+
+.rules_text_left, .rules_text_right {
+  margin-top: 28%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-left: 10px;
+  padding-right: 12px;
+  flex-basis: 40%; 
+  text-align: center;
+}
+
+
 .gammaShop {
   position: absolute;
   bottom: 41%;

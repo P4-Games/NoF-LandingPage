@@ -154,7 +154,7 @@ const Admin = React.forwardRef(() => {
   return (
     <>
       <div className='admincontainer'>
-        {!account && <div className='alpha_main_buttons_container'>
+        {!account && <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
             id='connect_metamask_button'

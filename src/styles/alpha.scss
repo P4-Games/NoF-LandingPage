@@ -30,14 +30,14 @@
   }
 }
 
-.alpha_main_buttons_container {
+.main_buttons_container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.alpha_main_buttons_container span {
+.main_buttons_container span {
   color: red;
   font-size: 0.7em;
   margin-top: 10px;
@@ -90,10 +90,45 @@
   display: none;
 }
 
-.alpha_rules_img {
+.alpha_rules_text_content {
+  background-image: url('/rules.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 720px;
   width: 720px;
   max-width: 100vw;
+  line-height: 1.4;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0px;
+  font-size: 16px;
 }
+
+.alpha_rules_img_close {
+  top: 22%;
+  right: 5%; 
+}
+
+.alpha_rules_title {
+  position: absolute;
+  font-weight: bold;
+  margin-left:20%;
+  padding-top: 22%;
+  font-size: 26px;
+}
+
+.alpha_rules_text_left, .alpha_rules_text_right {
+  margin-top: 28%;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-left: 10px;
+  padding-right: 12px;
+  flex-basis: 40%; 
+  text-align: center;
+}
+
 
 .alpha_card_container:hover > .alpha_card_hover {
   opacity: 1;
@@ -132,6 +167,7 @@
 .alpha_data div {
   margin: 30px 0;
 }
+
 
 .alpha_season,
 .alpha_albums_season {
@@ -322,11 +358,6 @@
 .alpha_transfer_modal_close {
   top: 1rem;
   right: 1rem;
-}
-
-.alpha_rules_img_close {
-  top: 22%;
-  right: 5%;
 }
 
 .alpha_transfer_error {

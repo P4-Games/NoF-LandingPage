@@ -74,7 +74,26 @@
   "buy_pack_title_2": "cada",
   "buy_pack_input_validator": "Insira entre 1 e 10!",
   "buy_pack_button": "Comprar",
-  "contacto": "Contato"
+  "contacto": "Contato",
 
+  "rules_alpha_left_text_1": "Um minijogo temático com 60 cartas que completam 10 coleções temáticas diferentes, cada uma com 5 personagens e um álbum.",
+  "rules_alpha_left_text_2": "O objetivo é completar um álbum com os 5 personagens correspondentes à coleção.",
+  "rules_alpha_left_text_3": "Para jogar, é necessário conectar uma carteira à rede Polygon.",
+  "rules_alpha_left_text_4": "A taxa de entrada é de 1 DAI, e é necessário ter Matic para as taxas de transação.",
+  "rules_alpha_left_text_5": "As trocas de prêmios são entregues ao completar o álbum completo.",
+  "rules_alpha_right_text_1": "Aqueles que completam seus álbuns primeiro recebem as maiores recompensas em DAI.",
+  "rules_alpha_right_text_2": "As temporadas alpha terão a duração de um mês para coletar coleções completas e obter recompensas sazonais adicionais.",
+  "rules_alpha_right_text_3": "Os jogadores podem usar um chat no Discord com o número de jogo correspondente para trocar cartas.",
+  "rules_alpha_right_text_4": "As trocas de cartas são habilitadas assim que todos os 10 lugares são preenchidos.",
+  "rules_alpha_right_text_5": "Contas múltiplas não são permitidas.",
+
+  "rules_gamma_left_text_1": "A edição Gamma consiste em 120 personagens únicos, com 5000 cópias de cada um e 3000 álbuns NFT.",
+  "rules_gamma_left_text_2": "A distribuição aleatória das cartas e a queima delas ao colá-las nos álbuns aumenta a emoção e o desafio de completá-los.",
+  "rules_gamma_left_text_3": "Para jogar, é necessário conectar uma carteira à rede Polygon.",
+  "rules_gamma_left_text_4": "Também é necessário ter Matic para taxas de transação e algum DAI para comprar pacotes.",
+  "rules_gamma_right_text_1": "Ao completar um álbum, você recebe um NFT colecionável e um lucro de 25%.",
+  "rules_gamma_right_text_2": "Além de colecionar cartas e completar álbuns, a edição Gamma também permite que você participe na zona de negociação livre de NoFTown.",
+  "rules_gamma_right_text_3": "A ferramenta NoFTown permite interagir com outros jogadores de forma rápida e segura, facilitando a troca de NFTs.",
+  "rules_gamma_right_text_4": "Contas múltiplas não são permitidas."
 
 }

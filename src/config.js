@@ -59,3 +59,4 @@ export const defaultSettings = {
   languagePresets: 'es',
   languageSetted: 'es',
 }
+
