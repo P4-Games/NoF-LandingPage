@@ -5,8 +5,11 @@ import gammaCardsAbi from '../context/abis/GammaCardsV2.sol/GammaCardsV2.json'
 import daiAbi from '../context/abis/TestDAI.sol/UChildDAI.json'
 import Web3Modal from 'web3modal'
 import { CONTRACTS, NETWORK, adminAccounts } from '../config'
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {useTranslation} from 'next-i18next'
 
-const index = React.forwardRef(() => {
+const Admin = React.forwardRef(() => {
+  const {t} = useTranslation()
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [, setChainId] = useState(null)
@@ -152,10 +155,10 @@ const index = React.forwardRef(() => {
     <>
       <div className='admincontainer'>
         {!account && <div className='alpha_main_buttons_container'>
-          <button 
+          <button
             className='alpha_button alpha_main_button'
             id='connect_metamask_button'
-            onClick={() => connectToMetamask()}>Conectar con Metamask
+            onClick={() => connectToMetamask()}>{t('connect_metamask')}
           </button>
           <span>{noMetamaskError}</span>
         </div>}
@@ -166,4 +169,12 @@ const index = React.forwardRef(() => {
   )
 })
 
-export default index
+export default Admin
+
+export async function getStaticProps ({locale}) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale))
+    }
+  }
+}

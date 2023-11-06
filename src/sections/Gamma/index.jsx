@@ -16,8 +16,10 @@ import { fetchPackData } from '../../services/backend/gamma'
 import { checkPacksByUser, openPack } from '../../services/contracts/gamma'
 import { CONTRACTS, NETWORK } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
+import {useTranslation} from 'next-i18next'
 
 const index = React.forwardRef(() => {
+  const {t} = useTranslation()
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [, setChainId] = useState(null)
@@ -260,7 +262,11 @@ const index = React.forwardRef(() => {
           <span className='loader' />
         </div>
         <div className='alpha_main_buttons_container'>
-          <button className='alpha_button alpha_main_button' id='connect_metamask_button' onClick={() => connectToMetamask()}>Conectar con Metamask</button>
+          <button
+            className='alpha_button alpha_main_button'
+            id='connect_metamask_button'
+            onClick={() => connectToMetamask()}>{t('connect_metamask')}
+          </button>
           <button className='alpha_button alpha_main_button' id='show_rules_button' onClick={() => showRules()}>Reglas</button>
           <span>{noMetamaskError}</span>
         </div>
@@ -298,7 +304,7 @@ const index = React.forwardRef(() => {
         <Head>
           <title>Number One Fan</title>
           <meta name='description' content='NoF Gamma' />
-          <link rel='icon' href='./favicon.ico' />
+          <link rel='icon' href='/favicon.ico' />
         </Head>
         <div className='hero__top'>
           {!mobile && inventory && <img alt='albums' src='gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}

@@ -19,6 +19,7 @@ import vida2 from './images/vida2.png'
 import vida3 from './images/vida3.png'
 import vida4 from './images/vida4.png'
 import vida5 from './images/vida5.png'
+import {useTranslation} from 'next-i18next'
 
 const vidas = [
   vida0.src,
@@ -32,6 +33,7 @@ const vidas = [
 let swiper //eslint-disable-line 
 
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
+  const {t} = useTranslation()
   const [, setChainId] = useState(null)
   const [loading, setLoading] = useState(null)
   const [account, setAccount] = useState(null)
@@ -620,9 +622,7 @@ This function checks the balance of a specified account on the Dai contract and 
         <button
           className='alpha_button alpha_main_button'
           id='connect_metamask_button'
-          onClick={() => connectToMetamask()}
-        >
-          Conectar con Metamask
+          onClick={() => connectToMetamask()}>{t('connect_metamask')}
         </button>
         <button
           className='alpha_button alpha_main_button'
@@ -640,7 +640,7 @@ This function checks the balance of a specified account on the Dai contract and 
         >
           X
         </button>
-        <img alt='alpha-rules' className='alpha_rules_img' src={'/reglas.png'} tabIndex='0' />
+        <img alt='alpha-rules' className='alpha_rules_img' src={'/reglas-alpha.png'} tabIndex='0' />
       </div>
 
       {account && (

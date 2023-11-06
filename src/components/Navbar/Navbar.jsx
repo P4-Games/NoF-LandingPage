@@ -15,7 +15,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import { getPackPrice } from '../../services/contracts/gamma'
-
+import {useTranslation} from 'next-i18next'
 
 const TranslationComponent = dynamic(
   () => import('../translation'),
@@ -25,9 +25,7 @@ const TranslationComponent = dynamic(
 function Navbar ({
   goToCollections,
   // language,
-  setLanguage,
   alphaMidButton,
-  t,
   account,
   setLoadAlbums,
   loadAlbums,
@@ -40,6 +38,7 @@ function Navbar ({
   authorizeDaiContract,
   checkNumberOfPacks
 }) {
+  const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
   const [page, setPage] = useState('')
   const router = useRouter()
@@ -192,7 +191,7 @@ function Navbar ({
             <></>
           </div>
           <TranslationComponent
-            setLanguage={setLanguage}
+
           />
         </div>
       </div>
@@ -204,9 +203,7 @@ function Navbar ({
 
 Navbar.propTypes = {
   goToCollections: PropTypes.func,
-  setLanguage: PropTypes.func,
   alphaMidButton: PropTypes.func,
-  t: PropTypes.func,
   account: PropTypes.string,
   setLoadAlbums: PropTypes.func,
   loadAlbums: PropTypes.bool,
