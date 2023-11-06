@@ -11,18 +11,18 @@ const initialState = {
   onToggleLanguageSetted: () => {},
   onChangeLanguagePresets: () => {},
   setLanguage: languagePresets[0],
-  languageOption: []
+  languageOption: [],
 }
 
 const SettingsContext = createContext(initialState)
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
-function SettingsProvider ({ children }) {
+function SettingsProvider({ children }) {
   const [settings, setSettings] = useLocalStorage('settings', {
-    ...defaultSettings
+    ...defaultSettings,
   })
 
   const onToggleLanguageSetted = (newLng = 'es') => {
@@ -30,24 +30,23 @@ function SettingsProvider ({ children }) {
     const urlEN = getUrl.pathname.includes('/en/') || getUrl.pathname.includes('/en')
     const urlES = getUrl.pathname.includes('/es/') || getUrl.pathname.includes('/es')
     const urlBR = getUrl.pathname.includes('/br/') || getUrl.pathname.includes('/br')
-    const urlNone = (!urlEN && !urlES && !urlBR)
+    const urlNone = !urlEN && !urlES && !urlBR
 
-    const mustChange =  (
-      (settings.languageSetted !== newLng) ||
+    const mustChange =
+      settings.languageSetted !== newLng ||
       (settings.languageSetted === 'en' && urlES) ||
       (settings.languageSetted === 'es' && urlEN) ||
       (settings.languageSetted === 'br' && urlBR) ||
       (settings.languageSetted === 'en' && urlNone)
-    )
 
     if (mustChange) {
       setSettings({
         ...settings,
-        languageSetted: newLng
+        languageSetted: newLng,
       })
 
       const getUrl = window.location
-      const pathName =  getUrl.pathname
+      const pathName = getUrl.pathname
         .replace('/en', '/')
         .replace('/es', '/')
         .replace('/br', '/')
@@ -62,7 +61,7 @@ function SettingsProvider ({ children }) {
   const onChangeLanguagePresets = (event) => {
     setSettings({
       ...settings,
-      language: event.target.value
+      language: event.target.value,
     })
   }
 
@@ -77,8 +76,8 @@ function SettingsProvider ({ children }) {
         setLanguage: getLanguagePresets(settings.languagePresets),
         languageOption: languagePresets.map((lng) => ({
           name: lng.name,
-          value: lng.value
-        }))
+          value: lng.value,
+        })),
       }}
     >
       {children}

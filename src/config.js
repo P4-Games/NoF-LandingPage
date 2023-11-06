@@ -57,5 +57,5 @@ export const adminAccounts =
 
 export const defaultSettings = {
   languagePresets: 'es',
-  languageSetted: 'es'
+  languageSetted: 'es',
 }
