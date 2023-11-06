@@ -1,3 +1,4 @@
+/*
 import useLocalStorage from 'use-local-storage'
 import * as locales from './locales'
 
@@ -28,3 +29,4 @@ export default function useTranslation () {
 function getNestedTranslation (language, keys) {
   return keys.reduce((obj, key) => obj?.[key], locales[language])
 }
+*/

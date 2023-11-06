@@ -32,5 +32,8 @@
     "create a nice game": "To create a good, fun and one of a kind game.",
 
     "TEAM": "TEAM",
-    "FRIENDS": "FRIENDS"
+    "FRIENDS": "FRIENDS",
+
+    "connect_metamask": "Connect with metamask",
+    "whitepaper": "Whitepaper"
 }

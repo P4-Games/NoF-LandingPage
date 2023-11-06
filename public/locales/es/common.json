@@ -32,5 +32,8 @@
     "create a nice game": " divertido y disruptivo.",
 
     "TEAM": "EQUIPO",
-    "FRIENDS": "AMIGOS"
+    "FRIENDS": "AMIGOS",
+
+    "connect_metamask": "Conectar con Metamask",
+    "whitepaper": "Papel Blanco"
 }
