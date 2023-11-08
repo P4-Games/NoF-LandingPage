@@ -44,11 +44,7 @@ const index = React.forwardRef(() => {
     return authorization
   }
 
-  const checkApproved = async (approvedAddress, tokenOwner) => {
-    const approved = await daiContract.allowance(tokenOwner, approvedAddress)
-    return approved.gt(0)
-  }
-
+  
   const [mobile, setMobile] = useState(false)
   const [, setSize] = useState(false)
 
@@ -320,7 +316,7 @@ const index = React.forwardRef(() => {
         inventory={inventory}
         setInventory={setInventory}
         packsContract={packsContract}
-        checkApproved={checkApproved}
+        daiContract={daiContract}
         authorizeDaiContract={authorizeDaiContract}
         checkNumberOfPacks={checkNumberOfPacks}
       />
