@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 import { getPackPrice } from '../../services/contracts/gamma'
+import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
 
 const LanguageSelection = dynamic(
@@ -32,7 +33,7 @@ function Navbar ({
   setCardInfo,
   cardInfo,
   packsContract,
-  checkApproved,
+  daiContract,
   authorizeDaiContract,
   checkNumberOfPacks
 }) {
@@ -208,7 +209,7 @@ Navbar.propTypes = {
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,
   packsContract: PropTypes.object,
-  checkApproved: PropTypes.func,
+  daiContract: PropTypes.object,
   authorizeDaiContract: PropTypes.func,
   checkNumberOfPacks: PropTypes.func
 }

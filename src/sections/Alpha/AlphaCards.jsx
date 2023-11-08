@@ -12,6 +12,7 @@ import { showRules, closeRules } from '../../utils/rules'
 
 import nofAbi from '../../context/abis/NOF-SC.sol/NOF_Alpha.json'
 import daiAbi from '../../context/abis/TestDAI.sol/UChildDAI.json'
+import { checkApproved } from '../../services/contracts/dai'
 
 import vida0 from './images/vida0.png'
 import vida1 from './images/vida1.png'
@@ -360,15 +361,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }
 
-  const checkApproved = async (approvedAddress, tokenOwner) => {
-    try {
-      const approved = await daiContract.allowance(tokenOwner, approvedAddress)
-      return approved.gt(0)
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
   const checkPacks = async () => {
     try {
       const check = await nofContract.getSeasonAlbums(seasonName)
@@ -510,7 +502,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
               setNoCardsError(t('no_mas_packs'))
             } else {
               if (checkBalance(account)) {
-                checkApproved(CONTRACTS.alphaAddress, account)
+                checkApproved(daiContractInstance, account, CONTRACTS.alphaAddress)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
                       const pack = await nofContract.buyPack(price, name, {
