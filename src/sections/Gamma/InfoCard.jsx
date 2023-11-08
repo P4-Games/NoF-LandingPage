@@ -126,7 +126,13 @@ const InfoCard = React.forwardRef((props, book) => {
                   if (result.isConfirmed) {
                     // const input = Swal.getPopup().querySelector('#quiero')
                     // setWantedCards(input.value)
-                    alert(`${t('confirmado')}`)
+                    Swal.fire({
+                      title: '',
+                      text: t('confirmado'),
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
                     //     Swal.fire({
                     //         text: 'Publicar?',
                     //         showCancelButton: true,
