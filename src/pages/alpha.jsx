@@ -10,11 +10,11 @@ const Alpha = () => {
   function alphaMidButton () {
     const albums = document.getElementsByClassName(
       'alpha_full_albums_container'
-    )[0]
-    const game = document.getElementsByClassName('alpha_inner_container')[0]
-    if (game) {
-      albums.classList.toggle('alpha_display_none')
-      game.classList.toggle('alpha_display_none')
+    )
+    const game = document.getElementsByClassName('alpha_inner_container')
+    if (game && game.length > 0) {
+      albums[0].classList.toggle('alpha_display_none')
+      game[0].classList.toggle('alpha_display_none')
     }
   }
 
