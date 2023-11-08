@@ -108,11 +108,6 @@ const Hero = React.forwardRef((props, book) => {
 
                 <p className='hero__top__album__book__page__text2'>
                   {t ? t('number one fan') : ''}
-                  {/* collect-to-earn del mundo,<br />
-                donde los jugadores<br />
-                obtienen recompensas<br />
-                mientras crean su propia<br />
-              colección de álbumes NFT. */}
                 </p>
                 <div className='bookflip_conteiner'>
                   <div className='bookimg'>
