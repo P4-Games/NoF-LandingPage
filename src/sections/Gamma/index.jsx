@@ -276,32 +276,32 @@ const index = React.forwardRef(() => {
           <button
             className='alpha_button alpha_main_button'
             id='show_rules_button'
-            onClick={() => showRules()}
+            onClick={() => showRules('gamma')}
           >
             {t('reglas')}
           </button>
           <span>{noMetamaskError}</span>
         </div>
 
-        <div className='rules_container'>
+        <div className='gamma_rules_container'>
           <button
-            className='rules_img_close alpha_modal_close'
-            onClick={() => closeRules()}
+            className='gamma_rules_img_close alpha_modal_close'
+            onClick={() => closeRules('gamma')}
           >
             X
           </button>
 
-          <div className='rules_text_content'>
-            <div className='rules_title'>
+          <div className='gamma_rules_text_content'>
+            <div className='gamma_rules_title'>
               <p>{t('reglas')}</p>
             </div>
-            <div className='rules_text_left'>
+            <div className='gamma_rules_text_left'>
               <p>{t('rules_gamma_left_text_1')}</p>
               <p>{t('rules_gamma_left_text_2')}</p>
               <p>{t('rules_gamma_left_text_3')}</p>
               <p>{t('rules_gamma_left_text_4')}</p>
             </div>
-            <div className='rules_text_right'>
+            <div className='gamma_rules_text_right'>
               <p>{t('rules_gamma_right_text_1')}</p>
               <p>{t('rules_gamma_right_text_2')}</p>
               <p>{t('rules_gamma_right_text_3')}</p>
