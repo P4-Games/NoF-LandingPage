@@ -13,7 +13,11 @@ export const checkBalance = async (daiContract, account) => {
   return number > minimum
 }
 
-export const checkApproved = async (daiContract, approvedAddress, tokenOwner) => {
-  const approved = await daiContract.allowance(tokenOwner, approvedAddress)
-  return approved.gt(0)
+export const checkApproved = async (daiContract, tokenOwnerAddress, spenderAddress) => {
+  try {
+    const approved = await daiContract.allowance(tokenOwnerAddress, spenderAddress)
+    return approved.gt(0)
+  } catch (ex) {
+    throw ex
+  }
 }
