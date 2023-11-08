@@ -35,7 +35,7 @@ let swiper //eslint-disable-line
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const {t} = useTranslation()
   const [, setChainId] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [account, setAccount] = useState(null)
   const [nofContract, setNofContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
@@ -109,7 +109,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
             signer
           )
           setDaiContract(daiContractInstance)
-          requestSeasonData(nofContractInstance)
+          getSeasonData(nofContractInstance)
             /*  
             .then((data) => {
               const [currentSeason, currentPrice] = data
@@ -182,6 +182,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
+  /*
   useEffect(() => {
     const loadingElem = document.getElementById('loading')
     loading
@@ -191,6 +192,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         'alpha_loader_container alpha_display_none'
       )
   }, [loading])
+  */
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -257,52 +259,71 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }, [seasonName])
 
-  async function requestSeasonData (contract) {
-    const seasonData = await contract.getSeasonData()
-    let currentSeason
-    let currentPrice
-    setLoading(true)
-    for (let i = 0; i < seasonData[0].length; i++) {
-      const season = await contract.getSeasonAlbums(seasonData[0][i])
-
-      if (season.length > 0) {
-        currentSeason = seasonData[0][i]
-        currentPrice = seasonData[1][i]
-        break
-      } else {
-        currentSeason = seasonData[0][i]
-        currentPrice = seasonData[1][i]
+  async function getSeasonData (contract) {
+    try {
+      const seasonData = await contract.getSeasonData()
+      let currentSeason
+      let currentPrice
+      for (let i = 0; i < seasonData[0].length; i++) {
+        const season = await contract.getSeasonAlbums(seasonData[0][i])
+  
+        if (season.length > 0) {
+          currentSeason = seasonData[0][i]
+          currentPrice = seasonData[1][i]
+          break
+        } else {
+          currentSeason = seasonData[0][i]
+          currentPrice = seasonData[1][i]
+        }
       }
-    }
-    const seasonWinnersCount = {}
-    const winnersQuery = await fetchData()
-    const { winners } = winnersQuery.data
-    for (let i = 0; i < winners.length; i++) {
-      if (!seasonWinnersCount[winners[i].season]) {
-        seasonWinnersCount[winners[i].season] = 1
-      } else {
-        seasonWinnersCount[winners[i].season]++
+      const seasonWinnersCount = {}
+      const winnersQuery = await fetchData()
+      const { winners } = winnersQuery.data
+      for (let i = 0; i < winners.length; i++) {
+        if (!seasonWinnersCount[winners[i].season]) {
+          seasonWinnersCount[winners[i].season] = 1
+        } else {
+          seasonWinnersCount[winners[i].season]++
+        }
       }
-    }
-    const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
-    const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
-    setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
-    setPackPrice(currentPrice.toString()) // sets the season price as the last season price created
-    setLoading(false)
-    setSeasonNames(activeSeasons)
-    setPackPrices(seasonData[1])
+      const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
+      const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
+      setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
+      setPackPrice(currentPrice.toString()) // sets the season price as the last season price created
+      setSeasonNames(activeSeasons)
+      setPackPrices(seasonData[1]) 
+      return [currentSeason, currentPrice]
 
-    return [currentSeason, currentPrice]
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   const getUserCards = async (address, seasonName) => {
-    const cards = await nofContract.getCardsByUserBySeason(address, seasonName)
-    return cards
+    try {
+      const cards = await nofContract.getCardsByUserBySeason(address, seasonName)
+      return cards
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   const getSeasonFolder = async (seasonName) => {
-    const response = await nofContract.seasons(seasonName)
-    return response.folder
+    try {
+      const response = await nofContract.seasons(seasonName)
+      return response.folder
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
+
+  const getWinners = async () => {
+    try {
+      const winners = await nofContract.getWinners(seasonName)
+      return winners
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   function emitSuccess (message) {
@@ -315,11 +336,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     })
   }
 
-  const getWinners = async () => {
-    const winners = await nofContract.getWinners(seasonName)
-    return winners
-  }
-
   const setValidAlbumCard = (imageName) => {
     // seasonFolder = 'T1'
     setAlbumCard(`${storageUrl}${seasonFolder}/${imageName}`)
@@ -329,8 +345,74 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const getCardImageUrl = (imageNumber) => `${storageUrl}${seasonFolder}/${imageNumber}.png`
   const getAlbumImageUrl = () => albumCard
 
+  const authorizeDaiContract = async () => {
+    try {
+      const authorization = await daiContract.approve(
+        CONTRACTS.alphaAddress,
+        ethers.constants.MaxUint256,
+        { gasLimit: 2500000 }
+      )
+      await authorization.wait()
+      return authorization
+  
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
+
+  const checkApproved = async (approvedAddress, tokenOwner) => {
+    try {
+      const approved = await daiContract.allowance(tokenOwner, approvedAddress)
+      return approved.gt(0)
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
+
+  const checkPacks = async () => {
+    try {
+      const check = await nofContract.getSeasonAlbums(seasonName)
+      return check
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
+
+  const checkBalance = async () => {
+    const balance = await daiContract.balanceOf(account)
+    const number = JSON.parse(ethers.BigNumber.from(balance).toString())
+    const minimum = 1000000000000000000 // Set the minimum balance value to 1 Dai
+    return number > minimum // True if the account balance is greater than the minimum value
+  }
+
+  const getAlbumData = async (tokenId) => {
+    const albumData = await nofContract.cards(tokenId)
+    return albumData
+  }
+
+
+  const checkInputAddress = () => {
+    const hexa = '0123456789abcdefABCDEF'
+    if (
+      receiverAccount.length !== 42 ||
+      receiverAccount[0] !== '0' ||
+      receiverAccount[1] !== 'x'
+    ) {
+      setTransferError(t('direccion_destino_error'))
+      return false
+    }
+    for (let i = 2; i < receiverAccount.length; i++) {
+      if (!hexa.includes(receiverAccount[i])) {
+        setTransferError(t('direccion_destino_error'))
+        return false
+      }
+    }
+    return true
+  }
+
   const showCards = (address, seasonName) => {
-    checkPacks()
+    try {
+      checkPacks()
       .then((res) => {
         if (res.length == 0) {
           setDisableTransfer(false)
@@ -341,117 +423,79 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       .catch((e) => {
         console.error({ e })
       })
-    const cards = getUserCards(address, seasonName)
-      .then((pack) => {
-        console.log('pack', pack)
-        if (pack.length) {
-          const albumData = []
-          const cardsData = []
-          pack.forEach((card) => {
-            card.class == 0 ? albumData.push(card) : cardsData.push(card)
-          })
-          setNoCardsError('')
-          setPack(pack)
-          setAlbum(albumData)
-          setAlbumCollection(
-            ethers.BigNumber.from(albumData[0].collection).toNumber()
-          )
-          const completion = ethers.BigNumber.from(
-            albumData[0].completion
-          ).toNumber()
-          setAlbumCompletion(completion)
-          setVida(
-            vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()]
-          )
-          getSeasonFolder(seasonName)
-            .then((data) => {
-              if (data == 'alpha_jsons') {
-                setSeasonFolder('T1')
-              } else {
-                setSeasonFolder(data || 'UNKNOWN_FOLDER')
-              }
-              if (completion < 5) {
-                setValidAlbumCard(albumData[0].number + '.png')
-              } else {
-                setValidAlbumCard(albumData[0].number + 'F' + '.png')
-                getWinners()
-                  .then((winners) => {
-                    if (winners.includes(account)) {
-                      setWinnerPosition(winners.indexOf(account) + 1)
-                    }
-                  })
-                  .catch((e) => {
-                    console.error({ e })
-                  })
-              }
+      const cards = getUserCards(address, seasonName)
+        .then((pack) => {
+          console.log('pack', pack)
+          if (pack.length) {
+            const albumData = []
+            const cardsData = []
+            pack.forEach((card) => {
+              card.class == 0 ? albumData.push(card) : cardsData.push(card)
             })
-            .catch((e) => console.error({ e }))
-          setCards(cardsData)
-          document.getElementById('alpha_show_cards_button').style.display =
-            'none'
-          document.getElementById('alpha_buy_pack_button').style.display =
-            'none'
-          document.getElementById('alpha_select_season_button').style.display =
-            'none'
-          const container = document.getElementsByClassName(
-            'alpha_inner_container'
-          )[0]
-          container.setAttribute(
-            'class',
-            'alpha_inner_container alpha_inner_container_open'
-          )
-          return pack
-        } else {
-          setNoCardsError(t('necesitas_comprar_pack'))
-        }
-      })
-      .catch((e) => {
-        console.error({ e })
-      })
-    return cards
+            setNoCardsError('')
+            setPack(pack)
+            setAlbum(albumData)
+            setAlbumCollection(
+              ethers.BigNumber.from(albumData[0].collection).toNumber()
+            )
+            const completion = ethers.BigNumber.from(
+              albumData[0].completion
+            ).toNumber()
+            setAlbumCompletion(completion)
+            setVida(
+              vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()]
+            )
+            getSeasonFolder(seasonName)
+              .then((data) => {
+                if (data == 'alpha_jsons') {
+                  setSeasonFolder('T1')
+                } else {
+                  setSeasonFolder(data || 'UNKNOWN_FOLDER')
+                }
+                if (completion < 5) {
+                  setValidAlbumCard(albumData[0].number + '.png')
+                } else {
+                  setValidAlbumCard(albumData[0].number + 'F' + '.png')
+                  getWinners()
+                    .then((winners) => {
+                      if (winners.includes(account)) {
+                        setWinnerPosition(winners.indexOf(account) + 1)
+                      }
+                    })
+                    .catch((e) => {
+                      console.error({ e })
+                    })
+                }
+              })
+              .catch((e) => console.error({ e }))
+            setCards(cardsData)
+            document.getElementById('alpha_show_cards_button').style.display =
+              'none'
+            document.getElementById('alpha_buy_pack_button').style.display =
+              'none'
+            document.getElementById('alpha_select_season_button').style.display =
+              'none'
+            const container = document.getElementsByClassName(
+              'alpha_inner_container'
+            )[0]
+            container.setAttribute(
+              'class',
+              'alpha_inner_container alpha_inner_container_open'
+            )
+            return pack
+          } else {
+            setNoCardsError(t('necesitas_comprar_pack'))
+          }
+        })
+        .catch((e) => {
+          console.error({ e })
+        })
+      return cards
+    } catch (ex) {
+      console.error(ex)
+    }
   }
-
-  const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(
-      CONTRACTS.alphaAddress,
-      ethers.constants.MaxUint256,
-      { gasLimit: 2500000 }
-    )
-    setLoading(true)
-    await authorization.wait()
-    setLoading(false)
-    return authorization
-  }
-
-  const checkApproved = async (approvedAddress, tokenOwner) => {
-    const approved = await daiContract.allowance(tokenOwner, approvedAddress)
-    return approved.gt(0)
-  }
-
-  const checkPacks = async () => {
-    const check = await nofContract.getSeasonAlbums(seasonName)
-    return check
-  }
-
-  /**
-This function checks the balance of a specified account on the Dai contract and returns whether it meets a minimum value.
-@async
-@function
-@returns {boolean} - True if the account balance is greater than the minimum value, false otherwise.
-*/
-  const checkBalance = async () => {
-    // Get the account balance from the Dai contract
-    const balance = await daiContract.balanceOf(account)
-    // Convert the balance from a BigNumber to a number
-    const number = JSON.parse(ethers.BigNumber.from(balance).toString())
-
-    // Set the minimum balance value to 1 Dai
-    const minimum = 1000000000000000000
-
-    // Return true if the account balance is greater than the minimum value, false otherwise
-    return number > minimum
-  }
-
+  
   const buyPack = (price, name) => {
     showCards(account, seasonName)
       .then((cards) => {
@@ -532,11 +576,6 @@ This function checks the balance of a specified account on the Dai contract and 
       })
   }
 
-  const getAlbumData = async (tokenId) => {
-    const albumData = await nofContract.cards(tokenId)
-    return albumData
-  }
-
   const pasteCard = (cardIndex) => {
     const pegarCarta = async (cardIndex) => {
       const tokenId = ethers.BigNumber.from(
@@ -567,25 +606,6 @@ This function checks the balance of a specified account on the Dai contract and 
       })
   }
 
-  const checkInputAddress = () => {
-    const hexa = '0123456789abcdefABCDEF'
-    if (
-      receiverAccount.length !== 42 ||
-      receiverAccount[0] !== '0' ||
-      receiverAccount[1] !== 'x'
-    ) {
-      setTransferError(t('direccion_destino_error'))
-      return false
-    }
-    for (let i = 2; i < receiverAccount.length; i++) {
-      if (!hexa.includes(receiverAccount[i])) {
-        setTransferError(t('direccion_destino_error'))
-        return false
-      }
-    }
-    return true
-  }
-
   async function transferToken () {
     try {
       if (checkInputAddress(receiverAccount)) {
@@ -614,9 +634,9 @@ This function checks the balance of a specified account on the Dai contract and 
 
   return (
     <div className='alpha'>
-      <div className='alpha_loader_container alpha_display_none' id='loading'>
+      {loading && (<div className= 'alpha_loader_container'>
         <span className='loader' />
-      </div>
+      </div>)}
       <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
@@ -626,33 +646,33 @@ This function checks the balance of a specified account on the Dai contract and 
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
-          onClick={() => showRules()}
+          onClick={() => showRules('alpha')}
         >
           {t('reglas')}
         </button>
         <span>{noMetamaskError}</span>
       </div>
       
-      <div className='rules_container'>
+      <div className='alpha_rules_container'>
         <button
-          className='rules_img_close alpha_modal_close'
-          onClick={() => closeRules()}
+          className='alpha_rules_img_close alpha_modal_close'
+          onClick={() => closeRules('alpha')}
         >
           X
         </button>
 
-        <div className='rules_text_content'>
-          <div className='rules_title'>
+        <div className='alpha_rules_text_content'>
+          <div className='alpha_rules_title'>
             <p>{t('reglas')}</p>
           </div>
-          <div className='rules_text_left'>
+          <div className='alpha_rules_text_left'>
             <p>{t('rules_alpha_left_text_1')}</p>
             <p>{t('rules_alpha_left_text_2')}</p>
             <p>{t('rules_alpha_left_text_3')}</p>
             <p>{t('rules_alpha_left_text_4')}</p>
             <p>{t('rules_alpha_left_text_5')}</p>
           </div>
-          <div className='rules_text_right'>
+          <div className='alpha_rules_text_right'>
             <p>{t('rules_alpha_right_text_1')}</p>
             <p>{t('rules_alpha_right_text_2')}</p>
             <p>{t('rules_alpha_right_text_3')}</p>

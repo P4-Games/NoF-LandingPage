@@ -72,13 +72,15 @@ const AlphaAlbums = ({
   const handleClick = () => {
     getAlbums()
       .then((albums) => {
-        if (albums.length > 0) {
+        if (albums && albums.length > 0) {
           setAlbums(albums)
         } else {
           setNoAlbumMessage(t('juega_para_completar'))
         }
-        const button = document.getElementsByClassName('alpha_albums_button')[0]
-        button.style.display = 'none'
+        const button = document.getElementsByClassName('alpha_albums_button')
+        if (button && button.length > 0) {
+          button[0].style.display = 'none'  
+        }
       })
       .catch((e) => console.error({ e }))
   }
