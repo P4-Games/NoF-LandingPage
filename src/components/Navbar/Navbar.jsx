@@ -44,7 +44,8 @@ function Navbar ({
   const ref = useRef(null)
   const [click, setClick] = useState(false)
   
-  const handleClick = () => {
+
+  const audioHandleClick = () => {
     setClick(!click)
     if (!click) {
       ref.current.play()
@@ -178,7 +179,7 @@ function Navbar ({
             <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
-          <div onClick={() => handleClick()} className='navbar__corner__audio'>
+          <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
             {click
               ? (
                 <Image src={SoundOn} alt='soundimg' />
