@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 import InfoCard from './InfoCard'
+import Swal from 'sweetalert2'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
@@ -212,8 +213,13 @@ const index = React.forwardRef(() => {
       setLoaderPack(true)
 
       if (packs.length == 0) {
-        // setPacksEnable(false)
-        alert(t('no_paquetes_para_abrir'))
+        Swal.fire({
+          title: '',
+          text: t('no_paquetes_para_abrir'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        })
       }
 
       if (packs.length >= 1) {
