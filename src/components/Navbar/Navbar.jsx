@@ -37,6 +37,7 @@ function Navbar ({
   authorizeDaiContract,
   checkNumberOfPacks
 }) {
+  const [loading, setLoading] = useState(false)
   const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
   const [page, setPage] = useState('')
@@ -44,6 +45,12 @@ function Navbar ({
   const ref = useRef(null)
   const [click, setClick] = useState(false)
   
+  useEffect(() => {
+    setPage(window.history.state.url)
+    window.history.state.url == '/alpha' ? setMidButton('Albums') : null
+    window.history.state.url == '/gamma' ? setMidButton('Inventory') : null
+  }, [])
+
 
   const audioHandleClick = () => {
     setClick(!click)
@@ -54,12 +61,15 @@ function Navbar ({
     }
   }
 
-  useEffect(() => {
-    setPage(window.history.state.url)
-    window.history.state.url == '/alpha' ? setMidButton('Albums') : null
-    window.history.state.url == '/gamma' ? setMidButton('Inventory') : null
-  }, [])
-
+  function emitError (message) {
+    Swal.fire({
+      title: '',
+      text: message,
+      icon: 'error',
+      showConfirmButton: true,
+      timer: 5000
+    })
+  }
 
   const buyPackscontact = async (numberOfPacks) => {
     /*
@@ -71,26 +81,33 @@ function Navbar ({
     */
 
     try {
-      const approval = await checkApproved(packsContract.address, account)
+      setLoading(true)
+      const approval = await checkApproved(daiContract, account, packsContract.address)
       if (!approval) {
         await authorizeDaiContract()
-
-        const call = await packsContract.buyPacks(numberOfPacks)
+      }
+      /*
+      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
         await call.wait()
-
         await checkNumberOfPacks()
-
         return call
       } else {
-        const call = await packsContract.buyPacks(numberOfPacks)
+        const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
         await call.wait()
         return call
       }
+      */
+      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+      await call.wait()
+      await checkNumberOfPacks()
+      setLoading(false)
+      return call
     } catch (e) {
+      setLoading(false)
+      emitError(t('buy_pack_error'))
       console.error({ e })
     }
   }
-
 
   const handleBuyPackClick = () => {
     getPackPrice(packsContract)

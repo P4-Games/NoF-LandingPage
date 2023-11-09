@@ -27,7 +27,7 @@ const index = React.forwardRef(() => {
   const [packsContract, setPacksContract] = useState(null)
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState('0')
   const [openPackage, setOpenPackage] = useState(false)

@@ -12,6 +12,16 @@ const InfoCard = React.forwardRef((props, book) => {
   const {t} = useTranslation()
   const [size, setSize] = useState(false)
 
+  function emitError (message) {
+    Swal.fire({
+      title: '',
+      text: message,
+      icon: 'error',
+      showConfirmButton: true,
+      timer: 5000
+    })
+  }
+  
   useEffect(() => {
     if (window.innerWidth < 600) {
       setSize(true)
@@ -29,7 +39,7 @@ const InfoCard = React.forwardRef((props, book) => {
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
 
-  const mint = async () => {
+  const handleMintClick = async () => {
     const { imageNumber, cardsContract, setLoading } = props
     try {
       const transaction = await cardsContract.mintCard(imageNumber)
@@ -48,11 +58,12 @@ const InfoCard = React.forwardRef((props, book) => {
       })
       return transaction
     } catch (e) {
+      emitError(t('mint_error'))
       console.error({ e })
     }
   }
 
-  mint.propTypes = {
+  handleMintClick.propTypes = {
     imageNumber: PropTypes.number,
     cardsContract: PropTypes.object,
     setLoading: PropTypes.func
@@ -99,7 +110,7 @@ const InfoCard = React.forwardRef((props, book) => {
       >
         <div className='cardinfo'>
           <div className='transactions'>
-            <div className='option' onClick={() => mint()}>
+            <div className='option' onClick={() => handleMintClick()}>
               {t('mintear')}
             </div>
             <div className='option2'>{t('ofertas')}</div>
