@@ -74,7 +74,10 @@
     "buy_pack_title_2": "c/u",
     "buy_pack_input_validator": "ingresa entre 1 y 10!",
     "buy_pack_button": "Comprar",
+    "buy_pack_error": "Hubo un error al intentar comprar un pack",
     "contacto": "Contacto",
+
+    "mint_error": "Hubo un error al intentar mintear una figurita",
 
     "rules_alpha_left_text_1": "Un minijuego temático con 60 cartas que completan 10 colecciones temáticas diferentes con 5 personajes y un álbum cada uno.",
     "rules_alpha_left_text_2": "El objetivo es completar un álbum con los 5 personajes correspondientes a la colección.",
@@ -96,5 +99,6 @@
     "rules_gamma_right_text_3": "NofTown te permite interactuar con otros jugadores de forma rápida y segura, realizando intercambios de NFT de forma sencilla.",
     "rules_gamma_right_text_4": "No están permitidas las multicuentas."
 
+    
 
 }

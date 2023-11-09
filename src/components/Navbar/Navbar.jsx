@@ -13,8 +13,6 @@ import SoundOff from './images/soundoff.png'
 import Shopimg from './images/shop.png'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import Swal from 'sweetalert2'
-import { getPackPrice } from '../../services/contracts/gamma'
 import {useTranslation} from 'next-i18next'
 
 const LanguageSelection = dynamic(
@@ -32,9 +30,10 @@ function Navbar ({
   setCardInfo,
   cardInfo,
   packsContract,
-  checkApproved,
+  daiContract,
   authorizeDaiContract,
-  checkNumberOfPacks
+  checkNumberOfPacks,
+  handleBuyPackClick
 }) {
   const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
@@ -43,15 +42,6 @@ function Navbar ({
   const ref = useRef(null)
   const [click, setClick] = useState(false)
   
-  const handleClick = () => {
-    setClick(!click)
-    if (!click) {
-      ref.current.play()
-    } else {
-      ref.current.pause()
-    }
-  }
-
   useEffect(() => {
     setPage(window.history.state.url)
     window.history.state.url == '/alpha' ? setMidButton('Albums') : null
@@ -59,71 +49,13 @@ function Navbar ({
   }, [])
 
 
-  const buyPackscontact = async (numberOfPacks) => {
-    /*
-    packsContract.on('PacksPurchase', (returnValue, theEvent) => {
-      for (let i = 0; i < theEvent.length; i++) {
-        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-      }
-    })
-    */
-
-    try {
-      const approval = await checkApproved(packsContract.address, account)
-      if (!approval) {
-        await authorizeDaiContract()
-
-        const call = await packsContract.buyPacks(numberOfPacks)
-        await call.wait()
-
-        await checkNumberOfPacks()
-
-        return call
-      } else {
-        const call = await packsContract.buyPacks(numberOfPacks)
-        await call.wait()
-        return call
-      }
-    } catch (e) {
-      console.error({ e })
+  const audioHandleClick = () => {
+    setClick(!click)
+    if (!click) {
+      ref.current.play()
+    } else {
+      ref.current.pause()
     }
-  }
-
-
-  const handleBuyPackClick = () => {
-    getPackPrice(packsContract)
-      .then ((price) => {
-
-        Swal.fire({
-          text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
-          input: 'number',
-          inputAttributes: {
-            min: 1,
-            max: 10,
-          },
-          inputValidator: (value) => {
-            if (value < 1 || value > 10) {
-                return `${t('buy_pack_input_validator')}`
-            }
-          },
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: `${t('buy_pack_button')}`,
-          confirmButtonColor: '#005EA3',
-          color: 'black',
-          background: 'white',
-          customClass: {
-            image: 'cardalertimg',
-            input: 'alertinput'
-          }
-        })
-          .then((result) => {
-            if (result.isConfirmed) {
-              const packsToBuy = result.value
-              buyPackscontact(packsToBuy)
-            }
-          })
-      })
   }
 
   return (
@@ -177,7 +109,7 @@ function Navbar ({
             <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
-          <div onClick={() => handleClick()} className='navbar__corner__audio'>
+          <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
             {click
               ? (
                 <Image src={SoundOn} alt='soundimg' />
@@ -207,10 +139,11 @@ Navbar.propTypes = {
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,
-  packsContract: PropTypes.object,
-  checkApproved: PropTypes.func,
-  authorizeDaiContract: PropTypes.func,
-  checkNumberOfPacks: PropTypes.func
+  // packsContract: PropTypes.object,
+  // daiContract: PropTypes.object,
+  // authorizeDaiContract: PropTypes.func,
+  // checkNumberOfPacks: PropTypes.func,
+  handleBuyPackClick: PropTypes.func
 }
 
 export default Navbar

@@ -14,43 +14,30 @@ import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
 import GammaPack from './GammaPack'
 import { fetchPackData } from '../../services/backend/gamma'
-import { checkPacksByUser, openPack } from '../../services/contracts/gamma'
+import { checkPacksByUser, openPack, getPackPrice } from '../../services/contracts/gamma'
 import { CONTRACTS, NETWORK } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
+import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
+  const [loading, setLoading] = useState(false)
   const [account, setAccount] = useState(null)
   const [noMetamaskError, setNoMetamaskError] = useState('')
   const [, setChainId] = useState(null)
   const [packsContract, setPacksContract] = useState(null)
   const [cardsContract, setCardsContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
-  const [loading, setLoading] = useState(null)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState('0')
   const [openPackage, setOpenPackage] = useState(false)
-
-  const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(
-      CONTRACTS.gammaPackAddress,
-      ethers.constants.MaxUint256,
-      { gasLimit: 2500000 }
-    )
-    setLoading(true)
-    await authorization.wait()
-    setLoading(false)
-    return authorization
-  }
-
-  const checkApproved = async (approvedAddress, tokenOwner) => {
-    const approved = await daiContract.allowance(tokenOwner, approvedAddress)
-    return approved.gt(0)
-  }
-
+  const [cardInfo, setCardInfo] = useState(false)
+  const [imageNumber, setImageNumber] = useState(0)
   const [mobile, setMobile] = useState(false)
   const [, setSize] = useState(false)
+  const [inventory, setInventory] = useState(true)
+  const [packIsOpen, setPackIsOpen] = useState(false)
 
   useEffect(() => {
     if (window.innerWidth < 600) {
@@ -70,14 +57,13 @@ const index = React.forwardRef(() => {
       }
     }
     window.addEventListener('resize', updateMedia)
-
     return () => window.removeEventListener('resize', updateMedia)
   }, [])
 
   const checkNumberOfPacks = async () => {
     try {
       const numberOfPacks = await checkPacksByUser(account, packsContract)
-      setNumberOfPacks(numberOfPacks?.length.toString())
+      setNumberOfPacks(numberOfPacks?.length.toString() || '0')
     } catch (e) {
       console.error({ e })
     }
@@ -87,8 +73,15 @@ const index = React.forwardRef(() => {
     checkNumberOfPacks()
   }, [account, packsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const [inventory, setInventory] = useState(true)
-  const [packIsOpen, setPackIsOpen] = useState(false)
+  const authorizeDaiContract = async () => {
+    const authorization = await daiContract.approve(
+      CONTRACTS.gammaPackAddress,
+      ethers.constants.MaxUint256,
+      { gasLimit: 2500000 }
+    )
+    await authorization.wait()
+    return authorization
+  }
 
   async function requestAccount () {
     const web3Modal = new Web3Modal()
@@ -205,6 +198,16 @@ const index = React.forwardRef(() => {
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
   const [loaderPack, setLoaderPack] = useState(false)
 
+  function emitError (message) {
+    Swal.fire({
+      title: '',
+      text: message,
+      icon: 'error',
+      showConfirmButton: true,
+      timer: 5000
+    })
+  }
+
   // funcion para abrir uno a uno los sobres disponibles
   const openAvailablePack = async () => {
     try {
@@ -247,26 +250,85 @@ const index = React.forwardRef(() => {
     }
   }
 
-  const [cardInfo, setCardInfo] = useState(false)
-  const [imageNumber, setImageNumber] = useState(0)
+  const buyPackscontact = async (numberOfPacks) => {
+    /*
+    packsContract.on('PacksPurchase', (returnValue, theEvent) => {
+      for (let i = 0; i < theEvent.length; i++) {
+        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+      }
+    })
+    */
 
-  useEffect(() => {
-    const loadingElem = document.getElementById('loading')
-    loading
-      ? loadingElem?.setAttribute('class', 'alpha_loader_container')
-      : loadingElem?.setAttribute(
-        'class',
-        'alpha_loader_container alpha_display_none'
-      )
-  }, [loading])
+    try {
+      console.log('loading true')
+      setLoading(true)
+      const approval = await checkApproved(daiContract, account, packsContract.address)
+      if (!approval) {
+        await authorizeDaiContract()
+      }
+      /*
+      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+        await call.wait()
+        await checkNumberOfPacks()
+        return call
+      } else {
+        const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+        await call.wait()
+        return call
+      }
+      */
+      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+      await call.wait()
+      await checkNumberOfPacks()
+      console.log('loading false')
+      setLoading(false)
+      return call
+    } catch (e) {
+      setLoading(false)
+      emitError(t('buy_pack_error'))
+      console.error({ e })
+    }
+  }
 
-  
+  const handleBuyPackClick = async () => {
+    const price =  getPackPrice(packsContract)
+
+    const result = await Swal.fire({
+      text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
+      input: 'number',
+      inputAttributes: {
+        min: 1,
+        max: 10,
+      },
+      inputValidator: (value) => {
+        if (value < 1 || value > 10) {
+            return `${t('buy_pack_input_validator')}`
+        }
+      },
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('buy_pack_button')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput'
+      }
+    })
+
+    if (result.isConfirmed) {
+      const packsToBuy = result.value
+      await buyPackscontact(packsToBuy)
+    }
+  }
+
   return (
     <>
       {!account && <div className='alpha'>
-        <div className='alpha_loader_container alpha_display_none' id='loading'>
+        {loading && (<div className= 'loader_container'>
           <span className='loader' />
-        </div>
+        </div>)}
         <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
@@ -319,10 +381,11 @@ const index = React.forwardRef(() => {
         setCardInfo={setCardInfo}
         inventory={inventory}
         setInventory={setInventory}
-        packsContract={packsContract}
-        checkApproved={checkApproved}
-        authorizeDaiContract={authorizeDaiContract}
-        checkNumberOfPacks={checkNumberOfPacks}
+        // packsContract={packsContract}
+        // daiContract={daiContract}
+        // authorizeDaiContract={authorizeDaiContract}
+        // checkNumberOfPacks={checkNumberOfPacks}
+        handleBuyPackClick={handleBuyPackClick}
       />
 
       {account && <div className='gamma_main'>
@@ -355,9 +418,8 @@ const index = React.forwardRef(() => {
           {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
           {!mobile && inventory &&
             <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className='gammaShop'>
-              <h1>{numberOfPacks || ''}</h1>
+              <h1>{numberOfPacks}</h1>
               <div className='album'>
-                {/* <h2>{numberOfPacks}</h2> */}
                 <h3>{t('transferir')}</h3>
               </div>
             </div>}
