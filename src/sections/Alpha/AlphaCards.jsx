@@ -183,18 +183,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  /*
-  useEffect(() => {
-    const loadingElem = document.getElementById('loading')
-    loading
-      ? loadingElem.setAttribute('class', 'alpha_loader_container')
-      : loadingElem.setAttribute(
-        'class',
-        'alpha_loader_container alpha_display_none'
-      )
-  }, [loading])
-  */
-
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
       effect: 'cards',
@@ -626,7 +614,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   return (
     <div className='alpha'>
-      {loading && (<div className= 'alpha_loader_container'>
+      {loading && (<div className= 'loader_container'>
         <span className='loader' />
       </div>)}
       <div className='main_buttons_container'>
