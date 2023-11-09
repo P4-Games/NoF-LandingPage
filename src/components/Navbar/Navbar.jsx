@@ -13,9 +13,6 @@ import SoundOff from './images/soundoff.png'
 import Shopimg from './images/shop.png'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import Swal from 'sweetalert2'
-import { getPackPrice } from '../../services/contracts/gamma'
-import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
 
 const LanguageSelection = dynamic(
@@ -35,9 +32,9 @@ function Navbar ({
   packsContract,
   daiContract,
   authorizeDaiContract,
-  checkNumberOfPacks
+  checkNumberOfPacks,
+  handleBuyPackClick
 }) {
-  const [loading, setLoading] = useState(false)
   const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
   const [page, setPage] = useState('')
@@ -59,90 +56,6 @@ function Navbar ({
     } else {
       ref.current.pause()
     }
-  }
-
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
-  const buyPackscontact = async (numberOfPacks) => {
-    /*
-    packsContract.on('PacksPurchase', (returnValue, theEvent) => {
-      for (let i = 0; i < theEvent.length; i++) {
-        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-      }
-    })
-    */
-
-    try {
-      setLoading(true)
-      const approval = await checkApproved(daiContract, account, packsContract.address)
-      if (!approval) {
-        await authorizeDaiContract()
-      }
-      /*
-      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
-        await call.wait()
-        await checkNumberOfPacks()
-        return call
-      } else {
-        const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
-        await call.wait()
-        return call
-      }
-      */
-      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
-      await call.wait()
-      await checkNumberOfPacks()
-      setLoading(false)
-      return call
-    } catch (e) {
-      setLoading(false)
-      emitError(t('buy_pack_error'))
-      console.error({ e })
-    }
-  }
-
-  const handleBuyPackClick = () => {
-    getPackPrice(packsContract)
-      .then ((price) => {
-
-        Swal.fire({
-          text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
-          input: 'number',
-          inputAttributes: {
-            min: 1,
-            max: 10,
-          },
-          inputValidator: (value) => {
-            if (value < 1 || value > 10) {
-                return `${t('buy_pack_input_validator')}`
-            }
-          },
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: `${t('buy_pack_button')}`,
-          confirmButtonColor: '#005EA3',
-          color: 'black',
-          background: 'white',
-          customClass: {
-            image: 'cardalertimg',
-            input: 'alertinput'
-          }
-        })
-          .then((result) => {
-            if (result.isConfirmed) {
-              const packsToBuy = result.value
-              buyPackscontact(packsToBuy)
-            }
-          })
-      })
   }
 
   return (
@@ -226,10 +139,11 @@ Navbar.propTypes = {
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,
-  packsContract: PropTypes.object,
-  daiContract: PropTypes.object,
-  authorizeDaiContract: PropTypes.func,
-  checkNumberOfPacks: PropTypes.func
+  // packsContract: PropTypes.object,
+  // daiContract: PropTypes.object,
+  // authorizeDaiContract: PropTypes.func,
+  // checkNumberOfPacks: PropTypes.func,
+  handleBuyPackClick: PropTypes.func
 }
 
 export default Navbar

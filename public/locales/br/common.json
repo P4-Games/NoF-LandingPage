@@ -74,8 +74,11 @@
   "buy_pack_title_2": "cada",
   "buy_pack_input_validator": "Insira entre 1 e 10!",
   "buy_pack_button": "Comprar",
+  "buy_pack_error": "Ocorreu um erro ao tentar comprar um pacote",
   "contacto": "Contato",
 
+  "mint_error": "Ocorreu um erro ao tentar cunhar uma estatueta",
+  
   "rules_alpha_left_text_1": "Um minijogo temático com 60 cartas que completam 10 coleções temáticas diferentes, cada uma com 5 personagens e um álbum.",
   "rules_alpha_left_text_2": "O objetivo é completar um álbum com os 5 personagens correspondentes à coleção.",
   "rules_alpha_left_text_3": "Para jogar, é necessário conectar uma carteira à rede Polygon.",
