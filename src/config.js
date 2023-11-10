@@ -8,7 +8,7 @@ export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase()
 export const is_production = environment === 'production' || environment === 'prod'
-export const gammaServiceUrl = (process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app/')
+export const gammaServiceUrl = (process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app')
 
 // ------------------------------------------------------------------
 // client-side environment variables
@@ -27,7 +27,7 @@ export const NETWORK = {
     (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com/' : 'https://mumbai.polygonscan.com/')
+    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
 }
 
 export const CONTRACTS = {
