@@ -114,9 +114,9 @@
     @extend .button_common;
     gap: 14%;
     bottom: 9%;
-    color: #8f8f8f; 
+    color: #8f8f8f;
     pointer-events: none;
-    cursor: not-allowed; 
+    cursor: not-allowed;
   }
   .transferPack {
     @extend .button_common;
@@ -127,9 +127,9 @@
     @extend .button_common;
     gap: 24%;
     bottom: 0%;
-    color: #8f8f8f; 
+    color: #8f8f8f;
     pointer-events: none;
-    cursor: not-allowed; 
+    cursor: not-allowed;
   }
 }
 .gammaComplete {
