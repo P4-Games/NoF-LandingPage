@@ -15,7 +15,6 @@ const initialState = {
 
 const Web3Context = createContext(initialState)
 
-
 EthersProvider.propTypes = {
   children: PropTypes.node.isRequired
 }
@@ -174,4 +173,4 @@ function EthersProvider({ children }) {
   )
 }
 
-export { EthersProvider, Web3Context}
+export { EthersProvider, Web3Context }
