@@ -1,6 +1,7 @@
 // server-site
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development' // development, production
+GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app/'
 
 // client-side
 NEXT_PUBLIC_STORAGE_URL='https://storage.googleapis.com/nof-alpha/'

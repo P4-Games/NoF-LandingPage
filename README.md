@@ -39,8 +39,13 @@ SKIP_PREFLIGHT_CHECK=true
 GENERATE_SOURCEMAP=false
 npm_config_user_agent=yarn
 PORT=3000
+
+# server-side
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development'
+GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app/'
+
+# Client-side
 NEXT_PUBLIC_STORAGE_URL='https://storage.googleapis.com/nof-alpha/'
 NEXT_PUBLIC_CHAIN_NAME='mumbai'
 NEXT_PUBLIC_CHAIN_ID='0x13881'
