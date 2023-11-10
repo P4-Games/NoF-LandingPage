@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
-import Web3Modal from 'web3modal'
 import InfoCard from './InfoCard'
 import Swal from 'sweetalert2'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import daiAbi from '../../context/abis/TestDAI.v2.sol/NofTestDAIV2.json'
-import gammaPacksAbi from '../../context/abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
-import gammaCardsAbi from '../../context/abis/GammaCards.v2.sol/NofGammaCardsV2.json'
-
 import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
 import GammaPack from './GammaPack'
 import { fetchPackData } from '../../services/backend/gamma'
 import { checkPacksByUser, openPack, getPackPrice } from '../../services/contracts/gamma'
-import { CONTRACTS, NETWORK } from '../../config'
+import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
+import { useWeb3 } from '../../hooks'
+
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
   const [loading, setLoading] = useState(false)
-  const [account, setAccount] = useState(null)
-  const [noMetamaskError, setNoMetamaskError] = useState('')
-  const [, setChainId] = useState(null)
-  const [packsContract, setPacksContract] = useState(null)
-  const [cardsContract, setCardsContract] = useState(null)
-  const [daiContract, setDaiContract] = useState(null)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState('0')
   const [openPackage, setOpenPackage] = useState(false)
@@ -39,6 +30,10 @@ const index = React.forwardRef(() => {
   const [, setSize] = useState(false)
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
+  const [loaderPack, setLoaderPack] = useState(false)
+  const { 
+    account, daiContract, gammaCardsContract, 
+    gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
 
   useEffect(() => {
     if (window.innerWidth < 600) {
@@ -63,7 +58,7 @@ const index = React.forwardRef(() => {
 
   const checkNumberOfPacks = async () => {
     try {
-      const numberOfPacks = await checkPacksByUser(account, packsContract)
+      const numberOfPacks = await checkPacksByUser(account, gammaPacksContract)
       setNumberOfPacks(numberOfPacks?.length.toString() || '0')
     } catch (e) {
       console.error({ e })
@@ -72,7 +67,7 @@ const index = React.forwardRef(() => {
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [account, packsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
@@ -83,121 +78,6 @@ const index = React.forwardRef(() => {
     await authorization.wait()
     return authorization
   }
-
-  async function requestAccount () {
-    const web3Modal = new Web3Modal()
-    let provider
-    let address
-    try {
-      const connection = await web3Modal.connect()
-      provider = new ethers.providers.Web3Provider(connection)
-      address = await provider.getSigner().getAddress()
-      setAccount(address)
-    } catch (e) {
-      console.error({ e })
-    }
-
-    if (!provider) return
-    const chain = (await provider.getNetwork()).chainId
-    setChainId(decToHex(chain))
-    switchOrCreateNetwork(
-      NETWORK.chainId,
-      NETWORK.chainName,
-      NETWORK.ChainRpcUrl,
-      NETWORK.chainCurrency,
-      NETWORK.chainExplorerUrl
-    );
-    return [provider, address]
-  }
-
-  function connectToMetamask () {
-    if (window.ethereum !== undefined) {
-      setNoMetamaskError('')
-      requestAccount().then((data) => {
-        const [provider] = data
-        const signer = provider.getSigner()
-        const gammaPacksContractInstance = new ethers.Contract(
-          CONTRACTS.gammaPackAddress,
-          gammaPacksAbi.abi,
-          signer
-        )
-        setPacksContract(gammaPacksContractInstance)
-        const gammaCardsContractInstance = new ethers.Contract(
-          CONTRACTS.gammaCardsAddress,
-          gammaCardsAbi.abi,
-          signer
-        )
-        setCardsContract(gammaCardsContractInstance)
-        const daiContractInstance = new ethers.Contract(
-          CONTRACTS.daiAddress,
-          daiAbi.abi,
-          signer
-        )
-        setDaiContract(daiContractInstance)
-      })
-        .catch(e => {
-          console.error({ e })
-        })
-    } else {
-      setNoMetamaskError('Por favor instala Metamask para continuar.')
-    }
-  }
-
-  function decToHex (number) {
-    return `0x${parseInt(number).toString(16)}`
-  }
-
-  async function switchOrCreateNetwork (
-    chainIdHex,
-    chainName,
-    rpcUrl,
-    currency,
-    explorer
-  ) {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainIdHex }]
-      })
-    } catch (error) {
-      if (error.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: chainIdHex,
-                chainName,
-                rpcUrls: [rpcUrl],
-                nativeCurrency: {
-                  name: currency,
-                  symbol: currency,
-                  decimals: 18
-                },
-                blockExplorerUrls: [explorer]
-              }
-            ]
-          })
-        } catch (e) {
-          console.error(e.message)
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (window && window.ethereum !== undefined) {
-      window.ethereum.on('accountsChanged', () => {
-        connectToMetamask()
-      })
-
-      window.ethereum.on('chainChanged', newChain => {
-        setChainId(decToHex(newChain))
-        connectToMetamask()
-      })
-    }
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
-  const [loaderPack, setLoaderPack] = useState(false)
 
   function emitError (message) {
     Swal.fire({
@@ -213,7 +93,7 @@ const index = React.forwardRef(() => {
   const openAvailablePack = async () => {
     try {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
-      const packs = await checkPacksByUser(account, packsContract) // llamada al contrato
+      const packs = await checkPacksByUser(account, gammaPacksContract) // llamada al contrato
       setLoaderPack(true)
 
       if (packs.length == 0) {
@@ -235,7 +115,7 @@ const index = React.forwardRef(() => {
         setOpenPackCardsNumbers(packet_data)
         // ssetPacksEnable(true)
         // llama al contrato de cartas para abrir el sobre
-        const openedPack = await openPack(cardsContract, packNumber, packet_data, signature.signature)
+        const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
         if (openedPack) {
           await openedPack.wait()
           setOpenPackage(true)
@@ -263,7 +143,7 @@ const index = React.forwardRef(() => {
     try {
       console.log('loading true')
       setLoading(true)
-      const approval = await checkApproved(daiContract, account, packsContract.address)
+      const approval = await checkApproved(daiContract, account, gammaPacksContract.address)
       if (!approval) {
         await authorizeDaiContract()
       }
@@ -278,7 +158,7 @@ const index = React.forwardRef(() => {
         return call
       }
       */
-      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+      const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
       await checkNumberOfPacks()
       console.log('loading false')
@@ -292,7 +172,7 @@ const index = React.forwardRef(() => {
   }
 
   const handleBuyPackClick = async () => {
-    const price =  getPackPrice(packsContract)
+    const price =  getPackPrice(gammaPacksContract)
 
     const result = await Swal.fire({
       text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
@@ -406,14 +286,12 @@ const index = React.forwardRef(() => {
           {!mobile && inventory && <img alt='albums' src='/gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
           {!mobile && !inventory && <div onClick={() => setInventory(false)} className='gammaAlbums2' />}
           <div style={inventory ? { backgroundImage: 'url(\'/gamma/InventarioFondo.png\')' } : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }} className='hero__top__album'>
-            {inventory && !cardInfo && <InventoryAlbum
-              account={account}
-              cardsContract={cardsContract}
+            {inventory && !cardInfo && gammaCardsContract && <InventoryAlbum
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}
               cardInfo={cardInfo}/>}
             {!inventory && <GammaAlbum />}
-            {inventory && cardInfo && <InfoCard imageNumber={imageNumber} cardsContract={cardsContract} setLoading={setLoading} />}
+            {inventory && cardInfo && gammaCardsContract && <InfoCard imageNumber={imageNumber} setLoading={setLoading} />}
           </div>
           {/* {!mobile && packsEnable && <div onClick={() => { setPackIsOpen(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
           {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}

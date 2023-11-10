@@ -7,10 +7,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
+import { useWeb3 } from '../../hooks'
 
 const InfoCard = React.forwardRef((props, book) => {
   const {t} = useTranslation()
   const [size, setSize] = useState(false)
+  const { gammaCardsContract } = useWeb3()
 
   function emitError (message) {
     Swal.fire({
@@ -40,16 +42,16 @@ const InfoCard = React.forwardRef((props, book) => {
   }, [])
 
   const handleMintClick = async () => {
-    const { imageNumber, cardsContract, setLoading } = props
+    const { imageNumber, setLoading } = props
     try {
-      const transaction = await cardsContract.mintCard(imageNumber)
+      const transaction = await gammaCardsContract.mintCard(imageNumber)
       setLoading(true)
       transaction.wait()
       setLoading(false)
       Swal.fire({
         title: '',
         text: `${t('carta_minteada')} ${(
-          <a href='https://testnets.opensea.io/assets/mumbai/${cardsContract.address}/${imageNumber}'>
+          <a href='https://testnets.opensea.io/assets/mumbai/${gammaCardsContract.address}/${imageNumber}'>
             ${t('aqui')}
           </a>
         )}`,
@@ -65,7 +67,6 @@ const InfoCard = React.forwardRef((props, book) => {
 
   handleMintClick.propTypes = {
     imageNumber: PropTypes.number,
-    cardsContract: PropTypes.object,
     setLoading: PropTypes.func
   }
 

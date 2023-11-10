@@ -10,6 +10,7 @@ import gammaCardsAbi from './abis/GammaCards.v2.sol/NofGammaCardsV2.json'
 import { CONTRACTS, NETWORK } from '../config'
 
 const initialState = {
+  connectToMetamask: () => {},
   switchOrCreateNetwork: () => {}
 }
 
@@ -20,31 +21,35 @@ EthersProvider.propTypes = {
 }
 
 function EthersProvider({ children }) {
-  const [alphaContract, setAlphaContract] = useState(null)
-  const [daiContract, setDaiContract] = useState(null)
-  const [gammaPacksContract] = useState(null)
-  const [gammaCardsContract] = useState(null)
-  const [, setProv] = useState(null)
+  const [noMetamaskError, setNoMetamaskError] = useState('')
+  const [provider, setProvider] = useState(null)
   const [account, setAccount] = useState(null)
+  const [signer, setSigner] = useState(null)
   const [chainId, setChainId] = useState(null)
+  const [daiContract, setDaiContract] = useState(null)
+  const [alphaContract, setAlphaContract] = useState(null)
+  const [gammaPacksContract, setGammaPacksContract] = useState(null)
+  const [gammaCardsContract, setGammaCardsContract ] = useState(null)
+
 
   async function requestAccount() {
     const web3Modal = new Web3Modal()
-    let provider
+    let web3Provider
+    let accountAddress
     try {
-      const connection = await web3Modal.connect()
-      provider = new ethers.providers.Web3Provider(connection)
-      setProv(provider)
-      const address = await provider.getSigner().getAddress()
-      setAccount(address)
+        const connection = await web3Modal.connect()
+        web3Provider = new ethers.providers.Web3Provider(connection)
+        accountAddress = await web3Provider.getSigner().getAddress()
+        setAccount(accountAddress)
+        setProvider(web3Provider)
+        setSigner(web3Provider.getSigner())
     } catch (e) {
-      console.log('requestAccount error:', e)
+        console.error({ e })
     }
 
-    if (!provider) return
-    const chain = (await provider.getNetwork()).chainId
+    if (!web3Provider) return
+    const chain = (await web3Provider.getNetwork()).chainId
     setChainId(decToHex(chain))
-
     switchOrCreateNetwork(
       NETWORK.chainId,
       NETWORK.chainName,
@@ -52,42 +57,62 @@ function EthersProvider({ children }) {
       NETWORK.chainCurrency,
       NETWORK.chainExplorerUrl
     )
-    return provider
+    return [web3Provider, accountAddress]
   }
 
-  function connectContracts(provider) {
+
+  function connectToMetamask () {
     try {
-      const signer = provider.getSigner()
-      const daiContractInstance = new ethers.Contract(CONTRACTS.daiAddress, daiAbi.abi, signer)
+      if (window.ethereum !== undefined) {
+        setNoMetamaskError('')
+
+        requestAccount().then((data) => {
+          const [provider] = data
+          const signer = provider.getSigner()
+          connectContracts(signer)
+        })
+          .catch(e => {
+            console.error({ e })
+          })
+      } else {
+        setNoMetamaskError('Por favor instala Metamask para continuar.')
+      }
+    } catch (ex) {
+      console.error(ex)
+    }
+  }
+
+  function connectContracts(_signer) {
+    try {
+      const daiContractInstance = new ethers.Contract(
+        CONTRACTS.daiAddress,
+        daiAbi.abi,
+        _signer
+      )
+
       const alphaContractInstance = new ethers.Contract(
         CONTRACTS.alphaAddress,
         alphaAbi.abi,
-        signer
+        _signer
       )
       const gammaPacksContractInstance = new ethers.Contract(
         CONTRACTS.gammaPackAddress,
         gammaPacksAbi.abi,
-        signer
+        _signer
       )
       const gammaCardsContractInstance = new ethers.Contract(
         CONTRACTS.gammaCardsAddress,
         gammaCardsAbi.abi,
-        signer
+        _signer
       )
 
-      setAlphaContract(alphaContractInstance)
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
-      setDaiContract(daiContractInstance)
+      setGammaPacksContract(gammaPacksContractInstance)
+      setGammaCardsContract(gammaCardsContractInstance)
 
-      return [
-        daiContractInstance,
-        alphaContractInstance,
-        gammaPacksContractInstance,
-        gammaCardsContractInstance
-      ]
     } catch (e) {
-      console.log({ e })
+      console.error({ e })
     }
   }
 
@@ -136,11 +161,26 @@ function EthersProvider({ children }) {
   }
 
   useEffect(() => {
-    if (typeof window.ethereum === 'undefined') {
+    if (window && typeof window.ethereum === 'undefined') {
       console.log('Please install metamask to use this website')
       return
+    } 
+
+    if (window && window.ethereum !== undefined) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts) {
+          const address = accounts[0]
+          setAccount(address)
+        }
+      })
+
+      window.ethereum.on('chainChanged', (newChain) => {
+        setChainId(decToHex(newChain))
+        // connectToMetamask()
+      })
     }
 
+    /*
     window.ethereum.on('accountsChanged', (accounts) => {
       const address = accounts[0]
       setAccount(address)
@@ -149,23 +189,26 @@ function EthersProvider({ children }) {
     window.ethereum.on('chainChanged', (newChain) => {
       setChainId(decToHex(newChain))
     })
+    */
   }, [])
 
   return (
     <Web3Context.Provider
       value={{
+        noMetamaskError,
         account,
         requestAccount,
         logout,
         chainId,
         setChainId,
         isValidChain,
-        connectContracts,
         daiContract,
         alphaContract,
         gammaPacksContract,
         gammaCardsContract,
-        switchOrCreateNetwork
+        switchOrCreateNetwork,
+        connectToMetamask,
+        connectContracts
       }}
     >
       {children}
