@@ -3,6 +3,7 @@ import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js'
 import { Draggable } from 'gsap/dist/Draggable'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { storageUrlGamma } from '../config'
 
 function PackFiguritas({ openPackage, cardsNumbers }) {
   useEffect(() => {
@@ -298,13 +299,13 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
                 className="box"
                 key={i}
                 style={{
-                  '--src': `url(https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png)`
+                  '--src': `url(${storageUrlGamma}/T1/${cardNumber}.png)`
                 }}
               >
                 <span>{cardNumber}</span>
                 <img
                   alt="img"
-                  src={`https://storage.googleapis.com/nof-gamma/T1/${cardNumber}.png`}
+                  src={`${storageUrlGamma}/T1/${cardNumber}.png`}
                 />
               </div>
             ))}

@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from '../../utils/PackFiguritas'
+import { storageUrlGamma } from '../../config'
 
 const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
   const starshineRef = useRef(null)
@@ -60,7 +61,7 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
           <motion.img
             animate={openPackage ? { y: -100 } : ''}
             transition={{ duration: 3, delay: 1 }}
-            id='imagetest' src={`https://storage.googleapis.com/nof-gamma/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
+            id='imagetest' src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
           />
         </motion.div>
         <AiOutlineCloseCircle
