@@ -1,20 +1,26 @@
-import { useContext, useState, useEffect, createContext } from 'react'
+import PropTypes from 'prop-types'
+import { useState, useEffect, createContext } from 'react'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 
-import daiAbi from './abis/TestDAI.sol/UChildDAI.json'
-import alphaAbi from './abis/NOF-SC.sol/NOF_Alpha.json'
-import gammaPacksAbi from './abis/GammaPacks.sol/GammaPacks.json'
-import gammaCardsAbi from './abis/GammaCardsV2.sol/GammaCardsV2.json'
+import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
+import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
+import gammaPacksAbi from './abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
+import gammaCardsAbi from './abis/GammaCards.v2.sol/NofGammaCardsV2.json'
 import { CONTRACTS, NETWORK } from '../config'
 
-const EthersContext = createContext(null)
-
-export function useEthers() {
-  return useContext(EthersContext)
+const initialState = {
+  switchOrCreateNetwork: () => {}
 }
 
-export default function EthersProvider({ children }) {
+const EthersContext = createContext(initialState)
+
+
+EthersProvider.propTypes = {
+  children: PropTypes.node.isRequired
+}
+
+function EthersProvider({ children }) {
   const [alphaContract, setAlphaContract] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [gammaPacksContract] = useState(null)
@@ -159,10 +165,13 @@ export default function EthersProvider({ children }) {
         daiContract,
         alphaContract,
         gammaPacksContract,
-        gammaCardsContract
+        gammaCardsContract,
+        switchOrCreateNetwork
       }}
     >
       {children}
     </EthersContext.Provider>
   )
 }
+
+export { EthersProvider, EthersContext}
