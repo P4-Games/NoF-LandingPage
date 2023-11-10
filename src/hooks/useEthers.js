@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { EthersContext } from '../context/EthersContext'
+import { Web3Context } from '../context/Web3Context'
 
-const useEthers = () => useContext(EthersContext)
+const useEthers = () => useContext(Web3Context)
 
 export default useEthers

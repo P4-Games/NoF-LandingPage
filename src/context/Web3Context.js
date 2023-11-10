@@ -13,7 +13,7 @@ const initialState = {
   switchOrCreateNetwork: () => {}
 }
 
-const EthersContext = createContext(initialState)
+const Web3Context = createContext(initialState)
 
 
 EthersProvider.propTypes = {
@@ -153,7 +153,7 @@ function EthersProvider({ children }) {
   }, [])
 
   return (
-    <EthersContext.Provider
+    <Web3Context.Provider
       value={{
         account,
         requestAccount,
@@ -170,8 +170,8 @@ function EthersProvider({ children }) {
       }}
     >
       {children}
-    </EthersContext.Provider>
+    </Web3Context.Provider>
   )
 }
 
-export { EthersProvider, EthersContext}
+export { EthersProvider, Web3Context}

@@ -5,7 +5,7 @@ import '../styles/gamma.scss'
 import '../styles/admin.scss'
 import '../styles/common.scss'
 import { appWithTranslation } from 'next-i18next'
-import { EthersProvider } from '../context/EthersContext'
+import { EthersProvider } from '../context/Web3Context'
 import { SettingsProvider } from '../context/SettingsContext'
 
 function MyApp ({ Component, pageProps }) {
