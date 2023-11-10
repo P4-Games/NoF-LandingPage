@@ -1,14 +1,15 @@
-const api_endpoint = 'https://gamma-microservice-7bteynlhua-uc.a.run.app/'
+import { gammaServiceUrl } from '../../config'
 
-// llamada a la api para que nos de la data a pasar en la llamada al contrato
+
 export const fetchPackData = async (account, pack_number) => {
+  console.log('gammaServiceUrl', gammaServiceUrl)
+  // llamada a la api para que nos de la data a pasar en la llamada al contrato
   try {
     const body = {
-      address: account, // address del usuario
+      address: account, // user address
       packet_number: pack_number // numero de paquete que se esta abriendo
     }
-
-    const response = await fetch(api_endpoint, {
+    const response = await fetch(gammaServiceUrl, {
       headers: {
         'Content-Type': 'application/json'
       },

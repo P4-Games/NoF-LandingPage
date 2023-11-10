@@ -3,16 +3,16 @@
 // In order to expose a variable to the browser (client-side) you have to prefix the variable with NEXT_PUBLIC_.
 // ------------------------------------------------------------------
 // server-side environment variables
-
 // ------------------------------------------------------------------
 export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase()
 export const is_production = environment === 'production' || environment === 'prod'
+export const gammaServiceUrl = (process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app/')
 
 // ------------------------------------------------------------------
 // client-side environment variables
-
+// ------------------------------------------------------------------
 // TODO: move storageUrl to server-side
 export const storageUrl =
   process.env.NEXT_PUBLIC_STORAGE_URL || 'https://storage.googleapis.com/nof-alpha/' // 1.png to 60.png
@@ -30,20 +30,20 @@ export const NETWORK = {
 }
 
 export const CONTRACTS = {
-  alphaAddress:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS ||
-    (is_production
-      ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
-      : '0xa6E15E39ede08d7960359882696EC34D504b111A'),
   daiAddress:
     process.env.NEXT_PUBLIC_DAI_ADDRESS ||
     (is_production
       ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
       : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'),
-  gammaPackAddress:
-    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b',
+  alphaAddress:
+    process.env.NEXT_PUBLIC_ALPHA_ADDRESS ||
+    (is_production
+      ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
+      : '0xa6E15E39ede08d7960359882696EC34D504b111A'),
   gammaCardsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76'
+    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
+  gammaPackAddress:
+    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b'
 }
 
 export const openSeaUrl = is_production
@@ -59,3 +59,6 @@ export const defaultSettings = {
   languagePresets: 'es',
   languageSetted: 'es'
 }
+
+console.log(NETWORK, CONTRACTS)
+// ------------------------------------------------------------------
