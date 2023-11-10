@@ -8,14 +8,15 @@ export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase()
 export const is_production = environment === 'production' || environment === 'prod'
-export const gammaServiceUrl = (process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app')
+export const gammaServiceUrl =
+  process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
 // ------------------------------------------------------------------
 // client-side environment variables
 // ------------------------------------------------------------------
 export const storageUrlAlpha =
   process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha'
-  export const storageUrlGamma =
+export const storageUrlGamma =
   process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
 
 export const NETWORK = {

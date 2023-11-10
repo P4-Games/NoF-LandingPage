@@ -303,10 +303,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
                 }}
               >
                 <span>{cardNumber}</span>
-                <img
-                  alt="img"
-                  src={`${storageUrlGamma}/T1/${cardNumber}.png`}
-                />
+                <img alt="img" src={`${storageUrlGamma}/T1/${cardNumber}.png`} />
               </div>
             ))}
         </motion.div>

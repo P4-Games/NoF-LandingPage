@@ -29,22 +29,21 @@ function EthersProvider({ children }) {
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
-  const [gammaCardsContract, setGammaCardsContract ] = useState(null)
-
+  const [gammaCardsContract, setGammaCardsContract] = useState(null)
 
   async function requestAccount() {
     const web3Modal = new Web3Modal()
     let web3Provider
     let accountAddress
     try {
-        const connection = await web3Modal.connect()
-        web3Provider = new ethers.providers.Web3Provider(connection)
-        accountAddress = await web3Provider.getSigner().getAddress()
-        setAccount(accountAddress)
-        setProvider(web3Provider)
-        setSigner(web3Provider.getSigner())
+      const connection = await web3Modal.connect()
+      web3Provider = new ethers.providers.Web3Provider(connection)
+      accountAddress = await web3Provider.getSigner().getAddress()
+      setAccount(accountAddress)
+      setProvider(web3Provider)
+      setSigner(web3Provider.getSigner())
     } catch (e) {
-        console.error({ e })
+      console.error({ e })
     }
 
     if (!web3Provider) return
@@ -60,18 +59,18 @@ function EthersProvider({ children }) {
     return [web3Provider, accountAddress]
   }
 
-
-  function connectToMetamask () {
+  function connectToMetamask() {
     try {
       if (window.ethereum !== undefined) {
         setNoMetamaskError('')
 
-        requestAccount().then((data) => {
-          const [provider] = data
-          const signer = provider.getSigner()
-          connectContracts(signer)
-        })
-          .catch(e => {
+        requestAccount()
+          .then((data) => {
+            const [provider] = data
+            const signer = provider.getSigner()
+            connectContracts(signer)
+          })
+          .catch((e) => {
             console.error({ e })
           })
       } else {
@@ -84,11 +83,7 @@ function EthersProvider({ children }) {
 
   function connectContracts(_signer) {
     try {
-      const daiContractInstance = new ethers.Contract(
-        CONTRACTS.daiAddress,
-        daiAbi.abi,
-        _signer
-      )
+      const daiContractInstance = new ethers.Contract(CONTRACTS.daiAddress, daiAbi.abi, _signer)
 
       const alphaContractInstance = new ethers.Contract(
         CONTRACTS.alphaAddress,
@@ -110,7 +105,6 @@ function EthersProvider({ children }) {
       setAlphaContract(alphaContractInstance)
       setGammaPacksContract(gammaPacksContractInstance)
       setGammaCardsContract(gammaCardsContractInstance)
-
     } catch (e) {
       console.error({ e })
     }
@@ -164,7 +158,7 @@ function EthersProvider({ children }) {
     if (window && typeof window.ethereum === 'undefined') {
       console.log('Please install metamask to use this website')
       return
-    } 
+    }
 
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
