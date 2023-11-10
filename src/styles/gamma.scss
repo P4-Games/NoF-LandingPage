@@ -96,25 +96,39 @@
       transform: scale(1.1);
     }
   }
-  .openPack {
+  .button_common {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 14%;
-    bottom: 9%;
     color: black;
     margin: 0;
   }
+  .openPack {
+    @extend .button_common;
+    gap: 14%;
+    bottom: 9%;
+  }
+  .openPack_disabled {
+    @extend .button_common;
+    gap: 14%;
+    bottom: 9%;
+    color: #8f8f8f; 
+    pointer-events: none;
+    cursor: not-allowed; 
+  }
   .transferPack {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .button_common;
     gap: 24%;
     bottom: 0%;
-    color: black;
-    margin: 0;
+  }
+  .transferPack_disabled {
+    @extend .button_common;
+    gap: 24%;
+    bottom: 0%;
+    color: #8f8f8f; 
+    pointer-events: none;
+    cursor: not-allowed; 
   }
 }
 .gammaComplete {
