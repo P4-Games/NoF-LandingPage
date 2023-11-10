@@ -42,6 +42,9 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
   return (
     <>
       <div className='packcontainer'>
+        {loaderPack && (<div className= 'loader_container'>
+          <span className='loader' />
+        </div>)}
         <div id='starshine' ref={starshineRef}>
           <div className='template shine' ref={templateRef} />
         </div>
