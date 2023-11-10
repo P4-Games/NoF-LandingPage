@@ -289,7 +289,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }
 
-  const getUserCards = async (address, seasonName) => {
+  const getCardsByUser = async (address, seasonName) => {
     try {
       const cards = await nofContract.getCardsByUserBySeason(address, seasonName)
       return cards
@@ -404,7 +404,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       .catch((e) => {
         console.error({ e })
       })
-      const cards = getUserCards(address, seasonName)
+      const cards = getCardsByUser(address, seasonName)
         .then((pack) => {
           console.log('pack', pack)
           if (pack.length) {
