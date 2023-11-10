@@ -4,24 +4,14 @@ import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../utils/placeholders'
 import { getCardsByUser } from '../../services/contracts/gamma'
+import { useWeb3 } from '../../hooks'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
-  const { account, cardsContract, setImageNumber, setCardInfo } = props
+  const { setImageNumber, setCardInfo } = props
   const [size, setSize] = useState(false)
   const [paginationObj, setPaginationObj] = useState({})
-
-  useEffect(() => {
-    windowSize()
-  }, [])
-
-  useEffect(() => {
-    const fetchCardsData = async () => {
-      const userCards = await getCardsByUser(cardsContract, account, pagination)
-      setPaginationObj(userCards)
-    }
-    fetchCardsData()
-  }, [account, cardsContract])
-
+  const { account, gammaCardsContract } = useWeb3()
+  
   const windowSize = () => {
     if (window.innerWidth < 600) {
       setSize(true)
@@ -38,6 +28,25 @@ const InventoryAlbum = React.forwardRef((props, book) => {
     window.addEventListener('resize', updateMedia)
     return () => window.removeEventListener('resize', updateMedia)
   }
+
+  useEffect(() => {
+    windowSize()
+  }, [])
+
+  const fetchCardsData = async () => {
+    try {
+      const userCards = await getCardsByUser(gammaCardsContract, account, pagination)
+      setPaginationObj(userCards)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCardsData()
+  }, [account, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+
 
   return paginationObj && paginationObj.page1
     ? (
@@ -245,8 +254,6 @@ const InventoryAlbum = React.forwardRef((props, book) => {
 })
 
 InventoryAlbum.propTypes = {
-  account: PropTypes.string,
-  cardsContract: PropTypes.object,
   setImageNumber: PropTypes.func,
   setCardInfo: PropTypes.func
 

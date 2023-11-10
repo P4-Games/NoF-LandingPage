@@ -1,18 +1,13 @@
 import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
-import Web3Modal from 'web3modal'
 import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
-import { fetchData } from '../../services/graph/alpha'
-import { storageUrl, CONTRACTS, NETWORK } from '../../config'
+import { storageUrl, CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
-
-import daiAbi from '../../context/abis/TestDAI.v2.sol/NofTestDAIV2.json'
-import alphaAbi from '../../context/abis/Alpha.v2.sol/NofAlphaV2.json'
-
+import { fetchData } from '../../services/graph/alpha'
 import { checkApproved } from '../../services/contracts/dai'
 
 import vida0 from './images/vida0.png'
@@ -21,7 +16,9 @@ import vida2 from './images/vida2.png'
 import vida3 from './images/vida3.png'
 import vida4 from './images/vida4.png'
 import vida5 from './images/vida5.png'
+
 import {useTranslation} from 'next-i18next'
+import { useWeb3 } from '../../hooks'
 
 const vidas = [
   vida0.src,
@@ -36,11 +33,7 @@ let swiper //eslint-disable-line
 
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const {t} = useTranslation()
-  const [, setChainId] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [account, setAccount] = useState(null)
-  const [nofContract, setNofContract] = useState(null)
-  const [daiContract, setDaiContract] = useState(null)
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
   const [albumCard, setAlbumCard] = useState(null)
@@ -55,135 +48,15 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [seasonName, setSeasonName] = useState('')
   const [packPrices, setPackPrices] = useState(null)
   const [packPrice, setPackPrice] = useState('')
-  const [receiverAccount, setReceiverAccount] = useState(null)
+  const [receiverAccount, setReceiverAccount] = useState('')
   const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
   const [transferError, setTransferError] = useState('')
   const [disableTransfer, setDisableTransfer] = useState(null)
-  const [noMetamaskError, setNoMetamaskError] = useState('')
   const [seasonFolder, setSeasonFolder] = useState(null)
+  const { account, daiContract, alphaContract, noMetamaskError, connectToMetamask } = useWeb3()
 
-  async function requestAccount () {
-    const web3Modal = new Web3Modal()
-    let provider
-    let address
-    try {
-      const connection = await web3Modal.connect()
-      provider = new ethers.providers.Web3Provider(connection)
-      address = await provider.getSigner().getAddress()
-      setAccount(address)
-      document.getElementsByClassName(
-        'main_buttons_container'
-      )[0].style.display = 'none'
-    } catch (e) {
-      console.error({ e })
-    }
-
-    if (!provider) return
-    const chain = (await provider.getNetwork()).chainId
-    setChainId(decToHex(chain))
-    switchOrCreateNetwork(
-      NETWORK.chainId,
-      NETWORK.chainName,
-      NETWORK.ChainRpcUrl,
-      NETWORK.chainCurrency,
-      NETWORK.chainExplorerUrl
-    );
-    return [provider, address]
-  }
-
-  function connectToMetamask () {
-    if (window.ethereum !== undefined) {
-      setNoMetamaskError('')
-      requestAccount()
-        .then((data) => {
-          const [provider] = data
-          const signer = provider.getSigner()
-          const nofContractInstance = new ethers.Contract(
-            CONTRACTS.alphaAddress,
-            alphaAbi.abi,
-            signer
-          )
-          setNofContract(nofContractInstance)
-          const daiContractInstance = new ethers.Contract(
-            CONTRACTS.daiAddress,
-            daiAbi.abi,
-            signer
-          )
-          setDaiContract(daiContractInstance)
-          getSeasonData(nofContractInstance)
-            /*  
-            .then((data) => {
-              const [currentSeason, currentPrice] = data
-            })
-            */
-            .catch((e) => {
-              console.error({ e })
-            })
-        })
-        .catch((e) => {
-          console.error({ e })
-        })
-    } else {
-      setNoMetamaskError('Por favor instala Metamask para continuar.')
-    }
-  }
-
-  function decToHex (number) {
-    return `0x${parseInt(number).toString(16)}`
-  }
-
-  async function switchOrCreateNetwork (
-    chainIdHex,
-    chainName,
-    rpcUrl,
-    currency,
-    explorer
-  ) {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainIdHex }]
-      })
-    } catch (error) {
-      if (error.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: chainIdHex,
-                chainName,
-                rpcUrls: [rpcUrl],
-                nativeCurrency: {
-                  name: currency,
-                  symbol: currency,
-                  decimals: 18
-                },
-                blockExplorerUrls: [explorer]
-              }
-            ]
-          })
-        } catch (e) {
-          console.error(e.message)
-        }
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (window && window.ethereum !== undefined) {
-      window.ethereum.on('accountsChanged', () => {
-        connectToMetamask()
-      })
-
-      window.ethereum.on('chainChanged', (newChain) => {
-        setChainId(decToHex(newChain))
-        connectToMetamask()
-      })
-    }
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
-
+  
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
       effect: 'cards',
@@ -249,49 +122,60 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }, [seasonName])
 
-  async function getSeasonData (contract) {
-    try {
-      const seasonData = await contract.getSeasonData()
-      let currentSeason
-      let currentPrice
-      for (let i = 0; i < seasonData[0].length; i++) {
-        const season = await contract.getSeasonAlbums(seasonData[0][i])
   
-        if (season.length > 0) {
-          currentSeason = seasonData[0][i]
-          currentPrice = seasonData[1][i]
-          break
-        } else {
-          currentSeason = seasonData[0][i]
-          currentPrice = seasonData[1][i]
+  const setSeasonData = async () => {
+    try {
+      if (!account || !alphaContract) return
+      setLoading(true)
+      let seasonData = await alphaContract.getSeasonData()
+      if (seasonData) {
+        console.log('hay datos')
+        let currentSeason
+        let currentPrice
+        for (let i = 0; i < seasonData[0].length; i++) {
+          const season = await alphaContract.getSeasonAlbums(seasonData[0][i])
+    
+          if (season.length > 0) {
+            currentSeason = seasonData[0][i]
+            currentPrice = seasonData[1][i]
+            break
+          } else {
+            currentSeason = seasonData[0][i]
+            currentPrice = seasonData[1][i]
+          }
         }
-      }
-      const seasonWinnersCount = {}
-      const winnersQuery = await fetchData()
-      const { winners } = winnersQuery.data
-      for (let i = 0; i < winners.length; i++) {
-        if (!seasonWinnersCount[winners[i].season]) {
-          seasonWinnersCount[winners[i].season] = 1
-        } else {
-          seasonWinnersCount[winners[i].season]++
+        const seasonWinnersCount = {}
+        const winnersQuery = await fetchData()
+        const { winners } = winnersQuery.data
+        for (let i = 0; i < winners.length; i++) {
+          if (!seasonWinnersCount[winners[i].season]) {
+            seasonWinnersCount[winners[i].season] = 1
+          } else {
+            seasonWinnersCount[winners[i].season]++
+          }
         }
+        const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
+        const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
+        setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
+        setPackPrice(currentPrice.toString()) // sets the season price as the last season price created
+        setSeasonNames(activeSeasons)
+        setPackPrices(seasonData[1]) 
       }
-      const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
-      const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
-      setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
-      setPackPrice(currentPrice.toString()) // sets the season price as the last season price created
-      setSeasonNames(activeSeasons)
-      setPackPrices(seasonData[1]) 
-      return [currentSeason, currentPrice]
-
+      setLoading(false)
     } catch (ex) {
+      setLoading(false)
       console.error(ex)
     }
   }
 
-  const getCardsByUser = async (address, seasonName) => {
+  useEffect(() => {
+      setSeasonData()
+  }, [account, alphaContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+
+  const getUserCards = async (address, seasonName) => {
     try {
-      const cards = await nofContract.getCardsByUserBySeason(address, seasonName)
+      const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
       return cards
     } catch (ex) {
       console.error(ex)
@@ -300,7 +184,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const getSeasonFolder = async (seasonName) => {
     try {
-      const response = await nofContract.seasons(seasonName)
+      const response = await alphaContract.seasons(seasonName)
       return response.folder
     } catch (ex) {
       console.error(ex)
@@ -309,7 +193,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const getWinners = async () => {
     try {
-      const winners = await nofContract.getWinners(seasonName)
+      const winners = await alphaContract.getWinners(seasonName)
       return winners
     } catch (ex) {
       console.error(ex)
@@ -352,7 +236,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const checkPacks = async () => {
     try {
-      const check = await nofContract.getSeasonAlbums(seasonName)
+      const check = await alphaContract.getSeasonAlbums(seasonName)
       return check
     } catch (ex) {
       console.error(ex)
@@ -367,7 +251,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
 
   const getAlbumData = async (tokenId) => {
-    const albumData = await nofContract.cards(tokenId)
+    const albumData = await alphaContract.cards(tokenId)
     return albumData
   }
 
@@ -404,7 +288,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       .catch((e) => {
         console.error({ e })
       })
-      const cards = getCardsByUser(address, seasonName)
+      const cards = getUserCards(address, seasonName)
         .then((pack) => {
           console.log('pack', pack)
           if (pack.length) {
@@ -491,10 +375,10 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
               setNoCardsError(t('no_mas_packs'))
             } else {
               if (checkBalance(account)) {
-                checkApproved(daiContractInstance, account, CONTRACTS.alphaAddress)
+                checkApproved(daiContract, account, CONTRACTS.alphaAddress)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
-                      const pack = await nofContract.buyPack(price, name, {
+                      const pack = await alphaContract.buyPack(price, name, {
                         gasLimit: 2500000
                       })
                       setLoading(true)
@@ -563,7 +447,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         cards[cardIndex].tokenId
       ).toNumber()
       const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-      const paste = await nofContract.pasteCards(tokenId, albumTokenId, {
+      const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
         gasLimit: 2500000
       })
       setLoading(true)
@@ -591,7 +475,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     try {
       if (checkInputAddress(receiverAccount)) {
         setTransferError('')
-        const transaction = await nofContract[
+        const transaction = await alphaContract[
           'safeTransferFrom(address,address,uint256)'
         ](account, receiverAccount, cardToTransfer)
         const modal = document.getElementsByClassName(
@@ -618,6 +502,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       {loading && (<div className= 'loader_container'>
         <span className='loader' />
       </div>)}
+
+      {!loading && !account && (
       <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
@@ -632,7 +518,13 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           {t('reglas')}
         </button>
         <span>{noMetamaskError}</span>
-      </div>
+      </div>)}
+
+      {!loading && account && alphaContract && !seasonNames && (
+        <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
+          {t('no_season_nampes')}
+        </span>
+      )}
       
       <div className='alpha_rules_container'>
         <button
@@ -663,7 +555,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         </div>
       </div>
 
-      {account && (
+      {account && alphaContract && seasonNames && (
         <div className='alpha_inner_container'>
           <div className='alpha_data'>
             <div className='alpha_season'>
@@ -829,13 +721,14 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           ) : null}
         </div>
       )}
+
       <AlphaAlbums
         alphaMidButton={alphaMidButton}
         setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
         loadAlbums={loadAlbums}
         storageUrl={storageUrl}
-        nofContract={nofContract}
+        nofContract={alphaContract}
         seasonNames={seasonNames}
         account={account}
         getSeasonFolder={getSeasonFolder}

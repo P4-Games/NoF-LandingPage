@@ -97,6 +97,8 @@
     "rules_gamma_right_text_1": "Upon completing an album, you receive a collectible NFT and a 25% profit.",
     "rules_gamma_right_text_2": "In addition to collecting cards and completing albums, the Gamma edition also allows you to participate in NoFTown's free trading zone.",
     "rules_gamma_right_text_3": "NoFTown enables you to interact with other players quickly and safely, facilitating NFT exchanges.",
-    "rules_gamma_right_text_4": "Multiple accounts are not allowed."
+    "rules_gamma_right_text_4": "Multiple accounts are not allowed.",
+
+    "no_season_nampes": "No seasons found"
 
 }
