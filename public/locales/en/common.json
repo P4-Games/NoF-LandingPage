@@ -75,7 +75,8 @@
     "buy_pack_title_2": "each",
     "buy_pack_input_validator": "Enter between 1 and 10!",
     "buy_pack_button": "Buy",
-    "buy_pack_error": "There was an error trying to buy a pack",
+    "buy_pack_error": "There was an error trying to buy packs",
+    "open_pack_error": "There was an error trying to open the pack",
     "contacto": "Contact",
 
     "mint_error": "There was an error trying to mint a figurine",
