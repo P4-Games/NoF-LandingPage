@@ -6,6 +6,7 @@ export const checkPacksByUser = async (account, packsContract) => {
     return packs
   } catch (e) {
     console.error({ e })
+    throw e
   }
 }
 
@@ -16,6 +17,7 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
     return openPackTx
   } catch (e) {
     console.error({ e })
+    throw e
   }
 }
 
@@ -32,6 +34,7 @@ export const getCardsByUser = async (cardsContract, account, pagination) => {
     return cardsObj
   } catch (e) {
     console.error({ e })
+    throw e
   }
 }
 
@@ -42,5 +45,6 @@ export const getPackPrice = async (cardsContract) => {
     return result
   } catch (e) {
     console.error({ e })
+    throw e
   }
 }

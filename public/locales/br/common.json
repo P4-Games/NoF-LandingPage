@@ -75,7 +75,8 @@
   "buy_pack_title_2": "cada",
   "buy_pack_input_validator": "Insira entre 1 e 10!",
   "buy_pack_button": "Comprar",
-  "buy_pack_error": "Ocorreu um erro ao tentar comprar um pacote",
+  "buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes",
+  "open_pack_error": "Ocorreu um erro ao tentar abrir pacote",
   "contacto": "Contato",
 
   "mint_error": "Ocorreu um erro ao tentar cunhar uma estatueta",

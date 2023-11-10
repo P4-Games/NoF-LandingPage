@@ -93,7 +93,6 @@ const index = React.forwardRef(() => {
     // TODO
   }
 
-  // funcion para abrir uno a uno los sobres disponibles
   const handleOpenPack = async () => {
     try {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
@@ -113,12 +112,11 @@ const index = React.forwardRef(() => {
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         // llama a la api para recibir los numeros de cartas del sobre y la firma
-        const data = await fetchPackData(account, packNumber) // llamada al back
+        const data = await fetchPackData(account, packNumber)
         const { packet_data, signature } = data
 
         setOpenPackCardsNumbers(packet_data)
         // ssetPacksEnable(true)
-        // llama al contrato de cartas para abrir el sobre
         const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
         if (openedPack) {
           await openedPack.wait()
@@ -131,7 +129,8 @@ const index = React.forwardRef(() => {
         }
       }
     } catch (e) {
-      console.error({ e })
+      setLoaderPack(false)
+      emitError(t('open_pack_error'))
     }
   }
 
@@ -145,7 +144,6 @@ const index = React.forwardRef(() => {
     */
 
     try {
-      console.log('loading true')
       setLoading(true)
       const approval = await checkApproved(daiContract, account, gammaPacksContract.address)
       if (!approval) {
@@ -165,13 +163,11 @@ const index = React.forwardRef(() => {
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
       await checkNumberOfPacks()
-      console.log('loading false')
       setLoading(false)
       return call
     } catch (e) {
       setLoading(false)
       emitError(t('buy_pack_error'))
-      console.error({ e })
     }
   }
 
