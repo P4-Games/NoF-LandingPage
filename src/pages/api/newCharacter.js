@@ -1,4 +1,5 @@
 import connectToDatabase from '../../utils/db'
+import { storageUrlGamma } from '../../config'
 
 const getRandomCharacterID = async (db, channelId) => {
   const serversCollection = db.collection('servers')
@@ -33,7 +34,7 @@ const findUserByDiscordID = async (db, discordID) => {
 }
 
 const findCharacterByID = async (db, characterID) => {
-  const characterImage = `https://storage.googleapis.com/nof-gamma/T2/${characterID}.png`
+  const characterImage = `${storageUrlGamma}/T2/${characterID}.png`
   const charactersCollection = db.collection('characters')
   const character = await charactersCollection.findOne({ image: characterImage })
 

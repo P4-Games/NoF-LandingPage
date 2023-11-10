@@ -8,6 +8,7 @@ import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
+import { storageUrlGamma } from '../../config'
 
 const InfoCard = React.forwardRef((props, book) => {
   const {t} = useTranslation()
@@ -95,7 +96,7 @@ const InfoCard = React.forwardRef((props, book) => {
           <div className='cardinfo'>
             <div className='cardinfoimg'>
               <img
-                src={`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`}
+                src={`${storageUrlGamma}/T1/${props.imageNumber}.png`}
                 alt='img'
               />
             </div>
@@ -169,7 +170,7 @@ const InfoCard = React.forwardRef((props, book) => {
                     //         if (result.isConfirmed) {
                     //           Swal.fire({
                     //             text: `El precio elegido es ${result.value.login}`,
-                    //             imageUrl:`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`,
+                    //             imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
                     //             color:`whitesmoke`,
                     //             backdrop:"#0000009e",
                     //             customClass: {
@@ -186,7 +187,7 @@ const InfoCard = React.forwardRef((props, book) => {
                     // } else if (result.isDenied) {
                     //     Swal.fire({
                     //         text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
-                    //         // imageUrl:`https://storage.googleapis.com/nof-gamma/T1/${props.imageNumber}.png`,
+                    //         // imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
                     //         color:`black`,
                     //         backdrop:"#0000009e",
                     //         customClass: {
@@ -209,7 +210,7 @@ const InfoCard = React.forwardRef((props, book) => {
         {/* {pagination.page2.map((item, index) => {
                         return (
                             <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
-                                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt="img" />
+                                <img src={`${storageUrlGamma}/T1/${item}.png`} alt="img" />
                                 {pagination.fakeUser[item].stamped && <FcCheckmark />}
                                 <div className='number'>{pagination.fakeUser[item].name}</div>
                                 {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1

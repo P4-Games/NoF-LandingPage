@@ -5,7 +5,7 @@ import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
-import { storageUrl, CONTRACTS } from '../../config'
+import { storageUrlAlpha, CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { fetchData } from '../../services/graph/alpha'
 import { checkApproved } from '../../services/contracts/dai'
@@ -212,11 +212,11 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   const setValidAlbumCard = (imageName) => {
     // seasonFolder = 'T1'
-    setAlbumCard(`${storageUrl}${seasonFolder}/${imageName}`)
+    setAlbumCard(`${storageUrlAlpha}/${seasonFolder}/${imageName}`)
   }
 
     // seasonFolder = 'T1'
-  const getCardImageUrl = (imageNumber) => `${storageUrl}${seasonFolder}/${imageNumber}.png`
+  const getCardImageUrl = (imageNumber) => `${storageUrlAlpha}/${seasonFolder}/${imageNumber}.png`
   const getAlbumImageUrl = () => albumCard
 
   const authorizeDaiContract = async () => {
@@ -727,7 +727,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
         loadAlbums={loadAlbums}
-        storageUrl={storageUrl}
+        storageUrlAlpha={storageUrlAlpha}
         nofContract={alphaContract}
         seasonNames={seasonNames}
         account={account}

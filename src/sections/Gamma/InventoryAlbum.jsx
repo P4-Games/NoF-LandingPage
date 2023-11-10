@@ -5,6 +5,7 @@ import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../utils/placeholders'
 import { getCardsByUser } from '../../services/contracts/gamma'
 import { useWeb3 } from '../../hooks'
+import { storageUrlGamma } from '../../config'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
   const { setImageNumber, setCardInfo } = props
@@ -77,7 +78,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
                   onClick={() => { setCardInfo(true), setImageNumber(item) }}
                   style={(paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'
                 >
-                  <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                  <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                   {paginationObj.user[item]?.stamped && <FcCheckmark />}
                   <div className='number'>{paginationObj.user[item]?.name}</div>
                   {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -95,7 +96,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page2.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -112,7 +113,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page3.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -129,7 +130,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page4.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -146,7 +147,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page5.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -163,7 +164,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page6.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -180,7 +181,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page7.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -197,7 +198,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page8.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -214,7 +215,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page9.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&
@@ -231,7 +232,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page10.map((item, index) => (
               <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
-                <img src={`https://storage.googleapis.com/nof-gamma/T1/${item}.png`} alt='img' />
+                <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
                 {paginationObj.user[item]?.quantity != 0 && paginationObj.user[item]?.quantity != 1 &&

@@ -21,7 +21,7 @@ import {useTranslation} from 'next-i18next'
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
 const AlphaAlbums = ({
-  storageUrl,
+  storageUrlAlpha,
   nofContract,
   seasonNames,
   account,
@@ -123,9 +123,7 @@ const AlphaAlbums = ({
                       <img
                         alt='portadas'
                         style={{ cursor: 'pointer' }}
-                        src={
-                        storageUrl + album[1] + '/' + album[0].number + '.png'
-                      }
+                        src={`${storageUrlAlpha}/${album[1]}/${album[0].number}.png`}
                         className='alpha_card'
                         onClick={() => handleRedirectAlbum(album)}
                       />
@@ -144,7 +142,7 @@ const AlphaAlbums = ({
 }
 
 AlphaAlbums.propTypes = {
-  storageUrl: PropTypes.string,
+  storageUrlAlpha: PropTypes.string,
   nofContract: PropTypes.object,
   seasonNames: PropTypes.array,
   account: PropTypes.string,
