@@ -96,14 +96,23 @@
       transform: scale(1.1);
     }
   }
-  .album {
+  .openPack {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14%;
+    bottom: 9%;
+    color: black;
+    margin: 0;
+  }
+  .transferPack {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 24%;
     bottom: 0%;
-    // filter: url();
     color: black;
     margin: 0;
   }
