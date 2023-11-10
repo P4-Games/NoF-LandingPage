@@ -89,8 +89,12 @@ const index = React.forwardRef(() => {
     })
   }
 
+  const handleTransferPack = async () => {  
+    // TODO
+  }
+
   // funcion para abrir uno a uno los sobres disponibles
-  const openAvailablePack = async () => {
+  const handleOpenPack = async () => {
     try {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
       const packs = await checkPacksByUser(account, gammaPacksContract) // llamada al contrato
@@ -276,7 +280,7 @@ const index = React.forwardRef(() => {
           cardsNumbers={openPackCardsNumbers}
           setOpenPackage={setOpenPackage}
           openPackage={openPackage}
-                       />}
+        />}
         <Head>
           <title>Number One Fan</title>
           <meta name='description' content='NoF Gamma' />
@@ -296,9 +300,12 @@ const index = React.forwardRef(() => {
           {/* {!mobile && packsEnable && <div onClick={() => { setPackIsOpen(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
           {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
           {!mobile && inventory &&
-            <div onClick={() => { setPackIsOpen(true), openAvailablePack() }} className='gammaShop'>
+            <div className='gammaShop'>
               <h1>{numberOfPacks}</h1>
-              <div className='album'>
+              <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} className='openPack'>
+                <h3>{t('abrir')}</h3>
+              </div>
+              <div onClick={() => { handleTransferPack() }} className='transferPack'>
                 <h3>{t('transferir')}</h3>
               </div>
             </div>}
