@@ -13,9 +13,10 @@ export const gammaServiceUrl = (process.env.GAMMA_SERVICE_URL || 'https://gamma-
 // ------------------------------------------------------------------
 // client-side environment variables
 // ------------------------------------------------------------------
-// TODO: move storageUrl to server-side
-export const storageUrl =
-  process.env.NEXT_PUBLIC_STORAGE_URL || 'https://storage.googleapis.com/nof-alpha/' // 1.png to 60.png
+export const storageUrlAlpha =
+  process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha'
+  export const storageUrlGamma =
+  process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
 
 export const NETWORK = {
   chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),

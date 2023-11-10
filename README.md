@@ -46,7 +46,8 @@ NODE_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app/'
 
 # Client-side
-NEXT_PUBLIC_STORAGE_URL='https://storage.googleapis.com/nof-alpha/'
+NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha/'
+NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma/'
 NEXT_PUBLIC_CHAIN_NAME='mumbai'
 NEXT_PUBLIC_CHAIN_ID='0x13881'
 NEXT_PUBLIC_CHAIN_CURRENCY='MATIC'
