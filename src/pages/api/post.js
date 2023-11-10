@@ -1,4 +1,5 @@
 import connectToDatabase from '../../utils/db'
+import { storageUrlGamma } from '../../config'
 import axios from 'axios'
 
 const findUserByDiscordID = async (db, discordID) => {
@@ -43,7 +44,7 @@ export default async function handler(req, res) {
           await usersCollection.updateOne({ discordID }, { $set: { characters } })
 
           const response = await axios.get(
-            `https://storage.googleapis.com/nof-gamma/T2/${randomCharacterID}.png`,
+            `${storageUrlGamma}/T2/${randomCharacterID}.png`,
             { responseType: 'arraybuffer' }
           )
 
