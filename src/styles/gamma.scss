@@ -75,10 +75,11 @@
   justify-content: center;
   align-items: center;
   h1 {
-    left: 40%;
-    top: 35%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     position: absolute;
-    font-size: 3rem;
+    font-size: 2rem;
     filter: drop-shadow(2px 4px 6px white);
     font-weight: lighter;
   }
@@ -113,9 +114,9 @@
     @extend .button_common;
     gap: 14%;
     bottom: 9%;
-    color: #8f8f8f; 
+    color: #8f8f8f;
     pointer-events: none;
-    cursor: not-allowed; 
+    cursor: not-allowed;
   }
   .transferPack {
     @extend .button_common;
@@ -126,9 +127,9 @@
     @extend .button_common;
     gap: 24%;
     bottom: 0%;
-    color: #8f8f8f; 
+    color: #8f8f8f;
     pointer-events: none;
-    cursor: not-allowed; 
+    cursor: not-allowed;
   }
 }
 .gammaComplete {
