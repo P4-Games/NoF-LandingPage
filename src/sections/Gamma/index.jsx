@@ -133,13 +133,13 @@ const index = React.forwardRef(() => {
   }
 
   const buyPackscontact = async (numberOfPacks) => {
-    /*
-    packsContract.on('PacksPurchase', (returnValue, theEvent) => {
+    
+    gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
+      console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
       }
     })
-    */
 
     try {
       setLoading(true)
