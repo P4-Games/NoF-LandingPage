@@ -9,6 +9,7 @@ import { storageUrlAlpha, CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { fetchData } from '../../services/graph/alpha'
 import { checkApproved } from '../../services/contracts/dai'
+import CustomImage from '../../components/customImage'
 
 import vida0 from './images/vida0.png'
 import vida1 from './images/vida1.png'
@@ -36,7 +37,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [loading, setLoading] = useState(false)
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
-  const [albumCard, setAlbumCard] = useState(null)
+  const [albumImage, setAlbumImage] = useState(null)
   const [albumCollection, setAlbumCollection] = useState(null)
   const [albumCompletion, setAlbumCompletion] = useState(null)
   const [isCollection, setIsCollection] = useState(false)
@@ -55,7 +56,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { account, daiContract, alphaContract, noMetamaskError, connectToMetamask } = useWeb3()
-
   
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -121,7 +121,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       }
     }
   }, [seasonName])
-
   
   const setSeasonData = async () => {
     try {
@@ -170,7 +169,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   useEffect(() => {
       setSeasonData()
-  }, [account, alphaContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, alphaContract])
 
 
   const getUserCards = async (address, seasonName) => {
@@ -185,6 +184,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const getSeasonFolder = async (seasonName) => {
     try {
       const response = await alphaContract.seasons(seasonName)
+      console.log('season folder', response.folder)
       return response.folder
     } catch (ex) {
       console.error(ex)
@@ -209,15 +209,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       timer: 1500
     })
   }
-
-  const setValidAlbumCard = (imageName) => {
-    // seasonFolder = 'T1'
-    setAlbumCard(`${storageUrlAlpha}/${seasonFolder}/${imageName}`)
-  }
-
-    // seasonFolder = 'T1'
-  const getCardImageUrl = (imageNumber) => `${storageUrlAlpha}/${seasonFolder}/${imageNumber}.png`
-  const getAlbumImageUrl = () => albumCard
 
   const authorizeDaiContract = async () => {
     try {
@@ -318,9 +309,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                   setSeasonFolder(data || 'UNKNOWN_FOLDER')
                 }
                 if (completion < 5) {
-                  setValidAlbumCard(albumData[0].number + '.png')
+                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + '.png'}`)
                 } else {
-                  setValidAlbumCard(albumData[0].number + 'F' + '.png')
+                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + 'F.png'}`)
                   getWinners()
                     .then((winners) => {
                       if (winners.includes(account)) {
@@ -605,7 +596,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           {pack && pack.length ? (
             <div className='alpha_container'>
               <div className='alpha_album_container'>
-                <img alt='alpha-album' src={getAlbumImageUrl()} className='alpha_album' />
+                <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
               </div>
               <div className='alpha_progress_container'>
                 <span>
@@ -658,9 +649,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                           <span className='alpha_card_collection'>
                             C:{cardCollection}
                           </span>
-                          <img
+                          <CustomImage
                             alt='img'
-                            src={getCardImageUrl(card.number)}
+                            src={`${storageUrlAlpha}/${seasonFolder}/${card.number}.png`}
                             className='alpha_card'
                           />
                         </div>
