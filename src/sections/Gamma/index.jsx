@@ -147,17 +147,6 @@ const index = React.forwardRef(() => {
       if (!approval) {
         await authorizeDaiContract()
       }
-      /*
-      const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
-        await call.wait()
-        await checkNumberOfPacks()
-        return call
-      } else {
-        const call = await packsContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
-        await call.wait()
-        return call
-      }
-      */
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
       await checkNumberOfPacks()
@@ -260,10 +249,6 @@ const index = React.forwardRef(() => {
         setCardInfo={setCardInfo}
         inventory={inventory}
         setInventory={setInventory}
-        // packsContract={packsContract}
-        // daiContract={daiContract}
-        // authorizeDaiContract={authorizeDaiContract}
-        // checkNumberOfPacks={checkNumberOfPacks}
         handleBuyPackClick={handleBuyPackClick}
       />
 
