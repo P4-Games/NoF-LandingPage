@@ -7,9 +7,10 @@ import Swal from 'sweetalert2'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import gammaPacksAbi from '../../context/abis/GammaPacks.sol/GammaPacks.json'
-import gammaCardsAbi from '../../context/abis/GammaCardsV2.sol/GammaCardsV2.json'
-import daiAbi from '../../context/abis/TestDAI.sol/UChildDAI.json'
+import daiAbi from '../../context/abis/TestDAI.v2.sol/NofTestDAIV2.json'
+import gammaPacksAbi from '../../context/abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
+import gammaCardsAbi from '../../context/abis/GammaCards.v2.sol/NofGammaCardsV2.json'
+
 import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
 import GammaPack from './GammaPack'

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../utils/placeholders'
-import { getUserCards } from '../../services/contracts/gamma'
+import { getCardsByUser } from '../../services/contracts/gamma'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
   const { account, cardsContract, setImageNumber, setCardInfo } = props
@@ -16,7 +16,7 @@ const InventoryAlbum = React.forwardRef((props, book) => {
 
   useEffect(() => {
     const fetchCardsData = async () => {
-      const userCards = await getUserCards(cardsContract, account, pagination)
+      const userCards = await getCardsByUser(cardsContract, account, pagination)
       setPaginationObj(userCards)
     }
     fetchCardsData()

@@ -10,8 +10,9 @@ import { fetchData } from '../../services/graph/alpha'
 import { storageUrl, CONTRACTS, NETWORK } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 
-import nofAbi from '../../context/abis/NOF-SC.sol/NOF_Alpha.json'
-import daiAbi from '../../context/abis/TestDAI.sol/UChildDAI.json'
+import daiAbi from '../../context/abis/TestDAI.v2.sol/NofTestDAIV2.json'
+import alphaAbi from '../../context/abis/Alpha.v2.sol/NofAlphaV2.json'
+
 import { checkApproved } from '../../services/contracts/dai'
 
 import vida0 from './images/vida0.png'
@@ -100,7 +101,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           const signer = provider.getSigner()
           const nofContractInstance = new ethers.Contract(
             CONTRACTS.alphaAddress,
-            nofAbi.abi,
+            alphaAbi.abi,
             signer
           )
           setNofContract(nofContractInstance)
@@ -288,7 +289,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
   }
 
-  const getUserCards = async (address, seasonName) => {
+  const getCardsByUser = async (address, seasonName) => {
     try {
       const cards = await nofContract.getCardsByUserBySeason(address, seasonName)
       return cards
@@ -403,7 +404,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       .catch((e) => {
         console.error({ e })
       })
-      const cards = getUserCards(address, seasonName)
+      const cards = getCardsByUser(address, seasonName)
         .then((pack) => {
           console.log('pack', pack)
           if (pack.length) {

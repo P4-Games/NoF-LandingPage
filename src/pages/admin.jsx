@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import gammaPacksAbi from '../context/abis/GammaPacks.sol/GammaPacks.json'
-import gammaCardsAbi from '../context/abis/GammaCardsV2.sol/GammaCardsV2.json'
-import daiAbi from '../context/abis/TestDAI.sol/UChildDAI.json'
+
+import daiAbi from '../context/abis/TestDAI.v2.sol/NofTestDAIV2.json'
+import gammaPacksAbi from '../context/abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
+import gammaCardsAbi from '../context/abis/GammaCards.v2.sol/NofGammaCardsV2.json'
+
 import Web3Modal from 'web3modal'
 import { CONTRACTS, NETWORK, adminAccounts } from '../config'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
