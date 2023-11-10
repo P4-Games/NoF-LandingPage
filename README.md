@@ -43,16 +43,16 @@ PORT=3000
 # server-side
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development'
-GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app/'
+GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
 # Client-side
-NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha/'
-NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma/'
+NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
+NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_CHAIN_NAME='mumbai'
 NEXT_PUBLIC_CHAIN_ID='0x13881'
 NEXT_PUBLIC_CHAIN_CURRENCY='MATIC'
 NEXT_PUBLIC_CHAIN_RPC_URL='https://rpc-mumbai.maticvigil.com'
-NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com/'
+NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com'
 NEXT_PUBLIC_DAI_ADDRESS='0x59876b33dd6e725Da632B4DB50d90d33ab022dB6'
 NEXT_PUBLIC_ALPHA_ADDRESS='0x1772F33b587B4ed32f59Dc6B09B9e994616C1eCB'
 NEXT_PUBLIC_GAMMA_PACKS_ADDRESS='0xc0a2630f551106190d95C2348e02E400478e711c'
