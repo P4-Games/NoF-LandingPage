@@ -48,9 +48,14 @@ export const CONTRACTS = {
     process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b'
 }
 
-export const openSeaUrl = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}/`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}/`
+export const openSeaUrlAlpha = is_production
+  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
+  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`
+
+export const openSeaUrlGamma = is_production
+  ? `https://.opensea.io/assets/matic/${CONTRACTS.gammaCardsAddress}`
+  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.gammaCardsAddress}`
+
 
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'

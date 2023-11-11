@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
-import { storageUrlGamma } from '../../config'
+import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 
 const InfoCard = React.forwardRef((props, book) => {
   const {t} = useTranslation()
@@ -52,7 +52,7 @@ const InfoCard = React.forwardRef((props, book) => {
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
-        <a target='_blank' href='https://testnets.opensea.io/assets/mumbai/${gammaCardsContract.address}/${imageNumber}'>
+        <a target='_blank' href=${openSeaUrlGamma}/${imageNumber}'>
           ${t('aqui')}
         </a>`,
         icon: 'success',
