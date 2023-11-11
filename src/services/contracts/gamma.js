@@ -12,7 +12,9 @@ export const checkPacksByUser = async (account, packsContract) => {
 
 export const openPack = async (cardsContract, packNumber, packData, signature) => {
   try {
-    const openPackTx = await cardsContract.openPack(packNumber, packData, signature, { gasLimit: 6000000 })
+    const openPackTx = await cardsContract.openPack(packNumber, packData, signature, {
+      gasLimit: 6000000
+    })
     await openPackTx.wait()
     return openPackTx
   } catch (e) {
