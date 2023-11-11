@@ -1,3 +1,11 @@
+![](https://img.shields.io/badge/Solidity-informational?style=flat&logo=solidity&logoColor=white&color=6aa6f8)
+![](https://img.shields.io/badge/Hardhat-informational?style=flat&logo=hardhat&logoColor=white&color=6aa6f8)
+![](https://img.shields.io/badge/JavaScript-informational?style=flat&logo=javascript&logoColor=white&color=6aa6f8)
+![](https://img.shields.io/badge/Typescript-informational?style=flat&logo=typescript&logoColor=white&color=6aa6f8)
+![](https://img.shields.io/badge/NextJs-informational?style=flat&logo=next&logoColor=white&color=6aa6f8)
+![](https://img.shields.io/badge/nodejs-informational?style=flat&logo=node&logoColor=white&color=6aa6f8)
+
+
 # Number One Fun (NoF)
 
 ![nof-landing](./.doc/images/nof.png)
