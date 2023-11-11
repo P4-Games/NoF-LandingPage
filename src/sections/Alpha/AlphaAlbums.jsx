@@ -15,7 +15,7 @@ import SwiperCore, {
   EffectCards
 } from 'swiper'
 import Swal from 'sweetalert2'
-import { openSeaUrl } from '../../config'
+import { openSeaUrlAlpha } from '../../config'
 import {useTranslation} from 'next-i18next'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
@@ -39,7 +39,7 @@ const AlphaAlbums = ({
   function handleRedirectAlbum (album) {
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
-      window.open(`${openSeaUrl}/${album[0].tokenId}`, '_blank')
+      window.open(`${openSeaUrlAlpha}/${album[0].tokenId}`, '_blank')
     } else {
       // Otherwise, display a message to the user and perform some actions
       setSeasonName(album[0].season)
