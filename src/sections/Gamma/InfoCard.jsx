@@ -51,11 +51,10 @@ const InfoCard = React.forwardRef((props, book) => {
       setLoading(false)
       Swal.fire({
         title: '',
-        text: `${t('carta_minteada')} ${(
-          <a href='https://testnets.opensea.io/assets/mumbai/${gammaCardsContract.address}/${imageNumber}'>
-            ${t('aqui')}
-          </a>
-        )}`,
+        html: `${t('carta_minteada')} 
+        <a target='_blank' href='https://testnets.opensea.io/assets/mumbai/${gammaCardsContract.address}/${imageNumber}'>
+          ${t('aqui')}
+        </a>`,
         icon: 'success',
         showConfirmButton: true
       })

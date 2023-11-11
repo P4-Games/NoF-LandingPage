@@ -121,6 +121,7 @@ const index = React.forwardRef(() => {
         if (openedPack) {
           await openedPack.wait()
           setOpenPackage(true)
+          setLoaderPack(false)
           await checkNumberOfPacks()
           return openedPack
         }

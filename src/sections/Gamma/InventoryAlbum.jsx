@@ -76,7 +76,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
               {paginationObj && paginationObj.page1.map((item, index) => (
                 <div
                   onClick={() => { setCardInfo(true), setImageNumber(item) }}
-                  style={(paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'
+                  style={(paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) 
+                    ? { filter: 'grayscale(1)' } 
+                    : {}} key={index} className='grid-item'
                 >
                   <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                   {paginationObj.user[item]?.stamped && <FcCheckmark />}

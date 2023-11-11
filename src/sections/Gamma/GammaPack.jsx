@@ -67,12 +67,14 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
             id='imagetest' src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
           />
         </motion.div>
-        <AiOutlineCloseCircle
-          onClick={() => {
-            setPackIsOpen(false)
-            setOpenPackage(false)
-          }} className='closebutton'
-        />
+        {!loaderPack && 
+          <AiOutlineCloseCircle
+            onClick={() => {
+              setPackIsOpen(false)
+              setOpenPackage(false)
+            }} className='closebutton'
+          />
+        }
         {openPackage && <PackFiguritas openPackage={openPackage} cardsNumbers={cardsNumbers} />}
 
       </div>
