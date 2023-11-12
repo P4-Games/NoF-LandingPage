@@ -13,9 +13,9 @@ import { hasCard } from '../../services/contracts/gamma'
 import { useLayout } from '../../hooks'
  
 const InfoCard = React.forwardRef((props, book) => {
-  const { imageNumber, setLoading } = props
+  const { imageNumber } = props
   const {t} = useTranslation()
-  const { size } = useLayout()
+  const { size, startLoading, stopLoading } = useLayout()
   const { gammaCardsContract } = useWeb3()
   const [ userHasCard, setUserHasCard ] = useState(false)
 
@@ -49,10 +49,10 @@ const InfoCard = React.forwardRef((props, book) => {
 
   const handleMintClick = async () => {
     try {
+      startLoading()
       const transaction = await gammaCardsContract.mintCard(imageNumber)
-      setLoading(true)
       transaction.wait()
-      setLoading(false)
+      stopLoading()
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
@@ -64,6 +64,7 @@ const InfoCard = React.forwardRef((props, book) => {
       })
       return transaction
     } catch (ex) {
+      stopLoading()
       console.error({ ex })
       emitError(t('mint_error'))
     }
@@ -195,8 +196,7 @@ const InfoCard = React.forwardRef((props, book) => {
   }
 
   handleMintClick.propTypes = {
-    imageNumber: PropTypes.number,
-    setLoading: PropTypes.func
+    imageNumber: PropTypes.number
   }
 
   return (
@@ -220,6 +220,7 @@ const InfoCard = React.forwardRef((props, book) => {
         data-density='hard'
         number='1'
       >
+        
         <div className='hero__top__album__book__page__page-content'>
           <div className='cardinfo'>
             <div className='cardinfoimg'>

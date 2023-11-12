@@ -1,7 +1,9 @@
 .loader_container {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 112.5vh;
+  height: 100vh; 
   background-color: rgba(255, 255, 255, 0.5);
   display: flex;
   justify-content: center;
@@ -18,4 +20,10 @@
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  to {
+    transform: rotate(360deg);
+  }
 }

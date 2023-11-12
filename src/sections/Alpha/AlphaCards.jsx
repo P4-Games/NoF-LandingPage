@@ -20,6 +20,7 @@ import vida5 from './images/vida5.png'
 
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
+import { useLayout } from '../../hooks'
 
 const vidas = [
   vida0.src,
@@ -34,7 +35,6 @@ let swiper //eslint-disable-line
 
 const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const {t} = useTranslation()
-  const [loading, setLoading] = useState(false)
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
   const [albumImage, setAlbumImage] = useState(null)
@@ -56,7 +56,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { account, daiContract, alphaContract, noMetamaskError, connectToMetamask } = useWeb3()
-  
+  const { loading, startLoading, stopLoading } = useLayout()
+
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
       effect: 'cards',
@@ -125,7 +126,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const setSeasonData = async () => {
     try {
       if (!account || !alphaContract) return
-      setLoading(true)
+      startLoading()
       let seasonData = await alphaContract.getSeasonData()
       if (seasonData) {
         console.log('hay datos')
@@ -160,9 +161,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         setSeasonNames(activeSeasons)
         setPackPrices(seasonData[1]) 
       }
-      setLoading(false)
+      stopLoading()
     } catch (ex) {
-      setLoading(false)
+      stopLoading()
       console.error(ex)
     }
   }
@@ -372,9 +373,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                       const pack = await alphaContract.buyPack(price, name, {
                         gasLimit: 2500000
                       })
-                      setLoading(true)
+                      startLoading()
                       await pack.wait()
-                      setLoading(false)
+                      stopLoading()
                       return pack
                     }
                     if (res) {
@@ -385,7 +386,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                         })
                         .catch((err) => {
                           console.error({ err })
-                          setLoading(false)
+                          stopLoading()
                         })
                     } else {
                       authorizeDaiContract()
@@ -397,18 +398,18 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                             })
                             .catch((e) => {
                               console.error({ e })
-                              setLoading(false)
+                              stopLoading()
                             })
                         })
                         .catch((e) => {
                           console.error({ e })
-                          setLoading(false)
+                          stopLoading()
                         })
                     }
                   })
                   .catch((e) => {
                     console.error({ e })
-                    setLoading(false)
+                    stopLoading()
                   })
               } else {
                 Swal.fire({
@@ -423,12 +424,12 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           })
           .catch((e) => {
             console.error({ e })
-            setLoading(false)
+            stopLoading()
           })
       })
       .catch((e) => {
         console.error({ e })
-        setLoading(false)
+        stopLoading()
       })
   }
 
@@ -441,9 +442,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
         gasLimit: 2500000
       })
-      setLoading(true)
+      startLoading()
       await paste.wait()
-      setLoading(false)
+      stopLoading()
       return albumTokenId
     }
     pegarCarta(cardIndex)
@@ -473,11 +474,11 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           'alpha_transfer_modal'
         )[0]
         modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
-        setLoading(true)
+        startLoading()
         await transaction.wait()
         showCards(account, seasonName)
         setReceiverAccount('')
-        setLoading(false)
+        stopLoading()
         emitSuccess(t('carta_enviada'))
       }
     } catch (e) {
@@ -490,10 +491,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   return (
     <div className='alpha'>
-      {loading && (<div className= 'loader_container'>
-        <span className='loader' />
-      </div>)}
-
       {!loading && !account && (
       <div className='main_buttons_container'>
         <button

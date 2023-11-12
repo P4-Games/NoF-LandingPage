@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import PropTypes from 'prop-types'
 import '../styles/index.scss'
 import '../styles/alpha.scss'
@@ -8,13 +9,15 @@ import { appWithTranslation } from 'next-i18next'
 import { EthersProvider } from '../context/Web3Context'
 import { SettingsProvider } from '../context/SettingsContext'
 import { LayoutProvider } from '../context/LayoutContext'
-
+import Layout from '../components/Layout'
 function MyApp ({ Component, pageProps }) {
   return (
     <SettingsProvider>
       <EthersProvider>
         <LayoutProvider>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </LayoutProvider>
       </EthersProvider>
     </SettingsProvider>

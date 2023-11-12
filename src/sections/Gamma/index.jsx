@@ -21,7 +21,6 @@ import pagination from '../../utils/placeholders'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
-  const [loading, setLoading] = useState(false)
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState('0')
   const [openPackage, setOpenPackage] = useState(false)
@@ -33,7 +32,7 @@ const index = React.forwardRef(() => {
   const { 
     account, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
-  const { mobile } = useLayout()
+  const { mobile, startLoading, stopLoading } = useLayout()
   const [paginationObj, setPaginationObj] = useState({})
 
   const checkNumberOfPacks = async () => {
@@ -71,7 +70,6 @@ const index = React.forwardRef(() => {
   useEffect(() => {
     checkNumberOfPacks()
   }, [account, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
 
   function emitError (message) {
     Swal.fire({
@@ -139,7 +137,7 @@ const index = React.forwardRef(() => {
     })
 
     try {
-      setLoading(true)
+      startLoading()
       const approval = await checkApproved(daiContract, account, gammaPacksContract.address)
       if (!approval) {
         await authorizeDaiContract()
@@ -147,10 +145,10 @@ const index = React.forwardRef(() => {
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
       await checkNumberOfPacks()
-      setLoading(false)
+      stopLoading()
       return call
     } catch (e) {
-      setLoading(false)
+      stopLoading()
       emitError(t('buy_pack_error'))
     }
   }
@@ -191,9 +189,6 @@ const index = React.forwardRef(() => {
   return (
     <>
       {!account && <div className='alpha'>
-        {loading && (<div className= 'loader_container'>
-          <span className='loader' />
-        </div>)}
         <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
@@ -290,7 +285,7 @@ const index = React.forwardRef(() => {
             }
             {!inventory && <GammaAlbum />}
             {inventory && cardInfo && gammaCardsContract && 
-              <InfoCard imageNumber={imageNumber} setLoading={setLoading} />
+              <InfoCard imageNumber={imageNumber} />
             }
           </div>
 
