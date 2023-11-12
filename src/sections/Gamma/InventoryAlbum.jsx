@@ -1,5 +1,5 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import React, { useState, useEffect } from 'react'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../utils/placeholders'
@@ -70,7 +70,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page2.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -87,7 +89,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page3.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -104,7 +108,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page4.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -121,7 +127,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page5.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -138,7 +146,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page6.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -155,7 +165,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page7.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -172,7 +184,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page8.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -189,7 +203,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapper'>
             {paginationObj && paginationObj.page9.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
@@ -206,7 +222,9 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         >
           <div className='grid-wrapperright'>
             {paginationObj && paginationObj.page10.map((item, index) => (
-              <div style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
+              <div 
+                onClick={() => { setCardInfo(true), setImageNumber(item) }}
+                style={pagination.user[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className='grid-item'>
                 <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                 {paginationObj.user[item]?.stamped && <FcCheckmark />}
                 <div className='number'>{paginationObj.user[item]?.name}</div>
