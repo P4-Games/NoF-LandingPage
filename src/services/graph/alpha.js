@@ -11,7 +11,7 @@ const query = `
   }
 `
 
-export const fetchData = async () => {
+export const fetchDataAlpha = async () => {
   try {
     const response = await fetch(THE_GRAPH_ENDPOINT, {
       method: 'POST',
