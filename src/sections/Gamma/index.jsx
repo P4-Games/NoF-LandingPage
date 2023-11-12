@@ -10,13 +10,14 @@ import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
 import GammaPack from './GammaPack'
 import { fetchPackData } from '../../services/backend/gamma'
-import { checkPacksByUser, openPack, getPackPrice } from '../../services/contracts/gamma'
+import { getCardsByUser, checkPacksByUser, openPack, getPackPrice } from '../../services/contracts/gamma'
 import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
 import { useLayout } from '../../hooks'
+import pagination from '../../utils/placeholders'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -33,6 +34,7 @@ const index = React.forwardRef(() => {
     account, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
   const { mobile } = useLayout()
+  const [paginationObj, setPaginationObj] = useState({})
 
   const checkNumberOfPacks = async () => {
     try {
@@ -43,10 +45,6 @@ const index = React.forwardRef(() => {
     }
   }
 
-  useEffect(() => {
-    checkNumberOfPacks()
-  }, [account, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
   const authorizeDaiContract = async () => {
     const authorization = await daiContract.approve(
       CONTRACTS.gammaPackAddress,
@@ -56,6 +54,24 @@ const index = React.forwardRef(() => {
     await authorization.wait()
     return authorization
   }
+
+  const fetchInventory = async () => {
+    try {
+      const userCards = await getCardsByUser(gammaCardsContract, account, pagination)
+      setPaginationObj(userCards)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
+  useEffect(() => {
+    fetchInventory()
+  }, [account, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    checkNumberOfPacks()
+  }, [account, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
 
   function emitError (message) {
     Swal.fire({
@@ -94,13 +110,14 @@ const index = React.forwardRef(() => {
         const { packet_data, signature } = data
 
         setOpenPackCardsNumbers(packet_data)
-        // ssetPacksEnable(true)
         const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
+
         if (openedPack) {
           await openedPack.wait()
           setOpenPackage(true)
           setLoaderPack(false)
           await checkNumberOfPacks()
+          await fetchInventory()
           return openedPack
         }
       }
@@ -266,6 +283,7 @@ const index = React.forwardRef(() => {
           >
             {inventory && !cardInfo && gammaCardsContract && 
             <InventoryAlbum
+              paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}
               cardInfo={cardInfo}/>

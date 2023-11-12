@@ -9,8 +9,7 @@ import { storageUrlGamma } from '../../config'
 import { useLayout } from '../../hooks'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
-  const { setImageNumber, setCardInfo } = props
-  const [paginationObj, setPaginationObj] = useState({})
+  const { setImageNumber, setCardInfo, paginationObj } = props
   const { account, gammaCardsContract } = useWeb3()
   const { size } = useLayout()
 
@@ -22,12 +21,6 @@ const InventoryAlbum = React.forwardRef((props, book) => {
       console.error(error)
     }
   }
-
-  useEffect(() => {
-    fetchCardsData()
-  }, [account, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
-
 
   return paginationObj && paginationObj.page1
     ? (
