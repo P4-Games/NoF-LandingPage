@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
 import { storageUrlAlpha, CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
-import { fetchData } from '../../services/graph/alpha'
+import { fetchDataAlpha } from '../../services/graph/alpha'
 import { checkApproved } from '../../services/contracts/dai'
 import CustomImage from '../../components/customImage'
 
@@ -145,7 +145,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           }
         }
         const seasonWinnersCount = {}
-        const winnersQuery = await fetchData()
+        const winnersQuery = await fetchDataAlpha()
         const { winners } = winnersQuery.data
         for (let i = 0; i < winners.length; i++) {
           if (!seasonWinnersCount[winners[i].season]) {
