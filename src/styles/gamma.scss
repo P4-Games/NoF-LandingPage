@@ -768,27 +768,11 @@
         transform: scale(1.03);
       }
     }
-    .option2 {
-      padding: 10px 20px;
-      background: url('/marco.png');
-      background-size: 100% 100%;
-      background-position: center;
-      transition: all ease-in 0.1s;
-      cursor: pointer;
-      &:hover {
-        transform: scale(1.03);
-      }
-    }
-    .option3 {
-      padding: 10px 20px;
-      background: url('/marco.png');
-      background-size: 100% 100%;
-      background-position: center;
-      transition: all ease-in 0.1s;
-      cursor: pointer;
-      &:hover {
-        transform: scale(1.03);
-      }
+    .option_disabled {
+      @extend .option;
+      color: #8f8f8f;
+      pointer-events: none;
+      cursor: not-allowed;
     }
   }
   .cardinfoimg {
