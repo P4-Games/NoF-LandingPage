@@ -65,11 +65,11 @@ const index = React.forwardRef(() => {
   
   useEffect(() => {
     fetchInventory()
-  }, [account, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, gammaCardsContract, pagination]) 
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [account, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, gammaPacksContract])
 
   function emitError (message) {
     Swal.fire({
