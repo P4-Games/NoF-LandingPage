@@ -66,5 +66,7 @@ export const defaultSettings = {
   languageSetted: 'es'
 }
 
+
+
 console.log(NETWORK, CONTRACTS)
 // ------------------------------------------------------------------

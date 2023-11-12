@@ -1,11 +1,9 @@
 import React from 'react'
 
-const Loading = () => {
-  return (
-    <div className="loader_container">
-      <div className="loader"></div>
-    </div>
-  )
-}
+const Loading = () => (
+  <div className="loader_container">
+    <div className="loader" />
+  </div>
+)
 
 export default Loading
