@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 import HTMLFlipBook from 'react-pageflip'
 import 'swiper/css'
@@ -29,7 +28,8 @@ const InfoCard = React.forwardRef((props, book) => {
     })
   }
   
-  const veriyUserHasCard = async () => {
+  const verifyUserHasCard = async () => {
+    console.log('called verify')
     try {
       const result = await hasCard(gammaCardsContract, imageNumber)
       setUserHasCard(result)
@@ -40,8 +40,98 @@ const InfoCard = React.forwardRef((props, book) => {
   }
 
   useEffect(() => {
-    veriyUserHasCard()
-  }, [])
+    verifyUserHasCard()
+  }, [gammaCardsContract])
+
+  const handleOfferClick = async () => {
+    // TODO
+  }
+
+  const handlePublishClick = async () => {
+    Swal.fire({
+      text: `${t('cartas_a_cambio')}`,
+      html: `<h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('publicar')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput'
+        // container: 'cardcontainer',
+        // confirmButton: 'alertbuttonvender',
+        // cancelButton: 'alertcancelbutton',
+      }
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // const input = Swal.getPopup().querySelector('#quiero')
+        // setWantedCards(input.value)
+        Swal.fire({
+          title: '',
+          text: t('confirmado'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        //     Swal.fire({
+        //         text: 'Publicar?',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Confirmar publicacion',
+        //         showLoaderOnConfirm: true,
+        //         preConfirm: (login) => {
+        //           return fetch(`//api.github.com/users/${login}`)
+        //             .then(response => {
+        //               if (!response.ok) {
+        //                 throw new Error(response.statusText)
+        //               }
+        //               return response.json()
+        //             })
+        //             .catch(error => {
+        //               Swal.showValidationMessage(
+        //                 `Request failed: ${error}`
+        //               )
+        //             })
+        //         },
+        //         allowOutsideClick: () => !Swal.isLoading()
+        //       }).then((result) => {
+        //         if (result.isConfirmed) {
+        //           Swal.fire({
+        //             text: `El precio elegido es ${result.value.login}`,
+        //             imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
+        //             color:`whitesmoke`,
+        //             backdrop:"#0000009e",
+        //             customClass: {
+        //                 image: 'cardalertimg',
+        //                 input: 'alertinput',
+        //                 // container: 'cardcontainer',
+        //                 popup: 'cardcontainer',
+        //                 confirmButton: 'alertbuttonvender',
+        //                 cancelButton: 'alertcancelbutton',
+        //             },
+        //           })
+        //         }
+        //       })
+        // } else if (result.isDenied) {
+        //     Swal.fire({
+        //         text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
+        //         // imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
+        //         color:`black`,
+        //         backdrop:"#0000009e",
+        //         customClass: {
+        //             image: 'cardalertimg',
+        //             input: 'alertinput',
+        //             // container: 'cardcontainer',
+        //             popup: 'cardspopup',
+        //             confirmButton: 'okbutton',
+        //             cancelButton: 'alertcancelbutton',
+        //         },
+        //       })
+      }
+    })
+  }
 
   const handleTransferClick = async () => {
       // TODO
@@ -70,6 +160,15 @@ const InfoCard = React.forwardRef((props, book) => {
     }
   }
 
+  const OfferButton = () => {
+    return (
+      <div className= {userHasCard ? 'option' : 'option_disabled' }
+      onClick={() => handleOfferClick()}
+    >
+        {t('ofertas')}
+      </div>
+    )
+  }
 
   const MintButton = () => {
     return (
@@ -78,6 +177,17 @@ const InfoCard = React.forwardRef((props, book) => {
         onClick={() => handleMintClick()}
       >
         {t('mintear')}
+      </div>
+    )
+  }
+
+  const PublishButton = () => {
+    return (
+      <div
+        className= {userHasCard ? 'option' : 'option_disabled' }
+        onClick={() => handlePublishClick()}
+      >
+        {t('publicar')}
       </div>
     )
   }
@@ -91,112 +201,6 @@ const InfoCard = React.forwardRef((props, book) => {
         {t('transferir')}
       </div>
     )
-  }
-
-  const PublishButton = () => {
-    return (
-      <div
-        onClick={() =>
-          Swal.fire({
-            text: `${t('cartas_a_cambio')}`,
-            html: `<h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
-            showDenyButton: false,
-            showCancelButton: true,
-            confirmButtonText: `${t('publicar')}`,
-            confirmButtonColor: '#005EA3',
-            color: 'black',
-            background: 'white',
-            customClass: {
-              image: 'cardalertimg',
-              input: 'alertinput'
-              // container: 'cardcontainer',
-              // confirmButton: 'alertbuttonvender',
-              // cancelButton: 'alertcancelbutton',
-            }
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              // const input = Swal.getPopup().querySelector('#quiero')
-              // setWantedCards(input.value)
-              Swal.fire({
-                title: '',
-                text: t('confirmado'),
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 1500
-              })
-              //     Swal.fire({
-              //         text: 'Publicar?',
-              //         showCancelButton: true,
-              //         confirmButtonText: 'Confirmar publicacion',
-              //         showLoaderOnConfirm: true,
-              //         preConfirm: (login) => {
-              //           return fetch(`//api.github.com/users/${login}`)
-              //             .then(response => {
-              //               if (!response.ok) {
-              //                 throw new Error(response.statusText)
-              //               }
-              //               return response.json()
-              //             })
-              //             .catch(error => {
-              //               Swal.showValidationMessage(
-              //                 `Request failed: ${error}`
-              //               )
-              //             })
-              //         },
-              //         allowOutsideClick: () => !Swal.isLoading()
-              //       }).then((result) => {
-              //         if (result.isConfirmed) {
-              //           Swal.fire({
-              //             text: `El precio elegido es ${result.value.login}`,
-              //             imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
-              //             color:`whitesmoke`,
-              //             backdrop:"#0000009e",
-              //             customClass: {
-              //                 image: 'cardalertimg',
-              //                 input: 'alertinput',
-              //                 // container: 'cardcontainer',
-              //                 popup: 'cardcontainer',
-              //                 confirmButton: 'alertbuttonvender',
-              //                 cancelButton: 'alertcancelbutton',
-              //             },
-              //           })
-              //         }
-              //       })
-              // } else if (result.isDenied) {
-              //     Swal.fire({
-              //         text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
-              //         // imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
-              //         color:`black`,
-              //         backdrop:"#0000009e",
-              //         customClass: {
-              //             image: 'cardalertimg',
-              //             input: 'alertinput',
-              //             // container: 'cardcontainer',
-              //             popup: 'cardspopup',
-              //             confirmButton: 'okbutton',
-              //             cancelButton: 'alertcancelbutton',
-              //         },
-              //       })
-            }
-          })}
-        className= {userHasCard ? 'option' : 'option_disabled' }
-      >
-        {t('publicar')}
-      </div>
-    )
-  }
-
-  const OfferButton = () => {
-    return (
-      <div className= {userHasCard ? 'option' : 'option_disabled' }>
-        {t('ofertas')}
-      </div>
-    )
-  }
-
-  handleMintClick.propTypes = {
-    imageNumber: PropTypes.number
   }
 
   return (
@@ -264,6 +268,8 @@ const InfoCard = React.forwardRef((props, book) => {
     </HTMLFlipBook>
   )
 })
+
+
 
 export default InfoCard
 
