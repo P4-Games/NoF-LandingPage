@@ -168,8 +168,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
 
   useEffect(() => {
-      setSeasonData()
-  }, [account, alphaContract])
+    setSeasonData()
+  }, [account, alphaContract, setSeasonData])
 
 
   const getUserCards = async (address, seasonName) => {

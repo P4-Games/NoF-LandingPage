@@ -10,12 +10,12 @@ import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/contracts/gamma'
-
+import { useLayout } from '../../hooks'
  
 const InfoCard = React.forwardRef((props, book) => {
   const { imageNumber, setLoading } = props
   const {t} = useTranslation()
-  const [size, setSize] = useState(false)
+  const { size } = useLayout()
   const { gammaCardsContract } = useWeb3()
   const [ userHasCard, setUserHasCard ] = useState(false)
 
@@ -41,23 +41,6 @@ const InfoCard = React.forwardRef((props, book) => {
 
   useEffect(() => {
     veriyUserHasCard()
-  }, [])
-
-  useEffect(() => {
-    if (window.innerWidth < 600) {
-      setSize(true)
-    } else {
-      setSize(false)
-    }
-    const updateMedia = () => {
-      if (window.innerWidth < 600) {
-        setSize(true)
-      } else {
-        setSize(false)
-      }
-    }
-    window.addEventListener('resize', updateMedia)
-    return () => window.removeEventListener('resize', updateMedia)
   }, [])
 
   const handleTransferClick = async () => {

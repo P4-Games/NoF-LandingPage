@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -29,36 +29,14 @@ import Friends from './Friends.json'
 import Whitepaper from '../../components/Navbar/Whitepaper'
 import NofTown from '../../components/Navbar/NofTown'
 import {useTranslation} from 'next-i18next'
+import { useLayout } from '../../hooks'
 
-const Hero = React.forwardRef((props, book) => {
+const Hero = React.forwardRef((_, book) => {
   const [swipper, setSwipper] = useState(false)
-  const [mobile, setMobile] = useState(false)
-  const [size, setSize] = useState(false)
+  const { size, mobile } = useLayout()
   const {t} = useTranslation()
 
-  useEffect(() => {
-    if (window.innerWidth < 600) {
-      setMobile(true)
-      setSize(true)
-      setSwipper(true)
-    } else {
-      setMobile(false)
-      setSize(false)
-    }
-    const updateMedia = () => {
-      if (window.innerWidth < 600) {
-        setMobile(true)
-        setSwipper(true)
-        setSize(true)
-      } else {
-        setMobile(false)
-        setSize(false)
-      }
-    }
-    window.addEventListener('resize', updateMedia)
-    return () => window.removeEventListener('resize', updateMedia)
-  }, [])
-
+  console.log('here', size, mobile)
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>

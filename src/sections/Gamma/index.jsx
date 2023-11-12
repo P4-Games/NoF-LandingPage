@@ -16,7 +16,7 @@ import { showRules, closeRules } from '../../utils/rules'
 import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../../hooks'
-
+import { useLayout } from '../../hooks'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -26,35 +26,13 @@ const index = React.forwardRef(() => {
   const [openPackage, setOpenPackage] = useState(false)
   const [cardInfo, setCardInfo] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
-  const [mobile, setMobile] = useState(false)
-  const [, setSize] = useState(false)
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
   const [loaderPack, setLoaderPack] = useState(false)
   const { 
     account, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
-
-  useEffect(() => {
-    if (window.innerWidth < 600) {
-      setMobile(true)
-      setSize(true)
-    } else {
-      setMobile(false)
-      setSize(false)
-    }
-    const updateMedia = () => {
-      if (window.innerWidth < 600) {
-        setMobile(true)
-        setSize(true)
-      } else {
-        setMobile(false)
-        setSize(false)
-      }
-    }
-    window.addEventListener('resize', updateMedia)
-    return () => window.removeEventListener('resize', updateMedia)
-  }, [])
+  const { mobile } = useLayout()
 
   const checkNumberOfPacks = async () => {
     try {
@@ -139,6 +117,7 @@ const index = React.forwardRef(() => {
       console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+        console.log(pack_number)
       }
     })
 
@@ -266,19 +245,37 @@ const index = React.forwardRef(() => {
           <meta name='description' content='NoF Gamma' />
           <link rel='icon' href='/favicon.ico' />
         </Head>
+
         <div className='hero__top'>
-          {!mobile && inventory && <img alt='albums' src='/gamma/albums.png' onClick={() => setInventory(false)} className='gammaAlbums' />}
-          {!mobile && !inventory && <div onClick={() => setInventory(false)} className='gammaAlbums2' />}
-          <div style={inventory ? { backgroundImage: 'url(\'/gamma/InventarioFondo.png\')' } : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }} className='hero__top__album'>
-            {inventory && !cardInfo && gammaCardsContract && <InventoryAlbum
+          {!mobile && inventory &&
+            <img
+              alt='albums' src='/gamma/albums.png'
+              onClick={() => setInventory(false)} className='gammaAlbums'
+            />
+          }
+
+          {!mobile && !inventory &&
+            <div onClick={() => setInventory(false)} className='gammaAlbums2' />
+          }
+
+          <div
+            style={inventory 
+              ? { backgroundImage: 'url(\'/gamma/InventarioFondo.png\')' }
+              : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }}
+            className='hero__top__album'
+          >
+            {inventory && !cardInfo && gammaCardsContract && 
+            <InventoryAlbum
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}
-              cardInfo={cardInfo}/>}
+              cardInfo={cardInfo}/>
+            }
             {!inventory && <GammaAlbum />}
-            {inventory && cardInfo && gammaCardsContract && <InfoCard imageNumber={imageNumber} setLoading={setLoading} />}
+            {inventory && cardInfo && gammaCardsContract && 
+              <InfoCard imageNumber={imageNumber} setLoading={setLoading} />
+            }
           </div>
-          {/* {!mobile && packsEnable && <div onClick={() => { setPackIsOpen(true), fetchPackData() }} className="gammaFigures">Buy Pack</div>}
-          {!mobile && !packsEnable && <div onClick={() => { setPackIsOpen(true), buypack() }} className="gammaFigures"><h2>Buy Pack</h2></div>} */}
+
           {!mobile && inventory &&
             <div className='gammaShop'>
               <h1>{numberOfPacks}</h1>
