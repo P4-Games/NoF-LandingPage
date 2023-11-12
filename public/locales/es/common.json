@@ -101,6 +101,7 @@
     "rules_gamma_right_text_3": "NofTown te permite interactuar con otros jugadores de forma rápida y segura, realizando intercambios de NFT de forma sencilla.",
     "rules_gamma_right_text_4": "No están permitidas las multicuentas.",
 
-    "no_season_nampes": "No se encontraron temporadas"
+    "no_season_nampes": "No se encontraron temporadas",
+    "user_has_card_error": "Error verificando si el usuario tiene carta"
 
 }
