@@ -14,6 +14,6 @@ export const checkBalance = async (daiContract, account) => {
 }
 
 export const checkApproved = async (daiContract, tokenOwnerAddress, spenderAddress) => {
-    const approved = await daiContract.allowance(tokenOwnerAddress, spenderAddress)
-    return approved.gt(0)
+  const approved = await daiContract.allowance(tokenOwnerAddress, spenderAddress)
+  return approved.gt(0)
 }
