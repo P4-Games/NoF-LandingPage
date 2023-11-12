@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { createContext, useEffect, useState } from 'react'
+import React, { useCallback, createContext, useEffect, useState } from 'react'
 
 const initialState = {
   windowSize: { size: false, mobile: false }
@@ -16,6 +16,7 @@ function LayoutProvider({ children }) {
     size: typeof window !== 'undefined' && window.innerWidth < 600,
     mobile: typeof window !== 'undefined' && window.innerWidth < 600
   })
+  const [loading, setLoading] = useState(false)
 
   const updateMedia = () => {
     if (typeof window !== 'undefined') {
@@ -27,6 +28,14 @@ function LayoutProvider({ children }) {
     }
   }
 
+  const startLoading = useCallback(() => {
+    setLoading(true)
+  }, [])
+
+  const stopLoading = useCallback(() => {
+    setLoading(false)
+  }, [])
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', updateMedia)
@@ -36,7 +45,12 @@ function LayoutProvider({ children }) {
     }
   }, [])
 
-  return <LayoutContext.Provider value={windowSize}>{children}</LayoutContext.Provider>
+  return (
+    <LayoutContext.Provider
+        value={{ windowSize, loading, startLoading, stopLoading }}>
+          {children}
+    </LayoutContext.Provider>
+  )
 }
 
 export { LayoutProvider, LayoutContext }
