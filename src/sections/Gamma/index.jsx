@@ -32,7 +32,7 @@ const index = React.forwardRef(() => {
   const { 
     account, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
-  const { size, mobile } = useLayout()
+  const { mobile } = useLayout()
 
   const checkNumberOfPacks = async () => {
     try {
@@ -117,6 +117,7 @@ const index = React.forwardRef(() => {
       console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+        console.log(pack_number)
       }
     })
 

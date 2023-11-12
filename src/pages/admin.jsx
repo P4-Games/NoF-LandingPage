@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { adminAccounts } from '../config'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {useTranslation} from 'next-i18next'
 import { useWeb3 } from '../hooks'
 
-const Admin = React.forwardRef((props, ref) => {
+const Admin = React.forwardRef(() => {
   const {t} = useTranslation()
   const { account, noMetamaskError, connectToMetamask } = useWeb3()
  

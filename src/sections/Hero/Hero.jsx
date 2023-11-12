@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'

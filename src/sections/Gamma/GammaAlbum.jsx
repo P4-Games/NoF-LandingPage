@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import HTMLFlipBook from 'react-pageflip'
 import pagination from '../../utils/placeholders'
 import { storageUrlGamma } from '../../config'
-import { useLayout } from '../../hooks'
 
-const GammaInventory = React.forwardRef((props, book) => {
+const GammaInventory = React.forwardRef((_, book) => {
   const { size } = useLayout()
 
   return (
