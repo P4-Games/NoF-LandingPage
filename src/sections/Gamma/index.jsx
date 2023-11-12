@@ -289,9 +289,15 @@ const index = React.forwardRef(() => {
             }
           </div>
 
-          {!mobile && inventory &&
-            <div className='gammaShop'>
-              <h1>{numberOfPacks}</h1>
+          {!mobile && inventory &&          
+            <div className='gammapack'>
+              <div className=''>
+                  <h1
+                    className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
+                    onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+                    {numberOfPacks}
+                  </h1>
+              </div>
               <div 
                 onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
                 className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
@@ -302,7 +308,8 @@ const index = React.forwardRef(() => {
                 className={numberOfPacks==='0' ? 'transferPack_disabled' : 'transferPack'}>
                 <h3>{t('transferir')}</h3>
               </div>
-            </div>}
+            </div>
+          }
 
           {!mobile && !inventory &&
             <div className='gammaComplete'>

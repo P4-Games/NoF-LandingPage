@@ -61,11 +61,11 @@
   text-align: center;
 }
 
-.gammaShop {
+.gammapack {
   position: absolute;
   bottom: 41%;
   right: 7%;
-  width: 16%;
+  width: 17%;
   height: 35%;
   background-color: black;
   background: url('/gamma/SobreGamma.png');
@@ -104,6 +104,15 @@
     align-items: center;
     color: black;
     margin: 0;
+  }
+  .pack_number {
+    @extend h1;
+    cursor: pointer;
+  }
+  .pack_number_disabled {
+    @extend .pack_number;
+    pointer-events: none;
+    cursor: not-allowed;
   }
   .openPack {
     @extend .button_common;
