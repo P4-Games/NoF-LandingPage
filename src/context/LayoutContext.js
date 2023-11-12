@@ -46,9 +46,8 @@ function LayoutProvider({ children }) {
   }, [])
 
   return (
-    <LayoutContext.Provider
-        value={{ windowSize, loading, startLoading, stopLoading }}>
-          {children}
+    <LayoutContext.Provider value={{ windowSize, loading, startLoading, stopLoading }}>
+      {children}
     </LayoutContext.Provider>
   )
 }
