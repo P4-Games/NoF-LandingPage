@@ -43,6 +43,16 @@ export const getCardsByUser = async (cardsContract, account, pagination) => {
   }
 }
 
+export const hasCard = async (cardsContract, cardNumber) => {
+  try {
+    const result = await cardsContract.hasCard(cardNumber)
+    return result
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
 export const getPackPrice = async (cardsContract) => {
   try {
     const price = await cardsContract.packPrice()

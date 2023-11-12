@@ -101,6 +101,6 @@
     "rules_gamma_right_text_3": "NoFTown enables you to interact with other players quickly and safely, facilitating NFT exchanges.",
     "rules_gamma_right_text_4": "Multiple accounts are not allowed.",
 
-    "no_season_nampes": "No seasons found"
-
+    "no_season_nampes": "No seasons found",
+    "user_has_card_error": "Error checking if the user has a card"
 }
