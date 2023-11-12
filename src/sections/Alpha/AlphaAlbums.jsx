@@ -54,6 +54,8 @@ const AlphaAlbums = ({
 
   const getAlbums = async () => {
     const albumsArr = []
+    if (!seasonNames) return albumsArr
+    
     for (let i = 0; i < seasonNames.length; i++) {
       const album = await nofContract.getCardsByUserBySeason(
         account,

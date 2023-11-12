@@ -126,10 +126,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const setSeasonData = async () => {
     try {
       if (!account || !alphaContract) return
-      startLoading()
       let seasonData = await alphaContract.getSeasonData()
       if (seasonData) {
-        console.log('hay datos')
         let currentSeason
         let currentPrice
         for (let i = 0; i < seasonData[0].length; i++) {
@@ -157,20 +155,23 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
         const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
         setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
-        setPackPrice(currentPrice.toString()) // sets the season price as the last season price created
+        setPackPrice(currentPrice?.toString()) // sets the season price as the last season price created
         setSeasonNames(activeSeasons)
         setPackPrices(seasonData[1]) 
       }
-      stopLoading()
     } catch (ex) {
-      stopLoading()
       console.error(ex)
     }
   }
 
   useEffect(() => {
-    setSeasonData()
-  }, [account, alphaContract, setSeasonData])
+    setSeasonData().then((res) => {
+      stopLoading()
+    }).catch((e) => {
+      stopLoading()
+      console.error(ex)
+    })
+  }, [account, alphaContract])
 
 
   const getUserCards = async (address, seasonName) => {
@@ -185,7 +186,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const getSeasonFolder = async (seasonName) => {
     try {
       const response = await alphaContract.seasons(seasonName)
-      console.log('season folder', response.folder)
       return response.folder
     } catch (ex) {
       console.error(ex)
@@ -282,7 +282,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       })
       const cards = getUserCards(address, seasonName)
         .then((pack) => {
-          console.log('pack', pack)
           if (pack.length) {
             const albumData = []
             const cardsData = []
@@ -508,7 +507,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         <span>{noMetamaskError}</span>
       </div>)}
 
-      {!loading && account && alphaContract && !seasonNames && (
+      {account && alphaContract && !seasonNames && (
         <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
           {t('no_season_nampes')}
         </span>
@@ -542,47 +541,50 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
           </div>
         </div>
       </div>
-
+ 
       {account && alphaContract && seasonNames && (
         <div className='alpha_inner_container'>
           <div className='alpha_data'>
-            <div className='alpha_season'>
-              <img alt='marco' src={'/marco.png'} />
-              <span className='alpha_season_name'>{seasonName}</span>
-              <select
-                value={seasonName}
-                onChange={(e) => {
-                  setSeasonName(e.target.value)
-                  setPackPrice(
-                    ethers.BigNumber.from(
-                      packPrices[seasonNames.indexOf(e.target.value)]
-                    ).toString()
-                  )
-                }}
-                id='alpha_select_season_button'
-              >
-                {seasonNames &&
-                  seasonNames.map((name) => <option key={name}>{name}</option>)}
-              </select>
-            </div>
-            <div className='alpha_start_buttons'>
-              <button
-                onClick={() => showCards(account, seasonName)}
-                className='alpha_button'
-                id='alpha_show_cards_button'
-              >
-                {t('ver_cartas')}
-              </button>
-              <button
-                onClick={() => buyPack(packPrice, seasonName)}
-                className='alpha_button'
-                id='alpha_buy_pack_button'
-              >{`${t('comprar_pack')} ($${packPrice.substring(
-                0,
-                packPrice.length - 18
-              )})`}
-              </button>
-            </div>
+            {seasonNames && seasonNames.length > 0 && 
+            <>
+              <div className='alpha_season'>
+                <img alt='marco' src={'/marco.png'} />
+                <span className='alpha_season_name'>{seasonName}</span>
+                <select
+                  value={seasonName}
+                  onChange={(e) => {
+                    setSeasonName(e.target.value)
+                    setPackPrice(
+                      ethers.BigNumber.from(
+                        packPrices[seasonNames.indexOf(e.target.value)]
+                      ).toString()
+                    )
+                  }}
+                  id='alpha_select_season_button'
+                >
+                  {seasonNames &&
+                    seasonNames.map((name) => <option key={name}>{name}</option>)}
+                </select>
+              </div>
+              <div className='alpha_start_buttons'>
+                <button
+                  onClick={() => showCards(account, seasonName)}
+                  className='alpha_button'
+                  id='alpha_show_cards_button'
+                >
+                  {t('ver_cartas')}
+                </button>
+                <button
+                  onClick={() => buyPack(packPrice, seasonName)}
+                  className='alpha_button'
+                  id='alpha_buy_pack_button'
+                >{`${t('comprar_pack')} ($${packPrice?.substring(
+                  0,
+                  packPrice.length - 18
+                )})`}
+                </button>
+              </div>
+            </>}
             <span
               style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}
             >
