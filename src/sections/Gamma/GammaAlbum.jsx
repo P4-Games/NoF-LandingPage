@@ -42,7 +42,7 @@ const GammaInventory = React.forwardRef((_, book) => {
         <div className='hero__top__album__book__page__page-content'>
           <div className='grid-wrapper'>
             {pagination.page1.map((item, index) => (
-                <PageContext item={item} index={index} />
+                <PageContext key={index} item={item} index={index} />
               ))}
           </div>
         </div>
@@ -54,7 +54,7 @@ const GammaInventory = React.forwardRef((_, book) => {
       >
         <div className='grid-wrapperright'>
           {pagination.page2.map((item, index) => (
-            <PageContext item={item} index={index} />
+            <PageContext key={index} item={item} index={index} />
           ))}
         </div>
       </div>
