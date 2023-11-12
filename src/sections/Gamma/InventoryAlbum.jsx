@@ -6,33 +6,13 @@ import pagination from '../../utils/placeholders'
 import { getCardsByUser } from '../../services/contracts/gamma'
 import { useWeb3 } from '../../hooks'
 import { storageUrlGamma } from '../../config'
+import { useLayout } from '../../hooks'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
   const { setImageNumber, setCardInfo } = props
-  const [size, setSize] = useState(false)
   const [paginationObj, setPaginationObj] = useState({})
   const { account, gammaCardsContract } = useWeb3()
-  
-  const windowSize = () => {
-    if (window.innerWidth < 600) {
-      setSize(true)
-    } else {
-      setSize(false)
-    }
-    const updateMedia = () => {
-      if (window.innerWidth < 600) {
-        setSize(true)
-      } else {
-        setSize(false)
-      }
-    }
-    window.addEventListener('resize', updateMedia)
-    return () => window.removeEventListener('resize', updateMedia)
-  }
-
-  useEffect(() => {
-    windowSize()
-  }, [])
+  const { size } = useLayout()
 
   const fetchCardsData = async () => {
     try {

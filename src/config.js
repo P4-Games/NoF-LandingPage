@@ -56,7 +56,6 @@ export const openSeaUrlGamma = is_production
   ? `https://.opensea.io/assets/matic/${CONTRACTS.gammaCardsAddress}`
   : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.gammaCardsAddress}`
 
-
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 

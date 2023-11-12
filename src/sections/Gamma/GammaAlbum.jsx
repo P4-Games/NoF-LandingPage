@@ -2,26 +2,10 @@ import React, { useState, useEffect } from 'react'
 import HTMLFlipBook from 'react-pageflip'
 import pagination from '../../utils/placeholders'
 import { storageUrlGamma } from '../../config'
+import { useLayout } from '../../hooks'
 
 const GammaInventory = React.forwardRef((props, book) => {
-  const [size, setSize] = useState(false)
-
-  useEffect(() => {
-    if (window.innerWidth < 600) {
-      setSize(true)
-    } else {
-      setSize(false)
-    }
-    const updateMedia = () => {
-      if (window.innerWidth < 600) {
-        setSize(true)
-      } else {
-        setSize(false)
-      }
-    }
-    window.addEventListener('resize', updateMedia)
-    return () => window.removeEventListener('resize', updateMedia)
-  }, []) 
+  const { size } = useLayout()
 
   return (
     <HTMLFlipBook
@@ -73,16 +57,6 @@ const GammaInventory = React.forwardRef((props, book) => {
             ))}
         </div>
       </div>
-      {/* 
-      <div
-        className='hero__top__album__book__page'
-        data-density='hard'
-        number='3'
-      >
-        <div className="hero__top__album__book__page__page-content">
-                    Prueba3
-                </div> 
-      </div>*/}
     </HTMLFlipBook>
   )
 })

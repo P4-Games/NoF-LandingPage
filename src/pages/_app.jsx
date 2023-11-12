@@ -7,12 +7,15 @@ import '../styles/common.scss'
 import { appWithTranslation } from 'next-i18next'
 import { EthersProvider } from '../context/Web3Context'
 import { SettingsProvider } from '../context/SettingsContext'
+import { LayoutProvider } from '../context/LayoutContext'
 
 function MyApp ({ Component, pageProps }) {
   return (
     <SettingsProvider>
       <EthersProvider>
-        <Component {...pageProps} />
+        <LayoutProvider>
+          <Component {...pageProps} />
+        </LayoutProvider>
       </EthersProvider>
     </SettingsProvider>
   )
