@@ -28,8 +28,12 @@ export const NETWORK = {
     (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
+    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
+  chainNodeProviderUrl: process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
 }
+
+
+export const WalletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'bc09ad4a99cebe270fcc24bd6925f4fe'
 
 export const CONTRACTS = {
   daiAddress:

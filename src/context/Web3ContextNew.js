@@ -1,53 +1,31 @@
 import PropTypes from 'prop-types'
 import { createContext, useState, useEffect, useCallback } from 'react'
-import Onboard from '@web3-onboard/core'
-import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
 import { ethers, providers } from 'ethers'
+
+import Onboard from '@web3-onboard/core'
+
+import coinbaseModule from '@web3-onboard/coinbase'
+// import gas from '@web3-onboard/gas'
+import trustModule from '@web3-onboard/trust'
+import gnosisModule from '@web3-onboard/gnosis'
+import walletConnectModule from '@web3-onboard/walletconnect'
+import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
+// import icon from '../../public/icon.png'
 
 import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
 import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
 import gammaPacksAbi from './abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
 import gammaCardsAbi from './abis/GammaCards.v2.sol/NofGammaCardsV2.json'
-import { CONTRACTS, NETWORK } from '../config'
+import { CONTRACTS, NETWORK, WalletConnectProjectId } from '../config'
 
-const NODE_PROVIDER_URL = 'https://polygon-mumbai.g.alchemy.com/v2/'
-const NODE_PROVIDER_KEY='6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
-const NETWORK_ID = '0x539'
-export const ENV_SUPPORTED_NETWORK_ID = parseInt(NETWORK_ID, 10)
-export const SUPPORTED_NETWORKS = {
-  1337: {
-    id: 1337,
-    token: 'ETH',
-    label: 'localhost',
-    publicRpcUrl: 'http://localhost:8545',
-    rpcUrl: `${NODE_PROVIDER_URL}${NODE_PROVIDER_URL.endsWith('/') ? '' : '/'}${NODE_PROVIDER_KEY}`,
-    blockExplorerUrl: 'http://localhost:8080',
-  },
-  137: {
-    id: 137,
-    token: 'MATIC',
-    label: 'Polygon Mainnet',
-    publicRpcUrl: 'https://polygon-rpc.com',
-    rpcUrl: `${NODE_PROVIDER_URL}${NODE_PROVIDER_URL.endsWith('/') ? '' : '/'}${NODE_PROVIDER_KEY}`,
-    blockExplorerUrl: 'https://polygonscan.com',
-  },
-  80001: {
-    id: 80001,
-    token: 'MATIC',
-    label: 'Polygon testnet',
-    publicRpcUrl: 'https://matic-mumbai.chainstacklabs.com',
-    blockExplorerUrl: 'https://mumbai.polygonscan.com',
-    rpcUrl: `${NODE_PROVIDER_URL}${NODE_PROVIDER_URL.endsWith('/') ? '' : '/'}${NODE_PROVIDER_KEY}`,
-  }
-}
-export const ENV_SUPPORTED_NETWORK = SUPPORTED_NETWORKS[ENV_SUPPORTED_NETWORK_ID]
+//----------------------------------------------------------
 
 const initialState = {
-  connectWallet: () => {}
+  connectWallet: () => {},
+  disconnectWallet: () => {}
 }
 
 const Web3Context = createContext(initialState)
-
 
 const Web3ContextProvider = ({ children }) => {
   const [web3Onboard, setWeb3Onboard] = useState(null)
@@ -92,7 +70,21 @@ const Web3ContextProvider = ({ children }) => {
   }
 
   const initWeb3Onboard = useCallback(async () => {
-    const MAINNET_RPC_URL = 'https://polygon-mumbai.g.alchemy.com/v2/6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
+
+    const wcV1InitOptions = {
+      version: 1,
+      bridge: 'https://bridge.walletconnect.org',
+      qrcodeModalOptions: {
+        mobileLinks: ['metamask', 'argent', 'trust']
+      },
+      connectFirstChainId: true
+    }
+    
+    const wcV2InitOptions = {
+      version: 2,
+      projectId: WalletConnectProjectId || ''
+    }
+
     const injected = injectedModule({
       filter: {
         // allow only on non android mobile
@@ -100,9 +92,14 @@ const Web3ContextProvider = ({ children }) => {
         displayUnavailable: true
       }
     })
-
+    
+    const walletConnect = walletConnectModule(wcV2InitOptions || wcV1InitOptions)
+    const trust = trustModule()
+    const coinbase = coinbaseModule()
+    const gnosis = gnosisModule({ whitelistedDomains: [] })
+    
     const onboard = Onboard({
-      wallets: [injected],
+      wallets: [injected, walletConnect, gnosis, coinbase, trust],
       connect: {
         showSidebar: true,
         disableClose: false,
@@ -124,10 +121,10 @@ const Web3ContextProvider = ({ children }) => {
       notify: { enabled: true },
       chains: [
         {
-          id: '0x13881',
-          token: 'MATIC',
-          label: 'Mumbai',
-          rpcUrl: MAINNET_RPC_URL,
+          id: NETWORK.chainId,
+          token: NETWORK.chainCurrency,
+          label: NETWORK.chainName,
+          rpcUrl: NETWORK.ChainRpcUrl
         }
       ],
       appMetadata: {
@@ -146,11 +143,24 @@ const Web3ContextProvider = ({ children }) => {
     initWeb3Onboard()
   }, [initWeb3Onboard])
 
+  /*
+  export const connectedWallets = async () => {
+    await initWeb3Onboard.connectWallet()
+  }
+
+  // subscribe to a single chain for estimates using the default poll rate of 5 secs
+  // API key is optional and if provided allows for faster poll rates
+  export const ethMainnetGasBlockPrices = gas.stream({
+    chains: ['0x1'],
+    endpoint: 'blockPrices'
+  })
+  */
+  
   const getProvider = (wlt) => {
     if (!wlt)
       return new ethers.providers.JsonRpcProvider(
-        SUPPORTED_NETWORKS[ENV_SUPPORTED_NETWORK_ID].rpcUrl,
-        ENV_SUPPORTED_NETWORK_ID
+        NETWORK.ChainRpcUrl,
+        parseInt(NETWORK.chainId, 10)
       )
     return new providers.Web3Provider(wlt.provider, 'any')
   }
