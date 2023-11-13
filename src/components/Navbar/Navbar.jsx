@@ -29,10 +29,6 @@ function Navbar ({
   setInventory,
   setCardInfo,
   cardInfo,
-  packsContract,
-  daiContract,
-  authorizeDaiContract,
-  checkNumberOfPacks,
   handleBuyPackClick
 }) {
   const {t} = useTranslation()
@@ -139,10 +135,6 @@ Navbar.propTypes = {
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,
-  // packsContract: PropTypes.object,
-  // daiContract: PropTypes.object,
-  // authorizeDaiContract: PropTypes.func,
-  // checkNumberOfPacks: PropTypes.func,
   handleBuyPackClick: PropTypes.func
 }
 
