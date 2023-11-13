@@ -4,11 +4,11 @@ import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import pagination from '../../utils/placeholders'
 import { storageUrlGamma } from '../../config'
-import { useLayout } from '../../hooks'
+import { useLayoutContext } from '../../hooks'
 
 const InventoryAlbum = React.forwardRef((props, book) => {
   const { setImageNumber, setCardInfo, paginationObj } = props
-  const { size } = useLayout()
+  const { size } = useLayoutContext()
 
   const getStyle = (item, pageNumber) => {
     if (pageNumber === 1) {

@@ -23,7 +23,7 @@ const LanguageSelection = dynamic(
 function Navbar ({
   goToCollections,
   alphaMidButton,
-  account,
+  walletAddress,
   setLoadAlbums,
   loadAlbums,
   setInventory,
@@ -101,7 +101,7 @@ function Navbar ({
           </li>
         </ul>
         <div className='navbar__corner'>
-          {(router?.pathname == '/gamma') && account &&
+          {(router?.pathname == '/gamma') && walletAddress &&
             <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
               <Image src={Shopimg} alt='shop' />
             </div>}
@@ -129,7 +129,7 @@ function Navbar ({
 Navbar.propTypes = {
   goToCollections: PropTypes.func,
   alphaMidButton: PropTypes.func,
-  account: PropTypes.string,
+  walletAddress: PropTypes.string,
   setLoadAlbums: PropTypes.func,
   loadAlbums: PropTypes.bool,
   setInventory: PropTypes.func,

@@ -3,10 +3,10 @@ import Brazilean from './images/br.png'
 import English from './images/en.png'
 import Spanish from './images/es.png'
 import Image from 'next/image.js'
-import { useSettings } from '../../hooks'
+import { useSettingsContext } from '../../hooks'
 
 function LanguageSelection () {
-  const { onToggleLanguageSetted } = useSettings()
+  const { onToggleLanguageSetted } = useSettingsContext()
 
   if (typeof window !== 'undefined') {
     document.addEventListener('click', e => {

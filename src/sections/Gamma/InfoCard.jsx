@@ -6,16 +6,17 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
-import { useWeb3 } from '../../hooks'
+import { useWeb3Context } from '../../hooks'
+
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/contracts/gamma'
-import { useLayout } from '../../hooks'
+import { useLayoutContext } from '../../hooks'
  
 const InfoCard = React.forwardRef((props, book) => {
   const { imageNumber } = props
   const {t} = useTranslation()
-  const { size, startLoading, stopLoading } = useLayout()
-  const { gammaCardsContract } = useWeb3()
+  const { size, startLoading, stopLoading } = useLayoutContext()
+  const { gammaCardsContract } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
 
   function emitError (message) {

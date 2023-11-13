@@ -15,9 +15,10 @@ import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { checkApproved } from '../../services/contracts/dai'
 import {useTranslation} from 'next-i18next'
-import { useWeb3 } from '../../hooks'
-import { useLayout } from '../../hooks'
+import { useWeb3Context } from '../../hooks'
+import { useLayoutContext } from '../../hooks'
 import pagination from '../../utils/placeholders'
+
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -30,14 +31,15 @@ const index = React.forwardRef(() => {
   const [packIsOpen, setPackIsOpen] = useState(false)
   const [loaderPack, setLoaderPack] = useState(false)
   const { 
-    account, daiContract, gammaCardsContract, 
-    gammaPacksContract, noMetamaskError, connectToMetamask } = useWeb3()
-  const { mobile, startLoading, stopLoading } = useLayout()
+    wallets, walletAddress, daiContract, gammaCardsContract, 
+    gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
+
+  const { mobile, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
 
   const checkNumberOfPacks = async () => {
     try {
-      const numberOfPacks = await checkPacksByUser(account, gammaPacksContract)
+      const numberOfPacks = await checkPacksByUser(walletAddress, gammaPacksContract)
       setNumberOfPacks(numberOfPacks?.length.toString() || '0')
     } catch (e) {
       console.error({ e })
@@ -56,7 +58,8 @@ const index = React.forwardRef(() => {
 
   const fetchInventory = async () => {
     try {
-      const userCards = await getCardsByUser(gammaCardsContract, account, pagination)
+      console.log('fetchInventory', walletAddress, gammaCardsContract)
+      const userCards = await getCardsByUser(gammaCardsContract, walletAddress, pagination)
       setPaginationObj(userCards)
     } catch (error) {
       console.error(error)
@@ -64,12 +67,17 @@ const index = React.forwardRef(() => {
   }
   
   useEffect(() => {
+    console.log('gamma acc', walletAddress, wallets)
+  }, [walletAddress, wallets]) 
+
+
+  useEffect(() => {
     fetchInventory()
-  }, [account, gammaCardsContract, pagination]) 
+  }, [walletAddress, gammaCardsContract, pagination]) 
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [account, gammaPacksContract])
+  }, [walletAddress, gammaPacksContract])
 
   function emitError (message) {
     Swal.fire({
@@ -88,7 +96,7 @@ const index = React.forwardRef(() => {
   const handleOpenPack = async () => {
     try {
       // llama al contrato para ver cantidad de sobres que tiene el usuario
-      const packs = await checkPacksByUser(account, gammaPacksContract) // llamada al contrato
+      const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
       setLoaderPack(true)
 
       if (packs.length == 0) {
@@ -104,7 +112,7 @@ const index = React.forwardRef(() => {
       if (packs.length >= 1) {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         // llama a la api para recibir los numeros de cartas del sobre y la firma
-        const data = await fetchPackData(account, packNumber)
+        const data = await fetchPackData(walletAddress, packNumber)
         const { packet_data, signature } = data
 
         setOpenPackCardsNumbers(packet_data)
@@ -138,7 +146,7 @@ const index = React.forwardRef(() => {
 
     try {
       startLoading()
-      const approval = await checkApproved(daiContract, account, gammaPacksContract.address)
+      const approval = await checkApproved(daiContract, walletAddress, gammaPacksContract.address)
       if (!approval) {
         await authorizeDaiContract()
       }
@@ -151,6 +159,12 @@ const index = React.forwardRef(() => {
       stopLoading()
       emitError(t('buy_pack_error'))
     }
+  }
+
+  const connectWallet1 = async () => {
+    console.log('connectWallet1_1', walletAddress)
+    await connectWallet()
+    console.log('connectWallet1_2', walletAddress, wallets)
   }
 
   const handleBuyPackClick = async () => {
@@ -188,12 +202,12 @@ const index = React.forwardRef(() => {
 
   return (
     <>
-      {!account && <div className='alpha'>
+      {!walletAddress && <div className='alpha'>
         <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
-            id='connect_metamask_button'
-            onClick={() => connectToMetamask()}>{t('connect_metamask')}
+            id='connect_wallet_button'
+            onClick={() => connectWallet1()}>{t('connect_wallet')}
           </button>
           <button
             className='alpha_button alpha_main_button'
@@ -236,7 +250,7 @@ const index = React.forwardRef(() => {
       }
 
       <Navbar
-        account={account}
+        walletAddress={walletAddress}
         cardInfo={cardInfo}
         setCardInfo={setCardInfo}
         inventory={inventory}
@@ -244,7 +258,7 @@ const index = React.forwardRef(() => {
         handleBuyPackClick={handleBuyPackClick}
       />
 
-      {account && <div className='gamma_main'>
+      {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPack
           loaderPack={loaderPack}
           setPackIsOpen={setPackIsOpen}

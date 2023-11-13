@@ -1,4 +1,4 @@
-export { default as useSettings } from './useSettings'
 export { default as useLocalStorage } from './useLocalStorage'
-export { default as useWeb3 } from './useWeb3'
-export { default as useLayout } from './useLayout'
+export { default as useSettingsContext } from './useSettingsContext'
+export { default as useLayoutContext } from './useLayoutContext'
+export { default as useWeb3Context } from './useWeb3Context'

@@ -2,25 +2,26 @@ import React from 'react'
 import { adminAccounts } from '../config'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {useTranslation} from 'next-i18next'
-import { useWeb3 } from '../hooks'
+import { useWeb3Context } from '../hooks'
 
 const Admin = React.forwardRef(() => {
   const {t} = useTranslation()
-  const { account, noMetamaskError, connectToMetamask } = useWeb3()
- 
+  const { walletAddress, noMetamaskError, connectWallet } = useWeb3Context()
+
+
   return (
     <div className='admincontainer'>
-      {!account && <div className='main_buttons_container'>
+      {!walletAddress && <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
-          id='connect_metamask_button'
-          onClick={() => connectToMetamask()}
+          id='connect_wallet_button'
+          onClick={() => connectWallet()}
         >
-          {t('connect_metamask')}
+          {t('connect_wallet')}
         </button>
         <span>{noMetamaskError}</span>
       </div>}
-      {(adminAccounts.includes(account)) &&
+      {(adminAccounts.includes(walletAddress)) &&
         <div className='adminpanel' />}
     </div>
   )
