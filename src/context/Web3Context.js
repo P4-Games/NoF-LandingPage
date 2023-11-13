@@ -10,21 +10,15 @@ import gammaCardsAbi from './abis/GammaCards.v2.sol/NofGammaCardsV2.json'
 import { CONTRACTS, NETWORK } from '../config'
 
 const initialState = {
-  connectToMetamask: () => {},
-  switchOrCreateNetwork: () => {}
+  connectWallet: () => {}
 }
 
 const Web3Context = createContext(initialState)
 
-EthersProvider.propTypes = {
-  children: PropTypes.node.isRequired
-}
-
-function EthersProvider({ children }) {
+function Web3ContextProvider({ children }) {
   const [noMetamaskError, setNoMetamaskError] = useState('')
-  const [provider, setProvider] = useState(null)
-  const [account, setAccount] = useState(null)
-  const [signer, setSigner] = useState(null)
+  const [wallets, setWallets] = useState(null)
+  const [walletAddress, setWalletAddress] = useState(null)
   const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
@@ -38,10 +32,8 @@ function EthersProvider({ children }) {
     try {
       const connection = await web3Modal.connect()
       web3Provider = new ethers.providers.Web3Provider(connection)
-      accountAddress = await web3Provider.getSigner().getAddress()
-      setAccount(accountAddress)
-      setProvider(web3Provider)
-      setSigner(web3Provider.getSigner())
+      accountAddress = await web3Provider.getSigner()getAddress()
+      setWalletAddress(accountAddress)
     } catch (e) {
       console.error({ e })
     }
@@ -59,7 +51,7 @@ function EthersProvider({ children }) {
     return [web3Provider, accountAddress]
   }
 
-  function connectToMetamask() {
+  function connectWallet() {
     try {
       if (window.ethereum !== undefined) {
         setNoMetamaskError('')
@@ -111,7 +103,7 @@ function EthersProvider({ children }) {
   }
 
   function logout() {
-    setAccount(null)
+    setWalletAddress(null)
   }
 
   function isValidChain() {
@@ -164,45 +156,28 @@ function EthersProvider({ children }) {
       window.ethereum.on('accountsChanged', (accounts) => {
         if (accounts) {
           const address = accounts[0]
-          setAccount(address)
+          setWalletAddress(address)
         }
       })
 
       window.ethereum.on('chainChanged', (newChain) => {
         setChainId(decToHex(newChain))
-        // connectToMetamask()
       })
     }
 
-    /*
-    window.ethereum.on('accountsChanged', (accounts) => {
-      const address = accounts[0]
-      setAccount(address)
-    })
-
-    window.ethereum.on('chainChanged', (newChain) => {
-      setChainId(decToHex(newChain))
-    })
-    */
   }, [])
 
   return (
     <Web3Context.Provider
       value={{
         noMetamaskError,
-        account,
-        requestAccount,
-        logout,
-        chainId,
-        setChainId,
-        isValidChain,
+        wallets,
+        walletAddress,
         daiContract,
         alphaContract,
         gammaPacksContract,
         gammaCardsContract,
-        switchOrCreateNetwork,
-        connectToMetamask,
-        connectContracts
+        connectWallet
       }}
     >
       {children}
@@ -210,4 +185,8 @@ function EthersProvider({ children }) {
   )
 }
 
-export { EthersProvider, Web3Context }
+Web3ContextProvider.propTypes = {
+  children: PropTypes.node.isRequired
+}
+
+export { Web3ContextProvider, Web3Context }
