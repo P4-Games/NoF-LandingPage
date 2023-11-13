@@ -29,11 +29,11 @@ import Friends from './Friends.json'
 import Whitepaper from '../../components/Navbar/Whitepaper'
 import NofTown from '../../components/Navbar/NofTown'
 import {useTranslation} from 'next-i18next'
-import { useLayout } from '../../hooks'
+import { useLayoutContext } from '../../hooks'
 
 const Hero = React.forwardRef((_, book) => {
   const [swipper, setSwipper] = useState(false)
-  const { size, mobile } = useLayout()
+  const { size, mobile } = useLayoutContext()
   const {t} = useTranslation()
 
   console.log('here', size, mobile)

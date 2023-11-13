@@ -1,15 +1,15 @@
 import { ethers } from 'ethers'
 
-export const checkBalance = async (daiContract, account) => {
-  // Get the account balance from the Dai contract
-  const balance = await daiContract.balanceOf(account)
+export const checkBalance = async (daiContract, walletAddress) => {
+  // Get the walletAddress balance from the Dai contract
+  const balance = await daiContract.balanceOf(walletAddress)
   // Convert the balance from a BigNumber to a number
   const number = JSON.parse(ethers.BigNumber.from(balance).toString())
 
   // Set the minimum balance value to 1 Dai
   const minimum = 1000000000000000000
 
-  // Return true if the account balance is greater than the minimum value, false otherwise
+  // Return true if the walletAddress balance is greater than the minimum value, false otherwise
   return number > minimum
 }
 

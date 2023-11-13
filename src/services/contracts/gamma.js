@@ -1,8 +1,8 @@
 import { ethers } from 'ethers'
 
-export const checkPacksByUser = async (account, packsContract) => {
+export const checkPacksByUser = async (walletAddress, packsContract) => {
   try {
-    const packs = await packsContract?.getPacksByUser(account)
+    const packs = await packsContract?.getPacksByUser(walletAddress)
     return packs
   } catch (e) {
     console.error({ e })
@@ -23,10 +23,11 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
   }
 }
 
-export const getCardsByUser = async (cardsContract, account, pagination) => {
+export const getCardsByUser = async (cardsContract, walletAddress, pagination) => {
   try {
-    console.log('cardsContract', cardsContract, account)
-    const cardsArr = await cardsContract?.getCardsByUser(account)
+    console.log('cardsContract', cardsContract, walletAddress)
+    if (!cardsContract) return
+    const cardsArr = await cardsContract?.getCardsByUser(walletAddress)
     console.log('cardsArr', cardsArr)
     const cardsObj = pagination
     console.log('cardsObj', cardsObj)

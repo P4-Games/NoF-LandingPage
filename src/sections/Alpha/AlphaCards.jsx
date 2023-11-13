@@ -19,8 +19,10 @@ import vida4 from './images/vida4.png'
 import vida5 from './images/vida5.png'
 
 import {useTranslation} from 'next-i18next'
-import { useWeb3 } from '../../hooks'
-import { useLayout } from '../../hooks'
+import { useWeb3Context } from '../../hooks'
+import { useLayoutContext } from '../../hooks'
+
+
 
 const vidas = [
   vida0.src,
@@ -55,8 +57,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   const [transferError, setTransferError] = useState('')
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [seasonFolder, setSeasonFolder] = useState(null)
-  const { account, daiContract, alphaContract, noMetamaskError, connectToMetamask } = useWeb3()
-  const { loading, startLoading, stopLoading } = useLayout()
+  const { loading, startLoading, stopLoading } = useLayoutContext()
+  const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } = useWeb3Context()
+
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -125,7 +128,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   
   const setSeasonData = async () => {
     try {
-      if (!account || !alphaContract) return
+      if (!walletAddress || !alphaContract) return
       let seasonData = await alphaContract.getSeasonData()
       if (seasonData) {
         let currentSeason
@@ -171,7 +174,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
       stopLoading()
       console.error(ex)
     })
-  }, [account, alphaContract])
+  }, [walletAddress, alphaContract])
 
 
   const getUserCards = async (address, seasonName) => {
@@ -236,10 +239,10 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
 
   const checkBalance = async () => {
-    const balance = await daiContract.balanceOf(account)
+    const balance = await daiContract.balanceOf(walletAddress)
     const number = JSON.parse(ethers.BigNumber.from(balance).toString())
     const minimum = 1000000000000000000 // Set the minimum balance value to 1 Dai
-    return number > minimum // True if the account balance is greater than the minimum value
+    return number > minimum // True if the walletAddress balance is greater than the minimum value
   }
 
   const getAlbumData = async (tokenId) => {
@@ -314,8 +317,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                   setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + 'F.png'}`)
                   getWinners()
                     .then((winners) => {
-                      if (winners.includes(account)) {
-                        setWinnerPosition(winners.indexOf(account) + 1)
+                      if (winners.includes(walletAddress)) {
+                        setWinnerPosition(winners.indexOf(walletAddress) + 1)
                       }
                     })
                     .catch((e) => {
@@ -353,7 +356,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
   
   const buyPack = (price, name) => {
-    showCards(account, seasonName)
+    showCards(walletAddress, seasonName)
       .then((cards) => {
         setNoCardsError('')
         if (cards && cards.length > 0) {
@@ -365,8 +368,8 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
             if (!res || res.length == 0) {
               setNoCardsError(t('no_mas_packs'))
             } else {
-              if (checkBalance(account)) {
-                checkApproved(daiContract, account, CONTRACTS.alphaAddress)
+              if (checkBalance(walletAddress)) {
+                checkApproved(daiContract, walletAddress, CONTRACTS.alphaAddress)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
                       const pack = await alphaContract.buyPack(price, name, {
@@ -381,7 +384,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                       comprarPack(price, name)
                         .then((pack) => {
                           setPack(pack)
-                          showCards(account, seasonName)
+                          showCards(walletAddress, seasonName)
                         })
                         .catch((err) => {
                           console.error({ err })
@@ -393,7 +396,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                           comprarPack(price, name)
                             .then((pack) => {
                               setPack(pack)
-                              showCards(account, seasonName)
+                              showCards(walletAddress, seasonName)
                             })
                             .catch((e) => {
                               console.error({ e })
@@ -448,7 +451,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
     }
     pegarCarta(cardIndex)
       .then((tokenId) => {
-        showCards(account, seasonName)
+        showCards(walletAddress, seasonName)
         getAlbumData(tokenId).then((res) => {
           if (res.completion == 5) {
             emitSuccess(t('album_completo'))
@@ -468,14 +471,14 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         setTransferError('')
         const transaction = await alphaContract[
           'safeTransferFrom(address,address,uint256)'
-        ](account, receiverAccount, cardToTransfer)
+        ](walletAddress, receiverAccount, cardToTransfer)
         const modal = document.getElementsByClassName(
           'alpha_transfer_modal'
         )[0]
         modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
         startLoading()
         await transaction.wait()
-        showCards(account, seasonName)
+        showCards(walletAddress, seasonName)
         setReceiverAccount('')
         stopLoading()
         emitSuccess(t('carta_enviada'))
@@ -490,12 +493,12 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
   return (
     <div className='alpha'>
-      {!loading && !account && (
+      {!loading && !walletAddress && (
       <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
-          id='connect_metamask_button'
-          onClick={() => connectToMetamask()}>{t('connect_metamask')}
+          id='connect_wallet_button'
+          onClick={() => connectWallet()}>{t('connect_wallet')}
         </button>
         <button
           className='alpha_button alpha_main_button'
@@ -507,7 +510,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         <span>{noMetamaskError}</span>
       </div>)}
 
-      {account && alphaContract && !seasonNames && (
+      {walletAddress && alphaContract && !seasonNames && (
         <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
           {t('no_season_nampes')}
         </span>
@@ -542,7 +545,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         </div>
       </div>
  
-      {account && alphaContract && seasonNames && (
+      {walletAddress && alphaContract && seasonNames && (
         <div className='alpha_inner_container'>
           <div className='alpha_data'>
             {seasonNames && seasonNames.length > 0 && 
@@ -568,7 +571,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
               </div>
               <div className='alpha_start_buttons'>
                 <button
-                  onClick={() => showCards(account, seasonName)}
+                  onClick={() => showCards(walletAddress, seasonName)}
                   className='alpha_button'
                   id='alpha_show_cards_button'
                 >
@@ -720,7 +723,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
         storageUrlAlpha={storageUrlAlpha}
         nofContract={alphaContract}
         seasonNames={seasonNames}
-        account={account}
+        walletAddress={walletAddress}
         getSeasonFolder={getSeasonFolder}
       />
     </div>

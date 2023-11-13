@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { LayoutContext } from '../context/LayoutContext'
 
-const useLayout = () => useContext(LayoutContext)
+const useLayoutContext = () => useContext(LayoutContext)
 
-export default useLayout
+export default useLayoutContext

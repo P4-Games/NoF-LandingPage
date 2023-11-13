@@ -24,7 +24,7 @@ const AlphaAlbums = ({
   storageUrlAlpha,
   nofContract,
   seasonNames,
-  account,
+  walletAddress,
   getSeasonFolder,
   loadAlbums,
   setSeasonName,
@@ -58,7 +58,7 @@ const AlphaAlbums = ({
     
     for (let i = 0; i < seasonNames.length; i++) {
       const album = await nofContract.getCardsByUserBySeason(
-        account,
+        walletAddress,
         seasonNames[i]
       )
       for (let j = 0; j < album.length; j++) {
@@ -147,7 +147,7 @@ AlphaAlbums.propTypes = {
   storageUrlAlpha: PropTypes.string,
   nofContract: PropTypes.object,
   seasonNames: PropTypes.array,
-  account: PropTypes.string,
+  walletAddress: PropTypes.string,
   getSeasonFolder: PropTypes.func,
   loadAlbums: PropTypes.bool,
   setSeasonName: PropTypes.func,
