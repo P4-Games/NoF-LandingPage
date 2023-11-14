@@ -168,9 +168,9 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
   }
 
   useEffect(() => {
-    setSeasonData().then((res) => {
+    setSeasonData().then(() => {
       stopLoading()
-    }).catch((e) => {
+    }).catch((ex) => {
       stopLoading()
       console.error(ex)
     })

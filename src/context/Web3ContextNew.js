@@ -180,13 +180,10 @@ const Web3ContextProvider = ({ children }) => {
     }
   }
 
-  const setLanguage = useCallback(() => {
-    const updateLocale = useSetLocale()
-    updateLocale(languageSetted || 'en')
-  })
-
   const connectWallet = useCallback(() => {    
-    setLanguage()
+    // const updateLocale = useSetLocale()
+    // updateLocale(languageSetted || 'en')
+
     web3Onboard.connectWallet()
       .then((wallets) => {
         if (wallets) {
