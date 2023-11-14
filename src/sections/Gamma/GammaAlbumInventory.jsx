@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
-import pagination from '../../utils/placeholders'
+import gammaCardsPages from './gammaCardsPages'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 
-const InventoryAlbum = React.forwardRef((props, book) => {
-  const { setImageNumber, setCardInfo, paginationObj } = props
+const GammaAlbumInventory = React.forwardRef((props, book) => {
+  const { paginationObj, setImageNumber, setCardInfo } = props
   const { size } = useLayoutContext()
 
   const getStyle = (item, pageNumber) => {
@@ -16,16 +16,14 @@ const InventoryAlbum = React.forwardRef((props, book) => {
         ? { filter: 'grayscale(1)' } 
         : {} 
     } else {
-      return pagination.user[item]?.quantity == 0 ? { filter: 'grayscale(1)' } : {}
+      return gammaCardsPages.user[item]?.quantity == 0 ? { filter: 'grayscale(1)' } : {}
     }
   }
 
   const PageContent = ({ page, pageNumber}) => {
-    let divMainClassName = 'hero__top__album__book__page'
     let divWrapperClassName = 'grid-wrapper'
 
     if (pageNumber % 2 === 0) { // par
-      divMainClassName = 'hero__top__album__book__page0'
       divWrapperClassName = 'grid-wrapperright'
     }
 
@@ -114,10 +112,10 @@ const InventoryAlbum = React.forwardRef((props, book) => {
       ) : null
 })
 
-InventoryAlbum.propTypes = {
+GammaAlbumInventory.propTypes = {
+  paginationObj: PropTypes.object,
   setImageNumber: PropTypes.func,
   setCardInfo: PropTypes.func
-
 }
 
-export default InventoryAlbum
+export default GammaAlbumInventory

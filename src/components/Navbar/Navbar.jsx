@@ -81,14 +81,15 @@ function Navbar ({
                     if (cardInfo) {
                       setCardInfo(false)
                       setInventory(true)
-                    } else setInventory(true)
+                    } else { 
+                      setInventory(true)
+                    }
                   } else {
                     goToCollections(5)
                   }
                 }}
                 className='navbar__ul__li__contacto'
               >
-
                 {t ? t('collections') : midButton}
               </button>
             </LinkScroll>

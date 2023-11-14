@@ -1,4 +1,4 @@
-const pagination = {
+const gammaCardPages = {
   page1: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
   page2: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
   page3: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
@@ -13,11 +13,11 @@ const pagination = {
 }
 
 for (let i = 1; i < 121; i++) {
-  pagination.user[i] = {
+  gammaCardPages.user[i] = {
     name: i.toString(),
     stamped: false,
     quantity: 0
   }
 }
 
-export default pagination
+export default gammaCardPages
