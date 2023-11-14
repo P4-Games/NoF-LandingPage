@@ -6,7 +6,6 @@ import { useState } from 'react'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 
 const Alpha = () => {
-  const [loadAlbums, setLoadAlbums] = useState(false)
   function alphaMidButton () {
     const albums = document.getElementsByClassName(
       'alpha_full_albums_container'
@@ -27,13 +26,9 @@ const Alpha = () => {
       </Head>
       <Navbar
         alphaMidButton={alphaMidButton}
-        loadAlbums={loadAlbums}
-        setLoadAlbums={setLoadAlbums}
       />
       <AlphaCards
         alphaMidButton={alphaMidButton}
-        setLoadAlbums={setLoadAlbums}
-        loadAlbums={loadAlbums}
       />
       <Footer />
     </div>

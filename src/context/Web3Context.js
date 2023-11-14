@@ -164,7 +164,6 @@ function Web3ContextProvider({ children }) {
         setChainId(decToHex(newChain))
       })
     }
-
   }, [])
 
   return (

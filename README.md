@@ -50,6 +50,7 @@ PORT=3000
 # server-side
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development'
+APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
 # Client-side

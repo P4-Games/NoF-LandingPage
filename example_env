@@ -1,14 +1,15 @@
 // server-site
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development' // development, production
+APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
 // client-side
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID='your_project_id_api_key'
-NEXT_PUBLIC_CHAIN_ID='0x539' // '0x539' = 1337 (hardhat node) | '0x89' = Polygon Mainnet | '0x13881' = Mumbai
 NEXT_PUBLIC_CHAIN_NAME='localhost'
+NEXT_PUBLIC_CHAIN_ID='0x539' // '0x539' = 1337 (hardhat node) | '0x89' = Polygon Mainnet | '0x13881' = Mumbai
 NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
 NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
 NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com'

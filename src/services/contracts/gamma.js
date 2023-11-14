@@ -25,12 +25,12 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
 
 export const getCardsByUser = async (cardsContract, walletAddress, pagination) => {
   try {
-    console.log('cardsContract', cardsContract, walletAddress)
+    // console.log('cardsContract', cardsContract, walletAddress)
     if (!cardsContract) return
     const cardsArr = await cardsContract?.getCardsByUser(walletAddress)
-    console.log('cardsArr', cardsArr)
+    // console.log('cardsArr', cardsArr)
     const cardsObj = pagination
-    console.log('cardsObj', cardsObj)
+    // console.log('cardsObj', cardsObj)
     if (cardsArr && cardsArr.length > 0) {
       for (let i = 0; i < cardsArr[0]?.length; i++) {
         cardsObj.user[cardsArr[0][i]].stamped = true

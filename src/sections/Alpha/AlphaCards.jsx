@@ -35,7 +35,7 @@ const vidas = [
 
 let swiper //eslint-disable-line 
 
-const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
+const AlphaCards = ({ alphaMidButton }) => {
   const {t} = useTranslation()
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
@@ -311,10 +311,11 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                 } else {
                   setSeasonFolder(data || 'UNKNOWN_FOLDER')
                 }
+                const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`
                 if (completion < 5) {
-                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + '.png'}`)
+                  setAlbumImage(`${baseUrl}/${albumData[0].number + '.png'}`)
                 } else {
-                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + 'F.png'}`)
+                  setAlbumImage(`${baseUrl}/${albumData[0].number + 'F.png'}`)
                   getWinners()
                     .then((winners) => {
                       if (winners.includes(walletAddress)) {
@@ -653,7 +654,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
                           </span>
                           <CustomImage
                             alt='img'
-                            src={`${storageUrlAlpha}/${seasonFolder}/${card.number}.png`}
+                            src={`${storageUrlAlpha}/${seasonFolder || 'T1'}/${card.number}.png`}
                             className='alpha_card'
                           />
                         </div>
@@ -717,9 +718,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
       <AlphaAlbums
         alphaMidButton={alphaMidButton}
-        setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
-        loadAlbums={loadAlbums}
         storageUrlAlpha={storageUrlAlpha}
         nofContract={alphaContract}
         seasonNames={seasonNames}
@@ -731,8 +730,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 }
 
 AlphaCards.propTypes = {
-  loadAlbums: PropTypes.bool,
-  setLoadAlbums: PropTypes.func,
   alphaMidButton: PropTypes.func
 }
 
