@@ -21,7 +21,6 @@ import enLocales from '../../public/locales/en/web3_onboard.json'
 import esLocales from '../../public/locales/es/web3_onboard.json'
 import { useSettingsContext } from '../hooks'
 
-
 //----------------------------------------------------------
 
 const initialState = {
@@ -32,8 +31,6 @@ const initialState = {
 const Web3Context = createContext(initialState)
 
 const Web3ContextProvider = ({ children }) => {
-  
-
   const [web3Onboard, setWeb3Onboard] = useState(null)
   const [wallets, setWallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
@@ -53,7 +50,7 @@ const Web3ContextProvider = ({ children }) => {
       },
       connectFirstChainId: true
     }
-    
+
     const wcV2InitOptions = {
       version: 2,
       projectId: WalletConnectProjectId || ''
@@ -66,12 +63,12 @@ const Web3ContextProvider = ({ children }) => {
         displayUnavailable: true
       }
     })
-    
+
     const walletConnect = walletConnectModule(wcV2InitOptions || wcV1InitOptions)
     const trust = trustModule()
     const coinbase = coinbaseModule()
     const gnosis = gnosisModule({ whitelistedDomains: [] })
-    
+
     const onboard = init({
       wallets: [injected, walletConnect, gnosis, coinbase, trust],
       connect: {
@@ -115,12 +112,10 @@ const Web3ContextProvider = ({ children }) => {
     })
 
     setWeb3Onboard(onboard)
-
   }, [])
-  
+
   useEffect(() => {
-    initWeb3Onboard().then(() => {
-    })
+    initWeb3Onboard().then(() => {})
   }, [initWeb3Onboard])
 
   /*
@@ -137,7 +132,6 @@ const Web3ContextProvider = ({ children }) => {
     // const desiredNetwork = 'mumbai'
     // const isCorrectNetwork = currentNetwork === desiredNetwork
     // console.log('network', currentNetwork, desiredNetwork,  isCorrectNetwork)
-    
   }
 
   function connectContracts(_signer) {
@@ -176,15 +170,19 @@ const Web3ContextProvider = ({ children }) => {
       console.log(wlt)
       return new ethers.providers.Web3Provider(wlt.provider, 'any')
     } else {
-      return new ethers.providers.JsonRpcProvider(NETWORK.ChainRpcUrl, parseInt(NETWORK.chainId, 10))
+      return new ethers.providers.JsonRpcProvider(
+        NETWORK.ChainRpcUrl,
+        parseInt(NETWORK.chainId, 10)
+      )
     }
   }
 
-  const connectWallet = useCallback(() => {    
+  const connectWallet = useCallback(() => {
     // const updateLocale = useSetLocale()
     // updateLocale(languageSetted || 'en')
 
-    web3Onboard.connectWallet()
+    web3Onboard
+      .connectWallet()
       .then((wallets) => {
         if (wallets) {
           setWallets(wallets)

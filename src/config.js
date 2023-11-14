@@ -7,7 +7,7 @@
 export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.APP_ENV || 'development').toLowerCase()
-export const is_production = (environment === 'production' || environment === 'prod')
+export const is_production = environment === 'production' || environment === 'prod'
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
@@ -29,17 +29,22 @@ export const NETWORK = {
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
     (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
-  chainNodeProviderUrl: process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
+  chainNodeProviderUrl:
+    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL ||
+    'https://polygon-mumbai.g.alchemy.com/v2/6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
 }
 
-
-export const WalletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'bc09ad4a99cebe270fcc24bd6925f4fe'
+export const WalletConnectProjectId =
+  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'bc09ad4a99cebe270fcc24bd6925f4fe'
 
 export const CONTRACTS = {
   daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0x0382918F868835645e392548f73a09bEB8fAa488',
-  alphaAddress: process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0xb64db651Cc9Fa3F51abb88e0E3D580E6A2412770',
-  gammaPackAddress: process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0x16C38D3338d685C59BAf66fE63e9d3118e77967d',
-  gammaCardsAddress: process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEcd387139BbF5048EA9BE89103dbc75397Bbb7c2'
+  alphaAddress:
+    process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0xb64db651Cc9Fa3F51abb88e0E3D580E6A2412770',
+  gammaPackAddress:
+    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0x16C38D3338d685C59BAf66fE63e9d3118e77967d',
+  gammaCardsAddress:
+    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEcd387139BbF5048EA9BE89103dbc75397Bbb7c2'
 }
 
 export const openSeaUrlAlpha = is_production
