@@ -311,10 +311,11 @@ const AlphaCards = ({ alphaMidButton }) => {
                 } else {
                   setSeasonFolder(data || 'UNKNOWN_FOLDER')
                 }
+                const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`
                 if (completion < 5) {
-                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + '.png'}`)
+                  setAlbumImage(`${baseUrl}/${albumData[0].number + '.png'}`)
                 } else {
-                  setAlbumImage(`${storageUrlAlpha}/${seasonFolder}/${albumData[0].number + 'F.png'}`)
+                  setAlbumImage(`${baseUrl}/${albumData[0].number + 'F.png'}`)
                   getWinners()
                     .then((winners) => {
                       if (winners.includes(walletAddress)) {
@@ -653,7 +654,7 @@ const AlphaCards = ({ alphaMidButton }) => {
                           </span>
                           <CustomImage
                             alt='img'
-                            src={`${storageUrlAlpha}/${seasonFolder}/${card.number}.png`}
+                            src={`${storageUrlAlpha}/${seasonFolder || 'T1'}/${card.number}.png`}
                             className='alpha_card'
                           />
                         </div>
