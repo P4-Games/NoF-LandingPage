@@ -10,7 +10,9 @@ import InventoryAlbum from './InventoryAlbum'
 import GammaAlbum from './GammaAlbum'
 import GammaPack from './GammaPack'
 import { fetchPackData } from '../../services/backend/gamma'
-import { getCardsByUser, checkPacksByUser, openPack, getPackPrice } from '../../services/contracts/gamma'
+import { 
+  getCardsByUser, checkPacksByUser, 
+  verifyPackSigner, openPack, getPackPrice } from '../../services/contracts/gamma'
 import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { checkApproved } from '../../services/contracts/dai'
@@ -114,6 +116,10 @@ const index = React.forwardRef(() => {
         // llama a la api para recibir los numeros de cartas del sobre y la firma
         const data = await fetchPackData(walletAddress, packNumber)
         const { packet_data, signature } = data
+
+        // verify signer
+        const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+        console.log('pack signer', signer)
 
         setOpenPackCardsNumbers(packet_data)
         const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)

@@ -10,6 +10,16 @@ export const checkPacksByUser = async (walletAddress, packsContract) => {
   }
 }
 
+export const verifyPackSigner = async (cardsContract, packNumber, packData, signature) => {
+  try {
+    const signer = await cardsContract.verifyPackSigner(packNumber, packData, signature)
+    return signer
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
 export const openPack = async (cardsContract, packNumber, packData, signature) => {
   try {
     const openPackTx = await cardsContract.openPack(packNumber, packData, signature, {
