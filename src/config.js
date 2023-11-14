@@ -6,8 +6,8 @@
 // ------------------------------------------------------------------
 export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
-export const environment = (process.env.NODE_ENV || 'development').toLocaleLowerCase()
-export const is_production = environment === 'production' || environment === 'prod'
+export const environment = (process.env.APP_ENV || 'development').toLowerCase()
+export const is_production = (environment === 'production' || environment === 'prod')
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
@@ -36,20 +36,10 @@ export const NETWORK = {
 export const WalletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'bc09ad4a99cebe270fcc24bd6925f4fe'
 
 export const CONTRACTS = {
-  daiAddress:
-    process.env.NEXT_PUBLIC_DAI_ADDRESS ||
-    (is_production
-      ? '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063'
-      : '0x496E0cDfF61e86294F8F4ca8D3822C8Bd01949d1'),
-  alphaAddress:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS ||
-    (is_production
-      ? '0xb187769912a3e52091477D885D95dDF2EC9c718e'
-      : '0xa6E15E39ede08d7960359882696EC34D504b111A'),
-  gammaCardsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEefF8D035A60AC3E1456991C2A2C2dEb31C84B76',
-  gammaPackAddress:
-    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDe30a1B73031ccB456967BE9f103DaF23A006d1b'
+  daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0x0382918F868835645e392548f73a09bEB8fAa488',
+  alphaAddress: process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0xb64db651Cc9Fa3F51abb88e0E3D580E6A2412770',
+  gammaPackAddress: process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0x16C38D3338d685C59BAf66fE63e9d3118e77967d',
+  gammaCardsAddress: process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0xEcd387139BbF5048EA9BE89103dbc75397Bbb7c2'
 }
 
 export const openSeaUrlAlpha = is_production
@@ -69,8 +59,6 @@ export const defaultSettings = {
   languagePresets: 'es',
   languageSetted: 'es'
 }
-
-
 
 console.log(NETWORK, CONTRACTS)
 // ------------------------------------------------------------------
