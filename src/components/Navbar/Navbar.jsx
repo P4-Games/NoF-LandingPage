@@ -24,8 +24,6 @@ function Navbar ({
   goToCollections,
   alphaMidButton,
   walletAddress,
-  setLoadAlbums,
-  loadAlbums,
   setInventory,
   setCardInfo,
   cardInfo,
@@ -79,16 +77,13 @@ function Navbar ({
                 onClick={() => {
                   if (page == '/alpha') {
                     alphaMidButton()
-                    setLoadAlbums && setLoadAlbums(!loadAlbums)
                   } else if (page == '/gamma') {
                     if (cardInfo) {
                       setCardInfo(false)
                       setInventory(true)
                     } else setInventory(true)
-                    // setLoadAlbums && setLoadAlbums(!loadAlbums);
                   } else {
                     goToCollections(5)
-                    setLoadAlbums && setLoadAlbums(!loadAlbums)
                   }
                 }}
                 className='navbar__ul__li__contacto'
@@ -130,8 +125,6 @@ Navbar.propTypes = {
   goToCollections: PropTypes.func,
   alphaMidButton: PropTypes.func,
   walletAddress: PropTypes.string,
-  setLoadAlbums: PropTypes.func,
-  loadAlbums: PropTypes.bool,
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,

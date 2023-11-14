@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -26,9 +26,7 @@ const AlphaAlbums = ({
   seasonNames,
   walletAddress,
   getSeasonFolder,
-  loadAlbums,
   setSeasonName,
-  setLoadAlbums,
   alphaMidButton
 }) => {
   const {t} = useTranslation()
@@ -44,7 +42,6 @@ const AlphaAlbums = ({
       // Otherwise, display a message to the user and perform some actions
       setSeasonName(album[0].season)
       alphaMidButton()
-      setLoadAlbums(false)
       Swal.fire({
         text: 'Tienes que seguir jugando para completar el album',
         timer: 2000
@@ -68,10 +65,11 @@ const AlphaAlbums = ({
         }
       }
     }
+    console.log('albumsArr', albumsArr)
     return albumsArr
   }
 
-  const handleClick = () => {
+  const fetchData = () => {
     getAlbums()
       .then((albums) => {
         if (albums && albums.length > 0) {
@@ -86,8 +84,11 @@ const AlphaAlbums = ({
       })
       .catch((e) => console.error({ e }))
   }
-  loadAlbums && handleClick()
 
+  useEffect(() => {
+    fetchData()
+  }, [albums])
+  
   return (
     <div className='alpha_full_albums_container alpha_display_none'>
       <div>
@@ -125,7 +126,7 @@ const AlphaAlbums = ({
                       <img
                         alt='portadas'
                         style={{ cursor: 'pointer' }}
-                        src={`${storageUrlAlpha}/${album[1]}/${album[0].number}.png`}
+                        src={`${storageUrlAlpha}/${album[0] || 'T1'}/${album[0].number}.png`}
                         className='alpha_card'
                         onClick={() => handleRedirectAlbum(album)}
                       />
@@ -149,9 +150,7 @@ AlphaAlbums.propTypes = {
   seasonNames: PropTypes.array,
   walletAddress: PropTypes.string,
   getSeasonFolder: PropTypes.func,
-  loadAlbums: PropTypes.bool,
   setSeasonName: PropTypes.func,
-  setLoadAlbums: PropTypes.func,
   alphaMidButton: PropTypes.func
 }
 

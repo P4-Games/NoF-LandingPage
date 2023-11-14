@@ -35,7 +35,7 @@ const vidas = [
 
 let swiper //eslint-disable-line 
 
-const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
+const AlphaCards = ({ alphaMidButton }) => {
   const {t} = useTranslation()
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
@@ -717,9 +717,7 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 
       <AlphaAlbums
         alphaMidButton={alphaMidButton}
-        setLoadAlbums={setLoadAlbums}
         setSeasonName={setSeasonName}
-        loadAlbums={loadAlbums}
         storageUrlAlpha={storageUrlAlpha}
         nofContract={alphaContract}
         seasonNames={seasonNames}
@@ -731,8 +729,6 @@ const AlphaCards = ({ loadAlbums, setLoadAlbums, alphaMidButton }) => {
 }
 
 AlphaCards.propTypes = {
-  loadAlbums: PropTypes.bool,
-  setLoadAlbums: PropTypes.func,
   alphaMidButton: PropTypes.func
 }
 
