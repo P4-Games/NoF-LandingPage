@@ -57,7 +57,7 @@ const AlphaCards = ({ alphaMidButton }) => {
   const [transferError, setTransferError] = useState('')
   const [disableTransfer, setDisableTransfer] = useState(null)
   const [seasonFolder, setSeasonFolder] = useState(null)
-  const { loading, startLoading, stopLoading } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } = useWeb3Context()
 
 
@@ -437,33 +437,38 @@ const AlphaCards = ({ alphaMidButton }) => {
   }
 
   const pasteCard = (cardIndex) => {
-    const pegarCarta = async (cardIndex) => {
-      const tokenId = ethers.BigNumber.from(
-        cards[cardIndex].tokenId
-      ).toNumber()
-      const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-      const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
-        gasLimit: 2500000
-      })
+    try {
       startLoading()
-      await paste.wait()
-      stopLoading()
-      return albumTokenId
-    }
-    pegarCarta(cardIndex)
-      .then((tokenId) => {
-        showCards(walletAddress, seasonName)
-        getAlbumData(tokenId).then((res) => {
-          if (res.completion == 5) {
-            emitSuccess(t('album_completo'))
-          } else {
-            emitSuccess(t('carta_en_album'))
-          }
+      const pegarCarta = async (cardIndex) => {
+        const tokenId = ethers.BigNumber.from(
+          cards[cardIndex].tokenId
+        ).toNumber()
+        const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
+        const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
+          gasLimit: 2500000
         })
-      })
-      .catch((e) => {
-        console.error({ e })
-      })
+        await paste.wait()
+        return albumTokenId
+      }
+      pegarCarta(cardIndex)
+        .then((tokenId) => {
+          showCards(walletAddress, seasonName)
+          getAlbumData(tokenId).then((res) => {
+            if (res.completion == 5) {
+              emitSuccess(t('album_completo'))
+            } else {
+              emitSuccess(t('carta_en_album'))
+            }
+          })
+        })
+        .catch((e) => {
+          console.error({ e })
+        })
+      stopLoading()
+    } catch (ex) {
+      stopLoading()
+      console.error(ex)
+    }
   }
 
   async function transferToken () {
@@ -494,7 +499,7 @@ const AlphaCards = ({ alphaMidButton }) => {
 
   return (
     <div className='alpha'>
-      {!loading && !walletAddress && (
+      {!walletAddress && (
       <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'
