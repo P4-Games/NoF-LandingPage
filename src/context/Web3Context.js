@@ -32,7 +32,7 @@ function Web3ContextProvider({ children }) {
     try {
       const connection = await web3Modal.connect()
       web3Provider = new ethers.providers.Web3Provider(connection)
-      accountAddress = await web3Provider.getSigner()getAddress()
+      accountAddress = await web3Provider.getSigner().getAddress()
       setWalletAddress(accountAddress)
     } catch (e) {
       console.error({ e })
@@ -170,7 +170,6 @@ function Web3ContextProvider({ children }) {
   return (
     <Web3Context.Provider
       value={{
-        noMetamaskError,
         wallets,
         walletAddress,
         daiContract,

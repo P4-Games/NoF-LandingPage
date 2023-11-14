@@ -162,9 +162,9 @@ const index = React.forwardRef(() => {
   }
 
   const connectWallet1 = async () => {
-    console.log('connectWallet1_1', walletAddress)
+    // console.log('connectWallet1_1', walletAddress)
     await connectWallet()
-    console.log('connectWallet1_2', walletAddress, wallets)
+    // console.log('connectWallet1_2', walletAddress, wallets)
   }
 
   const handleBuyPackClick = async () => {
