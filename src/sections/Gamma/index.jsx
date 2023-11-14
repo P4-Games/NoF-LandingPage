@@ -21,7 +21,6 @@ import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import pagination from '../../utils/placeholders'
 
-
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
@@ -181,7 +180,7 @@ const index = React.forwardRef(() => {
       input: 'number',
       inputAttributes: {
         min: 1,
-        max: 10,
+        max: 10
       },
       inputValidator: (value) => {
         if (value < 1 || value > 10) {

@@ -81,6 +81,8 @@
 
     "mint_error": "There was an error trying to mint a figurine",
     
+    "transfer_card_error": "There was an error trying to transfer the card",
+    
     "rules_alpha_left_text_1": "A thematic minigame with 60 cards that complete 10 different thematic collections, each with 5 characters and an album.",
     "rules_alpha_left_text_2": "The goal is to complete an album with the 5 characters corresponding to the collection.",
     "rules_alpha_left_text_3": "To play, it's necessary to connect a wallet to the Polygon network.",
