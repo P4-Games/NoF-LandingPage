@@ -10,7 +10,6 @@ import trustModule from '@web3-onboard/trust'
 import gnosisModule from '@web3-onboard/gnosis'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
-// import icon from '../../public/icon.png'
 
 import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
 import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
@@ -130,7 +129,7 @@ const Web3ContextProvider = ({ children }) => {
       appMetadata: {
         name: 'NoF',
         description: 'Number one Fun',
-        // icon,
+        icon: '/nof.png',
         recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }]
       }
     })
