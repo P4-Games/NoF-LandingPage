@@ -1,0 +1,120 @@
+{
+  "connect": {
+    "selectingWallet": {
+      "header": "Carteiras Disponíveis",
+      "sidebar": {
+        "heading": "",
+        "subheading": "Conecte sua carteira",
+        "paragraph": "Conectar sua carteira é como fazer login na Web3. Selecione sua carteira nas opções para começar.",
+        "IDontHaveAWallet": "Eu não tenho uma carteira"
+      },
+      "recommendedWalletsPart1": "{app} suporta apenas",
+      "recommendedWalletsPart2": "nessa plataforma. Por favor, use ou instale uma das carteiras suportadas para continuar",
+      "installWallet": "Você não tem nenhuma carteira instalada que {app} suporte, por favor, use uma carteira suportada",
+      "agreement": {
+        "agree": "Eu concordo com os",
+        "terms": "Termos e Condições",
+        "and": "e",
+        "privacy": "Política de Privacidade"
+      },
+      "whyDontISeeMyWallet": "Por que eu não vejo minha carteira?",
+      "learnMore": "Clique aqui para saber mais"
+    },
+    "connectingWallet": {
+      "header": "{connectionRejected, select, false {Conectando a {wallet}...} other {Conexão Rejeitada}}",
+      "sidebar": {
+        "subheading": "Aprovar Conexão",
+        "paragraph": "Por favor, aprove a conexão em sua carteira e autorize o acesso para continuar."
+      },
+      "mainText": "Conectando...",
+      "paragraph": "Certifique-se de selecionar todas as contas às quais deseja conceder acesso.",
+      "previousConnection": "{wallet} já possui uma solicitação de conexão pendente, por favor, abra o aplicativo {wallet} para fazer login e conectar.",
+      "rejectedText": "Conexão Rejeitada!",
+      "rejectedCTA": "Clique aqui para tentar novamente",
+      "primaryButton": "Voltar para as carteiras"
+    },
+    "connectedWallet": {
+      "header": "Conexão Bem-sucedida",
+      "sidebar": {
+        "subheading": "Conexão Bem-sucedida!",
+        "paragraph": "Sua carteira está agora conectada ao {app}"
+      },
+      "mainText": "Conectado"
+    }
+  },
+  "modals": {
+    "actionRequired": {
+      "heading": "Ação necessária em {wallet}",
+      "paragraph": "Por favor, altere a conta ativa em sua carteira.",
+      "linkText": "Saiba mais.",
+      "buttonText": "Ok"
+    },
+    "switchChain": {
+      "heading": "Trocar de Rede",
+      "paragraph1": "{app} requer que você troque sua carteira para a rede {nextNetworkName} para continuar.",
+      "paragraph2": "*Algumas carteiras podem não suportar a troca de redes. Se você não puder trocar de rede em sua carteira, considere usar uma carteira diferente."
+    },
+    "confirmDisconnectAll": {
+      "heading": "Desconectar Todas as Carteiras",
+      "description": "Você tem certeza de que deseja desconectar todas as suas carteiras?",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar"
+    },
+    "confirmTransactionProtection": {
+      "heading": "Ativar Proteção de Transação",
+      "description": "Proteger os endpoints RPC oculta suas transações de front-running e sandwich bots para reduzir a liquidação desfavorável de transações devido a slippage.",
+      "enable": "Ativar",
+      "dismiss": "Ignorar"
+    }
+  },
+  "accountCenter": {
+    "connectAnotherWallet": "Conectar outra Carteira",
+    "disconnectAllWallets": "Desconectar todas as Carteiras",
+    "currentNetwork": "Rede Atual",
+    "enableTransactionProtection": "Ativar Proteção de Transação",
+    "appInfo": "Informações do Aplicativo",
+    "learnMore": "Saiba Mais",
+    "gettingStartedGuide": "Guia de Início Rápido",
+    "smartContracts": "Contratos Inteligentes",
+    "explore": "Explorar",
+    "poweredBy": "powered by",
+    "addAccount": "Adicionar Conta",
+    "setPrimaryAccount": "Definir Conta Principal",
+    "disconnectWallet": "Desconectar Carteira",
+    "copyAddress": "Copiar endereço da carteira"
+  },
+  "notify": {
+    "transaction": {
+      "txRequest": "Sua transação está aguardando sua confirmação",
+      "nsfFail": "Você possui fundos insuficientes para esta transação",
+      "txUnderpriced": "O preço do gás para sua transação está muito baixo, tente um preço de gás mais alto",
+      "txRepeat": "Isso pode ser uma transação repetida",
+      "txAwaitingApproval": "Você possui uma transação anterior aguardando sua confirmação",
+      "txConfirmReminder": "Por favor, confirme sua transação para continuar",
+      "txSendFail": "Você rejeitou a transação",
+      "txSent": "Sua transação foi enviada para a rede",
+      "txStallPending": "Sua transação foi interrompida antes de ser enviada, por favor, tente novamente",
+      "txStuck": "Sua transação está parada devido a uma lacuna de nonce",
+      "txPool": "Sua transação foi iniciada",
+      "txStallConfirmed": "Sua transação está parada e não foi confirmada",
+      "txSpeedUp": "Sua transação foi acelerada",
+      "txCancel": "Sua transação está sendo cancelada",
+      "txFailed": "Sua transação falhou",
+      "txConfirmed": "Sua transação foi concluída com sucesso",
+      "txError": "Oops, algo deu errado, por favor, tente novamente",
+      "txReplaceError": "Houve um erro ao substituir sua transação, por favor, tente novamente"
+    },
+    "watched": {
+      "txPool": "Sua conta está {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+      "txSpeedUp": "Transação de {formattedValue} {asset} {preposition} {counterpartyShortened} foi acelerada",
+      "txCancel": "Transação de {formattedValue} {asset} {preposition} {counterpartyShortened} foi cancelada",
+      "txConfirmed": "Sua conta foi {verb} {formattedValue} {asset} {preposition} {counterpartyShortened} com sucesso",
+      "txFailed": "Sua conta falhou ao {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+      "txStuck": "Sua transação está presa devido a uma lacuna de nonce"
+    },
+    "time": {
+      "minutes": "min",
+      "seconds": "seg"
+    }
+  }
+}

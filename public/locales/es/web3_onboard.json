@@ -1,0 +1,120 @@
+{
+  "connect": {
+    "selectingWallet": {
+      "header": "Billeteras disponibles",
+      "sidebar": {
+        "heading": "",
+        "subheading": "Conecta tu billetera",
+        "paragraph": "Conectar tu billetera es como iniciar sesión en Web3. Selecciona tu billetera de las opciones para comenzar.",
+        "IDontHaveAWallet": "No tengo una billetera"
+      },
+      "recommendedWalletsPart1": "{app} solo es compatible con",
+      "recommendedWalletsPart2": "en esta plataforma. Por favor, utiliza o instala una de las billeteras compatibles para continuar",
+      "installWallet": "No tienes instalada ninguna billetera compatible con {app}, por favor, utiliza una billetera compatible",
+      "agreement": {
+        "agree": "Acepto los",
+        "terms": "Términos y Condiciones",
+        "and": "y",
+        "privacy": "Política de Privacidad"
+      },
+      "whyDontISeeMyWallet": "¿Por qué no veo mi billetera?",
+      "learnMore": "Haz clic aquí para obtener más información"
+    },
+    "connectingWallet": {
+      "header": "{connectionRejected, select, false {Conectando a {wallet}...} other {Conexión Rechazada}}",
+      "sidebar": {
+        "subheading": "Aprobar Conexión",
+        "paragraph": "Por favor, aprueba la conexión en tu billetera y autoriza el acceso para continuar."
+      },
+      "mainText": "Conectando...",
+      "paragraph": "Asegúrate de seleccionar todas las cuentas a las que deseas otorgar acceso.",
+      "previousConnection": "{wallet} ya tiene una solicitud de conexión pendiente, por favor, abre la aplicación de {wallet} para iniciar sesión y conectar.",
+      "rejectedText": "¡Conexión Rechazada!",
+      "rejectedCTA": "Haz clic aquí para intentarlo de nuevo",
+      "primaryButton": "Volver a las billeteras"
+    },
+    "connectedWallet": {
+      "header": "Conexión Exitosa",
+      "sidebar": {
+        "subheading": "¡Conexión Exitosa!",
+        "paragraph": "Tu billetera ahora está conectada a {app}"
+      },
+      "mainText": "Conectado"
+    }
+  },
+  "modals": {
+    "actionRequired": {
+      "heading": "Acción requerida en {wallet}",
+      "paragraph": "Por favor, cambia la cuenta activa en tu billetera.",
+      "linkText": "Más información.",
+      "buttonText": "Aceptar"
+    },
+    "switchChain": {
+      "heading": "Cambiar Cadena",
+      "paragraph1": "{app} requiere que cambies tu billetera a la red {nextNetworkName} para continuar.",
+      "paragraph2": "*Algunas billeteras pueden no admitir el cambio de redes. Si no puedes cambiar de red en tu billetera, considera cambiar a una billetera diferente."
+    },
+    "confirmDisconnectAll": {
+      "heading": "Desconectar todas las Billeteras",
+      "description": "¿Estás seguro de que quieres desconectar todas tus billeteras?",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar"
+    },
+    "confirmTransactionProtection": {
+      "heading": "Activar Protección de Transacción",
+      "description": "La protección de puntos finales RPC oculta tus transacciones de bots de adelantamiento y de sandwich para reducir la liquidación desfavorable de transacciones debido al deslizamiento.",
+      "enable": "Activar",
+      "dismiss": "Cerrar"
+    }
+  },
+  "accountCenter": {
+    "connectAnotherWallet": "Conectar otra Billetera",
+    "disconnectAllWallets": "Desconectar todas las Billeteras",
+    "currentNetwork": "Red Actual",
+    "enableTransactionProtection": "Activar Protección de Transacción",
+    "appInfo": "Información de la Aplicación",
+    "learnMore": "Aprender más",
+    "gettingStartedGuide": "Guía de Inicio",
+    "smartContracts": "Contratos Inteligentes",
+    "explore": "Explorar",
+    "poweredBy": "proporcionado por",
+    "addAccount": "Agregar Cuenta",
+    "setPrimaryAccount": "Establecer Cuenta Principal",
+    "disconnectWallet": "Desconectar Billetera",
+    "copyAddress": "Copiar dirección de billetera"
+  },
+  "notify": {
+    "transaction": {
+      "txRequest": "Tu transacción está esperando tu confirmación",
+      "nsfFail": "No tienes suficientes fondos para esta transacción",
+      "txUnderpriced": "El precio del gas para tu transacción es demasiado bajo, intenta con un precio de gas más alto",
+      "txRepeat": "Esta podría ser una transacción repetida",
+      "txAwaitingApproval": "Tienes una transacción anterior esperando tu confirmación",
+      "txConfirmReminder": "Por favor, confirma tu transacción para continuar",
+      "txSendFail": "Has rechazado la transacción",
+      "txSent": "Tu transacción ha sido enviada a la red",
+      "txStallPending": "Tu transacción se ha detenido antes de ser enviada, por favor inténtalo de nuevo",
+      "txStuck": "Tu transacción está atascada debido a una brecha de nonce",
+      "txPool": "Tu transacción ha comenzado",
+      "txStallConfirmed": "Tu transacción se ha detenido y no ha sido confirmada",
+      "txSpeedUp": "Tu transacción ha sido acelerada",
+      "txCancel": "Tu transacción se está cancelando",
+      "txFailed": "Tu transacción ha fallado",
+      "txConfirmed": "Tu transacción ha tenido éxito",
+      "txError": "Ups, algo salió mal, por favor inténtalo de nuevo",
+      "txReplaceError": "Hubo un error al reemplazar tu transacción, por favor inténtalo de nuevo"
+    },
+    "watched": {
+      "txPool": "Tu cuenta {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+      "txSpeedUp": "La transacción de {formattedValue} {asset} {preposition} {counterpartyShortened} se ha acelerado",
+      "txCancel": "La transacción de {formattedValue} {asset} {preposition} {counterpartyShortened} se ha cancelado",
+      "txConfirmed": "Tu cuenta se ha {verb} exitosamente {formattedValue} {asset} {preposition} {counterpartyShortened}",
+      "txFailed": "Tu cuenta no pudo {verb} {formattedValue} {asset} {preposition} {counterpartyShortened}",
+      "txStuck": "Tu transacción está atascada debido a una brecha de nonce"
+    },
+    "time": {
+      "minutes": "min",
+      "seconds": "seg"
+    }
+  }
+}
