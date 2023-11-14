@@ -22,7 +22,7 @@ import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 
-
+import { checkInputAddress } from '../../utils/addresses'
 
 const vidas = [
   vida0.src,
@@ -249,27 +249,7 @@ const AlphaCards = ({ alphaMidButton }) => {
     const albumData = await alphaContract.cards(tokenId)
     return albumData
   }
-
-
-  const checkInputAddress = () => {
-    const hexa = '0123456789abcdefABCDEF'
-    if (
-      receiverAccount.length !== 42 ||
-      receiverAccount[0] !== '0' ||
-      receiverAccount[1] !== 'x'
-    ) {
-      setTransferError(t('direccion_destino_error'))
-      return false
-    }
-    for (let i = 2; i < receiverAccount.length; i++) {
-      if (!hexa.includes(receiverAccount[i])) {
-        setTransferError(t('direccion_destino_error'))
-        return false
-      }
-    }
-    return true
-  }
-
+  
   const showCards = (address, seasonName) => {
     try {
       checkPacks()
@@ -488,6 +468,8 @@ const AlphaCards = ({ alphaMidButton }) => {
         setReceiverAccount('')
         stopLoading()
         emitSuccess(t('carta_enviada'))
+      } else {
+        setTransferError(t('direccion_destino_error'))
       }
     } catch (e) {
       console.error({ e })
