@@ -19,7 +19,7 @@ import vida4 from './images/vida4.png'
 import vida5 from './images/vida5.png'
 
 import {useTranslation} from 'next-i18next'
-import { useWeb3Context } from '../../hooks'
+import { useWeb3Context, walletAddress } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 
 import { checkInputAddress } from '../../utils/addresses'
@@ -453,7 +453,7 @@ const AlphaCards = ({ alphaMidButton }) => {
 
   async function transferToken () {
     try {
-      if (checkInputAddress(receiverAccount)) {
+      if (checkInputAddress(receiverAccount, walletAddress)) {
         setTransferError('')
         const transaction = await alphaContract[
           'safeTransferFrom(address,address,uint256)'

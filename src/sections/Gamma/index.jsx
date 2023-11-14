@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { ethers } from 'ethers'
-import InfoCard from './InfoCard'
+import GammaInfoCard from './GammaInfoCard'
 import Swal from 'sweetalert2'
+import {useTranslation} from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import InventoryAlbum from './InventoryAlbum'
-import GammaAlbum from './GammaAlbum'
+import GammaAlbumInventory from './GammaAlbumInventory'
+import GammaAlbumEmpty from './GammaAlbumEmpty'
 import GammaPack from './GammaPack'
+import { checkApproved } from '../../services/contracts/dai'
 import { fetchPackData } from '../../services/backend/gamma'
 import { 
   getCardsByUser, checkPacksByUser, 
   verifyPackSigner, openPack, getPackPrice } from '../../services/contracts/gamma'
 import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
-import { checkApproved } from '../../services/contracts/dai'
-import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import pagination from '../../utils/placeholders'
+import gammaCardsPages from './gammaCardsPages'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -37,6 +37,7 @@ const index = React.forwardRef(() => {
 
   const { mobile, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
+  const [paginationObjKey, setPaginationObjKey] = useState(0);
 
   const checkNumberOfPacks = async () => {
     try {
@@ -59,9 +60,10 @@ const index = React.forwardRef(() => {
 
   const fetchInventory = async () => {
     try {
-      // console.log('fetchInventory', walletAddress, gammaCardsContract)
-      const userCards = await getCardsByUser(gammaCardsContract, walletAddress, pagination)
+      const userCards = await getCardsByUser(gammaCardsContract, walletAddress, gammaCardsPages)
       setPaginationObj(userCards)
+      // actualiza la clave para forzar el renderizado de gammaAlbumInventory
+      setPaginationObjKey(paginationObjKey => paginationObjKey + 1);
     } catch (error) {
       console.error(error)
     }
@@ -74,7 +76,7 @@ const index = React.forwardRef(() => {
 
   useEffect(() => {
     fetchInventory()
-  }, [walletAddress, gammaCardsContract, pagination]) 
+  }, [walletAddress, gammaCardsContract, gammaCardsPages]) 
 
   useEffect(() => {
     checkNumberOfPacks()
@@ -205,6 +207,12 @@ const index = React.forwardRef(() => {
     }
   }
 
+
+  const handleFinishInfoCard = async () => {
+    setCardInfo(false)
+    await fetchInventory()
+  }
+
   return (
     <>
       {!walletAddress && <div className='alpha'>
@@ -295,16 +303,19 @@ const index = React.forwardRef(() => {
               : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }}
             className='hero__top__album'
           >
-            {inventory && !cardInfo && gammaCardsContract && 
-            <InventoryAlbum
+            {gammaCardsContract && inventory && !cardInfo &&
+            <GammaAlbumInventory
+              key={paginationObjKey}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
-              setCardInfo={setCardInfo}
-              cardInfo={cardInfo}/>
+              setCardInfo={setCardInfo}/>
             }
-            {!inventory && <GammaAlbum />}
-            {inventory && cardInfo && gammaCardsContract && 
-              <InfoCard imageNumber={imageNumber} />
+            {!inventory && <GammaAlbumEmpty />}
+            {gammaCardsContract && inventory && cardInfo &&
+              <GammaInfoCard 
+                imageNumber={imageNumber} 
+                handleFinishInfoCard={handleFinishInfoCard}
+              />
             }
           </div>
 

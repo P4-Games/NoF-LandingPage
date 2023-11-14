@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -13,11 +14,11 @@ import { hasCard } from '../../services/contracts/gamma'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
  
-const InfoCard = React.forwardRef((props, book) => {
-  const { imageNumber } = props
+const GammaInfoCard = React.forwardRef((props, book) => {
+  const { imageNumber, handleFinishInfoCard } = props
   const {t} = useTranslation()
   const { size, startLoading, stopLoading } = useLayoutContext()
-  const { gammaCardsContract } = useWeb3Context()
+  const { gammaCardsContract,walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
 
   function emitError (message) {
@@ -145,7 +146,7 @@ const InfoCard = React.forwardRef((props, book) => {
           max: 43
         },
         inputValidator: (value) => {
-          if (!checkInputAddress(value))
+          if (!checkInputAddress(value, walletAddress))
             return `${t('direccion_destino_error')}`
         },
         showDenyButton: false,
@@ -165,7 +166,6 @@ const InfoCard = React.forwardRef((props, book) => {
         console.log(result.value, imageNumber)
         const transaction = await gammaCardsContract.transferCard(result.value, imageNumber)
         transaction.wait()
-        stopLoading()
         Swal.fire({
           title: '',
           text: t('confirmado'),
@@ -173,6 +173,8 @@ const InfoCard = React.forwardRef((props, book) => {
           showConfirmButton: false,
           timer: 1500
         })
+        stopLoading()
+        handleFinishInfoCard()
       }
       /*
       const modal = document.getElementsByClassName('gamma_transfer_modal')[0]
@@ -344,25 +346,15 @@ const InfoCard = React.forwardRef((props, book) => {
             <TrasnferModal/>
           </div>
         </div>
-        {/* {pagination.page2.map((item, index) => {
-                        return (
-                            <div style={pagination.fakeUser[item].quantity == 0 ? { filter: 'grayscale(1)' } : {}} key={index} className="grid-item">
-                                <img src={`${storageUrlGamma}/T1/${item}.png`} alt="img" />
-                                {pagination.fakeUser[item].stamped && <FcCheckmark />}
-                                <div className='number'>{pagination.fakeUser[item].name}</div>
-                                {pagination.fakeUser[item].quantity != 0 && pagination.fakeUser[item].quantity != 1
-                                    &&
-                                    <div className='quantity'>X:{pagination.fakeUser[item].quantity}</div>
-                                }
-                            </div>
-                        )
-                    })} */}
       </div>
     </HTMLFlipBook>
   )
 })
 
+GammaInfoCard.propTypes = {
+  imageNumber: PropTypes.number,
+  handleFinishInfoCard: PropTypes.func
+}
 
-
-export default InfoCard
+export default GammaInfoCard
 
