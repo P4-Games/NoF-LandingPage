@@ -7,8 +7,7 @@ import { useLayoutContext } from '../../hooks'
 const GammaInventory = React.forwardRef((_, book) => {
   const { size } = useLayoutContext()
 
-  const PageContext = (index, item, ) => {
-    return (
+  const PageContext = (index, item, ) => (
       <div style={{ background: 'none' }} key={index} className='grid-item'>
         {pagination.user[item]?.stamped
           ? <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
@@ -16,7 +15,6 @@ const GammaInventory = React.forwardRef((_, book) => {
         {!pagination.user[item]?.stamped && <div className='numbershirt'>{pagination.user[item]?.name}</div>}
       </div>
     )
-  }
 
   return (
     <HTMLFlipBook
