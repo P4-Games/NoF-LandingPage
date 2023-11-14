@@ -135,7 +135,98 @@ const InfoCard = React.forwardRef((props, book) => {
   }
 
   const handleTransferClick = async () => {
-      // TODO
+    Swal.fire({
+      text: `${t('wallet_destinatario')}`,
+      html: `<h5>${t('wallet_destinatario')}</h5><input type="text" id="quiero" class="swal2-input" placeholder=${t('wallet').toLowerCase()} pattern="[0-9,]+" >`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('trasnferir')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput'
+        // container: 'cardcontainer',
+        // confirmButton: 'alertbuttonvender',
+        // cancelButton: 'alertcancelbutton',
+      }
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // const input = Swal.getPopup().querySelector('#quiero')
+        // setWantedCards(input.value)
+        Swal.fire({
+          title: '',
+          text: t('confirmado'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        //     Swal.fire({
+        //         text: 'Publicar?',
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Confirmar publicacion',
+        //         showLoaderOnConfirm: true,
+        //         preConfirm: (login) => {
+        //           return fetch(`//api.github.com/users/${login}`)
+        //             .then(response => {
+        //               if (!response.ok) {
+        //                 throw new Error(response.statusText)
+        //               }
+        //               return response.json()
+        //             })
+        //             .catch(error => {
+        //               Swal.showValidationMessage(
+        //                 `Request failed: ${error}`
+        //               )
+        //             })
+        //         },
+        //         allowOutsideClick: () => !Swal.isLoading()
+        //       }).then((result) => {
+        //         if (result.isConfirmed) {
+        //           Swal.fire({
+        //             text: `El precio elegido es ${result.value.login}`,
+        //             imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
+        //             color:`whitesmoke`,
+        //             backdrop:"#0000009e",
+        //             customClass: {
+        //                 image: 'cardalertimg',
+        //                 input: 'alertinput',
+        //                 // container: 'cardcontainer',
+        //                 popup: 'cardcontainer',
+        //                 confirmButton: 'alertbuttonvender',
+        //                 cancelButton: 'alertcancelbutton',
+        //             },
+        //           })
+        //         }
+        //       })
+        // } else if (result.isDenied) {
+        //     Swal.fire({
+        //         text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
+        //         // imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
+        //         color:`black`,
+        //         backdrop:"#0000009e",
+        //         customClass: {
+        //             image: 'cardalertimg',
+        //             input: 'alertinput',
+        //             // container: 'cardcontainer',
+        //             popup: 'cardspopup',
+        //             confirmButton: 'okbutton',
+        //             cancelButton: 'alertcancelbutton',
+        //         },
+        //       })
+      }
+    })
+    /*
+    console.log('click transfer card')
+    const modal = document.getElementsByClassName('gamma_transfer_modal')[0]
+    modal.setAttribute('class', 'alpha_transfer_modal')
+    */
+  }
+
+  const handleTransferModalClick = async () => {
+    // TODO
   }
 
   const handleMintClick = async () => {
@@ -204,6 +295,52 @@ const InfoCard = React.forwardRef((props, book) => {
     )
   }
 
+  const TrasnferModal = () => {
+    return (
+      <div className='gamma_transfer_modal gamma_display_none'>
+        <button
+          className='gamma_transfer_modal_close gamma_modal_close'
+          onClick={() => {
+            const modal = document.getElementsByClassName(
+              'gamma_transfer_modal'
+            )[0]
+            modal.setAttribute(
+              'class',
+              'gamma_transfer_modal gamma_display_none'
+            )
+            // setTransferError('')
+            // setReceiverAccount('')
+          }}
+        >
+          X
+        </button>
+        <span style={{ fontSize: '0.9rem' }}>
+          {t('carta_de_coleccion')}{' '}
+          {/*cards[cardIndex]
+            ? ethers.BigNumber.from(
+              cards[cardIndex].collection
+            ).toNumber()
+            : ethers.BigNumber.from(
+              cards[cardIndex - 1].collection
+            ).toNumber()*/}
+        </span>
+        <input
+          placeholder={t('wallet_destinatario')}
+          // value={receiverAccount}
+          // onChange={(e) => setReceiverAccount(e.target.value)}
+        />
+        <button
+          className='gamma_button'
+          onClick={() => handleTransferModalClick()}
+          // disabled={disableTransfer}
+        >
+          {t('transferir')}
+        </button>
+        {/*<span className='gamma_transfer_error'>{transferError}</span>*/}
+      </div>
+    )
+  }
+
   return (
     <HTMLFlipBook
       id='Book'
@@ -250,6 +387,10 @@ const InfoCard = React.forwardRef((props, book) => {
             <TransferButton/>
             <PublishButton/>
             <OfferButton/>
+          </div>
+          
+          <div className='modals'>
+            <TrasnferModal/>
           </div>
         </div>
         {/* {pagination.page2.map((item, index) => {

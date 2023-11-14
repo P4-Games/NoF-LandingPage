@@ -1,3 +1,4 @@
+@import './media-queries.scss';
 .gammaFigures {
   position: absolute;
   bottom: 32%;
@@ -824,5 +825,83 @@
   }
   &:active {
     outline: 0 !important;
+  }
+}
+
+.gamma_transfer_modal {
+  position: absolute;
+  background-color: rgba(230, 230, 230, 0.95);
+  box-shadow:
+    inset -4px 4px 1px 1px grey,
+    inset -4px -4px 1px 1px lightgrey,
+    inset 4px 0px 1px 1px lightgrey;
+  border-radius: 5px;
+  width: 25rem;
+  height: 20rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.gamma_transfer_modal input {
+  width: 90%;
+  height: 35px;
+  margin: 25px 0;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-size: 0.5rem;
+  box-shadow:
+    inset -4px 4px 1px 1px grey,
+    inset -4px -4px 1px 1px lightgrey,
+    inset 4px 0px 1px 1px lightgrey;
+  padding-left: 10px;
+}
+
+.gamma_transfer_modal_close {
+  top: 1rem;
+  right: 1rem;
+}
+
+.gamma_transfer_error {
+  bottom: 40px;
+  position: absolute;
+  margin-top: 10px;
+  text-align: center;
+  line-height: 15px;
+  font-size: 0.6rem;
+  color: red;
+}
+
+.gamma_display_none {
+  display: none !important;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.gamma_modal_close {
+  position: absolute;
+  background-color: transparent;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  cursor: pointer;
+  border: 0px;
+}
+
+.gamma_button {
+  cursor: pointer;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  box-shadow:
+    inset -4px 4px 1px 1px grey,
+    inset -4px -4px 1px 1px lightgrey,
+    inset 4px 0px 1px 1px lightgrey;
+  height: 50px;
+  background-color: #ffce00;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.5em;
+  width: 7rem;
+  @include mobile {
+    width: 6rem;
   }
 }
