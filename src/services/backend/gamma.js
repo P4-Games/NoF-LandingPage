@@ -1,7 +1,6 @@
 import { gammaServiceUrl } from '../../config'
 
 export const fetchPackData = async (walletAddress, pack_number) => {
-  console.log('gammaServiceUrl', gammaServiceUrl)
   // llamada a la api para que nos de la data a pasar en la llamada al contrato
   try {
     const body = {

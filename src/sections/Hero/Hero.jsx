@@ -36,7 +36,6 @@ const Hero = React.forwardRef((_, book) => {
   const { size, mobile } = useLayoutContext()
   const {t} = useTranslation()
 
-  console.log('here', size, mobile)
   return (
     <div className='hero' id='Hero'>
       <div className='hero__top'>

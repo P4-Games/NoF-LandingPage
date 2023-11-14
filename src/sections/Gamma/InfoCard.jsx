@@ -30,7 +30,7 @@ const InfoCard = React.forwardRef((props, book) => {
   }
   
   const verifyUserHasCard = async () => {
-    console.log('called verify')
+    // console.log('called verify')
     try {
       const result = await hasCard(gammaCardsContract, imageNumber)
       setUserHasCard(result)
@@ -219,7 +219,6 @@ const InfoCard = React.forwardRef((props, book) => {
       }
     })
     /*
-    console.log('click transfer card')
     const modal = document.getElementsByClassName('gamma_transfer_modal')[0]
     modal.setAttribute('class', 'alpha_transfer_modal')
     */

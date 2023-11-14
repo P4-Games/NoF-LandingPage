@@ -58,7 +58,7 @@ const index = React.forwardRef(() => {
 
   const fetchInventory = async () => {
     try {
-      console.log('fetchInventory', walletAddress, gammaCardsContract)
+      // console.log('fetchInventory', walletAddress, gammaCardsContract)
       const userCards = await getCardsByUser(gammaCardsContract, walletAddress, pagination)
       setPaginationObj(userCards)
     } catch (error) {
