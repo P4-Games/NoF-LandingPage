@@ -3,6 +3,7 @@ MONGODB='mongodb://localhost:27017'
 NODE_ENV='development' // development, production
 APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
+GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 
 // client-side
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'

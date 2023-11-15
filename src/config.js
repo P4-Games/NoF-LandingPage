@@ -10,6 +10,8 @@ export const environment = (process.env.APP_ENV || 'development').toLowerCase()
 export const is_production = environment === 'production' || environment === 'prod'
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
+export const graphUrl =
+  process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 
 // ------------------------------------------------------------------
 // client-side environment variables
