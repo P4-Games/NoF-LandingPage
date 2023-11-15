@@ -21,6 +21,7 @@ import { showRules, closeRules } from '../../utils/rules'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import gammaCardsPages from './gammaCardsPages'
+import { checkInputAddress } from '../../utils/addresses'
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -94,7 +95,53 @@ const index = React.forwardRef(() => {
   }
 
   const handleTransferPack = async () => {  
-    // TODO
+    try {
+      const result = await Swal.fire({
+        text: `${t('wallet_destinatario')}`,
+        input: 'text',
+        inputAttributes: {
+          min: 43,
+          max: 43
+        },
+        inputValidator: (value) => {
+          if (!checkInputAddress(value, walletAddress))
+            return `${t('direccion_destino_error')}`
+        },
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('trasnferir')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        }
+      })
+
+      if (result.isConfirmed) {
+
+        startLoading()
+
+        const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
+        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+        const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
+        transaction.wait()
+        Swal.fire({
+          title: '',
+          text: t('confirmado'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        await checkNumberOfPacks()
+        stopLoading()
+      }
+    } catch (ex) {
+      stopLoading()
+      console.error({ ex })
+      emitError(t('transfer_pack_error'))
+    }
   }
 
   const handleOpenPack = async () => {
@@ -142,7 +189,7 @@ const index = React.forwardRef(() => {
     }
   }
 
-  const buyPackscontact = async (numberOfPacks) => {
+  const buyPacksContract = async (numberOfPacks) => {
     
     gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
       console.log('evento PacksPurchase', returnValue)
@@ -204,7 +251,7 @@ const index = React.forwardRef(() => {
 
     if (result.isConfirmed) {
       const packsToBuy = result.value
-      await buyPackscontact(packsToBuy)
+      await buyPacksContract(packsToBuy)
     }
   }
 
