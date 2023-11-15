@@ -8,18 +8,18 @@ export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.APP_ENV || 'development').toLowerCase()
 export const is_production = environment === 'production' || environment === 'prod'
-export const gammaServiceUrl = process.env.GAMMA_SERVICE_URL 
-  || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
-export const graphUrl = process.env.GRAPH_URL 
-  || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+export const gammaServiceUrl =
+  process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
+export const graphUrl =
+  process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 
 // ------------------------------------------------------------------
 // client-side environment variables
 // ------------------------------------------------------------------
-export const storageUrlAlpha = process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA 
-  || 'https://storage.googleapis.com/nof-alpha'
-export const storageUrlGamma = process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA 
-  || 'https://storage.googleapis.com/nof-gamma'
+export const storageUrlAlpha =
+  process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha'
+export const storageUrlGamma =
+  process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
 
 export const NETWORK = {
   chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),
