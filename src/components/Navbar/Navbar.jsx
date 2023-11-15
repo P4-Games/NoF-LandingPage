@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 import { Link as LinkScroll } from 'react-scroll'
 import Link from 'next/link'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import {useTranslation} from 'next-i18next'
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
+import LanguageSelection from '../translation'
 
-const LanguageSelection = dynamic(
-  () => import('../translation'),
-  { ssr: false }
-)
 
 function Navbar ({
   goToCollections,
