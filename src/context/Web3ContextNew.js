@@ -106,7 +106,7 @@ const Web3ContextProvider = ({ children }) => {
       appMetadata: {
         name: 'NoF',
         description: 'Number one Fun',
-        icon: '/nof.png',
+        icon: '/images/common/nof.png',
         recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }]
       }
     })

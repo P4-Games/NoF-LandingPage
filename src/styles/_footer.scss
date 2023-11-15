@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-image: url(./images/botonera.png);
+  background-image: url(/images/footer/botonera.png);
   background-repeat: no-repeat;
   background-size: cover;
   height: 12.5vh;
@@ -19,7 +19,7 @@
   &__insert {
     width: 200px;
     height: 80px;
-    background-image: url(./images/insert-coin.png);
+    background-image: url(/images/footer/insert-coin.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -64,7 +64,7 @@
     &__bluebtn {
       width: 120px;
       height: 90px;
-      background-image: url(./images/blue.png);
+      background-image: url(/images/footer/blue.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -74,7 +74,7 @@
       background-repeat: no-repeat;
       background-position: center;
       &:hover {
-        background-image: url(./images/blue-hover.png);
+        background-image: url(/images/footer/blue-hover.png);
         position: relative;
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -96,7 +96,7 @@
     &__redbtn {
       width: 120px;
       height: 90px;
-      background-image: url(./images/red.png);
+      background-image: url(/images/footer/red.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -106,7 +106,7 @@
       background-repeat: no-repeat;
       background-position: center;
       &:hover {
-        background-image: url(./images/red-hover.png);
+        background-image: url(/images/footer/red-hover.png);
         position: relative;
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -128,7 +128,7 @@
     &__greenbtn {
       width: 120px;
       height: 90px;
-      background-image: url(./images/green.png);
+      background-image: url(/images/footer/green.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -138,7 +138,7 @@
       background-repeat: no-repeat;
       background-position: center;
       &:hover {
-        background-image: url(./images/green-hover.png);
+        background-image: url(/images/footer/green-hover.png);
         position: relative;
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -160,7 +160,7 @@
     &__yellowbtn {
       width: 120px;
       height: 90px;
-      background-image: url(./images/yellow.png);
+      background-image: url(/images/footer/yellow.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -170,7 +170,7 @@
       background-repeat: no-repeat;
       background-position: center;
       &:hover {
-        background-image: url(./images/yellow-hover.png);
+        background-image: url(/images/footer/yellow-hover.png);
         position: relative;
         background-size: 100% 100%;
         background-repeat: no-repeat;
@@ -201,7 +201,7 @@
       justify-content: center;
       width: 218px;
       height: 236px;
-      background-image: url(./images/handle-green.png);
+      background-image: url(/images/footer/handle-green.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -213,7 +213,7 @@
       margin-bottom: 200px;
       margin-right: 20px;
       &:hover {
-        background-image: url(./images/handle-green-hover.png);
+        background-image: url(/images/footer/handle-green-hover.png);
         position: relative;
         width: 218px;
         height: 236px;
@@ -246,7 +246,7 @@
       justify-content: center;
       width: 218px;
       height: 236px;
-      background-image: url(./images/handle-red.png);
+      background-image: url(/images/footer/handle-red.png);
       cursor: pointer;
       position: relative;
       transition:
@@ -258,7 +258,7 @@
       margin-bottom: 200px;
       margin-left: 20px;
       &:hover {
-        background-image: url(./images/handle-red-hover.png);
+        background-image: url(/images/footer/handle-red-hover.png);
         position: relative;
         width: 218px;
         height: 236px;

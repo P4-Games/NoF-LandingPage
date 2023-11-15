@@ -3,17 +3,11 @@ import PropTypes from 'prop-types'
 import { Link as LinkScroll } from 'react-scroll'
 import Link from 'next/link'
 import Image from 'next/image'
-import audio from './music/Dungeon.mp3'
-import Whitepaper from './Whitepaper.jsx'
-import NofTown from './NofTown.jsx'
-import Coin from './images/logo-coin.png'
-import Nof from './images/logo-1.png'
-import SoundOn from './images/sound.png'
-import SoundOff from './images/soundoff.png'
-import Shopimg from './images/shop.png'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import {useTranslation} from 'next-i18next'
+import Whitepaper from './Whitepaper.jsx'
+import NofTown from './NofTown.jsx'
 
 const LanguageSelection = dynamic(
   () => import('../translation'),
@@ -64,12 +58,12 @@ function Navbar ({
         <div className='navbar__icon'>
           <div className='hover' id='coin'>
             <Link href='/'>
-              <Image alt='coin' src={Coin} id='coin' fill/>
+              <Image alt='coin' src={'/images/navbar/logo-coin.png'} id='coin' fill/>
             </Link>
           </div>
           <div className='hover' id='nof'>
             <Link href='/'>
-              <Image alt='nof' src={Nof} fill/>
+              <Image alt='nof' src={'/images/navbar/logo-1.png'} fill/>
             </Link>
           </div>
         </div>
@@ -105,15 +99,15 @@ function Navbar ({
         <div className='navbar__corner'>
           {(router?.pathname == '/gamma') && walletAddress &&
             <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
-              <Image src={Shopimg} alt='shop' />
+              <Image src={'/images/navbar/shop.png'} alt='shop' height='60' width='60'/>
             </div>}
           <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
             {click
               ? (
-                <Image src={SoundOn} alt='soundimg' />
+                <Image src={'/images/navbar/soundOn.png'} alt='soundimg' height='60' width='60'/>
                 )
               : (
-                <Image src={SoundOff} alt='soundimg' />
+                <Image src={'/images/navbar/soundOff.png'} alt='soundimg' height='60' width='60'/>
                 )}
             <></>
           </div>
@@ -123,7 +117,7 @@ function Navbar ({
         </div>
       </div>
 
-      <audio src={audio} ref={ref} loop />
+      <audio src={'/music/Dungeon.mp3'} ref={ref} loop />
     </>
   )
 }

@@ -55,11 +55,11 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
         >
           <motion.img
             animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
-            transition={{ duration: 2, delay: 0 }} id='top' src='/gamma/SobreTop.png' alt=''
+            transition={{ duration: 2, delay: 0 }} id='top' src='/images/gamma/SobreTop.png' alt=''
           />
           <motion.img
             animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
-            transition={{ duration: 1, delay: 3 }} id='bottom' src='/gamma/SobreBottom.png' alt=''
+            transition={{ duration: 1, delay: 3 }} id='bottom' src='/images/gamma/SobreBottom.png' alt=''
           />
           <motion.img
             animate={openPackage ? { y: -100 } : ''}

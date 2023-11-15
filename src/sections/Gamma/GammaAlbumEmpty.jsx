@@ -11,7 +11,7 @@ const GammaAlbumEmpty = React.forwardRef((_, book) => {
       <div style={{ background: 'none' }} key={index} className='grid-item'>
         {gammaCardsPages.user[item]?.stamped
           ? <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-          : <img src='/gamma/Nofy.png' alt='img' />}
+          : <img src='/images/gamma/Nofy.png' alt='img' />}
         {!gammaCardsPages.user[item]?.stamped && <div className='numbershirt'>{gammaCardsPages.user[item]?.name}</div>}
       </div>
     )

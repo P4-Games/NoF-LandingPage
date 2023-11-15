@@ -11,13 +11,6 @@ import { fetchDataAlpha } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/customImage'
 
-import vida0 from './images/vida0.png'
-import vida1 from './images/vida1.png'
-import vida2 from './images/vida2.png'
-import vida3 from './images/vida3.png'
-import vida4 from './images/vida4.png'
-import vida5 from './images/vida5.png'
-
 import {useTranslation} from 'next-i18next'
 import { useWeb3Context, walletAddress } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
@@ -25,12 +18,12 @@ import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
 
 const vidas = [
-  vida0.src,
-  vida1.src,
-  vida2.src,
-  vida3.src,
-  vida4.src,
-  vida5.src
+  '/images/alpha/vida0.png',
+  '/images/alpha/vida1.png',
+  '/images/alpha/vida2.png',
+  '/images/alpha/vida3.png',
+  '/images/alpha/vida4.png',
+  '/images/alpha/vida5.png'
 ]
 
 let swiper //eslint-disable-line 
@@ -46,7 +39,7 @@ const AlphaCards = ({ alphaMidButton }) => {
   const [cards, setCards] = useState([])
   const [noCardsError, setNoCardsError] = useState('')
   const [cardIndex, setCardIndex] = useState(0)
-  const [vida, setVida] = useState(vida0.src)
+  const [vida, setVida] = useState('/images/alpha/vida0.png')
   const [seasonNames, setSeasonNames] = useState(null)
   const [seasonName, setSeasonName] = useState('')
   const [packPrices, setPackPrices] = useState(null)
@@ -539,7 +532,7 @@ const AlphaCards = ({ alphaMidButton }) => {
             {seasonNames && seasonNames.length > 0 && 
             <>
               <div className='alpha_season'>
-                <img alt='marco' src={'/marco.png'} />
+                <img alt='marco' src={'/images/common/marco.png'} />
                 <span className='alpha_season_name'>{seasonName}</span>
                 <select
                   value={seasonName}
