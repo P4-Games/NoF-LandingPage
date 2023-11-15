@@ -82,6 +82,7 @@
     "mint_error": "Hubo un error al intentar mintear una figurita",
 
     "transfer_card_error": "Hubo un error al intentar transferir la carta",
+    "transfer_pack_error": "Hubo un error al intentar transferir un pack",
 
     "rules_alpha_left_text_1": "Un minijuego temático con 60 cartas que completan 10 colecciones temáticas diferentes con 5 personajes y un álbum cada uno.",
     "rules_alpha_left_text_2": "El objetivo es completar un álbum con los 5 personajes correspondientes a la colección.",
