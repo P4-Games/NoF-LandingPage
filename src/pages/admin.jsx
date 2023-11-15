@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import React from 'react'
 import { adminAccounts } from '../config'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
@@ -11,6 +12,11 @@ const Admin = React.forwardRef(() => {
 
   return (
     <div className='admincontainer'>
+      <Head>
+        <title>Number One Fan</title>
+        <meta name='description' content='NoF Alpha' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
       {!walletAddress && <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'

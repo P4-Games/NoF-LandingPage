@@ -44,7 +44,6 @@ function Home () {
   )
 }
 
-
 export default Home
 
 export async function getStaticProps ({locale}) {
