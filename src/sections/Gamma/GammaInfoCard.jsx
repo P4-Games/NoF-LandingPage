@@ -162,7 +162,6 @@ const GammaInfoCard = React.forwardRef((props, book) => {
 
       if (result.isConfirmed) {
         startLoading()
-        console.log(result.value, imageNumber)
         const transaction = await gammaCardsContract.transferCard(result.value, imageNumber)
         transaction.wait()
         Swal.fire({
