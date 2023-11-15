@@ -393,7 +393,7 @@ const Hero = React.forwardRef((_, book) => {
         {!mobile && (
           <div className='hero__top__conteiner__swiper'>
             <div className='hero__top__swiper'>
-              <Swiper
+              {swipper && <Swiper
                 effect='cards'
                 grabCursor
                 modules={[EffectCards, Autoplay, Pagination]}
@@ -417,7 +417,7 @@ const Hero = React.forwardRef((_, book) => {
                 <SwiperSlide />
                 <SwiperSlide />
                 <SwiperSlide />
-              </Swiper>
+              </Swiper>}
               <div className='pagination' />
             </div>
           </div>
