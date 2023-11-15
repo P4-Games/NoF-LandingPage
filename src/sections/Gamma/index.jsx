@@ -5,6 +5,7 @@ import GammaInfoCard from './GammaInfoCard'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 
+import CustomImage from '../../components/customImage'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import GammaAlbumInventory from './GammaAlbumInventory'
@@ -215,6 +216,15 @@ const index = React.forwardRef(() => {
 
   return (
     <>
+      <Navbar
+        walletAddress={walletAddress}
+        cardInfo={cardInfo}
+        setCardInfo={setCardInfo}
+        inventory={inventory}
+        setInventory={setInventory}
+        handleBuyPackClick={handleBuyPackClick}
+      />
+
       {!walletAddress && <div className='alpha'>
         <div className='main_buttons_container'>
           <button
@@ -262,15 +272,6 @@ const index = React.forwardRef(() => {
       </div>
       }
 
-      <Navbar
-        walletAddress={walletAddress}
-        cardInfo={cardInfo}
-        setCardInfo={setCardInfo}
-        inventory={inventory}
-        setInventory={setInventory}
-        handleBuyPackClick={handleBuyPackClick}
-      />
-
       {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPack
           loaderPack={loaderPack}
@@ -279,15 +280,9 @@ const index = React.forwardRef(() => {
           setOpenPackage={setOpenPackage}
           openPackage={openPackage}
         />}
-        <Head>
-          <title>Number One Fan</title>
-          <meta name='description' content='NoF Gamma' />
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
-
         <div className='hero__top'>
           {!mobile && inventory &&
-            <img
+            <CustomImage
               alt='albums' src='/gamma/albums.png'
               onClick={() => setInventory(false)} className='gammaAlbums'
             />

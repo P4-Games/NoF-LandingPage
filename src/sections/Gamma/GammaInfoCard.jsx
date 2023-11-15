@@ -32,7 +32,6 @@ const GammaInfoCard = React.forwardRef((props, book) => {
   }
   
   const verifyUserHasCard = async () => {
-    // console.log('called verify')
     try {
       const result = await hasCard(gammaCardsContract, imageNumber)
       setUserHasCard(result)
