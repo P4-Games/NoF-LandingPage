@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 function CustomImage ({ src, alt, className }) {
   const [error, setError] = useState(false);
-  const defaultImage =  '/no-image.png'
+  const defaultImage =  '/images/common/no-image.png'
 
   const handleError = () => {
     setError(true)

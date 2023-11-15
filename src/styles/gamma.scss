@@ -6,7 +6,7 @@
   width: 18%;
   height: 40%;
   background-color: black;
-  background: url('/gamma/SobreGamma.png');
+  background: url('/images/gamma/SobreGamma.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
@@ -23,7 +23,7 @@
 }
 
 .gamma_rules_text_content {
-  background-image: url('/rules.png');
+  background-image: url('/images/common/rules.png');
   background-size: cover;
   background-repeat: no-repeat;
   height: 780px;
@@ -69,7 +69,7 @@
   width: 17%;
   height: 35%;
   background-color: black;
-  background: url('/gamma/SobreGamma.png');
+  background: url('/images/gamma/SobreGamma.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   display: flex;
@@ -174,30 +174,30 @@
   }
 }
 
-.gammaAlbums {
-  position: absolute;
-  bottom: 40%;
-  left: 7%;
-  width: auto;
-  height: 25%;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  min-height: 25%;
-  transition: all 0.2s ease-in;
-  &:hover {
-    transform: scale(1.05);
-  }
-}
-.gammaAlbums2 {
+.gammaAlbumsCommon {
+  cursor: pointer;
   position: absolute;
   bottom: 40%;
   left: 7%;
   width: auto;
   aspect-ratio: 0.9;
-  background: url('/gamma/AlbumGamma2.png');
-  background-size: 100% 100%;
+  min-height: 25%;
+  transition: all 0.2s ease-in;
   background-repeat: no-repeat;
-  min-height: 30%;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.gammaAlbums {
+  @extend .gammaAlbumsCommon;
+  background: url('/images/gamma/albums.png');
+  background-size: 100% 100%;
+}
+.gammaAlbums2 {
+  @extend .gammaAlbumsCommon;
+  background: url('/images/gamma/AlbumGamma2.png');
+  background-size: 100% 100%;
 }
 
 .closebutton {
@@ -265,7 +265,7 @@
     }
 
     transition: 0.8s;
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: cover !important;
     background-repeat: no-repeat;
     display: flex;
@@ -343,7 +343,7 @@
       color: darkblue;
     }
     transition: 0.8s;
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: cover !important;
     background-repeat: no-repeat;
     display: flex;
@@ -406,7 +406,7 @@
     bottom: 10px;
     z-index: -1;
     background-color: black;
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
   }
@@ -724,12 +724,12 @@
     filter: drop-shadow(2px 4px 6px white);
   }
   &:nth-of-type(odd) {
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: cover !important;
     background-repeat: no-repeat;
   }
   &:nth-of-type(even) {
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: cover !important;
     background-repeat: no-repeat;
   }
@@ -751,7 +751,7 @@
   .cardnof {
     width: 50%;
     height: 10%;
-    background: url('../components/Navbar/images/logo-1.png');
+    background: url('/images/navbar/logo-1.png');
     background-size: 100% 100%;
     background-position: center;
     img {
@@ -769,7 +769,7 @@
 
     .option {
       padding: 10px 20px;
-      background: url('/marco.png');
+      background: url('/images/common/marco.png');
       background-size: 100% 100%;
       background-position: center;
       transition: all ease-in 0.1s;
@@ -787,7 +787,7 @@
   }
   .cardinfoimg {
     width: 60%;
-    background: url('/gamma/BordeGamma.png');
+    background: url('/images/gamma/BordeGamma.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     height: 50%;
@@ -806,7 +806,7 @@
   height: 200px;
 }
 .cardcontainer {
-  background: url('/gamma/BordeGamma.png') !important;
+  background: url('/images/gamma/BordeGamma.png') !important;
   background-size: 100% 100% !important;
   background-repeat: no-repeat !important;
 }

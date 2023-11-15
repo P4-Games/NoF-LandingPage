@@ -1,8 +1,4 @@
-import World from './images/world.png'
-import Brazilean from './images/br.png'
-import English from './images/en.png'
-import Spanish from './images/es.png'
-import Image from 'next/image.js'
+import Image from 'next/image'
 import { useSettingsContext } from '../../hooks'
 
 function LanguageSelection () {
@@ -35,7 +31,7 @@ function LanguageSelection () {
     <>
       <div className='dropdown' data-dropdown>
         <button className='link' data-dropdown-button>
-          <Image src={World} alt='language button' fill />
+          <Image src={'/images/navbar/world.png'} alt='language button' fill/>
         </button>
         <div className='dropdown-menu'>
           <ul className='language_ul'>
@@ -46,7 +42,7 @@ function LanguageSelection () {
               >
                 <Image
                   onClick={() => handleChangeLang('en')}
-                  src={English}
+                  src={'/images/flags/en.png'}
                   alt='English button'
                   height={30} width={50}
                 />
@@ -59,7 +55,7 @@ function LanguageSelection () {
               >
                 <Image
                   onClick={() => handleChangeLang('br')}
-                  src={Brazilean}
+                  src={'/images/flags/br.png'}
                   alt='Brazilean button'
                   height={30} width={50}
                 />
@@ -72,7 +68,7 @@ function LanguageSelection () {
               >
                 <Image
                   onClick={() => handleChangeLang('es')}
-                  src={Spanish}
+                  src={'/images/flags/es.png'}
                   alt='Spanish button'
                   height={30} width={50}
                 />

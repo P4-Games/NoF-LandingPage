@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech&family=Share+Tech+Mono&display=swap');
 @import './_media-queries.scss';
 @import './variables';
-@import '../components/Navbar/_navbar.scss';
-@import '../components/Footer/_footer.scss';
-@import '../sections/Hero/_hero.scss';
+@import './_navbar.scss';
+@import './_footer.scss';
+@import './_hero.scss';
 
 html,
 body {
@@ -44,8 +44,6 @@ a {
 * {
   box-sizing: border-box;
 }
-
-// alpha starts
 
 @media (max-width: 576px) {
   html,

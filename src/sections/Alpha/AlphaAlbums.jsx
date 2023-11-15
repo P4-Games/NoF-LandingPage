@@ -96,7 +96,7 @@ const AlphaAlbums = ({
           ? (
             <div>
               <div className='alpha_albums_season'>
-                <img alt='alpha-full' src={'/marco.png'} />
+                <img alt='alpha-full' src={'/images/common/marco.png'} />
                 <span className='alpha_albums_season_name'>
                   {seasonNameAlbum || 'Number One Fan'}
                 </span>

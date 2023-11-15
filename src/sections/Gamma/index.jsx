@@ -261,18 +261,9 @@ const index = React.forwardRef(() => {
     await fetchInventory()
   }
 
-  return (
-    <>
-      <Navbar
-        walletAddress={walletAddress}
-        cardInfo={cardInfo}
-        setCardInfo={setCardInfo}
-        inventory={inventory}
-        setInventory={setInventory}
-        handleBuyPackClick={handleBuyPackClick}
-      />
-
-      {!walletAddress && <div className='alpha'>
+  const NotConnected = () => {
+    return (
+      <div className='alpha'>
         <div className='main_buttons_container'>
           <button
             className='alpha_button alpha_main_button'
@@ -315,9 +306,22 @@ const index = React.forwardRef(() => {
             </div>
           </div>
         </div>
-
       </div>
-      }
+    )  
+  }
+
+  return (
+    <>
+      <Navbar
+        walletAddress={walletAddress}
+        cardInfo={cardInfo}
+        setCardInfo={setCardInfo}
+        inventory={inventory}
+        setInventory={setInventory}
+        handleBuyPackClick={handleBuyPackClick}
+      />
+
+     {!walletAddress && <NotConnected />}
 
       {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPack
@@ -328,21 +332,17 @@ const index = React.forwardRef(() => {
           openPackage={openPackage}
         />}
         <div className='hero__top'>
-          {!mobile && inventory &&
-            <CustomImage
-              alt='albums' src='/gamma/albums.png'
-              onClick={() => setInventory(false)} className='gammaAlbums'
+          {!mobile &&
+            <div 
+              onClick={() => setInventory(!inventory)}
+              className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
             />
-          }
-
-          {!mobile && !inventory &&
-            <div onClick={() => setInventory(false)} className='gammaAlbums2' />
           }
 
           <div
             style={inventory 
-              ? { backgroundImage: 'url(\'/gamma/InventarioFondo.png\')' }
-              : { backgroundImage: 'url(\'/gamma/GammaFondo.png\')' }}
+              ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }
+              : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
             className='hero__top__album'
           >
             {gammaCardsContract && inventory && !cardInfo &&
