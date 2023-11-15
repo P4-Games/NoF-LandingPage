@@ -26,6 +26,7 @@
     position: relative;
     transition: transform 0.3s ease; /* Add transition for smooth scaling */
     transform-origin: center center; /* Set scaling origin to center */
+    cursor: pointer;
 
     &:hover {
       transform: scale(1.1); /* Scale the element on hover */
