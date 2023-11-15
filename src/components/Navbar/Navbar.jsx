@@ -38,9 +38,15 @@ function Navbar ({
   
   useEffect(() => {
     setPage(window.history.state.url)
-    window.history.state.url == '/alpha' ? setMidButton('Albums') : null
-    window.history.state.url == '/gamma' ? setMidButton('Inventory') : null
-  }, [])
+
+    setMidButton(t('collections'))
+    if (window.history.state.url.endsWith('/alpha')) {
+      setMidButton('Albums')
+    } else if (window.history.state.url.endsWith('/gamma')) {
+      setMidButton('Inventory')
+    }
+    console.log('page', page, page.endsWith('/alpha'))
+  }, [page])
 
 
   const audioHandleClick = () => {
@@ -75,9 +81,9 @@ function Navbar ({
             >
               <button
                 onClick={() => {
-                  if (page == '/alpha') {
+                  if (page.endsWith('/alpha')) {
                     alphaMidButton()
-                  } else if (page == '/gamma') {
+                  } else if (page.endsWith('/gamma')) {
                     if (cardInfo) {
                       setCardInfo(false)
                       setInventory(true)
@@ -90,7 +96,7 @@ function Navbar ({
                 }}
                 className='navbar__ul__li__contacto'
               >
-                {t ? t('collections') : midButton}
+                {midButton}
               </button>
             </LinkScroll>
             <Whitepaper />
