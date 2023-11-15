@@ -1,4 +1,4 @@
-const THE_GRAPH_ENDPOINT = 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+import { graphUrl } from '../config'
 
 const query = `
   query getSeasonWinners {
@@ -13,7 +13,7 @@ const query = `
 
 export const fetchDataAlpha = async () => {
   try {
-    const response = await fetch(THE_GRAPH_ENDPOINT, {
+    const response = await fetch(graphUrl, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

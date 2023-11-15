@@ -10,7 +10,7 @@ import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
 
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
-import { hasCard } from '../../services/contracts/gamma'
+import { hasCard } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
  
