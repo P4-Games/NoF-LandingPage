@@ -100,7 +100,6 @@ export const getPackPrice = async (cardsContract) => {
   }
 }
 
-
 export const finishAlbum = async (cardsContract) => {
   try {
     await cardsContract.finishAlbum()
@@ -110,4 +109,3 @@ export const finishAlbum = async (cardsContract) => {
     throw e
   }
 }
-
