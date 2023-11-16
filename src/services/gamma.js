@@ -67,6 +67,7 @@ export const getCardsByUser = async (cardsContract, walletAddress, pagination) =
     // console.log('cardsObj', cardsObj)
     if (cardsArr && cardsArr.length > 0) {
       for (let i = 0; i < cardsArr[0]?.length; i++) {
+        //console.log(cardsArr[1][i])
         cardsObj.user[cardsArr[0][i]].stamped = true
         cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i]
       }
@@ -98,3 +99,15 @@ export const getPackPrice = async (cardsContract) => {
     throw e
   }
 }
+
+
+export const finishAlbum = async (cardsContract) => {
+  try {
+    await cardsContract.finishAlbum()
+    await openPackTx.wait()
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+

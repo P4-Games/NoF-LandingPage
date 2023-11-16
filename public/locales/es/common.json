@@ -85,7 +85,9 @@
 
     "transfer_card_error": "Hubo un error al intentar transferir la carta",
     "transfer_pack_error": "Hubo un error al intentar transferir un pack",
-
+    "finish_album_error": "Ocurrió un error al intentar reclamar el premio",
+    "finish_album_success": "Felicitaciones! Completaste el álbum. Recibirás en tu wallet tu premio en DAIs.",
+  
     "rules_alpha_left_text_1": "Un minijuego temático con 60 cartas que completan 10 colecciones temáticas diferentes con 5 personajes y un álbum cada uno.",
     "rules_alpha_left_text_2": "El objetivo es completar un álbum con los 5 personajes correspondientes a la colección.",
     "rules_alpha_left_text_3": "Para jugar es necesario conectar una billetera a la red de Polygon.",

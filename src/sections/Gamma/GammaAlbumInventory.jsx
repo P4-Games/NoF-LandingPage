@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
-import gammaCardsPages from './gammaCardsPages'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/customImage'
@@ -12,13 +11,18 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
   const { size } = useLayoutContext()
 
   const getStyle = (item, pageNumber) => {
+    return (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity) 
+    ? { filter: 'grayscale(1)' } 
+    : {} 
+
+    /*
     if (pageNumber === 1) {
       return (paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) 
         ? { filter: 'grayscale(1)' } 
         : {} 
     } else {
       return gammaCardsPages.user[item]?.quantity == 0 ? { filter: 'grayscale(1)' } : {}
-    }
+    }*/
   }
 
   const PageContent = ({ page, pageNumber}) => {
@@ -30,7 +34,7 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
 
     return (
       <div className={divWrapperClassName}>
-        {page.map((item, index) => (
+        {page && page.map((item, index) => (
           <div 
             onClick={() => { setCardInfo(true), setImageNumber(item) }}
             style={getStyle(item, pageNumber)} 
