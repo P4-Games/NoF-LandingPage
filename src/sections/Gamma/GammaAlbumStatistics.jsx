@@ -3,15 +3,16 @@ import HTMLFlipBook from 'react-pageflip'
 import gammaCardsPages from './gammaCardsPages'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
+import CustomImage from '../../components/customImage'
 
-const GammaAlbumEmpty = React.forwardRef((_, book) => {
+const GammaAlbumStatistics = React.forwardRef((_, book) => {
   const { size } = useLayoutContext()
-
+  
   const PageContext = (index, item, ) => (
       <div style={{ background: 'none' }} key={index} className='grid-item'>
         {gammaCardsPages.user[item]?.stamped
-          ? <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-          : <img src='/images/gamma/Nofy.png' alt='img' />}
+          ? <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+          : <CustomImage src='/images/gamma/Nofy.png' alt='img' />}
         {!gammaCardsPages.user[item]?.stamped && <div className='numbershirt'>{gammaCardsPages.user[item]?.name}</div>}
       </div>
     )
@@ -60,4 +61,4 @@ const GammaAlbumEmpty = React.forwardRef((_, book) => {
   )
 })
 
-export default GammaAlbumEmpty
+export default GammaAlbumStatistics

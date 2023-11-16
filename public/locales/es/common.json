@@ -60,7 +60,9 @@
 
     "no_paquetes_para_abrir": "No tienes paquetes para abrir!",
     "album": "Album",
-    "completar": "Completar",
+    "completo": "Compleo",
+    "incompleto": "Incompleto",
+    "reclamar_premio": "Reclamar Premio",
 
     "carta_minteada": "Carta Minteada! Puedes verla",
     "aqui": "aquí",

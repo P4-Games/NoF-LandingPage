@@ -5,6 +5,7 @@ import { FcCheckmark } from 'react-icons/fc'
 import gammaCardsPages from './gammaCardsPages'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
+import CustomImage from '../../components/customImage'
 
 const GammaAlbumInventory = React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo } = props
@@ -36,7 +37,7 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
             key={index}
             className='grid-item'
           >
-            <img src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+            <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
             {paginationObj.user[item]?.stamped && <FcCheckmark />}
             <div className='number'>{paginationObj.user[item]?.name}</div>
             {
@@ -49,7 +50,7 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
     )
   }
 
-  return paginationObj && paginationObj.page1
+  return paginationObj
     ? (
       <HTMLFlipBook
         id='Book'

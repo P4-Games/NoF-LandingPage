@@ -61,11 +61,12 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
             animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
             transition={{ duration: 1, delay: 3 }} id='bottom' src='/images/gamma/SobreBottom.png' alt=''
           />
+          {cardsNumbers && 
           <motion.img
             animate={openPackage ? { y: -100 } : ''}
             transition={{ duration: 3, delay: 1 }}
             id='imagetest' src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
-          />
+          />}
         </motion.div>
         {!loaderPack && 
           <AiOutlineCloseCircle
