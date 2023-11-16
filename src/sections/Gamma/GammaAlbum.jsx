@@ -6,28 +6,21 @@ import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/customImage'
 
-const GammaAlbumInventory = React.forwardRef((props, book) => {
-  const { paginationObj, setImageNumber, setCardInfo } = props
+const GammaAlbum = React.forwardRef((props, book) => {
+  const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
   const { size } = useLayoutContext()
 
-  const getStyle = (item, pageNumber) => {
+  console.log(paginationObj)
+
+  const getStyle = (item) => {
     return (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity) 
     ? { filter: 'grayscale(1)' } 
     : {} 
-
-    /*
-    if (pageNumber === 1) {
-      return (paginationObj.user[item]?.quantity == 0 || !paginationObj.user[item]?.quantity) 
-        ? { filter: 'grayscale(1)' } 
-        : {} 
-    } else {
-      return gammaCardsPages.user[item]?.quantity == 0 ? { filter: 'grayscale(1)' } : {}
-    }*/
   }
+
 
   const PageContent = ({ page, pageNumber}) => {
     let divWrapperClassName = 'grid-wrapper'
-
     if (pageNumber % 2 === 0) { // par
       divWrapperClassName = 'grid-wrapperright'
     }
@@ -36,18 +29,23 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
       <div className={divWrapperClassName}>
         {page && page.map((item, index) => (
           <div 
-            onClick={() => { setCardInfo(true), setImageNumber(item) }}
-            style={getStyle(item, pageNumber)} 
+            onClick={showInventory ? () => { setCardInfo(true), setImageNumber(item) } : null}
+            style={getStyle(item)} 
             key={index}
             className='grid-item'
           >
-            <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-            {paginationObj.user[item]?.stamped && <FcCheckmark />}
-            <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
-            {
-              paginationObj.user[item]?.quantity > 1 && 
+            { !showInventory && (paginationObj.user[item]?.stamped
+                ? <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+                : <CustomImage src='/images/gamma/Nofy.png' alt='img' /> )}
+
+            { showInventory && <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' /> }
+            { showInventory && paginationObj.user[item]?.stamped && <FcCheckmark /> }
+
+            { showInventory && paginationObj.user[item]?.quantity > 1 && 
               <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
             }
+
+            <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
           </div>))
         }
       </div>
@@ -116,10 +114,11 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
       ) : null
 })
 
-GammaAlbumInventory.propTypes = {
+GammaAlbum.propTypes = {
   paginationObj: PropTypes.object,
   setImageNumber: PropTypes.func,
-  setCardInfo: PropTypes.func
+  setCardInfo: PropTypes.func,
+  showInventory: PropTypes.bool
 }
 
-export default GammaAlbumInventory
+export default GammaAlbum

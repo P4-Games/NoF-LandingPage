@@ -6,8 +6,8 @@ import {useTranslation} from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import GammaAlbumInventory from './GammaAlbumInventory'
-import GammaAlbumStatistics from './GammaAlbumStatistics'
+import GammaAlbum from './GammaAlbum'
+// import GammaAlbumStatistics from './GammaAlbumStatistics'
 import GammaPack from './GammaPack'
 import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
@@ -115,17 +115,22 @@ const index = React.forwardRef(() => {
   const handleFinishAlbum = async () => {  
     try {
       startLoading()
-      const transaction = await gammaPacksContract.finishAlbum()
-      transaction.wait()
-      await fetchInventory()
-      setCardsQtty(getCardsQtty(paginationObj))
-      Swal.fire({
-        title: '',
-        text: t('finish_album_success'),
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 5000
-      })
+      const result = await finishAlbum(gammaCardsContract, walletAddress)
+      
+      if (result) {
+        await fetchInventory()
+        setCardsQtty(getCardsQtty(paginationObj))
+        Swal.fire({
+          title: '',
+          text: t('finish_album_success'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 5000
+        })
+        
+      } else {
+        emitError(t('finish_album_error'))
+      }
       stopLoading()
     } catch (ex) {
       stopLoading()
@@ -387,19 +392,27 @@ const index = React.forwardRef(() => {
             className='hero__top__album'
           >
             {!inventory && 
+            <GammaAlbum
+              showInventory={false}
+              dummyKey={paginationObjKey}
+              paginationObj={paginationObj}
+              setImageNumber={setImageNumber}
+              setCardInfo={setCardInfo}/>
+            /*
               <GammaAlbumStatistics
                 key={paginationObjKey}
                 paginationObj={paginationObj}
               />
-            }
-            {gammaCardsContract && inventory && !cardInfo &&
-            <GammaAlbumInventory
+            */}
+            {inventory && !cardInfo &&
+            <GammaAlbum
+              showInventory={true}
               dummyKey={paginationObjKey}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
             }
-            {gammaCardsContract && inventory && cardInfo &&
+            {inventory && cardInfo &&
               <GammaInfoCard 
                 imageNumber={imageNumber} 
                 handleFinishInfoCard={handleFinishInfoCard}
