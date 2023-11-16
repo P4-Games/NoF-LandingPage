@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Head from 'next/head'
 import { ethers } from 'ethers'
 import GammaInfoCard from './GammaInfoCard'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 
-import CustomImage from '../../components/customImage'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import GammaAlbumInventory from './GammaAlbumInventory'
-import GammaAlbumEmpty from './GammaAlbumEmpty'
+import GammaAlbumStatistics from './GammaAlbumStatistics'
 import GammaPack from './GammaPack'
 import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
@@ -40,6 +38,21 @@ const index = React.forwardRef(() => {
   const { mobile, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [paginationObjKey, setPaginationObjKey] = useState(0);
+  const [ cardsQtty, setCardsQtty ] = useState(0)
+
+  const getCardsQtyy = (paginationObj) => {
+    let total = 0
+
+    if(!paginationObj) return
+    for (let key in paginationObj.user) {
+      console.log(key)
+      if (paginationObj.user[key].quantity > 0) {
+        total += 1;
+      }
+    }
+  
+    return total;
+  }
 
   const checkNumberOfPacks = async () => {
     try {
@@ -70,11 +83,15 @@ const index = React.forwardRef(() => {
       console.error(error)
     }
   }
+     
+  useEffect(() => {
+    if (!paginationObj) return
+    setCardsQtty(getCardsQtyy(paginationObj))
+  }, [paginationObj]) 
   
   useEffect(() => {
     console.log('gamma acc', walletAddress, wallets)
   }, [walletAddress, wallets]) 
-
 
   useEffect(() => {
     fetchInventory()
@@ -92,6 +109,10 @@ const index = React.forwardRef(() => {
       showConfirmButton: true,
       timer: 5000
     })
+  }
+
+  const handleCompleteAlbum = async () => {  
+      console.log('handleCompleteAlbum')
   }
 
   const handleTransferPack = async () => {  
@@ -179,6 +200,7 @@ const index = React.forwardRef(() => {
           setLoaderPack(false)
           await checkNumberOfPacks()
           await fetchInventory()
+          setCardsQtty(getCardsQtyy(paginationObj))
           return openedPack
         }
       }
@@ -345,6 +367,12 @@ const index = React.forwardRef(() => {
               : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
             className='hero__top__album'
           >
+            {!inventory && 
+              <GammaAlbumStatistics
+                key={paginationObjKey}
+                paginationObj={paginationObj}
+              />
+            }
             {gammaCardsContract && inventory && !cardInfo &&
             <GammaAlbumInventory
               key={paginationObjKey}
@@ -352,7 +380,6 @@ const index = React.forwardRef(() => {
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
             }
-            {!inventory && <GammaAlbumEmpty />}
             {gammaCardsContract && inventory && cardInfo &&
               <GammaInfoCard 
                 imageNumber={imageNumber} 
@@ -383,11 +410,24 @@ const index = React.forwardRef(() => {
             </div>
           }
 
-          {!mobile && !inventory &&
+          {!mobile && !inventory && cardsQtty >= 0 &&
             <div className='gammaComplete'>
-              <h3>{t('album')}</h3>
-              <h3>24/120</h3>
-              <h3>{t('completar')}</h3>
+              <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
+                <h3>
+                    {cardsQtty === 120 
+                      ? `${t('album')} ${t('completo')}`
+                      : `${t('album')} ${t('incompleto')}`
+                    } 
+                </h3>
+              </div>
+              <div className={cardsQtty===120 ? 'qtty_complete' : 'qtty_incomplete'}>
+                <h3>{`${cardsQtty}/120`}</h3>
+              </div>
+              {cardsQtty===120 && <div
+                onClick={() => { handleCompleteAlbum() }}
+                className={cardsQtty===120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
+                <h3>{t('reclamar_premio')}</h3>
+              </div>}
             </div>}
         </div>
       </div>}
