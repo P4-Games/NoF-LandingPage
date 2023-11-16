@@ -12,7 +12,7 @@ import GammaPack from './GammaPack'
 import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
 import { 
-  getCardsByUser, checkPacksByUser, 
+  getCardsByUser, checkPacksByUser, finishAlbum,
   verifyPackSigner, openPack, getPackPrice } from '../../services/gamma'
 import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
@@ -38,14 +38,13 @@ const index = React.forwardRef(() => {
   const { mobile, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [paginationObjKey, setPaginationObjKey] = useState(0);
-  const [ cardsQtty, setCardsQtty ] = useState(0)
+  const [cardsQtty, setCardsQtty] = useState(0)
 
-  const getCardsQtyy = (paginationObj) => {
+  const getCardsQtty = (paginationObj) => {
     let total = 0
 
     if(!paginationObj) return
     for (let key in paginationObj.user) {
-      console.log(key)
       if (paginationObj.user[key].quantity > 0) {
         total += 1;
       }
@@ -86,12 +85,14 @@ const index = React.forwardRef(() => {
      
   useEffect(() => {
     if (!paginationObj) return
-    setCardsQtty(getCardsQtyy(paginationObj))
+    setCardsQtty(getCardsQtty(paginationObj))
   }, [paginationObj]) 
   
+  /*
   useEffect(() => {
     console.log('gamma acc', walletAddress, wallets)
   }, [walletAddress, wallets]) 
+  */
 
   useEffect(() => {
     fetchInventory()
@@ -111,8 +112,26 @@ const index = React.forwardRef(() => {
     })
   }
 
-  const handleCompleteAlbum = async () => {  
-      console.log('handleCompleteAlbum')
+  const handleFinishAlbum = async () => {  
+    try {
+      startLoading()
+      const transaction = await gammaPacksContract.finishAlbum()
+      transaction.wait()
+      await fetchInventory()
+      setCardsQtty(getCardsQtty(paginationObj))
+      Swal.fire({
+        title: '',
+        text: t('finish_album_success'),
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 5000
+      })
+      stopLoading()
+    } catch (ex) {
+      stopLoading()
+      console.error({ ex })
+      emitError(t('finish_album_error'))
+    }
   }
 
   const handleTransferPack = async () => {  
@@ -200,7 +219,7 @@ const index = React.forwardRef(() => {
           setLoaderPack(false)
           await checkNumberOfPacks()
           await fetchInventory()
-          setCardsQtty(getCardsQtyy(paginationObj))
+          setCardsQtty(getCardsQtty(paginationObj))
           return openedPack
         }
       }
@@ -375,7 +394,7 @@ const index = React.forwardRef(() => {
             }
             {gammaCardsContract && inventory && !cardInfo &&
             <GammaAlbumInventory
-              key={paginationObjKey}
+              dummyKey={paginationObjKey}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
@@ -424,7 +443,7 @@ const index = React.forwardRef(() => {
                 <h3>{`${cardsQtty}/120`}</h3>
               </div>
               {cardsQtty===120 && <div
-                onClick={() => { handleCompleteAlbum() }}
+                onClick={() => { handleFinishAlbum() }}
                 className={cardsQtty===120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
                 <h3>{t('reclamar_premio')}</h3>
               </div>}
