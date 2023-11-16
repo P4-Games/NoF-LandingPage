@@ -59,8 +59,10 @@
   "usuario_no_en_temporada": "Este usuário não está jogando nesta temporada.",
 
   "no_paquetes_para_abrir": "Você não tem pacotes para abrir!",
-  "album": "Álbum",
-  "completar": "Completar",
+  "album": "Álbum", 
+  "completo": "Completo", 
+  "incompleto": "Incompleto", 
+  "reclamar_premio": "Reivindicar prêmio",
 
   "carta_minteada": "Carta Minted! Você pode vê-la",
   "aqui": "aqui",

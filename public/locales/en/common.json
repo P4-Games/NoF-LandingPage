@@ -59,8 +59,10 @@
     "usuario_no_en_temporada": "This user is not playing this season.",
 
     "no_paquetes_para_abrir": "You have no packs to open!",
-    "album": "Album",
-    "completar": "Complete",
+    "album": "Album", 
+    "completo": "Complete", 
+    "incompleto": "Incomplete", 
+    "reclamar_premio": "Claim Prize",
 
     "carta_minteada": "Minted Card! You can view it",
     "aqui": "here",
