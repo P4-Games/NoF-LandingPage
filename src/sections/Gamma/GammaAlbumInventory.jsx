@@ -43,7 +43,7 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
           >
             <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
             {paginationObj.user[item]?.stamped && <FcCheckmark />}
-            <div className='number'>{paginationObj.user[item]?.name}</div>
+            <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
             {
               paginationObj.user[item]?.quantity > 1 && 
               <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
