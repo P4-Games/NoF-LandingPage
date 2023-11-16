@@ -40,8 +40,7 @@ const GammaAlbumInventory = React.forwardRef((props, book) => {
             {paginationObj.user[item]?.stamped && <FcCheckmark />}
             <div className='number'>{paginationObj.user[item]?.name}</div>
             {
-              paginationObj.user[item]?.quantity != 0 && 
-              paginationObj.user[item]?.quantity != 1 &&
+              paginationObj.user[item]?.quantity > 1 && 
               <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
             }
           </div>))
