@@ -103,7 +103,7 @@ export const finishAlbum = async (cardsContract, walletAddress) => {
   try {
     const result = await allowedToFinishAlbum(cardsContract, walletAddress)
     if (result) {
-      const transaction  = await cardsContract.finishAlbum()
+      const transaction = await cardsContract.finishAlbum()
       await transaction.wait()
       return true
     } else {
