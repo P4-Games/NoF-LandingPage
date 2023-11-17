@@ -52,7 +52,9 @@ const GammaInfoCard = React.forwardRef((props, book) => {
   const handlePublishClick = async () => {
     Swal.fire({
       text: `${t('cartas_a_cambio')}`,
-      html: `<h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
+      html: `
+        <h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" 
+        placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: `${t('publicar')}`,
