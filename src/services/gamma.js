@@ -77,6 +77,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
       const cardId = cardData[0][i]
       const quantity = cardData[1][i]
       cardsObj.user[cardId] = {
+        name: cardId.toString(),
         stamped: quantity > 0,
         quantity: quantity
       }
@@ -130,8 +131,8 @@ export const allowedToFinishAlbum = async (cardsContract, walletAddress) => {
   // Hay 3 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
-  // 3. Que el usuario tenga todas las cartas. 
-  // Las 3 se validan en el contrato. La 1 y 2 también se validan aquí. La 3 es una condición requerida para llegar 
+  // 3. Que el usuario tenga todas las cartas.
+  // Las 3 se validan en el contrato. La 1 y 2 también se validan aquí. La 3 es una condición requerida para llegar
   // hasta ésta función, por lo que también es validada en el index.
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
@@ -143,10 +144,17 @@ export const allowedToFinishAlbum = async (cardsContract, walletAddress) => {
   const albumPrize = ethers.utils.formatUnits(mainAlbumPrize, 18)
 
   // require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
-  const prizesBalanzGTAlbumPrice = (parseInt(prizeBalance) >= parseInt(albumPrize))
+  const prizesBalanzGTAlbumPrice = parseInt(prizeBalance) >= parseInt(albumPrize)
   const result = userHasAlbum && prizesBalanzGTAlbumPrice
 
-  console.log('prizesBalanzGTAlbumPrice', userHasAlbum, prizeBalance, albumPrize, prizesBalanzGTAlbumPrice, result)
+  console.log(
+    'prizesBalanzGTAlbumPrice',
+    userHasAlbum,
+    prizeBalance,
+    albumPrize,
+    prizesBalanzGTAlbumPrice,
+    result
+  )
 
   return result
 }

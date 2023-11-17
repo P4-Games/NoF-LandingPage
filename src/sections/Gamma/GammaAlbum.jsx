@@ -13,8 +13,8 @@ const GammaAlbum = React.forwardRef((props, book) => {
   
   const getStyle = (item) => {
     return (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity) 
-    ? { filter: 'grayscale(1)' } 
-    : {} 
+      ? { filter: 'grayscale(1)' } 
+      : {} 
   }
 
   const PageContent = ({ page, pageNumber}) => {
