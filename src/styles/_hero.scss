@@ -25,7 +25,7 @@ $groundHeight: 40px;
     left 0px bottom $groundHeight,
     left 0px bottom 0px;
   animation: back 120s infinite linear;
-  padding: 0px 9% 0px 0px;
+  padding: 0px 0px 0px 0px;
 
   @keyframes back {
     0% {
@@ -576,6 +576,9 @@ $groundHeight: 40px;
       }
     }
   }
+}
+.navbar__icon {
+  display: flex;
 }
 
 .hero__top__conteiner__swiper {

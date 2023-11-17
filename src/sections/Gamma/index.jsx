@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import GammaInfoCard from './GammaInfoCard'
+import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import GammaAlbum from './GammaAlbum'
-import GammaPack from './GammaPack'
+import GammaPackOpen from './GammaPackOpen'
 import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
 import { 
@@ -352,10 +352,60 @@ const index = React.forwardRef(() => {
     </div>
   )
 
+  const GammaPackInfo = () => {
+    if (!mobile && inventory) {
+      return (
+        <div className='gammapack'>
+          <div className=''>
+              <h1
+                className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
+                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+                {numberOfPacks}
+              </h1>
+          </div>
+          <div 
+            onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
+            className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
+            <h3>{t('abrir')}</h3>
+          </div>
+          <div
+            onClick={() => { handleTransferPack() }}
+            className={numberOfPacks==='0' ? 'transferPack_disabled' : 'transferPack'}>
+            <h3>{t('transferir')}</h3>
+          </div>
+        </div>
+      )
+    }
+
+    if (!mobile && !inventory && cardsQtty >= 0) {
+      return (
+        <div className='gammaComplete'>
+          <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
+            <h3>
+                {cardsQtty === 120 
+                  ? `${t('album')} ${t('completo')}`
+                  : `${t('album')} ${t('incompleto')}`
+                } 
+            </h3>
+          </div>
+          <div className={cardsQtty===120 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`${cardsQtty}/120`}</h3>
+          </div>
+          {cardsQtty===120 && <div
+            onClick={() => { handleFinishAlbum() }}
+            className={cardsQtty===120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
+            <h3>{t('reclamar_premio')}</h3>
+          </div>}
+        </div>
+      )
+    }
+
+    return (<></>)
+  }
+ 
   return (
     <>
       <Navbar
-        walletAddress={walletAddress}
         cardInfo={cardInfo}
         setCardInfo={setCardInfo}
         inventory={inventory}
@@ -366,7 +416,7 @@ const index = React.forwardRef(() => {
      {!walletAddress && <NotConnected />}
 
       {walletAddress && <div className='gamma_main'>
-        {packIsOpen && <GammaPack
+        {packIsOpen && <GammaPackOpen
           loaderPack={loaderPack}
           setPackIsOpen={setPackIsOpen}
           cardsNumbers={openPackCardsNumbers}
@@ -392,12 +442,7 @@ const index = React.forwardRef(() => {
               showInventory={false}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
-              setCardInfo={setCardInfo}/>
-            /*
-              <GammaAlbumStatistics
-                paginationObj={paginationObj}
-              />
-            */}
+              setCardInfo={setCardInfo}/>}
             {inventory && !cardInfo &&
             <GammaAlbum
               showInventory={true}
@@ -406,54 +451,13 @@ const index = React.forwardRef(() => {
               setCardInfo={setCardInfo}/>
             }
             {inventory && cardInfo &&
-              <GammaInfoCard 
+              <GammaCardInfo 
                 imageNumber={imageNumber} 
                 handleFinishInfoCard={handleFinishInfoCard}
               />
             }
           </div>
-
-          {!mobile && inventory &&          
-            <div className='gammapack'>
-              <div className=''>
-                  <h1
-                    className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
-                    onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
-                    {numberOfPacks}
-                  </h1>
-              </div>
-              <div 
-                onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-                className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
-                <h3>{t('abrir')}</h3>
-              </div>
-              <div
-                onClick={() => { handleTransferPack() }}
-                className={numberOfPacks==='0' ? 'transferPack_disabled' : 'transferPack'}>
-                <h3>{t('transferir')}</h3>
-              </div>
-            </div>
-          }
-
-          {!mobile && !inventory && cardsQtty >= 0 &&
-            <div className='gammaComplete'>
-              <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
-                <h3>
-                    {cardsQtty === 120 
-                      ? `${t('album')} ${t('completo')}`
-                      : `${t('album')} ${t('incompleto')}`
-                    } 
-                </h3>
-              </div>
-              <div className={cardsQtty===120 ? 'qtty_complete' : 'qtty_incomplete'}>
-                <h3>{`${cardsQtty}/120`}</h3>
-              </div>
-              {cardsQtty===120 && <div
-                onClick={() => { handleFinishAlbum() }}
-                className={cardsQtty===120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
-                <h3>{t('reclamar_premio')}</h3>
-              </div>}
-            </div>}
+          <GammaPackInfo />
         </div>
       </div>}
       <Footer />
