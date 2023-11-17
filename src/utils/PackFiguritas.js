@@ -1,4 +1,5 @@
 import gsap from 'gsap'
+import PropTypes from 'prop-types'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js'
 import { Draggable } from 'gsap/dist/Draggable'
 import { useEffect } from 'react'
@@ -274,10 +275,11 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
     }
   }, [])
 
+  /*
   function generateRandomNumber() {
     return Math.floor(Math.random() * 100) + 1
   }
-  // const randomNumber = generateRandomNumber();
+  */
 
   return (
     <>
@@ -329,4 +331,10 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
     </>
   )
 }
+
+PackFiguritas.propTypes = {
+  openPackage: PropTypes.bool,
+  cardsNumbers: PropTypes.array
+}
+
 export default PackFiguritas

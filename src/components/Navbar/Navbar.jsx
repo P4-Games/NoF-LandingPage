@@ -35,7 +35,7 @@ function Navbar ({
     } else if (window.history.state.url.endsWith('/gamma')) {
       setMidButton('Inventory')
     }
-  }, [page])
+  }, [page, t])
 
 
   const audioHandleClick = () => {

@@ -10,13 +10,12 @@ const GammaAlbum =  React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
   const { size } = useLayoutContext()
 
+  const getStyle = (item) => (
+    (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity)
+      ? { filter: 'grayscale(1)' }
+      : {}
+  );
   
-  const getStyle = (item) => {
-    return (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity) 
-      ? { filter: 'grayscale(1)' } 
-      : {} 
-  }
-
   const PageContentInventory = ({ page, pageNumber}) => {
     let divWrapperClassName = 'grid-wrapper-left'
     if (pageNumber % 2 === 0) { // par
@@ -44,6 +43,7 @@ const GammaAlbum =  React.forwardRef((props, book) => {
         }
       </div>
     )
+   
   }
 
   const PageContentAlbum = ({ page, pageNumber}) => {
@@ -70,11 +70,25 @@ const GammaAlbum =  React.forwardRef((props, book) => {
     )
   }
 
-  const PageContent  = ({ page, pageNumber}) => {
-    return showInventory 
-      ? 
-      <PageContentInventory page={page} pageNumber={pageNumber}/> 
+  const PageContent = ({ page, pageNumber }) => (
+    showInventory
+      ? <PageContentInventory page={page} pageNumber={pageNumber}/>
       : <PageContentAlbum page={page} pageNumber={pageNumber}/>
+  );
+
+  PageContent.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+  
+  PageContentInventory.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+  
+  PageContentAlbum.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
   }
 
   return paginationObj
@@ -136,7 +150,10 @@ const GammaAlbum =  React.forwardRef((props, book) => {
         </div>
       </HTMLFlipBook>
       ) : null
-})
+
+
+  }
+)
 
 GammaAlbum.propTypes = {
   paginationObj: PropTypes.object,

@@ -12,9 +12,8 @@ import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/customImage'
 
 import {useTranslation} from 'next-i18next'
-import { useWeb3Context, walletAddress } from '../../hooks'
+import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-
 import { checkInputAddress } from '../../utils/addresses'
 
 const vidas = [
@@ -167,7 +166,7 @@ const AlphaCards = ({ alphaMidButton }) => {
       stopLoading()
       console.error(ex)
     })
-  }, [walletAddress, alphaContract])
+  }, [walletAddress, alphaContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const getUserCards = async (address, seasonName) => {

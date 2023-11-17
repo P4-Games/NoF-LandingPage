@@ -43,7 +43,7 @@ const GammaInfoCard = React.forwardRef((props, book) => {
 
   useEffect(() => {
     verifyUserHasCard()
-  }, [gammaCardsContract])
+  }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOfferClick = async () => {
     // TODO
