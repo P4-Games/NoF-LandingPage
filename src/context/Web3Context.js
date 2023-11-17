@@ -16,10 +16,10 @@ const initialState = {
 const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {
-  const [noMetamaskError, setNoMetamaskError] = useState('')
-  const [wallets, setWallets] = useState(null)
+  const [, setNoMetamaskError] = useState('')
+  const [wallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
-  const [chainId, setChainId] = useState(null)
+  const [, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
@@ -102,6 +102,7 @@ function Web3ContextProvider({ children }) {
     }
   }
 
+  /*
   function logout() {
     setWalletAddress(null)
   }
@@ -109,6 +110,7 @@ function Web3ContextProvider({ children }) {
   function isValidChain() {
     return chainId === NETWORK.chainId
   }
+  */
 
   function decToHex(number) {
     return `0x${parseInt(number).toString(16)}`

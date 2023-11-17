@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { AlphaCards } from '../sections/Alpha'
-import { useState } from 'react'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 
 const Alpha = () => {

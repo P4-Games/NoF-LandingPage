@@ -2,13 +2,12 @@ import PropTypes from 'prop-types'
 import { createContext, useState, useEffect, useCallback } from 'react'
 import { ethers } from 'ethers'
 
-import Onboard from '@web3-onboard/core'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import gnosisModule from '@web3-onboard/gnosis'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
-import { init, useSetLocale } from '@web3-onboard/react'
+import { init } from '@web3-onboard/react'
 
 import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
 import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
@@ -19,7 +18,7 @@ import { CONTRACTS, NETWORK, WalletConnectProjectId } from '../config'
 import brLocales from '../../public/locales/br/web3_onboard.json'
 import enLocales from '../../public/locales/en/web3_onboard.json'
 import esLocales from '../../public/locales/es/web3_onboard.json'
-import { useSettingsContext } from '../hooks'
+// import { useSettingsContext } from '../hooks'
 
 //----------------------------------------------------------
 
@@ -34,12 +33,12 @@ const Web3ContextProvider = ({ children }) => {
   const [web3Onboard, setWeb3Onboard] = useState(null)
   const [wallets, setWallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
-  const [chainId, setChainId] = useState(null)
+  // const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
-  const { languageSetted } = useSettingsContext()
+  // const { languageSetted } = useSettingsContext()
 
   const initWeb3Onboard = useCallback(async () => {
     const wcV1InitOptions = {
@@ -126,6 +125,7 @@ const Web3ContextProvider = ({ children }) => {
   }, [languageSetted])
   */
 
+  /*
   function switchNetwork() {
     // console.log(web3Onboard)
     // const currentNetwork = web3Onboard.getCurrentNetwork()
@@ -133,6 +133,7 @@ const Web3ContextProvider = ({ children }) => {
     // const isCorrectNetwork = currentNetwork === desiredNetwork
     // console.log('network', currentNetwork, desiredNetwork,  isCorrectNetwork)
   }
+  */
 
   function connectContracts(_signer) {
     try {

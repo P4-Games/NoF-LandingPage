@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,7 +19,6 @@ import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
 const Hero = React.forwardRef((_, book) => {
-  const [swipper, setSwipper] = useState(false)
   const { size, mobile } = useLayoutContext()
   const {t} = useTranslation()
 
@@ -146,14 +145,12 @@ const Hero = React.forwardRef((_, book) => {
               <div className='hero__top__album__book__page__page-content'>
                 <h3> {t ? t('ALBUMS') : ''}</h3>
                 <p className='hero__top__album__book__page__text2'>
-                  {/* {t("Earn Money")} */}
                   {t ? t('Earn Money') : ''}
                 </p>
                 <div className='albums_container'>
                   <div className='album1'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("medal")} */}
                         {t ? t('medal') : ''}
                       </p>
                     </div>
@@ -164,7 +161,6 @@ const Hero = React.forwardRef((_, book) => {
                   <div className='album2'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("sticker")} */}
                         {t ? t('sticker') : ''}
                       </p>
                     </div>
@@ -172,14 +168,13 @@ const Hero = React.forwardRef((_, book) => {
                       <Image
                         alt='imagenalbum'
                         src={'/images/hero/album6.png'}
-                        layout='fill'
+                        fill
                       />
                     </div>
                   </div>
                   <div className='album3'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("showdown")} */}
                         {t ? t('showdown') : ''}
                       </p>
                     </div>
@@ -337,10 +332,10 @@ const Hero = React.forwardRef((_, book) => {
                 </div>
               )}
 
-              {mobile && swipper && (
+              {mobile && (
                 <div className='hero__top__conteiner__mobile'>
                   <h3 className='title'>{t ? t('collections') : ''}</h3>
-                  {swipper && (
+                  {(
                     <div className='hero__top__swiper'>
                       <Swiper
                         effect='cards'
@@ -380,7 +375,7 @@ const Hero = React.forwardRef((_, book) => {
         {!mobile && (
           <div className='hero__top__conteiner__swiper'>
             <div className='hero__top__swiper'>
-              {swipper && <Swiper
+              <Swiper
                 effect='cards'
                 grabCursor
                 modules={[EffectCards, Autoplay, Pagination]}
@@ -404,7 +399,7 @@ const Hero = React.forwardRef((_, book) => {
                 <SwiperSlide />
                 <SwiperSlide />
                 <SwiperSlide />
-              </Swiper>}
+              </Swiper>
               <div className='pagination' />
             </div>
           </div>

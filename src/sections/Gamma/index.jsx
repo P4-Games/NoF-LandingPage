@@ -7,7 +7,6 @@ import {useTranslation} from 'next-i18next'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import GammaAlbum from './GammaAlbum'
-// import GammaAlbumStatistics from './GammaAlbumStatistics'
 import GammaPack from './GammaPack'
 import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
@@ -31,7 +30,7 @@ const index = React.forwardRef(() => {
   const [packIsOpen, setPackIsOpen] = useState(false)
   const [loaderPack, setLoaderPack] = useState(false)
   const { 
-    wallets, walletAddress, daiContract, gammaCardsContract, 
+    walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
 
   const { mobile, startLoading, stopLoading } = useLayoutContext()
@@ -93,19 +92,13 @@ const index = React.forwardRef(() => {
     setCardsQtty(getCardsQtty(paginationObj))
   }, [paginationObj]) 
   
-  /*
-  useEffect(() => {
-    console.log('gamma acc', walletAddress, wallets)
-  }, [walletAddress, wallets]) 
-  */
-
   useEffect(() => {
     fetchInventory()
-  }, [walletAddress, gammaCardsContract]) 
+  }, [walletAddress, gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [walletAddress, gammaPacksContract])
+  }, [walletAddress, gammaPacksContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function emitError (message) {
     Swal.fire({
@@ -271,9 +264,7 @@ const index = React.forwardRef(() => {
   }
 
   const connectWallet1 = async () => {
-    // console.log('connectWallet1_1', walletAddress)
     await connectWallet()
-    // console.log('connectWallet1_2', walletAddress, wallets)
   }
 
   const handleBuyPackClick = async () => {
@@ -314,54 +305,52 @@ const index = React.forwardRef(() => {
     await updateUserData()
   }
 
-  const NotConnected = () => {
-    return (
-      <div className='alpha'>
-        <div className='main_buttons_container'>
-          <button
-            className='alpha_button alpha_main_button'
-            id='connect_wallet_button'
-            onClick={() => connectWallet1()}>{t('connect_wallet')}
-          </button>
-          <button
-            className='alpha_button alpha_main_button'
-            id='show_rules_button'
-            onClick={() => showRules('gamma')}
-          >
-            {t('reglas')}
-          </button>
-          <span>{noMetamaskError}</span>
-        </div>
+  const NotConnected = () => (
+    <div className='alpha'>
+      <div className='main_buttons_container'>
+        <button
+          className='alpha_button alpha_main_button'
+          id='connect_wallet_button'
+          onClick={() => connectWallet1()}>{t('connect_wallet')}
+        </button>
+        <button
+          className='alpha_button alpha_main_button'
+          id='show_rules_button'
+          onClick={() => showRules('gamma')}
+        >
+          {t('reglas')}
+        </button>
+        <span>{noMetamaskError}</span>
+      </div>
 
-        <div className='gamma_rules_container'>
-          <button
-            className='gamma_rules_img_close alpha_modal_close'
-            onClick={() => closeRules('gamma')}
-          >
-            X
-          </button>
+      <div className='gamma_rules_container'>
+        <button
+          className='gamma_rules_img_close alpha_modal_close'
+          onClick={() => closeRules('gamma')}
+        >
+          X
+        </button>
 
-          <div className='gamma_rules_text_content'>
-            <div className='gamma_rules_title'>
-              <p>{t('reglas')}</p>
-            </div>
-            <div className='gamma_rules_text_left'>
-              <p>{t('rules_gamma_left_text_1')}</p>
-              <p>{t('rules_gamma_left_text_2')}</p>
-              <p>{t('rules_gamma_left_text_3')}</p>
-              <p>{t('rules_gamma_left_text_4')}</p>
-            </div>
-            <div className='gamma_rules_text_right'>
-              <p>{t('rules_gamma_right_text_1')}</p>
-              <p>{t('rules_gamma_right_text_2')}</p>
-              <p>{t('rules_gamma_right_text_3')}</p>
-              <p>{t('rules_gamma_right_text_4')}</p>
-            </div>
+        <div className='gamma_rules_text_content'>
+          <div className='gamma_rules_title'>
+            <p>{t('reglas')}</p>
+          </div>
+          <div className='gamma_rules_text_left'>
+            <p>{t('rules_gamma_left_text_1')}</p>
+            <p>{t('rules_gamma_left_text_2')}</p>
+            <p>{t('rules_gamma_left_text_3')}</p>
+            <p>{t('rules_gamma_left_text_4')}</p>
+          </div>
+          <div className='gamma_rules_text_right'>
+            <p>{t('rules_gamma_right_text_1')}</p>
+            <p>{t('rules_gamma_right_text_2')}</p>
+            <p>{t('rules_gamma_right_text_3')}</p>
+            <p>{t('rules_gamma_right_text_4')}</p>
           </div>
         </div>
       </div>
-    )  
-  }
+    </div>
+  )
 
   return (
     <>

@@ -17,6 +17,7 @@ import SwiperCore, {
 import Swal from 'sweetalert2'
 import { openSeaUrlAlpha } from '../../config'
 import {useTranslation} from 'next-i18next'
+import CustomImage from '../../components/customImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
@@ -65,7 +66,6 @@ const AlphaAlbums = ({
         }
       }
     }
-    // console.log('albumsArr', albumsArr)
     return albumsArr
   }
 
@@ -87,7 +87,7 @@ const AlphaAlbums = ({
 
   useEffect(() => {
     fetchData()
-  }, [albums])
+  }, [albums]) // eslint-disable-line react-hooks/exhaustive-deps
   
   return (
     <div className='alpha_full_albums_container alpha_display_none'>
@@ -117,16 +117,16 @@ const AlphaAlbums = ({
                 className='swiper-container alpha_albums_swiper_container'
                 id='alpha-albums-swiper-container'
               >
-                {albums.map((album, index) => (
+                {albums && albums.map((album, index) => (
                     <SwiperSlide
                       key={index}
                       className='swiper-slide'
                       id='alpha-albums-swiper-slide'
                     >
-                      <img
+                      <CustomImage
                         alt='portadas'
                         style={{ cursor: 'pointer' }}
-                        src={`${storageUrlAlpha}/${album[0] || 'T1'}/${album[0].number}.png`}
+                        src={`${storageUrlAlpha}/${album[1] || 'T1'}/${album[0].number}.png`}
                         className='alpha_card'
                         onClick={() => handleRedirectAlbum(album)}
                       />
