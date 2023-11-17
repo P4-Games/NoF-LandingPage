@@ -8,12 +8,11 @@ import {useTranslation} from 'next-i18next'
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import LanguageSelection from '../translation'
-
+import { useWeb3Context } from '../../hooks'
 
 function Navbar ({
   goToCollections,
   alphaMidButton,
-  walletAddress,
   setInventory,
   setCardInfo,
   cardInfo,
@@ -25,18 +24,23 @@ function Navbar ({
   const router = useRouter()
   const ref = useRef(null)
   const [click, setClick] = useState(false)
-  
+  const { walletAddress } = useWeb3Context()
+  const [inHome, setInHome] = useState(true)
+  const [showShop, setShowShop] = useState(false)
+
   useEffect(() => {
     setPage(window.history.state.url)
-
+    setShowShop(router?.pathname == '/gamma' && walletAddress)
     setMidButton(t('collections'))
+
     if (window.history.state.url.endsWith('/alpha')) {
+      setInHome(false)
       setMidButton('Albums')
     } else if (window.history.state.url.endsWith('/gamma')) {
+      setInHome(false)
       setMidButton('Inventory')
     }
   }, [page, t])
-
 
   const audioHandleClick = () => {
     setClick(!click)
@@ -47,6 +51,37 @@ function Navbar ({
     }
   }
 
+  const MidButton = () => (
+    <LinkScroll to={t('contacto')}>
+      { (walletAddress || inHome) && <button
+        onClick={() => {
+          if (page.endsWith('/alpha')) {
+            alphaMidButton()
+          } else if (page.endsWith('/gamma')) {
+            if (cardInfo) {
+              setCardInfo(false)
+              setInventory(true)
+            } else { 
+              setInventory(true)
+            }
+          } else {
+            goToCollections(5)
+          }
+        }}
+        className='navbar__ul__li__contacto'
+      >
+        {midButton}
+      </button>}
+    </LinkScroll>
+  )
+
+  const ButtonShop = () => (
+    showShop ?
+    <div onClick={() => handleBuyPackClick()} className='navbar__corner__shop'>
+      <Image src={'/images/navbar/shop.png'} alt='shop' height='60' width='60'/>
+    </div> : null
+  )
+    
   return (
     <>
       <div className='navbar'>
@@ -63,48 +98,20 @@ function Navbar ({
           </div>
         </div>
         <ul className='navbar__ul'>
-          <li className='navbar__ul__li'>
+          <li className={showShop ? 'navbar__ul__li__shop' : 'navbar__ul__li'}>
             <NofTown />
-            <LinkScroll
-              to={t('contacto')}
-            >
-              <button
-                onClick={() => {
-                  if (page.endsWith('/alpha')) {
-                    alphaMidButton()
-                  } else if (page.endsWith('/gamma')) {
-                    if (cardInfo) {
-                      setCardInfo(false)
-                      setInventory(true)
-                    } else { 
-                      setInventory(true)
-                    }
-                  } else {
-                    goToCollections(5)
-                  }
-                }}
-                className='navbar__ul__li__contacto'
-              >
-                {midButton}
-              </button>
-            </LinkScroll>
+            <MidButton />
             <Whitepaper />
           </li>
         </ul>
         <div className='navbar__corner'>
-          {(router?.pathname == '/gamma') && walletAddress &&
-            <div onClick={() => handleBuyPackClick()} className='navbar__corner__audio'>
-              <Image src={'/images/navbar/shop.png'} alt='shop' height='60' width='60'/>
-            </div>}
+          <ButtonShop />
           <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
-            {click
-              ? (
-                <Image src={'/images/navbar/soundOn.png'} alt='soundimg' height='60' width='60'/>
-                )
-              : (
-                <Image src={'/images/navbar/soundOff.png'} alt='soundimg' height='60' width='60'/>
-                )}
-            <></>
+            <Image 
+              src={`${'/images/navbar'}/${click ? 'soundOn' : 'soundOff'}.png`}
+              alt='soundimg'
+              height='60'
+              width='60'/>
           </div>
           <LanguageSelection
 
@@ -120,7 +127,6 @@ function Navbar ({
 Navbar.propTypes = {
   goToCollections: PropTypes.func,
   alphaMidButton: PropTypes.func,
-  walletAddress: PropTypes.string,
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,
   cardInfo: PropTypes.bool,

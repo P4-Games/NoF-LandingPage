@@ -233,7 +233,6 @@ const Hero = React.forwardRef((_, book) => {
               <div className='hero__top__album__book__page__page-content'>
                 <h3> {t ? t('ECONOMICS') : ''}</h3>
                 <p className='hero__top__album__book__page__text2'>
-                  {/* {t("NoF economy")} */}
                   {t ? t('NoF economy') : ''}
                 </p>
                 <div className='season_container'>
