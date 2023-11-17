@@ -40,7 +40,7 @@ function Navbar ({
       setInHome(false)
       setMidButton('Inventory')
     }
-  }, [page, t])
+  }, [page, t, router?.pathname, walletAddress])
 
   const audioHandleClick = () => {
     setClick(!click)
