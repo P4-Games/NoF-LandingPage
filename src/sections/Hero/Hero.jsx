@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -145,14 +145,12 @@ const Hero = React.forwardRef((_, book) => {
               <div className='hero__top__album__book__page__page-content'>
                 <h3> {t ? t('ALBUMS') : ''}</h3>
                 <p className='hero__top__album__book__page__text2'>
-                  {/* {t("Earn Money")} */}
                   {t ? t('Earn Money') : ''}
                 </p>
                 <div className='albums_container'>
                   <div className='album1'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("medal")} */}
                         {t ? t('medal') : ''}
                       </p>
                     </div>
@@ -163,7 +161,6 @@ const Hero = React.forwardRef((_, book) => {
                   <div className='album2'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("sticker")} */}
                         {t ? t('sticker') : ''}
                       </p>
                     </div>
@@ -171,14 +168,13 @@ const Hero = React.forwardRef((_, book) => {
                       <Image
                         alt='imagenalbum'
                         src={'/images/hero/album6.png'}
-                        layout='fill'
+                        fill
                       />
                     </div>
                   </div>
                   <div className='album3'>
                     <div className='albumtitle'>
                       <p>
-                        {/* {t("showdown")} */}
                         {t ? t('showdown') : ''}
                       </p>
                     </div>
