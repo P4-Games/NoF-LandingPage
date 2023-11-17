@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     // Enviar la imagen como respuesta
     return res.status(200).send(collageBuffer)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return res.status(500).json({ error: 'An error occurred while processing your request.' })
   }
 }

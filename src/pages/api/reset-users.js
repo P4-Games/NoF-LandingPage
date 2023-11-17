@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ message: 'Characters and medals arrays cleared for all users.' })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return res.status(500).json({ error: 'An error occurred while processing your request.' })
   }
 }

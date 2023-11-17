@@ -65,7 +65,7 @@ const AlphaAlbums = ({
         }
       }
     }
-    console.log('albumsArr', albumsArr)
+    // console.log('albumsArr', albumsArr)
     return albumsArr
   }
 

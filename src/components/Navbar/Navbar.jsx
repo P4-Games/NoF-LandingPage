@@ -35,7 +35,6 @@ function Navbar ({
     } else if (window.history.state.url.endsWith('/gamma')) {
       setMidButton('Inventory')
     }
-    console.log('page', page, page.endsWith('/alpha'))
   }, [page])
 
 
