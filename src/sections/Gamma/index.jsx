@@ -18,7 +18,6 @@ import { CONTRACTS } from '../../config'
 import { showRules, closeRules } from '../../utils/rules'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import gammaCardsPages from './gammaCardsPages'
 import { checkInputAddress } from '../../utils/addresses'
 
 const index = React.forwardRef(() => {
@@ -37,8 +36,7 @@ const index = React.forwardRef(() => {
 
   const { mobile, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
-  const [paginationObjKey, setPaginationObjKey] = useState(0);
-  const [cardsQtty, setCardsQtty] = useState(0)
+    const [cardsQtty, setCardsQtty] = useState(0)
 
   const getCardsQtty = (paginationObj) => {
     let total = 0
@@ -72,13 +70,20 @@ const index = React.forwardRef(() => {
     return authorization
   }
 
+  const updateUserData = async () => {
+    const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
+    setPaginationObj(userCards)
+    setCardsQtty(getCardsQtty(userCards))
+  }
+
   const fetchInventory = async () => {
     try {
-      const userCards = await getCardsByUser(gammaCardsContract, walletAddress, gammaCardsPages)
+      startLoading()
+      const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
       setPaginationObj(userCards)
-      // actualiza la clave para forzar el renderizado de gammaAlbumInventory
-      setPaginationObjKey(paginationObjKey => paginationObjKey + 1);
+      stopLoading()
     } catch (error) {
+      stopLoading()
       console.error(error)
     }
   }
@@ -96,7 +101,7 @@ const index = React.forwardRef(() => {
 
   useEffect(() => {
     fetchInventory()
-  }, [walletAddress, gammaCardsContract, gammaCardsPages]) 
+  }, [walletAddress, gammaCardsContract]) 
 
   useEffect(() => {
     checkNumberOfPacks()
@@ -116,10 +121,8 @@ const index = React.forwardRef(() => {
     try {
       startLoading()
       const result = await finishAlbum(gammaCardsContract, walletAddress)
-      
       if (result) {
-        await fetchInventory()
-        setCardsQtty(getCardsQtty(paginationObj))
+        await updateUserData()
         Swal.fire({
           title: '',
           text: t('finish_album_success'),
@@ -129,7 +132,13 @@ const index = React.forwardRef(() => {
         })
         
       } else {
-        emitError(t('finish_album_error'))
+        Swal.fire({
+          title: '',
+          text: t('finish_album_warning'),
+          icon: 'warning',
+          showConfirmButton: false,
+          timer: 8000
+        })
       }
       stopLoading()
     } catch (ex) {
@@ -171,13 +180,14 @@ const index = React.forwardRef(() => {
         const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
+        await transaction.wait()
         transaction.wait()
         Swal.fire({
           title: '',
           text: t('confirmado'),
           icon: 'success',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         })
         await checkNumberOfPacks()
         stopLoading()
@@ -201,7 +211,7 @@ const index = React.forwardRef(() => {
           text: t('no_paquetes_para_abrir'),
           icon: 'success',
           showConfirmButton: false,
-          timer: 1500
+          timer: 2000
         })
       }
 
@@ -217,14 +227,12 @@ const index = React.forwardRef(() => {
 
         setOpenPackCardsNumbers(packet_data)
         const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
-
+        
         if (openedPack) {
-          await openedPack.wait()
           setOpenPackage(true)
           setLoaderPack(false)
           await checkNumberOfPacks()
-          await fetchInventory()
-          setCardsQtty(getCardsQtty(paginationObj))
+          await updateUserData()
           return openedPack
         }
       }
@@ -301,10 +309,9 @@ const index = React.forwardRef(() => {
     }
   }
 
-
   const handleFinishInfoCard = async () => {
     setCardInfo(false)
-    await fetchInventory()
+    await updateUserData()
   }
 
   const NotConnected = () => {
@@ -394,20 +401,17 @@ const index = React.forwardRef(() => {
             {!inventory && 
             <GammaAlbum
               showInventory={false}
-              dummyKey={paginationObjKey}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
             /*
               <GammaAlbumStatistics
-                key={paginationObjKey}
                 paginationObj={paginationObj}
               />
             */}
             {inventory && !cardInfo &&
             <GammaAlbum
               showInventory={true}
-              dummyKey={paginationObjKey}
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
