@@ -509,7 +509,7 @@ $groundHeight: 40px;
               }
             }
           }
-          .hero__top__conteiner__mobile {
+          .hero__top__container__mobile {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -581,7 +581,7 @@ $groundHeight: 40px;
   display: flex;
 }
 
-.hero__top__conteiner__swiper {
+.hero__top__container__swiper {
   position: absolute;
   bottom: 40%;
   right: 7%;
@@ -715,7 +715,7 @@ $groundHeight: 40px;
   }
 }
 
-.nofi_conteiner {
+.nofi_container {
   display: none;
   @include mobile {
     display: contents;
@@ -727,7 +727,7 @@ $groundHeight: 40px;
   }
 }
 
-.bookflip_conteiner {
+.bookflip_container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -741,7 +741,7 @@ $groundHeight: 40px;
   }
 }
 
-.coin_conteiner {
+.coin_container {
   position: relative;
   display: flex;
   justify-content: center;

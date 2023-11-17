@@ -52,12 +52,12 @@ const Hero = React.forwardRef((_, book) => {
               <div className='hero__top__album__book__page__page-content'>
                 <h3> {t ? t('WELCOME') : ''}</h3>
 
-                <div className='nofi_conteiner'>
+                <div className='nofi_container'>
                   <div className='nofimg'>
                     <Image src={'/images/hero/logo-nof.gif'} alt='text box' fill/>
                   </div>
                 </div>
-                <div className='coin_conteiner'>
+                <div className='coin_container'>
                   <div className='coinimg'>
                     <Image src={'/images/hero/oro.png'} alt='text box' fill/>
                   </div>
@@ -72,7 +72,7 @@ const Hero = React.forwardRef((_, book) => {
                 <p className='hero__top__album__book__page__text2'>
                   {t ? t('number one fan') : ''}
                 </p>
-                <div className='bookflip_conteiner'>
+                <div className='bookflip_container'>
                   <div className='bookimg'>
                     <Image src={'/images/hero/book_flip.gif'} alt='text box' fill/>
                   </div>
@@ -332,7 +332,7 @@ const Hero = React.forwardRef((_, book) => {
               )}
 
               {mobile && (
-                <div className='hero__top__conteiner__mobile'>
+                <div className='hero__top__container__mobile'>
                   <h3 className='title'>{t ? t('collections') : ''}</h3>
                   {(
                     <div className='hero__top__swiper'>
@@ -372,7 +372,7 @@ const Hero = React.forwardRef((_, book) => {
           </HTMLFlipBook>
         </div>
         {!mobile && (
-          <div className='hero__top__conteiner__swiper'>
+          <div className='hero__top__container__swiper'>
             <div className='hero__top__swiper'>
               <Swiper
                 effect='cards'
