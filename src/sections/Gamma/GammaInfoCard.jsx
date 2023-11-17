@@ -166,6 +166,8 @@ const GammaInfoCard = React.forwardRef((props, book) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, imageNumber)
         await transaction.wait()
+        handleFinishInfoCard()
+        stopLoading()
         Swal.fire({
           title: '',
           text: t('confirmado'),
@@ -173,13 +175,7 @@ const GammaInfoCard = React.forwardRef((props, book) => {
           showConfirmButton: false,
           timer: 2000
         })
-        stopLoading()
-        handleFinishInfoCard()
       }
-      /*
-      const modal = document.getElementsByClassName('gamma_transfer_modal')[0]
-      modal.setAttribute('class', 'alpha_transfer_modal')
-      */
     } catch (ex) {
       stopLoading()
       console.error({ ex })
@@ -196,6 +192,7 @@ const GammaInfoCard = React.forwardRef((props, book) => {
       startLoading()
       const transaction = await gammaCardsContract.mintCard(imageNumber)
       await transaction.wait()
+      handleFinishInfoCard()
       stopLoading()
       Swal.fire({
         title: '',
@@ -207,7 +204,6 @@ const GammaInfoCard = React.forwardRef((props, book) => {
         showConfirmButton: true,
         timer: 3000
       })
-      return transaction
     } catch (ex) {
       stopLoading()
       console.error({ ex })
