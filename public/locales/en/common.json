@@ -87,6 +87,7 @@
     "transfer_pack_error": "There was an error trying to transfer one pack",
     "finish_album_error": "An error occurred while trying to claim the prize",
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
+    "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
 
     "rules_alpha_left_text_1": "A thematic minigame with 60 cards that complete 10 different thematic collections, each with 5 characters and an album.",
     "rules_alpha_left_text_2": "The goal is to complete an album with the 5 characters corresponding to the collection.",

@@ -87,6 +87,7 @@
   "transfer_pack_error": "Ocorreu um erro ao tentar transferir o pacote",
   "finish_album_error": "Ocorreu um erro ao tentar reivindicar o prêmio",
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
+  "finish_album_warning": "As condições necessárias para completar os álbuns e reivindicar os prêmios ainda não estão disponíveis. Tente novamente em alguns dias!",
 
   "rules_alpha_left_text_1": "Um minijogo temático com 60 cartas que completam 10 coleções temáticas diferentes, cada uma com 5 personagens e um álbum.",
   "rules_alpha_left_text_2": "O objetivo é completar um álbum com os 5 personagens correspondentes à coleção.",
