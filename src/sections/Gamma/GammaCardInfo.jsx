@@ -14,7 +14,7 @@ import { hasCard } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
  
-const GammaInfoCard = React.forwardRef((props, book) => {
+const GammaCardInfo = React.forwardRef((props, book) => {
   const { imageNumber, handleFinishInfoCard } = props
   const {t} = useTranslation()
   const { size, startLoading, stopLoading } = useLayoutContext()
@@ -347,10 +347,10 @@ const GammaInfoCard = React.forwardRef((props, book) => {
   )
 })
 
-GammaInfoCard.propTypes = {
+GammaCardInfo.propTypes = {
   imageNumber: PropTypes.number,
   handleFinishInfoCard: PropTypes.func
 }
 
-export default GammaInfoCard
+export default GammaCardInfo
 
