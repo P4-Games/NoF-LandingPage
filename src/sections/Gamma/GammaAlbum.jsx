@@ -6,7 +6,7 @@ import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/customImage'
 
-const GammaAlbum = React.forwardRef((props, book) => {
+const GammaAlbum =  React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
   const { size } = useLayoutContext()
 
@@ -72,7 +72,8 @@ const GammaAlbum = React.forwardRef((props, book) => {
 
   const PageContent  = ({ page, pageNumber}) => {
     return showInventory 
-      ? <PageContentInventory page={page} pageNumber={pageNumber}/> 
+      ? 
+      <PageContentInventory page={page} pageNumber={pageNumber}/> 
       : <PageContentAlbum page={page} pageNumber={pageNumber}/>
   }
 
@@ -93,8 +94,7 @@ const GammaAlbum = React.forwardRef((props, book) => {
         ref={book}
         className='hero__top__album__book'
       >
-        <div
-          className='hero__top__album__book__page' data-density='hard' number='1'>
+        <div className='hero__top__album__book__page' data-density='hard' number='1'>
           <div className='hero__top__album__book__page__page-content'>
             <PageContent page={paginationObj.page1} pageNumber={1} />
           </div>
