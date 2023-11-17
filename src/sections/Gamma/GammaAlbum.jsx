@@ -17,29 +17,25 @@ const GammaAlbum = React.forwardRef((props, book) => {
       : {} 
   }
 
-  const PageContent = ({ page, pageNumber}) => {
-    let divWrapperClassName = 'grid-wrapper'
+  const PageContentInventory = ({ page, pageNumber}) => {
+    let divWrapperClassName = 'grid-wrapper-left'
     if (pageNumber % 2 === 0) { // par
-      divWrapperClassName = 'grid-wrapperright'
+      divWrapperClassName = 'grid-wrapper-right'
     }
 
     return (
       <div className={divWrapperClassName}>
         {page && page.map((item, index) => (
           <div 
-            onClick={showInventory ? () => { setCardInfo(true), setImageNumber(item) } : null}
+            onClick={() => { setCardInfo(true), setImageNumber(item) }}
             style={getStyle(item)} 
             key={index}
             className='grid-item'
           >
-            { !showInventory && (paginationObj.user[item]?.stamped
-                ? <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-                : <CustomImage src='/images/gamma/Nofy.png' alt='img' /> )}
+            <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' /> 
+            { paginationObj.user[item]?.stamped && <FcCheckmark /> }
 
-            { showInventory && <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' /> }
-            { showInventory && paginationObj.user[item]?.stamped && <FcCheckmark /> }
-
-            { showInventory && paginationObj.user[item]?.quantity > 1 && 
+            { paginationObj.user[item]?.quantity > 1 && 
               <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
             }
 
@@ -48,6 +44,36 @@ const GammaAlbum = React.forwardRef((props, book) => {
         }
       </div>
     )
+  }
+
+  const PageContentAlbum = ({ page, pageNumber}) => {
+    let divWrapperClassName = 'grid-wrapper-left-album'
+    if (pageNumber % 2 === 0) { // par
+      divWrapperClassName = 'grid-wrapper-right-album'
+    }
+
+    return (
+      <div className={divWrapperClassName}>
+        {page && page.map((item, index) => (
+          <div 
+            style={{ background: 'none' }}
+            key={index}
+            className='grid-item'
+          >
+            { paginationObj.user[item]?.stamped
+              ? <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+              : <CustomImage src='/images/gamma/Nofy.png' alt='img' /> 
+            }
+          </div>))
+        }
+      </div>
+    )
+  }
+
+  const PageContent  = ({ page, pageNumber}) => {
+    return showInventory 
+      ? <PageContentInventory page={page} pageNumber={pageNumber}/> 
+      : <PageContentAlbum page={page} pageNumber={pageNumber}/>
   }
 
   return paginationObj
