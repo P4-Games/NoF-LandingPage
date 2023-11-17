@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { gammaServiceUrl } from '../config'
+import gammaCardsPages from './gammaCardsPages'
 
 export const fetchPackData = async (walletAddress, pack_number) => {
   // llamada a la api para que nos de la data a pasar en la llamada al contrato
@@ -8,7 +9,6 @@ export const fetchPackData = async (walletAddress, pack_number) => {
       address: walletAddress, // user address
       packet_number: pack_number // numero de paquete que se esta abriendo
     }
-    console.log('gamma micro service body', body)
     const response = await fetch(gammaServiceUrl, {
       headers: {
         'Content-Type': 'application/json'
@@ -57,20 +57,31 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
   }
 }
 
-export const getCardsByUser = async (cardsContract, walletAddress, pagination) => {
+export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
-    console.log('called getCardsByUser')
     if (!cardsContract) return
-    const cardsArr = await cardsContract?.getCardsByUser(walletAddress)
-    console.log('cardsArr', cardsArr)
-    const cardsObj = pagination
-    console.log('cardsObj', cardsObj)
-    if (cardsArr && cardsArr.length > 0) {
-      for (let i = 0; i < cardsArr[0]?.length; i++) {
-        cardsObj.user[cardsArr[0][i]].stamped = true
-        cardsObj.user[cardsArr[0][i]].quantity = cardsArr[1][i]
+    const cardData = await cardsContract?.getCardsByUser(walletAddress)
+    let cardsObj = { ...gammaCardsPages }
+
+    // Inicializa array
+    for (let i = 0; i <= 119; i++) {
+      cardsObj.user[i] = {
+        name: i.toString(),
+        stamped: false,
+        quantity: 0
       }
     }
+
+    // completa array con lo que tiene el usuario
+    for (let i = 0; i < cardData[0].length; i++) {
+      const cardId = cardData[0][i]
+      const quantity = cardData[1][i]
+      cardsObj.user[cardId] = {
+        stamped: quantity > 0,
+        quantity: quantity
+      }
+    }
+
     return cardsObj
   } catch (e) {
     console.error({ e })
@@ -116,26 +127,26 @@ export const finishAlbum = async (cardsContract, walletAddress) => {
 }
 
 export const allowedToFinishAlbum = async (cardsContract, walletAddress) => {
-  const transaction = await cardsContract.testAddCards()
-  await transaction.wait()
+  // Hay 3 condicione sen el contrato para poder completarlo:
+  // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
+  // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
+  // 3. Que el usuario tenga todas las cartas. 
+  // Las 3 se validan en el contrato. La 1 y 2 también se validan aquí. La 3 es una condición requerida para llegar 
+  // hasta ésta función, por lo que también es validada en el index.
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
-  return userHasAlbum
-  /*
 
-  
-  require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
+  const prizesBalance = await cardsContract.prizesBalance()
+  const mainAlbumPrize = await cardsContract.mainAlbumPrize()
+  const prizeBalance = ethers.utils.formatUnits(prizesBalance, 18)
+  const albumPrize = ethers.utils.formatUnits(mainAlbumPrize, 18)
 
-  bool unfinished;
-  for(uint8 i;i<121;i++){
-      if(cardsByUser[msg.sender][i] == 0) {
-          unfinished = true;
-          break;
-      }
-      cardsByUser[msg.sender][i]--;
-  }
-  
-  require(!unfinished, "Must complete the album");
-  */
+  // require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
+  const prizesBalanzGTAlbumPrice = (parseInt(prizeBalance) >= parseInt(albumPrize))
+  const result = userHasAlbum && prizesBalanzGTAlbumPrice
+
+  console.log('prizesBalanzGTAlbumPrice', userHasAlbum, prizeBalance, albumPrize, prizesBalanzGTAlbumPrice, result)
+
+  return result
 }
