@@ -12,7 +12,7 @@ const gammaCardPages = {
   user: {}
 }
 
-for (let i = 1; i < 121; i++) {
+for (let i = 0; i < 120; i++) {
   gammaCardPages.user[i] = {
     name: i.toString(),
     stamped: false,
