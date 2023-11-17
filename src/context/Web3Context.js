@@ -17,7 +17,7 @@ const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {
   const [, setNoMetamaskError] = useState('')
-  const [wallets, ] = useState(null)
+  const [wallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
   const [, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
