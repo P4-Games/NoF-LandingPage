@@ -9,6 +9,7 @@ import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import LanguageSelection from '../translation'
 import { useWeb3Context } from '../../hooks'
+import { capitalizeFirstLetter } from '../../utils/stringUtils'
 
 function Navbar ({
   goToCollections,
@@ -35,10 +36,10 @@ function Navbar ({
 
     if (window.history.state.url.endsWith('/alpha')) {
       setInHome(false)
-      setMidButton('Albums')
+      setMidButton(capitalizeFirstLetter(t('Albums').toLowerCase()))
     } else if (window.history.state.url.endsWith('/gamma')) {
       setInHome(false)
-      setMidButton('Inventory')
+      setMidButton(t('inventory'))
     }
   }, [page, t, router?.pathname, walletAddress])
 
@@ -113,12 +114,9 @@ function Navbar ({
               height='60'
               width='60'/>
           </div>
-          <LanguageSelection
-
-          />
+          <LanguageSelection />
         </div>
       </div>
-
       <audio src={'/music/Dungeon.mp3'} ref={ref} loop />
     </>
   )
