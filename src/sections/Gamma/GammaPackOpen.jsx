@@ -5,7 +5,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from '../../utils/PackFiguritas'
 import { storageUrlGamma } from '../../config'
 
-const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
+const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
   const starshineRef = useRef(null)
   const templateRef = useRef(null)
 
@@ -83,7 +83,7 @@ const GammaPack = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, l
   )
 }
 
-GammaPack.propTypes = {
+GammaPackOpen.propTypes = {
   setPackIsOpen: PropTypes.func,
   openPackage: PropTypes.bool,
   setOpenPackage: PropTypes.func,
@@ -91,4 +91,4 @@ GammaPack.propTypes = {
   loaderPack: PropTypes.bool
 }
 
-export default GammaPack
+export default GammaPackOpen
