@@ -19,7 +19,6 @@ import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
 const Hero = React.forwardRef((_, book) => {
-  const [swipper, setSwipper] = useState(false)
   const { size, mobile } = useLayoutContext()
   const {t} = useTranslation()
 
@@ -337,10 +336,10 @@ const Hero = React.forwardRef((_, book) => {
                 </div>
               )}
 
-              {mobile && swipper && (
+              {mobile && (
                 <div className='hero__top__conteiner__mobile'>
                   <h3 className='title'>{t ? t('collections') : ''}</h3>
-                  {swipper && (
+                  {(
                     <div className='hero__top__swiper'>
                       <Swiper
                         effect='cards'
@@ -380,7 +379,7 @@ const Hero = React.forwardRef((_, book) => {
         {!mobile && (
           <div className='hero__top__conteiner__swiper'>
             <div className='hero__top__swiper'>
-              {swipper && <Swiper
+              <Swiper
                 effect='cards'
                 grabCursor
                 modules={[EffectCards, Autoplay, Pagination]}
@@ -404,7 +403,7 @@ const Hero = React.forwardRef((_, book) => {
                 <SwiperSlide />
                 <SwiperSlide />
                 <SwiperSlide />
-              </Swiper>}
+              </Swiper>
               <div className='pagination' />
             </div>
           </div>
