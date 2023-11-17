@@ -203,7 +203,7 @@ const AlphaCards = ({ alphaMidButton }) => {
       text: message,
       icon: 'success',
       showConfirmButton: false,
-      timer: 1500
+      timer: 2000
     })
   }
 
@@ -393,7 +393,7 @@ const AlphaCards = ({ alphaMidButton }) => {
                   text: t('no_dai'),
                   icon: 'error',
                   showConfirmButton: false,
-                  timer: 1500
+                  timer: 2000
                 })
               }
             }

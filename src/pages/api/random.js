@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json(newRandomInt)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({ error: 'An error occurred while processing your request.' })
   }
 }

@@ -127,7 +127,7 @@ const Web3ContextProvider = ({ children }) => {
   */
 
   function switchNetwork() {
-    console.log(web3Onboard)
+    // console.log(web3Onboard)
     // const currentNetwork = web3Onboard.getCurrentNetwork()
     // const desiredNetwork = 'mumbai'
     // const isCorrectNetwork = currentNetwork === desiredNetwork
@@ -167,7 +167,7 @@ const Web3ContextProvider = ({ children }) => {
 
   const getProvider = (wlt) => {
     if (wlt) {
-      console.log(wlt)
+      // console.log(wlt)
       return new ethers.providers.Web3Provider(wlt.provider, 'any')
     } else {
       return new ethers.providers.JsonRpcProvider(
