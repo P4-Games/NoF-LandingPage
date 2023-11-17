@@ -10,14 +10,12 @@ const GammaAlbum = React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
   const { size } = useLayoutContext()
 
-  console.log(paginationObj)
-
+  
   const getStyle = (item) => {
     return (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity) 
     ? { filter: 'grayscale(1)' } 
     : {} 
   }
-
 
   const PageContent = ({ page, pageNumber}) => {
     let divWrapperClassName = 'grid-wrapper'
