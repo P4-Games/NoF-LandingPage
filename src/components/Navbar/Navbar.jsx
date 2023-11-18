@@ -75,6 +75,16 @@ function Navbar ({
     </button>
   )
 
+  const ButtonAudio = () => (
+    <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
+      <Image 
+        src={`${'/images/navbar'}/${click ? 'soundOn' : 'soundOff'}.png`}
+        alt='soundimg'
+        height='60'
+        width='60'/>
+    </div>
+  )
+
   const ButtonShop = () => (
     showShop ?
     <div onClick={() => handleBuyPackClick()} className='navbar__corner__shop'>
@@ -106,13 +116,7 @@ function Navbar ({
         </ul>
         <div className='navbar__corner'>
           <ButtonShop />
-          <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
-            <Image 
-              src={`${'/images/navbar'}/${click ? 'soundOn' : 'soundOff'}.png`}
-              alt='soundimg'
-              height='60'
-              width='60'/>
-          </div>
+          <ButtonAudio />
           <LanguageSelection />
         </div>
       </div>

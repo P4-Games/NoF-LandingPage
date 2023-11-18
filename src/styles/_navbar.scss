@@ -137,10 +137,10 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    cursor: pointer;
     gap: 6%;
 
     &__nof {
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -157,7 +157,6 @@ header {
 
     &__coin {
       margin-top: 20px;
-      cursor: pointer;
       transition: 0.2s;
       &:hover {
         transform: scale(1.1);

@@ -300,9 +300,11 @@ const index = React.forwardRef(() => {
     }
   }
 
-  const handleFinishInfoCard = async () => {
+  const handleFinishInfoCard = async (update = true) => {
     setCardInfo(false)
-    await updateUserData()
+    if (update) {
+      await updateUserData()
+    }
   }
 
   const NotConnected = () => (
@@ -356,13 +358,11 @@ const index = React.forwardRef(() => {
     if (inventory) {
       return (
         <div className='gammapack'>
-          <div className=''>
-              <h1
-                className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
-                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
-                {numberOfPacks}
-              </h1>
-          </div>
+          <h1
+            className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
+            onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+            {numberOfPacks}
+          </h1>
           <div 
             onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
             className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
@@ -432,7 +432,6 @@ const index = React.forwardRef(() => {
             style={inventory 
               ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }
               : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
-            className='hero__top__album'
           >
             {!inventory && 
             <GammaAlbum

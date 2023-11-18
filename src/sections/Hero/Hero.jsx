@@ -381,6 +381,7 @@ const Hero = React.forwardRef((_, book) => {
       </div>
     </div>
   )
+
 })
 
 Hero.propTypes = {
