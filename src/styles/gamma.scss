@@ -51,15 +51,31 @@
   font-size: 26px;
 }
 
-.gamma_rules_text_left,
-.gamma_rules_text_right {
-  margin-top: 28%;
+.gamma_rules_text_common {
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  line-height: 1.5;
+  font-size: 18px;
   margin-left: 5%;
   margin-right: 5%;
   padding-left: 10px;
   padding-right: 12px;
   flex-basis: 40%;
   text-align: center;
+
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.gamma_rules_text_left {
+  @extend .gamma_rules_text_common;
+  margin-bottom: 10%;
+}
+
+.gamma_rules_text_right {
+  @extend .gamma_rules_text_common;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 // gamma-pack-right
