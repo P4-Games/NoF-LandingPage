@@ -28,7 +28,7 @@
     "react-pageflip": "^2.0.3",
     "react-scroll": "^1.8.8",
     "sass": "^1.55.0",
-    "sharp": "^0.31.3",
+    "sharp": "^0.32.6",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.15",
     "swiper": "^8.4.5",
