@@ -17,7 +17,7 @@ import { checkInputAddress } from '../../utils/addresses'
 const GammaCardInfo = React.forwardRef((props, book) => {
   const { imageNumber, handleFinishInfoCard } = props
   const {t} = useTranslation()
-  const { windowSize, startLoading, stopLoading } = useLayoutContext()
+  const { windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
    
@@ -33,15 +33,20 @@ const GammaCardInfo = React.forwardRef((props, book) => {
   
   const verifyUserHasCard = async () => {
     try {
+      console.log('1')
+      startLoading()
       const result = await hasCard(gammaCardsContract, imageNumber)
       setUserHasCard(result)
+      stopLoading()
     } catch (ex) {
+      stopLoading()
       console.error(ex)
       emitError (t('user_has_card_error'))
     }
   }
 
   useEffect(() => {
+    console.log('effect')
     verifyUserHasCard()
   }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -352,9 +357,11 @@ const GammaCardInfo = React.forwardRef((props, book) => {
   )
 
   return (
-    windowSize?.mobile 
+    loading ? <></>: (
+      windowSize?.mobile 
       ?  <div className='hero__top__album'><BookCard /> </div>
       : <BookCard />
+    )
   )
 })
 
