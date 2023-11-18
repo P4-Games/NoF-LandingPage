@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link as LinkScroll } from 'react-scroll'
+//import { Link as LinkScroll } from 'react-scroll'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -10,6 +10,7 @@ import NofTown from './NofTown.jsx'
 import LanguageSelection from '../translation'
 import { useWeb3Context } from '../../hooks'
 import { capitalizeFirstLetter } from '../../utils/stringUtils'
+import { useLayoutContext } from '../../hooks'
 
 function Navbar ({
   goToCollections,
@@ -28,6 +29,7 @@ function Navbar ({
   const { walletAddress } = useWeb3Context()
   const [inHome, setInHome] = useState(true)
   const [showShop, setShowShop] = useState(false)
+  const { windowSize } = useLayoutContext()
 
   useEffect(() => {
     setPage(window.history.state.url)
@@ -53,27 +55,24 @@ function Navbar ({
   }
 
   const MidButton = () => (
-    <LinkScroll to={t('contacto')}>
-      { (walletAddress || inHome) && <button
-        onClick={() => {
-          if (page.endsWith('/alpha')) {
-            alphaMidButton()
-          } else if (page.endsWith('/gamma')) {
-            if (cardInfo) {
-              setCardInfo(false)
-              setInventory(true)
-            } else { 
-              setInventory(true)
-            }
-          } else {
-            goToCollections(5)
+    (walletAddress || inHome) && <button
+      onClick={() => {
+        if (page.endsWith('/alpha')) {
+          alphaMidButton()
+        } else if (page.endsWith('/gamma')) {
+          if (cardInfo) {
+            setCardInfo(false)
+            setInventory(true)
+          } else { 
+            setInventory(true)
           }
-        }}
-        className='navbar__ul__li__contacto'
-      >
-        {midButton}
-      </button>}
-    </LinkScroll>
+        } else {
+          goToCollections(windowSize.mobile ? 4 : 5)
+        }
+      }}
+      className='navbar__ul__li__collections'>
+      {midButton}
+    </button>
   )
 
   const ButtonShop = () => (

@@ -19,8 +19,39 @@ import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
 const Hero = React.forwardRef((_, book) => {
-  const { size, mobile } = useLayoutContext()
+  const { windowSize } = useLayoutContext()
   const {t} = useTranslation()
+
+  const SwiperComp = () => (
+    <div className='hero__top__swiper'>
+      <Swiper
+        effect='cards'
+        grabCursor
+        modules={[EffectCards, Autoplay, Pagination]}
+        loop
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false
+        }}
+        pagination={{
+          el: '.pagination',
+          clickable: true
+        }}
+        className='hero__top__swiper__slide'
+      >
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+      </Swiper>
+      <div className='pagination' />
+    </div>
+  )
 
   return (
     <div className='hero' id='Hero'>
@@ -40,7 +71,7 @@ const Hero = React.forwardRef((_, book) => {
             maxHeight={600}
             autoSize
             ref={book}
-            usePortrait={size}
+            usePortrait={windowSize.size}
             drawShadow={false}
             className='hero__top__album__book'
           >
@@ -314,7 +345,7 @@ const Hero = React.forwardRef((_, book) => {
               data-density='hard'
               number='9'
             >
-              {!mobile && (
+              {!windowSize.mobile && (
                 <div className='hero__top__album__book__page__page-content'>
                   <div className='tech_container'>
                     <div className='techimg'>
@@ -331,39 +362,10 @@ const Hero = React.forwardRef((_, book) => {
                 </div>
               )}
 
-              {mobile && (
+              {windowSize.mobile && (
                 <div className='hero__top__container__mobile'>
                   <h3 className='title'>{t ? t('collections') : ''}</h3>
-                  {(
-                    <div className='hero__top__swiper'>
-                      <Swiper
-                        effect='cards'
-                        grabCursor
-                        modules={[EffectCards, Autoplay, Pagination]}
-                        loop
-                        autoplay={{
-                          delay: 3000,
-                          disableOnInteraction: false
-                        }}
-                        pagination={{
-                          el: '.pagination',
-                          clickable: true
-                        }}
-                        className='hero__top__swiper__slide'
-                      >
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                      </Swiper>
-                      <div className='pagination' />
-                    </div>
-                  )}
+                  <SwiperComp />
                   <Whitepaper />
                   <NofTown />
                 </div>
@@ -371,36 +373,9 @@ const Hero = React.forwardRef((_, book) => {
             </div>
           </HTMLFlipBook>
         </div>
-        {!mobile && (
+        {!windowSize.mobile && (
           <div className='hero__top__container__swiper'>
-            <div className='hero__top__swiper'>
-              <Swiper
-                effect='cards'
-                grabCursor
-                modules={[EffectCards, Autoplay, Pagination]}
-                loop
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false
-                }}
-                pagination={{
-                  el: '.pagination',
-                  clickable: true
-                }}
-                className='hero__top__swiper__slide'
-              >
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-              </Swiper>
-              <div className='pagination' />
-            </div>
+            <SwiperComp />
           </div>
         )}
       </div>

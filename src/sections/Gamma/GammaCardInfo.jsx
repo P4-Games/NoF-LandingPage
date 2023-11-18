@@ -13,14 +13,14 @@ import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
- 
+
 const GammaCardInfo = React.forwardRef((props, book) => {
   const { imageNumber, handleFinishInfoCard } = props
   const {t} = useTranslation()
-  const { size, startLoading, stopLoading } = useLayoutContext()
-  const { gammaCardsContract,walletAddress } = useWeb3Context()
+  const { windowSize, startLoading, stopLoading } = useLayoutContext()
+  const { gammaCardsContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
-
+   
   function emitError (message) {
     Swal.fire({
       title: '',
@@ -247,48 +247,52 @@ const GammaCardInfo = React.forwardRef((props, book) => {
     )
 
   const TrasnferModal = () => (
-      <div className='gamma_transfer_modal gamma_display_none'>
-        <button
-          className='gamma_transfer_modal_close gamma_modal_close'
-          onClick={() => {
-            const modal = document.getElementsByClassName(
-              'gamma_transfer_modal'
-            )[0]
-            modal.setAttribute(
-              'class',
-              'gamma_transfer_modal gamma_display_none'
-            )
-            // setTransferError('')
-            // setReceiverAccount('')
-          }}
-        >
-          X
-        </button>
-        <span style={{ fontSize: '0.9rem' }}>
-          {t('carta_de_coleccion')}{' '}
-          {/*cards[cardIndex]
-            ? ethers.BigNumber.from(
-              cards[cardIndex].collection
-            ).toNumber()
-            : ethers.BigNumber.from(
-              cards[cardIndex - 1].collection
-            ).toNumber()*/}
-        </span>
-        <input
-          placeholder={t('wallet_destinatario')}
-          // value={receiverAccount}
-          // onChange={(e) => setReceiverAccount(e.target.value)}
-        />
-        <button
-          className='gamma_button'
-          onClick={() => handleTransferModalClick()}
-          // disabled={disableTransfer}
-        >
-          {t('transferir')}
-        </button>
-        {/*<span className='gamma_transfer_error'>{transferError}</span>*/}
-      </div>
-    )
+    <div className='gamma_transfer_modal gamma_display_none'>
+      <button
+        className='gamma_transfer_modal_close gamma_modal_close'
+        onClick={() => {
+          const modal = document.getElementsByClassName(
+            'gamma_transfer_modal'
+          )[0]
+          modal.setAttribute(
+            'class',
+            'gamma_transfer_modal gamma_display_none'
+          )
+          // setTransferError('')
+          // setReceiverAccount('')
+        }}
+      >
+        X
+      </button>
+      <span style={{ fontSize: '0.9rem' }}>
+        {t('carta_de_coleccion')}{' '}
+        {/*cards[cardIndex]
+          ? ethers.BigNumber.from(
+            cards[cardIndex].collection
+          ).toNumber()
+          : ethers.BigNumber.from(
+            cards[cardIndex - 1].collection
+          ).toNumber()*/}
+      </span>
+      <input
+        placeholder={t('wallet_destinatario')}
+        // value={receiverAccount}
+        // onChange={(e) => setReceiverAccount(e.target.value)}
+      />
+      <button
+        className='gamma_button'
+        onClick={() => handleTransferModalClick()}
+        // disabled={disableTransfer}
+      >
+        {t('transferir')}
+      </button>
+      {/*<span className='gamma_transfer_error'>{transferError}</span>*/}
+    </div>
+  )
+    
+  const getCN = (className) => {
+    return windowSize.mobile ? className + '_mobile' : className 
+  }
 
   return (
     <HTMLFlipBook
@@ -302,16 +306,13 @@ const GammaCardInfo = React.forwardRef((props, book) => {
       maxHeight={800}
       autoSize
       drawShadow={false}
-      usePortrait={size}
+      usePortrait={windowSize.size}
       ref={book}
-      className='hero__top__album__book'
-    >
+      className= {getCN('hero__top__album__book')}>
       <div
-        className='hero__top__album__book__page'
+        className={getCN('hero__top__album__book__page')}
         data-density='hard'
-        number='1'
-      >
-        
+        number='1'>
         <div className='hero__top__album__book__page__page-content'>
           <div className='cardinfo'>
             <div className='cardinfoimg'>
@@ -328,8 +329,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
       <div
         className='hero__top__album__book__page0'
         data-density='hard'
-        number='2'
-      >
+        number='2'>
         <div className='cardinfo'>
           <div className='transactions'>
             <MintButton/>
@@ -337,7 +337,6 @@ const GammaCardInfo = React.forwardRef((props, book) => {
             <PublishButton/>
             <OfferButton/>
           </div>
-          
           <div className='modals'>
             <TrasnferModal/>
           </div>

@@ -62,6 +62,7 @@
   text-align: center;
 }
 
+// gamma-pack-right
 .gammapack {
   position: absolute;
   bottom: 41%;
@@ -75,6 +76,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media all and (orientation: portrait) {
+    position: absolute;
+    width: 30%;
+    height: 25%;
+    bottom: 14%;
+    right: 20%;
+  }
   h1 {
     left: 50%;
     top: 50%;
@@ -83,11 +91,13 @@
     font-size: 2rem;
     filter: drop-shadow(2px 4px 6px white);
     font-weight: lighter;
+    @media all and (orientation: portrait) {
+      font-size: 0.9rem;
+    }
   }
   h2 {
-    font-size: 0.8rem;
+    font-size: 0.4rem;
     margin: 0;
-    // filter: url();
   }
   h3 {
     font-size: 1rem;
@@ -96,6 +106,9 @@
     cursor: pointer;
     &:hover {
       transform: scale(1.1);
+    }
+    @media all and (orientation: portrait) {
+      font-size: 0.5rem;
     }
   }
   .button_common {
@@ -143,6 +156,7 @@
   }
 }
 
+// gamma-book-right
 .gammaComplete {
   position: absolute;
   bottom: 39%;
@@ -153,9 +167,18 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  font-size: 1rem;
+
+  @media all and (orientation: portrait) {
+    position: absolute;
+    width: 45%;
+    height: 25%;
+    bottom: 15%;
+    right: 5%;
+    font-size: 0.4rem!important;
+  }
   .title_complete {
     color: green;
-    font-size: 1rem;
     margin: 0;
   }
   .title_incomplete {
@@ -194,6 +217,7 @@
   }
 }
 
+// gamma-book-left
 .gammaAlbumsCommon {
   cursor: pointer;
   position: absolute;
@@ -204,6 +228,14 @@
   min-height: 25%;
   transition: all 0.2s ease-in;
   background-repeat: no-repeat;
+  @media all and (orientation: portrait) {
+    position: absolute;
+    min-height: 15%;
+    width: 15%;
+    height: 15%;
+    bottom: 20%;
+    left: 25%;
+  }
   &:hover {
     transform: scale(1.05);
   }
@@ -231,7 +263,6 @@
   color: red;
   transform: scale(3);
   z-index: 100000;
-  // background: red;
 }
 
 .grid-wrapper-common {
@@ -318,7 +349,7 @@
   @extend .grid-wrapper-common;
   right: 17%;
   @media (max-width: 600px) {
-    top: 15%;
+    top: 10%;
     position: absolute;
     left: 5%;
     max-width: 80%;
@@ -359,6 +390,11 @@
   flex-direction: column;
   animation: shake-animation 3.1s ease infinite;
   z-index: 100;
+
+  @media all and (orientation: portrait) {
+    width: 35%;
+  }
+  
   #top {
     width: 100%;
     height: 30%;
@@ -564,7 +600,7 @@
   justify-content: space-between;
   min-width: var(--min-size);
   height: 44px;
-  width: 20vmin;
+  width: 10vmin;
   z-index: 300;
 }
 .prev,
@@ -602,12 +638,18 @@
   }
   &:nth-of-type(1) {
     right: 100%;
+    @media all and (orientation: portrait) {
+      right: 70%;
+    }
     svg {
       transform: translate(-50%, -50%) rotate(180deg) translate(2%, 0);
     }
   }
   &:nth-of-type(2) {
     left: 100%;
+    @media all and (orientation: portrait) {
+      left: 70%;
+    }
   }
   span {
     position: absolute;

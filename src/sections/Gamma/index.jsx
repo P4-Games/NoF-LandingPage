@@ -33,7 +33,7 @@ const index = React.forwardRef(() => {
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
 
-  const { mobile, startLoading, stopLoading } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
     const [cardsQtty, setCardsQtty] = useState(0)
 
@@ -353,7 +353,7 @@ const index = React.forwardRef(() => {
   )
 
   const GammaPackInfo = () => {
-    if (!mobile && inventory) {
+    if (inventory) {
       return (
         <div className='gammapack'>
           <div className=''>
@@ -377,7 +377,7 @@ const index = React.forwardRef(() => {
       )
     }
 
-    if (!mobile && !inventory && cardsQtty >= 0) {
+    if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
           <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
@@ -424,13 +424,10 @@ const index = React.forwardRef(() => {
           openPackage={openPackage}
         />}
         <div className='hero__top'>
-          {!mobile &&
-            <div 
-              onClick={() => setInventory(!inventory)}
-              className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
-            />
-          }
-
+          <div 
+            onClick={() => setInventory(!inventory)}
+            className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
+          />
           <div
             style={inventory 
               ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }

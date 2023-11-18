@@ -8,7 +8,7 @@ import CustomImage from '../../components/customImage'
 
 const GammaAlbum =  React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
-  const { size } = useLayoutContext()
+  const { windowSize } = useLayoutContext()
 
   const getStyle = (item) => (
     (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity)
@@ -104,7 +104,7 @@ const GammaAlbum =  React.forwardRef((props, book) => {
         maxHeight={800}
         autoSize
         drawShadow={false}
-        usePortrait={size}
+        usePortrait={windowSize.size}
         ref={book}
         className='hero__top__album__book'
       >
