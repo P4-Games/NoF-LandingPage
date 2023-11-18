@@ -4,7 +4,7 @@ import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
-import CustomImage from '../../components/customImage'
+import CustomImage from '../../components/CustomImage'
 
 const GammaAlbum =  React.forwardRef((props, book) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
