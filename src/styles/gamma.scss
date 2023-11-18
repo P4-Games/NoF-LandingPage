@@ -79,8 +79,8 @@
   @media all and (orientation: portrait) {
     position: absolute;
     width: 30%;
-    height: 25%;
-    bottom: 14%;
+    height: 15%;
+    bottom: 20%;
     right: 20%;
   }
   h1 {
@@ -916,4 +916,12 @@
   @include mobile {
     width: 6rem;
   }
+}
+
+.gamma_info_card_close {
+  position: absolute;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  cursor: pointer;
+  top: 10%;
+  right: 15%;
 }

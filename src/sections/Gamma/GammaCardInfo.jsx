@@ -166,7 +166,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, imageNumber)
         await transaction.wait()
-        handleFinishInfoCard()
+        handleFinishInfoCard(true)
         stopLoading()
         Swal.fire({
           title: '',
@@ -187,12 +187,17 @@ const GammaCardInfo = React.forwardRef((props, book) => {
     // TODO
   }
 
+  const handleCloseInfoCard = async () => {
+    // TODO
+  }
+
+
   const handleMintClick = async () => {
     try {
       startLoading()
       const transaction = await gammaCardsContract.mintCard(imageNumber)
       await transaction.wait()
-      handleFinishInfoCard()
+      handleFinishInfoCard(true)
       stopLoading()
       Swal.fire({
         title: '',
@@ -212,39 +217,48 @@ const GammaCardInfo = React.forwardRef((props, book) => {
   }
 
   const OfferButton = () => (
-      <div className= {userHasCard ? 'option' : 'option_disabled' }
-      onClick={() => handleOfferClick()}
+    <div className= {userHasCard ? 'option' : 'option_disabled' }
+    onClick={() => handleOfferClick()}
     >
-        {t('ofertas')}
-      </div>
-    )
+      {t('ofertas')}
+    </div>
+  )
+
+  const CloseButton = () => (
+    <div
+      className='gamma_info_card_close'
+      onClick={() => handleFinishInfoCard(false)}
+    >
+      X
+    </div>
+  )
 
   const MintButton = () => (
-      <div
-        className= {userHasCard ? 'option' : 'option_disabled' }
-        onClick={() => handleMintClick()}
-      >
-        {t('mintear')}
-      </div>
-    )
+    <div
+      className= {userHasCard ? 'option' : 'option_disabled' }
+      onClick={() => handleMintClick()}
+    >
+      {t('mintear')}
+    </div>
+  )
 
   const PublishButton = () => (
-      <div
-        className= {userHasCard ? 'option' : 'option_disabled' }
-        onClick={() => handlePublishClick()}
-      >
-        {t('publicar')}
-      </div>
-    )
+    <div
+      className= {userHasCard ? 'option' : 'option_disabled' }
+      onClick={() => handlePublishClick()}
+    >
+      {t('publicar')}
+    </div>
+  )
 
   const TransferButton = () => (
-      <div
-        className= {userHasCard ? 'option' : 'option_disabled' }
-        onClick={() => handleTransferClick()}
-      >
-        {t('transferir')}
-      </div>
-    )
+    <div
+      className= {userHasCard ? 'option' : 'option_disabled' }
+      onClick={() => handleTransferClick()}
+    >
+      {t('transferir')}
+    </div>
+  )
 
   const TrasnferModal = () => (
     <div className='gamma_transfer_modal gamma_display_none'>
@@ -290,11 +304,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
     </div>
   )
     
-  const getCN = (className) => {
-    return windowSize.mobile ? className + '_mobile' : className 
-  }
-
-  return (
+  const BookCard = () => (
     <HTMLFlipBook
       id='Book'
       size='stretch'
@@ -308,9 +318,9 @@ const GammaCardInfo = React.forwardRef((props, book) => {
       drawShadow={false}
       usePortrait={windowSize.size}
       ref={book}
-      className= {getCN('hero__top__album__book')}>
+      className='hero__top__album__book'>
       <div
-        className={getCN('hero__top__album__book__page')}
+        className='hero__top__album__book__page'
         data-density='hard'
         number='1'>
         <div className='hero__top__album__book__page__page-content'>
@@ -332,6 +342,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
         number='2'>
         <div className='cardinfo'>
           <div className='transactions'>
+            <CloseButton/>
             <MintButton/>
             <TransferButton/>
             <PublishButton/>
@@ -343,6 +354,12 @@ const GammaCardInfo = React.forwardRef((props, book) => {
         </div>
       </div>
     </HTMLFlipBook>
+  )
+
+  return (
+    windowSize?.mobile 
+      ?  <div className='hero__top__album'><BookCard /> </div>
+      : <BookCard />
   )
 })
 
