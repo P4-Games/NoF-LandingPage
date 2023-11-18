@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'

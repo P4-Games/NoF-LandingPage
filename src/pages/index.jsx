@@ -1,23 +1,17 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Hero from '../sections/Hero'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import { useLayoutContext } from '../hooks'
 
 function Home () {
-  const book = useRef(null)
-
-  function turnNextPage () {
-    book.current.pageFlip().flipNext()
-  }
-
-  function turnPrevPage () {
-    book.current.pageFlip().flipPrev()
-  }
+  const { bookRef } = useLayoutContext()
 
   function goToCollections (number) {
-    book.current.pageFlip().flip(number)
+    if (!bookRef) return
+    bookRef.current.pageFlip().flip(number)
   }
 
   return (
@@ -34,12 +28,8 @@ function Home () {
       <Navbar
         goToCollections={goToCollections}
       />
-      <Hero
-        ref={book}
-        turnNextPage={turnNextPage}
-        turnPrevPage={turnPrevPage}
-      />
-      <Footer turnNextPage={turnNextPage} turnPrevPage={turnPrevPage} />
+      <Hero ref={bookRef} />
+      <Footer />
     </div>
   )
 }
