@@ -1,15 +1,11 @@
-import Head from 'next/head'
-import GammaInventory from '../sections/Gamma'
+import { GammaMain } from '../sections/Gamma'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import  NofHead from '../components/Head'
 
 const Gamma = () => (
   <div className='gamma_main'>
-  <Head>
-      <title>Number One Fan</title>
-      <meta name='description' content='NoF Gamma' />
-      <link rel='icon' href='/favicon.ico' />
-  </Head>
-  <GammaInventory />
+  <NofHead />
+  <GammaMain />
 </div>
 )
 
