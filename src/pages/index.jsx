@@ -4,15 +4,8 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Hero from '../sections/Hero'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
-import { useLayoutContext } from '../hooks'
 
 function Home () {
-  const { bookRef } = useLayoutContext()
-
-  function goToCollections (number) {
-    if (!bookRef) return
-    bookRef.current.pageFlip().flip(number)
-  }
 
   return (
     <div className='home'>

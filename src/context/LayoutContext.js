@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, createContext, useEffect, useState, useRef } from 'react'
+import React, { 
+  useCallback, createContext, useEffect, 
+  useState, useRef 
+} from 'react'
 
 const initialState = {
   windowSize: { size: false, mobile: false },
@@ -18,7 +21,6 @@ function LayoutProvider({ children }) {
     mobile: typeof window !== 'undefined' && window.innerWidth < 600
   })
   const [loading, setLoading] = useState(false)
-  // const [book, setBook] = useState(null)
   const bookRef  = useRef(null)
 
   const updateMedia = () => {
@@ -54,7 +56,11 @@ function LayoutProvider({ children }) {
     if (!bookRef.current) return
     bookRef.current.pageFlip().flipNext()
   }, [])
-
+  
+  function goToCollectionsPage () {
+    if (!bookRef.current) return
+    bookRef.current.pageFlip().flip(windowSize.mobile ? 4 : 5)
+  }
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -75,7 +81,8 @@ function LayoutProvider({ children }) {
         stopLoading,
         setBookRef,
         turnPrevPage,
-        turnNextPage
+        turnNextPage,
+        goToCollectionsPage
       }}>
       {children}
     </LayoutContext.Provider>
