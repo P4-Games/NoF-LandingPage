@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types'
-import React, { useCallback, createContext, useEffect, useState } from 'react'
+import React, { useCallback, createContext, useEffect, useState, useRef } from 'react'
 
 const initialState = {
-  windowSize: { size: false, mobile: false }
+  windowSize: { size: false, mobile: false },
+  bookRef: null
 }
 
 const LayoutContext = createContext(initialState)
@@ -17,6 +18,8 @@ function LayoutProvider({ children }) {
     mobile: typeof window !== 'undefined' && window.innerWidth < 600
   })
   const [loading, setLoading] = useState(false)
+  // const [book, setBook] = useState(null)
+  const bookRef  = useRef(null)
 
   const updateMedia = () => {
     if (typeof window !== 'undefined') {
@@ -36,6 +39,23 @@ function LayoutProvider({ children }) {
     setLoading(false)
   }, [])
 
+  const setBookRef = useCallback((_book) => {
+    // setBook (_book)
+    bookRef.current = _book
+    console.log('seted bookRef', _book, bookRef)
+  }, [])
+
+  const turnPrevPage = useCallback(() => {
+    if (!bookRef.current) return
+    bookRef.current.pageFlip().flipPrev()
+  }, [])
+
+  const turnNextPage = useCallback(() => {
+    if (!bookRef.current) return
+    bookRef.current.pageFlip().flipNext()
+  }, [])
+
+  
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', updateMedia)
@@ -46,7 +66,17 @@ function LayoutProvider({ children }) {
   }, [])
 
   return (
-    <LayoutContext.Provider value={{ windowSize, loading, startLoading, stopLoading }}>
+    <LayoutContext.Provider
+      value={{ 
+        windowSize,
+        loading,
+        bookRef,
+        startLoading,
+        stopLoading,
+        setBookRef,
+        turnPrevPage,
+        turnNextPage
+      }}>
       {children}
     </LayoutContext.Provider>
   )
