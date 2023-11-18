@@ -19,8 +19,39 @@ import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
 const Hero = React.forwardRef((_, book) => {
-  const { size, mobile } = useLayoutContext()
+  const { windowSize } = useLayoutContext()
   const {t} = useTranslation()
+
+  const SwiperComp = () => (
+    <div className='hero__top__swiper'>
+      <Swiper
+        effect='cards'
+        grabCursor
+        modules={[EffectCards, Autoplay, Pagination]}
+        loop
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false
+        }}
+        pagination={{
+          el: '.pagination',
+          clickable: true
+        }}
+        className='hero__top__swiper__slide'
+      >
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+        <SwiperSlide />
+      </Swiper>
+      <div className='pagination' />
+    </div>
+  )
 
   return (
     <div className='hero' id='Hero'>
@@ -40,7 +71,7 @@ const Hero = React.forwardRef((_, book) => {
             maxHeight={600}
             autoSize
             ref={book}
-            usePortrait={size}
+            usePortrait={windowSize.size}
             drawShadow={false}
             className='hero__top__album__book'
           >
@@ -52,12 +83,12 @@ const Hero = React.forwardRef((_, book) => {
               <div className='hero__top__album__book__page__page-content'>
                 <h3> {t ? t('WELCOME') : ''}</h3>
 
-                <div className='nofi_conteiner'>
+                <div className='nofi_container'>
                   <div className='nofimg'>
                     <Image src={'/images/hero/logo-nof.gif'} alt='text box' fill/>
                   </div>
                 </div>
-                <div className='coin_conteiner'>
+                <div className='coin_container'>
                   <div className='coinimg'>
                     <Image src={'/images/hero/oro.png'} alt='text box' fill/>
                   </div>
@@ -72,7 +103,7 @@ const Hero = React.forwardRef((_, book) => {
                 <p className='hero__top__album__book__page__text2'>
                   {t ? t('number one fan') : ''}
                 </p>
-                <div className='bookflip_conteiner'>
+                <div className='bookflip_container'>
                   <div className='bookimg'>
                     <Image src={'/images/hero/book_flip.gif'} alt='text box' fill/>
                   </div>
@@ -314,7 +345,7 @@ const Hero = React.forwardRef((_, book) => {
               data-density='hard'
               number='9'
             >
-              {!mobile && (
+              {!windowSize.mobile && (
                 <div className='hero__top__album__book__page__page-content'>
                   <div className='tech_container'>
                     <div className='techimg'>
@@ -331,39 +362,10 @@ const Hero = React.forwardRef((_, book) => {
                 </div>
               )}
 
-              {mobile && (
-                <div className='hero__top__conteiner__mobile'>
+              {windowSize.mobile && (
+                <div className='hero__top__container__mobile'>
                   <h3 className='title'>{t ? t('collections') : ''}</h3>
-                  {(
-                    <div className='hero__top__swiper'>
-                      <Swiper
-                        effect='cards'
-                        grabCursor
-                        modules={[EffectCards, Autoplay, Pagination]}
-                        loop
-                        autoplay={{
-                          delay: 3000,
-                          disableOnInteraction: false
-                        }}
-                        pagination={{
-                          el: '.pagination',
-                          clickable: true
-                        }}
-                        className='hero__top__swiper__slide'
-                      >
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                        <SwiperSlide />
-                      </Swiper>
-                      <div className='pagination' />
-                    </div>
-                  )}
+                  <SwiperComp />
                   <Whitepaper />
                   <NofTown />
                 </div>
@@ -371,41 +373,15 @@ const Hero = React.forwardRef((_, book) => {
             </div>
           </HTMLFlipBook>
         </div>
-        {!mobile && (
-          <div className='hero__top__conteiner__swiper'>
-            <div className='hero__top__swiper'>
-              <Swiper
-                effect='cards'
-                grabCursor
-                modules={[EffectCards, Autoplay, Pagination]}
-                loop
-                autoplay={{
-                  delay: 3000,
-                  disableOnInteraction: false
-                }}
-                pagination={{
-                  el: '.pagination',
-                  clickable: true
-                }}
-                className='hero__top__swiper__slide'
-              >
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-                <SwiperSlide />
-              </Swiper>
-              <div className='pagination' />
-            </div>
+        {!windowSize.mobile && (
+          <div className='hero__top__container__swiper'>
+            <SwiperComp />
           </div>
         )}
       </div>
     </div>
   )
+
 })
 
 Hero.propTypes = {

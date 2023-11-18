@@ -33,7 +33,7 @@ const index = React.forwardRef(() => {
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
 
-  const { mobile, startLoading, stopLoading } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
     const [cardsQtty, setCardsQtty] = useState(0)
 
@@ -300,9 +300,11 @@ const index = React.forwardRef(() => {
     }
   }
 
-  const handleFinishInfoCard = async () => {
+  const handleFinishInfoCard = async (update = true) => {
     setCardInfo(false)
-    await updateUserData()
+    if (update) {
+      await updateUserData()
+    }
   }
 
   const NotConnected = () => (
@@ -353,16 +355,14 @@ const index = React.forwardRef(() => {
   )
 
   const GammaPackInfo = () => {
-    if (!mobile && inventory) {
+    if (inventory) {
       return (
         <div className='gammapack'>
-          <div className=''>
-              <h1
-                className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
-                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
-                {numberOfPacks}
-              </h1>
-          </div>
+          <h1
+            className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
+            onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+            {numberOfPacks}
+          </h1>
           <div 
             onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
             className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
@@ -377,7 +377,7 @@ const index = React.forwardRef(() => {
       )
     }
 
-    if (!mobile && !inventory && cardsQtty >= 0) {
+    if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
           <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
@@ -424,18 +424,14 @@ const index = React.forwardRef(() => {
           openPackage={openPackage}
         />}
         <div className='hero__top'>
-          {!mobile &&
-            <div 
-              onClick={() => setInventory(!inventory)}
-              className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
-            />
-          }
-
+          <div 
+            onClick={() => setInventory(!inventory)}
+            className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
+          />
           <div
             style={inventory 
               ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }
               : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
-            className='hero__top__album'
           >
             {!inventory && 
             <GammaAlbum

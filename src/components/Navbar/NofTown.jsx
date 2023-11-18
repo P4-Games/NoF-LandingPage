@@ -8,7 +8,7 @@ function NofTown () {
       target='_blank'
       rel='noreferrer'
     >
-      <button className='navbar__ul__li__nosotros'>
+      <button className='navbar__ul__li__noftown'>
         NoF Town
       </button>
     </Link>

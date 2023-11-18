@@ -19,7 +19,8 @@
     "medal": "Set your Collector's level.",
     "sticker": "Your guaranteed prize! The rarer the album, the greater the reward.",
     "showdown": "A Popularity Contest! Who is the most famous character!?",
-    
+    "inventory": "Inventory",
+
     "COLLECTION": "COLLECTION",
     "alpha": "Play and collect with your friends and be the first to complete an album to get the biggest prize!",
     "gamma": "Collect your favorite characters and trade your cards in NoF town. ",
@@ -79,8 +80,7 @@
     "buy_pack_button": "Buy",
     "buy_pack_error": "There was an error trying to buy packs",
     "open_pack_error": "There was an error trying to open the pack",
-    "contacto": "Contact",
-
+    
     "mint_error": "There was an error trying to mint a figurine",
     
     "transfer_card_error": "There was an error trying to transfer the card",

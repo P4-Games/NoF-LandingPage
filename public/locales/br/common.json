@@ -19,6 +19,7 @@
   "medal": "Estabelece o nível de colecionador.",
   "sticker": "O seu prêmio garantido, enquanto mais raro o álbum melhor a recompensa!",
   "showdown": "O nosso concurso de popularidade! Qual é o personagem mais famoso!?",
+  "inventory": "Inventário",
 
   "COLLECTION": "COLEÇÃO",
   "alpha": "jogue e colecione com seus amigos, seja o primeiro em completar o álbum e leve o maior prêmio.",
@@ -79,8 +80,7 @@
   "buy_pack_button": "Comprar",
   "buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes",
   "open_pack_error": "Ocorreu um erro ao tentar abrir pacote",
-  "contacto": "Contato",
-
+  
   "mint_error": "Ocorreu um erro ao tentar cunhar uma estatueta",
   
   "transfer_card_error": "Ocorreu um erro ao tentar transferir o cartão",
