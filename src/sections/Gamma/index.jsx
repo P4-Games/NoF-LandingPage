@@ -6,6 +6,7 @@ import {useTranslation} from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
 import { checkApproved } from '../../services/dai'
@@ -14,7 +15,6 @@ import {
   getCardsByUser, checkPacksByUser, finishAlbum,
   verifyPackSigner, openPack, getPackPrice } from '../../services/gamma'
 import { CONTRACTS } from '../../config'
-import { showRules, closeRules } from '../../utils/rules'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
@@ -32,10 +32,10 @@ const index = React.forwardRef(() => {
   const { 
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
-
   const { startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
-    const [cardsQtty, setCardsQtty] = useState(0)
+  const [cardsQtty, setCardsQtty] = useState(0)
+  const [showRules, setShowRules] = useState(false)
 
   const getCardsQtty = (paginationObj) => {
     let total = 0
@@ -318,38 +318,11 @@ const index = React.forwardRef(() => {
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
-          onClick={() => showRules('gamma')}
+          onClick={() => setShowRules(true)}
         >
           {t('reglas')}
         </button>
         <span>{noMetamaskError}</span>
-      </div>
-
-      <div className='gamma_rules_container'>
-        <button
-          className='gamma_rules_img_close alpha_modal_close'
-          onClick={() => closeRules('gamma')}
-        >
-          X
-        </button>
-
-        <div className='gamma_rules_text_content'>
-          <div className='gamma_rules_title'>
-            <p>{t('reglas')}</p>
-          </div>
-          <div className='gamma_rules_text_left'>
-            <p>{t('rules_gamma_left_text_1')}</p>
-            <p>{t('rules_gamma_left_text_2')}</p>
-            <p>{t('rules_gamma_left_text_3')}</p>
-            <p>{t('rules_gamma_left_text_4')}</p>
-          </div>
-          <div className='gamma_rules_text_right'>
-            <p>{t('rules_gamma_right_text_1')}</p>
-            <p>{t('rules_gamma_right_text_2')}</p>
-            <p>{t('rules_gamma_right_text_3')}</p>
-            <p>{t('rules_gamma_right_text_4')}</p>
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -414,6 +387,8 @@ const index = React.forwardRef(() => {
       />
 
      {!walletAddress && <NotConnected />}
+
+     {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
 
       {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPackOpen

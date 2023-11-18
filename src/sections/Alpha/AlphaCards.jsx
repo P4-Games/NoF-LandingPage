@@ -5,8 +5,8 @@ import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
+import Rules from '../Common/Rules'
 import { storageUrlAlpha, CONTRACTS } from '../../config'
-import { showRules, closeRules } from '../../utils/rules'
 import { fetchDataAlpha } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/customImage'
@@ -51,7 +51,7 @@ const AlphaCards = ({ alphaMidButton }) => {
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
   const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } = useWeb3Context()
-
+  const [showRules, setShowRules] = useState(false)
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -483,7 +483,7 @@ const AlphaCards = ({ alphaMidButton }) => {
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
-          onClick={() => showRules('alpha')}
+          onClick={() => setShowRules(true)}
         >
           {t('reglas')}
         </button>
@@ -496,35 +496,8 @@ const AlphaCards = ({ alphaMidButton }) => {
         </span>
       )}
       
-      <div className='alpha_rules_container'>
-        <button
-          className='alpha_rules_img_close alpha_modal_close'
-          onClick={() => closeRules('alpha')}
-        >
-          X
-        </button>
+      {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
-        <div className='alpha_rules_text_content'>
-          <div className='alpha_rules_title'>
-            <p>{t('reglas')}</p>
-          </div>
-          <div className='alpha_rules_text_left'>
-            <p>{t('rules_alpha_left_text_1')}</p>
-            <p>{t('rules_alpha_left_text_2')}</p>
-            <p>{t('rules_alpha_left_text_3')}</p>
-            <p>{t('rules_alpha_left_text_4')}</p>
-            <p>{t('rules_alpha_left_text_5')}</p>
-          </div>
-          <div className='alpha_rules_text_right'>
-            <p>{t('rules_alpha_right_text_1')}</p>
-            <p>{t('rules_alpha_right_text_2')}</p>
-            <p>{t('rules_alpha_right_text_3')}</p>
-            <p>{t('rules_alpha_right_text_4')}</p>
-            <p>{t('rules_alpha_right_text_5')}</p>
-          </div>
-        </div>
-      </div>
- 
       {walletAddress && alphaContract && seasonNames && (
         <div className='alpha_inner_container'>
           <div className='alpha_data'>
