@@ -1,2 +1,2 @@
-export { default as AlphaCards } from './AlphaCards' 
+export { default as AlphaMain } from './AlphaMain' 
 export { default as AlphaAlbums } from './AlphaAlbums' 
