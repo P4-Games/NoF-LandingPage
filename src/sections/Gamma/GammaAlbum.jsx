@@ -4,11 +4,11 @@ import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
-import CustomImage from '../../components/customImage'
+import CustomImage from '../../components/CustomImage'
 
-const GammaAlbum =  React.forwardRef((props, book) => {
+const GammaAlbum =  (props) => {
   const { paginationObj, setImageNumber, setCardInfo, showInventory } = props
-  const { windowSize } = useLayoutContext()
+  const { bookRef, windowSize } = useLayoutContext()
 
   const getStyle = (item) => (
     (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity)
@@ -107,7 +107,7 @@ const GammaAlbum =  React.forwardRef((props, book) => {
           autoSize
           drawShadow={false}
           usePortrait={windowSize.size}
-          ref={book}
+          ref={bookRef}
           className='hero__top__album__book'
         >
           <div className='hero__top__album__book__page' data-density='hard' number='1'>
@@ -159,7 +159,7 @@ const GammaAlbum =  React.forwardRef((props, book) => {
       ?  <div className='hero__top__album'><Book /> </div>
       : <Book />
   )
-  })
+}
 
 GammaAlbum.propTypes = {
   paginationObj: PropTypes.object,

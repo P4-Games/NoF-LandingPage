@@ -17,7 +17,7 @@ import SwiperCore, {
 import Swal from 'sweetalert2'
 import { openSeaUrlAlpha } from '../../config'
 import {useTranslation} from 'next-i18next'
-import CustomImage from '../../components/customImage'
+import CustomImage from '../../components/CustomImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 

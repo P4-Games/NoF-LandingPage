@@ -1,19 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-//import { Link as LinkScroll } from 'react-scroll'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import {useTranslation} from 'next-i18next'
+
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import LanguageSelection from '../LanguageSelection'
 import { useWeb3Context } from '../../hooks'
-import { capitalizeFirstLetter } from '../../utils/stringUtils'
 import { useLayoutContext } from '../../hooks'
+import { capitalizeFirstLetter } from '../../utils/stringUtils'
 
 function Navbar ({
-  goToCollections,
   alphaMidButton,
   setInventory,
   setCardInfo,
@@ -29,7 +28,7 @@ function Navbar ({
   const { walletAddress } = useWeb3Context()
   const [inHome, setInHome] = useState(true)
   const [showShop, setShowShop] = useState(false)
-  const { windowSize } = useLayoutContext()
+  const { goToCollectionsPage } = useLayoutContext()
 
   useEffect(() => {
     setPage(window.history.state.url)
@@ -67,7 +66,7 @@ function Navbar ({
             setInventory(true)
           }
         } else {
-          goToCollections(windowSize.mobile ? 4 : 5)
+          goToCollectionsPage()
         }
       }}
       className='navbar__ul__li__collections'>
@@ -126,7 +125,6 @@ function Navbar ({
 }
 
 Navbar.propTypes = {
-  goToCollections: PropTypes.func,
   alphaMidButton: PropTypes.func,
   setInventory: PropTypes.func,
   setCardInfo: PropTypes.func,

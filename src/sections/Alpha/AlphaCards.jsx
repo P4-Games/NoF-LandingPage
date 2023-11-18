@@ -9,7 +9,7 @@ import Rules from '../Common/Rules'
 import { storageUrlAlpha, CONTRACTS } from '../../config'
 import { fetchDataAlpha } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
-import CustomImage from '../../components/customImage'
+import CustomImage from '../../components/CustomImage'
 
 import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'

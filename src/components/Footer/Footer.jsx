@@ -1,11 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Buttons from './Buttons'
+import { useLayoutContext } from '../../hooks'
 
-function Footer ({ turnNextPage, turnPrevPage }) {
+function Footer () {
+  
+  const { turnNextPage, turnPrevPage } = useLayoutContext()
+  
   const openNewWindow = () => {
     window.open('https://tama.nof.town/', '_blank')
   }
+  
   return (
     <div className='footer'>
       <div className='footer__insert' onClick={openNewWindow}>
@@ -28,12 +32,6 @@ function Footer ({ turnNextPage, turnPrevPage }) {
       </div>
     </div>
   )
-}
-
-
-Footer.propTypes = {
-  turnNextPage: PropTypes.func,
-  turnPrevPage: PropTypes.func
 }
 
 export default Footer
