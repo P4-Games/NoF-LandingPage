@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
-import HTMLFlipBook from 'react-pageflip'
 import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
 import { checkApproved } from '../../services/dai'
@@ -18,7 +18,6 @@ import { CONTRACTS } from '../../config'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
-
 
 const index = React.forwardRef(() => {
   const {t} = useTranslation()
@@ -33,7 +32,7 @@ const index = React.forwardRef(() => {
   const { 
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
-  const { windowSize, startLoading, stopLoading } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
@@ -308,64 +307,6 @@ const index = React.forwardRef(() => {
     }
   }
 
-  const NewRules4  = () => 
-   (
-          <div className='hero__top__album'>
-            <HTMLFlipBook
-              id='Book'
-              size='stretch'
-              width={360}
-              height={500}
-              minWidth={300}
-              maxWidth={800}
-              minHeight={350}
-              maxHeight={600}
-              autoSize
-              usePortrait={windowSize.size}
-              drawShadow={false}
-              className= 'hero__top__album__book'
-            >
-              <div
-                className='hero__top__album__book__page'
-                data-density='hard'
-                number='1'
-              >
-                <div className='hero__top__album__book__page__page-content'>
-                  <h3> {t ? t('reglas') : ''}</h3>
-                  <div className='gamma_rules_text_left'>
-                    <p>{t('rules_gamma_left_text_1')}</p>
-                    <p>{t('rules_gamma_left_text_2')}</p>
-                    <p>{t('rules_gamma_left_text_3')}</p>
-                    <p>{t('rules_gamma_left_text_4')}</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                className='hero__top__album__book__page0'
-                data-density='hard'
-                number='2'
-              >
-                <div className='hero__top__album__book__page__page-content'>
-                  <div
-                    className='gamma_info_card_close'
-                    onClick={() => setShowRules(false)}
-                  >
-                    X
-                  </div>
-                  <div className='gamma_rules_text_right'>
-                    <p>{t('rules_gamma_right_text_1')}</p>
-                    <p>{t('rules_gamma_right_text_2')}</p>
-                    <p>{t('rules_gamma_right_text_3')}</p>
-                    <p>{t('rules_gamma_right_text_4')}</p>
-                  </div>
-                </div>
-              </div>
-              
-            </HTMLFlipBook>
-          </div>
-    )
-
-
   const NotConnected = () => (
     <div className='alpha'>
       <div className='main_buttons_container'>
@@ -447,7 +388,7 @@ const index = React.forwardRef(() => {
 
      {!walletAddress && <NotConnected />}
 
-     {showRules && <NewRules4 />}
+     {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
 
       {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPackOpen

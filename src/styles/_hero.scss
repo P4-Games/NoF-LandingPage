@@ -515,7 +515,7 @@ $groundHeight: 40px;
           .swiper {
             width: 170px;
             height: 170px;
-             @include mobile {
+            @include mobile {
               width: 135px !important;
               height: 135px !important;
             }
@@ -1111,5 +1111,36 @@ $groundHeight: 40px;
       justify-content: center;
       align-items: center;
     }
+  }
+}
+
+.rules_text_common {
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  line-height: 1.5;
+  font-size: 16px;
+  margin-left: 3%;
+  margin-right: 3%;
+  text-align: center;
+
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.rules_text_left {
+  margin-bottom: 30%;
+  @extend .rules_text_common;
+  padding-left: 5px;
+  padding-right: 5px;
+  @include mobile {
+  }
+}
+
+.rules_text_right {
+  @extend .rules_text_common;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  @include mobile {
+    margin-top: 6%;
   }
 }

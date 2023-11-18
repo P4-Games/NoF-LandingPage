@@ -187,11 +187,6 @@ const GammaCardInfo = React.forwardRef((props, book) => {
     // TODO
   }
 
-  const handleCloseInfoCard = async () => {
-    // TODO
-  }
-
-
   const handleMintClick = async () => {
     try {
       startLoading()

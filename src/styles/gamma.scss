@@ -17,67 +17,6 @@
   }
 }
 
-.gamma_rules_container {
-  position: absolute;
-  display: none;
-}
-
-.gamma_rules_text_content {
-  background-image: url('/images/common/rules.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 780px;
-  width: 780px;
-  max-width: 100vw;
-  line-height: 1.7;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0px;
-  font-size: 17px;
-}
-
-.gamma_rules_img_close {
-  top: 22%;
-  right: 5%;
-}
-
-.gamma_rules_title {
-  position: absolute;
-  font-weight: bold;
-  margin-left: 20%;
-  padding-top: 22%;
-  font-size: 26px;
-}
-
-.gamma_rules_text_common {
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-  line-height: 1.5;
-  font-size: 18px;
-  margin-left: 5%;
-  margin-right: 5%;
-  padding-left: 10px;
-  padding-right: 12px;
-  flex-basis: 40%;
-  text-align: center;
-
-  @include mobile {
-    font-size: 12px;
-  }
-}
-
-.gamma_rules_text_left {
-  @extend .gamma_rules_text_common;
-  margin-bottom: 10%;
-}
-
-.gamma_rules_text_right {
-  @extend .gamma_rules_text_common;
-  margin-top: 10%;
-  margin-bottom: 10%;
-}
-
 // gamma-pack-right
 .gammapack {
   position: absolute;
