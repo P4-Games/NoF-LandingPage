@@ -83,28 +83,33 @@
     pointer-events: none;
     cursor: not-allowed;
   }
-  .openPack {
+  .buyPack {
     @extend .button_common;
     gap: 14%;
-    bottom: 9%;
+    top: 90%;
+  }
+  .openPack {
+    @extend .button_common;
+    gap: 24%;
+    top: 100%;
   }
   .openPack_disabled {
     @extend .button_common;
-    gap: 14%;
-    bottom: 9%;
+    gap: 24%;
+    top: 100%;
     color: #8f8f8f;
     pointer-events: none;
     cursor: not-allowed;
   }
   .transferPack {
     @extend .button_common;
-    gap: 24%;
-    bottom: 0%;
+    gap: 34%;
+    top: 110%;
   }
   .transferPack_disabled {
     @extend .button_common;
-    gap: 24%;
-    bottom: 0%;
+    gap: 34%;
+    top: 110%;
     color: #8f8f8f;
     pointer-events: none;
     cursor: not-allowed;

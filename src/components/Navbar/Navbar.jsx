@@ -13,11 +13,7 @@ import { useLayoutContext } from '../../hooks'
 import { capitalizeFirstLetter } from '../../utils/stringUtils'
 
 function Navbar ({
-  alphaMidButton,
-  setInventory,
-  setCardInfo,
-  cardInfo,
-  handleBuyPackClick
+  alphaMidButton
 }) {
   const {t} = useTranslation()
   const [midButton, setMidButton] = useState('')
@@ -40,7 +36,6 @@ function Navbar ({
       setMidButton(capitalizeFirstLetter(t('Albums').toLowerCase()))
     } else if (window.history.state.url.endsWith('/gamma')) {
       setInHome(false)
-      setMidButton(t('inventory'))
     }
   }, [page, t, router?.pathname, walletAddress])
 
@@ -58,13 +53,6 @@ function Navbar ({
       onClick={() => {
         if (page.endsWith('/alpha')) {
           alphaMidButton()
-        } else if (page.endsWith('/gamma')) {
-          if (cardInfo) {
-            setCardInfo(false)
-            setInventory(true)
-          } else { 
-            setInventory(true)
-          }
         } else {
           goToCollectionsPage()
         }
@@ -84,12 +72,14 @@ function Navbar ({
     </div>
   )
 
+  /*
   const ButtonShop = () => (
     showShop ?
     <div onClick={() => handleBuyPackClick()} className='navbar__corner__shop'>
       <Image src={'/images/navbar/shop.png'} alt='shop' height='60' width='60'/>
     </div> : null
   )
+  */
     
   return (
     <>
@@ -114,7 +104,7 @@ function Navbar ({
           </li>
         </ul>
         <div className='navbar__corner'>
-          <ButtonShop />
+          {/*<ButtonShop />*/}
           <ButtonAudio />
           <LanguageSelection />
         </div>
@@ -125,11 +115,7 @@ function Navbar ({
 }
 
 Navbar.propTypes = {
-  alphaMidButton: PropTypes.func,
-  setInventory: PropTypes.func,
-  setCardInfo: PropTypes.func,
-  cardInfo: PropTypes.bool,
-  handleBuyPackClick: PropTypes.func
+  alphaMidButton: PropTypes.func
 }
 
 export default Navbar

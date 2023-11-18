@@ -4,8 +4,6 @@ import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
@@ -337,6 +335,11 @@ const GammaMain = () => {
             {numberOfPacks}
           </h1>
           <div 
+            onClick={() => { handleBuyPackClick() }} 
+            className='buyPack'>
+            <h3>{t('comprar')}</h3>
+          </div>
+          <div 
             onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
             className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
             <h3>{t('abrir')}</h3>
@@ -378,14 +381,6 @@ const GammaMain = () => {
  
   return (
     <>
-      <Navbar
-        cardInfo={cardInfo}
-        setCardInfo={setCardInfo}
-        inventory={inventory}
-        setInventory={setInventory}
-        handleBuyPackClick={handleBuyPackClick}
-      />
-
      {!walletAddress && <NotConnected />}
 
      {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
@@ -432,7 +427,6 @@ const GammaMain = () => {
           <GammaPackInfo />
         </div>
       </div>}
-      <Footer />
     </>
   )
 }

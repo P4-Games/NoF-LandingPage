@@ -27,7 +27,7 @@ const vidas = [
 
 let swiper //eslint-disable-line 
 
-const AlphaCards = ({ alphaMidButton }) => {
+const AlphaMain = ({ alphaMidButton }) => {
   const {t} = useTranslation()
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
@@ -681,8 +681,8 @@ const AlphaCards = ({ alphaMidButton }) => {
   )
 }
 
-AlphaCards.propTypes = {
+AlphaMain.propTypes = {
   alphaMidButton: PropTypes.func
 }
 
-export default AlphaCards
+export default AlphaMain

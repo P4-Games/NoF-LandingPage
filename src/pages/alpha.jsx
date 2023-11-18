@@ -1,11 +1,11 @@
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { AlphaCards } from '../sections/Alpha'
+import { AlphaMain } from '../sections/Alpha'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import  NofHead from '../components/Head'
 
 const Alpha = () => {
-  
+
   function alphaMidButton () {
     const albums = document.getElementsByClassName(
       'alpha_full_albums_container'
@@ -21,7 +21,7 @@ const Alpha = () => {
     <div className='alpha_main'>
       <NofHead />
       <Navbar alphaMidButton={alphaMidButton}/>
-      <AlphaCards alphaMidButton={alphaMidButton}/>
+      <AlphaMain alphaMidButton={alphaMidButton}/>
       <Footer />
     </div>
   )
