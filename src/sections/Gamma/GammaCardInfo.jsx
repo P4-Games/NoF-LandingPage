@@ -14,10 +14,10 @@ import { hasCard } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/addresses'
 
-const GammaCardInfo = React.forwardRef((props, book) => {
+const GammaCardInfo = (props) => {
   const { imageNumber, handleFinishInfoCard } = props
   const {t} = useTranslation()
-  const { windowSize, loading, startLoading, stopLoading } = useLayoutContext()
+  const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
    
@@ -317,7 +317,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
       autoSize
       drawShadow={false}
       usePortrait={windowSize.size}
-      ref={book}
+      ref={bookRef}
       className='hero__top__album__book'>
       <div
         className='hero__top__album__book__page'
@@ -363,7 +363,7 @@ const GammaCardInfo = React.forwardRef((props, book) => {
       : <BookCard />
     )
   )
-})
+}
 
 GammaCardInfo.propTypes = {
   imageNumber: PropTypes.number,
