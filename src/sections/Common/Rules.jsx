@@ -4,9 +4,8 @@ import HTMLFlipBook from 'react-pageflip'
 import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
-const Rules = React.forwardRef((props, ref) => { 
-  const { type, setShowRules } = props
-  const { windowSize } = useLayoutContext()
+const Rules = ({ type, setShowRules }) => { 
+  const { bookRef, windowSize } = useLayoutContext()
   const {t} = useTranslation()
 
   const ContentPageLeft = () => (
@@ -65,7 +64,7 @@ const Rules = React.forwardRef((props, ref) => {
         minHeight={350}
         maxHeight={600}
         autoSize
-        ref={ref}
+        ref={bookRef}
         usePortrait={windowSize.size}
         drawShadow={false}
         className= 'hero__top__album__book'
@@ -101,7 +100,7 @@ const Rules = React.forwardRef((props, ref) => {
       </HTMLFlipBook>
     </div>
   )
-})
+}
 
 Rules.propTypes = {
   type: PropTypes.string,
