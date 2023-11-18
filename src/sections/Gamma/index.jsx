@@ -32,7 +32,7 @@ const index = React.forwardRef(() => {
   const { 
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
-  const { startLoading, stopLoading } = useLayoutContext()
+  const { windowSize, startLoading, stopLoading } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
@@ -407,6 +407,7 @@ const index = React.forwardRef(() => {
             style={inventory 
               ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }
               : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
+            className='hero__top__album'
           >
             {!inventory && 
             <GammaAlbum
