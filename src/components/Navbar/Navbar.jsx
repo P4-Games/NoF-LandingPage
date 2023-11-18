@@ -32,7 +32,7 @@ function Navbar ({
 
   useEffect(() => {
     setPage(window.history.state.url)
-    setShowShop(router?.pathnae == '/gamma' && walletAddress)
+    setShowShop(router?.pathname == '/gamma' && walletAddress)
     setMidButton(t('collections'))
 
     if (window.history.state.url.endsWith('/alpha')) {
