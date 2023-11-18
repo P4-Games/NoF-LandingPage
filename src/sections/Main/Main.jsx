@@ -17,7 +17,7 @@ import NofTown from '../../components/Navbar/NofTown'
 import {useTranslation} from 'next-i18next'
 import { useLayoutContext } from '../../hooks'
 
-const Hero = () => {
+const Main = () => {
   const { bookRef, windowSize } = useLayoutContext()
   const {t} = useTranslation()
 
@@ -384,8 +384,7 @@ const Hero = () => {
       </div>
     </div>
   )
-
 }
 
-export default Hero
+export default Main
 
