@@ -56,6 +56,10 @@
   }
 }
 
+.alpha_album_container {
+  cursor: pointer;
+}
+
 #alpha_select_season_button {
   z-index: 999;
   width: 210px;
@@ -360,4 +364,8 @@
 }
 
 @media (max-width: 480px) {
+}
+
+.alpha_no_album_message {
+  cursor: pointer;
 }

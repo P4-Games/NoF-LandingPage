@@ -1,21 +1,9 @@
-import React from 'react'
-import NofHead from '../components/Head'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import Main from '../sections/Main'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import Main from '../sections/Main'
 
-function Home () {
-
-  return (
-    <div className='home'>
-      <NofHead/>
-      <Navbar/>
-      <Main/>
-      <Footer />
-    </div>
-  )
-}
+const Home = () => (
+    <Main/>
+)
 
 export default Home
 

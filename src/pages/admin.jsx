@@ -3,7 +3,6 @@ import { adminAccounts } from '../config'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../hooks'
-import  NofHead from '../components/Head'
 
 const Admin = () => {
   const {t} = useTranslation()
@@ -11,7 +10,6 @@ const Admin = () => {
 
   return (
     <div className='admincontainer'>
-      <NofHead />
       {!walletAddress && <div className='main_buttons_container'>
         <button
           className='alpha_button alpha_main_button'

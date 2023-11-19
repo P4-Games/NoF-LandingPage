@@ -1,31 +1,9 @@
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { AlphaMain } from '../sections/Alpha'
 import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
-import  NofHead from '../components/Head'
+import { AlphaMain } from '../sections/Alpha'
 
-const Alpha = () => {
-
-  function alphaMidButton () {
-    const albums = document.getElementsByClassName(
-      'alpha_full_albums_container'
-    )
-    const game = document.getElementsByClassName('alpha_inner_container')
-    if (game && game.length > 0) {
-      albums[0].classList.toggle('alpha_display_none')
-      game[0].classList.toggle('alpha_display_none')
-    }
-  }
-
-  return (
-    <div className='alpha_main'>
-      <NofHead />
-      <Navbar alphaMidButton={alphaMidButton}/>
-      <AlphaMain alphaMidButton={alphaMidButton}/>
-      <Footer />
-    </div>
-  )
-}
+const Alpha = () => (
+  <AlphaMain/>
+)
 
 export default Alpha
 

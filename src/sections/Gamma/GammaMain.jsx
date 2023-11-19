@@ -380,10 +380,10 @@ const GammaMain = () => {
   }
  
   return (
-    <>
-     {!walletAddress && <NotConnected />}
+    <div className='gamma_main'>
+      {!walletAddress && <NotConnected />}
 
-     {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
+      {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
 
       {walletAddress && <div className='gamma_main'>
         {packIsOpen && <GammaPackOpen
@@ -427,7 +427,7 @@ const GammaMain = () => {
           <GammaPackInfo />
         </div>
       </div>}
-    </>
+    </div>
   )
 }
 
