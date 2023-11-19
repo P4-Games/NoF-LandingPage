@@ -101,6 +101,7 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName}) => {
 }
 
 AlphaAlbums.propTypes = {
+  albums: PropTypes.object,
   clickFromAlbums: PropTypes.func,
   setSeasonName: PropTypes.func
 }

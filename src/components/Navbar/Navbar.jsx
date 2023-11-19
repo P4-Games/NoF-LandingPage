@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {useTranslation} from 'next-i18next'
@@ -7,7 +7,6 @@ import { useRouter } from 'next/router'
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import LanguageSelection from '../LanguageSelection'
-import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 
 function Navbar () {

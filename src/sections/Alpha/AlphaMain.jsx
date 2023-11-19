@@ -70,6 +70,16 @@ const AlphaMain = () => {
     }
   }
 
+  function emitError (message) {
+    Swal.fire({
+      title: '',
+      text: message,
+      icon: 'error',
+      showConfirmButton: true,
+      timer: 5000
+    })
+  }
+  
   const fetchAlbums = async () => {
     try {
       if (!walletAddress || !alphaContract || !seasonNames) return
