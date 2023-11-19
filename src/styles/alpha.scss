@@ -161,7 +161,8 @@
   justify-content: center;
   align-items: center;
   @include mobile {
-    margin-top: -50px;
+    margin-top: 50px;
+    flex-direction: column;
   }
 }
 
@@ -322,10 +323,6 @@
     overflow-y: scroll;
     margin: 12vh;
     padding-bottom: 12vh;
-  }
-
-  .alpha_container {
-    flex-direction: column;
   }
 
   .alpha_season {

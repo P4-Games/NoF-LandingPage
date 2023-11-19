@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { ethers } from 'ethers'
 import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
@@ -20,7 +21,7 @@ import { checkInputAddress } from '../../utils/addresses'
 const GammaMain = () => {
   const {t} = useTranslation()
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
-  const [numberOfPacks, setNumberOfPacks] = useState('0')
+  const [numberOfPacks, setNumberOfPacks] = useState(0)
   const [openPackage, setOpenPackage] = useState(false)
   const [cardInfo, setCardInfo] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
@@ -34,7 +35,7 @@ const GammaMain = () => {
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
-
+  
   const getCardsQtty = (paginationObj) => {
     let total = 0
 
@@ -50,8 +51,8 @@ const GammaMain = () => {
 
   const checkNumberOfPacks = async () => {
     try {
-      const numberOfPacks = await checkPacksByUser(walletAddress, gammaPacksContract)
-      setNumberOfPacks(numberOfPacks?.length.toString() || '0')
+      const result = await checkPacksByUser(walletAddress, gammaPacksContract)
+      setNumberOfPacks(result?.length || 0)
     } catch (e) {
       console.error({ e })
     }
@@ -328,28 +329,54 @@ const GammaMain = () => {
   const GammaPackInfo = () => {
     if (inventory) {
       return (
+        <>
         <div className='gammapack'>
-          <h1
-            className={numberOfPacks==='0' ? 'pack_number_disabled' : 'pack_number'}
-            onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
-            {numberOfPacks}
-          </h1>
-          <div 
-            onClick={() => { handleBuyPackClick() }} 
-            className='buyPack'>
-            <h3>{t('comprar')}</h3>
-          </div>
           <div 
             onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-            className={numberOfPacks==='0' ? 'openPack_disabled' : 'openPack'}>
-            <h3>{t('abrir')}</h3>
+            className={'gammapack__content'}>
+            <h1
+              className={numberOfPacks===0 ? 'pack_number_disabled' : 'pack_number'}
+              onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+              {numberOfPacks}
+            </h1>
           </div>
-          <div
-            onClick={() => { handleTransferPack() }}
-            className={numberOfPacks==='0' ? 'transferPack_disabled' : 'transferPack'}>
-            <h3>{t('transferir')}</h3>
+
+          <div className='gammapack__actions'>
+            <div 
+              onClick={() => { handleBuyPackClick() }} 
+              className={'gammapack__actions__buyPack'}>
+              <Image 
+                src={'/images/gamma/buyPackOn.png'} 
+                alt='buy pack' height='40' width='40'/>
+            </div>
+            {
+              numberOfPacks===0 
+              ?
+              <>
+              <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
+                   className='gammapack__actions__openPack_disabled'>
+                <Image src={'/images/gamma/openPackOff.png'} alt='open pack' height='50' width='50'/>
+              </div>
+              <div onClick={() => { handleTransferPack() }}
+                   className='gammapack__actions__transferPack_disabled'>
+                <Image src={'/images/gamma/transferPackOff.png'} alt='open pack' height='40' width='40'/>
+              </div>
+              </>
+              :
+              <>
+              <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
+                   className='gammapack__actions__openPack'>
+                <Image src={'/images/gamma/openPackOn.png'} alt='open pack' height='50' width='50'/>
+              </div>
+              <div onClick={() => { handleTransferPack() }}
+                   className='gammapack__actions__openPack'>
+                <Image src={'/images/gamma/transferPackOn.png'} alt='open pack' height='40' width='40'/>
+              </div>
+              </>
+            }
           </div>
-        </div>
+      </div>
+      </>
       )
     }
 
