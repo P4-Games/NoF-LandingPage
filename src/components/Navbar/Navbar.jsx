@@ -1,43 +1,23 @@
 import React, { useRef, useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import {useTranslation} from 'next-i18next'
+import { useRouter } from 'next/router'
 
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import LanguageSelection from '../LanguageSelection'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import { capitalizeFirstLetter } from '../../utils/stringUtils'
 
-function Navbar ({
-  alphaMidButton
-}) {
+function Navbar () {
   const {t} = useTranslation()
-  const [midButton, setMidButton] = useState('')
-  const [page, setPage] = useState('')
-  const router = useRouter()
   const ref = useRef(null)
   const [click, setClick] = useState(false)
-  const { walletAddress } = useWeb3Context()
-  const [inHome, setInHome] = useState(true)
-  const [showShop, setShowShop] = useState(false)
   const { goToCollectionsPage } = useLayoutContext()
+  const router = useRouter()
+  const isHomePage = router.pathname === '/'
 
-  useEffect(() => {
-    setPage(window.history.state.url)
-    setShowShop(router?.pathname == '/gamma' && walletAddress)
-    setMidButton(t('collections'))
-
-    if (window.history.state.url.endsWith('/alpha')) {
-      setInHome(false)
-      setMidButton(capitalizeFirstLetter(t('Albums').toLowerCase()))
-    } else if (window.history.state.url.endsWith('/gamma')) {
-      setInHome(false)
-    }
-  }, [page, t, router?.pathname, walletAddress])
 
   const audioHandleClick = () => {
     setClick(!click)
@@ -49,16 +29,10 @@ function Navbar ({
   }
 
   const MidButton = () => (
-    (walletAddress || inHome) && <button
-      onClick={() => {
-        if (page.endsWith('/alpha')) {
-          alphaMidButton()
-        } else {
-          goToCollectionsPage()
-        }
-      }}
+    <button 
+      onClick={() => {goToCollectionsPage()}}
       className='navbar__ul__li__collections'>
-      {midButton}
+      {t('collections')}
     </button>
   )
 
@@ -97,9 +71,10 @@ function Navbar ({
           </div>
         </div>
         <ul className='navbar__ul'>
-          <li className={showShop ? 'navbar__ul__li__shop' : 'navbar__ul__li'}>
+          {/*<li className={showShop ? 'navbar__ul__li__shop' : 'navbar__ul__li'}>*/}
+          <li className={'navbar__ul__li'}>
             <NofTown />
-            <MidButton />
+            {isHomePage && <MidButton />}
             <Whitepaper />
           </li>
         </ul>
@@ -112,10 +87,6 @@ function Navbar ({
       <audio src={'/music/Dungeon.mp3'} ref={ref} loop />
     </>
   )
-}
-
-Navbar.propTypes = {
-  alphaMidButton: PropTypes.func
 }
 
 export default Navbar

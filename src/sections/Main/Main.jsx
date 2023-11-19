@@ -29,7 +29,7 @@ const Main = () => {
         modules={[EffectCards, Autoplay, Pagination]}
         loop
         autoplay={{
-          delay: 3000,
+          delay: 2000,
           disableOnInteraction: false
         }}
         pagination={{
@@ -370,17 +370,19 @@ const Main = () => {
   )
   
   return (
-    <div className='hero' id='Hero'>
-      <div className='hero__top'>
-        <div className='hero__top__nof'>
-          <Image src={'/images/hero/logo-nof.gif'} alt='Nof-Icon' fill/>
-        </div>
-        <BookComp />
-        {!windowSize.mobile && (
-          <div className='hero__top__container__swiper'>
-            <SwiperComp />
+    <div className='home'>
+      <div className='hero' id='Hero'>
+        <div className='hero__top'>
+          <div className='hero__top__nof'>
+            <Image src={'/images/hero/logo-nof.gif'} alt='Nof-Icon' fill/>
           </div>
-        )}
+          <BookComp />
+          {!windowSize.mobile && (
+            <div className='hero__top__container__swiper'>
+              <SwiperComp />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
