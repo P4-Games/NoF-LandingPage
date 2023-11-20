@@ -35,7 +35,7 @@ const AlphaMain = () => {
   const [albumCompletion, setAlbumCompletion] = useState(null)
   const [isCollection, setIsCollection] = useState(false)
   const [cards, setCards] = useState([])
-  const [noCardsError, setNoCardsError] = useState('')
+  const [error, setError] = useState('')
   const [cardIndex, setCardIndex] = useState(0)
   const [vida, setVida] = useState('/images/alpha/vida0.png')
   const [seasonNames, setSeasonNames] = useState(null)
@@ -98,7 +98,6 @@ const AlphaMain = () => {
           }
         }
       }
-      console.log('fetch albums')
       setAlbums(albumsArr)
       stopLoading()
     } catch(ex) {
@@ -112,9 +111,7 @@ const AlphaMain = () => {
     try {
       if (!walletAddress || !alphaContract) return
       startLoading()
-      console.log('2')
       let seasonData = await alphaContract.getSeasonData()
-      console.log('3')
 
       if (seasonData) {
         let currentSeason
@@ -149,7 +146,13 @@ const AlphaMain = () => {
         const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
         setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
         setPackPrice(currentPrice?.toString()) // sets the season price as the last season price created
+        console.log('3')
         setSeasonNames(activeSeasons)
+
+        if(!activeSeasons || activeSeasons.length === 0) {
+          setError(t('no_season_nampes'))
+        }
+
         setPackPrices(seasonData[1]) 
       }
       stopLoading()
@@ -329,7 +332,7 @@ const AlphaMain = () => {
             pack.forEach((card) => {
               card.class == 0 ? albumData.push(card) : cardsData.push(card)
             })
-            setNoCardsError('')
+            setError('')
             setPack(pack)
             setAlbum(albumData)
             setAlbumCollection(
@@ -370,7 +373,7 @@ const AlphaMain = () => {
             setShowMain(prevShowMain => !prevShowMain)
             return pack
           } else {
-            setNoCardsError(t('necesitas_comprar_pack'))
+            setError(t('necesitas_comprar_pack'))
           }
         })
         .catch((e) => {
@@ -385,7 +388,7 @@ const AlphaMain = () => {
   const buyPack = (price, name) => {
     showCards(walletAddress, seasonName)
       .then((cards) => {
-        setNoCardsError('')
+        setError('')
         if (cards && cards.length > 0) {
           emitSuccess(t('ya_tienes_cartas'))
           return
@@ -393,7 +396,7 @@ const AlphaMain = () => {
         checkPacks()
           .then((res) => {
             if (!res || res.length == 0) {
-              setNoCardsError(t('no_mas_packs'))
+              setError(t('no_mas_packs'))
             } else {
               if (checkBalance(walletAddress)) {
                 checkApproved(daiContract, walletAddress, CONTRACTS.alphaAddress)
@@ -546,11 +549,11 @@ const AlphaMain = () => {
           <span>{noMetamaskError}</span>
         </div>)}
 
-        {walletAddress && alphaContract && !seasonNames && !loading && (
+        {/*walletAddress  && !seasonNames &&  (
           <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
             {t('no_season_nampes')}
           </span>
-        )}
+        )*/}
         
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
@@ -600,7 +603,7 @@ const AlphaMain = () => {
               <span
                 style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}
               >
-                {noCardsError}
+                {error}
               </span>
             </div>
 
