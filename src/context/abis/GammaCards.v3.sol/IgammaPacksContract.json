@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "IGammaPacks",
-  "sourceName": "contracts/gamma/GammaCards.v2.sol",
+  "contractName": "IgammaPacksContract",
+  "sourceName": "contracts/gamma/GammaCards.v3.sol",
   "abi": [
     {
       "inputs": [
