@@ -13,10 +13,11 @@ import { fetchPackData } from '../../services/gamma'
 import { 
   getCardsByUser, checkPacksByUser, finishAlbum,
   verifyPackSigner, openPack, getPackPrice } from '../../services/gamma'
+
 import { CONTRACTS } from '../../config'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/addresses'
+import { checkInputAddress } from '../../utils/InputValidators'
 
 const GammaMain = () => {
   const {t} = useTranslation()
@@ -447,6 +448,10 @@ const GammaMain = () => {
             {inventory && cardInfo &&
               <GammaCardInfo 
                 imageNumber={imageNumber} 
+                userCard={paginationObj 
+                  ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
+                  : {}
+                }
                 handleFinishInfoCard={handleFinishInfoCard}
               />
             }

@@ -7,20 +7,24 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
-import { useWeb3Context } from '../../hooks'
+import { MdOutlineLocalOffer } from "react-icons/md"
 
+import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
+import { createOffer, removeOfferByCardNumber } from '../../services/offers'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/addresses'
+import { checkInputAddress, checkInputArrayCardNumbers } from '../../utils/InputValidators'
 
 const GammaCardInfo = (props) => {
-  const { imageNumber, handleFinishInfoCard } = props
+  const { imageNumber, handleFinishInfoCard, userCard } = props
   const {t} = useTranslation()
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
-  const { gammaCardsContract, walletAddress } = useWeb3Context()
+  const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
    
+  console.log('userCard', userCard)
+
   function emitError (message) {
     Swal.fire({
       title: '',
@@ -30,10 +34,19 @@ const GammaCardInfo = (props) => {
       timer: 5000
     })
   }
+
+  function emitWarning (message) {
+    Swal.fire({
+      title: '',
+      text: message,
+      icon: 'warning',
+      showConfirmButton: true,
+      timer: 5000
+    })
+  }
   
   const verifyUserHasCard = async () => {
     try {
-      console.log('1')
       startLoading()
       const result = await hasCard(gammaCardsContract, imageNumber)
       setUserHasCard(result)
@@ -46,7 +59,6 @@ const GammaCardInfo = (props) => {
   }
 
   useEffect(() => {
-    console.log('effect')
     verifyUserHasCard()
   }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -55,29 +67,37 @@ const GammaCardInfo = (props) => {
   }
 
   const handlePublishClick = async () => {
-    Swal.fire({
-      text: `${t('cartas_a_cambio')}`,
-      html: `
-        <h3>${t('cartas_a_cambio')}</h3><input type="text" id="quiero" class="swal2-input" 
-        placeholder=${t('cards').toLowerCase()} pattern="[0-9,]+" >`,
-      showDenyButton: false,
-      showCancelButton: true,
-      confirmButtonText: `${t('publicar')}`,
-      confirmButtonColor: '#005EA3',
-      color: 'black',
-      background: 'white',
-      customClass: {
-        image: 'cardalertimg',
-        input: 'alertinput'
-        // container: 'cardcontainer',
-        // confirmButton: 'alertbuttonvender',
-        // cancelButton: 'alertcancelbutton',
-      }
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
+
+    try {
+      const result = await Swal.fire({
+        text: `${t('cartas_a_cambio')}`,
+        input: 'text',
+        inputPlaceholder: '3, 23, 44, 55, 119, 2',
+        inputAttributes: {
+          min: 1,
+          max: 60
+        },
+        inputValidator: (value) => {
+          if (!checkInputArrayCardNumbers(value, imageNumber))
+            return `${t('publish_offer_error_invalid_numbers')}`
+        },
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('publicar')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        }
+      })
+
       if (result.isConfirmed) {
-        // const input = Swal.getPopup().querySelector('#quiero')
-        // setWantedCards(input.value)
+        startLoading()
+        await createOffer(gammaOffersContract, gammaCardsContract, imageNumber, result.value)
+        handleFinishInfoCard(true)
+        stopLoading()
         Swal.fire({
           title: '',
           text: t('confirmado'),
@@ -85,61 +105,53 @@ const GammaCardInfo = (props) => {
           showConfirmButton: false,
           timer: 2000
         })
-        //     Swal.fire({
-        //         text: 'Publicar?',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Confirmar publicacion',
-        //         showLoaderOnConfirm: true,
-        //         preConfirm: (login) => {
-        //           return fetch(`//api.github.com/users/${login}`)
-        //             .then(response => {
-        //               if (!response.ok) {
-        //                 throw new Error(response.statusText)
-        //               }
-        //               return response.json()
-        //             })
-        //             .catch(error => {
-        //               Swal.showValidationMessage(
-        //                 `Request failed: ${error}`
-        //               )
-        //             })
-        //         },
-        //         allowOutsideClick: () => !Swal.isLoading()
-        //       }).then((result) => {
-        //         if (result.isConfirmed) {
-        //           Swal.fire({
-        //             text: `El precio elegido es ${result.value.login}`,
-        //             imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
-        //             color:`whitesmoke`,
-        //             backdrop:"#0000009e",
-        //             customClass: {
-        //                 image: 'cardalertimg',
-        //                 input: 'alertinput',
-        //                 // container: 'cardcontainer',
-        //                 popup: 'cardcontainer',
-        //                 confirmButton: 'alertbuttonvender',
-        //                 cancelButton: 'alertcancelbutton',
-        //             },
-        //           })
-        //         }
-        //       })
-        // } else if (result.isDenied) {
-        //     Swal.fire({
-        //         text: `Selecciona la carta que te gustaria intercambiar por la tuya`,
-        //         // imageUrl:`${storageUrlGamma}/T1/${props.imageNumber}.png`,
-        //         color:`black`,
-        //         backdrop:"#0000009e",
-        //         customClass: {
-        //             image: 'cardalertimg',
-        //             input: 'alertinput',
-        //             // container: 'cardcontainer',
-        //             popup: 'cardspopup',
-        //             confirmButton: 'okbutton',
-        //             cancelButton: 'alertcancelbutton',
-        //         },
-        //       })
       }
-    })
+
+    } catch (ex) {
+      stopLoading()
+      console.log(ex.message)
+      if (ex.message == 'publish_offer_error_own_card_number')
+        emitWarning(t('publish_offer_error_own_card_number'))
+      else
+        emitError(t('publish_offer_error'))
+    }
+  }
+
+  const handleUnPublishClick = async () => {
+    try {
+      const result = await Swal.fire({
+        text: `${t('unpublish_offer_dialog')}`,
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('despublicar')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        }
+      })
+
+      if (result.isConfirmed) {
+        startLoading()
+        await removeOfferByCardNumber(gammaOffersContract, imageNumber)
+        handleFinishInfoCard(true)
+        stopLoading()
+        Swal.fire({
+          title: '',
+          text: t('confirmado'),
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      }
+
+    } catch (ex) {
+      stopLoading()
+      console.log(ex.message)
+      emitError(t('unpublish_offer_error'))
+    }
   }
 
   const handleTransferClick = async () => {
@@ -217,7 +229,7 @@ const GammaCardInfo = (props) => {
   }
 
   const OfferButton = () => (
-    <div className= {userHasCard ? 'option' : 'option_disabled' }
+    <div className= {'option'}
     onClick={() => handleOfferClick()}
     >
       {t('ofertas')}
@@ -235,7 +247,7 @@ const GammaCardInfo = (props) => {
 
   const MintButton = () => (
     <div
-      className= {userHasCard ? 'option' : 'option_disabled' }
+      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
       onClick={() => handleMintClick()}
     >
       {t('mintear')}
@@ -251,9 +263,18 @@ const GammaCardInfo = (props) => {
     </div>
   )
 
+  const UnPublishButton = () => (
+    <div
+      className= {userCard.offered ? 'option' : 'option_disabled' }
+      onClick={() => handleUnPublishClick()}
+    >
+      {t('despublicar')}
+    </div>
+  )
+
   const TransferButton = () => (
     <div
-      className= {userHasCard ? 'option' : 'option_disabled' }
+      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}
@@ -330,6 +351,7 @@ const GammaCardInfo = (props) => {
                 src={`${storageUrlGamma}/T1/${props.imageNumber}.png`}
                 alt='img'
               />
+             { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
             </div>
             <h3>#{props.imageNumber}</h3>
             <div className='cardnof' />
@@ -345,7 +367,8 @@ const GammaCardInfo = (props) => {
             <CloseButton/>
             <MintButton/>
             <TransferButton/>
-            <PublishButton/>
+            {!userCard.offered && <PublishButton/>}
+            {userCard.offered && <UnPublishButton/>}
             <OfferButton/>
           </div>
           <div className='modals'>
@@ -367,6 +390,7 @@ const GammaCardInfo = (props) => {
 
 GammaCardInfo.propTypes = {
   imageNumber: PropTypes.number,
+  userCard: PropTypes.object,
   handleFinishInfoCard: PropTypes.func
 }
 

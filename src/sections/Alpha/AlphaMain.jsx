@@ -13,7 +13,7 @@ import CustomImage from '../../components/CustomImage'
 import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/addresses'
+import { checkInputAddress } from '../../utils/InputValidators'
 
 const vidas = [
   '/images/alpha/vida0.png',
@@ -48,7 +48,7 @@ const AlphaMain = () => {
   const [transferError, setTransferError] = useState('')
   const [, setDisableTransfer] = useState(false)
   const [seasonFolder, setSeasonFolder] = useState(null)
-  const { loading, startLoading, stopLoading } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } = useWeb3Context()
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
@@ -146,7 +146,6 @@ const AlphaMain = () => {
         const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
         setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
         setPackPrice(currentPrice?.toString()) // sets the season price as the last season price created
-        console.log('3')
         setSeasonNames(activeSeasons)
 
         if(!activeSeasons || activeSeasons.length === 0) {
@@ -549,12 +548,6 @@ const AlphaMain = () => {
           <span>{noMetamaskError}</span>
         </div>)}
 
-        {/*walletAddress  && !seasonNames &&  (
-          <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
-            {t('no_season_nampes')}
-          </span>
-        )*/}
-        
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
         {walletAddress && alphaContract && seasonNames && (

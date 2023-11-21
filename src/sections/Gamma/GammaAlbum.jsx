@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
+import { MdOutlineLocalOffer } from "react-icons/md"
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
@@ -33,6 +34,7 @@ const GammaAlbum =  (props) => {
           >
             <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' /> 
             { paginationObj.user[item]?.stamped && <FcCheckmark /> }
+            { paginationObj.user[item]?.offered && <MdOutlineLocalOffer className = 'image-offered ' /> }
 
             { paginationObj.user[item]?.quantity > 1 && 
               <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>

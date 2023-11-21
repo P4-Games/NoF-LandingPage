@@ -57,12 +57,11 @@
       margin-right: 15px; // porque la imagen esta un poco desfazada!
       width: 100%;
       filter: drop-shadow(2px 4px 6px white);
-  
+
       @media all and (orientation: portrait) {
         font-size: 0.9rem;
         margin-left: 10px; // porque la imagen esta un poco desfazada!
       }
-
     }
 
     .pack_number_disabled {
@@ -82,10 +81,10 @@
     align-items: center;
     justify-content: center;
     gap: 5%;
-    
+
     @media all and (orientation: portrait) {
       gap: 3%;
-      margin-left:10px;
+      margin-left: 10px;
     }
 
     &__buyPack,
@@ -106,7 +105,7 @@
         transition: 0.2s;
       }
     }
-   
+
     &__buyPack_disabled,
     &__openPack_disabled,
     &__transferPack_disabled {
@@ -123,7 +122,6 @@
     }
   }
 }
-
 
 // gamma-book-right
 .gammaComplete {
@@ -273,6 +271,14 @@
       top: 10%;
       font-size: 0.5rem;
       color: darkblue;
+    }
+    .image-offered {
+      position: absolute;
+      color: rgb(231, 231, 75);
+      left: 70%;
+      top: 2%;
+      width: 30%;
+      height: 30%;
     }
 
     transition: 0.8s;
@@ -779,6 +785,14 @@
       width: 100%;
       height: 100%;
     }
+  }
+  .cardinfoimg-offered {
+    position: absolute;
+    color: rgb(231, 231, 75);
+    width: 22%;
+    height: 22%;
+    top: 7%;
+    left: 60%;
   }
 }
 

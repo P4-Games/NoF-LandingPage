@@ -16,6 +16,7 @@ for (let i = 0; i < 120; i++) {
   gammaCardPages.user[i] = {
     name: i.toString(),
     stamped: false,
+    offered: false,
     quantity: 0
   }
 }

@@ -12,7 +12,8 @@ import { init } from '@web3-onboard/react'
 import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
 import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
 import gammaPacksAbi from './abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
-import gammaCardsAbi from './abis/GammaCards.v2.sol/NofGammaCardsV2.json'
+import gammaCardsAbi from './abis/GammaCards.v3.sol/NofGammaCardsV3.json'
+import gammaOffersAbi from './abis/GammaOffers.v1.sol/NofGammaOffersV1.json'
 import { CONTRACTS, NETWORK, WalletConnectProjectId } from '../config'
 
 import brLocales from '../../public/locales/br/web3_onboard.json'
@@ -38,6 +39,7 @@ const Web3ContextProvider = ({ children }) => {
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
+  const [gammaOffersContract, setGammaOffersContract] = useState(null)
   // const { languageSetted } = useSettingsContext()
 
   const initWeb3Onboard = useCallback(async () => {
@@ -154,13 +156,17 @@ const Web3ContextProvider = ({ children }) => {
         gammaCardsAbi.abi,
         _signer
       )
+      const gammaOffersContractInstance = new ethers.Contract(
+        CONTRACTS.gammaOffersAddress,
+        gammaOffersAbi.abi,
+        _signer
+      )
 
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
       setGammaPacksContract(gammaPacksContractInstance)
       setGammaCardsContract(gammaCardsContractInstance)
-
-      console.log('gamma contract', gammaCardsContractInstance)
+      setGammaOffersContract(gammaOffersContractInstance)
     } catch (e) {
       console.error({ e })
     }
@@ -216,6 +222,7 @@ const Web3ContextProvider = ({ children }) => {
     alphaContract,
     gammaPacksContract,
     gammaCardsContract,
+    gammaOffersContract,
     connectWallet,
     disconnectWallet
   }
