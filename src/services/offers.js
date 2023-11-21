@@ -2,7 +2,7 @@ import { hasCard } from './gamma'
 
 export const createOffer = async (offersContract, cardsContract, cardNumber, wantedCards) => {
   try {
-    const wantedCardNumbers = wantedCards.split(',').map(num => parseInt(num.trim(), 10))
+    const wantedCardNumbers = wantedCards.split(',').map((num) => parseInt(num.trim(), 10))
 
     for (const wantedCard of wantedCardNumbers) {
       const result = await hasCard(cardsContract, wantedCard)
@@ -41,6 +41,4 @@ export const getOffersByUser = async (offersContract, userAddress) => {
     console.error({ e })
     throw e
   }
-
 }
-
