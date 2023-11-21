@@ -70,8 +70,9 @@
   "aqui": "aqui",
   "mintear": "Mint",
   "ofertas": "Ofertas",
-  "cartas_a_cambio": "Escolha as cartas que deseja em troca",
+  "cartas_a_cambio": "Escolha o cartão que deseja em troca. Você pode inserir até 10 opções, separadas por vírgula, não repetidas e cartões que não possui.",
   "publicar": "Publicar",
+  "despublicar": "Despublicar",
   "confirmado": "Confirmado",
   "wallet_destinatario": "Insira a carteira do destinatário",
 
@@ -89,6 +90,13 @@
   "finish_album_error": "Ocorreu um erro ao tentar reivindicar o prêmio",
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
   "finish_album_warning": "As condições necessárias para completar os álbuns e reivindicar os prêmios ainda não estão disponíveis. Tente novamente em alguns dias!",
+
+  "publish_offer_error": "Ocorreu um erro ao tentar publicar",
+  "publish_offer_error_invalid_numbers": "Insira até 10 números de 0 a 119, não repetidos, separados por vírgula e letras que você não possui.",
+  "publish_offer_error_own_card_number": "Você não pode solicitar um cartão que já possui.",
+
+  "unpublish_offer_dialog": "Deseja cancelar a publicação da oferta desta carta?",
+  "unpublish_offer_error": "Ocorreu um erro ao tentar cancelar a publicação",
 
   "rules_alpha_left_text_1": "Um minijogo temático com 60 cartas que completam 10 coleções temáticas diferentes, cada uma com 5 personagens e um álbum.",
   "rules_alpha_left_text_2": "O objetivo é completar um álbum com os 5 personagens correspondentes à coleção.",

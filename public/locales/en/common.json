@@ -70,8 +70,9 @@
     "aqui": "here",
     "mintear": "Mint",
     "ofertas": "Offers",
-    "cartas_a_cambio": "Choose the cards you want in exchange",
+    "cartas_a_cambio": "Choose the card you want in exchange. You can enter up to 10 options, separated by commas, not repeated and cards you don't have.",
     "publicar": "Publish",
+    "despublicar": "Unpublish",
     "confirmado": "Confirmed",
     "wallet_destinatario": "Insert the recipient's wallet",
 
@@ -89,6 +90,13 @@
     "finish_album_error": "An error occurred while trying to claim the prize",
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
     "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
+
+    "publish_offer_error": "There was an error trying to publish",
+    "publish_offer_error_invalid_numbers": "Enter up to 10 numbers from 0 to 119, not repeated, separated by a comma and letters you do not have.",
+    "publish_offer_error_own_card_number": "You cannot request a card you already have.",
+
+    "unpublish_offer_dialog": "Do you want to cancel the publication of the offer for this card?",
+    "unpublish_offer_error": "There was an error trying to unpublish",
 
     "rules_alpha_left_text_1": "A thematic minigame with 60 cards that complete 10 different thematic collections, each with 5 characters and an album.",
     "rules_alpha_left_text_2": "The goal is to complete an album with the 5 characters corresponding to the collection.",

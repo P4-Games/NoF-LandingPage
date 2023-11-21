@@ -68,6 +68,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
       cardsObj.user[i] = {
         name: i.toString(),
         stamped: false,
+        offered: false,
         quantity: 0
       }
     }
@@ -76,13 +77,16 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
     for (let i = 0; i < cardData[0].length; i++) {
       const cardId = cardData[0][i]
       const quantity = cardData[1][i]
+      const offers = cardData[2][i]
       cardsObj.user[cardId] = {
         name: cardId.toString(),
         stamped: quantity > 0,
+        offered: offers || false,
         quantity: quantity
       }
     }
 
+    console.log('userCards', cardsObj)
     return cardsObj
   } catch (e) {
     console.error({ e })
