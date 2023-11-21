@@ -63,7 +63,13 @@ const GammaCardInfo = (props) => {
   }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOfferClick = async () => {
-    // TODO
+    Swal.fire({
+      title: 'Work in Progress',
+      text: 'Nada por aquí aún. Estamos trabajando en ello. Próximamente, podŕas ver las ofertas de cartas publicadas e intercambiar.',
+      icon: 'information',
+      showConfirmButton: true,
+      timer: 5500
+    })
   }
 
   const handlePublishClick = async () => {
@@ -247,7 +253,9 @@ const GammaCardInfo = (props) => {
 
   const MintButton = () => (
     <div
-      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
+    /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
+       tengo que poder mintear la otra carta que tenga.*/
+      className= {userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled' }
       onClick={() => handleMintClick()}
     >
       {t('mintear')}
@@ -274,7 +282,9 @@ const GammaCardInfo = (props) => {
 
   const TransferButton = () => (
     <div
-      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
+      /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
+         tengo que poder mintear la otra carta que tenga.*/
+      className= {userHasCard && (!userCard.offered || userCard.quantity > 1)  ? 'option' : 'option_disabled' }
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}

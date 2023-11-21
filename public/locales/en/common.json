@@ -83,7 +83,7 @@
     "buy_pack_error": "There was an error trying to buy packs",
     "open_pack_error": "There was an error trying to open the pack",
     
-    "mint_error": "There was an error trying to mint a figurine",
+    "mint_error": "There was an error trying to mint this card",
     
     "transfer_card_error": "There was an error trying to transfer the card",
     "transfer_pack_error": "There was an error trying to transfer one pack",
