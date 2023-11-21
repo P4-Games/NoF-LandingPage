@@ -56,3 +56,5 @@ typechain-types
 #Hardhat files
 cache
 
+##debug smart contracts files
+*.dbg.json
