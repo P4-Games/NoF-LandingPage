@@ -83,7 +83,7 @@
   "buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes",
   "open_pack_error": "Ocorreu um erro ao tentar abrir pacote",
   
-  "mint_error": "Ocorreu um erro ao tentar cunhar uma estatueta",
+  "mint_error": "Ocorreu um erro ao tentar cunhar esta cartão",
   
   "transfer_card_error": "Ocorreu um erro ao tentar transferir o cartão",
   "transfer_pack_error": "Ocorreu um erro ao tentar transferir o pacote",

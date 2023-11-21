@@ -253,7 +253,9 @@ const GammaCardInfo = (props) => {
 
   const MintButton = () => (
     <div
-      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
+    /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
+       tengo que poder mintear la otra carta que tenga.*/
+      className= {userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled' }
       onClick={() => handleMintClick()}
     >
       {t('mintear')}
@@ -280,7 +282,9 @@ const GammaCardInfo = (props) => {
 
   const TransferButton = () => (
     <div
-      className= {userHasCard && !userCard.offered ? 'option' : 'option_disabled' }
+      /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
+         tengo que poder mintear la otra carta que tenga.*/
+      className= {userHasCard && (!userCard.offered || userCard.quantity > 1)  ? 'option' : 'option_disabled' }
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}
