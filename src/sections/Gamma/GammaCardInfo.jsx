@@ -63,7 +63,13 @@ const GammaCardInfo = (props) => {
   }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOfferClick = async () => {
-    // TODO
+    Swal.fire({
+      title: 'Work in Progress',
+      text: 'Nada por aquí aún. Estamos trabajando en ello. Próximamente, podŕas ver las ofertas de cartas publicadas e intercambiar.',
+      icon: 'information',
+      showConfirmButton: true,
+      timer: 5500
+    })
   }
 
   const handlePublishClick = async () => {
