@@ -47,7 +47,8 @@ export const CONTRACTS = {
     process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xCe4cA167Eb99c6A2c738B04dd138172C281583dC',
   gammaCardsAddress:
     process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0x87cDB9a4F34B27Ec31C71d0F5B8F70B9cD1232D7',
-  gammaOffersAddress: process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0xE694a14Bb2682379D3D6c5c37cf6ba442ae6f4BA'
+  gammaOffersAddress:
+    process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0xE694a14Bb2682379D3D6c5c37cf6ba442ae6f4BA'
 }
 
 export const openSeaUrlAlpha = is_production
