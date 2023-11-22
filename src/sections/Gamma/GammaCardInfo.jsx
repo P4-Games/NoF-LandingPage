@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 import { MdOutlineLocalOffer } from "react-icons/md"
