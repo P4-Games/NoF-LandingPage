@@ -202,10 +202,6 @@ const GammaCardInfo = (props) => {
     }
   }
 
-  const handleTransferModalClick = async () => {
-    // TODO
-  }
-
   const handleMintClick = async () => {
     try {
       startLoading()
@@ -286,51 +282,7 @@ const GammaCardInfo = (props) => {
       {t('transferir')}
     </div>
   )
-
-  const TrasnferModal = () => (
-    <div className='gamma_transfer_modal gamma_display_none'>
-      <button
-        className='gamma_transfer_modal_close gamma_modal_close'
-        onClick={() => {
-          const modal = document.getElementsByClassName(
-            'gamma_transfer_modal'
-          )[0]
-          modal.setAttribute(
-            'class',
-            'gamma_transfer_modal gamma_display_none'
-          )
-          // setTransferError('')
-          // setReceiverAccount('')
-        }}
-      >
-        X
-      </button>
-      <span style={{ fontSize: '0.9rem' }}>
-        {t('carta_de_coleccion')}{' '}
-        {/*cards[cardIndex]
-          ? ethers.BigNumber.from(
-            cards[cardIndex].collection
-          ).toNumber()
-          : ethers.BigNumber.from(
-            cards[cardIndex - 1].collection
-          ).toNumber()*/}
-      </span>
-      <input
-        placeholder={t('wallet_destinatario')}
-        // value={receiverAccount}
-        // onChange={(e) => setReceiverAccount(e.target.value)}
-      />
-      <button
-        className='gamma_button'
-        onClick={() => handleTransferModalClick()}
-        // disabled={disableTransfer}
-      >
-        {t('transferir')}
-      </button>
-      {/*<span className='gamma_transfer_error'>{transferError}</span>*/}
-    </div>
-  )
-    
+   
   const BookCard = () => (
     <HTMLFlipBook
       id='Book'
@@ -377,9 +329,6 @@ const GammaCardInfo = (props) => {
             {userCard.offered && <UnPublishButton/>}
             <OfferButton/>
           </div>
-          <div className='modals'>
-            <TrasnferModal/>
-          </div>
         </div>
       </div>
     </HTMLFlipBook>
@@ -400,5 +349,5 @@ GammaCardInfo.propTypes = {
   handleFinishInfoCard: PropTypes.func
 }
 
-export default GammaCardInfo
+export default React.memo(GammaCardInfo)
 
