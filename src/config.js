@@ -69,5 +69,5 @@ export const defaultSettings = {
   languageSetted: 'es'
 }
 
-console.log(NETWORK, CONTRACTS)
+console.info('Network and Contracts', NETWORK, CONTRACTS)
 // ------------------------------------------------------------------

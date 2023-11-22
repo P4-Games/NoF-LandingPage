@@ -3,12 +3,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import HTMLFlipBook from 'react-pageflip'
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { EffectCards, Autoplay, Pagination } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/effect-cards'
 import 'swiper/css/bundle'
-
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectCards, Autoplay, Pagination } from 'swiper'
 import Profiles from './Profiles.json'
 import Friends from './Friends.json'
 
