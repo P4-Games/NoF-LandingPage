@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
@@ -93,6 +93,18 @@ const GammaAlbum =  (props) => {
   }
 
   const Book = () => {
+    const [isClassesReplaced, setIsClassesReplaced] = useState(false)
+    useEffect(() => {
+      // Cambiar las clases después de un tiempo de carga simulado (0.5 mSeg),
+      // es para evitar un efecto de parpadeo no deseado por htmlFlipBook
+      const timer = setTimeout(() => {
+        setIsClassesReplaced(true);
+      }, 0.5)
+  
+      // Limpiar el temporizador para evitar fugas de memoria
+      return () => clearTimeout(timer)
+    }, [])
+
     if (!paginationObj)
       return (<></>)
     else
@@ -115,14 +127,17 @@ const GammaAlbum =  (props) => {
           {Array.from({ length: 10 }, (_, index) => (
               <div
                 key={index}
-                className={index % 2 === 0 ? 'hero__top__album__book__page' : 'hero__top__album__book__page0'}
+                className={
+                    index % 2 === 0
+                    ? (isClassesReplaced ? 'hero__top__album__book__page' : '')
+                    : (isClassesReplaced ? 'hero__top__album__book__page0' : '')
+                }
                 data-density='hard'
                 number={index + 1}
               >
                 <PageContent page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
               </div>
             ))}
-            
         </HTMLFlipBook>
       )
   }
