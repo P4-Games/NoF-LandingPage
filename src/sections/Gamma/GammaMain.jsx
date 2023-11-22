@@ -167,9 +167,7 @@ const GammaMain = () => {
       })
 
       if (result.isConfirmed) {
-
         startLoading()
-
         const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
@@ -216,7 +214,7 @@ const GammaMain = () => {
 
         // verify signer
         const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-        console.log('pack signer', signer)
+        // console.log('pack signer', signer)
 
         setOpenPackCardsNumbers(packet_data)
         const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
@@ -239,7 +237,7 @@ const GammaMain = () => {
   const buyPacksContract = async (numberOfPacks) => {
     
     gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
-      console.log('evento PacksPurchase', returnValue)
+      // console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
         console.log(pack_number)
@@ -406,7 +404,7 @@ const GammaMain = () => {
 
     return (<></>)
   }
- 
+
   return (
     <div className='gamma_main'>
       {!walletAddress && <NotConnected />}
@@ -438,6 +436,7 @@ const GammaMain = () => {
               paginationObj={paginationObj}
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>}
+
             {inventory && !cardInfo &&
             <GammaAlbum
               showInventory={true}
@@ -445,6 +444,7 @@ const GammaMain = () => {
               setImageNumber={setImageNumber}
               setCardInfo={setCardInfo}/>
             }
+            
             {inventory && cardInfo &&
               <GammaCardInfo 
                 imageNumber={imageNumber} 

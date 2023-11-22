@@ -112,55 +112,27 @@ const GammaAlbum =  (props) => {
           ref={bookRef}
           className='hero__top__album__book'
         >
-          <div className='hero__top__album__book__page' data-density='hard' number='1'>
-            <div className='hero__top__album__book__page__page-content'>
-              <PageContent page={paginationObj.page1} pageNumber={1} />
-            </div>
-          </div>
-          <div className='hero__top__album__book__page0' data-density='hard' number='2'>
-              <PageContent page={paginationObj.page2} pageNumber={2} />
-          </div>
-
-          <div className='hero__top__album__book__page' data-density='hard' number='3'>
-            <PageContent page={paginationObj.page3} pageNumber={3} />
-          </div>
-          
-          <div className='hero__top__album__book__page0' data-density='hard' number='4'>
-              <PageContent page={paginationObj.page4} pageNumber={4} />
-          </div>
-    
-          <div className='hero__top__album__book__page' data-density='hard' number='5'>
-              <PageContent page={paginationObj.page5} pageNumber={5} />
-          </div>
-    
-          <div className='hero__top__album__book__page0' data-density='hard' number='6'>
-              <PageContent page={paginationObj.page6} pageNumber={6} />
-          </div>
-    
-          <div className='hero__top__album__book__page' data-density='hard' number='7'>
-              <PageContent page={paginationObj.page7} pageNumber={7} />
-          </div>
-    
-          <div className='hero__top__album__book__page0' data-density='hard' number='8'>
-              <PageContent page={paginationObj.page8} pageNumber={8} />
-          </div>
-    
-          <div className='hero__top__album__book__page' data-density='hard' number='9'>
-              <PageContent page={paginationObj.page9} pageNumber={9}/>
-          </div>
-    
-          <div className='hero__top__album__book__page0' data-density='hard' number='10'>
-              <PageContent page={paginationObj.page10} pageNumber={10} />
-          </div>
+          {Array.from({ length: 10 }, (_, index) => (
+              <div
+                key={index}
+                className={index % 2 === 0 ? 'hero__top__album__book__page' : 'hero__top__album__book__page0'}
+                data-density='hard'
+                number={index + 1}
+              >
+                <PageContent page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+              </div>
+            ))}
+            
         </HTMLFlipBook>
       )
   }
 
   return (
     windowSize?.mobile 
-      ?  <div className='hero__top__album'><Book /> </div>
-      : <Book />
+    ?  <div className='hero__top__album'><Book /> </div>
+    : <Book />
   )
+
 }
 
 GammaAlbum.propTypes = {
@@ -170,4 +142,4 @@ GammaAlbum.propTypes = {
   showInventory: PropTypes.bool
 }
 
-export default GammaAlbum
+export default React.memo(GammaAlbum)
