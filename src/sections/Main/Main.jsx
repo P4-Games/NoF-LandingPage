@@ -52,8 +52,9 @@ const Main = () => {
   )
 
   const BookComp = () => (
-    <div className='hero__top__album'>
-      <HTMLFlipBook
+    <div className='hero__top'>
+      <div className='hero__top__album'>
+        <HTMLFlipBook
         id='Book'
         size='stretch'
         width={360}
@@ -364,24 +365,15 @@ const Main = () => {
             </div>
           )}
         </div>
-      </HTMLFlipBook>
+        </HTMLFlipBook>
+      </div>
     </div>
   )
   
   return (
     <div className='home'>
       <div className='hero' id='Hero'>
-        <div className='hero__top'>
-          <div className='hero__top__nof'>
-            <Image src={'/images/hero/logo-nof.gif'} alt='Nof-Icon' fill/>
-          </div>
-          <BookComp />
-          {!windowSize.mobile && (
-            <div className='hero__top__container__swiper'>
-              <SwiperComp />
-            </div>
-          )}
-        </div>
+        <BookComp />
       </div>
     </div>
   )

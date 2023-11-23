@@ -61,6 +61,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
     if (!cardsContract) return
     const cardData = await cardsContract?.getCardsByUser(walletAddress)
+    console.log('cardData en getCardsByUser', cardData)
     let cardsObj = { ...gammaCardsPages }
 
     // Inicializa array
@@ -86,7 +87,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
       }
     }
 
-    console.log('userCards', cardsObj)
+    // console.log('userCards', cardsObj)
     return cardsObj
   } catch (e) {
     console.error({ e })
@@ -97,6 +98,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
 export const hasCard = async (cardsContract, cardNumber) => {
   try {
     const result = await cardsContract.hasCard(cardNumber)
+    console.log('hasCard data', result, cardNumber)
     return result
   } catch (e) {
     console.error({ e })
@@ -125,6 +127,29 @@ export const finishAlbum = async (cardsContract, walletAddress) => {
     } else {
       return false
     }
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+export const confirmOfferExchange = async (
+  offersContract,
+  addressFrom,
+  cardNumberFrom,
+  addressTo,
+  cardNumberTo
+) => {
+  try {
+    console.log(addressFrom, cardNumberFrom, addressTo, cardNumberTo)
+    const transaction = await offersContract.confirmOfferExchange(
+      addressFrom,
+      cardNumberFrom,
+      addressTo,
+      cardNumberTo
+    )
+    await transaction.wait()
+    return true
   } catch (e) {
     console.error({ e })
     throw e
