@@ -119,5 +119,13 @@
   "rules_gamma_right_text_4": "Contas múltiplas não são permitidas.",
 
   "no_season_nampes": "Nenhuma temporada encontrada",
-  "user_has_card_error": "Erro ao verificar se o usuário possui um cartão"
+  "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
+
+  "alpha_fetch_albums_error": "Houve um erro ao tentar obter os álbuns",
+  "alpha_fetch_season_data_error": "Houve um erro ao tentar obter as temporadas",
+  "offer_exchange_error": "Houve um erro ao tentar realizar a troca de cartas",
+  "offer_exchange_title": "Você confirma a troca?",
+  "offer_exchange_message": "Você vai enviar o carta <b>#{CARD_NUMBER_FROM}</b> para o usuário com a carteira {WALLET_TO} e receberá em troca a carta <b>#{CARD_NUMBER_TO}</b>.",
+  "offer_only_own_offer": "A única oferta disponível para esta carta é a sua.",
+  "offer_card_number_empty": "Não há ofertas para esta carta"
 }

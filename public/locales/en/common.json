@@ -119,5 +119,13 @@
     "rules_gamma_right_text_4": "Multiple accounts are not allowed.",
 
     "no_season_nampes": "No seasons found",
-    "user_has_card_error": "Error checking if the user has a card"
+    "user_has_card_error": "Error checking if the user has a card",
+
+    "alpha_fetch_albums_error": "There was an error while trying to fetch the albums",
+    "alpha_fetch_season_data_error": "There was an error while trying to fetch the seasons",
+    "offer_exchange_error": "There was an error while trying to perform the card exchange",
+    "offer_exchange_title": "Do you confirm the exchange?",
+    "offer_exchange_message": "You are going to send card <b>#{CARD_NUMBER_FROM}</b> to the user with wallet {WALLET_TO} and will receive in return the card <b>#{CARD_NUMBER_TO}</b>.",
+    "offer_only_own_offer": "The only offer available for this card is yours.",
+    "offer_card_number_empty": "There are no offers for this card"
 }

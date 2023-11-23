@@ -103,7 +103,7 @@ const AlphaMain = () => {
     } catch(ex) {
       stopLoading()
       console.error({ ex })
-      emitError(t('error'))
+      emitError(t('alpha_fetch_albums'))
     }
   }
 
@@ -158,7 +158,7 @@ const AlphaMain = () => {
     } catch (ex) {
       stopLoading()
       console.error(ex)
-      emitError(t('error'))
+      emitError(t('alpha_fetch_season_data_error'))
     }
   }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { ethers } from 'ethers'
-import GammaCardInfo from './GammaCardInfo'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 
@@ -12,7 +11,7 @@ import { checkApproved } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
 import { 
   getCardsByUser, checkPacksByUser, finishAlbum,
-  verifyPackSigner, openPack, getPackPrice } from '../../services/gamma'
+  openPack, getPackPrice } from '../../services/gamma'
 
 import { CONTRACTS } from '../../config'
 import { useWeb3Context } from '../../hooks'
@@ -24,8 +23,6 @@ const GammaMain = () => {
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState(0)
   const [openPackage, setOpenPackage] = useState(false)
-  const [cardInfo, setCardInfo] = useState(false)
-  const [imageNumber, setImageNumber] = useState(0)
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
   const [loaderPack, setLoaderPack] = useState(false)
@@ -36,7 +33,9 @@ const GammaMain = () => {
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
-  
+  const [cardInfoOpened, setCardInfoOpened] = useState(false)
+
+
   const getCardsQtty = (paginationObj) => {
     let total = 0
 
@@ -80,6 +79,7 @@ const GammaMain = () => {
       startLoading()
       const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
       setPaginationObj(userCards)
+      console.log('userCards', userCards)
       stopLoading()
     } catch (error) {
       stopLoading()
@@ -213,7 +213,7 @@ const GammaMain = () => {
         const { packet_data, signature } = data
 
         // verify signer
-        const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+        // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
         // console.log('pack signer', signer)
 
         setOpenPackCardsNumbers(packet_data)
@@ -266,7 +266,7 @@ const GammaMain = () => {
   }
 
   const handleBuyPackClick = async () => {
-    const price =  getPackPrice(gammaPacksContract)
+    const price =  await getPackPrice(gammaPacksContract)
 
     const result = await Swal.fire({
       text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
@@ -298,13 +298,6 @@ const GammaMain = () => {
     }
   }
 
-  const handleFinishInfoCard = async (update = true) => {
-    setCardInfo(false)
-    if (update) {
-      await updateUserData()
-    }
-  }
-
   const NotConnected = () => (
     <div className='alpha'>
       <div className='main_buttons_container'>
@@ -330,47 +323,67 @@ const GammaMain = () => {
       return (
         <>
         <div className='gammapack'>
-          <div 
-            onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-            className={'gammapack__content'}>
-            <h1
-              className={numberOfPacks===0 ? 'pack_number_disabled' : 'pack_number'}
-              onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
-              {numberOfPacks}
-            </h1>
-          </div>
-
-          <div className='gammapack__actions'>
-            <div 
-              onClick={() => { handleBuyPackClick() }} 
-              className={'gammapack__actions__buyPack'}>
-              <Image 
-                src={'/images/gamma/buyPackOn.png'} 
-                alt='buy pack' height='40' width='40'/>
+        {
+          numberOfPacks===0 || cardInfoOpened 
+          ?
+          <>
+            <div className={'gammapack__content__disabled'}>
+              <h1 className={'pack_number_disabled'}>
+                {numberOfPacks}
+              </h1>
             </div>
+          </>
+          :
+          <>
+            <div 
+              className={'gammapack__content'}>
+              <h1
+                className={'pack_number'}
+                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+                {numberOfPacks}
+              </h1>
+            </div>          
+          </>
+        }
+          <div className='gammapack__actions'>
             {
-              numberOfPacks===0 
+              numberOfPacks===0 || cardInfoOpened 
               ?
               <>
-              <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-                   className='gammapack__actions__openPack_disabled'>
-                <Image src={'/images/gamma/openPackOff.png'} alt='open pack' height='50' width='50'/>
-              </div>
-              <div onClick={() => { handleTransferPack() }}
-                   className='gammapack__actions__transferPack_disabled'>
-                <Image src={'/images/gamma/transferPackOff.png'} alt='open pack' height='40' width='40'/>
-              </div>
+                {
+                  cardInfoOpened ?
+                  <div className={'gammapack__actions__buyPack_disabled'}>
+                      <Image src={'/images/gamma/buyPackOff.png'} alt='buy pack' height='40' width='40'/>
+                  </div>
+                :
+                  <div onClick={() => { handleBuyPackClick() }} 
+                   className={'gammapack__actions__buyPack'}>
+                   <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40'/>
+                  </div>
+                }
+                <div
+                    className='gammapack__actions__openPack_disabled'>
+                  <Image src={'/images/gamma/openPackOff.png'} alt='open pack' height='50' width='50'/>
+                </div>
+                <div
+                    className='gammapack__actions__transferPack_disabled'>
+                  <Image src={'/images/gamma/transferPackOff.png'} alt='open pack' height='40' width='40'/>
+                </div>
               </>
               :
               <>
-              <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-                   className='gammapack__actions__openPack'>
-                <Image src={'/images/gamma/openPackOn.png'} alt='open pack' height='50' width='50'/>
-              </div>
-              <div onClick={() => { handleTransferPack() }}
-                   className='gammapack__actions__openPack'>
-                <Image src={'/images/gamma/transferPackOn.png'} alt='open pack' height='40' width='40'/>
-              </div>
+                <div onClick={() => { handleBuyPackClick() }} 
+                  className={'gammapack__actions__buyPack'}>
+                  <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40'/>
+                </div>
+                <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
+                    className='gammapack__actions__openPack'>
+                  <Image src={'/images/gamma/openPackOn.png'} alt='open pack' height='50' width='50'/>
+                </div>
+                <div onClick={() => { handleTransferPack() }}
+                    className='gammapack__actions__openPack'>
+                  <Image src={'/images/gamma/transferPackOn.png'} alt='open pack' height='40' width='40'/>
+                </div>
               </>
             }
           </div>
@@ -405,60 +418,44 @@ const GammaMain = () => {
     return (<></>)
   }
 
+  const BookImageRight = () => (
+    <div 
+      onClick={() => { setCardInfoOpened(false), setInventory(!inventory)} }
+      className= {
+        cardInfoOpened 
+        ? inventory ? 'gammaAlbums-disabled' : 'gammaAlbums2-disabled'
+        : inventory ? 'gammaAlbums' : 'gammaAlbums2'}
+    />
+  )
+
   return (
     <div className='gamma_main'>
       {!walletAddress && <NotConnected />}
 
       {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
 
-      {walletAddress && <div className='gamma_main'>
-        {packIsOpen && <GammaPackOpen
+      {walletAddress && packIsOpen && 
+        <GammaPackOpen
           loaderPack={loaderPack}
           setPackIsOpen={setPackIsOpen}
           cardsNumbers={openPackCardsNumbers}
           setOpenPackage={setOpenPackage}
           openPackage={openPackage}
-        />}
-        <div className='hero__top'>
-          <div 
-            onClick={() => setInventory(!inventory)}
-            className= {inventory ? 'gammaAlbums' : 'gammaAlbums2'}
-          />
-          <div
-            style={inventory 
-              ? { backgroundImage: 'url(\'/images/gamma/InventarioFondo.png\')' }
-              : { backgroundImage: 'url(\'/images/gamma/GammaFondo.png\')' }}
-            className='hero__top__album'
-          >
-            {!inventory && 
-            <GammaAlbum
-              showInventory={false}
-              paginationObj={paginationObj}
-              setImageNumber={setImageNumber}
-              setCardInfo={setCardInfo}/>}
+        />
+      }
 
-            {inventory && !cardInfo &&
-            <GammaAlbum
-              showInventory={true}
-              paginationObj={paginationObj}
-              setImageNumber={setImageNumber}
-              setCardInfo={setCardInfo}/>
-            }
-            
-            {inventory && cardInfo &&
-              <GammaCardInfo 
-                imageNumber={imageNumber} 
-                userCard={paginationObj 
-                  ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
-                  : {}
-                }
-                handleFinishInfoCard={handleFinishInfoCard}
-              />
-            }
-          </div>
-          <GammaPackInfo />
-        </div>
-      </div>}
+      {walletAddress && <BookImageRight />}
+      
+      {walletAddress && 
+      <GammaAlbum
+        showInventory={inventory}
+        updateUserData={updateUserData}
+        setCardInfoOpened={setCardInfoOpened}
+        paginationObj={paginationObj}
+      />}
+
+      {walletAddress && <GammaPackInfo />}
+
     </div>
   )
 }

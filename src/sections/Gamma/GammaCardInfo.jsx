@@ -13,14 +13,12 @@ import { useLayoutContext } from '../../hooks'
 import { checkInputAddress, checkInputArrayCardNumbers } from '../../utils/InputValidators'
 
 const GammaCardInfo = (props) => {
-  const { imageNumber, handleFinishInfoCard, userCard } = props
+  const { handleFinishInfoCard, handleOpenCardOffers, userCard } = props
   const {t} = useTranslation()
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
-   
-  console.log('userCard', userCard)
-
+  
   function emitError (message) {
     Swal.fire({
       title: '',
@@ -44,7 +42,8 @@ const GammaCardInfo = (props) => {
   const verifyUserHasCard = async () => {
     try {
       startLoading()
-      const result = await hasCard(gammaCardsContract, imageNumber)
+      const result = await hasCard(gammaCardsContract, userCard.name)
+      console.log('verifyUserHasCard', result)
       setUserHasCard(result)
       stopLoading()
     } catch (ex) {
@@ -59,13 +58,7 @@ const GammaCardInfo = (props) => {
   }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOfferClick = async () => {
-    Swal.fire({
-      title: 'Work in Progress',
-      text: 'Nada por aquí aún. Estamos trabajando en ello. Próximamente, podŕas ver las ofertas de cartas publicadas e intercambiar.',
-      icon: 'information',
-      showConfirmButton: true,
-      timer: 5500
-    })
+    handleOpenCardOffers()
   }
 
   const handlePublishClick = async () => {
@@ -80,7 +73,7 @@ const GammaCardInfo = (props) => {
           max: 60
         },
         inputValidator: (value) => {
-          if (!checkInputArrayCardNumbers(value, imageNumber))
+          if (!checkInputArrayCardNumbers(value, userCard.name))
             return `${t('publish_offer_error_invalid_numbers')}`
         },
         showDenyButton: false,
@@ -97,7 +90,7 @@ const GammaCardInfo = (props) => {
 
       if (result.isConfirmed) {
         startLoading()
-        await createOffer(gammaOffersContract, gammaCardsContract, imageNumber, result.value)
+        await createOffer(gammaOffersContract, gammaCardsContract, userCard.name, result.value)
         handleFinishInfoCard(true)
         stopLoading()
         Swal.fire({
@@ -137,7 +130,7 @@ const GammaCardInfo = (props) => {
 
       if (result.isConfirmed) {
         startLoading()
-        await removeOfferByCardNumber(gammaOffersContract, imageNumber)
+        await removeOfferByCardNumber(gammaOffersContract, userCard.name)
         handleFinishInfoCard(true)
         stopLoading()
         Swal.fire({
@@ -183,7 +176,7 @@ const GammaCardInfo = (props) => {
 
       if (result.isConfirmed) {
         startLoading()
-        const transaction = await gammaCardsContract.transferCard(result.value, imageNumber)
+        const transaction = await gammaCardsContract.transferCard(result.value, userCard.name)
         await transaction.wait()
         handleFinishInfoCard(true)
         stopLoading()
@@ -205,14 +198,14 @@ const GammaCardInfo = (props) => {
   const handleMintClick = async () => {
     try {
       startLoading()
-      const transaction = await gammaCardsContract.mintCard(imageNumber)
+      const transaction = await gammaCardsContract.mintCard(userCard.name)
       await transaction.wait()
       handleFinishInfoCard(true)
       stopLoading()
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
-        <a target='_blank' href=${openSeaUrlGamma}/${imageNumber}'>
+        <a target='_blank' href=${openSeaUrlGamma}/${userCard.name}'>
           ${t('aqui')}
         </a>`,
         icon: 'success',
@@ -237,7 +230,7 @@ const GammaCardInfo = (props) => {
   const CloseButton = () => (
     <div
       className='gamma_info_card_close'
-      onClick={() => handleFinishInfoCard(false)}
+      onClick={() => handleFinishInfoCard(true)}
     >
       X
     </div>
@@ -284,70 +277,72 @@ const GammaCardInfo = (props) => {
   )
    
   const BookCard = () => (
-    <HTMLFlipBook
-      id='Book'
-      size='stretch'
-      width={360}
-      height={500}
-      minWidth={300}
-      maxWidth={800}
-      minHeight={350}
-      maxHeight={800}
-      autoSize
-      drawShadow={false}
-      usePortrait={windowSize.size}
-      ref={bookRef}
-      className='hero__top__album__book'>
-      <div
-        className='hero__top__album__book__page'
-        data-density='hard'
-        number='1'>
-        <div className='hero__top__album__book__page__page-content'>
-          <div className='cardinfo'>
-            <div className='cardinfoimg'>
-              <img
-                src={`${storageUrlGamma}/T1/${props.imageNumber}.png`}
-                alt='img'
-              />
-             { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
+    <div className='hero__top'>
+      <div className='hero__top__album'>
+        <HTMLFlipBook
+          id='Book'
+          size='stretch'
+          width={360}
+          height={500}
+          minWidth={300}
+          maxWidth={800}
+          minHeight={350}
+          maxHeight={800}
+          autoSize
+          drawShadow={false}
+          usePortrait={windowSize.size}
+          ref={bookRef}
+          className='hero__top__album__book'>
+          <div
+            className='hero__top__album__book__page'
+            data-density='hard'
+            number='1'>
+            <div className='hero__top__album__book__page__page-content'>
+              <div className='cardinfo'>
+                <div className='cardinfoimg'>
+                  <img
+                    src={`${storageUrlGamma}/T1/${userCard.name}.png`}
+                    alt='img'
+                  />
+                { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
+                </div>
+                <h3>#{userCard.name}</h3>
+                <div className='cardnof' />
+              </div>
             </div>
-            <h3>#{props.imageNumber}</h3>
-            <div className='cardnof' />
           </div>
-        </div>
-      </div>
-      <div
-        className='hero__top__album__book__page0'
-        data-density='hard'
-        number='2'>
-        <div className='cardinfo'>
-          <div className='transactions'>
-            <CloseButton/>
-            <MintButton/>
-            <TransferButton/>
-            {!userCard.offered && <PublishButton/>}
-            {userCard.offered && <UnPublishButton/>}
-            <OfferButton/>
+          <div
+            className='hero__top__album__book__page0'
+            data-density='hard'
+            number='2'>
+            <div className='cardinfo'>
+              <div className='transactions'>
+                <CloseButton/>
+                <MintButton/>
+                <TransferButton/>
+                {!userCard.offered && <PublishButton/>}
+                {userCard.offered && <UnPublishButton/>}
+                <OfferButton/>
+              </div>
+            </div>
           </div>
-        </div>
+        </HTMLFlipBook>
       </div>
-    </HTMLFlipBook>
+    </div>
   )
 
   return (
-    loading ? <></>: (
-      windowSize?.mobile 
-      ?  <div className='hero__top__album'><BookCard /> </div>
+    loading 
+      ? <></>
       : <BookCard />
-    )
   )
 }
 
 GammaCardInfo.propTypes = {
-  imageNumber: PropTypes.number,
   userCard: PropTypes.object,
+  handleOpenCardOffers: PropTypes.func,
   handleFinishInfoCard: PropTypes.func
 }
 
-export default React.memo(GammaCardInfo)
+export default GammaCardInfo
 
