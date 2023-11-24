@@ -116,3 +116,14 @@ npm run dev / yarn dev
 Open browser in http://localhost:3000/
 ```
 
+### Mock Data
+
+You can load mock data from the alpha, gamma collections and have DAIs in your wallet in a local environment, with these commands:
+
+```sh
+# go to the root of the NoF-smart-contracts project and run
+npx hardhat node # to raise the hardhat node
+yarn deploy-mock-data # run the mock data
+
+# Then upload the hardhat addresses to your wallets
+```
