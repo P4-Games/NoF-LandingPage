@@ -145,8 +145,7 @@ export const confirmOfferExchange = async (
       addressFrom,
       cardNumberFrom,
       addressTo,
-      cardNumberTo,
-      1
+      cardNumberTo
     )
     await transaction.wait()
     return true
