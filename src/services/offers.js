@@ -1,12 +1,12 @@
 import { ethers } from 'ethers'
 import { hasCard } from './gamma'
 
-export const createOffer = async (offersContract, cardsContract, cardNumber, wantedCards) => {
+export const createOffer = async (offersContract, cardsContract, walletAddress, cardNumber, wantedCards) => {
   try {
     const wantedCardNumbers = wantedCards.split(',').map((num) => parseInt(num.trim(), 10))
 
     for (const wantedCard of wantedCardNumbers) {
-      const result = await hasCard(cardsContract, wantedCard)
+      const result = await hasCard(cardsContract, walletAddress, wantedCard)
       // console.log('has card')
       if (result) {
         throw new Error('publish_offer_error_own_card_number')
@@ -42,6 +42,7 @@ export const getOffers = async (offersContract) => {
   }
 }
 
+/*
 export const getOffersByUser = async (offersContract, userAddress) => {
   try {
     const trx = await offersContract.getOffersByUser(userAddress)
@@ -53,6 +54,7 @@ export const getOffersByUser = async (offersContract, userAddress) => {
     throw e
   }
 }
+*/
 
 export const getOffersByCardNumber = async (offersContract, cardNumber) => {
   try {

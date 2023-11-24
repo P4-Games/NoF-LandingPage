@@ -79,7 +79,7 @@ const GammaMain = () => {
       startLoading()
       const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
       setPaginationObj(userCards)
-      console.log('userCards', userCards)
+      // console.log('userCards', userCards)
       stopLoading()
     } catch (error) {
       stopLoading()
@@ -240,7 +240,7 @@ const GammaMain = () => {
       // console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        console.log(pack_number)
+        // console.log(pack_number)
       }
     })
 
@@ -257,6 +257,7 @@ const GammaMain = () => {
       return call
     } catch (e) {
       stopLoading()
+      console.error({e})
       emitError(t('buy_pack_error'))
     }
   }
