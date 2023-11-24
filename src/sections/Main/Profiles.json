@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "caption": "V. Barry",
+        "position": "CEO",
+        "icon": "/images/book/Barry.png"
+    },
+    {
+        "id": 2,
+        "caption": "M. H. Pefaur",
+        "position": "CTO",
+        "icon": "/images/book/Pefaur.png"
+    },
+    {
+        "id": 3,
+        "caption": "J. Padra",
+        "position": "Mathematician",
+        "icon": "/images/book/Padra.png"
+    },
+    {
+        "id": 4,
+        "caption": "T. Freire Knight",
+        "position": "Blockchain Dev.",
+        "icon": "/images/book/Freire.png"
+    },
+    {
+        "id": 5,
+        "caption": "G. Fernandez",
+        "position": "CM & PRM",
+        "icon": "/images/book/Fernandez.png"
+    },
+    {
+        "id": 6,
+        "caption": "G. Gonzalez",
+        "position": "CM",
+        "icon": "/images/book/Gonzalez.png"
+    },
+    {
+        "id": 7,
+        "caption": "Mila Craz",
+        "position": "Concept Artist",
+        "icon": "/images/book/Craz.png"
+    },
+    {
+        "id": 8,
+        "caption": "J. Pérez",
+        "position": "Web3 Developer",
+        "icon": "/images/book/Perez.png"
+    },
+    {
+        "id": 9,
+        "caption": "N. Huircapan",
+        "position": "Web3 Developer",
+        "icon": "/images/book/Huircapan.png"
+    }
+]

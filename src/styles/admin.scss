@@ -1,0 +1,19 @@
+.admincontainer {
+  background: #4a4a4a;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .adminpanel {
+    min-width: 15vw;
+    min-height: 50vh;
+    background-color: #fff0c9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

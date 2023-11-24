@@ -5,16 +5,40 @@
   "proxy": "https://gamma-microservice-7bteynlhua-uc.a.run.app",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "build": "next build",
+    "serve": "yarn build && npm i -g http-server && http-server ./.next",
+    "export": "yarn build && next export -o _static",
+    "clear-all": "rm -rf .next _static node_modules",
+    "re-start": "rm -rf .next node_modules && yarn install && yarn dev",
+    "re-build": "rm -rf .next node_modules && yarn install && yarn build",
+    "lint": "next lint",
+    "lint:fix": "eslint --fix --ext .js,.jsx,.scss .",
+    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{js,scss,tsx}\"",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
+    "git-prune": "git remote prune origin",
+    "git-config": "git config --global core.autocrlf true",
+    "git-log": "git log --oneline --decorate",
+    "gitp": "git log --pretty=”%s”"
   },
   "dependencies": {
+    "@next/eslint-plugin-next": "^14.0.1",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.8.0",
+    "@web3-onboard/coinbase": "^2.2.6",
+    "@web3-onboard/common": "^2.3.3",
+    "@web3-onboard/gas": "^2.1.8",
+    "@web3-onboard/gnosis": "^2.2.0",
+    "@web3-onboard/injected-wallets": "^2.10.9",
+    "@web3-onboard/react": "^2.8.13",
+    "@web3-onboard/trust": "^2.0.4",
+    "@web3-onboard/walletconnect": "^2.5.0",
     "@web3modal/ethereum": "^2.0.0-beta.8",
     "@web3modal/react": "^2.0.0-beta.8",
-    "axios": "^1.1.3",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
     "ethers": "^5.7.2",
     "framer-motion": "^9.0.2",
     "gsap": "^3.11.4",
@@ -22,6 +46,8 @@
     "mongodb": "^5.5.0",
     "nes.css": "^2.3.0",
     "next": "13.0.1",
+    "next-i18next": "^15.0.0",
+    "prettier": "^3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
@@ -39,7 +65,34 @@
     "web3modal": "^1.9.9"
   },
   "devDependencies": {
+    "eslint-config-next": "^14.0.1",
     "file-loader": "^6.2.0",
-    "standard": "^17.0.0"
+    "pre-commit": "^1.2.2"
+  },
+  "cacheDirectories": [
+    ".next/cache"
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": "^16 || ^17 || ^18",
+    "npm": "^8.1.0 || ^8.5.0 || ^9.8.1",
+    "yarn": "^1.22.10 || ^1.22.19"
+  },
+  "pre-commit": {
+    "precommit.silent": true,
+    "run": [
+      "prettier"
+    ]
   }
 }

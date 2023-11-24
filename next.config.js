@@ -1,15 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true
-};
-module.exports = nextConfig;
+}
+const path = require('path')
+const { i18n } = require('./next-i18next.config')
+
+module.exports = nextConfig
 module.exports = {
+  i18n,
   images: {
-    domains: ['storage.googleapis.com'],
+    domains: ['storage.googleapis.com']
   },
   output: 'standalone',
   webpack(config, options) {
-    const { isServer } = options;
+    const { isServer } = options
+    config.resolve.modules.push(path.resolve('./src'))
     config.module.rules.push({
       test: /\.(ogg|mp3|wav|flac|mpe?g)$/i,
       exclude: config.exclude,
@@ -26,8 +31,8 @@ module.exports = {
           }
         }
       ]
-    });
+    })
 
-    return config;
+    return config
   }
-};
+}

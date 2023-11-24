@@ -26,7 +26,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env*.local
+.env*
 
 # vercel
 .vercel
@@ -56,3 +56,5 @@ typechain-types
 #Hardhat files
 cache
 
+##debug smart contracts files
+*.dbg.json

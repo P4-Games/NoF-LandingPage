@@ -1,0 +1,23 @@
+// server-site
+MONGODB='mongodb://localhost:27017'
+NODE_ENV='development' // development, production
+APP_ENV='development'
+GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
+GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+
+// client-side
+NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
+NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID='your_project_id_api_key'
+NEXT_PUBLIC_CHAIN_NAME='localhost'
+NEXT_PUBLIC_CHAIN_ID='0x539' // '0x539' = 1337 (hardhat node) | '0x89' = Polygon Mainnet | '0x13881' = Mumbai
+NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
+NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
+NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com'
+NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/YOUR_API_KEY'
+NEXT_PUBLIC_ADMIN_ACCOUNTS='0x...,0X....,0xfa3....' // accounts separated by a comma
+NEXT_PUBLIC_DAI_ADDRESS='0x59876b33dd6e725Da632B4DB50d90d33ab022dB6'
+NEXT_PUBLIC_ALPHA_ADDRESS='0x1772F33b587B4ed32f59Dc6B09B9e994616C1eCB'
+NEXT_PUBLIC_GAMMA_PACKS_ADDRESS='0xc0a2630f551106190d95C2348e02E400478e711c'
+NEXT_PUBLIC_GAMMA_CARDS_ADDRESS='0xa888449f2CB7AB034D08051Bf1a9D7402DE959ab'
+NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS=''

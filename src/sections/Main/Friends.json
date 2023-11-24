@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "caption": "Kenpa505",
+        "icon": "/images/book/kenpa505.png"
+    },
+    {
+        "id": 2,
+        "caption": "Criptomaniakos",
+        "icon": "/images/book/criptomaniakos.png"
+    },
+    {
+        "id": 3,
+        "caption": "Yo Gamer",
+        "icon": "/images/book/yo_gamer.png"
+    },
+    {
+        "id": 4,
+        "caption": "Crypto Brothers",
+        "icon": "/images/book/crypto_brothers.png"
+    },
+    {
+        "id": 5,
+        "caption": "Dorrego",
+        "icon": "/images/book/dorrego.png"
+    },
+    {
+        "id": 6,
+        "caption": "Nico NFT",
+        "icon": "/images/book/niconft.png"
+    },
+    {
+        "id": 7,
+        "caption": "Valiant",
+        "icon": "/images/book/valiant.png"
+    },
+    {
+        "id": 8,
+        "caption": "Aca Esta Javi",
+        "icon": "/images/book/acaestajavi.png"
+    }
+]
