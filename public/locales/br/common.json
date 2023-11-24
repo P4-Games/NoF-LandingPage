@@ -127,5 +127,6 @@
   "offer_exchange_title": "Você confirma a troca?",
   "offer_exchange_message": "Você vai enviar o carta <b>#{CARD_NUMBER_FROM}</b> para o usuário com a carteira {WALLET_TO} e receberá em troca a carta <b>#{CARD_NUMBER_TO}</b>.",
   "offer_only_own_offer": "A única oferta disponível para esta carta é a sua.",
-  "offer_card_number_empty": "Não há ofertas para esta carta"
+  "offer_card_number_empty": "Não há ofertas para esta carta.",
+  "offer_card_no_la_tienes": "Você não tem este cartão para trocá-lo."
 }

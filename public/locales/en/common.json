@@ -127,5 +127,6 @@
     "offer_exchange_title": "Do you confirm the exchange?",
     "offer_exchange_message": "You are going to send card <b>#{CARD_NUMBER_FROM}</b> to the user with wallet {WALLET_TO} and will receive in return the card <b>#{CARD_NUMBER_TO}</b>.",
     "offer_only_own_offer": "The only offer available for this card is yours.",
-    "offer_card_number_empty": "There are no offers for this card"
+    "offer_card_number_empty": "There are no offers for this card.",
+    "offer_card_no_la_tienes": "You do not have this card to exchange it."
 }
