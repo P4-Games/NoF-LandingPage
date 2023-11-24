@@ -264,7 +264,7 @@ const GammaAlbum =  (props) => {
     const data = paginationObj 
               ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
               : {}
-    console.log('getuserCardObject', imageNumber, data)
+    // console.log('getuserCardObject', imageNumber, data)
     return data
   }
 

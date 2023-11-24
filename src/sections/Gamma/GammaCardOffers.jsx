@@ -14,7 +14,7 @@ const GammaCardOffers = (props) => {
   const {t} = useTranslation()
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
-
+  
   function emitWarning (message) {
     Swal.fire({
       title: '',
@@ -56,9 +56,19 @@ const GammaCardOffers = (props) => {
     return offers[0] // puede haber mas de una oferta con el mismo cardNumber en wantedCards
   }
 
-  const handleExchangeClick = async (item) => {
+  const userHasCard = (item) => {
+    if (!paginationObj) return false
+    return (paginationObj.user[item]?.quantity 
+      && paginationObj.user[item]?.quantity !== 0)
+  }
 
+  const handleExchangeClick = async (item) => {
     try {
+      if (!userHasCard(item)) {
+        emitWarning(t('offer_card_no_la_tienes'))
+        return
+      }
+
       const offer = findFirstOfferByCardNumber(item)
       // console.log('handleExchangeClick offer', offer)
       
@@ -114,10 +124,7 @@ const GammaCardOffers = (props) => {
   }
 
   const getStyle = (item) => (
-    // check if user hasCard tha want to eschange
-    (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity)
-      ? { filter: 'grayscale(1)' }
-      : {}
+    userHasCard(item) ? {} : { filter: 'grayscale(1)' }
   )
   
   const OfferDetailPage = ({ page, pageNumber }) => {
@@ -136,7 +143,7 @@ const GammaCardOffers = (props) => {
                 handleExchangeClick(item)
               }
             }}
-            style={{ background: 'none' }}
+            style={getStyle(item)} 
             key={index}
             className='grid-item'
           >

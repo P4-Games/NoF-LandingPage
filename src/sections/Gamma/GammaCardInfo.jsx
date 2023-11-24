@@ -42,8 +42,8 @@ const GammaCardInfo = (props) => {
   const verifyUserHasCard = async () => {
     try {
       startLoading()
-      const result = await hasCard(gammaCardsContract, userCard.name)
-      console.log('verifyUserHasCard', result)
+      const result = await hasCard(gammaCardsContract, walletAddress, userCard.name)
+      // console.log('verifyUserHasCard', result)
       setUserHasCard(result)
       stopLoading()
     } catch (ex) {
@@ -90,7 +90,7 @@ const GammaCardInfo = (props) => {
 
       if (result.isConfirmed) {
         startLoading()
-        await createOffer(gammaOffersContract, gammaCardsContract, userCard.name, result.value)
+        await createOffer(gammaOffersContract, gammaCardsContract, walletAddress, userCard.name, result.value)
         handleFinishInfoCard(true)
         stopLoading()
         Swal.fire({
