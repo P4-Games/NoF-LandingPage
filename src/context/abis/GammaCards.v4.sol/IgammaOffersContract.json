@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IgammaOffersContract",
-  "sourceName": "contracts/gamma/GammaCards.v3.sol",
+  "sourceName": "contracts/gamma/GammaCards.v4.sol",
   "abi": [
     {
       "inputs": [
@@ -37,6 +37,30 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint8",
+          "name": "cardNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "hasOffer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
         }
       ],
       "stateMutability": "view",
