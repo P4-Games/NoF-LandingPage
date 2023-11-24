@@ -1,7 +1,13 @@
 import { ethers } from 'ethers'
 import { hasCard } from './gamma'
 
-export const createOffer = async (offersContract, cardsContract, walletAddress, cardNumber, wantedCards) => {
+export const createOffer = async (
+  offersContract,
+  cardsContract,
+  walletAddress,
+  cardNumber,
+  wantedCards
+) => {
   try {
     const wantedCardNumbers = wantedCards.split(',').map((num) => parseInt(num.trim(), 10))
 
