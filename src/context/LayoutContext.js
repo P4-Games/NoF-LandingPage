@@ -3,7 +3,10 @@ import React, { useCallback, createContext, useEffect, useState, useRef } from '
 
 const initialState = {
   windowSize: { size: false, mobile: false },
-  bookRef: null
+  bookRef: null,
+  showDefaultButtons: true,
+  buttonFunctions: [null, null, null, null],
+  showButtons: [true, true, true, true]
 }
 
 const LayoutContext = createContext(initialState)
@@ -17,18 +20,29 @@ function LayoutProvider({ children }) {
     size: typeof window !== 'undefined' && window.innerWidth < 600,
     mobile: typeof window !== 'undefined' && window.innerWidth < 600
   })
-  const [loading, setLoading] = useState(false)
   const bookRef = useRef(null)
+  const [loading, setLoading] = useState(false)
+  const [showDefaultButtons, setShowDefaultButtons] = useState(true)
+  const [buttonFunctions, setButtonFunctions] = useState([null, null, null, null])
+  const [showButtons, setShowButtons] = useState([true, true, true, true])
 
-  const updateMedia = () => {
-    if (typeof window !== 'undefined') {
-      const isMobile = window.innerWidth < 600
-      setWindowSize({
-        size: isMobile,
-        mobile: isMobile
+  const updateButtonFunctions = useCallback(
+    (index, newFunction) => {
+      setButtonFunctions((prevFunctions) => {
+        const updatedFunctions = [...prevFunctions]
+        updatedFunctions[index] = newFunction
+        return updatedFunctions
       })
-    }
-  }
+    },
+    [buttonFunctions]
+  )
+
+  const updateShowButtons = useCallback(
+    (btn1, btn2, btn3, btn4) => {
+      setShowButtons(btn1, btn2, btn3, btn4)
+    },
+    [showButtons]
+  )
 
   const startLoading = useCallback(() => {
     setLoading(true)
@@ -36,6 +50,10 @@ function LayoutProvider({ children }) {
 
   const stopLoading = useCallback(() => {
     setLoading(false)
+  }, [])
+
+  const ToggleShowDefaultButtons = useCallback((toggle) => {
+    setShowDefaultButtons(toggle)
   }, [])
 
   const turnPrevPage = useCallback(() => {
@@ -53,6 +71,16 @@ function LayoutProvider({ children }) {
     bookRef.current.pageFlip().flip(windowSize.mobile ? 4 : 5)
   }
 
+  const updateMedia = () => {
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 600
+      setWindowSize({
+        size: isMobile,
+        mobile: isMobile
+      })
+    }
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', updateMedia)
@@ -68,11 +96,17 @@ function LayoutProvider({ children }) {
         windowSize,
         loading,
         bookRef,
+        buttonFunctions,
+        showButtons,
+        showDefaultButtons,
         startLoading,
         stopLoading,
         turnPrevPage,
         turnNextPage,
-        goToCollectionsPage
+        goToCollectionsPage,
+        updateButtonFunctions,
+        updateShowButtons,
+        ToggleShowDefaultButtons
       }}
     >
       {children}

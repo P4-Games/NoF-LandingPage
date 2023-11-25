@@ -1,5 +1,5 @@
 import React from 'react'
-import Buttons from './Buttons'
+import FooterButtons from './FooterButtons'
 import { useLayoutContext } from '../../hooks'
 
 function Footer () {
@@ -18,7 +18,7 @@ function Footer () {
       <div className='footer__handle__green' onClick={turnPrevPage}>
         <></>
       </div>
-      <Buttons />
+      <FooterButtons />
       <div className='footer__handle__red' onClick={turnNextPage}>
         <></>
       </div>
