@@ -336,6 +336,9 @@
       object-fit: cover;
       border-radius: 4px;
     }
+    .img_missing {
+      filter: grayscale(1);
+    }
   }
   .grid-item:hover {
     cursor: pointer;
