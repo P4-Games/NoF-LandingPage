@@ -81,12 +81,6 @@ const GammaCardOffers = (props) => {
       msg = msg.replaceAll('{CARD_NUMBER_TO}', cardNumberTo)
       msg = msg.replaceAll('{WALLET_TO}', walletTo)
       
-      /*
-      `
-      Vas a enviar la carta <b>#${cardNumberFrom}</b> al usuario con wallet ${walletAddress}
-      y recibirás a cambio la carta <b>#${cardNumberTo}</b>.`
-      */
-
       const result = await Swal.fire({
         title: `${t('offer_exchange_title')}`,
         html: `${msg}`,

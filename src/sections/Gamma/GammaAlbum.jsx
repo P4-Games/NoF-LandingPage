@@ -9,6 +9,7 @@ import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
 import GammaCardInfo from './GammaCardInfo'
 import GammaCardOffers from './GammaCardOffers'
+
 import { getOffersByCardNumber /*, getOffers*/ } from '../../services/offers'
 import { useWeb3Context } from '../../hooks'
 import {useTranslation} from 'next-i18next'
@@ -79,6 +80,14 @@ const GammaAlbum =  (props) => {
     setCardOffers(true)
     // setCardInfoOpened(true)
   }
+
+  const handleOpenPublishOffers = async () => {
+    setCardInfo(false)
+    setCardPublish(true)
+    // setCardInfoOpened(true)
+  }
+
+  
 
   const handleFinishInfoCard = async (update = true) => {
     startLoading()
@@ -275,9 +284,10 @@ const GammaAlbum =  (props) => {
       
       {cardInfo &&
         <GammaCardInfo 
+          paginationObj={paginationObj}  
           userCard={getuserCardObject(imageNumber)}
-          handleFinishInfoCard={handleFinishInfoCard}
           handleOpenCardOffers={handleOpenCardOffers}
+          handleFinishInfoCard={handleFinishInfoCard}
         />
       }
 
