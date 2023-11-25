@@ -11,14 +11,17 @@ import { hasCard } from '../../services/gamma'
 import { createOffer, removeOfferByCardNumber } from '../../services/offers'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress, checkInputArrayCardNumbers } from '../../utils/InputValidators'
+import GammaAlbumPublish from './GammaAlbumPublish'
 
 const GammaCardInfo = (props) => {
-  const { handleFinishInfoCard, handleOpenCardOffers, userCard } = props
+  const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const {t} = useTranslation()
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const [ userHasCard, setUserHasCard ] = useState(false)
-  
+  const [ cardPublish, setCardPublish ] = useState(false)
+  const [receivedSelectedCards, setReceivedSelectedCards] = useState([])
+
   function emitError (message) {
     Swal.fire({
       title: '',
@@ -61,7 +64,9 @@ const GammaCardInfo = (props) => {
     handleOpenCardOffers()
   }
 
+  /*
   const handlePublishClick = async () => {
+    
 
     try {
       const result = await Swal.fire({
@@ -109,6 +114,14 @@ const GammaCardInfo = (props) => {
         emitWarning(t('publish_offer_error_own_card_number'))
       else
         emitError(t('publish_offer_error'))
+    }
+  }
+  */
+
+  const handleFinishPublish = (update) => {
+    setCardPublish(false) 
+    if (update) {
+      handleFinishInfoCard(update)
     }
   }
 
@@ -250,7 +263,7 @@ const GammaCardInfo = (props) => {
   const PublishButton = () => (
     <div
       className= {userHasCard ? 'option' : 'option_disabled' }
-      onClick={() => handlePublishClick()}
+      onClick={() => setCardPublish(true)} // handlePublishClick()}
     >
       {t('publicar')}
     </div>
@@ -334,12 +347,21 @@ const GammaCardInfo = (props) => {
   return (
     loading 
       ? <></>
-      : <BookCard />
+      : <>
+          {!cardPublish && <BookCard /> }
+          {cardPublish &&
+          <GammaAlbumPublish
+            paginationObj={paginationObj}
+            cardNumberOffered={userCard.name}
+            handleFinishPublish={handleFinishPublish}
+          />}
+        </>
   )
 }
 
 GammaCardInfo.propTypes = {
   userCard: PropTypes.object,
+  paginationObj: PropTypes.object,
   handleOpenCardOffers: PropTypes.func,
   handleFinishInfoCard: PropTypes.func
 }
