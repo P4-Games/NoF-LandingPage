@@ -1,31 +1,17 @@
 import { ethers } from 'ethers'
 import { hasCard } from './gamma'
 
-export const createOffer = async (
-  offersContract,
-  cardsContract,
-  walletAddress,
-  cardNumber,
-  wantedCards
-) => {
-  try {
-    const wantedCardNumbers = wantedCards.split(',').map((num) => parseInt(num.trim(), 10))
+export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
+  console.log('createOffer', { offersContract, cardNumber, wantedCardNumbers })
 
-    for (const wantedCard of wantedCardNumbers) {
-      const result = await hasCard(cardsContract, walletAddress, wantedCard)
-      // console.log('has card')
-      if (result) {
-        throw new Error('publish_offer_error_own_card_number')
-      }
+  for (const wantedCard of wantedCardNumbers) {
+    if (wantedCard === cardNumber) {
+      throw new Error('publish_offer_error_own_card_number')
     }
-
-    console.log('createoffer', cardNumber, wantedCards, wantedCardNumbers)
-    const trx = await offersContract.createOffer(cardNumber, wantedCardNumbers)
-    await trx.wait()
-  } catch (e) {
-    console.error({ e })
-    throw e
   }
+
+  const trx = await offersContract.createOffer(cardNumber, wantedCardNumbers)
+  await trx.wait()
 }
 
 export const removeOfferByCardNumber = async (offersContract, cardNumber) => {
@@ -41,6 +27,28 @@ export const removeOfferByCardNumber = async (offersContract, cardNumber) => {
 export const getOffers = async (offersContract) => {
   try {
     const trx = await offersContract.getOffers()
+    return trx
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+export const getOffersCounter = async () => {
+  try {
+    const trx = await offersContract.getOffersCounter()
+    console.log({ trx })
+    return trx
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+export const getOffersByUserCounter = async () => {
+  try {
+    const trx = await offersContract.getOffersByUserCounter()
+    console.log({ trx })
     return trx
   } catch (e) {
     console.error({ e })
