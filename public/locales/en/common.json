@@ -93,7 +93,8 @@
 
     "publish_offer_error": "There was an error trying to publish",
     "publish_offer_error_invalid_numbers": "Enter up to 10 numbers from 0 to 119, not repeated, separated by a comma and letters you do not have.",
-    "publish_offer_error_own_card_number": "You cannot request a card you already have.",
+    "publish_offer_error_own_card_number": "You cannot request the same card you are bidding on.",
+    "publish_offer_no_cards_selected": "Select at least one card to create the publication.",
 
     "unpublish_offer_dialog": "Do you want to cancel the publication of the offer for this card?",
     "unpublish_offer_error": "There was an error trying to unpublish",

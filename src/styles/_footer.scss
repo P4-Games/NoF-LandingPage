@@ -1,3 +1,34 @@
+.footer__buttons__default {
+  width: 120px;
+  height: 90px;
+  cursor: pointer;
+  position: relative;
+  transition:
+    all 0,
+    2s ease;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  &:hover {
+    position: relative;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @include mobile {
+    width: 20px;
+    height: 20px;
+  }
+  @include tablet {
+    width: 30px;
+    height: 30px;
+  }
+  @include large-desktop {
+    width: 80px;
+    height: 40px;
+  }
+}
+
 .footer {
   display: flex;
   justify-content: space-around;
@@ -61,132 +92,60 @@
     @include large-desktop {
       width: 50%;
     }
-    &__bluebtn {
-      width: 120px;
-      height: 90px;
-      background-image: url(/images/footer/blue.png);
-      cursor: pointer;
-      position: relative;
-      transition:
-        all 0,
-        2s ease;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
+    &__bluebtn_default {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-default.png);
       &:hover {
-        background-image: url(/images/footer/blue-hover.png);
-        position: relative;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      @include mobile {
-        width: 20px;
-        height: 20px;
-      }
-      @include tablet {
-        width: 30px;
-        height: 30px;
-      }
-      @include large-desktop {
-        width: 80px;
-        height: 40px;
+        background-image: url(/images/footer/blue-default-hover.png);
       }
     }
-    &__redbtn {
-      width: 120px;
-      height: 90px;
-      background-image: url(/images/footer/red.png);
-      cursor: pointer;
-      position: relative;
-      transition:
-        all 0,
-        2s ease;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
+    &__redbtn_default {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-default.png);
       &:hover {
-        background-image: url(/images/footer/red-hover.png);
-        position: relative;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      @include mobile {
-        width: 40px;
-        height: 30px;
-      }
-      @include tablet {
-        width: 30px;
-        height: 30px;
-      }
-      @include large-desktop {
-        width: 80px;
-        height: 40px;
+        background-image: url(/images/footer/red-default-hover.png);
       }
     }
-    &__greenbtn {
-      width: 120px;
-      height: 90px;
-      background-image: url(/images/footer/green.png);
-      cursor: pointer;
-      position: relative;
-      transition:
-        all 0,
-        2s ease;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
+    &__greenbtn_default {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-default.png);
       &:hover {
-        background-image: url(/images/footer/green-hover.png);
-        position: relative;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      @include mobile {
-        width: 40px;
-        height: 30px;
-      }
-      @include tablet {
-        width: 30px;
-        height: 30px;
-      }
-      @include large-desktop {
-        width: 80px;
-        height: 40px;
+        background-image: url(/images/footer/green-default-hover.png);
       }
     }
-    &__yellowbtn {
-      width: 120px;
-      height: 90px;
-      background-image: url(/images/footer/yellow.png);
-      cursor: pointer;
-      position: relative;
-      transition:
-        all 0,
-        2s ease;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
+    &__yellowbtn_default {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/yellow-default.png);
       &:hover {
-        background-image: url(/images/footer/yellow-hover.png);
-        position: relative;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-position: center;
+        background-image: url(/images/footer/yellow-default-hover.png);
       }
-      @include mobile {
-        width: 40px;
-        height: 30px;
+    }
+    &__bluebtn_custom {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-custom.png);
+      &:hover {
+        background-image: url(/images/footer/blue-custom-hover.png);
       }
-      @include tablet {
-        width: 30px;
-        height: 30px;
+    }
+    &__redbtn_custom {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
       }
-      @include large-desktop {
-        width: 80px;
-        height: 40px;
+    }
+    &__greenbtn_custom {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+    }
+    &__yellowbtn_custom {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/yellow-custom.png);
+      &:hover {
+        background-image: url(/images/footer/yellow-custom-hover.png);
       }
     }
   }
