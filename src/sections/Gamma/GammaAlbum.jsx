@@ -81,14 +81,6 @@ const GammaAlbum =  (props) => {
     // setCardInfoOpened(true)
   }
 
-  const handleOpenPublishOffers = async () => {
-    setCardInfo(false)
-    setCardPublish(true)
-    // setCardInfoOpened(true)
-  }
-
-  
-
   const handleFinishInfoCard = async (update = true) => {
     startLoading()
     if (update) {

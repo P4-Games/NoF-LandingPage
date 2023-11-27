@@ -236,6 +236,7 @@ const GammaMain = () => {
 
   const buyPacksContract = async (numberOfPacks) => {
     
+    /*
     gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
       // console.log('evento PacksPurchase', returnValue)
       for (let i = 0; i < theEvent.length; i++) {
@@ -243,6 +244,7 @@ const GammaMain = () => {
         // console.log(pack_number)
       }
     })
+    */
 
     try {
       startLoading()

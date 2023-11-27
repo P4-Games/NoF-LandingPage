@@ -8,25 +8,29 @@ import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
 import { useWeb3Context } from '../../hooks'
 import {useTranslation} from 'next-i18next'
-import { createOffer, getOffersByUserCounter, getOffersCounter } from '../../services/offers'
+import { createOffer } from '../../services/offers'
 
 const GammaAlbumPublish =  (props) => {
   const {t} = useTranslation()
   const { paginationObj, cardNumberOffered, handleFinishPublish } = props
   const { gammaOffersContract } = useWeb3Context()
   const [ selectedCards, setSelectedCards ] = useState([])
+
   const { 
     startLoading, stopLoading , bookRef, windowSize, 
     updateShowButtons, updateButtonFunctions, ToggleShowDefaultButtons 
   } = useLayoutContext()
-
+  
   useEffect(() => {
     ToggleShowDefaultButtons(false)
     updateShowButtons([false, true, true, false])
-    updateButtonFunctions(1, handleConfirmClick)
     updateButtonFunctions(2, handleCancelClick)
-  }, [handleConfirmClick, handleCancelClick])
-    
+  }, [handleCancelClick]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    updateButtonFunctions(1, handleConfirmClick)
+  }, [handleConfirmClick, selectedCards]) //eslint-disable-line react-hooks/exhaustive-deps
+
   function emitInfo (message) {
     Swal.fire({
       title: '',
@@ -56,21 +60,18 @@ const GammaAlbumPublish =  (props) => {
       timer: 5000
     })
   }
-  
-  const validToConfirm = () => {
+      
+  const handleConfirmClick = useCallback(async () => {
     if (selectedCards.length === 0) {
       emitInfo (t('publish_offer_no_cards_selected'))
-      return false
+      return 
     }
-    return true
-  }
-    
-  const handleConfirmClick = useCallback(async () => {
-    if (!validToConfirm) return
     
     try {
       startLoading()
       await createOffer(gammaOffersContract, cardNumberOffered, selectedCards)
+      ToggleShowDefaultButtons(true)
+      handleFinishPublish(true)
       stopLoading()
       Swal.fire({
         title: '',
@@ -79,8 +80,6 @@ const GammaAlbumPublish =  (props) => {
         showConfirmButton: false,
         timer: 2000
       })
-      ToggleShowDefaultButtons(true)
-      handleFinishPublish(true)
     } catch (ex) {
       stopLoading()
       console.error(ex.message)
@@ -89,19 +88,16 @@ const GammaAlbumPublish =  (props) => {
       else
         emitError(t('publish_offer_error'))
     }
-  }, [gammaOffersContract, selectedCards])
+  }, [gammaOffersContract, cardNumberOffered, selectedCards]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCancelClick = useCallback(() => {
     ToggleShowDefaultButtons(true)
-    handleFinishPublish()
-  }, [])
+    handleFinishPublish(false)
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
 
   const handleCardClick = async (selectedCard) => {
     // const page = bookRef.current.pageFlip().getCurrentPageIndex()
-
-    // console.log(selectedCards, selectedCards.length)
-
     if (parseInt(selectedCard) === parseInt(cardNumberOffered)) {
       emitWarning (t('publish_offer_error_own_card_number'))
     } else {
@@ -136,6 +132,11 @@ const GammaAlbumPublish =  (props) => {
       { <div className='number'>{paginationObj.user[item]?.name || '0'}</div> }
     </div>
   )
+
+  PageContentCard.propTypes = {
+    item: PropTypes.number,
+    index: PropTypes.number
+  }
 
   const PageContent = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
@@ -231,7 +232,7 @@ const GammaAlbumPublish =  (props) => {
 GammaAlbumPublish.propTypes = {
   paginationObj: PropTypes.object,
   cardNumberOffered: PropTypes.string,
-  handleFinishInfoCard: PropTypes.func
+  handleFinishPublish: PropTypes.func
 }
 
 export default GammaAlbumPublish
