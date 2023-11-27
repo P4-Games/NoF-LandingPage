@@ -7,7 +7,7 @@ import daiAbi from './abis/TestDAI.v2.sol/NofTestDAIV2.json'
 import alphaAbi from './abis/Alpha.v2.sol/NofAlphaV2.json'
 import gammaPacksAbi from './abis/GammaPacks.v2.sol/NofGammaPacksV2.json'
 import gammaCardsAbi from './abis/GammaCards.v4.sol/NofGammaCardsV4.json'
-import gammaOffersAbi from './abis/GammaOffers.v1.sol/NofGammaOffersV1.json'
+import gammaOffersAbi from './abis/GammaOffers.v3.sol/NofGammaOffersV3.json'
 import { CONTRACTS, NETWORK } from '../config'
 
 const initialState = {
