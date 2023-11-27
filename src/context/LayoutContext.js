@@ -34,7 +34,6 @@ function LayoutProvider({ children }) {
     })
   }, [])
 
-
   const updateShowButtons = useCallback((btn1, btn2, btn3, btn4) => {
     setShowButtons(btn1, btn2, btn3, btn4)
   }, [])

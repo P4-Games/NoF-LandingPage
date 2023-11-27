@@ -77,7 +77,6 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
     if (!offers) return []
 
     const offerObject = offers.map((item) => {
-      console.log('item', { item })
       return {
         offerId: item[0],
         offerCard: parseInt(item[1]),

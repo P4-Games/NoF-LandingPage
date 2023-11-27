@@ -46,7 +46,6 @@ const GammaCardInfo = (props) => {
     try {
       startLoading()
       const result = await hasCard(gammaCardsContract, walletAddress, userCard.name)
-      // console.log('verifyUserHasCard', result)
       setUserHasCard(result)
       stopLoading()
     } catch (ex) {
@@ -103,7 +102,7 @@ const GammaCardInfo = (props) => {
 
     } catch (ex) {
       stopLoading()
-      console.log(ex.message)
+      console.error(ex.message)
       emitError(t('unpublish_offer_error'))
     }
   }

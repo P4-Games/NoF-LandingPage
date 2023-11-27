@@ -94,7 +94,6 @@ function Web3ContextProvider({ children }) {
         gammaCardsAbi.abi,
         _signer
       )
-      console.log('web3 gammaCardsContractInstance', gammaCardsContractInstance)
       const gammaOffersContractInstance = new ethers.Contract(
         CONTRACTS.gammaOffersAddress,
         gammaOffersAbi.abi,

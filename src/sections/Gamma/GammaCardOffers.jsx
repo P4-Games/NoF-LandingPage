@@ -110,7 +110,7 @@ const GammaCardOffers = (props) => {
 
     } catch (ex) {
       stopLoading()
-      console.log(ex.message)
+      console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
     }
   }
@@ -151,7 +151,7 @@ const GammaCardOffers = (props) => {
   }
   
   OfferDetailPage.propTypes = {
-    page: PropTypes.object,
+    page: PropTypes.array,
     pageNumber: PropTypes.number
   }
 
