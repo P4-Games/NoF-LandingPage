@@ -70,8 +70,6 @@ const GammaCardOffers = (props) => {
       }
 
       const offer = findFirstOfferByCardNumber(item)
-      // console.log('handleExchangeClick offer', offer)
-      
       const walletFrom = walletAddress
       const cardNumberFrom = item
       const walletTo = offer.offerWallet
@@ -151,6 +149,11 @@ const GammaCardOffers = (props) => {
       </div>
     )
   }
+  
+  OfferDetailPage.propTypes = {
+    page: PropTypes.object,
+    pageNumber: PropTypes.number
+  }
 
   const BookOffer = () => (
     <div className='hero__top'>
@@ -200,7 +203,9 @@ const GammaCardOffers = (props) => {
 
 GammaCardOffers.propTypes = {
   offerData: PropTypes.array,
-  handleFinishInfoCard: PropTypes.func
+  handleFinishInfoCard: PropTypes.func,
+  cardNumber: PropTypes.number,
+  paginationObj: PropTypes.object
 }
 
 export default GammaCardOffers

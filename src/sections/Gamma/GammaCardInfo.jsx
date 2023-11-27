@@ -8,19 +8,19 @@ import { MdOutlineLocalOffer } from "react-icons/md"
 import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
-import { createOffer, removeOfferByCardNumber } from '../../services/offers'
+import { removeOfferByCardNumber } from '../../services/offers'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress, checkInputArrayCardNumbers } from '../../utils/InputValidators'
+import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
+import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
 
 const GammaCardInfo = (props) => {
-  const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const {t} = useTranslation()
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
+  const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const [ userHasCard, setUserHasCard ] = useState(false)
   const [ cardPublish, setCardPublish ] = useState(false)
-  const [receivedSelectedCards, setReceivedSelectedCards] = useState([])
 
   function emitError (message) {
     Swal.fire({
@@ -32,16 +32,16 @@ const GammaCardInfo = (props) => {
     })
   }
 
-  function emitWarning (message) {
+  function emitInfo (message) {
     Swal.fire({
       title: '',
       text: message,
-      icon: 'warning',
+      icon: 'info',
       showConfirmButton: true,
-      timer: 5000
+      timer: 6700
     })
   }
-  
+
   const verifyUserHasCard = async () => {
     try {
       startLoading()
@@ -63,60 +63,6 @@ const GammaCardInfo = (props) => {
   const handleOfferClick = async () => {
     handleOpenCardOffers()
   }
-
-  /*
-  const handlePublishClick = async () => {
-    
-
-    try {
-      const result = await Swal.fire({
-        text: `${t('cartas_a_cambio')}`,
-        input: 'text',
-        inputPlaceholder: '3, 23, 44, 55, 119, 2',
-        inputAttributes: {
-          min: 1,
-          max: 60
-        },
-        inputValidator: (value) => {
-          if (!checkInputArrayCardNumbers(value, userCard.name))
-            return `${t('publish_offer_error_invalid_numbers')}`
-        },
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: `${t('publicar')}`,
-        confirmButtonColor: '#005EA3',
-        color: 'black',
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
-        }
-      })
-
-      if (result.isConfirmed) {
-        startLoading()
-        await createOffer(gammaOffersContract, gammaCardsContract, walletAddress, userCard.name, result.value)
-        handleFinishInfoCard(true)
-        stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
-      }
-
-    } catch (ex) {
-      stopLoading()
-      console.log(ex.message)
-      if (ex.message == 'publish_offer_error_own_card_number')
-        emitWarning(t('publish_offer_error_own_card_number'))
-      else
-        emitError(t('publish_offer_error'))
-    }
-  }
-  */
 
   const handleFinishPublish = (update) => {
     setCardPublish(false) 
@@ -232,6 +178,23 @@ const GammaCardInfo = (props) => {
     }
   }
 
+  const handlePublishClick = async () => {
+    startLoading()
+
+    const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
+    if (!canUserPublishResult) {
+      emitInfo(t('offer_user_limit'))
+    } else {
+      const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
+      if (!canAnyUserPublishResult) {
+        emitInfo(t('offer_game_limit'))
+      } else {
+        setCardPublish(true)
+      }
+    }
+    stopLoading()    
+  }
+
   const OfferButton = () => (
     <div className= {'option'}
     onClick={() => handleOfferClick()}
@@ -263,7 +226,7 @@ const GammaCardInfo = (props) => {
   const PublishButton = () => (
     <div
       className= {userHasCard ? 'option' : 'option_disabled' }
-      onClick={() => setCardPublish(true)} // handlePublishClick()}
+      onClick={() => handlePublishClick()}
     >
       {t('publicar')}
     </div>

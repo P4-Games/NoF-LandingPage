@@ -1,16 +1,15 @@
-import { ethers } from 'ethers'
-import { hasCard } from './gamma'
+const { BigNumber } = require('ethers')
+import { v4 as uuidv4 } from 'uuid'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
-  console.log('createOffer', { offersContract, cardNumber, wantedCardNumbers })
+  console.log('createOffer', { cardNumber, wantedCardNumbers })
 
   for (const wantedCard of wantedCardNumbers) {
     if (wantedCard === cardNumber) {
       throw new Error('publish_offer_error_own_card_number')
     }
   }
-
-  const trx = await offersContract.createOffer(cardNumber, wantedCardNumbers)
+  const trx = await offersContract.createOffer(uuidv4(), cardNumber, wantedCardNumbers)
   await trx.wait()
 }
 
@@ -34,22 +33,20 @@ export const getOffers = async (offersContract) => {
   }
 }
 
-export const getOffersCounter = async () => {
+export const canUserPublishOffer = async (offersContract, walletAddress) => {
   try {
-    const trx = await offersContract.getOffersCounter()
-    console.log({ trx })
-    return trx
+    const result = await offersContract.canUserPublishOffer(walletAddress)
+    return result
   } catch (e) {
     console.error({ e })
     throw e
   }
 }
 
-export const getOffersByUserCounter = async () => {
+export const canAnyUserPublishOffer = async (offersContract) => {
   try {
-    const trx = await offersContract.getOffersByUserCounter()
-    console.log({ trx })
-    return trx
+    const result = await offersContract.canAnyUserPublishOffer()
+    return result
   } catch (e) {
     console.error({ e })
     throw e
@@ -75,25 +72,24 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
     if (!offersContract) return
 
     // [0][0] offerId, [0][1] cardNumber, [0][2] wantedCards, [0][3] wallet que ofertó
+    // [0][4] timeStamp
     const offers = await offersContract.getOffersByCardNumber(cardNumber)
-    // console.log('ofertas', offers)
     if (!offers) return []
 
     const offerObject = offers.map((item) => {
-      const id = ethers.BigNumber.from(item[0]).toNumber()
+      console.log('item', { item })
       return {
-        offerId: parseInt(id),
-        offerWallet: item[3],
+        offerId: item[0],
         offerCard: parseInt(item[1]),
-        wantedCards: item[2]
+        wantedCards: item[2],
+        offerWallet: item[3],
+        timeStamp: item[4]
       }
     })
 
-    // console.log('getOffersByCardNumber result', offerObject)
     // El contrato puede devolver una ofer vacia en lugar de null,
     // por lo que quedará el offerId en 0
     const filteredResult = offerObject.filter((item) => item.offerId !== 0)
-
     return filteredResult
   } catch (e) {
     console.error({ e })
