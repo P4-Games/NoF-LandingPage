@@ -26,23 +26,17 @@ function LayoutProvider({ children }) {
   const [buttonFunctions, setButtonFunctions] = useState([null, null, null, null])
   const [showButtons, setShowButtons] = useState([true, true, true, true])
 
-  const updateButtonFunctions = useCallback(
-    (index, newFunction) => {
-      setButtonFunctions((prevFunctions) => {
-        const updatedFunctions = [...prevFunctions]
-        updatedFunctions[index] = newFunction
-        return updatedFunctions
-      })
-    },
-    [buttonFunctions]
-  )
+  const updateButtonFunctions = useCallback((index, newFunction) => {
+    setButtonFunctions((prevFunctions) => {
+      const updatedFunctions = [...prevFunctions]
+      updatedFunctions[index] = newFunction
+      return updatedFunctions
+    })
+  }, [])
 
-  const updateShowButtons = useCallback(
-    (btn1, btn2, btn3, btn4) => {
-      setShowButtons(btn1, btn2, btn3, btn4)
-    },
-    [showButtons]
-  )
+  const updateShowButtons = useCallback((btn1, btn2, btn3, btn4) => {
+    setShowButtons(btn1, btn2, btn3, btn4)
+  }, [])
 
   const startLoading = useCallback(() => {
     setLoading(true)

@@ -70,8 +70,6 @@ const GammaCardOffers = (props) => {
       }
 
       const offer = findFirstOfferByCardNumber(item)
-      // console.log('handleExchangeClick offer', offer)
-      
       const walletFrom = walletAddress
       const cardNumberFrom = item
       const walletTo = offer.offerWallet
@@ -112,7 +110,7 @@ const GammaCardOffers = (props) => {
 
     } catch (ex) {
       stopLoading()
-      console.log(ex.message)
+      console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
     }
   }
@@ -150,6 +148,11 @@ const GammaCardOffers = (props) => {
         }
       </div>
     )
+  }
+  
+  OfferDetailPage.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
   }
 
   const BookOffer = () => (
@@ -200,7 +203,9 @@ const GammaCardOffers = (props) => {
 
 GammaCardOffers.propTypes = {
   offerData: PropTypes.array,
-  handleFinishInfoCard: PropTypes.func
+  handleFinishInfoCard: PropTypes.func,
+  cardNumber: PropTypes.number,
+  paginationObj: PropTypes.object
 }
 
 export default GammaCardOffers

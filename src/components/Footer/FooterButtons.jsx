@@ -3,10 +3,7 @@ import Link from 'next/link'
 import { useLayoutContext } from '../../hooks'
 
 function FooterButtons () {
-    
   const { showDefaultButtons, showButtons, buttonFunctions } = useLayoutContext()
-  
-  console.log({ showButtons, showDefaultButtons, buttonFunctions })
 
   const DefaultButtons = () => (
     <div className='footer__buttons'>
