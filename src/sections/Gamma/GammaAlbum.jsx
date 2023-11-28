@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
-import Swal from 'sweetalert2'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdOutlineLocalOffer } from "react-icons/md"
 import { storageUrlGamma } from '../../config'
@@ -9,6 +8,7 @@ import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
 import GammaCardInfo from './GammaCardInfo'
 import GammaCardOffers from './GammaCardOffers'
+import { emitInfo } from '../../utils/alert'
 
 import { getOffersByCardNumber /*, getOffers*/ } from '../../services/offers'
 import { useWeb3Context } from '../../hooks'
@@ -44,35 +44,15 @@ const GammaAlbum =  (props) => {
     fetchAlloffers()
   }, [])
 
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5500
-    })
-  }
-
   */
 
-  function emitInfo (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'info',
-      showConfirmButton: true,
-      timer: 5500
-    })
-  }
-  
   const handleOpenCardOffers = async () => {
     if(!offersObj || offersObj.length === 0) {
       const myOffer = paginationObj.user[imageNumber]?.offered
       if (myOffer) 
-        emitInfo(t('offer_only_own_offer'))
+        emitInfo(t('offer_only_own_offer'), 5500)
       else
-        emitInfo(t('offer_card_number_empty'))
+        emitInfo(t('offer_card_number_empty'), 5500)
       return
     }
 

@@ -13,6 +13,7 @@ import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
+import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 
 const GammaCardInfo = (props) => {
   const {t} = useTranslation()
@@ -21,26 +22,6 @@ const GammaCardInfo = (props) => {
   const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const [ userHasCard, setUserHasCard ] = useState(false)
   const [ cardPublish, setCardPublish ] = useState(false)
-
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
-  function emitInfo (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'info',
-      showConfirmButton: true,
-      timer: 6700
-    })
-  }
 
   const verifyUserHasCard = async () => {
     try {
@@ -91,13 +72,7 @@ const GammaCardInfo = (props) => {
         await removeOfferByCardNumber(gammaOffersContract, userCard.name)
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
 
     } catch (ex) {
@@ -138,13 +113,7 @@ const GammaCardInfo = (props) => {
         await transaction.wait()
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
     } catch (ex) {
       stopLoading()
@@ -182,11 +151,11 @@ const GammaCardInfo = (props) => {
 
     const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
     if (!canUserPublishResult) {
-      emitInfo(t('offer_user_limit'))
+      emitInfo(t('offer_user_limit'), 7000)
     } else {
       const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
       if (!canAnyUserPublishResult) {
-        emitInfo(t('offer_game_limit'))
+        emitInfo(t('offer_game_limit'), 7000)
       } else {
         setCardPublish(true)
       }
