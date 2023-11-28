@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
-import Swal from 'sweetalert2'
 import { FcCheckmark } from 'react-icons/fc'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
@@ -9,6 +8,7 @@ import CustomImage from '../../components/CustomImage'
 import { useWeb3Context } from '../../hooks'
 import {useTranslation} from 'next-i18next'
 import { createOffer } from '../../services/offers'
+import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
 
 const GammaAlbumPublish =  (props) => {
   const {t} = useTranslation()
@@ -31,36 +31,6 @@ const GammaAlbumPublish =  (props) => {
     updateButtonFunctions(1, handleConfirmClick)
   }, [handleConfirmClick, selectedCards]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function emitInfo (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'info',
-      showConfirmButton: true,
-      timer: 5500
-    })
-  }
-  
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
-  function emitWarning (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'warning',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-      
   const handleConfirmClick = useCallback(async () => {
     if (selectedCards.length === 0) {
       emitInfo (t('publish_offer_no_cards_selected'))
@@ -73,13 +43,7 @@ const GammaAlbumPublish =  (props) => {
       ToggleShowDefaultButtons(true)
       handleFinishPublish(true)
       stopLoading()
-      Swal.fire({
-        title: '',
-        text: t('confirmado'),
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 2000
-      })
+      emitSuccess(t('confirmado'), 2000)
     } catch (ex) {
       stopLoading()
       console.error(ex.message)

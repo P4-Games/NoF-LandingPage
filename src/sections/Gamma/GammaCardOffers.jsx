@@ -8,6 +8,7 @@ import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma  } from '../../config'
 import { confirmOfferExchange } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
+import { emitWarning, emitSuccess } from '../../utils/alert'
 
 const GammaCardOffers = (props) => {
   const { handleFinishInfoCard, offerData, cardNumber, paginationObj } = props
@@ -15,16 +16,6 @@ const GammaCardOffers = (props) => {
   const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
   
-  function emitWarning (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'warning',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
   const CloseButton = () => (
     <div
       className='gamma_info_card_close'
@@ -99,13 +90,7 @@ const GammaCardOffers = (props) => {
         await confirmOfferExchange(gammaOffersContract, walletFrom, cardNumberFrom, walletTo, cardNumberTo)
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
 
     } catch (ex) {

@@ -4,6 +4,7 @@ import { ethers } from 'ethers'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 
+import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
@@ -100,38 +101,15 @@ const GammaMain = () => {
     checkNumberOfPacks()
   }, [walletAddress, gammaPacksContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
   const handleFinishAlbum = async () => {  
     try {
       startLoading()
       const result = await finishAlbum(gammaCardsContract, walletAddress)
       if (result) {
         await updateUserData()
-        Swal.fire({
-          title: '',
-          text: t('finish_album_success'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 5000
-        })
-        
+        emitSuccess(t('finish_album_success'))
       } else {
-        Swal.fire({
-          title: '',
-          text: t('finish_album_warning'),
-          icon: 'warning',
-          showConfirmButton: false,
-          timer: 8000
-        })
+        emitWarning(t('finish_album_success'), 8000, '', false)
       }
       stopLoading()
     } catch (ex) {
@@ -173,13 +151,7 @@ const GammaMain = () => {
         const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
         await transaction.wait()
         transaction.wait()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
         await checkNumberOfPacks()
         stopLoading()
       }
@@ -197,13 +169,7 @@ const GammaMain = () => {
       setLoaderPack(true)
 
       if (packs.length == 0) {
-        Swal.fire({
-          title: '',
-          text: t('no_paquetes_para_abrir'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitInfo(t('no_paquetes_para_abrir'), 2000)
       }
 
       if (packs.length >= 1) {

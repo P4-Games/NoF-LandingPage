@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
-import Swal from 'sweetalert2'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha, CONTRACTS } from '../../config'
 import { fetchDataAlpha } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
+import { emitError, emitSuccess } from '../../utils/alert'
 
 import {useTranslation} from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
@@ -70,16 +70,6 @@ const AlphaMain = () => {
     }
   }
 
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-  
   const fetchAlbums = async () => {
     try {
       if (!walletAddress || !alphaContract || !seasonNames) return
@@ -264,16 +254,6 @@ const AlphaMain = () => {
     }
   }
 
-  function emitSuccess (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 2000
-    })
-  }
-
   const authorizeDaiContract = async () => {
     try {
       const authorization = await daiContract.approve(
@@ -389,7 +369,7 @@ const AlphaMain = () => {
       .then((cards) => {
         setError('')
         if (cards && cards.length > 0) {
-          emitSuccess(t('ya_tienes_cartas'))
+          emitSuccess(t('ya_tienes_cartas'), 2000)
           return
         }
         checkPacks()
@@ -443,13 +423,7 @@ const AlphaMain = () => {
                     stopLoading()
                   })
               } else {
-                Swal.fire({
-                  title: 'oops!',
-                  text: t('no_dai'),
-                  icon: 'error',
-                  showConfirmButton: false,
-                  timer: 2000
-                })
+                emitError(t('no_dai'), 2000)
               }
             }
           })
