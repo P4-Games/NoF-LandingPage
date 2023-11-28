@@ -19,7 +19,8 @@
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
     "git-log": "git log --oneline --decorate",
-    "gitp": "git log --pretty=”%s”"
+    "gitp": "git log --pretty=”%s”",
+    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\""
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^14.0.1",
@@ -66,6 +67,8 @@
     "web3modal": "^1.9.9"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "eslint-config-next": "^14.0.1",
     "file-loader": "^6.2.0",
     "pre-commit": "^1.2.2"
@@ -93,7 +96,8 @@
   "pre-commit": {
     "precommit.silent": true,
     "run": [
-      "prettier"
+      "prettier",
+      "commitlint-check-comit-msg"
     ]
   }
 }
