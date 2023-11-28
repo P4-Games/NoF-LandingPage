@@ -136,14 +136,14 @@ The application uses a linter for commit messages, requiring them to be specifie
 
 ```
 - type: message
-- :icono: type: message
+- type: :icono: message
 ```
 
 Example: 
 
 ```
 - commit -m chore: add commitlinter
-- commit -m :sparkles: chore: add commitlinter (to commit with an icon, you can use [gitmoji](https://gitmoji.dev/))
+- commit -m chore: :sparkles: add commitlinter (to commit with an icon, you can use [gitmoji](https://gitmoji.dev/))
 ```
 
 The allowed standard types are:
