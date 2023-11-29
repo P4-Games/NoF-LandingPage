@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
     // Obtener las rutas de las imágenes locales redimensionadas
     const characterImagePaths = characters.map((c) =>
-      join(process.cwd(), 'characters', `${c.id}.png`)
+      join(process.cwd(), 'scripts', 'characters', `${c.id}.png`)
     )
 
     // Crear una matriz de promesas para cargar las imágenes
