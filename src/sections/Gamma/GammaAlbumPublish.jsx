@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import HTMLFlipBook from 'react-pageflip'
 import { FcCheckmark } from 'react-icons/fc'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
+import FlipBook from '../../components/FlipBook'
 import { useWeb3Context } from '../../hooks'
 import {useTranslation} from 'next-i18next'
 import { createOffer } from '../../services/offers'
@@ -17,8 +17,8 @@ const GammaAlbumPublish =  (props) => {
   const [ selectedCards, setSelectedCards ] = useState([])
 
   const { 
-    startLoading, stopLoading , bookRef, windowSize, 
-    updateShowButtons, updateButtonFunctions, ToggleShowDefaultButtons 
+    startLoading, stopLoading, ToggleShowDefaultButtons,
+    updateShowButtons, updateButtonFunctions
   } = useLayoutContext()
   
   useEffect(() => {
@@ -120,76 +120,17 @@ const GammaAlbumPublish =  (props) => {
     pageNumber: PropTypes.number
   }
   
-  const Book = () => {
-    const [isClassesReplaced, setIsClassesReplaced] = useState(false)
-    useEffect(() => {
-      // Cambiar las clases después de un tiempo de carga simulado (0.5 mSeg),
-      // es para evitar un efecto de parpadeo no deseado por htmlFlipBook
-      const timer = setTimeout(() => {
-        setIsClassesReplaced(true);
-      }, 0.5)
-  
-      // Limpiar el temporizador para evitar fugas de memoria
-      return () => clearTimeout(timer)
-    }, [])
-
-    /*
-    const changePage = (pageNumber) => {
-      setCurrentPage(pageNumber)
-    }
-    
-    const onFlip = (data) => {
-      setCurrentPage(data)
-      console.log('Current page: ' + data, bookRef.current.pageFlip.current)
-    }
-    */
-    if (!paginationObj)
-      return (<></>)
-    else
-      return (
-        <div className='hero__top'>
-          <div className={'hero__top__album'}>
-            <HTMLFlipBook
-              id='Book'
-              size='stretch'
-              width={360}
-              height={500}
-              minWidth={300}
-              maxWidth={800}
-              minHeight={350}
-              maxHeight={800}
-              autoSize
-              drawShadow={false}
-              // startAtPage={5} 
-              // onChangePage={(e) => setCurrentPage(e.data)}
-              // onFlip={(e) => onFlip(e.data)}
-              usePortrait={windowSize.size}
-              ref={bookRef}
-              className='hero__top__album__book'
-            >
-              {Array.from({ length: 10 }, (_, index) => (
-                  <div
-                    key={index}
-                    className={
-                        index % 2 === 0
-                        ? (isClassesReplaced ? 'hero__top__album__book__page' : '')
-                        : (isClassesReplaced ? 'hero__top__album__book__page0' : '')
-                    }
-                    data-density='hard'
-                    number={index + 1}
-                  >
-                    <PageContent key={index} page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
-                  </div>
-                ))}
-            </HTMLFlipBook>
-          </div>
-        </div>
-      )
-  }
-
-
   return (
-    <Book />
+    !paginationObj ? <></> :
+    <FlipBook
+      showClose={false}
+      onCloseClick={undefined}
+      pages={
+        Array.from({ length: 10 }, (_, index) => (
+          <PageContent key={index} page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+        ))
+      }
+    />
   )
 }
 
