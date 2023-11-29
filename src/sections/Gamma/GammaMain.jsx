@@ -385,7 +385,7 @@ const GammaMain = () => {
     return (<></>)
   }
 
-  const BookImageRight = () => (
+  const BookImageLeft = () => (
     <div 
       onClick={() => { setCardInfoOpened(false), setInventory(!inventory)} }
       className= {
@@ -411,7 +411,7 @@ const GammaMain = () => {
         />
       }
 
-      {walletAddress && <BookImageRight />}
+      {walletAddress && <BookImageLeft />}
       
       {walletAddress && 
       <GammaAlbum
