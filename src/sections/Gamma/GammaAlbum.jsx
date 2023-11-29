@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import HTMLFlipBook from 'react-pageflip'
-import Swal from 'sweetalert2'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdOutlineLocalOffer } from "react-icons/md"
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
+import FlipBook from '../../components/FlipBook'
 import GammaCardInfo from './GammaCardInfo'
 import GammaCardOffers from './GammaCardOffers'
+import { emitInfo } from '../../utils/alert'
 
 import { getOffersByCardNumber /*, getOffers*/ } from '../../services/offers'
 import { useWeb3Context } from '../../hooks'
@@ -17,7 +17,7 @@ import {useTranslation} from 'next-i18next'
 const GammaAlbum =  (props) => {
   const {t} = useTranslation()
   const { paginationObj, showInventory, updateUserData, setCardInfoOpened } = props
-  const { startLoading, stopLoading , bookRef, windowSize } = useLayoutContext()
+  const { startLoading, stopLoading } = useLayoutContext()
   const [ cardInfo, setCardInfo ] = useState(false)
   const [ cardOffers, setCardOffers ] = useState(false)
   const [ imageNumber, setImageNumber ] = useState(0)
@@ -44,35 +44,15 @@ const GammaAlbum =  (props) => {
     fetchAlloffers()
   }, [])
 
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5500
-    })
-  }
-
   */
 
-  function emitInfo (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'info',
-      showConfirmButton: true,
-      timer: 5500
-    })
-  }
-  
   const handleOpenCardOffers = async () => {
     if(!offersObj || offersObj.length === 0) {
       const myOffer = paginationObj.user[imageNumber]?.offered
       if (myOffer) 
-        emitInfo(t('offer_only_own_offer'))
+        emitInfo(t('offer_only_own_offer'), 5500)
       else
-        emitInfo(t('offer_card_number_empty'))
+        emitInfo(t('offer_card_number_empty'), 5500)
       return
     }
 
@@ -207,6 +187,13 @@ const GammaAlbum =  (props) => {
     pageNumber: PropTypes.number
   }
 
+  const getuserCardObject = (imageNumber) => {
+    const data = paginationObj 
+              ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
+              : {}
+    return data
+  }
+
   const Book = () => {
     const [isClassesReplaced, setIsClassesReplaced] = useState(false)
     useEffect(() => {
@@ -224,51 +211,18 @@ const GammaAlbum =  (props) => {
       return (<></>)
     else
       return (
-        <div className='hero__top'>
-          <div className={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}>
-            <HTMLFlipBook
-              id='Book'
-              size='stretch'
-              width={360}
-              height={500}
-              minWidth={300}
-              maxWidth={800}
-              minHeight={350}
-              maxHeight={800}
-              autoSize
-              drawShadow={false}
-              usePortrait={windowSize.size}
-              ref={bookRef}
-              className='hero__top__album__book'
-            >
-              {Array.from({ length: 10 }, (_, index) => (
-                  <div
-                    key={index}
-                    className={
-                        index % 2 === 0
-                        ? (isClassesReplaced ? 'hero__top__album__book__page' : '')
-                        : (isClassesReplaced ? 'hero__top__album__book__page0' : '')
-                    }
-                    data-density='hard'
-                    number={index + 1}
-                  >
-                    <PageContent page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
-                  </div>
-                ))}
-            </HTMLFlipBook>
-          </div>
-        </div>
+        <FlipBook
+          showClose={false}
+          onCloseClick={undefined}
+          pages={
+            Array.from({ length: 10 }, (_, index) => (
+              <PageContent page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+            ))
+          }
+          mainClassName={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}
+        />
       )
   }
-
-  const getuserCardObject = (imageNumber) => {
-    const data = paginationObj 
-              ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
-              : {}
-    // console.log('getuserCardObject', imageNumber, data)
-    return data
-  }
-
 
   return (
     <>

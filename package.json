@@ -19,7 +19,8 @@
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
     "git-log": "git log --oneline --decorate",
-    "gitp": "git log --pretty=”%s”"
+    "gitp": "git log --pretty=”%s”",
+    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\""
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^14.0.1",
@@ -35,7 +36,7 @@
     "@web3-onboard/walletconnect": "^2.5.0",
     "@web3modal/ethereum": "^2.0.0-beta.8",
     "@web3modal/react": "^2.0.0-beta.8",
-    "axios": "^1.6.0",
+    "axios": "1.6.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
@@ -54,7 +55,7 @@
     "react-pageflip": "^2.0.3",
     "react-scroll": "^1.8.8",
     "sass": "^1.55.0",
-    "sharp": "^0.31.3",
+    "sharp": "0.32.6",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.15",
     "swiper": "^8.4.5",
@@ -66,6 +67,8 @@
     "web3modal": "^1.9.9"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "eslint-config-next": "^14.0.1",
     "file-loader": "^6.2.0",
     "pre-commit": "^1.2.2"
@@ -93,7 +96,8 @@
   "pre-commit": {
     "precommit.silent": true,
     "run": [
-      "prettier"
+      "prettier",
+      "commitlint-check-comit-msg"
     ]
   }
 }

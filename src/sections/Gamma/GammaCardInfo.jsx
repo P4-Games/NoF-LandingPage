@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import HTMLFlipBook from 'react-pageflip'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 import { MdOutlineLocalOffer } from "react-icons/md"
@@ -13,34 +12,16 @@ import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
+import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
+import FlipBook from '../../components/FlipBook'
 
 const GammaCardInfo = (props) => {
   const {t} = useTranslation()
-  const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
+  const { loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const [ userHasCard, setUserHasCard ] = useState(false)
   const [ cardPublish, setCardPublish ] = useState(false)
-
-  function emitError (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'error',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
-  function emitInfo (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'info',
-      showConfirmButton: true,
-      timer: 6700
-    })
-  }
 
   const verifyUserHasCard = async () => {
     try {
@@ -91,13 +72,7 @@ const GammaCardInfo = (props) => {
         await removeOfferByCardNumber(gammaOffersContract, userCard.name)
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
 
     } catch (ex) {
@@ -138,13 +113,7 @@ const GammaCardInfo = (props) => {
         await transaction.wait()
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
     } catch (ex) {
       stopLoading()
@@ -182,11 +151,11 @@ const GammaCardInfo = (props) => {
 
     const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
     if (!canUserPublishResult) {
-      emitInfo(t('offer_user_limit'))
+      emitInfo(t('offer_user_limit'), 7000)
     } else {
       const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
       if (!canAnyUserPublishResult) {
-        emitInfo(t('offer_game_limit'))
+        emitInfo(t('offer_game_limit'), 7000)
       } else {
         setCardPublish(true)
       }
@@ -250,60 +219,47 @@ const GammaCardInfo = (props) => {
       {t('transferir')}
     </div>
   )
-   
-  const BookCard = () => (
-    <div className='hero__top'>
-      <div className='hero__top__album'>
-        <HTMLFlipBook
-          id='Book'
-          size='stretch'
-          width={360}
-          height={500}
-          minWidth={300}
-          maxWidth={800}
-          minHeight={350}
-          maxHeight={800}
-          autoSize
-          drawShadow={false}
-          usePortrait={windowSize.size}
-          ref={bookRef}
-          className='hero__top__album__book'>
-          <div
-            className='hero__top__album__book__page'
-            data-density='hard'
-            number='1'>
-            <div className='hero__top__album__book__page__page-content'>
-              <div className='cardinfo'>
-                <div className='cardinfoimg'>
-                  <img
-                    src={`${storageUrlGamma}/T1/${userCard.name}.png`}
-                    alt='img'
-                  />
-                { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
-                </div>
-                <h3>#{userCard.name}</h3>
-                <div className='cardnof' />
-              </div>
-            </div>
-          </div>
-          <div
-            className='hero__top__album__book__page0'
-            data-density='hard'
-            number='2'>
-            <div className='cardinfo'>
-              <div className='transactions'>
-                <CloseButton/>
-                <MintButton/>
-                <TransferButton/>
-                {!userCard.offered && <PublishButton/>}
-                {userCard.offered && <UnPublishButton/>}
-                <OfferButton/>
-              </div>
-            </div>
-          </div>
-        </HTMLFlipBook>
+
+  const handleCloseButtonClick = () => {
+    handleFinishInfoCard(true)
+  }
+
+  const Page1 = () => (
+    <div className='cardinfo'>
+      <div className='cardinfoimg'>
+        <img
+          src={`${storageUrlGamma}/T1/${userCard.name}.png`}
+          alt='img'
+        />
+      { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
+      </div>
+      <h3>#{userCard.name}</h3>
+      <div className='cardnof' />
+    </div>
+  )
+
+  const Page2 = () => (
+    <div className='cardinfo'>
+      <div className='transactions'>
+        <CloseButton/>
+        <MintButton/>
+        <TransferButton/>
+        {!userCard.offered && <PublishButton/>}
+        {userCard.offered && <UnPublishButton/>}
+        <OfferButton/>
       </div>
     </div>
+  )
+   
+  const BookCard = () => (
+    <FlipBook
+      showClose={true}
+      onCloseClick={handleCloseButtonClick}
+      pages={[
+        <Page1 />,
+        <Page2 />
+      ]}
+    />
   )
 
   return (

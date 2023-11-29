@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import HTMLFlipBook from 'react-pageflip'
 import Swal from 'sweetalert2'
 import {useTranslation} from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
@@ -8,32 +7,15 @@ import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma  } from '../../config'
 import { confirmOfferExchange } from '../../services/gamma'
 import { useLayoutContext } from '../../hooks'
+import { emitWarning, emitSuccess } from '../../utils/alert'
+import FlipBook from '../../components/FlipBook'
 
 const GammaCardOffers = (props) => {
   const { handleFinishInfoCard, offerData, cardNumber, paginationObj } = props
   const {t} = useTranslation()
-  const { bookRef, windowSize, loading, startLoading, stopLoading } = useLayoutContext()
+  const { loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
   
-  function emitWarning (message) {
-    Swal.fire({
-      title: '',
-      text: message,
-      icon: 'warning',
-      showConfirmButton: true,
-      timer: 5000
-    })
-  }
-
-  const CloseButton = () => (
-    <div
-      className='gamma_info_card_close'
-      onClick={() => handleFinishInfoCard(true)}
-    >
-      X
-    </div>
-  )
-
   const existInSomeOfferWantedCards = (cardNumber) => {
     // verifica si una card estas en alguna de la colección de wantedCards de 
     // las ofertas
@@ -99,13 +81,7 @@ const GammaCardOffers = (props) => {
         await confirmOfferExchange(gammaOffersContract, walletFrom, cardNumberFrom, walletTo, cardNumberTo)
         handleFinishInfoCard(true)
         stopLoading()
-        Swal.fire({
-          title: '',
-          text: t('confirmado'),
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        emitSuccess(t('confirmado'), 2000)
       }
 
     } catch (ex) {
@@ -155,43 +131,20 @@ const GammaCardOffers = (props) => {
     pageNumber: PropTypes.number
   }
 
-  const BookOffer = () => (
-    <div className='hero__top'>
-      <div className='hero__top__album'>
-        <HTMLFlipBook
-          id='Book'
-          size='stretch'
-          width={360}
-          height={500}
-          minWidth={300}
-          maxWidth={800}
-          minHeight={350}
-          maxHeight={800}
-          autoSize
-          drawShadow={false}
-          usePortrait={windowSize.size}
-          ref={bookRef}
-          className='hero__top__album__book'>
-          
-          {Array.from({ length: 10 }, (_, index) => (
-            <div
-              key={index}
-              className={
-                  index % 2 === 0
-                  ? ('hero__top__album__book__page')
-                  : ('hero__top__album__book__page0')
-              }
-              data-density='hard'
-              number={index + 1}
-            >
-              {index % 2 !== 0 && <CloseButton/>}
-              <OfferDetailPage page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
-            </div>
-          ))}
+  const handleCloseButtonClick = () => {
+    handleFinishInfoCard(true)
+  }
 
-        </HTMLFlipBook>
-      </div>
-    </div>
+  const BookOffer = () => (
+    <FlipBook 
+      showClose={true}
+      onCloseClick={handleCloseButtonClick}
+      pages={
+        Array.from({ length: 10 }, (_, index) => (
+          <OfferDetailPage page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+        ))
+      }
+    />
   )
 
   return (
