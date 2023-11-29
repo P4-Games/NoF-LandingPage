@@ -306,9 +306,7 @@ const GammaMain = () => {
           <>
             <div 
               className={'gammapack__content'}>
-              <h1
-                className={'pack_number'}
-                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+              <h1 className={'pack_number'}>
                 {numberOfPacks}
               </h1>
             </div>          
