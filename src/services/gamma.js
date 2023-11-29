@@ -175,24 +175,22 @@ export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAdd
 
   // require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
   const prizesBalanzGTAlbumPrice = parseInt(prizeBalanceFormatted) >= parseInt(albumPrizeFormatted)
-  
-  // require gammaCardContractBalance >= mainAlbumPrize
-  const contractBalanzGTAlbumPrice = parseInt(gammaContractBalanceFormatted) >= parseInt(albumPrizeFormatted)
-  
-  const result = (userHasAlbum && prizesBalanzGTAlbumPrice && contractBalanzGTAlbumPrice)
 
-  console.log(
-    'prizesBalanzGTAlbumPrice',
-    {
-      userHasAlbum,
-      prizeBalanceFormatted,
-      albumPrizeFormatted,
-      gammaContractBalanceFormatted,
-      prizesBalanzGTAlbumPrice,
-      contractBalanzGTAlbumPrice,
-      result
-    }
-  )
+  // require gammaCardContractBalance >= mainAlbumPrize
+  const contractBalanzGTAlbumPrice =
+    parseInt(gammaContractBalanceFormatted) >= parseInt(albumPrizeFormatted)
+
+  const result = userHasAlbum && prizesBalanzGTAlbumPrice && contractBalanzGTAlbumPrice
+
+  console.log('prizesBalanzGTAlbumPrice', {
+    userHasAlbum,
+    prizeBalanceFormatted,
+    albumPrizeFormatted,
+    gammaContractBalanceFormatted,
+    prizesBalanzGTAlbumPrice,
+    contractBalanzGTAlbumPrice,
+    result
+  })
 
   return result
 }
