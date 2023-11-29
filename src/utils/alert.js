@@ -13,7 +13,7 @@ export function emitWarning(message, timer = 5000, title = '', showConfirmButton
 }
 
 export function emitSuccess(message, timer = 2000, title = '', showConfirmButton = false) {
-  emitmsg(title, message, 'sucess', timer, showConfirmButton)
+  emitmsg(title, message, 'success', timer, showConfirmButton)
 }
 
 function emitmsg(title, message, icon, timer, showConfirmButton = true) {
