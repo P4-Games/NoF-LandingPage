@@ -306,9 +306,7 @@ const GammaMain = () => {
           <>
             <div 
               className={'gammapack__content'}>
-              <h1
-                className={'pack_number'}
-                onClick={() => { setPackIsOpen(true), handleOpenPack() }} >
+              <h1 className={'pack_number'}>
                 {numberOfPacks}
               </h1>
             </div>          
@@ -387,7 +385,7 @@ const GammaMain = () => {
     return (<></>)
   }
 
-  const BookImageRight = () => (
+  const BookImageLeft = () => (
     <div 
       onClick={() => { setCardInfoOpened(false), setInventory(!inventory)} }
       className= {
@@ -413,7 +411,7 @@ const GammaMain = () => {
         />
       }
 
-      {walletAddress && <BookImageRight />}
+      {walletAddress && <BookImageLeft />}
       
       {walletAddress && 
       <GammaAlbum
