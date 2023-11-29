@@ -145,12 +145,12 @@ const GammaMain = () => {
 
       console.log(walletAddress)
       startLoading()
-      const result = await finishAlbum(gammaCardsContract, walletAddress)
+      const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
       if (result) {
         await updateUserData()
         emitSuccess(t('finish_album_success'))
       } else {
-        emitWarning(t('finish_album_success'), 8000, '', false)
+        emitWarning(t('finish_album_warning'), 8000, '', false)
       }
       stopLoading()
     } catch (ex) {
