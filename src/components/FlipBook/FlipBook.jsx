@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import HTMLFlipBook from 'react-pageflip'
 import { useLayoutContext } from '../../hooks'
 
-const FlipBook = ({ showClose, onCloseClick, pages }) => {
+const FlipBook = ({ showClose, onCloseClick, pages, mainClassName = 'hero__top__album' }) => {
   const { bookRef, windowSize } = useLayoutContext()
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
 
@@ -28,7 +28,7 @@ const FlipBook = ({ showClose, onCloseClick, pages }) => {
 
   return (
     <div className='hero__top'>
-      <div className='hero__top__album'>
+      <div className={mainClassName}>
         <HTMLFlipBook
           id='Book'
           size='stretch'
