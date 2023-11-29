@@ -141,7 +141,7 @@ const GammaCardOffers = (props) => {
       onCloseClick={handleCloseButtonClick}
       pages={
         Array.from({ length: 10 }, (_, index) => (
-          <OfferDetailPage page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+          <OfferDetailPage page={paginationObj[`page${index + 1}`]} key={index} pageNumber={index + 1} />
         ))
       }
     />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -17,8 +17,13 @@ import { useLayoutContext } from '../../hooks'
 import FlipBook from '../../components/FlipBook'
 
 const Main = () => {
-  const { windowSize } = useLayoutContext()
+  const { windowSize, ToggleShowDefaultButtons, updateShowButtons } = useLayoutContext()
   const {t} = useTranslation()
+
+  useEffect(() => {
+    ToggleShowDefaultButtons(true)
+    updateShowButtons([true, true, true, true]) 
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps 
 
   const SwiperComp = () => (
     <div className='hero__top__swiper'>
@@ -327,15 +332,15 @@ const Main = () => {
       showClose={false} 
       onCloseClick={undefined}
       pages={[
-        <Page1 />,
-        <Page2 />,
-        <Page3 />,
-        <Page4 />,
-        <Page5 />,
-        <Page6 />,
-        <Page7 />,
-        <Page8 />,
-        <Page9 />
+        <Page1 key={'page-1'} />,
+        <Page2 key={'page-2'}/>,
+        <Page3 key={'page-3'}/>,
+        <Page4 key={'page-4'}/>,
+        <Page5 key={'page-5'}/>,
+        <Page6 key={'page-6'}/>,
+        <Page7 key={'page-7'}/>,
+        <Page8 key={'page-8'}/>,
+        <Page9 key={'page-9'}/>
       ]}
     />
   )

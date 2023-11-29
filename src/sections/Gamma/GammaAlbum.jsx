@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdOutlineLocalOffer } from "react-icons/md"
@@ -195,18 +195,6 @@ const GammaAlbum =  (props) => {
   }
 
   const Book = () => {
-    const [isClassesReplaced, setIsClassesReplaced] = useState(false)
-    useEffect(() => {
-      // Cambiar las clases después de un tiempo de carga simulado (0.5 mSeg),
-      // es para evitar un efecto de parpadeo no deseado por htmlFlipBook
-      const timer = setTimeout(() => {
-        setIsClassesReplaced(true);
-      }, 0.5)
-  
-      // Limpiar el temporizador para evitar fugas de memoria
-      return () => clearTimeout(timer)
-    }, [])
-
     if (!paginationObj)
       return (<></>)
     else
@@ -216,7 +204,7 @@ const GammaAlbum =  (props) => {
           onCloseClick={undefined}
           pages={
             Array.from({ length: 10 }, (_, index) => (
-              <PageContent page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
+              <PageContent page={paginationObj[`page${index + 1}`]} key={index} pageNumber={index + 1} />
             ))
           }
           mainClassName={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}

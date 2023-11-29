@@ -211,9 +211,11 @@ $groundHeight: 40px;
           }
           &__btn {
             font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-            font-size: 1em;
+            font-size: 0.9em;
             width: 150px;
-            height: 35px;
+            height: 30px;
+            margin-top: 4px;
+            margin-bottom: 6px;
             background: #007ced;
             color: #000;
             border: 0px;
@@ -253,6 +255,12 @@ $groundHeight: 40px;
               width: 100%;
               height: 112%;
               z-index: -1;
+            }
+            @include mobile {
+              font-size: 0.45em;
+              width: 100px;
+              height: 20px;
+              margin-right: 10px;
             }
             @include tablet {
               font-size: 0.55em;

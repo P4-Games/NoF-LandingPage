@@ -4,10 +4,13 @@ import { motion } from 'framer-motion'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import PackFiguritas from '../../utils/PackFiguritas'
 import { storageUrlGamma } from '../../config'
+import { useLayoutContext } from '../../hooks'
 
-const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers, loaderPack }) => {
+const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers }) => {
   const starshineRef = useRef(null)
   const templateRef = useRef(null)
+  const { loading } = useLayoutContext()
+  
 
   useEffect(() => {
     const body = starshineRef.current
@@ -42,16 +45,13 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
   return (
     <>
       <div className='packcontainer'>
-        {loaderPack && (<div className= 'loader_container'>
-          <span className='loader' />
-        </div>)}
         <div id='starshine' ref={starshineRef}>
           <div className='template shine' ref={templateRef} />
         </div>
         <motion.div
           animate={openPackage ? { display: 'none' } : ''}
           transition={{ delay: 5 }}
-          className={loaderPack ? 'pack packloader' : 'pack'}
+          className={loading ? 'pack packloader' : 'pack'}
         >
           <motion.img
             animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
@@ -68,7 +68,7 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
             id='imagetest' src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
           />}
         </motion.div>
-        {!loaderPack && 
+        {!loading && 
           <AiOutlineCloseCircle
             onClick={() => {
               setPackIsOpen(false)
@@ -87,8 +87,7 @@ GammaPackOpen.propTypes = {
   setPackIsOpen: PropTypes.func,
   openPackage: PropTypes.bool,
   setOpenPackage: PropTypes.func,
-  cardsNumbers: PropTypes.array,
-  loaderPack: PropTypes.bool
+  cardsNumbers: PropTypes.array
 }
 
 export default GammaPackOpen
