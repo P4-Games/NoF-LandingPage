@@ -61,12 +61,11 @@ const Rules = ({ type, setShowRules }) => {
     <FlipBook
       showClose={true} 
       onCloseClick={handleCloseButton}
-      pagesContent={[
+      pages={[
         <ContentPageLeft />, 
         <ContentPageRight />
       ]}
-    >
-    </FlipBook>
+    />
   )
 }
 
