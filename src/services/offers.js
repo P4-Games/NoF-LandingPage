@@ -1,4 +1,3 @@
-const { BigNumber } = require('ethers')
 import { v4 as uuidv4 } from 'uuid'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
@@ -76,15 +75,13 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
     const offers = await offersContract.getOffersByCardNumber(cardNumber)
     if (!offers) return []
 
-    const offerObject = offers.map((item) => {
-      return {
-        offerId: item[0],
-        offerCard: parseInt(item[1]),
-        wantedCards: item[2],
-        offerWallet: item[3],
-        timeStamp: item[4]
-      }
-    })
+    const offerObject = offers.map((item) => ({
+      offerId: item[0],
+      offerCard: parseInt(item[1]),
+      wantedCards: item[2],
+      offerWallet: item[3],
+      timeStamp: item[4]
+    }))
 
     // El contrato puede devolver una ofer vacia en lugar de null,
     // por lo que quedará el offerId en 0
