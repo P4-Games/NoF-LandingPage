@@ -17,7 +17,7 @@ import FlipBook from '../../components/FlipBook'
 
 const GammaCardInfo = (props) => {
   const {t} = useTranslation()
-  const { loading, startLoading, stopLoading, ToggleShowDefaultButtons, updateShowButtons } = useLayoutContext()
+  const { loading, startLoading, stopLoading, ToggleShowDefaultButtons, updateShowButtons, updateFooterButtonsClasses } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const [ userHasCard, setUserHasCard ] = useState(false)
@@ -40,6 +40,7 @@ const GammaCardInfo = (props) => {
   useEffect(() => {
     ToggleShowDefaultButtons(true)
     updateShowButtons([true, true, true, true])
+    updateFooterButtonsClasses([null, null, null, null])
   }, []) //eslint-disable-line react-hooks/exhaustive-deps 
 
   useEffect(() => {

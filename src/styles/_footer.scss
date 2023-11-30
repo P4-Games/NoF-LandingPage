@@ -15,6 +15,10 @@
     background-repeat: no-repeat;
     background-position: center;
   }
+  &:hover::before {
+    top: 20%;
+    transform: perspective(1000px) rotateX(-30deg);
+  }
   @include mobile {
     width: 40px;
     height: 40px;
@@ -39,6 +43,21 @@
     width: 80px;
     height: 40px;
   }
+}
+
+.footer__buttons__custom__before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 35%;
+  width: 35%;
+  height: 35%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform-origin: center center;
+  transform: perspective(1000px) rotateX(-30deg);
+  z-index: 2;
 }
 
 .footer {
@@ -128,21 +147,21 @@
       justify-content: space-around;
       gap: 5%;
     }
+    @include desktop-portrait {
+      width: 50%;
+      justify-content: space-around;
+      gap: 5%;
+    }
     @include large-desktop {
       width: 50%;
     }
+
+    // default buttons
     &__bluebtn_default {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/blue-default.png);
       &:hover {
         background-image: url(/images/footer/blue-default-hover.png);
-      }
-    }
-    &__redbtn_default {
-      @extend .footer__buttons__default;
-      background-image: url(/images/footer/red-default.png);
-      &:hover {
-        background-image: url(/images/footer/red-default-hover.png);
       }
     }
     &__greenbtn_default {
@@ -152,6 +171,13 @@
         background-image: url(/images/footer/green-default-hover.png);
       }
     }
+    &__redbtn_default {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-default.png);
+      &:hover {
+        background-image: url(/images/footer/red-default-hover.png);
+      }
+    }
     &__yellowbtn_default {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/yellow-default.png);
@@ -159,18 +185,13 @@
         background-image: url(/images/footer/yellow-default-hover.png);
       }
     }
+
+    // custom buttons
     &__bluebtn_custom {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/blue-custom.png);
       &:hover {
         background-image: url(/images/footer/blue-custom-hover.png);
-      }
-    }
-    &__redbtn_custom {
-      @extend .footer__buttons__default;
-      background-image: url(/images/footer/red-custom.png);
-      &:hover {
-        background-image: url(/images/footer/red-custom-hover.png);
       }
     }
     &__greenbtn_custom {
@@ -180,11 +201,86 @@
         background-image: url(/images/footer/green-custom-hover.png);
       }
     }
+    &__redbtn_custom {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+    }
     &__yellowbtn_custom {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/yellow-custom.png);
       &:hover {
         background-image: url(/images/footer/yellow-custom-hover.png);
+      }
+    }
+
+    // custom-buttons-gamma
+    &__bluebtn_custom_switch_inventory {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-custom.png);
+      &:hover {
+        background-image: url(/images/footer/blue-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/albumsReduced.png);
+      }
+    }
+    &__bluebtn_custom_switch_album {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-custom.png);
+      &:hover {
+        background-image: url(/images/footer/blue-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/AlbumGamma2.png);
+      }
+    }
+    &__greenbtn_custom_shop {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/buyPackOn.png);
+      }
+    }
+    &__greenbtn_custom_claim {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/claimPrize.png);
+      }
+    }
+    &__redbtn_custom_open {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/openPackOn.png);
+      }
+    }
+    &__yellowbtn_custom_transfer {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/yellow-custom.png);
+      &:hover {
+        background-image: url(/images/footer/yellow-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/transferPackOn.png);
       }
     }
   }
@@ -276,6 +372,7 @@
       @include desktop-portrait {
         width: 0;
         visibility: hidden;
+        display: none;
       }
       @include large-desktop {
         width: 110px;
@@ -371,6 +468,10 @@
       visibility: hidden;
     }
     @include tablet-landscape {
+      display: none;
+      visibility: hidden;
+    }
+    @include desktop-portrait {
       display: none;
       visibility: hidden;
     }
