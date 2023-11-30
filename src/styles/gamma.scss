@@ -151,7 +151,6 @@
   gap: 5%;
 
   @include mobile {
-    
     display: none;
   }
   @include mobile-landscape {
@@ -252,7 +251,7 @@
     left: 72%;
     font-size: 0.4rem !important;
   }
-  
+
   @include desktop-portrait {
     position: absolute;
     height: 0%;
