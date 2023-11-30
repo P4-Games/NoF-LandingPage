@@ -429,16 +429,16 @@ const GammaMain = () => {
     if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
+          <div className={cardsQtty>=120 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`${cardsQtty}/120`}</h3>
+          </div>
           <div className={cardsQtty>=120 ? 'title_complete' : 'title_incomplete'}>
             <h3>
                 {cardsQtty === 120 
-                  ? `${t('album')} ${t('completo')}`
-                  : `${t('album')} ${t('incompleto')}`
+                  ? `(${t('completo')})`
+                  : `(${t('incompleto')})`
                 } 
             </h3>
-          </div>
-          <div className={cardsQtty>=120 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`${cardsQtty}/120`}</h3>
           </div>
           {cardsQtty>=120 && <div
             onClick={() => { handleFinishAlbum() }}

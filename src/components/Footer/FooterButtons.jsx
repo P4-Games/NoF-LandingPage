@@ -5,7 +5,6 @@ import { useLayoutContext } from '../../hooks'
 function FooterButtons () {
   const { showDefaultButtons, showButtons, buttonFunctions, footerButtonsClasses } = useLayoutContext()
 
-  console.log('footerButtonsClasses', footerButtonsClasses)
   const DefaultButtons = () => (
     <div className='footer__buttons'>
       <Link href='https://twitter.com/NOFtoken' target='_blank' rel='noreferrer' className='footer__buttons__bluebtn_default' />

@@ -35,7 +35,7 @@ const GammaAlbum =  (props) => {
       stopLoading()
     } catch (ex) {
       stopLoading()
-      console.log ({ex})
+      console.error({ex})
       emitError('error')
     }
   }
