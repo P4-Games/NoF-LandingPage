@@ -143,7 +143,6 @@ const GammaMain = () => {
         return
       }
 
-      console.log(walletAddress)
       startLoading()
       const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
       if (result) {
