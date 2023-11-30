@@ -219,7 +219,7 @@
     width: 100px;
     bottom: 4%;
     z-index: 500;
-    left: 66.5%;
+    left: 70%;
     font-size: 0.35rem !important;
   }
 
@@ -266,10 +266,6 @@
     color: green;
     margin: 0;
   }
-  .title_incomplete {
-    @extend .title_complete;
-    color: grey;
-  }
   .qtty_complete {
     color: green;
     font-size: 1rem;
@@ -278,11 +274,32 @@
     @include mobile {
       font-size: 0.45rem !important;
     }
-
     @include tablet {
       font-size: 0.55rem !important;
     }
-
+    @include tablet-landscape {
+      font-size: 0.45rem !important;
+    }
+    @include mobile-landscape {
+      font-size: 0.45rem !important;
+    }
+    @include desktop-portrait {
+      font-size: 0.45rem !important;
+    }
+  }
+  .title_incomplete {
+    @extend .title_complete;
+    color: white;
+  }
+  .qtty_incomplete {
+    @extend .title_complete;
+    color: white;
+    @include mobile {
+      font-size: 0.45rem !important;
+    }
+    @include tablet {
+      font-size: 0.55rem !important;
+    }
     @include tablet-landscape {
       font-size: 0.45rem !important;
     }
@@ -293,10 +310,6 @@
     @include desktop-portrait {
       font-size: 0.45rem !important;
     }
-  }
-  .qtty_incomplete {
-    @extend .title_complete;
-    color: grey;
   }
   .button_complete_common {
     position: absolute;
