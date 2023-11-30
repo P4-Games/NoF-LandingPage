@@ -31,7 +31,7 @@ const GammaMain = () => {
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
   const { 
     startLoading, stopLoading, ToggleShowDefaultButtons,
-    updateShowButtons, updateButtonFunctions
+    updateShowButtons, updateButtonFunctions, updateFooterButtonsClasses
   } = useLayoutContext() 
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
@@ -92,10 +92,23 @@ const GammaMain = () => {
   useEffect(() => {
     if (walletAddress && !cardInfoOpened) {
       ToggleShowDefaultButtons(false)
-      if (inventory)
+      
+      if (inventory) {
         updateShowButtons([true, true, true, true])
-      else
+        updateFooterButtonsClasses([
+          'footer__buttons__bluebtn_custom_switch_inventory', 
+          'footer__buttons__greenbtn_custom_shop', 
+          'footer__buttons__redbtn_custom_open', 
+          'footer__buttons__yellowbtn_custom_transfer'
+        ])
+      } else {
         updateShowButtons([true, true, false, false])
+        updateFooterButtonsClasses([
+          'footer__buttons__bluebtn_custom_switch_album', 
+          'footer__buttons__greenbtn_custom_claim', 
+          null, null])
+      }
+
       updateButtonFunctions(0, handleSwitchBook)
     }
   }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps 

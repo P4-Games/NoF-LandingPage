@@ -4,9 +4,10 @@ import React, { useCallback, createContext, useEffect, useState, useRef } from '
 const initialState = {
   windowSize: { size: false, mobile: false },
   bookRef: null,
-  showDefaultButtons: true,
-  buttonFunctions: [null, null, null, null],
-  showButtons: [true, true, true, true]
+  footerButtonsShowDefaults: true,
+  footerButtonsFunctions: [null, null, null, null],
+  footerButtonsToShow: [true, true, true, true],
+  footerButtonsClasses: [null, null, null, null]
 }
 
 const LayoutContext = createContext(initialState)
@@ -22,21 +23,10 @@ function LayoutProvider({ children }) {
   })
   const bookRef = useRef(null)
   const [loading, setLoading] = useState(false)
-  const [showDefaultButtons, setShowDefaultButtons] = useState(true)
-  const [buttonFunctions, setButtonFunctions] = useState([null, null, null, null])
-  const [showButtons, setShowButtons] = useState([true, true, true, true])
-
-  const updateButtonFunctions = useCallback((index, newFunction) => {
-    setButtonFunctions((prevFunctions) => {
-      const updatedFunctions = [...prevFunctions]
-      updatedFunctions[index] = newFunction
-      return updatedFunctions
-    })
-  }, [])
-
-  const updateShowButtons = useCallback((btn1, btn2, btn3, btn4) => {
-    setShowButtons(btn1, btn2, btn3, btn4)
-  }, [])
+  const [footerButtonsShowDefaults, setShowDefaultButtons] = useState(true)
+  const [footerButtonsFunctions, setFooterButtonsFunctions] = useState([null, null, null, null])
+  const [footerButtonsToShow, setFooterButtonsToShow] = useState([true, true, true, true])
+  const [footerButtonsClasses, setFooterButtonsClasses] = useState(null, null, null, null)
 
   const startLoading = useCallback(() => {
     setLoading(true)
@@ -44,6 +34,22 @@ function LayoutProvider({ children }) {
 
   const stopLoading = useCallback(() => {
     setLoading(false)
+  }, [])
+
+  const updateFooterButtonsFunctions = useCallback((index, newFunction) => {
+    setFooterButtonsFunctions((prevFunctions) => {
+      const updatedFunctions = [...prevFunctions]
+      updatedFunctions[index] = newFunction
+      return updatedFunctions
+    })
+  }, [])
+
+  const updateFooterButtonsClasses = useCallback((cls1, cls2, cls3, cls4) => {
+    setFooterButtonsClasses(cls1, cls2, cls3, cls4)
+  }, [])
+
+  const updateFooterButtonsToShow = useCallback((btn1, btn2, btn3, btn4) => {
+    setFooterButtonsToShow(btn1, btn2, btn3, btn4)
   }, [])
 
   const ToggleShowDefaultButtons = useCallback((toggle) => {
@@ -90,16 +96,18 @@ function LayoutProvider({ children }) {
         windowSize,
         loading,
         bookRef,
-        buttonFunctions,
-        showButtons,
-        showDefaultButtons,
+        buttonFunctions: footerButtonsFunctions,
+        showButtons: footerButtonsToShow,
+        showDefaultButtons: footerButtonsShowDefaults,
+        footerButtonsClasses,
         startLoading,
         stopLoading,
         turnPrevPage,
         turnNextPage,
         goToCollectionsPage,
-        updateButtonFunctions,
-        updateShowButtons,
+        updateButtonFunctions: updateFooterButtonsFunctions,
+        updateShowButtons: updateFooterButtonsToShow,
+        updateFooterButtonsClasses,
         ToggleShowDefaultButtons
       }}
     >
