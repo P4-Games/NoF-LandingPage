@@ -79,7 +79,8 @@ const FlipBook = ({ showClose, onCloseClick, pages, mainClassName = 'hero__top__
 FlipBook.propTypes = {
   showClose: PropTypes.bool,
   onCloseClick: PropTypes.func,
-  pages: PropTypes.array
+  pages: PropTypes.array,
+  mainClassName: PropTypes.string
 }
 
 export default FlipBook

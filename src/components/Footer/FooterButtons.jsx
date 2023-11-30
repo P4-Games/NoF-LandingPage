@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { useLayoutContext } from '../../hooks'
 
 function FooterButtons () {
-  const { showDefaultButtons, showButtons, buttonFunctions } = useLayoutContext()
+  const { showDefaultButtons, showButtons, buttonFunctions, footerButtonsClasses } = useLayoutContext()
 
+  console.log('footerButtonsClasses', footerButtonsClasses)
   const DefaultButtons = () => (
     <div className='footer__buttons'>
       <Link href='https://twitter.com/NOFtoken' target='_blank' rel='noreferrer' className='footer__buttons__bluebtn_default' />
@@ -20,7 +21,7 @@ function FooterButtons () {
         showButtons[0] && buttonFunctions && buttonFunctions[0] &&
         <div 
           onClick={ () => { buttonFunctions[0]() }} 
-          className='footer__buttons__bluebtn_custom' target='_blank'>
+          className={footerButtonsClasses[0] ?? 'footer__buttons__bluebtn_custom'}>
           <></>
         </div>
       }
@@ -28,7 +29,7 @@ function FooterButtons () {
         showButtons[1] && buttonFunctions && buttonFunctions[1] &&
         <div 
           onClick={ () => { buttonFunctions[1]() }} 
-          className='footer__buttons__greenbtn_custom'>
+          className={footerButtonsClasses[1] ?? 'footer__buttons__greenbtn_custom'}>
           <></>
         </div>
       }
@@ -36,7 +37,7 @@ function FooterButtons () {
         showButtons[2] && buttonFunctions && buttonFunctions[2] &&
         <div 
           onClick={ () => { buttonFunctions[2]() }} 
-          className='footer__buttons__redbtn_custom'>
+          className={footerButtonsClasses[2] ?? 'footer__buttons__redbtn_custom'}>
           <></>
         </div>
       }
@@ -44,7 +45,7 @@ function FooterButtons () {
         showButtons[3] && buttonFunctions && buttonFunctions[3] &&
         <div 
           onClick={ () => { buttonFunctions[3]() }} 
-          className='footer__buttons__yellowbtn_custom'>
+          className={footerButtonsClasses[3] ?? 'footer__buttons__yellowbtn_custom'}>
           <></>
         </div>
       }

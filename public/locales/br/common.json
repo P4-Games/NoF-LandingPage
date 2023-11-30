@@ -60,6 +60,7 @@
   "carta_enviada": "Sua carta foi enviada",
   "usuario_no_en_temporada": "Este usuário não está jogando nesta temporada.",
 
+  "no_paquetes_para_transferir": "Você não tem pacotes para transferir!",
   "no_paquetes_para_abrir": "Você não tem pacotes para abrir!",
   "album": "Álbum", 
   "completo": "Completo", 
@@ -89,6 +90,7 @@
   "transfer_pack_error": "Ocorreu um erro ao tentar transferir o pacote",
   "finish_album_error": "Ocorreu um erro ao tentar reivindicar o prêmio",
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
+  "finish_album_no_qtty": "Você ainda não tem o álbum completo para reivindicar o prêmio",
   "finish_album_warning": "As condições necessárias para completar os álbuns e reivindicar os prêmios ainda não estão disponíveis. Tente novamente em alguns dias!",
 
   "publish_offer_error": "Ocorreu um erro ao tentar publicar",

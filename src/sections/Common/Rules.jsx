@@ -62,8 +62,8 @@ const Rules = ({ type, setShowRules }) => {
       showClose={true} 
       onCloseClick={handleCloseButton}
       pages={[
-        <ContentPageLeft />, 
-        <ContentPageRight />
+        <ContentPageLeft key={'page-1'} />, 
+        <ContentPageRight key={'page-1'} />
       ]}
     />
   )

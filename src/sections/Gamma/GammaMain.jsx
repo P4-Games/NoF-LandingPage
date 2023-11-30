@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { ethers } from 'ethers'
 import Swal from 'sweetalert2'
@@ -26,11 +26,13 @@ const GammaMain = () => {
   const [openPackage, setOpenPackage] = useState(false)
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
-  const [loaderPack, setLoaderPack] = useState(false)
   const { 
     walletAddress, daiContract, gammaCardsContract, 
     gammaPacksContract, noMetamaskError, connectWallet } = useWeb3Context()
-  const { startLoading, stopLoading } = useLayoutContext()
+  const { 
+    startLoading, stopLoading, ToggleShowDefaultButtons,
+    updateShowButtons, updateButtonFunctions, updateFooterButtonsClasses
+  } = useLayoutContext() 
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
@@ -80,14 +82,60 @@ const GammaMain = () => {
       startLoading()
       const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
       setPaginationObj(userCards)
-      // console.log('userCards', userCards)
       stopLoading()
     } catch (error) {
       stopLoading()
       console.error(error)
     }
   }
-     
+
+  useEffect(() => {
+    if (walletAddress && !cardInfoOpened) {
+      ToggleShowDefaultButtons(false)
+      
+      if (inventory) {
+        updateShowButtons([true, true, true, true])
+        updateFooterButtonsClasses([
+          'footer__buttons__bluebtn_custom_switch_inventory', 
+          'footer__buttons__greenbtn_custom_shop', 
+          'footer__buttons__redbtn_custom_open', 
+          'footer__buttons__yellowbtn_custom_transfer'
+        ])
+      } else {
+        updateShowButtons([true, true, false, false])
+        updateFooterButtonsClasses([
+          'footer__buttons__bluebtn_custom_switch_album', 
+          'footer__buttons__greenbtn_custom_claim', 
+          null, null])
+      }
+
+      updateButtonFunctions(0, handleSwitchBook)
+    }
+  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps 
+
+  useEffect(() => {
+    if (walletAddress && !cardInfoOpened) {
+      if (inventory)
+        updateButtonFunctions(1, handleBuyPack)
+      else
+        updateButtonFunctions(1, handleFinishAlbum)
+    }
+  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps 
+
+  useEffect(() => {
+    if (walletAddress && inventory && !cardInfoOpened) {
+      updateButtonFunctions(2, handleOpenPack)
+    }
+  }, [walletAddress, gammaPacksContract, openPackage, //eslint-disable-line react-hooks/exhaustive-deps  
+    packIsOpen, cardsQtty, numberOfPacks, inventory, cardInfoOpened]
+  ) 
+
+  useEffect(() => {
+    if (walletAddress && inventory) {
+      updateButtonFunctions(3, handleTransferPack)
+    }
+  }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps 
+
   useEffect(() => {
     if (!paginationObj) return
     setCardsQtty(getCardsQtty(paginationObj))
@@ -95,21 +143,26 @@ const GammaMain = () => {
   
   useEffect(() => {
     fetchInventory()
-  }, [walletAddress, gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     checkNumberOfPacks()
-  }, [walletAddress, gammaPacksContract]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleFinishAlbum = async () => {  
+  const handleFinishAlbum = useCallback(async () => {  
     try {
+      if (cardsQtty < 120) {
+        emitInfo(t('finish_album_no_qtty'))
+        return
+      }
+
       startLoading()
-      const result = await finishAlbum(gammaCardsContract, walletAddress)
+      const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
       if (result) {
         await updateUserData()
         emitSuccess(t('finish_album_success'))
       } else {
-        emitWarning(t('finish_album_success'), 8000, '', false)
+        emitWarning(t('finish_album_warning'), 8000, '', false)
       }
       stopLoading()
     } catch (ex) {
@@ -117,10 +170,15 @@ const GammaMain = () => {
       console.error({ ex })
       emitError(t('finish_album_error'))
     }
-  }
+  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleTransferPack = async () => {  
+  const handleTransferPack = useCallback(async () => {  
     try {
+      if (numberOfPacks === 0) {
+        emitInfo(t('no_paquetes_para_transferir', 2000))
+        return 
+      }
+
       const result = await Swal.fire({
         text: `${t('wallet_destinatario')}`,
         input: 'text',
@@ -160,45 +218,48 @@ const GammaMain = () => {
       console.error({ ex })
       emitError(t('transfer_pack_error'))
     }
-  }
+  }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleOpenPack = async () => {
+  const handleOpenPack = useCallback(async () => {
     try {
+
+      if (numberOfPacks === 0) {
+        emitInfo(t('no_paquetes_para_abrir', 2000))
+        return 
+      }
+      startLoading()
+
       // llama al contrato para ver cantidad de sobres que tiene el usuario
       const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
-      setLoaderPack(true)
+    
+      setPackIsOpen(true)
+      const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+      // llama a la api para recibir los numeros de cartas del sobre y la firma
+      const data = await fetchPackData(walletAddress, packNumber)
+      const { packet_data, signature } = data
 
-      if (packs.length == 0) {
-        emitInfo(t('no_paquetes_para_abrir'), 2000)
+      // verify signer
+      // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+      // console.log('pack signer', signer)
+
+      setOpenPackCardsNumbers(packet_data)
+      const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
+      
+      if (openedPack) {
+        stopLoading()
+        setOpenPackage(true)
+        await checkNumberOfPacks()
+        await updateUserData()
       }
+      stopLoading()
 
-      if (packs.length >= 1) {
-        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-        // llama a la api para recibir los numeros de cartas del sobre y la firma
-        const data = await fetchPackData(walletAddress, packNumber)
-        const { packet_data, signature } = data
-
-        // verify signer
-        // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-        // console.log('pack signer', signer)
-
-        setOpenPackCardsNumbers(packet_data)
-        const openedPack = await openPack(gammaCardsContract, packNumber, packet_data, signature.signature)
-        
-        if (openedPack) {
-          setOpenPackage(true)
-          setLoaderPack(false)
-          await checkNumberOfPacks()
-          await updateUserData()
-          return openedPack
-        }
-      }
-      setLoaderPack(false)
     } catch (e) {
-      setLoaderPack(false)
+      stopLoading()
       emitError(t('open_pack_error'))
     }
-  }
+  }, [walletAddress, gammaPacksContract, openPackage, //eslint-disable-line react-hooks/exhaustive-deps
+      packIsOpen, cardsQtty, numberOfPacks, inventory, cardInfoOpened] 
+  ) 
 
   const buyPacksContract = async (numberOfPacks) => {
     
@@ -234,7 +295,12 @@ const GammaMain = () => {
     await connectWallet()
   }
 
-  const handleBuyPackClick = async () => {
+  const handleSwitchBook = useCallback(async () => {
+    setCardInfoOpened(false)
+    setInventory(!inventory)
+  }, [inventory])
+
+  const handleBuyPack = useCallback(async () => {
     const price =  await getPackPrice(gammaPacksContract)
 
     const result = await Swal.fire({
@@ -265,7 +331,7 @@ const GammaMain = () => {
       const packsToBuy = result.value
       await buyPacksContract(packsToBuy)
     }
-  }
+  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const NotConnected = () => (
     <div className='alpha'>
@@ -323,7 +389,7 @@ const GammaMain = () => {
                       <Image src={'/images/gamma/buyPackOff.png'} alt='buy pack' height='40' width='40'/>
                   </div>
                 :
-                  <div onClick={() => { handleBuyPackClick() }} 
+                  <div onClick={() => { handleBuyPack() }} 
                    className={'gammapack__actions__buyPack'}>
                    <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40'/>
                   </div>
@@ -339,12 +405,13 @@ const GammaMain = () => {
               </>
               :
               <>
-                <div onClick={() => { handleBuyPackClick() }} 
+                <div onClick={() => { handleBuyPack() }} 
                   className={'gammapack__actions__buyPack'}>
                   <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40'/>
                 </div>
-                <div onClick={() => { setPackIsOpen(true), handleOpenPack() }} 
-                    className='gammapack__actions__openPack'>
+                <div 
+                  onClick={() => { handleOpenPack() }} 
+                  className='gammapack__actions__openPack'>
                   <Image src={'/images/gamma/openPackOn.png'} alt='open pack' height='50' width='50'/>
                 </div>
                 <div onClick={() => { handleTransferPack() }}
@@ -362,7 +429,7 @@ const GammaMain = () => {
     if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
-          <div className={cardsQtty===120 ? 'title_complete' : 'title_incomplete'}>
+          <div className={cardsQtty>=120 ? 'title_complete' : 'title_incomplete'}>
             <h3>
                 {cardsQtty === 120 
                   ? `${t('album')} ${t('completo')}`
@@ -370,12 +437,12 @@ const GammaMain = () => {
                 } 
             </h3>
           </div>
-          <div className={cardsQtty===120 ? 'qtty_complete' : 'qtty_incomplete'}>
+          <div className={cardsQtty>=120 ? 'qtty_complete' : 'qtty_incomplete'}>
             <h3>{`${cardsQtty}/120`}</h3>
           </div>
-          {cardsQtty===120 && <div
+          {cardsQtty>=120 && <div
             onClick={() => { handleFinishAlbum() }}
-            className={cardsQtty===120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
+            className={cardsQtty>=120 ? 'completeAlbum' : 'completeAlbum_disabled'}>
             <h3>{t('reclamar_premio')}</h3>
           </div>}
         </div>
@@ -387,7 +454,7 @@ const GammaMain = () => {
 
   const BookImageLeft = () => (
     <div 
-      onClick={() => { setCardInfoOpened(false), setInventory(!inventory)} }
+      onClick={() => { handleSwitchBook() } }
       className= {
         cardInfoOpened 
         ? inventory ? 'gammaAlbums-disabled' : 'gammaAlbums2-disabled'
@@ -403,7 +470,6 @@ const GammaMain = () => {
 
       {walletAddress && packIsOpen && 
         <GammaPackOpen
-          loaderPack={loaderPack}
           setPackIsOpen={setPackIsOpen}
           cardsNumbers={openPackCardsNumbers}
           setOpenPackage={setOpenPackage}

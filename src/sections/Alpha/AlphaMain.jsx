@@ -155,7 +155,7 @@ const AlphaMain = () => {
 
   useEffect(() => {
     fetchAlbums()
-  }, [walletAddress, albums]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, albums]) //eslint-disable-line react-hooks/exhaustive-deps
   
 
   useEffect(() => {
@@ -224,7 +224,7 @@ const AlphaMain = () => {
 
   useEffect(() => {
     fetchSeasonData()
-  }, [walletAddress, alphaContract]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, alphaContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
 
   const getUserCards = async (address, seasonName) => {

@@ -21,24 +21,52 @@
 .gammapack {
   position: absolute;
   bottom: 38%;
-  right: 1%;
+  right: 0%;
   width: 350px;
   height: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  @media all and (orientation: portrait) {
-    width: 40%;
-    height: 15%;
-    bottom: 20%;
-    left: 49%;
+  @include mobile {
+    width: 28%;
+    height: 8%;
+    bottom: 1%;
+    z-index: 500;
+    left: 71%;
+  }
+  @include tablet {
+    width: 28%;
+    height: 12%;
+    bottom: 1%;
+    z-index: 500;
+    left: 61%;
+  }
+  @include mobile-landscape {
+    width: 28%;
+    height: 16%;
+    bottom: 0%;
+    z-index: 500;
+    left: 72%;
+  }
+  @include tablet-landscape {
+    width: 28%;
+    height: 16%;
+    bottom: 0%;
+    z-index: 500;
+    left: 72%;
+  }
+  @include desktop-portrait {
+    width: 28%;
+    height: 10%;
+    bottom: 0%;
+    z-index: 500;
+    left: 72%;
   }
 }
 
 .gammapack__content__common {
   background-color: black;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,8 +74,14 @@
   height: 100%;
   margin-bottom: 10px;
 
+  @media all {
+    margin-top: 15px;
+    margin-bottom: 0px;
+    width: 90%;
+    height: 90%;
+  }
+
   .pack_number {
-    cursor: pointer;
     font-size: 1.8rem;
     font-weight: lighter;
     text-align: center;
@@ -57,9 +91,30 @@
     width: 100%;
     filter: drop-shadow(2px 4px 6px white);
 
-    @media all and (orientation: portrait) {
-      font-size: 0.9rem;
+    @include mobile {
+      font-size: 0.5rem;
+      margin-bottom: 25px;
       margin-left: 10px; // porque la imagen esta un poco desfazada!
+    }
+
+    @include mobile-landscape {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    @include tablet {
+      font-size: 0.8rem;
+      margin-bottom: 15px;
+    }
+
+    @include tablet-landscape {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    @include desktop-portrait {
+      font-size: 0.8rem;
+      margin-bottom: 15px;
     }
   }
 
@@ -95,9 +150,20 @@
   justify-content: center;
   gap: 5%;
 
-  @media all and (orientation: portrait) {
-    gap: 3%;
-    margin-left: 10px;
+  @include mobile {
+    display: none;
+  }
+  @include mobile-landscape {
+    display: none;
+  }
+  @include tablet {
+    display: none;
+  }
+  @include tablet-landscape {
+    display: none;
+  }
+  @include desktop-portrait {
+    display: none;
   }
 
   &__buyPack,
@@ -105,12 +171,11 @@
   &__transferPack {
     cursor: pointer;
     background-size: 100% 100%;
-    // margin-top: 50%;
     img {
       position: relative;
-      @include mobile {
-        height: 20px;
-        width: 20px;
+      @media all {
+        height: 30px;
+        width: 30px;
       }
     }
     &:hover {
@@ -127,35 +192,76 @@
     background-size: 100% 100%;
     img {
       position: relative;
-      @include mobile {
-        height: 20px;
-        width: 20px;
+      @media all {
+        height: 30px;
+        width: 30px;
       }
     }
   }
 }
 
-// gamma-book-right
+// gamma-info-right
 .gammaComplete {
   position: absolute;
   bottom: 39%;
-  right: 7%;
-  width: 18%;
+  right: 0%;
+  width: 25%;
   height: 40%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
 
-  @media all and (orientation: portrait) {
+  @include mobile {
     position: absolute;
-    width: 45%;
-    height: 25%;
-    bottom: 15%;
-    right: 5%;
+    height: 0%;
+    width: 100px;
+    bottom: 4%;
+    z-index: 500;
+    left: 66.5%;
+    font-size: 0.35rem !important;
+  }
+
+  @include mobile-landscape {
+    position: absolute;
+    height: 0%;
+    width: 130px;
+    bottom: 6%;
+    z-index: 500;
+    left: 72%;
     font-size: 0.4rem !important;
   }
+
+  @include tablet {
+    position: absolute;
+    height: 0%;
+    bottom: 6%;
+    z-index: 7777;
+    left: 60%;
+    font-size: 0.45rem !important;
+  }
+
+  @include tablet-landscape {
+    position: absolute;
+    height: 0%;
+    width: 100px;
+    bottom: 6%;
+    z-index: 500;
+    left: 72%;
+    font-size: 0.4rem !important;
+  }
+
+  @include desktop-portrait {
+    position: absolute;
+    height: 0%;
+    width: 160px;
+    bottom: 4%;
+    z-index: 500;
+    left: 65%;
+    font-size: 0.4rem !important;
+  }
+
   .title_complete {
     color: green;
     margin: 0;
@@ -168,6 +274,25 @@
     color: green;
     font-size: 1rem;
     margin: 0;
+
+    @include mobile {
+      font-size: 0.45rem !important;
+    }
+
+    @include tablet {
+      font-size: 0.55rem !important;
+    }
+
+    @include tablet-landscape {
+      font-size: 0.45rem !important;
+    }
+
+    @include mobile-landscape {
+      font-size: 0.45rem !important;
+    }
+    @include desktop-portrait {
+      font-size: 0.45rem !important;
+    }
   }
   .qtty_incomplete {
     @extend .title_complete;
@@ -180,6 +305,25 @@
     align-items: center;
     margin: 0;
     bottom: 10%;
+
+    @include mobile {
+      display: none;
+    }
+
+    @include mobile-landscape {
+      display: none;
+    }
+
+    @include tablet {
+      display: none;
+    }
+
+    @include tablet-landscape {
+      display: none;
+    }
+    @include desktop-portrait {
+      display: none;
+    }
   }
   .completeAlbum {
     @extend .button_complete_common;
@@ -200,23 +344,31 @@
 .gammaAlbumsCommon {
   cursor: pointer;
   position: absolute;
-  bottom: 40%;
+  bottom: 42%;
   left: 7%;
   width: auto;
   aspect-ratio: 0.9;
   min-height: 25%;
   transition: all 0.2s ease-in;
   background-repeat: no-repeat;
-  @media all and (orientation: portrait) {
-    position: absolute;
-    min-height: 15%;
-    width: 15%;
-    height: 15%;
-    bottom: 20%;
-    left: 25%;
-  }
   &:hover {
     transform: scale(1.05);
+  }
+
+  @include mobile {
+    display: none;
+  }
+  @include tablet {
+    display: none;
+  }
+  @include mobile-landscape {
+    display: none;
+  }
+  @include tablet-landscape {
+    display: none;
+  }
+  @include desktop-portrait {
+    display: none;
   }
 }
 
@@ -491,14 +643,7 @@
     transform: translate3d(100%, 0, 0);
   }
 }
-// @keyframes openPackage{
-//  90%{
-//   transform: translate(-275px, 1px);
-//  }
-//  100%{
-//   opacity: 0;
-//  }
-// }
+
 @keyframes shake-animation {
   0% {
     transform: translate(0, 0);
@@ -546,7 +691,7 @@
   background-position: center;
   background-size: 100% 100%;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1000;
   color: tansparent;
   -moz-opacity: 0;
   opacity: 0;
