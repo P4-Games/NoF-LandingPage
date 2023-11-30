@@ -83,6 +83,9 @@ $groundHeight: 40px;
       }
       @include tablet-landscape {
       }
+      @include desktop-portrait {
+        display: none;
+      }
 
       @include large-desktop {
         width: 160px;
@@ -174,7 +177,7 @@ $groundHeight: 40px;
             flex-direction: column;
             width: 80%;
             height: 85%;
-            padding: 20px 0 20px 0;
+            padding: 5px 0 5px 0;
             margin: 0 auto;
             align-items: center;
             justify-content: space-between;
@@ -190,6 +193,9 @@ $groundHeight: 40px;
             }
             @include mobile-landscape {
               display: none;
+            }
+            @include desktop-portrait {
+              disaply: none;
             }
           }
           &__text2 {
@@ -274,10 +280,17 @@ $groundHeight: 40px;
               height: 30px;
               margin-right: 10px;
             }
+
             @include desktop {
               font-size: 0.3em;
               width: 80px;
               height: 30px;
+              margin-right: 10px;
+            }
+            @include desktop-portrait {
+              font-size: 0.3em;
+              width: 80px;
+              height: 20px;
               margin-right: 10px;
             }
             @include large-desktop {
@@ -527,6 +540,10 @@ $groundHeight: 40px;
   @include mobile-landscape {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
+
   @include tablet {
     margin-top: 1%;
   }
@@ -585,6 +602,9 @@ $groundHeight: 40px;
   @include tablet {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
 
   .swiper-pagination-bullet {
     background-color: #092b39;
@@ -613,6 +633,10 @@ $groundHeight: 40px;
   @include mobile-landscape {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
+
   @include large-desktop {
     font-size: 13px;
   }
@@ -650,6 +674,10 @@ $groundHeight: 40px;
   @include mobile-landscape {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
+
   .bookimg {
     width: 200px;
     height: 110px;
@@ -671,6 +699,10 @@ $groundHeight: 40px;
   @include mobile-landscape {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
+
   .coinimg {
     position: relative;
     height: 50px;
@@ -802,6 +834,10 @@ $groundHeight: 40px;
   @include mobile-landscape {
     display: none;
   }
+  @include desktop-portrait {
+    display: none;
+  }
+
   .techimg {
     height: 100%;
     width: 100%;
@@ -992,7 +1028,7 @@ $groundHeight: 40px;
         font-size: 16px;
       }
       h3 {
-        font-size: 0.6rem;
+        font-size: 0.26rem;
         text-align: left;
       }
     }
