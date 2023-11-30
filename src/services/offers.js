@@ -83,7 +83,7 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
       timeStamp: item[4]
     }))
 
-    // El contrato puede devolver una ofer vacia en lugar de null,
+    // El contrato puede devolver una oferta vacia en lugar de null,
     // por lo que quedará el offerId en 0
     const filteredResult = offerObject.filter((item) => item.offerId !== 0)
     return filteredResult
@@ -92,3 +92,36 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
     throw e
   }
 }
+
+/*
+export const deleteUserOffers = async (offersContract, userAddress) => {
+  try {
+    const offers = await offersContract.getOffersByUser(userAddress)
+    if (!offers) return true
+
+    const offerObject = offers.map((item) => ({
+      offerId: item[0],
+      offerCard: parseInt(item[1]),
+      wantedCards: item[2],
+      offerWallet: item[3],
+      timeStamp: item[4]
+    }))
+
+     // El contrato puede devolver una oferta vacia en lugar de null,
+    // por lo que quedará el offerId en 0
+    const filteredResult = offerObject.filter((item) => item.offerId !== 0)
+    console.log('user offers', offers, filteredResult)
+
+    if (filteredResult && filteredResult.length > 0) {
+      for (let index = 0; index < filteredResult.length; index++) {
+        const offer = filteredResult[index]
+        await offersContract.removeOfferByCardNumber(offer.offerCard)
+      }
+    }
+    return true
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+*/
