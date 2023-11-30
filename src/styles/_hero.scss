@@ -76,6 +76,9 @@ $groundHeight: 40px;
       @include mobile {
         display: none;
       }
+      @include mobile-landscape {
+        display: none;
+      }
       @include tablet {
       }
       @include tablet-landscape {
@@ -183,6 +186,9 @@ $groundHeight: 40px;
             margin: 0 auto;
 
             @include mobile {
+              display: none;
+            }
+            @include mobile-landscape {
               display: none;
             }
           }
@@ -518,6 +524,9 @@ $groundHeight: 40px;
   @include mobile {
     display: none;
   }
+  @include mobile-landscape {
+    display: none;
+  }
   @include tablet {
     margin-top: 1%;
   }
@@ -570,6 +579,9 @@ $groundHeight: 40px;
   @include mobile {
     display: none;
   }
+  @include mobile-landscape {
+    display: none;
+  }
   @include tablet {
     display: none;
   }
@@ -596,6 +608,9 @@ $groundHeight: 40px;
   text-align: center;
 
   @include mobile {
+    display: none;
+  }
+  @include mobile-landscape {
     display: none;
   }
   @include large-desktop {
@@ -632,6 +647,9 @@ $groundHeight: 40px;
   @include mobile {
     display: none;
   }
+  @include mobile-landscape {
+    display: none;
+  }
   .bookimg {
     width: 200px;
     height: 110px;
@@ -648,6 +666,9 @@ $groundHeight: 40px;
   width: 70%;
   margin: 0 auto;
   @include mobile {
+    display: none;
+  }
+  @include mobile-landscape {
     display: none;
   }
   .coinimg {
@@ -776,6 +797,9 @@ $groundHeight: 40px;
   top: 60px;
   margin: 0 auto;
   @include mobile {
+    display: none;
+  }
+  @include mobile-landscape {
     display: none;
   }
   .techimg {

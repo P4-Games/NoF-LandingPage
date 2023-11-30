@@ -43,15 +43,25 @@
     left: 61%;
   }
   @include mobile-landscape {
+    width: 28%;
+    height: 16%;
+    bottom: 0%;
+    z-index: 500;
+    left: 72%;
   }
   @include tablet-landscape {
+    width: 28%;
+    height: 16%;
+    bottom: 0%;
+    z-index: 500;
+    left: 72%;
   }
   @include desktop-portrait {
     width: 28%;
-    height: 12%;
-    bottom: 1%;
+    height: 10%;
+    bottom: 0%;
     z-index: 500;
-    left: 75%;
+    left: 72%;
   }
 }
 
@@ -89,6 +99,7 @@
 
     @include mobile-landscape {
       font-size: 0.9rem;
+      margin-bottom: 15px;
     }
 
     @include tablet {
@@ -97,9 +108,12 @@
     }
 
     @include tablet-landscape {
-    }
-    @include desktop-portrait {
       font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    @include desktop-portrait {
+      font-size: 0.8rem;
       margin-bottom: 15px;
     }
   }
@@ -139,15 +153,12 @@
   @include mobile {
     display: none;
   }
-
   @include mobile-landscape {
-    dispaly: none;
+    display: none;
   }
-
   @include tablet {
     display: none;
   }
-
   @include tablet-landscape {
     display: none;
   }
@@ -208,7 +219,7 @@
     width: 100px;
     bottom: 4%;
     z-index: 500;
-    left: 72%;
+    left: 66.5%;
     font-size: 0.35rem !important;
   }
 
@@ -240,14 +251,15 @@
     left: 72%;
     font-size: 0.4rem !important;
   }
+
   @include desktop-portrait {
     position: absolute;
     height: 0%;
     width: 160px;
-    bottom: 6%;
+    bottom: 4%;
     z-index: 500;
-    left: 80%;
-    font-size: 0.6rem !important;
+    left: 65%;
+    font-size: 0.4rem !important;
   }
 
   .title_complete {
@@ -279,7 +291,7 @@
       font-size: 0.45rem !important;
     }
     @include desktop-portrait {
-      font-size: 0.55rem !important;
+      font-size: 0.45rem !important;
     }
   }
   .qtty_incomplete {
