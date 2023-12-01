@@ -141,13 +141,13 @@ const GammaMain = () => {
   }, [
     walletAddress,
     gammaPacksContract,
-    openPackage, //eslint-disable-line react-hooks/exhaustive-deps
+    openPackage, 
     packIsOpen,
     cardsQtty,
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ])
+  ]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (walletAddress && inventory) {
