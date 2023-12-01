@@ -58,7 +58,6 @@ const GammaAlbum =  (props) => {
 
     setCardInfo(false)
     setCardOffers(true)
-    // setCardInfoOpened(true)
   }
 
   const handleFinishInfoCard = async (update = true) => {

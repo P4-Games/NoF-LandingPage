@@ -178,15 +178,6 @@ const GammaCardInfo = (props) => {
     </div>
   )
 
-  const CloseButton = () => (
-    <div
-      className='gamma_info_card_close'
-      onClick={() => handleFinishInfoCard(true)}
-    >
-      X
-    </div>
-  )
-
   const MintButton = () => (
     <div
     /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
@@ -248,7 +239,6 @@ const GammaCardInfo = (props) => {
   const Page2 = () => (
     <div className='cardinfo'>
       <div className='transactions'>
-        <CloseButton/>
         <MintButton/>
         <TransferButton/>
         {!userCard.offered && <PublishButton/>}
