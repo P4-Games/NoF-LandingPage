@@ -12,7 +12,7 @@ function Whitepaper () {
       rel='noreferrer'
       // spy='true'
     >
-      <button className='navbar__ul__li__whitepaper'>
+      <button className='navbar__center__li__whitepaper'>
         {t('whitepaper')}
       </button>
     </Link>
