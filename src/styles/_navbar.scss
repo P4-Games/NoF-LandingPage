@@ -22,7 +22,7 @@ header {
   z-index: 999;
 
   &__center {
-    margin-right:10px;
+    margin-right: 10px;
     list-style: none;
     display: flex;
     justify-content: center;
@@ -46,7 +46,7 @@ header {
         // margin-right: 130px;
       }
       @include extra-large-desktop {
-       // margin-right: 7.5vw;
+        // margin-right: 7.5vw;
       }
 
       &__noftown {
@@ -73,7 +73,6 @@ header {
         }
       }
     }
-
   }
 
   &__right {
@@ -85,7 +84,6 @@ header {
       background-size: 100% 100%;
       img {
         position: relative;
-        
       }
       &:hover {
         transform: scale(1.1);
@@ -113,7 +111,7 @@ header {
       background-size: 100% 100%;
       img {
         position: relative;
-        width: 120px!important;
+        width: 120px !important;
         height: 60px;
       }
       &:hover {
@@ -122,57 +120,56 @@ header {
       }
     }
   }
-  
 }
 
 .corner__common {
   display: flex;
-    align-items: center;
-    margin-left: 15px;
-    width: 25%;
-    gap: 1em;
+  align-items: center;
+  margin-left: 15px;
+  width: 25%;
+  gap: 1em;
+  img {
+    width: 60px;
+    height: 60px;
+  }
+  @include mobile {
+    gap: 0.5em;
     img {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
     }
-    @include mobile {
-      gap: 0.5em;
-      img {
-        width: 40px;
-        height: 40px;
-      }
+  }
+  @include mobile-landscape {
+    gap: 0.5em;
+    img {
+      width: 40px;
+      height: 40px;
     }
-    @include mobile-landscape {
-      gap: 0.5em;
-      img {
-        width: 40px;
-        height: 40px;
-      }
+  }
+  @include tablet {
+    gap: 0.5em;
+    img {
+      width: 40px;
+      height: 40px;
     }
-    @include tablet {
-      gap: 0.5em;
-      img {
-        width: 40px;
-        height: 40px;
-      }
+  }
+  @include desktop {
+    gap: 0.5em;
+    img {
+      width: 40px;
+      height: 40px;
     }
-    @include desktop {
-      gap: 0.5em;
-      img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-    @include large-desktop {
-      margin-top: 0em;
-      gap: 0.5em;
-      width: 60px;
-      height: 60px;
-    }
+  }
+  @include large-desktop {
+    margin-top: 0em;
+    gap: 0.5em;
+    width: 60px;
+    height: 60px;
+  }
 }
 
-
-.link { // world - mundo
+.link {
+  // world - mundo
   width: 60px;
   height: 60px;
   background: none;
