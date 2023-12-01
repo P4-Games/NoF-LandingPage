@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
-import { MdOutlineLocalOffer } from "react-icons/md"
+import { MdOutlineLocalOffer } from 'react-icons/md'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
@@ -12,15 +12,15 @@ import { emitInfo } from '../../utils/alert'
 
 import { getOffersByCardNumber /*, getOffers*/ } from '../../services/offers'
 import { useWeb3Context } from '../../hooks'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 
-const GammaAlbum =  (props) => {
-  const {t} = useTranslation()
+const GammaAlbum = (props) => {
+  const { t } = useTranslation()
   const { paginationObj, showInventory, updateUserData, setCardInfoOpened } = props
   const { startLoading, stopLoading } = useLayoutContext()
-  const [ cardInfo, setCardInfo ] = useState(false)
-  const [ cardOffers, setCardOffers ] = useState(false)
-  const [ imageNumber, setImageNumber ] = useState(0)
+  const [cardInfo, setCardInfo] = useState(false)
+  const [cardOffers, setCardOffers] = useState(false)
+  const [imageNumber, setImageNumber] = useState(0)
   const [offersObj, setOffersObj] = useState(null)
   const { gammaOffersContract, walletAddress } = useWeb3Context()
   // const [ allOffers, setAllOffers ] = useState(null)
@@ -47,12 +47,10 @@ const GammaAlbum =  (props) => {
   */
 
   const handleOpenCardOffers = async () => {
-    if(!offersObj || offersObj.length === 0) {
+    if (!offersObj || offersObj.length === 0) {
       const myOffer = paginationObj.user[imageNumber]?.offered
-      if (myOffer) 
-        emitInfo(t('offer_only_own_offer'), 5500)
-      else
-        emitInfo(t('offer_card_number_empty'), 5500)
+      if (myOffer) emitInfo(t('offer_only_own_offer'), 5500)
+      else emitInfo(t('offer_card_number_empty'), 5500)
       return
     }
 
@@ -80,19 +78,18 @@ const GammaAlbum =  (props) => {
 
     // filtro mis ofertas
     if (offers && offers.length > 0) {
-      // Saca mis ofertas 
-      const filterMyoffes = offers.filter(item => item.offerWallet !== walletAddress)
+      // Saca mis ofertas
+      const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
       setOffersObj(filterMyoffes)
     }
     stopLoading()
   }
-   
-  const getStyle = (item) => (
-    (paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity)
+
+  const getStyle = (item) =>
+    paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity
       ? { filter: 'grayscale(1)' }
       : {}
-  );
-  
+
   /*
   const getCardNumberOffersQtty = (cardNumber) => {
     if (!allOffers) return 0
@@ -107,105 +104,109 @@ const GammaAlbum =  (props) => {
   }
   */
 
-  const PageContentInventory = ({ page, pageNumber}) => {
-
+  const PageContentInventory = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
-    if (pageNumber % 2 === 0) { // par
+    if (pageNumber % 2 === 0) {
+      // par
       divWrapperClassName = 'grid-wrapper-right'
     }
 
     return (
       <div className={divWrapperClassName}>
-        {page && page.map((item, index) => (
-          <div 
-            onClick={() => { 
-              handleCardClick(item)
-            }}
-            style={getStyle(item)} 
-            key={index}
-            className='grid-item'
-          >
-            <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' /> 
-            { paginationObj.user[item]?.stamped && <FcCheckmark /> }
-            { paginationObj.user[item]?.offered && <MdOutlineLocalOffer className = 'image-my-offer' /> }
-            {/* allOffers &&  (getCardNumberOffersQtty(item)) && <Offer2 className = 'image-other-offer' /> */}
+        {page &&
+          page.map((item, index) => (
+            <div
+              onClick={() => {
+                handleCardClick(item)
+              }}
+              style={getStyle(item)}
+              key={index}
+              className='grid-item'
+            >
+              <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+              {paginationObj.user[item]?.stamped && <FcCheckmark />}
+              {paginationObj.user[item]?.offered && (
+                <MdOutlineLocalOffer className='image-my-offer' />
+              )}
+              {/* allOffers &&  (getCardNumberOffersQtty(item)) && <Offer2 className = 'image-other-offer' /> */}
 
-            { paginationObj.user[item]?.quantity > 1 && 
-              <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
-            }
+              {paginationObj.user[item]?.quantity > 1 && (
+                <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
+              )}
 
-            <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
-          </div>))
-        }
+              <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
+            </div>
+          ))}
       </div>
     )
   }
 
-  const PageContentAlbum = ({ page, pageNumber}) => {
+  const PageContentAlbum = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left-album'
-    if (pageNumber % 2 === 0) { // par
+    if (pageNumber % 2 === 0) {
+      // par
       divWrapperClassName = 'grid-wrapper-right-album'
     }
 
     return (
       <div className={divWrapperClassName}>
-        {page && page.map((item, index) => (
-          <div 
-            style={{ background: 'none' }}
-            key={index}
-            className='grid-item'
-          >
-            { paginationObj.user[item]?.stamped
-              ? <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-              : <CustomImage src='/images/gamma/Nofy.png' alt='img' /> 
-            }
-          </div>))
-        }
+        {page &&
+          page.map((item, index) => (
+            <div style={{ background: 'none' }} key={index} className='grid-item'>
+              {paginationObj.user[item]?.stamped ? (
+                <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+              ) : (
+                <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+              )}
+            </div>
+          ))}
       </div>
     )
   }
 
-  const PageContent = ({ page, pageNumber }) => (
-    showInventory
-      ? <PageContentInventory page={page} pageNumber={pageNumber}/>
-      : <PageContentAlbum page={page} pageNumber={pageNumber}/>
-  )
+  const PageContent = ({ page, pageNumber }) =>
+    showInventory ? (
+      <PageContentInventory page={page} pageNumber={pageNumber} />
+    ) : (
+      <PageContentAlbum page={page} pageNumber={pageNumber} />
+    )
 
   PageContent.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
   }
-  
+
   PageContentInventory.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
   }
-  
+
   PageContentAlbum.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
   }
 
   const getuserCardObject = (imageNumber) => {
-    const data = paginationObj 
-              ? Object.values(paginationObj.user).find(entry => entry.name === imageNumber.toString())
-              : {}
+    const data = paginationObj
+      ? Object.values(paginationObj.user).find((entry) => entry.name === imageNumber.toString())
+      : {}
     return data
   }
 
   const Book = () => {
-    if (!paginationObj)
-      return (<></>)
+    if (!paginationObj) return <></>
     else
       return (
         <FlipBook
           showClose={false}
           onCloseClick={undefined}
-          pages={
-            Array.from({ length: 10 }, (_, index) => (
-              <PageContent page={paginationObj[`page${index + 1}`]} key={index} pageNumber={index + 1} />
-            ))
-          }
+          pages={Array.from({ length: 10 }, (_, index) => (
+            <PageContent
+              page={paginationObj[`page${index + 1}`]}
+              key={index}
+              pageNumber={index + 1}
+            />
+          ))}
           mainClassName={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}
         />
       )
@@ -214,24 +215,24 @@ const GammaAlbum =  (props) => {
   return (
     <>
       {!cardInfo && !cardOffers && <Book />}
-      
-      {cardInfo &&
-        <GammaCardInfo 
-          paginationObj={paginationObj}  
+
+      {cardInfo && (
+        <GammaCardInfo
+          paginationObj={paginationObj}
           userCard={getuserCardObject(imageNumber)}
           handleOpenCardOffers={handleOpenCardOffers}
           handleFinishInfoCard={handleFinishInfoCard}
         />
-      }
+      )}
 
-      {cardOffers && offersObj && offersObj.length > 0 &&
+      {cardOffers && offersObj && offersObj.length > 0 && (
         <GammaCardOffers
           paginationObj={paginationObj}
           offerData={offersObj}
           cardNumber={imageNumber}
           handleFinishInfoCard={handleFinishInfoCard}
         />
-      }
+      )}
     </>
   )
 }
