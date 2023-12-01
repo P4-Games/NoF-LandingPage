@@ -10,7 +10,7 @@ import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
 import { emitError, emitSuccess } from '../../utils/alert'
 
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
@@ -24,10 +24,10 @@ const vidas = [
   '/images/alpha/vida5.png'
 ]
 
-let swiper //eslint-disable-line 
+let swiper //eslint-disable-line
 
 const AlphaMain = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
   const [albumImage, setAlbumImage] = useState(null)
@@ -49,20 +49,19 @@ const AlphaMain = () => {
   const [, setDisableTransfer] = useState(false)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
-  const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } = useWeb3Context()
+  const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } =
+    useWeb3Context()
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
 
   function clickFromAlbums() {
     alphaMidButton()
-    setShowMain(prevShowMain => !prevShowMain)
+    setShowMain((prevShowMain) => !prevShowMain)
   }
 
   function alphaMidButton() {
-    const albums = document.getElementsByClassName(
-      'alpha_full_albums_container'
-    )
+    const albums = document.getElementsByClassName('alpha_full_albums_container')
     const game = document.getElementsByClassName('alpha_inner_container')
     if (game && game.length > 0) {
       albums[0].classList.toggle('alpha_display_none')
@@ -77,10 +76,7 @@ const AlphaMain = () => {
 
       let albumsArr = []
       for (let i = 0; i < seasonNames.length; i++) {
-        const album = await alphaContract.getCardsByUserBySeason(
-          walletAddress,
-          seasonNames[i]
-        )
+        const album = await alphaContract.getCardsByUserBySeason(walletAddress, seasonNames[i])
         for (let j = 0; j < album.length; j++) {
           if (album[j].class == 0) {
             const folder = await getSeasonFolder(album[j].season)
@@ -90,7 +86,7 @@ const AlphaMain = () => {
       }
       setAlbums(albumsArr)
       stopLoading()
-    } catch(ex) {
+    } catch (ex) {
       stopLoading()
       console.error({ ex })
       emitError(t('alpha_fetch_albums'))
@@ -109,7 +105,7 @@ const AlphaMain = () => {
 
         for (let i = 0; i < seasonData[0].length; i++) {
           const season = await alphaContract.getSeasonAlbums(seasonData[0][i])
-    
+
           if (season.length > 0) {
             currentSeason = seasonData[0][i]
             currentPrice = seasonData[1][i]
@@ -132,17 +128,19 @@ const AlphaMain = () => {
           }
         }
 
-        const finishedSeasons = Object.entries(seasonWinnersCount).filter(season => season[1] == 10).map(season => season[0])
-        const activeSeasons = seasonData[0].filter(season => !finishedSeasons.includes(season))
+        const finishedSeasons = Object.entries(seasonWinnersCount)
+          .filter((season) => season[1] == 10)
+          .map((season) => season[0])
+        const activeSeasons = seasonData[0].filter((season) => !finishedSeasons.includes(season))
         setSeasonName(currentSeason) // sets the season name as the oldest season with cards still available
         setPackPrice(currentPrice?.toString()) // sets the season price as the last season price created
         setSeasonNames(activeSeasons)
 
-        if(!activeSeasons || activeSeasons.length === 0) {
+        if (!activeSeasons || activeSeasons.length === 0) {
           setError(t('no_season_nampes'))
         }
 
-        setPackPrices(seasonData[1]) 
+        setPackPrices(seasonData[1])
       }
       stopLoading()
     } catch (ex) {
@@ -152,11 +150,9 @@ const AlphaMain = () => {
     }
   }
 
-
   useEffect(() => {
     fetchAlbums()
   }, [walletAddress, albums]) //eslint-disable-line react-hooks/exhaustive-deps
-  
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -216,8 +212,7 @@ const AlphaMain = () => {
       }
       if (seasonName.length > 16) {
         seasonNameElem.style.fontSize = '0.6rem'
-        seasonNameElem.innerText =
-          seasonNameElem.innerText.substring(0, 16) + '...'
+        seasonNameElem.innerText = seasonNameElem.innerText.substring(0, 16) + '...'
       }
     }
   }, [seasonName])
@@ -225,7 +220,6 @@ const AlphaMain = () => {
   useEffect(() => {
     fetchSeasonData()
   }, [walletAddress, alphaContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
 
   const getUserCards = async (address, seasonName) => {
     try {
@@ -263,7 +257,6 @@ const AlphaMain = () => {
       )
       await authorization.wait()
       return authorization
-  
     } catch (ex) {
       console.error(ex)
     }
@@ -289,20 +282,20 @@ const AlphaMain = () => {
     const albumData = await alphaContract.cards(tokenId)
     return albumData
   }
-  
+
   const showCards = (address, seasonName) => {
     try {
       checkPacks()
-      .then((res) => {
-        if (res.length == 0) {
-          setDisableTransfer(false)
-        } else {
-          setDisableTransfer(true)
-        }
-      })
-      .catch((e) => {
-        console.error({ e })
-      })
+        .then((res) => {
+          if (res.length == 0) {
+            setDisableTransfer(false)
+          } else {
+            setDisableTransfer(true)
+          }
+        })
+        .catch((e) => {
+          console.error({ e })
+        })
       const cards = getUserCards(address, seasonName)
         .then((pack) => {
           if (pack.length) {
@@ -314,16 +307,10 @@ const AlphaMain = () => {
             setError('')
             setPack(pack)
             setAlbum(albumData)
-            setAlbumCollection(
-              ethers.BigNumber.from(albumData[0].collection).toNumber()
-            )
-            const completion = ethers.BigNumber.from(
-              albumData[0].completion
-            ).toNumber()
+            setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
+            const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
             setAlbumCompletion(completion)
-            setVida(
-              vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()]
-            )
+            setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
             getSeasonFolder(seasonName)
               .then((data) => {
                 if (data == 'alpha_jsons') {
@@ -349,7 +336,7 @@ const AlphaMain = () => {
               })
               .catch((e) => console.error({ e }))
             setCards(cardsData)
-            setShowMain(prevShowMain => !prevShowMain)
+            setShowMain((prevShowMain) => !prevShowMain)
             return pack
           } else {
             setError(t('necesitas_comprar_pack'))
@@ -363,7 +350,7 @@ const AlphaMain = () => {
       console.error(ex)
     }
   }
-  
+
   const buyPack = (price, name) => {
     showCards(walletAddress, seasonName)
       .then((cards) => {
@@ -442,9 +429,7 @@ const AlphaMain = () => {
     try {
       startLoading()
       const pegarCarta = async (cardIndex) => {
-        const tokenId = ethers.BigNumber.from(
-          cards[cardIndex].tokenId
-        ).toNumber()
+        const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
         const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
         const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
           gasLimit: 2500000
@@ -473,16 +458,16 @@ const AlphaMain = () => {
     }
   }
 
-  async function transferToken () {
+  async function transferToken() {
     try {
       if (checkInputAddress(receiverAccount, walletAddress)) {
         setTransferError('')
-        const transaction = await alphaContract[
-          'safeTransferFrom(address,address,uint256)'
-        ](walletAddress, receiverAccount, cardToTransfer)
-        const modal = document.getElementsByClassName(
-          'alpha_transfer_modal'
-        )[0]
+        const transaction = await alphaContract['safeTransferFrom(address,address,uint256)'](
+          walletAddress,
+          receiverAccount,
+          cardToTransfer
+        )
+        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
         modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
         startLoading()
         await transaction.wait()
@@ -506,78 +491,80 @@ const AlphaMain = () => {
     <div className='alpha_main'>
       <div className='alpha'>
         {!walletAddress && (
-        <div className='main_buttons_container'>
-          <button
-            className='alpha_button alpha_main_button'
-            id='connect_wallet_button'
-            onClick={() => connectWallet()}>{t('connect_wallet')}
-          </button>
-          <button
-            className='alpha_button alpha_main_button'
-            id='show_rules_button'
-            onClick={() => setShowRules(true)}
-          >
-            {t('reglas')}
-          </button>
-          <span>{noMetamaskError}</span>
-        </div>)}
+          <div className='main_buttons_container'>
+            <button
+              className='alpha_button alpha_main_button'
+              id='connect_wallet_button'
+              onClick={() => connectWallet()}
+            >
+              {t('connect_wallet')}
+            </button>
+            <button
+              className='alpha_button alpha_main_button'
+              id='show_rules_button'
+              onClick={() => setShowRules(true)}
+            >
+              {t('reglas')}
+            </button>
+            <span>{noMetamaskError}</span>
+          </div>
+        )}
 
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
         {walletAddress && alphaContract && seasonNames && (
-          <div className={showMain ? 'alpha_inner_container alpha_inner_container_open' : 'alpha_inner_container'}>
+          <div
+            className={
+              showMain
+                ? 'alpha_inner_container alpha_inner_container_open'
+                : 'alpha_inner_container'
+            }
+          >
             <div className='alpha_data'>
-              {seasonNames && seasonNames.length > 0 && !showMain && 
-              <>
-                <div className='alpha_season'>
-                  <img alt='marco' src={'/images/common/marco.png'} />
-                  <span className='alpha_season_name'>{seasonName}</span>
-                  <select
-                    value={seasonName}
-                    onChange={(e) => {
-                      setSeasonName(e.target.value)
-                      setPackPrice(
-                        ethers.BigNumber.from(
-                          packPrices[seasonNames.indexOf(e.target.value)]
-                        ).toString()
-                      )
-                    }}
-                    id='alpha_select_season_button'
-                  >
-                    {seasonNames &&
-                      seasonNames.map((name) => <option key={name}>{name}</option>)}
-                  </select>
-                </div>
-                <div className='alpha_start_buttons'>
-                  <button
-                    onClick={() => showCards(walletAddress, seasonName)}
-                    className='alpha_button'
-                    id='alpha_show_cards_button'
-                  >
-                    {t('ver_cartas')}
-                  </button>
-                  <button
-                    onClick={() => buyPack(packPrice, seasonName)}
-                    className='alpha_button'
-                    id='alpha_buy_pack_button'
-                  >{`${t('comprar_pack')} ($${packPrice?.substring(
-                    0,
-                    packPrice.length - 18
-                  )})`}
-                  </button>
-                </div>
-              </>}
-              <span
-                style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}
-              >
-                {error}
-              </span>
+              {seasonNames && seasonNames.length > 0 && !showMain && (
+                <>
+                  <div className='alpha_season'>
+                    <img alt='marco' src={'/images/common/marco.png'} />
+                    <span className='alpha_season_name'>{seasonName}</span>
+                    <select
+                      value={seasonName}
+                      onChange={(e) => {
+                        setSeasonName(e.target.value)
+                        setPackPrice(
+                          ethers.BigNumber.from(
+                            packPrices[seasonNames.indexOf(e.target.value)]
+                          ).toString()
+                        )
+                      }}
+                      id='alpha_select_season_button'
+                    >
+                      {seasonNames && seasonNames.map((name) => <option key={name}>{name}</option>)}
+                    </select>
+                  </div>
+                  <div className='alpha_start_buttons'>
+                    <button
+                      onClick={() => showCards(walletAddress, seasonName)}
+                      className='alpha_button'
+                      id='alpha_show_cards_button'
+                    >
+                      {t('ver_cartas')}
+                    </button>
+                    <button
+                      onClick={() => buyPack(packPrice, seasonName)}
+                      className='alpha_button'
+                      id='alpha_buy_pack_button'
+                    >
+                      {`${t('comprar_pack')} ($${packPrice?.substring(0, packPrice.length - 18)})`}
+                    </button>
+                  </div>
+                </>
+              )}
+              <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>{error}</span>
             </div>
 
             {pack && pack.length && showMain ? (
               <div className='alpha_container'>
-                <div className='alpha_album_container'
-                  onClick={() => alphaMidButton()}>
+                <div className='alpha_album_container' onClick={() => alphaMidButton()}>
                   <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
                 </div>
                 <div className='alpha_progress_container'>
@@ -587,7 +574,9 @@ const AlphaMain = () => {
                       : `${t('posicion')}: ${winnerPosition}`}
                   </span>
                   <img alt='vida' src={vida} />
-                  <span>{t('coleccion')}: {albumCollection}</span>
+                  <span>
+                    {t('coleccion')}: {albumCollection}
+                  </span>
                   <div className='alpha_progress_button_container'>
                     <button
                       className='alpha_button'
@@ -600,13 +589,9 @@ const AlphaMain = () => {
                       className='alpha_button'
                       onClick={() => {
                         setCardToTransfer(
-                          ethers.BigNumber.from(
-                            cards[cardIndex].tokenId
-                          ).toNumber()
+                          ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
                         )
-                        const modal = document.getElementsByClassName(
-                          'alpha_transfer_modal'
-                        )[0]
+                        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
                         modal.setAttribute('class', 'alpha_transfer_modal')
                       }}
                       disabled={!(cards.length > 0)}
@@ -619,18 +604,14 @@ const AlphaMain = () => {
                   <div className='swiper-container alpha-swiper-container'>
                     <div className='swiper-wrapper alpha-swiper-wrapper'>
                       {cards.map((card) => {
-                        const cardCollection = ethers.BigNumber.from(
-                          card.collection
-                        ).toNumber()
+                        const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                         return (
                           <div
                             style={{ backgroundImage: 'none', paddingTop: '0' }}
                             className='swiper-slide alpha-swiper-slide'
                             key={ethers.BigNumber.from(card.tokenId).toNumber()}
                           >
-                            <span className='alpha_card_collection'>
-                              C:{cardCollection}
-                            </span>
+                            <span className='alpha_card_collection'>C:{cardCollection}</span>
                             <CustomImage
                               alt='img'
                               src={`${storageUrlAlpha}/${seasonFolder || 'T1'}/${card.number}.png`}
@@ -642,63 +623,48 @@ const AlphaMain = () => {
                     </div>
                     <div className='swiper-pagination' />
                   </div>
-
                 </div>
 
-                {cards.length > 0
-                  ? (
-                    <div className='alpha_transfer_modal alpha_display_none'>
-                      <button
-                        className='alpha_transfer_modal_close alpha_modal_close'
-                        onClick={() => {
-                          const modal = document.getElementsByClassName(
-                            'alpha_transfer_modal'
-                          )[0]
-                          modal.setAttribute(
-                            'class',
-                            'alpha_transfer_modal alpha_display_none'
-                          )
-                          setTransferError('')
-                          setReceiverAccount('')
-                        }}
-                      >
-                        X
-                      </button>
-                      <span style={{ fontSize: '0.9rem' }}>
-                        {t('carta_de_coleccion')}{' '}
-                        {cards[cardIndex]
-                          ? ethers.BigNumber.from(
-                            cards[cardIndex].collection
-                          ).toNumber()
-                          : ethers.BigNumber.from(
-                            cards[cardIndex - 1].collection
-                          ).toNumber()}
-                      </span>
-                      <input
-                        placeholder={t('wallet_destinatario')}
-                        value={receiverAccount}
-                        onChange={(e) => setReceiverAccount(e.target.value)}
-                      />
-                      <button
-                        className='alpha_button'
-                        onClick={() => transferToken()}
-                        // disabled={disableTransfer}
-                      >
-                        {t('transferir')}
-                      </button>
-                      <span className='alpha_transfer_error'>{transferError}</span>
-                    </div>
-                    )
-                  : null}
+                {cards.length > 0 ? (
+                  <div className='alpha_transfer_modal alpha_display_none'>
+                    <button
+                      className='alpha_transfer_modal_close alpha_modal_close'
+                      onClick={() => {
+                        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+                        modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
+                        setTransferError('')
+                        setReceiverAccount('')
+                      }}
+                    >
+                      X
+                    </button>
+                    <span style={{ fontSize: '0.9rem' }}>
+                      {t('carta_de_coleccion')}{' '}
+                      {cards[cardIndex]
+                        ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber()
+                        : ethers.BigNumber.from(cards[cardIndex - 1].collection).toNumber()}
+                    </span>
+                    <input
+                      placeholder={t('wallet_destinatario')}
+                      value={receiverAccount}
+                      onChange={(e) => setReceiverAccount(e.target.value)}
+                    />
+                    <button
+                      className='alpha_button'
+                      onClick={() => transferToken()}
+                      // disabled={disableTransfer}
+                    >
+                      {t('transferir')}
+                    </button>
+                    <span className='alpha_transfer_error'>{transferError}</span>
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>
         )}
 
-        <AlphaAlbums
-          clickFromAlbums={clickFromAlbums}
-          setSeasonName={setSeasonName}
-        />
+        <AlphaAlbums clickFromAlbums={clickFromAlbums} setSeasonName={setSeasonName} />
       </div>
     </div>
   )

@@ -8,9 +8,7 @@ const FlipBook = ({ showClose, onCloseClick, pages, mainClassName = 'hero__top__
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
 
   const CloseButton = () => (
-    <div
-      className='gamma_info_card_close'
-      onClick={() => onCloseClick()}>
+    <div className='gamma_info_card_close' onClick={() => onCloseClick()}>
       X
     </div>
   )
@@ -19,7 +17,7 @@ const FlipBook = ({ showClose, onCloseClick, pages, mainClassName = 'hero__top__
     // Cambiar las clases después de un tiempo de carga simulado (0.5 mSeg),
     // es para evitar un efecto de parpadeo no deseado por htmlFlipBook
     const timer = setTimeout(() => {
-      setIsClassesReplaced(true);
+      setIsClassesReplaced(true)
     }, 0.5)
 
     // Limpiar el temporizador para evitar fugas de memoria
@@ -42,29 +40,30 @@ const FlipBook = ({ showClose, onCloseClick, pages, mainClassName = 'hero__top__
           ref={bookRef}
           usePortrait={windowSize.size}
           drawShadow={false}
-          className= 'hero__top__album__book'
+          className='hero__top__album__book'
         >
-
           {pages.map((content, index) => (
             <div
               key={`page-${index}`}
               className={
                 index % 2 === 0
-                ? (isClassesReplaced ? 'hero__top__album__book__page' : '')
-                : (isClassesReplaced ? 'hero__top__album__book__page0' : '')
+                  ? isClassesReplaced
+                    ? 'hero__top__album__book__page'
+                    : ''
+                  : isClassesReplaced
+                  ? 'hero__top__album__book__page0'
+                  : ''
               }
               data-density='hard'
               number={index + 1}
             >
               <div className='hero__top__album__book__page__page-content'>
                 {index % 2 === 0 ? (
-                  <React.Fragment>
-                  { content }
-                  </React.Fragment>
+                  <React.Fragment>{content}</React.Fragment>
                 ) : (
                   <React.Fragment>
-                    { showClose && <CloseButton /> }
-                    { content }
+                    {showClose && <CloseButton />}
+                    {content}
                   </React.Fragment>
                 )}
               </div>

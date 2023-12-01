@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 
 import Whitepaper from './Whitepaper.jsx'
@@ -9,8 +9,8 @@ import NofTown from './NofTown.jsx'
 import LanguageSelection from '../LanguageSelection'
 import { useLayoutContext } from '../../hooks'
 
-function Navbar () {
-  const {t} = useTranslation()
+function Navbar() {
+  const { t } = useTranslation()
   const ref = useRef(null)
   const [click, setClick] = useState(false)
   const { goToCollectionsPage } = useLayoutContext()
@@ -27,9 +27,12 @@ function Navbar () {
   }
 
   const MidButton = () => (
-    <button 
-      onClick={() => {goToCollectionsPage()}}
-      className='navbar__center__li__collections'>
+    <button
+      onClick={() => {
+        goToCollectionsPage()
+      }}
+      className='navbar__center__li__collections'
+    >
       {t('collections')}
     </button>
   )
@@ -37,37 +40,30 @@ function Navbar () {
   const ButtonCoin = () => (
     <div className='navbar__left__coin'>
       <Link href='/'>
-        <Image 
-          src={'/images/navbar/logo-coin.png'}
-          alt='coin' 
-          height='60'width='60'
-        />
-      </Link>      
+        <Image src={'/images/navbar/logo-coin.png'} alt='coin' height='60' width='60' />
+      </Link>
     </div>
   )
 
   const ButtonNof = () => (
     <div onClick={() => audioHandleClick()} className='navbar__left__nof'>
       <Link href='/'>
-        <Image 
-          src={'/images/navbar/logo-1.png'}
-          alt='nof' 
-          height='60' width='120'
-        />
+        <Image src={'/images/navbar/logo-1.png'} alt='nof' height='60' width='120' />
       </Link>
     </div>
   )
 
   const ButtonAudio = () => (
     <div onClick={() => audioHandleClick()} className='navbar__right__audio'>
-      <Image 
+      <Image
         src={`${'/images/navbar'}/${click ? 'soundOn' : 'soundOff'}.png`}
         alt='soundimg'
         height='60'
-        width='60'/>
+        width='60'
+      />
     </div>
   )
-   
+
   return (
     <>
       <div className='navbar'>

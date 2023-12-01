@@ -10,7 +10,6 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
   const starshineRef = useRef(null)
   const templateRef = useRef(null)
   const { loading } = useLayoutContext()
-  
 
   useEffect(() => {
     const body = starshineRef.current
@@ -55,29 +54,38 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
         >
           <motion.img
             animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
-            transition={{ duration: 2, delay: 0 }} id='top' src='/images/gamma/SobreTop.png' alt=''
+            transition={{ duration: 2, delay: 0 }}
+            id='top'
+            src='/images/gamma/SobreTop.png'
+            alt=''
           />
           <motion.img
             animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
-            transition={{ duration: 1, delay: 3 }} id='bottom' src='/images/gamma/SobreBottom.png' alt=''
+            transition={{ duration: 1, delay: 3 }}
+            id='bottom'
+            src='/images/gamma/SobreBottom.png'
+            alt=''
           />
-          {cardsNumbers && 
-          <motion.img
-            animate={openPackage ? { y: -100 } : ''}
-            transition={{ duration: 3, delay: 1 }}
-            id='imagetest' src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`} alt='img'
-          />}
+          {cardsNumbers && (
+            <motion.img
+              animate={openPackage ? { y: -100 } : ''}
+              transition={{ duration: 3, delay: 1 }}
+              id='imagetest'
+              src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`}
+              alt='img'
+            />
+          )}
         </motion.div>
-        {!loading && 
+        {!loading && (
           <AiOutlineCloseCircle
             onClick={() => {
               setPackIsOpen(false)
               setOpenPackage(false)
-            }} className='closebutton'
+            }}
+            className='closebutton'
           />
-        }
+        )}
         {openPackage && <PackFiguritas openPackage={openPackage} cardsNumbers={cardsNumbers} />}
-
       </div>
     </>
   )

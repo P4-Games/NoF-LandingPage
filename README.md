@@ -4,11 +4,9 @@
 ![](https://img.shields.io/badge/Solidity-informational?style=flat&logo=solidity&logoColor=white&color=6aa6f8)
 ![](https://img.shields.io/badge/Hardhat-informational?style=flat&logo=hardhat&logoColor=white&color=6aa6f8)
 
-
 # Number One Fun (NoF)
 
 ![nof-landing](./.doc/images/nof.png)
-
 
 # Build With
 
@@ -17,7 +15,6 @@
 # Live Demo
 
 - [NoF Live Demo](https://nof.town)
-
 
 # Requirements
 
@@ -29,7 +26,6 @@ This App requires:
 - node js & npm (insalled with nvm)
 - [mongo db](https://www.mongodb.com/docs/manual/installation/) (It will be used for endpoints that are consumed from the discord bot)
 - [metamask](https://metamask.io/download/)
-
 
 ## Environment variables
 
@@ -139,7 +135,7 @@ The application uses a linter for commit messages, requiring them to be specifie
 - type: :icono: message
 ```
 
-Example: 
+Example:
 
 ```
 - commit -m chore: add commitlinter
@@ -163,7 +159,6 @@ The allowed standard types are:
 ```
 
 Failing to comply with these standards will cause the pre-commit to fail. To remove the last commit (without losing changes), run:
-
 
 ```sh
 git reset --soft HEAD~1

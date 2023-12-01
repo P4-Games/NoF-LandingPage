@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2'
-import {useTranslation} from 'next-i18next'
-import { MdOutlineLocalOffer } from "react-icons/md"
+import { useTranslation } from 'next-i18next'
+import { MdOutlineLocalOffer } from 'react-icons/md'
 
 import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
@@ -16,12 +16,19 @@ import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
 
 const GammaCardInfo = (props) => {
-  const {t} = useTranslation()
-  const { loading, startLoading, stopLoading, ToggleShowDefaultButtons, updateShowButtons, updateFooterButtonsClasses } = useLayoutContext()
+  const { t } = useTranslation()
+  const {
+    loading,
+    startLoading,
+    stopLoading,
+    ToggleShowDefaultButtons,
+    updateShowButtons,
+    updateFooterButtonsClasses
+  } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
   const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
-  const [ userHasCard, setUserHasCard ] = useState(false)
-  const [ cardPublish, setCardPublish ] = useState(false)
+  const [userHasCard, setUserHasCard] = useState(false)
+  const [cardPublish, setCardPublish] = useState(false)
 
   const verifyUserHasCard = async () => {
     try {
@@ -32,16 +39,15 @@ const GammaCardInfo = (props) => {
     } catch (ex) {
       stopLoading()
       console.error(ex)
-      emitError (t('user_has_card_error'))
+      emitError(t('user_has_card_error'))
     }
   }
-
 
   useEffect(() => {
     ToggleShowDefaultButtons(true)
     updateShowButtons([true, true, true, true])
     updateFooterButtonsClasses([null, null, null, null])
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps 
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     verifyUserHasCard()
@@ -52,7 +58,7 @@ const GammaCardInfo = (props) => {
   }
 
   const handleFinishPublish = (update) => {
-    setCardPublish(false) 
+    setCardPublish(false)
     if (update) {
       handleFinishInfoCard(update)
     }
@@ -81,7 +87,6 @@ const GammaCardInfo = (props) => {
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-
     } catch (ex) {
       stopLoading()
       console.error(ex.message)
@@ -99,8 +104,7 @@ const GammaCardInfo = (props) => {
           max: 43
         },
         inputValidator: (value) => {
-          if (!checkInputAddress(value, walletAddress))
-            return `${t('direccion_destino_error')}`
+          if (!checkInputAddress(value, walletAddress)) return `${t('direccion_destino_error')}`
         },
         showDenyButton: false,
         showCancelButton: true,
@@ -167,22 +171,22 @@ const GammaCardInfo = (props) => {
         setCardPublish(true)
       }
     }
-    stopLoading()    
+    stopLoading()
   }
 
   const OfferButton = () => (
-    <div className= {'option'}
-    onClick={() => handleOfferClick()}
-    >
+    <div className={'option'} onClick={() => handleOfferClick()}>
       {t('ofertas')}
     </div>
   )
 
   const MintButton = () => (
     <div
-    /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
+      /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
        tengo que poder mintear la otra carta que tenga.*/
-      className= {userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled' }
+      className={
+        userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
+      }
       onClick={() => handleMintClick()}
     >
       {t('mintear')}
@@ -191,7 +195,7 @@ const GammaCardInfo = (props) => {
 
   const PublishButton = () => (
     <div
-      className= {userHasCard ? 'option' : 'option_disabled' }
+      className={userHasCard ? 'option' : 'option_disabled'}
       onClick={() => handlePublishClick()}
     >
       {t('publicar')}
@@ -200,7 +204,7 @@ const GammaCardInfo = (props) => {
 
   const UnPublishButton = () => (
     <div
-      className= {userCard.offered ? 'option' : 'option_disabled' }
+      className={userCard.offered ? 'option' : 'option_disabled'}
       onClick={() => handleUnPublishClick()}
     >
       {t('despublicar')}
@@ -211,7 +215,9 @@ const GammaCardInfo = (props) => {
     <div
       /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
          tengo que poder mintear la otra carta que tenga.*/
-      className= {userHasCard && (!userCard.offered || userCard.quantity > 1)  ? 'option' : 'option_disabled' }
+      className={
+        userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
+      }
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}
@@ -225,11 +231,8 @@ const GammaCardInfo = (props) => {
   const Page1 = () => (
     <div className='cardinfo'>
       <div className='cardinfoimg'>
-        <img
-          src={`${storageUrlGamma}/T1/${userCard.name}.png`}
-          alt='img'
-        />
-      { userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' /> }
+        <img src={`${storageUrlGamma}/T1/${userCard.name}.png`} alt='img' />
+        {userCard.offered && <MdOutlineLocalOffer className='cardinfoimg-offered' />}
       </div>
       <h3>#{userCard.name}</h3>
       <div className='cardnof' />
@@ -239,38 +242,36 @@ const GammaCardInfo = (props) => {
   const Page2 = () => (
     <div className='cardinfo'>
       <div className='transactions'>
-        <MintButton/>
-        <TransferButton/>
-        {!userCard.offered && <PublishButton/>}
-        {userCard.offered && <UnPublishButton/>}
-        <OfferButton/>
+        <MintButton />
+        <TransferButton />
+        {!userCard.offered && <PublishButton />}
+        {userCard.offered && <UnPublishButton />}
+        <OfferButton />
       </div>
     </div>
   )
-   
+
   const BookCard = () => (
     <FlipBook
       showClose={true}
       onCloseClick={handleCloseButtonClick}
-      pages={[
-        <Page1 key={'page-1'} />,
-        <Page2 key={'page-2'}/>
-      ]}
+      pages={[<Page1 key={'page-1'} />, <Page2 key={'page-2'} />]}
     />
   )
 
-  return (
-    loading 
-      ? <></>
-      : <>
-          {!cardPublish && <BookCard /> }
-          {cardPublish &&
-          <GammaAlbumPublish
-            paginationObj={paginationObj}
-            cardNumberOffered={userCard.name}
-            handleFinishPublish={handleFinishPublish}
-          />}
-        </>
+  return loading ? (
+    <></>
+  ) : (
+    <>
+      {!cardPublish && <BookCard />}
+      {cardPublish && (
+        <GammaAlbumPublish
+          paginationObj={paginationObj}
+          cardNumberOffered={userCard.name}
+          handleFinishPublish={handleFinishPublish}
+        />
+      )}
+    </>
   )
 }
 
@@ -282,4 +283,3 @@ GammaCardInfo.propTypes = {
 }
 
 export default GammaCardInfo
-

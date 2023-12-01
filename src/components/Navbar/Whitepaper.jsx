@@ -1,9 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 
-function Whitepaper () {
-  const {t} = useTranslation()
+function Whitepaper() {
+  const { t } = useTranslation()
 
   return (
     <Link
@@ -12,9 +12,7 @@ function Whitepaper () {
       rel='noreferrer'
       // spy='true'
     >
-      <button className='navbar__center__li__whitepaper'>
-        {t('whitepaper')}
-      </button>
+      <button className='navbar__center__li__whitepaper'>{t('whitepaper')}</button>
     </Link>
   )
 }

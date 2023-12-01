@@ -16,15 +16,15 @@ import SwiperCore, {
 } from 'swiper'
 import Swal from 'sweetalert2'
 import { storageUrlAlpha, openSeaUrlAlpha } from '../../config'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
-const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName}) => {
-  const {t} = useTranslation()
+const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
+  const { t } = useTranslation()
   const noAlbumMessage = t('juega_para_completar')
-    const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
+  const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
 
   function handleRedirectAlbum(album) {
     if (album[0].completion === 5) {
@@ -44,7 +44,6 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName}) => {
   return (
     <div className='alpha_full_albums_container alpha_display_none'>
       <div>
-
         {albums && (
           <div>
             <div className='alpha_albums_season'>
@@ -67,13 +66,11 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName}) => {
                 slideShadows: false
               }}
               className='swiper-container alpha_albums_swiper_container'
-              id='alpha-albums-swiper-container'>
-              {albums && albums.map((album, index) => (
-                  <SwiperSlide
-                    key={index}
-                    className='swiper-slide'
-                    id='alpha-albums-swiper-slide'
-                  >
+              id='alpha-albums-swiper-container'
+            >
+              {albums &&
+                albums.map((album, index) => (
+                  <SwiperSlide key={index} className='swiper-slide' id='alpha-albums-swiper-slide'>
                     <CustomImage
                       alt='portadas'
                       style={{ cursor: 'pointer' }}
@@ -82,19 +79,17 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName}) => {
                       onClick={() => handleRedirectAlbum(album)}
                     />
                   </SwiperSlide>
-                ))
-              }
+                ))}
               <div className='pagination' />
             </Swiper>
           </div>
         )}
-        
-        {!albums && 
-          <div className='alpha_no_album_message'
-            onClick={() => clickFromAlbums()}>{noAlbumMessage}
-          </div>
-        }
 
+        {!albums && (
+          <div className='alpha_no_album_message' onClick={() => clickFromAlbums()}>
+            {noAlbumMessage}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -105,6 +100,5 @@ AlphaAlbums.propTypes = {
   clickFromAlbums: PropTypes.func,
   setSeasonName: PropTypes.func
 }
-
 
 export default AlphaAlbums
