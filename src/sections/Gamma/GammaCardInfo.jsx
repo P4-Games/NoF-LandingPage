@@ -219,7 +219,7 @@ const GammaCardInfo = (props) => {
   )
 
   const handleCloseButtonClick = () => {
-    handleFinishInfoCard(true)
+    handleFinishInfoCard(false)
   }
 
   const Page1 = () => (
