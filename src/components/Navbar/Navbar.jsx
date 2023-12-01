@@ -17,7 +17,6 @@ function Navbar () {
   const router = useRouter()
   const isHomePage = router.pathname === '/'
 
-
   const audioHandleClick = () => {
     setClick(!click)
     if (!click) {
@@ -30,13 +29,37 @@ function Navbar () {
   const MidButton = () => (
     <button 
       onClick={() => {goToCollectionsPage()}}
-      className='navbar__ul__li__collections'>
+      className='navbar__center__li__collections'>
       {t('collections')}
     </button>
   )
 
+  const ButtonCoin = () => (
+    <div className='navbar__left__coin'>
+      <Link href='/'>
+        <Image 
+          src={'/images/navbar/logo-coin.png'}
+          alt='coin' 
+          height='60'width='60'
+        />
+      </Link>      
+    </div>
+  )
+
+  const ButtonNof = () => (
+    <div onClick={() => audioHandleClick()} className='navbar__left__nof'>
+      <Link href='/'>
+        <Image 
+          src={'/images/navbar/logo-1.png'}
+          alt='nof' 
+          height='60' width='120'
+        />
+      </Link>
+    </div>
+  )
+
   const ButtonAudio = () => (
-    <div onClick={() => audioHandleClick()} className='navbar__corner__audio'>
+    <div onClick={() => audioHandleClick()} className='navbar__right__audio'>
       <Image 
         src={`${'/images/navbar'}/${click ? 'soundOn' : 'soundOff'}.png`}
         alt='soundimg'
@@ -44,41 +67,22 @@ function Navbar () {
         width='60'/>
     </div>
   )
-
-  /*
-  const ButtonShop = () => (
-    showShop ?
-    <div onClick={() => handleBuyPackClick()} className='navbar__corner__shop'>
-      <Image src={'/images/navbar/shop.png'} alt='shop' height='60' width='60'/>
-    </div> : null
-  )
-  */
-    
+   
   return (
     <>
       <div className='navbar'>
-        <div className='navbar__icon'>
-          <div className='hover' id='coin'>
-            <Link href='/'>
-              <Image alt='coin' src={'/images/navbar/logo-coin.png'} id='coin' fill/>
-            </Link>
-          </div>
-          <div className='hover' id='nof'>
-            <Link href='/'>
-              <Image alt='nof' src={'/images/navbar/logo-1.png'} fill/>
-            </Link>
-          </div>
+        <div className='navbar__left'>
+          <ButtonCoin />
+          <ButtonNof />
         </div>
-        <ul className='navbar__ul'>
-          {/*<li className={showShop ? 'navbar__ul__li__shop' : 'navbar__ul__li'}>*/}
-          <li className={'navbar__ul__li'}>
+        <ul className='navbar__center'>
+          <li className={'navbar__center__li'}>
             <NofTown />
             {isHomePage && <MidButton />}
             <Whitepaper />
           </li>
         </ul>
-        <div className='navbar__corner'>
-          {/*<ButtonShop />*/}
+        <div className='navbar__right'>
           <ButtonAudio />
           <LanguageSelection />
         </div>
