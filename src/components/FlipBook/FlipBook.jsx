@@ -1,13 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import HTMLFlipBook from './HtmlFlipBook'
 import { useLayoutContext } from '../../hooks'
 
 const FlipBook = (props) => {
-  const { showClose, onCloseClick, pages, mainClassName = 'hero__top__album' } = props
-  const { windowSize } = useLayoutContext()
+  const {
+    showClose,
+    onCloseClick,
+    pages,
+    startPage = 0,
+    mainClassName = 'hero__top__album',
+    disableFlipByClick = false
+  } = props
+  const { windowSize, bookRef } = useLayoutContext()
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
-  const bookRef = useRef()
 
   const CloseButton = () => (
     <div className='gamma_info_card_close' onClick={() => onCloseClick()}>
@@ -41,10 +47,11 @@ const FlipBook = (props) => {
           swipeDistance={5}
           showPageCorners={true}
           autoSize={true}
+          startPage={startPage}
           ref={bookRef}
           usePortrait={windowSize.size}
           drawShadow={false}
-          disableFlipByClick={true}
+          disableFlipByClick={disableFlipByClick}
           className='hero__top__album__book'
         >
           {pages.map((content, index) => (
@@ -84,7 +91,9 @@ FlipBook.propTypes = {
   showClose: PropTypes.bool,
   onCloseClick: PropTypes.func,
   pages: PropTypes.array,
-  mainClassName: PropTypes.string
+  mainClassName: PropTypes.string,
+  startPage: PropTypes.number,
+  disableFlipClick: PropTypes.bool
 }
 
 export default FlipBook

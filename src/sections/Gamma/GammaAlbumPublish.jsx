@@ -16,6 +16,7 @@ const GammaAlbumPublish = (props) => {
   const { gammaOffersContract } = useWeb3Context()
   const [selectedCards, setSelectedCards] = useState([])
   const {
+    loading,
     startLoading,
     stopLoading,
     ToggleShowDefaultButtons,
@@ -123,12 +124,13 @@ const GammaAlbumPublish = (props) => {
     pageNumber: PropTypes.number
   }
 
-  return !paginationObj ? (
+  return !paginationObj || loading ? (
     <></>
   ) : (
     <FlipBook
       showClose={false}
       onCloseClick={undefined}
+      disableFlipByClick={true}
       pages={Array.from({ length: 10 }, (_, index) => (
         <PageContent key={index} page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
       ))}
