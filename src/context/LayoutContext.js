@@ -59,12 +59,12 @@ function LayoutProvider({ children }) {
 
   const turnPrevPage = useCallback(() => {
     if (!bookRef.current) return
-    bookRef.current.pageFlip().flipPrev()
+    bookRef.current.pageFlip().flipPrev('bootom', true)
   }, [])
 
   const turnNextPage = useCallback(() => {
     if (!bookRef.current) return
-    bookRef.current.pageFlip().flipNext()
+    bookRef.current.pageFlip().flipNext('bootom', true)
   }, [])
 
   const getCurrentPage = useCallback(() => {

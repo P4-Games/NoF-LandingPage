@@ -17,7 +17,7 @@ import { useTranslation } from 'next-i18next'
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
   const { paginationObj, showInventory, updateUserData, setCardInfoOpened } = props
-  const { loading, startLoading, stopLoading, getCurrentPage } = useLayoutContext()
+  const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
   const [cardInfo, setCardInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
@@ -68,7 +68,6 @@ const GammaAlbum = (props) => {
     setCardInfo(false)
     setCardOffers(false)
     setCardInfoOpened(false)
-    // goToPage(currentPage)
     stopLoading()
   }
 

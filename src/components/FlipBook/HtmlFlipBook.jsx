@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { PageFlip } from 'page-flip'
+// import { PageFlip } from 'page-flip'
+import { PageFlip } from 'book-flip'
 
 const HTMLFlipBookForward = React.forwardRef((props, ref) => {
   const htmlElementRef = useRef(null)
