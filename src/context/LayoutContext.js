@@ -7,7 +7,8 @@ const initialState = {
   footerButtonsShowDefaults: true,
   footerButtonsFunctions: [null, null, null, null],
   footerButtonsToShow: [true, true, true, true],
-  footerButtonsClasses: [null, null, null, null]
+  footerButtonsClasses: [null, null, null, null],
+  lastPageIndex: 1
 }
 
 const LayoutContext = createContext(initialState)
@@ -66,6 +67,17 @@ function LayoutProvider({ children }) {
     bookRef.current.pageFlip().flipNext()
   }, [])
 
+  const getCurrentPage = useCallback(() => {
+    if (!bookRef || !bookRef.current) return 0
+    const currentPage = bookRef.current.pageFlip().getCurrentPageIndex()
+    return currentPage
+  }, [])
+
+  const goToPage = useCallback((pageIndex) => {
+    if (!bookRef.current) return
+    bookRef.current.pageFlip().flip(pageIndex)
+  }, [])
+
   function goToCollectionsPage() {
     if (!bookRef.current) return
     bookRef.current.pageFlip().flip(windowSize.mobile ? 4 : 5)
@@ -104,6 +116,8 @@ function LayoutProvider({ children }) {
         stopLoading,
         turnPrevPage,
         turnNextPage,
+        getCurrentPage,
+        goToPage,
         goToCollectionsPage,
         updateButtonFunctions: updateFooterButtonsFunctions,
         updateShowButtons: updateFooterButtonsToShow,

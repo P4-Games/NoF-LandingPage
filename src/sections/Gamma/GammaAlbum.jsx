@@ -17,12 +17,14 @@ import { useTranslation } from 'next-i18next'
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
   const { paginationObj, showInventory, updateUserData, setCardInfoOpened } = props
-  const { startLoading, stopLoading } = useLayoutContext()
+  const { loading, startLoading, stopLoading, getCurrentPage } = useLayoutContext()
+  const { gammaOffersContract, walletAddress } = useWeb3Context()
   const [cardInfo, setCardInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
   const [offersObj, setOffersObj] = useState(null)
-  const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const [currentPage, setCurrentPage] = useState(0)
+
   // const [ allOffers, setAllOffers ] = useState(null)
 
   /*
@@ -66,14 +68,15 @@ const GammaAlbum = (props) => {
     setCardInfo(false)
     setCardOffers(false)
     setCardInfoOpened(false)
+    // goToPage(currentPage)
     stopLoading()
   }
 
   const handleCardClick = async (cardNumber) => {
-    setCardInfoOpened(true)
     startLoading()
+    setCurrentPage(getCurrentPage())
+    setCardInfoOpened(true)
     setImageNumber(cardNumber)
-    setCardInfo(true)
     const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
 
     // filtro mis ofertas
@@ -82,6 +85,7 @@ const GammaAlbum = (props) => {
       const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
       setOffersObj(filterMyoffes)
     }
+    setCardInfo(true)
     stopLoading()
   }
 
@@ -198,6 +202,7 @@ const GammaAlbum = (props) => {
     else
       return (
         <FlipBook
+          startPage={currentPage}
           showClose={false}
           onCloseClick={undefined}
           pages={Array.from({ length: 10 }, (_, index) => (
