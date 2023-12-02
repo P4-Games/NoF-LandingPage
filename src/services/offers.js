@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
-  console.log('createOffer', { cardNumber, wantedCardNumbers })
-
   for (const wantedCard of wantedCardNumbers) {
     if (wantedCard === cardNumber) {
       throw new Error('publish_offer_error_own_card_number')

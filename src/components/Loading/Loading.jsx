@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Loading = () => (
-  <div className="loader_container">
-    <div className="loader" />
+  <div className='loader_container'>
+    <div className='loader' />
   </div>
 )
 

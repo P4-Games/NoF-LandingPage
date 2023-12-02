@@ -7,7 +7,8 @@ const initialState = {
   footerButtonsShowDefaults: true,
   footerButtonsFunctions: [null, null, null, null],
   footerButtonsToShow: [true, true, true, true],
-  footerButtonsClasses: [null, null, null, null]
+  footerButtonsClasses: [null, null, null, null],
+  lastPageIndex: 1
 }
 
 const LayoutContext = createContext(initialState)
@@ -58,12 +59,23 @@ function LayoutProvider({ children }) {
 
   const turnPrevPage = useCallback(() => {
     if (!bookRef.current) return
-    bookRef.current.pageFlip().flipPrev()
+    bookRef.current.pageFlip().flipPrev('bootom', true)
   }, [])
 
   const turnNextPage = useCallback(() => {
     if (!bookRef.current) return
-    bookRef.current.pageFlip().flipNext()
+    bookRef.current.pageFlip().flipNext('bootom', true)
+  }, [])
+
+  const getCurrentPage = useCallback(() => {
+    if (!bookRef || !bookRef.current) return 0
+    const currentPage = bookRef.current.pageFlip().getCurrentPageIndex()
+    return currentPage
+  }, [])
+
+  const goToPage = useCallback((pageIndex) => {
+    if (!bookRef.current) return
+    bookRef.current.pageFlip().flip(pageIndex)
   }, [])
 
   function goToCollectionsPage() {
@@ -104,6 +116,8 @@ function LayoutProvider({ children }) {
         stopLoading,
         turnPrevPage,
         turnNextPage,
+        getCurrentPage,
+        goToPage,
         goToCollectionsPage,
         updateButtonFunctions: updateFooterButtonsFunctions,
         updateShowButtons: updateFooterButtonsToShow,

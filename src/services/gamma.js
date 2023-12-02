@@ -140,7 +140,7 @@ export const confirmOfferExchange = async (
   cardNumberTo
 ) => {
   try {
-    console.log(addressFrom, cardNumberFrom, addressTo, cardNumberTo)
+    // console.log(addressFrom, cardNumberFrom, addressTo, cardNumberTo)
     const transaction = await offersContract.confirmOfferExchange(
       addressFrom,
       cardNumberFrom,

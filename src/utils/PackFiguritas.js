@@ -287,39 +287,39 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
         initial={{ opacity: 0 }}
         animate={openPackage ? { opacity: 1 } : ''}
         transition={{ delay: 5 }}
-        className="boxes"
+        className='boxes'
       >
         <motion.div
           initial={{ display: 'none' }}
           animate={openPackage ? { display: 'flex' } : ''}
           transition={{ delay: 5 }}
-          className="boxes"
+          className='boxes'
         >
           {cardsNumbers.length > 0 &&
             cardsNumbers.map((cardNumber, i) => (
               <div
-                className="box"
+                className='box'
                 key={i}
                 style={{
                   '--src': `url(${storageUrlGamma}/T1/${cardNumber}.png)`
                 }}
               >
                 <span>{cardNumber}</span>
-                <img alt="img" src={`${storageUrlGamma}/T1/${cardNumber}.png`} />
+                <img alt='img' src={`${storageUrlGamma}/T1/${cardNumber}.png`} />
               </div>
             ))}
         </motion.div>
-        <div className="controls">
-          <button className="next">
+        <div className='controls'>
+          <button className='next'>
             <span>Previous album</span>
-            <svg viewBox="0 0 448 512" width="100" title="Previous Album">
-              <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+            <svg viewBox='0 0 448 512' width='100' title='Previous Album'>
+              <path d='M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z' />
             </svg>
           </button>
-          <button className="prev">
+          <button className='prev'>
             <span>Next album</span>
-            <svg viewBox="0 0 448 512" width="100" title="Next Album">
-              <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+            <svg viewBox='0 0 448 512' width='100' title='Next Album'>
+              <path d='M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z' />
             </svg>
           </button>
         </div>
@@ -327,7 +327,7 @@ function PackFiguritas({ openPackage, cardsNumbers }) {
       {/* <svg className="scroll-icon" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M20 6H23L19 2L15 6H18V18H15L19 22L23 18H20V6M9 3.09C11.83 3.57 14 6.04 14 9H9V3.09M14 11V15C14 18.3 11.3 21 8 21S2 18.3 2 15V11H14M7 9H2C2 6.04 4.17 3.57 7 3.09V9Z"></path>
             </svg> */}
-      <div className="drag-proxy" />
+      <div className='drag-proxy' />
     </>
   )
 }

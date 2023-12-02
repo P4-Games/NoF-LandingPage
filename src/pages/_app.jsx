@@ -10,16 +10,16 @@ import { Web3ContextProvider } from '../context/Web3Context'
 import { SettingsProvider } from '../context/SettingsContext'
 import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
-function MyApp ({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
     <SettingsProvider>
-        <Web3ContextProvider>
-          <LayoutProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </LayoutProvider>
-        </Web3ContextProvider>
+      <Web3ContextProvider>
+        <LayoutProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </LayoutProvider>
+      </Web3ContextProvider>
     </SettingsProvider>
   )
 }

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useLayoutContext } from '../../hooks'
-import Loading from '../Loading';
-import  NofHead from '../Head'
+import Loading from '../Loading'
+import NofHead from '../Head'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
 
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
     <>
       {loading && <Loading />}
       <NofHead />
-      <Navbar/>
+      <Navbar />
       {children}
       <Footer />
     </>
@@ -25,4 +25,3 @@ Layout.propTypes = {
 }
 
 export default Layout
-

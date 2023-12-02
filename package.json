@@ -14,7 +14,7 @@
     "re-build": "rm -rf .next node_modules && yarn install && yarn build",
     "lint": "next lint",
     "lint:fix": "eslint --fix --ext .js,.jsx,.scss .",
-    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{js,scss,tsx}\"",
+    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{js,jsx,md,scss,tsx}\"",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
@@ -48,11 +48,11 @@
     "nes.css": "^2.3.0",
     "next": "13.0.1",
     "next-i18next": "^15.0.0",
+    "book-flip": "^1.0.0",
     "prettier": "^3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
-    "react-pageflip": "^2.0.3",
     "react-scroll": "^1.8.8",
     "sass": "^1.55.0",
     "sharp": "0.32.6",
@@ -96,8 +96,9 @@
   "pre-commit": {
     "precommit.silent": true,
     "run": [
-      "prettier",
-      "commitlint-check-comit-msg"
+      "commitlint-check-comit-msg",
+      "lint:fix",
+      "prettier"
     ]
   }
 }
