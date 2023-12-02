@@ -138,7 +138,8 @@ const GammaMain = () => {
     if (walletAddress && inventory && !cardInfoOpened) {
       updateButtonFunctions(2, handleOpenPack)
     }
-  }, [ //eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    //eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     openPackage,
@@ -147,7 +148,7 @@ const GammaMain = () => {
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ]) 
+  ])
 
   useEffect(() => {
     if (walletAddress && inventory) {
@@ -278,10 +279,11 @@ const GammaMain = () => {
       stopLoading()
       emitError(t('open_pack_error'))
     }
-  }, [ //eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    //eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
-    openPackage, 
+    openPackage,
     packIsOpen,
     cardsQtty,
     numberOfPacks,

@@ -105,7 +105,8 @@ const GammaAlbumPublish = (props) => {
 
   const PageContent = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
-    if (pageNumber % 2 === 0) { // par
+    if (pageNumber % 2 === 0) {
+      // par
       divWrapperClassName = 'grid-wrapper-right'
     }
 

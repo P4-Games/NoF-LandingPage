@@ -34,13 +34,15 @@ const HTMLFlipBookForward = React.forwardRef((props, ref) => {
     childRef.current = []
 
     if (props.children) {
-      const childList = React.Children.map(props.children, (child) => React.cloneElement(child, {
+      const childList = React.Children.map(props.children, (child) =>
+        React.cloneElement(child, {
           ref: (dom) => {
             if (dom) {
               childRef.current.push(dom)
             }
           }
-        }))
+        })
+      )
 
       if (!props.renderOnlyPageLengthChange || pages.length !== childList.length) {
         if (childList.length < pages.length) {
