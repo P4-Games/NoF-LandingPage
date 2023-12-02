@@ -10,7 +10,7 @@ const FlipBook = (props) => {
     pages,
     startPage = 0,
     mainClassName = 'hero__top__album',
-    disableFlipByClick = false
+    disableFlipByClick = true
   } = props
   const { windowSize, bookRef } = useLayoutContext()
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
@@ -44,7 +44,7 @@ const FlipBook = (props) => {
           maxWidth={800}
           minHeight={350}
           maxHeight={600}
-          swipeDistance={5}
+          swipeDistance={30}
           showPageCorners={true}
           autoSize={true}
           startPage={startPage}
@@ -93,7 +93,7 @@ FlipBook.propTypes = {
   pages: PropTypes.array,
   mainClassName: PropTypes.string,
   startPage: PropTypes.number,
-  disableFlipClick: PropTypes.bool
+  disableFlipByClick: PropTypes.bool
 }
 
 export default FlipBook
