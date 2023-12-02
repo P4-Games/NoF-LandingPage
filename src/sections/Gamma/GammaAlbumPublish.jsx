@@ -15,7 +15,6 @@ const GammaAlbumPublish = (props) => {
   const { paginationObj, cardNumberOffered, handleFinishPublish } = props
   const { gammaOffersContract } = useWeb3Context()
   const [selectedCards, setSelectedCards] = useState([])
-
   const {
     startLoading,
     stopLoading,
@@ -62,7 +61,6 @@ const GammaAlbumPublish = (props) => {
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCardClick = async (selectedCard) => {
-    // const page = bookRef.current.pageFlip().getCurrentPageIndex()
     if (parseInt(selectedCard) === parseInt(cardNumberOffered)) {
       emitWarning(t('publish_offer_error_own_card_number'))
     } else {
@@ -76,7 +74,6 @@ const GammaAlbumPublish = (props) => {
         }
       }
     }
-    // bookRef.current.pageFlip().turnToPage(page)
   }
 
   const getStyle = (item) =>
