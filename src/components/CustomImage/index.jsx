@@ -1,3 +1,3 @@
-import CustomImage from './CustomImage'
+import CustomImage from "./CustomImage";
 
-export default CustomImage
+export default CustomImage;

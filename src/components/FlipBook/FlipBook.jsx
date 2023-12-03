@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
-import HTMLFlipBook from './HtmlFlipBook'
-import { useLayoutContext } from '../../hooks'
+import React, {useEffect, useState} from "react";
+import PropTypes from "prop-types";
+import HTMLFlipBook from "./HtmlFlipBook";
+import {useLayoutContext} from "../../hooks";
 
 const FlipBook = (props) => {
   const {
@@ -9,28 +9,34 @@ const FlipBook = (props) => {
     onCloseClick,
     pages,
     startPage = 0,
-    mainClassName = 'hero__top__album',
+    mainClassName = "hero__top__album",
     disableFlipByClick = true
-  } = props
-  const { windowSize, bookRef } = useLayoutContext()
-  const [isClassesReplaced, setIsClassesReplaced] = useState(false)
+  } = props;
+  const {windowSize, bookRef} =
+    useLayoutContext();
+  const [
+    isClassesReplaced,
+    setIsClassesReplaced
+  ] = useState(false);
 
   const CloseButton = () => (
-    <div className='gamma_info_card_close' onClick={() => onCloseClick()}>
+    <div
+      className='gamma_info_card_close'
+      onClick={() => onCloseClick()}>
       X
     </div>
-  )
+  );
 
   useEffect(() => {
     // Cambiar las clases después de un tiempo de carga simulado (0.5 mSeg),
     // es para evitar un efecto de parpadeo no deseado por htmlFlipBook
     const timer = setTimeout(() => {
-      setIsClassesReplaced(true)
-    }, 0.5)
+      setIsClassesReplaced(true);
+    }, 0.5);
 
     // Limpiar el temporizador para evitar fugas de memoria
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className='hero__top'>
@@ -52,26 +58,26 @@ const FlipBook = (props) => {
           usePortrait={windowSize.size}
           drawShadow={false}
           disableFlipByClick={disableFlipByClick}
-          className='hero__top__album__book'
-        >
+          className='hero__top__album__book'>
           {pages.map((content, index) => (
             <div
               key={`page-${index}`}
               className={
                 index % 2 === 0
                   ? isClassesReplaced
-                    ? 'hero__top__album__book__page'
-                    : ''
+                    ? "hero__top__album__book__page"
+                    : ""
                   : isClassesReplaced
-                  ? 'hero__top__album__book__page0'
-                  : ''
+                  ? "hero__top__album__book__page0"
+                  : ""
               }
               data-density='hard'
-              number={index + 1}
-            >
+              number={index + 1}>
               <div className='hero__top__album__book__page__page-content'>
                 {index % 2 === 0 ? (
-                  <React.Fragment>{content}</React.Fragment>
+                  <React.Fragment>
+                    {content}
+                  </React.Fragment>
                 ) : (
                   <React.Fragment>
                     {showClose && <CloseButton />}
@@ -84,8 +90,8 @@ const FlipBook = (props) => {
         </HTMLFlipBook>
       </div>
     </div>
-  )
-}
+  );
+};
 
 FlipBook.propTypes = {
   showClose: PropTypes.bool,
@@ -94,6 +100,6 @@ FlipBook.propTypes = {
   mainClassName: PropTypes.string,
   startPage: PropTypes.number,
   disableFlipByClick: PropTypes.bool
-}
+};
 
-export default FlipBook
+export default FlipBook;

@@ -1,22 +1,30 @@
-import React from 'react'
-import FooterButtons from './FooterButtons'
-import { useLayoutContext } from '../../hooks'
+import React from "react";
+import FooterButtons from "./FooterButtons";
+import {useLayoutContext} from "../../hooks";
 
 function Footer() {
-  const { mobile, turnNextPage, turnPrevPage } = useLayoutContext()
+  const {mobile, turnNextPage, turnPrevPage} =
+    useLayoutContext();
 
   const openNewWindow = () => {
-    window.open('https://tama.nof.town/', '_blank')
-  }
+    window.open(
+      "https://tama.nof.town/",
+      "_blank"
+    );
+  };
 
   return (
     <div className='footer'>
       {!mobile && (
         <>
-          <div className='footer__insert' onClick={openNewWindow}>
+          <div
+            className='footer__insert'
+            onClick={openNewWindow}>
             <></>
           </div>
-          <div className='footer__handle__green' onClick={turnPrevPage}>
+          <div
+            className='footer__handle__green'
+            onClick={turnPrevPage}>
             <></>
           </div>
         </>
@@ -24,7 +32,9 @@ function Footer() {
       <FooterButtons />
       {!mobile && (
         <>
-          <div className='footer__handle__red' onClick={turnNextPage}>
+          <div
+            className='footer__handle__red'
+            onClick={turnNextPage}>
             <></>
           </div>
           <div className='footer__text'>
@@ -41,7 +51,7 @@ function Footer() {
         </>
       )}
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

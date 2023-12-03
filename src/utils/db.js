@@ -1,6 +1,9 @@
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const {
+  MongoClient,
+  ServerApiVersion
+} = require("mongodb");
 
-const uri = process.env.MONGODB
+const uri = process.env.MONGODB;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -8,16 +11,20 @@ const client = new MongoClient(uri, {
     strict: true,
     deprecationErrors: true
   }
-})
+});
 
 async function connectToDatabase() {
   try {
-    await client.connect()
-    console.log('Connected to MongoDB successfully!')
-    return client.db('nombre_de_tu_base_de_datos')
+    await client.connect();
+    console.log(
+      "Connected to MongoDB successfully!"
+    );
+    return client.db(
+      "nombre_de_tu_base_de_datos"
+    );
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 
-module.exports = connectToDatabase
+module.exports = connectToDatabase;

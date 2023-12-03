@@ -1,3 +1,3 @@
-import FlipBook from './FlipBook'
+import FlipBook from "./FlipBook";
 
-export default FlipBook
+export default FlipBook;
