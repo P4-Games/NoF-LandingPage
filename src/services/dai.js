@@ -28,4 +28,3 @@ export const authorizeDaiContract = async (daiContract) => {
   await authorization.wait()
   return authorization
 }
-
