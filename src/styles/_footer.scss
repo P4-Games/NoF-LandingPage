@@ -46,7 +46,7 @@
 }
 
 .footer__buttons__custom__before {
-  content: '';
+  content: "";
   position: absolute;
   top: 10%;
   left: 35%;
@@ -92,7 +92,9 @@
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.1); /* Scale the element on hover */
+      transform: scale(
+        1.1
+      ); /* Scale the element on hover */
     }
 
     @include mobile {

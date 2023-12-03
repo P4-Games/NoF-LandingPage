@@ -257,7 +257,8 @@ header {
 }
 
 .navbar__button__common {
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-family: "Press Start 2P", "Share Tech Mono",
+    "Share Tech", sans-serif;
   font-size: 0.9em;
   white-space: nowrap;
   width: 190px;
@@ -288,7 +289,7 @@ header {
       4px 0px 1px 1px lightgray;
   }
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: -1.5%;
     top: 0;
@@ -297,7 +298,7 @@ header {
     z-index: -1;
   }
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: -6%;

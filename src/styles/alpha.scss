@@ -1,4 +1,4 @@
-@import './media-queries.scss';
+@import "./media-queries.scss";
 .loader {
   width: 5rem;
   height: 5rem;
@@ -40,7 +40,8 @@
 
 .alpha_button {
   cursor: pointer;
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-family: "Press Start 2P", "Share Tech Mono",
+    "Share Tech", sans-serif;
   box-shadow:
     inset -4px 4px 1px 1px grey,
     inset -4px -4px 1px 1px lightgrey,
@@ -64,7 +65,8 @@
   z-index: 999;
   width: 210px;
   text-align: center;
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-family: "Press Start 2P", "Share Tech Mono",
+    "Share Tech", sans-serif;
   background-color: #eec48a;
   border: 0px;
   @include mobile {
@@ -282,7 +284,8 @@
   width: 90%;
   height: 35px;
   margin: 25px 0;
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-family: "Press Start 2P", "Share Tech Mono",
+    "Share Tech", sans-serif;
   font-size: 0.5rem;
   box-shadow:
     inset -4px 4px 1px 1px grey,
@@ -294,7 +297,8 @@
 .alpha_modal_close {
   position: absolute;
   background-color: transparent;
-  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-family: "Press Start 2P", "Share Tech Mono",
+    "Share Tech", sans-serif;
   cursor: pointer;
   border: 0px;
 }
