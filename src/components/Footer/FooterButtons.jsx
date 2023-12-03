@@ -1,14 +1,10 @@
-import React from "react";
-import Link from "next/link";
-import {useLayoutContext} from "../../hooks";
+import React from 'react'
+import Link from 'next/link'
+import { useLayoutContext } from '../../hooks'
 
 function FooterButtons() {
-  const {
-    showDefaultButtons,
-    showButtons,
-    buttonFunctions,
-    footerButtonsClasses
-  } = useLayoutContext();
+  const { showDefaultButtons, showButtons, buttonFunctions, footerButtonsClasses } =
+    useLayoutContext()
 
   const DefaultButtons = () => (
     <div className='footer__buttons'>
@@ -37,74 +33,54 @@ function FooterButtons() {
         className='footer__buttons__yellowbtn_default'
       />
     </div>
-  );
+  )
 
   const CustomButtons = () => (
     <div className='footer__buttons'>
-      {showButtons[0] &&
-        buttonFunctions &&
-        buttonFunctions[0] && (
-          <div
-            onClick={() => {
-              buttonFunctions[0]();
-            }}
-            className={
-              footerButtonsClasses[0] ??
-              "footer__buttons__bluebtn_custom"
-            }>
-            <></>
-          </div>
-        )}
-      {showButtons[1] &&
-        buttonFunctions &&
-        buttonFunctions[1] && (
-          <div
-            onClick={() => {
-              buttonFunctions[1]();
-            }}
-            className={
-              footerButtonsClasses[1] ??
-              "footer__buttons__greenbtn_custom"
-            }>
-            <></>
-          </div>
-        )}
-      {showButtons[2] &&
-        buttonFunctions &&
-        buttonFunctions[2] && (
-          <div
-            onClick={() => {
-              buttonFunctions[2]();
-            }}
-            className={
-              footerButtonsClasses[2] ??
-              "footer__buttons__redbtn_custom"
-            }>
-            <></>
-          </div>
-        )}
-      {showButtons[3] &&
-        buttonFunctions &&
-        buttonFunctions[3] && (
-          <div
-            onClick={() => {
-              buttonFunctions[3]();
-            }}
-            className={
-              footerButtonsClasses[3] ??
-              "footer__buttons__yellowbtn_custom"
-            }>
-            <></>
-          </div>
-        )}
+      {showButtons[0] && buttonFunctions && buttonFunctions[0] && (
+        <div
+          onClick={() => {
+            buttonFunctions[0]()
+          }}
+          className={footerButtonsClasses[0] ?? 'footer__buttons__bluebtn_custom'}
+        >
+          <></>
+        </div>
+      )}
+      {showButtons[1] && buttonFunctions && buttonFunctions[1] && (
+        <div
+          onClick={() => {
+            buttonFunctions[1]()
+          }}
+          className={footerButtonsClasses[1] ?? 'footer__buttons__greenbtn_custom'}
+        >
+          <></>
+        </div>
+      )}
+      {showButtons[2] && buttonFunctions && buttonFunctions[2] && (
+        <div
+          onClick={() => {
+            buttonFunctions[2]()
+          }}
+          className={footerButtonsClasses[2] ?? 'footer__buttons__redbtn_custom'}
+        >
+          <></>
+        </div>
+      )}
+      {showButtons[3] && buttonFunctions && buttonFunctions[3] && (
+        <div
+          onClick={() => {
+            buttonFunctions[3]()
+          }}
+          className={footerButtonsClasses[3] ?? 'footer__buttons__yellowbtn_custom'}
+        >
+          <></>
+        </div>
+      )}
     </div>
-  );
+  )
 
-  return showDefaultButtons ? (
-    <DefaultButtons />
-  ) : (
-    <CustomButtons />
-  );
+  return showDefaultButtons ? <DefaultButtons /> : <CustomButtons />
 }
 
-export default FooterButtons;
+export default FooterButtons

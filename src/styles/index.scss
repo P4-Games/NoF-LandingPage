@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech&family=Share+Tech+Mono&display=swap");
-@import "./_media-queries.scss";
-@import "./variables";
-@import "./_navbar.scss";
-@import "./_footer.scss";
-@import "./_hero.scss";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech&family=Share+Tech+Mono&display=swap');
+@import './_media-queries.scss';
+@import './variables';
+@import './_navbar.scss';
+@import './_footer.scss';
+@import './_hero.scss';
 
 html,
 body {
@@ -13,8 +13,7 @@ body {
   width: 100vw;
   padding: 0;
   margin: 0;
-  font-family: "Press Start 2P", "Share Tech Mono",
-    "Share Tech", sans-serif;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 }
 
 header {

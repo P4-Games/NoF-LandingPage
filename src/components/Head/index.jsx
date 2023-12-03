@@ -1,3 +1,3 @@
-import NofHead from "./NofHead";
+import NofHead from './NofHead'
 
-export default NofHead;
+export default NofHead
