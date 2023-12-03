@@ -71,19 +71,28 @@ const GammaAlbum = (props) => {
     stopLoading()
   }
 
+  const updateCardOffers = async (cardNumber) => {
+    const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
+    if (offers && offers.length > 0) {
+      // filtro mis ofertas
+      const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
+      setOffersObj(filterMyoffes)
+    } else {
+      setOffersObj(null)
+      /* Si el usuario2 confirma el intercambio de la carta X y el usuario1 abre el cardInfo
+      de la carta X, va a tener objeto.offered = true (porque no tiene el update del usuario1)
+      A diferencia de ello, el OffersObj está actualizado, por lo que es nulo, se quida 
+      el offered. del paginationObj */
+      paginationObj.user[cardNumber].offered = false
+    }
+  }
+
   const handleCardClick = async (cardNumber) => {
     startLoading()
     setCurrentPage(getCurrentPage())
     setCardInfoOpened(true)
     setImageNumber(cardNumber)
-    const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
-
-    // filtro mis ofertas
-    if (offers && offers.length > 0) {
-      // Saca mis ofertas
-      const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
-      setOffersObj(filterMyoffes)
-    }
+    updateCardOffers(cardNumber)
     setCardInfo(true)
     stopLoading()
   }
