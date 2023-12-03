@@ -93,7 +93,9 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
             className='closebutton'
           />
         )}
-        {openPackage && <GammaPackOpenCards openPackage={openPackage} cardsNumbers={cardsNumbers} />}
+        {openPackage && (
+          <GammaPackOpenCards openPackage={openPackage} cardsNumbers={cardsNumbers} />
+        )}
       </div>
     </>
   )

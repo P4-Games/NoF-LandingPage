@@ -8,7 +8,7 @@ import { storageUrlGamma } from '../../config'
 
 const GammaPackOpenCards = ({ openPackage, cardsNumbers }) => {
   useEffect(() => {
-    if (typeof window === 'undefined') return 
+    if (typeof window === 'undefined') return
     gsap.registerPlugin(ScrollTrigger)
     gsap.registerPlugin(Draggable)
 
@@ -201,9 +201,6 @@ const GammaPackOpenCards = ({ openPackage, cardsNumbers }) => {
       if (event.code === 'ArrowRight' || event.code === 'KeyD') PREV()
     })
 
-    document.querySelector('.next').addEventListener('click', NEXT)
-    document.querySelector('.prev').addEventListener('click', PREV)
-    
     document.querySelector('.boxes').addEventListener('click', (e) => {
       const BOX = e.target.closest('.box')
       if (BOX) {
@@ -226,6 +223,8 @@ const GammaPackOpenCards = ({ openPackage, cardsNumbers }) => {
 
     window.BOXES = BOXES
 
+    document.querySelector('.next').addEventListener('click', NEXT)
+    document.querySelector('.prev').addEventListener('click', PREV)
     gsap.set('.box', { display: 'block' })
     gsap.set('button', {
       z: 200
@@ -246,7 +245,6 @@ const GammaPackOpenCards = ({ openPackage, cardsNumbers }) => {
       }
     })
   }, [])
-
 
   return (
     <>
