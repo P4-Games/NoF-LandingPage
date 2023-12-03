@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { CONTRACTS } from '../config'
 
 export const checkBalance = async (daiContract, walletAddress) => {
   // Get the walletAddress balance from the Dai contract
@@ -17,3 +18,14 @@ export const checkApproved = async (daiContract, tokenOwnerAddress, spenderAddre
   const approved = await daiContract.allowance(tokenOwnerAddress, spenderAddress)
   return approved.gt(0)
 }
+
+export const authorizeDaiContract = async (daiContract) => {
+  const authorization = await daiContract.approve(
+    CONTRACTS.gammaPackAddress,
+    ethers.constants.MaxUint256,
+    { gasLimit: 2500000 }
+  )
+  await authorization.wait()
+  return authorization
+}
+
