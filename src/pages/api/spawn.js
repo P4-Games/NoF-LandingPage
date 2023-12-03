@@ -15,13 +15,20 @@ export default async function handler(req, res) {
       await serversCollection.updateOne({ serverId }, { $set: { channelId } })
     } else {
       // Registrar un nuevo servidor y canal
-      await serversCollection.insertOne({ serverId, channelId })
+      await serversCollection.insertOne({
+        serverId,
+        channelId
+      })
     }
 
     res.setHeader('Content-Type', 'application/json')
-    res.status(200).json({ message: 'Registration successful.' })
+    res.status(200).json({
+      message: 'Registration successful.'
+    })
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'An error occurred while processing the request.' })
+    res.status(500).json({
+      error: 'An error occurred while processing the request.'
+    })
   }
 }

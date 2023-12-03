@@ -9,7 +9,9 @@ export default async function handler(req, res) {
   } = req
 
   if (!discordID) {
-    return res.status(400).json({ error: 'Discord ID is missing from query parameters.' })
+    return res.status(400).json({
+      error: 'Discord ID is missing from query parameters.'
+    })
   }
 
   try {
@@ -18,14 +20,20 @@ export default async function handler(req, res) {
     const charactersCollection = db.collection('characters')
 
     // Buscar el usuario por su discordID
-    const user = await usersCollection.findOne({ discordID })
+    const user = await usersCollection.findOne({
+      discordID
+    })
     if (!user) {
       return res.status(404).json({ error: 'User not found.' })
     }
 
     // Obtener los personajes del usuario y sus imágenes
     const characters = await charactersCollection
-      .find({ id: { $in: user.characters.map((c) => c.id) } })
+      .find({
+        id: {
+          $in: user.characters.map((c) => c.id)
+        }
+      })
       .toArray()
 
     // Obtener las rutas de las imágenes locales redimensionadas
@@ -88,7 +96,9 @@ export default async function handler(req, res) {
     return res.status(200).send(collageBuffer)
   } catch (error) {
     console.error(error)
-    return res.status(500).json({ error: 'An error occurred while processing your request.' })
+    return res.status(500).json({
+      error: 'An error occurred while processing your request.'
+    })
   }
 }
 

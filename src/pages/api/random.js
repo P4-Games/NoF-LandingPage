@@ -16,6 +16,8 @@ export default async function handler(req, res) {
     res.status(200).json(newRandomInt)
   } catch (error) {
     console.error(error)
-    res.status(500).json({ error: 'An error occurred while processing your request.' })
+    res.status(500).json({
+      error: 'An error occurred while processing your request.'
+    })
   }
 }

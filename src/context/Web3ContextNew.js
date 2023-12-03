@@ -67,7 +67,9 @@ const Web3ContextProvider = ({ children }) => {
     const walletConnect = walletConnectModule(wcV2InitOptions || wcV1InitOptions)
     const trust = trustModule()
     const coinbase = coinbaseModule()
-    const gnosis = gnosisModule({ whitelistedDomains: [] })
+    const gnosis = gnosisModule({
+      whitelistedDomains: []
+    })
 
     const onboard = init({
       wallets: [injected, walletConnect, gnosis, coinbase, trust],
@@ -107,7 +109,12 @@ const Web3ContextProvider = ({ children }) => {
         name: 'NoF',
         description: 'Number one Fun',
         icon: '/images/common/nof.png',
-        recommendedInjectedWallets: [{ name: 'MetaMask', url: 'https://metamask.io' }]
+        recommendedInjectedWallets: [
+          {
+            name: 'MetaMask',
+            url: 'https://metamask.io'
+          }
+        ]
       }
     })
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import PackFiguritas from '../../utils/PackFiguritas'
+import GammaPackOpenCards from './GammaPackOpenCards'
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
 
@@ -53,7 +53,15 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
           className={loading ? 'pack packloader' : 'pack'}
         >
           <motion.img
-            animate={openPackage ? { opacity: 0, x: -275, zIndex: 111111 } : ''}
+            animate={
+              openPackage
+                ? {
+                    opacity: 0,
+                    x: -275,
+                    zIndex: 111111
+                  }
+                : ''
+            }
             transition={{ duration: 2, delay: 0 }}
             id='top'
             src='/images/gamma/SobreTop.png'
@@ -85,7 +93,9 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
             className='closebutton'
           />
         )}
-        {openPackage && <PackFiguritas openPackage={openPackage} cardsNumbers={cardsNumbers} />}
+        {openPackage && (
+          <GammaPackOpenCards openPackage={openPackage} cardsNumbers={cardsNumbers} />
+        )}
       </div>
     </>
   )

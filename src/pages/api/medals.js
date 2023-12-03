@@ -26,7 +26,9 @@ const calculateMedals = (characters, currentMedals) => {
 // Función para obtener la información del usuario y actualizar sus medallas y personajes en la base de datos
 const updateMedals = async (db, discordID) => {
   const usersCollection = db.collection('users')
-  const user = await usersCollection.findOne({ discordID })
+  const user = await usersCollection.findOne({
+    discordID
+  })
 
   if (!user) {
     throw new Error(

@@ -4,7 +4,9 @@ import axios from 'axios'
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users')
-  const user = await collection.findOne({ discordID })
+  const user = await collection.findOne({
+    discordID
+  })
   return user
 }
 
@@ -48,7 +50,9 @@ export default async function handler(req, res) {
 
         if (missingCharacter !== null) {
           // Agregar el personaje faltante al array de characters del usuario
-          const missingCharacterData = await charactersCollection.findOne({ id: missingCharacter })
+          const missingCharacterData = await charactersCollection.findOne({
+            id: missingCharacter
+          })
           if (missingCharacterData) {
             characters.push(missingCharacterData)
           }
@@ -57,18 +61,30 @@ export default async function handler(req, res) {
           await usersCollection.updateOne({ discordID }, { $set: { characters } })
 
           const imageUrl = `${storageUrlGamma}/T2/${missingCharacter}.png`
-          res.status(200).json({ voted: true, missingCharacter, imageUrl })
+          res.status(200).json({
+            voted: true,
+            missingCharacter,
+            imageUrl
+          })
         } else {
-          res.status(200).json({ voted: true, message: 'Your inventory is full.' })
+          res.status(200).json({
+            voted: true,
+            message: 'Your inventory is full.'
+          })
         }
       } else {
-        res.status(200).json({ voted: true, message: 'User not found.' })
+        res.status(200).json({
+          voted: true,
+          message: 'User not found.'
+        })
       }
     } else {
       res.status(200).json({ voted: false })
     }
   } catch (error) {
     console.error('Error while checking the voting status:', error)
-    res.status(500).json({ error: 'Error while checking the voting status.' })
+    res.status(500).json({
+      error: 'Error while checking the voting status.'
+    })
   }
 }

@@ -559,7 +559,15 @@ const AlphaMain = () => {
                   </div>
                 </>
               )}
-              <span style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>{error}</span>
+              <span
+                style={{
+                  color: 'red',
+                  textAlign: 'center',
+                  marginTop: '10px'
+                }}
+              >
+                {error}
+              </span>
             </div>
 
             {pack && pack.length && showMain ? (
@@ -607,7 +615,10 @@ const AlphaMain = () => {
                         const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                         return (
                           <div
-                            style={{ backgroundImage: 'none', paddingTop: '0' }}
+                            style={{
+                              backgroundImage: 'none',
+                              paddingTop: '0'
+                            }}
                             className='swiper-slide alpha-swiper-slide'
                             key={ethers.BigNumber.from(card.tokenId).toNumber()}
                           >
@@ -638,7 +649,11 @@ const AlphaMain = () => {
                     >
                       X
                     </button>
-                    <span style={{ fontSize: '0.9rem' }}>
+                    <span
+                      style={{
+                        fontSize: '0.9rem'
+                      }}
+                    >
                       {t('carta_de_coleccion')}{' '}
                       {cards[cardIndex]
                         ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber()

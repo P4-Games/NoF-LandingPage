@@ -131,15 +131,15 @@ yarn deploy-mock-data # run the mock data
 The application uses a linter for commit messages, requiring them to be specified in the following format:
 
 ```
-- type: message
-- type: :icono: message
+- [type] message
+- [type] :icono: message
 ```
 
 Example:
 
 ```
-- commit -m chore: add commitlinter
-- commit -m chore: :sparkles: add commitlinter (to commit with an icon, you can use [gitmoji](https://gitmoji.dev/))
+- commit -m [chore] add commitlinter
+- commit -m [chore] :sparkles: add commitlinter (to commit with an icon, you can use [gitmoji](https://gitmoji.dev/))
 ```
 
 The allowed standard types are:

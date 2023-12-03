@@ -3,7 +3,9 @@ import { storageUrlGamma } from '../../config'
 
 const getRandomCharacterID = async (db, channelId) => {
   const serversCollection = db.collection('servers')
-  const server = await serversCollection.findOne({ channelId })
+  const server = await serversCollection.findOne({
+    channelId
+  })
 
   if (!server) {
     throw new Error(`Server not found for channelId: ${channelId}`)
@@ -22,7 +24,9 @@ const getRandomCharacterID = async (db, channelId) => {
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users')
-  const user = await collection.findOne({ discordID })
+  const user = await collection.findOne({
+    discordID
+  })
 
   if (!user) {
     throw new Error(
@@ -36,7 +40,9 @@ const findUserByDiscordID = async (db, discordID) => {
 const findCharacterByID = async (db, characterID) => {
   const characterImage = `${storageUrlGamma}/T2/${characterID}.png`
   const charactersCollection = db.collection('characters')
-  const character = await charactersCollection.findOne({ image: characterImage })
+  const character = await charactersCollection.findOne({
+    image: characterImage
+  })
 
   if (!character) {
     throw new Error(`Character not found or missing image for characterID: ${characterID}`)
@@ -50,7 +56,14 @@ const addCharacterToInventory = async (db, userID, characterID, characterImage) 
 
   await userCollection.updateOne(
     { _id: userID },
-    { $addToSet: { characters: { id: characterID, image: characterImage } } }
+    {
+      $addToSet: {
+        characters: {
+          id: characterID,
+          image: characterImage
+        }
+      }
+    }
   )
 }
 
@@ -74,13 +87,17 @@ export default async function handler(req, res) {
     const characterID = await getRandomCharacterID(db, channelID)
 
     if (characterID === null) {
-      return res.status(200).json({ message: 'The character has already been collected.' })
+      return res.status(200).json({
+        message: 'The character has already been collected.'
+      })
     }
 
     const character = user.characters.find((c) => c.id.toString() === characterID.toString())
 
     if (character) {
-      return res.status(200).json({ message: 'You already have this character in your inventory.' })
+      return res.status(200).json({
+        message: 'You already have this character in your inventory.'
+      })
     }
 
     const characterObj = await findCharacterByID(db, characterID)
@@ -89,7 +106,10 @@ export default async function handler(req, res) {
     const serversCollection = db.collection('servers')
     await serversCollection.updateOne({ channelId: channelID }, { $set: { nofy: null } })
 
-    res.status(200).json({ message: 'Character added successfully.', image: characterObj.image })
+    res.status(200).json({
+      message: 'Character added successfully.',
+      image: characterObj.image
+    })
   } catch (error) {
     console.error(error)
 

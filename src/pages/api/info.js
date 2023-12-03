@@ -12,7 +12,9 @@ const getUserInfo = async (db, discordID) => {
   const usersCollection = db.collection('users')
 
   // Buscar al usuario por su ID de Discord
-  const user = await usersCollection.findOne({ discordID })
+  const user = await usersCollection.findOne({
+    discordID
+  })
 
   // Lanzar un error si el usuario no existe
   if (!user) {

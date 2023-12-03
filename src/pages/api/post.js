@@ -4,7 +4,9 @@ import axios from 'axios'
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users')
-  const user = await collection.findOne({ discordID })
+  const user = await collection.findOne({
+    discordID
+  })
   return user
 }
 
@@ -34,7 +36,9 @@ export default async function handler(req, res) {
           missingCharacters[Math.floor(Math.random() * missingCharacters.length)]
 
         // Obtener los datos del personaje aleatorio
-        const missingCharacterData = await charactersCollection.findOne({ id: randomCharacterID })
+        const missingCharacterData = await charactersCollection.findOne({
+          id: randomCharacterID
+        })
 
         if (missingCharacterData) {
           // Agregar el personaje faltante al array de characters del usuario
@@ -50,16 +54,22 @@ export default async function handler(req, res) {
           res.setHeader('Content-Type', 'image/png')
           res.status(200).send(response.data)
         } else {
-          res.status(404).json({ error: 'Failed to retrieve missing character data.' })
+          res.status(404).json({
+            error: 'Failed to retrieve missing character data.'
+          })
         }
       } else {
-        res.status(200).json({ message: 'User already has all the characters in the range.' })
+        res.status(200).json({
+          message: 'User already has all the characters in the range.'
+        })
       }
     } else {
       res.status(404).json({ message: 'User not found.' })
     }
   } catch (error) {
     console.error('Error while processing the request:', error)
-    res.status(500).json({ error: 'Error while processing the request.' })
+    res.status(500).json({
+      error: 'Error while processing the request.'
+    })
   }
 }
