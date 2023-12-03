@@ -8,7 +8,7 @@ import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
-import { checkApproved } from '../../services/dai'
+import { checkApproved, authorizeDaiContract } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
 import {
   getCardsByUser,
@@ -18,7 +18,6 @@ import {
   getPackPrice
 } from '../../services/gamma'
 
-import { CONTRACTS } from '../../config'
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
@@ -71,16 +70,6 @@ const GammaMain = () => {
     } catch (e) {
       console.error({ e })
     }
-  }
-
-  const authorizeDaiContract = async () => {
-    const authorization = await daiContract.approve(
-      CONTRACTS.gammaPackAddress,
-      ethers.constants.MaxUint256,
-      { gasLimit: 2500000 }
-    )
-    await authorization.wait()
-    return authorization
   }
 
   const updateUserData = async () => {
@@ -306,7 +295,7 @@ const GammaMain = () => {
       startLoading()
       const approval = await checkApproved(daiContract, walletAddress, gammaPacksContract.address)
       if (!approval) {
-        await authorizeDaiContract()
+        await authorizeDaiContract(daiContract)
       }
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
