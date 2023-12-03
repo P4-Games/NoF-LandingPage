@@ -1,4 +1,4 @@
-import {graphUrl} from "../config";
+import { graphUrl } from '../config'
 
 const query = `
   query getSeasonWinners {
@@ -9,20 +9,20 @@ const query = `
       blockTimestamp
     }
   }
-`;
+`
 
 export const fetchDataAlpha = async () => {
   try {
     const response = await fetch(graphUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json"
+        'content-type': 'application/json'
       },
-      body: JSON.stringify({query})
-    });
-    const json = await response.json();
-    return json;
+      body: JSON.stringify({ query })
+    })
+    const json = await response.json()
+    return json
   } catch (e) {
-    console.error({e});
+    console.error({ e })
   }
-};
+}

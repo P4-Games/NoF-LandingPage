@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {useLayoutContext} from "../../hooks";
-import Loading from "../Loading";
-import NofHead from "../Head";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useLayoutContext } from '../../hooks'
+import Loading from '../Loading'
+import NofHead from '../Head'
+import Navbar from '../Navbar'
+import Footer from '../Footer'
 
-const Layout = ({children}) => {
-  const {loading} = useLayoutContext();
+const Layout = ({ children }) => {
+  const { loading } = useLayoutContext()
 
   return (
     <>
@@ -17,11 +17,11 @@ const Layout = ({children}) => {
       {children}
       <Footer />
     </>
-  );
-};
+  )
+}
 
 Layout.propTypes = {
   children: PropTypes.object
-};
+}
 
-export default Layout;
+export default Layout
