@@ -90,11 +90,6 @@ header {
         transition: 0.2s;
       }
     }
-  }
-
-  &__left {
-    @extend .corner__common;
-    justify-content: left;
     &__coin {
       cursor: pointer;
       background-size: 100% 100%;
@@ -106,6 +101,11 @@ header {
         transition: 0.2s;
       }
     }
+  }
+
+  &__left {
+    @extend .corner__common;
+    justify-content: left;
     &__nof {
       cursor: pointer;
       background-size: 100% 100%;

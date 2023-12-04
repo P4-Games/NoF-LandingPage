@@ -151,10 +151,12 @@ const GammaMain = () => {
   }, [paginationObj])
 
   useEffect(() => {
+    if (!walletAddress) return
     fetchInventory()
   }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    if (!walletAddress) return
     checkNumberOfPacks()
   }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
