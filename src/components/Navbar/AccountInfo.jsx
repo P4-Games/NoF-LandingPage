@@ -33,7 +33,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     fetchTokenName()
   }, [tokenName, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
-
   const fetchBalance = async () => {
     if (!walletAddress || !daiContract) return
     const balance = await getBalance(daiContract, walletAddress)
@@ -73,7 +72,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         connectWallet()
         setShowAccountInfo(false)
       }}
-      className='account__info__disconnect__btn'
+      className='account__info__connect__btn'
     >
       Conectar
     </button>
@@ -94,28 +93,30 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const NetworkComponent = () => (
     <div className='account_info__icon__and__link'>
       <div>
-        <p className={`account_info__account__network ${!isValidNetwork() 
-            ? 'account_info__invalid__network' 
-            : ''}`}
+        <p
+          className={`account_info__account__network ${
+            !isValidNetwork() ? 'account_info__invalid__network' : ''
+          }`}
         >
           {isValidNetwork() ? NETWORK.chainName : 'Red Inválida'}
         </p>
       </div>
-      { !isValidNetwork() &&
-      <div className='account__info__icon__container'>
-        <MdOutlinePublishedWithChanges
-          onClick={() => {
-            switchOrCreateNetwork(
-              NETWORK.chainId,
-              NETWORK.chainName,
-              NETWORK.ChainRpcUrl,
-              NETWORK.chainCurrency,
-              NETWORK.chainExplorerUrl
-            )
-          }}
-          className='account_info__icon'
-        />
-      </div>}
+      {!isValidNetwork() && (
+        <div className='account__info__icon__container'>
+          <MdOutlinePublishedWithChanges
+            onClick={() => {
+              switchOrCreateNetwork(
+                NETWORK.chainId,
+                NETWORK.chainName,
+                NETWORK.ChainRpcUrl,
+                NETWORK.chainCurrency,
+                NETWORK.chainExplorerUrl
+              )
+            }}
+            className='account_info__icon'
+          />
+        </div>
+      )}
     </div>
   )
 

@@ -100,7 +100,10 @@ function Navbar() {
           <LanguageSelection />
           <div ref={accountRef} className='navbar__right__account'>
             <ButtonAccount onClick={handleAccountClick} />
-            <AccountInfo showAccountInfo={showAccountInfo} setShowAccountInfo={setShowAccountInfo} />
+            <AccountInfo
+              showAccountInfo={showAccountInfo}
+              setShowAccountInfo={setShowAccountInfo}
+            />
           </div>
         </div>
       </div>

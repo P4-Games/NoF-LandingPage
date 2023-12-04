@@ -26,6 +26,7 @@
   margin-left: -10px;
 }
 
+.account__info__connect__btn__container,
 .account__info__disconnect__btn__container {
   cursor: pointer;
   display: flex;
@@ -33,26 +34,31 @@
   margin-top: 10px;
 }
 
+.account__info__connect__btn,
 .account__info__disconnect__btn {
   background-color: #f60008;
   color: #000;
   border: none;
   padding: 5px 10px;
-  font-size: 1em; 
+  font-size: 1em;
   cursor: pointer;
 }
 
+.account__info__connect__btn {
+  background-color: #68b346;
+}
 .account_info__account__link,
 .account_info__account__link:hover,
 .account_info__account__link:visited {
-  transition: color 0.3s; 
+  transition: color 0.3s;
   text-decoration: none;
   line-height: 20px;
 }
 
 .account__info__disconnect__btn:hover,
+.account__info__connect__btn:hover,
 .account_info__account__link:hover {
-  color: #fff; 
+  color: #fff;
 }
 
 .account_info__network__container {
@@ -62,7 +68,7 @@
 .account_info__account__network {
   display: flex;
   justify-content: center;
-  font-size: 0.7em; 
+  font-size: 0.7em;
 }
 
 .account_info__invalid__network {
@@ -106,7 +112,7 @@
 }
 
 .account_info__icon:hover {
-  color: #fff; 
+  color: #fff;
 }
 
 .account_info__link__container,
