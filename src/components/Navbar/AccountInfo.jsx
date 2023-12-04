@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
-import { FaExternalLinkAlt as FaExternalLinkSquareAlt } from "react-icons/fa";
-import { GoLinkExternal } from "react-icons/go";
+import { FaExternalLinkAlt as FaExternalLinkSquareAlt } from 'react-icons/fa'
+import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
 import { MdOutlinePublishedWithChanges } from 'react-icons/md'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
