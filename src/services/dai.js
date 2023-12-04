@@ -1,6 +1,18 @@
 import { ethers } from 'ethers'
 import { CONTRACTS } from '../config'
 
+export const transfer = async (daiContract, walletAddress, amount) => {
+  const trx = await daiContract.transfer(walletAddress, ethers.utils.parseUnits(amount, 18))
+  await trx.wait()
+  return true
+}
+
+export const getBalance = async (daiContract, walletAddress) => {
+  const balance = await daiContract.balanceOf(walletAddress)
+  const number = parseInt(ethers.utils.formatUnits(balance, 18))
+  return number
+}
+
 export const checkBalance = async (daiContract, walletAddress) => {
   // Get the walletAddress balance from the Dai contract
   const balance = await daiContract.balanceOf(walletAddress)
@@ -27,4 +39,14 @@ export const authorizeDaiContract = async (daiContract) => {
   )
   await authorization.wait()
   return authorization
+}
+
+export const getTokenName = async (daiContract) => {
+  try {
+    const tokenName = await daiContract.name()
+    return tokenName || 'DAI'
+  } catch (error) {
+    console.error('Error al obtener el nombre del token:', error)
+    return 'DAI'
+  }
 }

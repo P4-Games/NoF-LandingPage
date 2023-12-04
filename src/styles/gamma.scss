@@ -993,14 +993,14 @@
 }
 
 .swal2-title {
-  font-size: 17px;
+  font-size: 12px;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
 }
 
 .swal2-html-container {
-  font-size: 10px;
+  font-size: 12px !important;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-  line-height: 1.2em;
+  line-height: 1em;
   font-weight: lighter;
   text-align: center;
 }
@@ -1017,6 +1017,10 @@
   font-size: 12px;
   color: #223;
   /* Otros estilos personalizados */
+}
+
+.swal2-validation-message {
+  font-size: 10px;
 }
 
 .cardalertimg {
@@ -1036,8 +1040,9 @@
   background-color: red !important;
 }
 
+.swal2-confirm,
 .okbutton {
-  background-color: pink !important;
+  background-color: rgb(0, 94, 163) !important;
   &:focus {
     outline: 0 !important;
   }

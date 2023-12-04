@@ -20,7 +20,7 @@ function Web3ContextProvider({ children }) {
   const [, setNoMetamaskError] = useState('')
   const [wallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
-  const [, setChainId] = useState(null)
+  const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
@@ -110,15 +110,13 @@ function Web3ContextProvider({ children }) {
     }
   }
 
-  /*
-  function logout() {
+  function disconnectWallet() {
     setWalletAddress(null)
   }
 
-  function isValidChain() {
+  function isValidNetwork() {
     return chainId === NETWORK.chainId
   }
-  */
 
   function decToHex(number) {
     return `0x${parseInt(number).toString(16)}`
@@ -186,7 +184,10 @@ function Web3ContextProvider({ children }) {
         gammaPacksContract,
         gammaCardsContract,
         gammaOffersContract,
-        connectWallet
+        connectWallet,
+        disconnectWallet,
+        isValidNetwork,
+        switchOrCreateNetwork
       }}
     >
       {children}
