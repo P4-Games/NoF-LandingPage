@@ -90,7 +90,7 @@
     "transfer_pack_error": "Hubo un error al intentar transferir un pack",
     "finish_album_error": "Ocurrió un error al intentar reclamar el premio",
     "finish_album_success": "Felicitaciones! Completaste el álbum. Recibirás en tu wallet tu premio en DAIs.",
-    "finish_album_no_qtty": "Aún no tiene el album completo para poder reclamar el premio",
+    "finish_album_no_qtty": "Aún no tienes el album completo para poder reclamar el premio",
     "finish_album_warning": "Aún no están dadas las condiciones para que se puedan completar los álbumnes y reclamas los premios. Intenta en unos días!",
 
     "publish_offer_error": "Hubo un error al intentar realizar la publicación",
@@ -138,6 +138,11 @@
     "account_connect": "Conectar",
     "account_disconnect": "Desconectar",
     "account_invalid_network": "Red Inválida",
-    "account_text_copied": "Copiado"
+    "account_text_copied": "Copiado",
+    "account_balance_zero": "No tienes saldo suficiente para enviar.",
+    "account_send_dai_title": "Transferencia de Tokens",
+    "account_send_dai_quantity": "Cantidad",
+    "account_send_dai_quantity_invalid": "Cantidad Inválida.",
+    "account_send_dai_error": "Hubo un error al intentar transferir tokens."
 
 }

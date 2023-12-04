@@ -163,7 +163,7 @@ const GammaMain = () => {
   const handleFinishAlbum = useCallback(async () => {
     try {
       if (cardsQtty < 120) {
-        emitInfo(t('finish_album_no_qtty'))
+        emitInfo(t('finish_album_no_qtty'), 100000)
         return
       }
 
@@ -202,7 +202,7 @@ const GammaMain = () => {
         },
         showDenyButton: false,
         showCancelButton: true,
-        confirmButtonText: `${t('trasnferir')}`,
+        confirmButtonText: `${t('transferir')}`,
         confirmButtonColor: '#005EA3',
         color: 'black',
         background: 'white',
@@ -218,7 +218,6 @@ const GammaMain = () => {
         const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
         const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
         await transaction.wait()
-        transaction.wait()
         emitSuccess(t('confirmado'), 2000)
         await checkNumberOfPacks()
         stopLoading()

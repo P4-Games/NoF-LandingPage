@@ -15,3 +15,13 @@ export const checkInputAddress = (address, myOwnWallet) => {
   }
   return true
 }
+
+export const checkValue1GTValue2 = (value1, value2) => {
+  const n1 = parseFloat(value1)
+  const n2 = parseFloat(value2)
+
+  if (isNaN(n1) || isNaN(n2)) {
+    return false
+  }
+  return n1 <= n2
+}

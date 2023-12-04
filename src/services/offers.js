@@ -108,7 +108,7 @@ export const deleteUserOffers = async (offersContract, userAddress) => {
      // El contrato puede devolver una oferta vacia en lugar de null,
     // por lo que quedará el offerId en 0
     const filteredResult = offerObject.filter((item) => item.offerId !== 0)
-    console.log('user offers', offers, filteredResult)
+    // console.log('user offers', offers, filteredResult)
 
     if (filteredResult && filteredResult.length > 0) {
       for (let index = 0; index < filteredResult.length; index++) {

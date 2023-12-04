@@ -1,6 +1,12 @@
 import { ethers } from 'ethers'
 import { CONTRACTS } from '../config'
 
+export const transfer = async (daiContract, walletAddress, amount) => {
+  const trx = await daiContract.transfer(walletAddress, ethers.utils.parseUnits(amount, 18))
+  await trx.wait()
+  return true
+}
+
 export const getBalance = async (daiContract, walletAddress) => {
   const balance = await daiContract.balanceOf(walletAddress)
   const number = parseInt(ethers.utils.formatUnits(balance, 18))

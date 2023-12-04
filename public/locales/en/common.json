@@ -138,6 +138,10 @@
     "account_connect": "Connect",
     "account_disconnect": "Disconnect",
     "account_invalid_network": "Invalid Network",
-    "account_text_copied": "Copied"
-
+    "account_text_copied": "Copied",
+    "account_balance_zero": "You do not have enough balance to send.",
+    "account_send_dai_title": "Token Transfer",
+    "account_send_dai_quantity": "Quantity",
+    "account_send_dai_quantity_invalid": "Invalid Quantity.",
+    "account_send_dai_error": "There was an error trying to transfer tokens."
 }
