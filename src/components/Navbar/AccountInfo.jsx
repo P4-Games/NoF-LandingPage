@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
-import { IoOpenOutline } from 'react-icons/io5'
+import { FaExternalLinkAlt as FaExternalLinkSquareAlt } from 'react-icons/fa'
+import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
 import { MdOutlinePublishedWithChanges } from 'react-icons/md'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
@@ -166,11 +167,11 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   )
 
   const NetworkComponent = () => (
-    <div className='account_info__icon__and__link'>
+    <div className='account__info__icon__and__link'>
       <div>
         <p
-          className={`account_info__account__network ${
-            !isValidNetwork() ? 'account_info__invalid__network' : ''
+          className={`account__info__account__network ${
+            !isValidNetwork() ? 'account__info__invalid__network' : ''
           }`}
         >
           {isValidNetwork() ? NETWORK.chainName : t('account_invalid_network')}
@@ -188,7 +189,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
                 NETWORK.chainExplorerUrl
               )
             }}
-            className='account_info__icon'
+            className='account__info__icon'
           />
         </div>
       )}
@@ -196,33 +197,33 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   )
 
   const WalletComponent = () => (
-    <div className='account_info__icon__and__link'>
-      <div className='account_info__link__container'>
+    <div className='account__info__icon__and__link'>
+      <div className='account__info__link__container'>
         {copiedTextVisible && (
-          <span className='account_info__copied__text' style={{ top: copiedTextPosition }}>
+          <span className='account__info__copied__text' style={{ top: copiedTextPosition }}>
             {t('account_text_copied')}
           </span>
         )}
-        <p className='account_info__account__link' onClick={handleCopy}>
+        <p className='account__info__account__link' onClick={handleCopy}>
           {getAccountAddressText()}
         </p>
       </div>
-      <div className='account_info__icon__container'>
-        <HiOutlineClipboardDocument onClick={handleCopy} className='account_info__icon' />
+      <div className='account__info__icon__container'>
+        <HiOutlineClipboardDocument onClick={handleCopy} className='account__info__icon' />
         <Link
           href={`${NETWORK.chainExplorerUrl}/address/${walletAddress}`}
           target='_blank'
           rel='noreferrer'
-          className='account_info__account__link'
+          className='account__info__account__link'
         >
-          <IoOpenOutline className='account_info__icon' />
+          <GoLinkExternal className='account__info__icon__link' />
         </Link>
       </div>
     </div>
   )
 
   const BalanceComponent = () => (
-    <div className='account_info__icon__and__link'>
+    <div className='account__info__icon__and__link'>
       <div>
         <p>{`${walletBalance} ${tokenName}`}</p>
       </div>
@@ -231,15 +232,15 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           onClick={() => {
             handleSendTokenClick()
           }}
-          className='account_info__icon'
+          className='account__info__icon'
         />
         <Link
           href={`${NETWORK.chainExplorerUrl}/token/${CONTRACTS.daiAddress}?a=${walletAddress}`}
           target='_blank'
           rel='noreferrer'
-          className='account_info__account__link'
+          className='account__info__account__link'
         >
-          <IoOpenOutline className='account_info__icon' />
+          <GoLinkExternal className='account__info__icon__link' />
         </Link>
       </div>
     </div>

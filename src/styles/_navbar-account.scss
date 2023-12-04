@@ -2,7 +2,8 @@
   position: absolute;
   top: calc(100% + 0px);
   right: 10px;
-  background-color: #ffce00;
+  background-color: #cfa763;
+  filter: saturate(90%) brightness(120%);
   border: 1px solid #ccc;
   padding: 10px;
   display: none;
@@ -45,11 +46,11 @@
 }
 
 .account__info__connect__btn {
-  background-color: #68b346;
+  background-color: rgb(0, 94, 163);
 }
-.account_info__account__link,
-.account_info__account__link:hover,
-.account_info__account__link:visited {
+.account__info__account__link,
+.account__info__account__link:hover,
+.account__info__account__link:visited {
   transition: color 0.3s;
   text-decoration: none;
   line-height: 20px;
@@ -57,25 +58,25 @@
 
 .account__info__disconnect__btn:hover,
 .account__info__connect__btn:hover,
-.account_info__account__link:hover {
+.account__info__account__link:hover {
   color: #fff;
 }
 
-.account_info__network__container {
+.account__info__network__container {
   margin-bottom: 15px;
 }
 
-.account_info__account__network {
+.account__info__account__network {
   display: flex;
   justify-content: center;
   font-size: 0.7em;
 }
 
-.account_info__invalid__network {
+.account__info__invalid__network {
   color: #f60008;
 }
 
-.account_info__copied__text {
+.account__info__copied__text {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -99,35 +100,46 @@
   }
 }
 
-.account_info__icon__and__link {
+.account__info__icon__and__link {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.account_info__icon {
+account__info__icon__link,
+.account__info__icon {
   vertical-align: middle;
   margin-left: 5px;
+  margin-right: 5px;
   font-size: 17px;
 }
 
-.account_info__icon:hover {
+.account__info__icon__link {
+  fill: #000;
+}
+
+.account__info__icon__link:hover {
+  fill: #fff;
+}
+
+account__info__icon__link:hover,
+.account__info__icon:hover {
   color: #fff;
 }
 
-.account_info__link__container,
+.account__info__link__container,
 .account__info__icon__container {
   cursor: pointer;
   display: flex;
   align-items: center;
 }
 
-.account_info__link__container {
+.account__info__link__container {
   justify-content: space-between;
   margin-right: 10px;
 }
 
-.account_info__icon__container {
+.account__info__icon__container {
   justify-content: flex-end;
   margin-left: auto;
 }
