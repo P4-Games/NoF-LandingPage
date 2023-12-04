@@ -86,7 +86,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         title: `${t('account_send_dai_title')}`,
         html: `
           <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
-          <input id="amount" type='number' class="swal2-input" placeholder="${t('cantidad')}">
+          <input id="amount" type='number' class="swal2-input" placeholder="${t('account_send_dai_quantity')}">
         `,
         showDenyButton: false,
         showCancelButton: true,
