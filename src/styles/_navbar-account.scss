@@ -1,0 +1,139 @@
+.account__info {
+  position: absolute;
+  top: calc(100% + 0px);
+  right: 10px;
+  background-color: #ffce00;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-size: 0.9em !important;
+}
+
+.account__info.active {
+  display: block;
+}
+
+.account__info__data {
+  margin-bottom: 5px;
+}
+
+.account__info__separator {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.account__info__connect__btn__container,
+.account__info__disconnect__btn__container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.account__info__connect__btn,
+.account__info__disconnect__btn {
+  background-color: #f60008;
+  color: #000;
+  border: none;
+  padding: 5px 10px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.account__info__connect__btn {
+  background-color: #68b346;
+}
+.account_info__account__link,
+.account_info__account__link:hover,
+.account_info__account__link:visited {
+  transition: color 0.3s;
+  text-decoration: none;
+  line-height: 20px;
+}
+
+.account__info__disconnect__btn:hover,
+.account__info__connect__btn:hover,
+.account_info__account__link:hover {
+  color: #fff;
+}
+
+.account_info__network__container {
+  margin-bottom: 15px;
+}
+
+.account_info__account__network {
+  display: flex;
+  justify-content: center;
+  font-size: 0.7em;
+}
+
+.account_info__invalid__network {
+  color: #f60008;
+}
+
+.account_info__copied__text {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  animation: fadeInOut 5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.account_info__icon__and__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account_info__icon {
+  vertical-align: middle;
+  margin-left: 5px;
+  font-size: 17px;
+}
+
+.account_info__icon:hover {
+  color: #fff;
+}
+
+.account_info__link__container,
+.account__info__icon__container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.account_info__link__container {
+  justify-content: space-between;
+  margin-right: 10px;
+}
+
+.account_info__icon__container {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.swal2-input {
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', 'sans-serif';
+  font-size: 10px;
+  width: 80%;
+}

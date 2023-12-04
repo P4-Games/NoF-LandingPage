@@ -108,7 +108,7 @@ const GammaCardInfo = (props) => {
         },
         showDenyButton: false,
         showCancelButton: true,
-        confirmButtonText: `${t('trasnferir')}`,
+        confirmButtonText: `${t('transferir')}`,
         confirmButtonColor: '#005EA3',
         color: 'black',
         background: 'white',

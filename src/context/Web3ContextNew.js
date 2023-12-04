@@ -33,7 +33,7 @@ const Web3ContextProvider = ({ children }) => {
   const [web3Onboard, setWeb3Onboard] = useState(null)
   const [wallets, setWallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
-  // const [chainId, setChainId] = useState(null)
+  const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
@@ -201,6 +201,12 @@ const Web3ContextProvider = ({ children }) => {
           setWallets(wallets)
           if (wallets[0]) {
             setWalletAddress(wallets[0].accounts[0].address)
+            const chanId = wallets[0]?.chains?.[0].id.toString()
+            if (chanId) {
+              const chanIdDecimal = parseInt(chanId, 16)
+              const providerNetwork = ethers.providers.getNetwork(chanIdDecimal)
+              setChainId(providerNetwork.chainId)
+            }
             // switchNetwork()
             const provider = getProvider(wallets[0])
             const signer = provider.getSigner()
@@ -220,6 +226,43 @@ const Web3ContextProvider = ({ children }) => {
     }
   }, [web3Onboard])
 
+  const isValidNetwork = useCallback(() => chainId === NETWORK.chainId, [chainId])
+
+  const switchOrCreateNetwork = useCallback(
+    async (chainIdHex, chainName, rpcUrl, currency, explorer) => {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: chainIdHex }]
+        })
+      } catch (error) {
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: chainIdHex,
+                  chainName,
+                  rpcUrls: [rpcUrl],
+                  nativeCurrency: {
+                    name: currency,
+                    symbol: currency,
+                    decimals: 18
+                  },
+                  blockExplorerUrls: [explorer]
+                }
+              ]
+            })
+          } catch (e) {
+            console.error(e.message)
+          }
+        }
+      }
+    },
+    []
+  )
+
   const value = {
     web3Onboard,
     wallets,
@@ -230,7 +273,9 @@ const Web3ContextProvider = ({ children }) => {
     gammaCardsContract,
     gammaOffersContract,
     connectWallet,
-    disconnectWallet
+    disconnectWallet,
+    isValidNetwork,
+    switchOrCreateNetwork
   }
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>

@@ -133,5 +133,15 @@
     "offer_card_number_empty": "There are no offers for this card.",
     "offer_card_no_la_tienes": "You do not have this card to exchange it.",
     "offer_user_limit": "You have reached the limit of offers you can make. Wait to confirm an exchange or remove a publication.",
-    "offer_game_limit": "At the moment, no more offers can be made. Please try in a few days."
+    "offer_game_limit": "At the moment, no more offers can be made. Please try in a few days.",
+
+    "account_connect": "Connect",
+    "account_disconnect": "Disconnect",
+    "account_invalid_network": "Invalid Network",
+    "account_text_copied": "Copied",
+    "account_balance_zero": "You do not have enough balance to send.",
+    "account_send_dai_title": "Token Transfer",
+    "account_send_dai_quantity": "Quantity",
+    "account_send_dai_quantity_invalid": "Invalid Quantity.",
+    "account_send_dai_error": "There was an error trying to transfer tokens."
 }
