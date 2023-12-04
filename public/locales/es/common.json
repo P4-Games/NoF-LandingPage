@@ -133,7 +133,11 @@
     "offer_card_number_empty": "No hay ofertas para esta carta.",
     "offer_card_no_la_tienes": "No tienes esta carta para poder intercambiarla.",
     "offer_user_limit": "Alcanzaste el límite de ofertas que podes realizar. Espera a confirmar algún intercambio o quita alguna publicación.",
-    "offer_game_limit": "Por el momento, no se pueden realizar más ofertas. Intenta en unos días."
+    "offer_game_limit": "Por el momento, no se pueden realizar más ofertas. Intenta en unos días.",
 
+    "account_connect": "Conectar",
+    "account_disconnect": "Desconectar",
+    "account_invalid_network": "Red Inválida",
+    "account_text_copied": "Copiado"
 
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+import { useTranslation } from 'next-i18next'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { IoOpenOutline } from 'react-icons/io5'
 import { AiOutlineSend } from 'react-icons/ai'
@@ -10,6 +11,7 @@ import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName } from '../../services/dai'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
+  const { t } = useTranslation()
   const {
     walletAddress,
     connectWallet,
@@ -31,7 +33,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     fetchTokenName()
-  }, [tokenName, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, tokenName, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchBalance = async () => {
     if (!walletAddress || !daiContract) return
@@ -41,7 +43,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     fetchBalance()
-  }, [walletBalance, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, walletBalance, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const getAccountAddressText = () => {
     if (walletAddress <= 15) {
@@ -74,7 +76,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       }}
       className='account__info__connect__btn'
     >
-      Conectar
+      {t('account_connect')}
     </button>
   )
 
@@ -86,7 +88,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       }}
       className='account__info__disconnect__btn'
     >
-      Desconectar
+      {t('account_disconnect')}
     </button>
   )
 
@@ -98,7 +100,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
             !isValidNetwork() ? 'account_info__invalid__network' : ''
           }`}
         >
-          {isValidNetwork() ? NETWORK.chainName : 'Red Inválida'}
+          {isValidNetwork() ? NETWORK.chainName : t('account_invalid_network')}
         </p>
       </div>
       {!isValidNetwork() && (
@@ -125,7 +127,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div className='account_info__link__container'>
         {copiedTextVisible && (
           <span className='account_info__copied__text' style={{ top: copiedTextPosition }}>
-            Copied
+            {t('account_text_copied')}
           </span>
         )}
         <p className='account_info__account__link' onClick={handleCopy}>
