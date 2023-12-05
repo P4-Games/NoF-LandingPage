@@ -153,13 +153,12 @@ export const confirmOfferExchange = async (
 }
 
 export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAddress) => {
-  // Hay 3 condicione sen el contrato para poder completarlo:
+  // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
   // 3. Que el usuario tenga todas las cartas.
   // 4. Que el contrato tenga un balance superior al precio del premio (mainAlbumPrize)
-  // Las 3 se validan en el contrato. La 1 y 2 también se validan aquí. La 3 es una condición requerida para llegar
-  // hasta ésta función, por lo que también es validada en el index.
+  // Las 4 se validan en el contrato y aquí (para evitar la llamada al contrato)
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
