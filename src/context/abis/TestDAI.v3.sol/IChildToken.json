@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IChildToken",
-  "sourceName": "contracts/testDai/TestDAI.v2.sol",
+  "sourceName": "contracts/testDai/TestDAI.v3.sol",
   "abi": [
     {
       "inputs": [

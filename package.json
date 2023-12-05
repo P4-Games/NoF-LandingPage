@@ -1,6 +1,7 @@
 {
   "name": "nof-landing",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "proxy": "https://gamma-microservice-7bteynlhua-uc.a.run.app",
   "scripts": {
