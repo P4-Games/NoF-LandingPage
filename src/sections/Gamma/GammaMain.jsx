@@ -282,21 +282,36 @@ const GammaMain = () => {
   ])
 
   const buyPacksContract = async (numberOfPacks) => {
-    /*
-    gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
-      // console.log('evento PacksPurchase', returnValue)
+    gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        // console.log(pack_number)
+        console.log('PacksPurchase', pack_number)
       }
     })
-    */
 
     try {
       startLoading()
-      const approval = await checkApproved(daiContract, walletAddress, gammaPacksContract.address)
+
+      const amountRequired = await gammaPacksContract.getAmountRequiredToBuyPacks(numberOfPacks)
+      const amountRequiredFormatted = parseFloat(ethers.utils.formatUnits(amountRequired, 18))
+
+      const userBalanceToken = await daiContract.balanceOf(walletAddress)
+      const userBalanceTokenFormatted = parseFloat(ethers.utils.formatUnits(userBalanceToken, 18))
+
+      if (userBalanceTokenFormatted < amountRequiredFormatted) {
+        stopLoading()
+        emitWarning(t('buy_pack_warning'))
+        return
+      }
+
+      const approval = await checkApproved(
+        daiContract,
+        walletAddress,
+        gammaPacksContract.address,
+        amountRequired
+      )
       if (!approval) {
-        await authorizeDaiContract(daiContract)
+        await authorizeDaiContract(daiContract, gammaPacksContract.address, amountRequired)
       }
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
