@@ -122,6 +122,12 @@ const GammaCardOffers = (props) => {
               ) : (
                 <CustomImage src='/images/gamma/Nofy.png' alt='img' />
               )}
+              {paginationObj.user[item]?.quantity > 1 && (
+                <div className='quantity'>
+                  X:
+                  {paginationObj.user[item]?.quantity}
+                </div>
+              )}
               <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
             </div>
           ))}
