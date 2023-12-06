@@ -282,12 +282,14 @@ const GammaMain = () => {
   ])
 
   const buyPacksContract = async (numberOfPacks) => {
+    /*
     gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
         console.log('PacksPurchase', pack_number)
       }
     })
+    */
 
     try {
       startLoading()
