@@ -81,25 +81,26 @@
     "buy_pack_title_2": "c/u",
     "buy_pack_input_validator": "ingresa entre 1 y 10!",
     "buy_pack_button": "Comprar",
-    "buy_pack_error": "Hubo un error al intentar comprar packs",
-    "open_pack_error": "Hubo un error al intentar abrir el pack",
+    "buy_pack_error": "Ocurrió un error al intentar comprar packs.",
+    "buy_pack_warning": "No tienes tokens suficientes para comprar esa cantidad de packs.",
+    "open_pack_error": "Ocurrió un error al intentar abrir el pack.",
     
-    "mint_error": "Hubo un error al intentar mintear esta carta",
+    "mint_error": "Ocurrió un error al intentar mintear esta carta.",
 
-    "transfer_card_error": "Hubo un error al intentar transferir la carta",
-    "transfer_pack_error": "Hubo un error al intentar transferir un pack",
-    "finish_album_error": "Ocurrió un error al intentar reclamar el premio",
+    "transfer_card_error": "Ocurrió un error al intentar transferir la carta.",
+    "transfer_pack_error": "Ocurrió un error al intentar transferir un pack.",
+    "finish_album_error": "Ocurrió un error al intentar reclamar el premio.",
     "finish_album_success": "Felicitaciones! Completaste el álbum. Recibirás en tu wallet tu premio en DAIs.",
-    "finish_album_no_qtty": "Aún no tienes el album completo para poder reclamar el premio",
-    "finish_album_warning": "Aún no están dadas las condiciones para que se puedan completar los álbumnes y reclamas los premios. Intenta en unos días!",
+    "finish_album_no_qtty": "Aún no tienes el album completo para poder reclamar el premio.",
+    "finish_album_warning": "Aún no están dadas las condiciones para que se puedan completar los álbumnes y reclamas los premios. Intenta en unos días!.",
 
-    "publish_offer_error": "Hubo un error al intentar realizar la publicación",
+    "publish_offer_error": "Ocurrió un error al intentar realizar la publicación.",
     "publish_offer_error_invalid_numbers":  "Ingresa hasta 10 números del 0 al 119, no repetidos, separados por una coma y cartas que no tengas.",
     "publish_offer_error_own_card_number": "No puedes solicitar la misma carta que estás ofertando.",
     "publish_offer_no_cards_selected": "Selecciona al menos una carta para poder crear la publicación.",
     
     "unpublish_offer_dialog": "¿Deseas cancelar la publicación de la oferta para esta carta?",
-    "unpublish_offer_error": "Hubo un error intentando cancelar la publicación",
+    "unpublish_offer_error": "Ocurrió un error intentando cancelar la publicación",
 
     "rules_alpha_left_text_1": "Un minijuego temático con 60 cartas que completan 10 colecciones temáticas diferentes con 5 personajes y un álbum cada uno.",
     "rules_alpha_left_text_2": "El objetivo es completar un álbum con los 5 personajes correspondientes a la colección.",
@@ -124,9 +125,9 @@
     "no_season_nampes": "No se encontraron temporadas",
     "user_has_card_error": "Error verificando si el usuario tiene carta",
 
-    "alpha_fetch_albums_error": "Hubo un error al intentar obtener los álbumes",
-    "alpha_fetch_season_data_error": "Hubo un error al intentar obtener las temporadas",
-    "offer_exchange_error": "Hubo un error al intentar realizar el intercambio de cartas",
+    "alpha_fetch_albums_error": "Ocurrió un error al intentar obtener los álbumes",
+    "alpha_fetch_season_data_error": "Ocurrió un error al intentar obtener las temporadas",
+    "offer_exchange_error": "Ocurrió un error al intentar realizar el intercambio de cartas",
     "offer_exchange_title": "¿Confirmas el intercambio?",
     "offer_exchange_message": "Vas a enviar la carta <b>#{CARD_NUMBER_FROM}</b> al usuario con wallet {WALLET_TO} y recibirás a cambio la carta <b>#{CARD_NUMBER_TO}</b>.",
     "offer_only_own_offer": "La única oferta que hay para ésta carta es la tuya.",
@@ -143,6 +144,6 @@
     "account_send_dai_title": "Transferencia de Tokens",
     "account_send_dai_quantity": "Cantidad",
     "account_send_dai_quantity_invalid": "Cantidad Inválida.",
-    "account_send_dai_error": "Hubo un error al intentar transferir tokens."
+    "account_send_dai_error": "Ocurrió un error al intentar transferir tokens."
 
 }

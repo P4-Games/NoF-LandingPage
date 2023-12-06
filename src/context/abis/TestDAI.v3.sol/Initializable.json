@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Initializable",
+  "sourceName": "contracts/testDai/TestDAI.v3.sol",
+  "abi": [],
+  "bytecode": "0x60806040526000805460ff19169055348015601957600080fd5b50603f8060276000396000f3fe6080604052600080fdfea2646970667358221220f7e607333ce867c6c1f3faaef108dfeb89b921ee71d47f66914409b965a8b07764736f6c63430006060033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220f7e607333ce867c6c1f3faaef108dfeb89b921ee71d47f66914409b965a8b07764736f6c63430006060033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
