@@ -88,6 +88,7 @@
   "mint_error": "Ocorreu um erro ao tentar cunhar esta cartão.",
   
   "transfer_card_error": "Ocorreu um erro ao tentar transferir o cartão.",
+  "transfer_pack_title": "Transferência de Pacotes",
   "transfer_pack_error": "Ocorreu um erro ao tentar transferir o pacote.",
   "finish_album_error": "Ocorreu um erro ao tentar reivindicar o prêmio.",
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
@@ -142,7 +143,7 @@
   "account_text_copied": "Copiado",
   "account_balance_zero": "Você não tem saldo suficiente para enviar.",
   "account_send_dai_title": "Transferência de token",
-  "account_send_dai_quantity": "Cantidad",
-  "account_send_dai_quantity_invalid": "Cantidad Inválida.",
+  "quantity": "Cantidad",
+  "quantity_invalid": "Cantidad Inválida.",
   "account_send_dai_error": "Ocorreu um erro ao tentar transferir tokens."  
 }

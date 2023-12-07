@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 
 import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
+import { checkInputAddress, checkIntValue1GTValue2 } from '../../utils/InputValidators'
+
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
@@ -20,7 +22,6 @@ import {
 
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/InputValidators'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -123,12 +124,14 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (walletAddress && inventory && !cardInfoOpened) {
-      updateButtonFunctions(2, handleOpenPack)
-    }
-  }, [
-    //eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (walletAddress && inventory && !cardInfoOpened) {
+        updateButtonFunctions(2, handleOpenPack)
+      }
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     openPackage,
@@ -137,7 +140,8 @@ const GammaMain = () => {
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ])
+  ]
+  )
 
   useEffect(() => {
     if (walletAddress && inventory) {
@@ -191,15 +195,13 @@ const GammaMain = () => {
       }
 
       const result = await Swal.fire({
-        text: `${t('wallet_destinatario')}`,
-        input: 'text',
-        inputAttributes: {
-          min: 43,
-          max: 43
-        },
-        inputValidator: (value) => {
-          if (!checkInputAddress(value, walletAddress)) return `${t('direccion_destino_error')}`
-        },
+        title: `${t('transfer_pack_title')}`,
+        html: `
+        <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
+        <input id="amount" type='number' step='1' class="swal2-input" placeholder="${t(
+          'quantity'
+        )}">
+        `,
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: `${t('transferir')}`,
@@ -209,15 +211,58 @@ const GammaMain = () => {
         customClass: {
           image: 'cardalertimg',
           input: 'alertinput'
+        },
+        preConfirm: () => {
+          const walletInput = Swal.getPopup().querySelector('#wallet')
+          const quantityInput = Swal.getPopup().querySelector('#amount')
+          const wallet = walletInput.value
+          const amount = parseInt(quantityInput.value)
+
+          if (
+            !checkInputAddress(wallet, walletAddress) &&
+            !checkIntValue1GTValue2(amount, numberOfPacks, true)
+          ) {
+            walletInput.classList.add('swal2-inputerror')
+            quantityInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(
+              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
+            )
+          } else {
+            if (!checkInputAddress(wallet, walletAddress)) {
+              walletInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('direccion_destino_error')}`)
+            }
+            if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
+              quantityInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('quantity_invalid')}`)
+            }
+          }
+          return { wallet: wallet, amount: amount }
         }
       })
 
       if (result.isConfirmed) {
         startLoading()
+        const qttyPacks = parseInt(result.value.amount)
         const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
-        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-        const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
-        await transaction.wait()
+
+        if (qttyPacks === 1) {
+          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+          const transaction = await gammaPacksContract.transferPack(result.value.wallet, packNumber)
+          await transaction.wait()
+        } else {
+          let packsNumber = []
+          for (let index = 0; index < qttyPacks; index++) {
+            packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
+          }
+          if (packsNumber.length > 0) {
+            const transaction = await gammaPacksContract.transferPacks(
+              result.value.wallet,
+              packsNumber
+            )
+            await transaction.wait()
+          }
+        }
         emitSuccess(t('confirmado'), 2000)
         await checkNumberOfPacks()
         stopLoading()
@@ -229,48 +274,50 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleOpenPack = useCallback(async () => {
-    try {
-      if (numberOfPacks === 0) {
-        emitInfo(t('no_paquetes_para_abrir', 2000))
-        return
-      }
-      startLoading()
+  const handleOpenPack = useCallback(
+    async () => {
+      try {
+        if (numberOfPacks === 0) {
+          emitInfo(t('no_paquetes_para_abrir', 2000))
+          return
+        }
+        startLoading()
 
-      // llama al contrato para ver cantidad de sobres que tiene el usuario
-      const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
+        // llama al contrato para ver cantidad de sobres que tiene el usuario
+        const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
 
-      setPackIsOpen(true)
-      const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-      // llama a la api para recibir los numeros de cartas del sobre y la firma
-      const data = await fetchPackData(walletAddress, packNumber)
-      const { packet_data, signature } = data
+        setPackIsOpen(true)
+        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+        // llama a la api para recibir los numeros de cartas del sobre y la firma
+        const data = await fetchPackData(walletAddress, packNumber)
+        const { packet_data, signature } = data
 
-      // verify signer
-      // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-      // console.log('pack signer', signer)
+        // verify signer
+        // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+        // console.log('pack signer', signer)
 
-      setOpenPackCardsNumbers(packet_data)
-      const openedPack = await openPack(
-        gammaCardsContract,
-        packNumber,
-        packet_data,
-        signature.signature
-      )
+        setOpenPackCardsNumbers(packet_data)
+        const openedPack = await openPack(
+          gammaCardsContract,
+          packNumber,
+          packet_data,
+          signature.signature
+        )
 
-      if (openedPack) {
+        if (openedPack) {
+          stopLoading()
+          setOpenPackage(true)
+          await checkNumberOfPacks()
+          await updateUserData()
+        }
         stopLoading()
-        setOpenPackage(true)
-        await checkNumberOfPacks()
-        await updateUserData()
+      } catch (e) {
+        stopLoading()
+        emitError(t('open_pack_error'))
       }
-      stopLoading()
-    } catch (e) {
-      stopLoading()
-      emitError(t('open_pack_error'))
-    }
-  }, [
-    //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     openPackage,
@@ -278,8 +325,8 @@ const GammaMain = () => {
     cardsQtty,
     numberOfPacks,
     inventory,
-    cardInfoOpened
-  ])
+    cardInfoOpened]
+  )
 
   const buyPacksContract = async (numberOfPacks) => {
     /*
