@@ -17,6 +17,8 @@ import {
   checkPacksByUser,
   finishAlbum,
   openPack,
+  openPacks,
+  getMaxPacksAllowedToOpenAtOnce,
   getPackPrice
 } from '../../services/gamma'
 
@@ -281,28 +283,94 @@ const GammaMain = () => {
           emitInfo(t('no_paquetes_para_abrir', 2000))
           return
         }
+
         startLoading()
 
-        // llama al contrato para ver cantidad de sobres que tiene el usuario
-        const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
+        const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
+        let openedPack = false
 
-        setPackIsOpen(true)
-        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-        // llama a la api para recibir los numeros de cartas del sobre y la firma
-        const data = await fetchPackData(walletAddress, packNumber)
-        const { packet_data, signature } = data
+        if (numberOfPacks === 1) {
+          setPackIsOpen(true)
 
-        // verify signer
-        // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-        // console.log('pack signer', signer)
+          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+          const data = await fetchPackData(walletAddress, packNumber)
+          const { packet_data, signature } = data
 
-        setOpenPackCardsNumbers(packet_data)
-        const openedPack = await openPack(
-          gammaCardsContract,
-          packNumber,
-          packet_data,
-          signature.signature
-        )
+          // verify signer
+          // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+          // console.log('pack signer', signer)
+
+          setOpenPackCardsNumbers(packet_data)
+          openedPack = await openPack(
+            gammaCardsContract,
+            packNumber,
+            packet_data,
+            signature.signature
+          )
+        } else {
+          const maxQttyAllowed = await getMaxPacksAllowedToOpenAtOnce(gammaCardsContract)
+          stopLoading()
+
+          // center: swal2-input alertinput
+          const result = await Swal.fire({
+            title: `${t('open_pack_title')}`,
+            input: 'number',
+            inputValue: 1,
+            inputPlaceholder: `${t('quantity')}`,
+            inputAttributes: {
+              min: 1,
+              max: maxQttyAllowed,
+              step: 1
+            },
+            inputValidator: (value) => {
+              if (value < 1 || value > maxQttyAllowed) {
+                return `${t('open_pack_input_validator').replace('{MAX}', maxQttyAllowed)}`
+              }
+            },
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: `${t('open')}`,
+            confirmButtonColor: '#005EA3',
+            color: 'black',
+            background: 'white',
+            customClass: {
+              image: 'cardalertimg',
+              input: 'alertinput gamma_validators_centered_input'
+            }
+          })
+
+          if (!result.isConfirmed) {
+            return
+          }
+
+          startLoading()
+          setPackIsOpen(true)
+
+          let packsNumber = []
+          let packsData = []
+          let signatures = []
+          let packsCardsNumbers = []
+          const qttyPacksToOpen = result.value
+
+          for (let index = 0; index < qttyPacksToOpen; index++) {
+            const packNumber = ethers.BigNumber.from(packs[index]).toNumber()
+            const data = await fetchPackData(walletAddress, packNumber)
+            const { packet_data, signature } = data
+
+            packsNumber.push(packNumber)
+            packsData.push(packet_data)
+            signatures.push(signature.signature)
+            packsCardsNumbers = packsCardsNumbers.concat(packet_data)
+          }
+          setOpenPackCardsNumbers(packsCardsNumbers)
+          openedPack = await openPacks(
+            gammaCardsContract,
+            qttyPacksToOpen,
+            packsNumber,
+            packsData,
+            signatures
+          )
+        }
 
         if (openedPack) {
           stopLoading()
@@ -310,6 +378,7 @@ const GammaMain = () => {
           await checkNumberOfPacks()
           await updateUserData()
         }
+
         stopLoading()
       } catch (e) {
         stopLoading()
@@ -389,6 +458,8 @@ const GammaMain = () => {
     const result = await Swal.fire({
       text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
       input: 'number',
+      inputValue: 1,
+      inputPlaceholder: `${t('quantity')}`,
       inputAttributes: {
         min: 1,
         max: 10
@@ -406,7 +477,7 @@ const GammaMain = () => {
       background: 'white',
       customClass: {
         image: 'cardalertimg',
-        input: 'alertinput'
+        input: 'alertinput gamma_validators_centered_input'
       }
     })
 

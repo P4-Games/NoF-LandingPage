@@ -83,8 +83,10 @@
     "buy_pack_button": "Buy",
     "buy_pack_error": "There was an error trying to buy packs.",
     "buy_pack_warning": "You don't have enough tokens to buy that many packs.",
+    "open_pack_title": "Opening packs",
     "open_pack_error": "There was an error trying to open the pack.",
-    
+    "open_pack_input_validator": "Enter between 1 and {MAX}!",
+
     "mint_error": "There was an error trying to mint this card.",
     
     "transfer_card_error": "There was an error trying to transfer the card.",

@@ -75,8 +75,7 @@ const GammaCardInfo = (props) => {
         color: 'black',
         background: 'white',
         customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
+          image: 'cardalertimg'
         }
       })
 
@@ -114,7 +113,7 @@ const GammaCardInfo = (props) => {
         background: 'white',
         customClass: {
           image: 'cardalertimg',
-          input: 'alertinput'
+          input: 'alertinput gamma_validators_centered_input'
         }
       })
 

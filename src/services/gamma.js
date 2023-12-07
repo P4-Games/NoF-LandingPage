@@ -57,6 +57,41 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
   }
 }
 
+export const openPacks = async (
+  cardsContract,
+  numberOfPacks,
+  packsNumber,
+  packsData,
+  signatures
+) => {
+  try {
+    const openPacksTx = await cardsContract.openPacks(
+      numberOfPacks,
+      packsNumber,
+      packsData,
+      signatures,
+      {
+        gasLimit: 6000000
+      }
+    )
+    await openPacksTx.wait()
+    return openPacksTx
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
+  try {
+    const result = await cardsContract.maxPacksToOpenAtOnce()
+    return result
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
 export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
     if (!cardsContract) return
