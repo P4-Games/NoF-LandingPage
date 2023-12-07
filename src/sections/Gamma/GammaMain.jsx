@@ -311,7 +311,7 @@ const GammaMain = () => {
           const maxQttyAllowed = await getMaxPacksAllowedToOpenAtOnce(gammaCardsContract)
           stopLoading()
 
-            // center: swal2-input alertinput
+          // center: swal2-input alertinput
           const result = await Swal.fire({
             title: `${t('open_pack_title')}`,
             input: 'number',
@@ -336,7 +336,7 @@ const GammaMain = () => {
             customClass: {
               image: 'cardalertimg',
               input: 'alertinput gamma_validators_centered_input'
-            },
+            }
           })
 
           if (!result.isConfirmed) {
