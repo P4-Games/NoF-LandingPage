@@ -87,7 +87,9 @@
     
     "mint_error": "Ocurrió un error al intentar mintear esta carta.",
 
+
     "transfer_card_error": "Ocurrió un error al intentar transferir la carta.",
+    "transfer_pack_title": "Transferencia de Packs",
     "transfer_pack_error": "Ocurrió un error al intentar transferir un pack.",
     "finish_album_error": "Ocurrió un error al intentar reclamar el premio.",
     "finish_album_success": "Felicitaciones! Completaste el álbum. Recibirás en tu wallet tu premio en DAIs.",
@@ -142,8 +144,7 @@
     "account_text_copied": "Copiado",
     "account_balance_zero": "No tienes saldo suficiente para enviar.",
     "account_send_dai_title": "Transferencia de Tokens",
-    "account_send_dai_quantity": "Cantidad",
-    "account_send_dai_quantity_invalid": "Cantidad Inválida.",
+    "quantity": "Cantidad",
+    "quantity_invalid": "Cantidad Inválida.",
     "account_send_dai_error": "Ocurrió un error al intentar transferir tokens."
-
 }

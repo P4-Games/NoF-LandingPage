@@ -11,7 +11,7 @@ import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
-import { checkInputAddress, checkValue1GTValue2 } from '../../utils/InputValidators'
+import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
@@ -85,9 +85,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         title: `${t('account_send_dai_title')}`,
         html: `
           <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
-          <input id="amount" type='number' class="swal2-input" placeholder="${t(
-            'account_send_dai_quantity'
-          )}">
+          <input id="amount" type='number' class="swal2-input" placeholder="${t('quantity')}">
         `,
         showDenyButton: false,
         showCancelButton: true,
@@ -109,21 +107,21 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
           if (
             !checkInputAddress(wallet, walletAddress) &&
-            !checkValue1GTValue2(amount, walletBalance)
+            !checkFloatValue1GTValue2(amount, walletBalance)
           ) {
             walletInput.classList.add('swal2-inputerror')
             amountInput.classList.add('swal2-inputerror')
             Swal.showValidationMessage(
-              `${t('direccion_destino_error')}<br />${t('account_send_dai_quantity_invalid')}`
+              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
             )
           } else {
             if (!checkInputAddress(wallet, walletAddress)) {
               walletInput.classList.add('swal2-inputerror')
               Swal.showValidationMessage(`${t('direccion_destino_error')}`)
             }
-            if (!checkValue1GTValue2(amount, walletBalance)) {
+            if (!checkFloatValue1GTValue2(amount, walletBalance)) {
               amountInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('account_send_dai_quantity_invalid')}`)
+              Swal.showValidationMessage(`${t('quantity_invalid')}`)
             }
           }
           return { wallet: wallet, amount: amount }
