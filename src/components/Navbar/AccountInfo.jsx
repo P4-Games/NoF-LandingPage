@@ -16,6 +16,7 @@ import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputVa
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
   const {
+    chainId,
     walletAddress,
     connectWallet,
     disconnectWallet,
@@ -28,26 +29,39 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const [copiedTextPosition, setCopiedTextPosition] = useState(0)
   const [walletBalance, setWalletBalance] = useState(0)
   const [tokenName, setTokenName] = useState('')
+  const [validNetwork, setValidNetwork] = useState(false)
+
+  useEffect(() => {
+    setValidNetwork(isValidNetwork())
+  }, [showAccountInfo, chainId])
 
   const fetchTokenName = async () => {
-    if (!walletAddress || !daiContract) return
-    const token = await getTokenName(daiContract)
-    setTokenName(token)
+    if (!walletAddress || !daiContract || !validNetwork) return
+    try {
+      const token = await getTokenName(daiContract)
+      setTokenName(token)
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   useEffect(() => {
     fetchTokenName()
-  }, [showAccountInfo, tokenName, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, tokenName, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchBalance = async () => {
-    if (!walletAddress || !daiContract) return
-    const balance = await getBalance(daiContract, walletAddress)
-    setWalletBalance(balance)
+    if (!walletAddress || !daiContract || !validNetwork) return
+    try {
+      const balance = await getBalance(daiContract, walletAddress)
+      setWalletBalance(balance)
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   useEffect(() => {
     fetchBalance()
-  }, [showAccountInfo, walletBalance, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, walletBalance, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const getAccountAddressText = () => {
     if (walletAddress <= 15) {
@@ -102,8 +116,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           const amountInput = Swal.getPopup().querySelector('#amount')
           const wallet = walletInput.value
           const amount = amountInput.value
-          // document.getElementById('Wwallet').remove('swal2-inputerror')
-          // amountInput.classList.remove('swal2-inputerror')
 
           if (
             !checkInputAddress(wallet, walletAddress) &&
@@ -170,13 +182,13 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div>
         <p
           className={`account__info__account__network ${
-            !isValidNetwork() ? 'account__info__invalid__network' : ''
+            !validNetwork ? 'account__info__invalid__network' : ''
           }`}
         >
-          {isValidNetwork() ? NETWORK.chainName : t('account_invalid_network')}
+          {validNetwork ? NETWORK.chainName : t('account_invalid_network')}
         </p>
       </div>
-      {!isValidNetwork() && (
+      {!validNetwork && (
         <div className='account__info__icon__container'>
           <MdOutlinePublishedWithChanges
             onClick={() => {
@@ -251,7 +263,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         <React.Fragment>
           <div className='account__info__data'>
             <NetworkComponent />
-            {isValidNetwork() && (
+            {validNetwork && (
               <React.Fragment>
                 <hr className='account__info__separator' />
                 <WalletComponent />

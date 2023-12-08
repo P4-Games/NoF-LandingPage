@@ -7,6 +7,7 @@ export const transfer = async (daiContract, walletAddress, amount) => {
 }
 
 export const getBalance = async (daiContract, walletAddress) => {
+  if (!daiContract || !walletAddress) return
   const balance = await daiContract.balanceOf(walletAddress)
   const number = parseInt(ethers.utils.formatUnits(balance, 18))
   return number
