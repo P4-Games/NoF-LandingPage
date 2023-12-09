@@ -19,7 +19,8 @@ import {
   openPack,
   openPacks,
   getMaxPacksAllowedToOpenAtOnce,
-  getPackPrice
+  getPackPrice,
+  getUserAlbums120Qtty
 } from '../../services/gamma'
 
 import { useWeb3Context } from '../../hooks'
@@ -50,19 +51,21 @@ const GammaMain = () => {
   } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
+  const [albums120Qtty, setAlbums120Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
 
+
+  const canCompleteAlbum120 = () => (cardsQtty >= 120 && albums120Qtty > 0)
+
   const getCardsQtty = (paginationObj) => {
     let total = 0
-
     if (!paginationObj) return
     for (let key in paginationObj.user) {
       if (paginationObj.user[key].quantity > 0) {
         total += 1
       }
     }
-
     return total
   }
 
@@ -78,20 +81,35 @@ const GammaMain = () => {
   const updateUserData = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
     setPaginationObj(userCards)
+    const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
+    setAlbums120Qtty(userAlbums120)
     setCardsQtty(getCardsQtty(userCards))
   }
 
   const fetchInventory = async () => {
     try {
       startLoading()
-      const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
-      setPaginationObj(userCards)
+      await updateUserData()
       stopLoading()
     } catch (error) {
       stopLoading()
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    setCardsQtty(getCardsQtty(paginationObj))
+  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!walletAddress) return
+    fetchInventory()
+  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!walletAddress) return
+    checkNumberOfPacks()
+  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (walletAddress && !cardInfoOpened) {
@@ -142,8 +160,7 @@ const GammaMain = () => {
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ]
-  )
+  ])
 
   useEffect(() => {
     if (walletAddress && inventory) {
@@ -151,25 +168,15 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (!paginationObj) return
-    setCardsQtty(getCardsQtty(paginationObj))
-  }, [paginationObj])
-
-  useEffect(() => {
-    if (!walletAddress) return
-    fetchInventory()
-  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (!walletAddress) return
-    checkNumberOfPacks()
-  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
   const handleFinishAlbum = useCallback(async () => {
     try {
       if (cardsQtty < 120) {
         emitInfo(t('finish_album_no_qtty'), 100000)
+        return
+      }
+
+      if (albums120Qtty < 1) {
+        emitInfo(t('finish_album_no_album'), 100000)
         return
       }
 
@@ -187,7 +194,7 @@ const GammaMain = () => {
       console.error({ ex })
       emitError(t('finish_album_error'))
     }
-  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract, paginationObj, inventory, cardInfoOpened, cardsQtty, albums120Qtty]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferPack = useCallback(async () => {
     try {
@@ -624,18 +631,21 @@ const GammaMain = () => {
     if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
+          <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`A: ${albums120Qtty}/1`}</h3>
+          </div>
           <div className={cardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`${cardsQtty}/120`}</h3>
+            <h3>{`C: ${cardsQtty}/120`}</h3>
           </div>
-          <div className={cardsQtty >= 120 ? 'title_complete' : 'title_incomplete'}>
-            <h3>{cardsQtty === 120 ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
+          <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
+            <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
           </div>
-          {cardsQtty >= 120 && (
+          {canCompleteAlbum120() && (
             <div
               onClick={() => {
                 handleFinishAlbum()
               }}
-              className={cardsQtty >= 120 ? 'completeAlbum' : 'completeAlbum_disabled'}
+              className={canCompleteAlbum120() ? 'completeAlbum' : 'completeAlbum_disabled'}
             >
               <h3>{t('reclamar_premio')}</h3>
             </div>
