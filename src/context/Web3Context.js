@@ -177,6 +177,7 @@ function Web3ContextProvider({ children }) {
   return (
     <Web3Context.Provider
       value={{
+        chainId,
         wallets,
         walletAddress,
         daiContract,

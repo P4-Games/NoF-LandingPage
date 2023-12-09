@@ -309,9 +309,10 @@ const GammaMain = () => {
           )
         } else {
           const maxQttyAllowed = await getMaxPacksAllowedToOpenAtOnce(gammaCardsContract)
+          const maxQttyPacksUser = numberOfPacks > maxQttyAllowed ? maxQttyAllowed : numberOfPacks
+          const msg = `${t('open_pack_input_validator').replace('{MAX}', maxQttyPacksUser)}`
           stopLoading()
 
-          // center: swal2-input alertinput
           const result = await Swal.fire({
             title: `${t('open_pack_title')}`,
             input: 'number',
@@ -319,12 +320,12 @@ const GammaMain = () => {
             inputPlaceholder: `${t('quantity')}`,
             inputAttributes: {
               min: 1,
-              max: maxQttyAllowed,
+              max: maxQttyPacksUser,
               step: 1
             },
             inputValidator: (value) => {
-              if (value < 1 || value > maxQttyAllowed) {
-                return `${t('open_pack_input_validator').replace('{MAX}', maxQttyAllowed)}`
+              if (value < 1 || value > maxQttyPacksUser) {
+                return msg
               }
             },
             showDenyButton: false,
@@ -373,8 +374,8 @@ const GammaMain = () => {
         }
 
         if (openedPack) {
-          stopLoading()
           setOpenPackage(true)
+          stopLoading()
           await checkNumberOfPacks()
           await updateUserData()
         }
@@ -402,7 +403,7 @@ const GammaMain = () => {
     gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        console.log('PacksPurchase', pack_number)
+        // console.log('PacksPurchase', pack_number)
       }
     })
     */
