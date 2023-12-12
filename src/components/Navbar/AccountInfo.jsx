@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
-import { FaExternalLinkAlt as FaExternalLinkSquareAlt } from 'react-icons/fa'
 import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
 import { MdOutlinePublishedWithChanges } from 'react-icons/md'
@@ -12,11 +11,12 @@ import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
-import { checkInputAddress, checkValue1GTValue2 } from '../../utils/InputValidators'
+import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
   const {
+    chainId,
     walletAddress,
     connectWallet,
     disconnectWallet,
@@ -29,26 +29,39 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const [copiedTextPosition, setCopiedTextPosition] = useState(0)
   const [walletBalance, setWalletBalance] = useState(0)
   const [tokenName, setTokenName] = useState('')
+  const [validNetwork, setValidNetwork] = useState(false)
+
+  useEffect(() => {
+    setValidNetwork(isValidNetwork())
+  }, [showAccountInfo, chainId])
 
   const fetchTokenName = async () => {
-    if (!walletAddress || !daiContract) return
-    const token = await getTokenName(daiContract)
-    setTokenName(token)
+    if (!walletAddress || !daiContract || !validNetwork) return
+    try {
+      const token = await getTokenName(daiContract)
+      setTokenName(token)
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   useEffect(() => {
     fetchTokenName()
-  }, [showAccountInfo, tokenName, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, tokenName, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchBalance = async () => {
-    if (!walletAddress || !daiContract) return
-    const balance = await getBalance(daiContract, walletAddress)
-    setWalletBalance(balance)
+    if (!walletAddress || !daiContract || !validNetwork) return
+    try {
+      const balance = await getBalance(daiContract, walletAddress)
+      setWalletBalance(balance)
+    } catch (ex) {
+      console.error(ex)
+    }
   }
 
   useEffect(() => {
     fetchBalance()
-  }, [showAccountInfo, walletBalance, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, walletBalance, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const getAccountAddressText = () => {
     if (walletAddress <= 15) {
@@ -86,7 +99,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         title: `${t('account_send_dai_title')}`,
         html: `
           <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
-          <input id="amount" type='number' class="swal2-input" placeholder="${t('account_send_dai_quantity')}">
+          <input id="amount" type='number' class="swal2-input" placeholder="${t('quantity')}">
         `,
         showDenyButton: false,
         showCancelButton: true,
@@ -103,26 +116,24 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           const amountInput = Swal.getPopup().querySelector('#amount')
           const wallet = walletInput.value
           const amount = amountInput.value
-          // document.getElementById('Wwallet').remove('swal2-inputerror')
-          // amountInput.classList.remove('swal2-inputerror')
 
           if (
             !checkInputAddress(wallet, walletAddress) &&
-            !checkValue1GTValue2(amount, walletBalance)
+            !checkFloatValue1GTValue2(amount, walletBalance)
           ) {
             walletInput.classList.add('swal2-inputerror')
             amountInput.classList.add('swal2-inputerror')
             Swal.showValidationMessage(
-              `${t('direccion_destino_error')}<br />${t('account_send_dai_quantity_invalid')}`
+              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
             )
           } else {
             if (!checkInputAddress(wallet, walletAddress)) {
               walletInput.classList.add('swal2-inputerror')
               Swal.showValidationMessage(`${t('direccion_destino_error')}`)
             }
-            if (!checkValue1GTValue2(amount, walletBalance)) {
+            if (!checkFloatValue1GTValue2(amount, walletBalance)) {
               amountInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('account_send_dai_quantity_invalid')}`)
+              Swal.showValidationMessage(`${t('quantity_invalid')}`)
             }
           }
           return { wallet: wallet, amount: amount }
@@ -171,13 +182,13 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div>
         <p
           className={`account__info__account__network ${
-            !isValidNetwork() ? 'account__info__invalid__network' : ''
+            !validNetwork ? 'account__info__invalid__network' : ''
           }`}
         >
-          {isValidNetwork() ? NETWORK.chainName : t('account_invalid_network')}
+          {validNetwork ? NETWORK.chainName : t('account_invalid_network')}
         </p>
       </div>
-      {!isValidNetwork() && (
+      {!validNetwork && (
         <div className='account__info__icon__container'>
           <MdOutlinePublishedWithChanges
             onClick={() => {
@@ -252,7 +263,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         <React.Fragment>
           <div className='account__info__data'>
             <NetworkComponent />
-            {isValidNetwork() && (
+            {validNetwork && (
               <React.Fragment>
                 <hr className='account__info__separator' />
                 <WalletComponent />

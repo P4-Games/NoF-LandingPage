@@ -57,9 +57,44 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
   }
 }
 
+export const openPacks = async (
+  cardsContract,
+  numberOfPacks,
+  packsNumber,
+  packsData,
+  signatures
+) => {
+  try {
+    const openPacksTx = await cardsContract.openPacks(
+      numberOfPacks,
+      packsNumber,
+      packsData,
+      signatures,
+      {
+        gasLimit: 6000000
+      }
+    )
+    await openPacksTx.wait()
+    return openPacksTx
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
+  try {
+    const result = await cardsContract.maxPacksToOpenAtOnce()
+    return result
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
 export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
-    if (!cardsContract) return
+    if(!cardsContract || !walletAddress) return
     const cardData = await cardsContract?.getCardsByUser(walletAddress)
     let cardsObj = { ...gammaCardsPages }
 
@@ -95,6 +130,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
 
 export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
   try {
+    if(!cardsContract || !walletAddress) return
     const result = await cardsContract.hasCard(walletAddress, cardNumber)
     return result
   } catch (e) {
@@ -105,6 +141,7 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
 
 export const getPackPrice = async (cardsContract) => {
   try {
+    if(!cardsContract) return
     const price = await cardsContract.packPrice()
     const result = ethers.utils.formatUnits(price, 18)
     return result
@@ -114,8 +151,21 @@ export const getPackPrice = async (cardsContract) => {
   }
 }
 
+export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
+  try {
+    if(!cardsContract || !walletAddress) return
+    const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
+    return userHasAlbum
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
+
 export const finishAlbum = async (cardsContract, daiContract, walletAddress) => {
   try {
+    if(!cardsContract || !walletAddress) return
     const result = await allowedToFinishAlbum(cardsContract, daiContract, walletAddress)
     if (result) {
       const transaction = await cardsContract.finishAlbum()
@@ -153,15 +203,15 @@ export const confirmOfferExchange = async (
 }
 
 export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAddress) => {
-  // Hay 3 condicione sen el contrato para poder completarlo:
+  // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
   // 3. Que el usuario tenga todas las cartas.
   // 4. Que el contrato tenga un balance superior al precio del premio (mainAlbumPrize)
-  // Las 3 se validan en el contrato. La 1 y 2 también se validan aquí. La 3 es una condición requerida para llegar
-  // hasta ésta función, por lo que también es validada en el index.
+  // Las 4 se validan en el contrato y aquí (para evitar la llamada al contrato)
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
+  if(!cardsContract || !walletAddress) return
   const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
   const prizesBalance = await cardsContract.prizesBalance()
   const mainAlbumPrize = await cardsContract.mainAlbumPrize()

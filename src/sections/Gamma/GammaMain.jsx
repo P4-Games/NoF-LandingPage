@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 
 import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
+import { checkInputAddress, checkIntValue1GTValue2 } from '../../utils/InputValidators'
+
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
@@ -15,12 +17,14 @@ import {
   checkPacksByUser,
   finishAlbum,
   openPack,
-  getPackPrice
+  openPacks,
+  getMaxPacksAllowedToOpenAtOnce,
+  getPackPrice,
+  getUserAlbums120Qtty
 } from '../../services/gamma'
 
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/InputValidators'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -47,19 +51,21 @@ const GammaMain = () => {
   } = useLayoutContext()
   const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
+  const [albums120Qtty, setAlbums120Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
 
+
+  const canCompleteAlbum120 = () => (cardsQtty >= 120 && albums120Qtty > 0)
+
   const getCardsQtty = (paginationObj) => {
     let total = 0
-
     if (!paginationObj) return
     for (let key in paginationObj.user) {
       if (paginationObj.user[key].quantity > 0) {
         total += 1
       }
     }
-
     return total
   }
 
@@ -75,20 +81,35 @@ const GammaMain = () => {
   const updateUserData = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
     setPaginationObj(userCards)
+    const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
+    setAlbums120Qtty(userAlbums120)
     setCardsQtty(getCardsQtty(userCards))
   }
 
   const fetchInventory = async () => {
     try {
       startLoading()
-      const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
-      setPaginationObj(userCards)
+      await updateUserData()
       stopLoading()
     } catch (error) {
       stopLoading()
       console.error(error)
     }
   }
+
+  useEffect(() => {
+    setCardsQtty(getCardsQtty(paginationObj))
+  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!walletAddress) return
+    fetchInventory()
+  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!walletAddress) return
+    checkNumberOfPacks()
+  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (walletAddress && !cardInfoOpened) {
@@ -123,12 +144,14 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (walletAddress && inventory && !cardInfoOpened) {
-      updateButtonFunctions(2, handleOpenPack)
-    }
-  }, [
-    //eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (walletAddress && inventory && !cardInfoOpened) {
+        updateButtonFunctions(2, handleOpenPack)
+      }
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     openPackage,
@@ -145,25 +168,15 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (!paginationObj) return
-    setCardsQtty(getCardsQtty(paginationObj))
-  }, [paginationObj])
-
-  useEffect(() => {
-    if (!walletAddress) return
-    fetchInventory()
-  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (!walletAddress) return
-    checkNumberOfPacks()
-  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
-
   const handleFinishAlbum = useCallback(async () => {
     try {
       if (cardsQtty < 120) {
         emitInfo(t('finish_album_no_qtty'), 100000)
+        return
+      }
+
+      if (albums120Qtty < 1) {
+        emitInfo(t('finish_album_no_album'), 100000)
         return
       }
 
@@ -181,7 +194,7 @@ const GammaMain = () => {
       console.error({ ex })
       emitError(t('finish_album_error'))
     }
-  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract, paginationObj, inventory, cardInfoOpened, cardsQtty, albums120Qtty]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferPack = useCallback(async () => {
     try {
@@ -191,15 +204,13 @@ const GammaMain = () => {
       }
 
       const result = await Swal.fire({
-        text: `${t('wallet_destinatario')}`,
-        input: 'text',
-        inputAttributes: {
-          min: 43,
-          max: 43
-        },
-        inputValidator: (value) => {
-          if (!checkInputAddress(value, walletAddress)) return `${t('direccion_destino_error')}`
-        },
+        title: `${t('transfer_pack_title')}`,
+        html: `
+        <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
+        <input id="amount" type='number' step='1' class="swal2-input" placeholder="${t(
+          'quantity'
+        )}">
+        `,
         showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: `${t('transferir')}`,
@@ -209,15 +220,58 @@ const GammaMain = () => {
         customClass: {
           image: 'cardalertimg',
           input: 'alertinput'
+        },
+        preConfirm: () => {
+          const walletInput = Swal.getPopup().querySelector('#wallet')
+          const quantityInput = Swal.getPopup().querySelector('#amount')
+          const wallet = walletInput.value
+          const amount = parseInt(quantityInput.value)
+
+          if (
+            !checkInputAddress(wallet, walletAddress) &&
+            !checkIntValue1GTValue2(amount, numberOfPacks, true)
+          ) {
+            walletInput.classList.add('swal2-inputerror')
+            quantityInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(
+              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
+            )
+          } else {
+            if (!checkInputAddress(wallet, walletAddress)) {
+              walletInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('direccion_destino_error')}`)
+            }
+            if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
+              quantityInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('quantity_invalid')}`)
+            }
+          }
+          return { wallet: wallet, amount: amount }
         }
       })
 
       if (result.isConfirmed) {
         startLoading()
+        const qttyPacks = parseInt(result.value.amount)
         const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
-        const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-        const transaction = await gammaPacksContract.transferPack(result.value, packNumber)
-        await transaction.wait()
+
+        if (qttyPacks === 1) {
+          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+          const transaction = await gammaPacksContract.transferPack(result.value.wallet, packNumber)
+          await transaction.wait()
+        } else {
+          let packsNumber = []
+          for (let index = 0; index < qttyPacks; index++) {
+            packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
+          }
+          if (packsNumber.length > 0) {
+            const transaction = await gammaPacksContract.transferPacks(
+              result.value.wallet,
+              packsNumber
+            )
+            await transaction.wait()
+          }
+        }
         emitSuccess(t('confirmado'), 2000)
         await checkNumberOfPacks()
         stopLoading()
@@ -229,48 +283,118 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleOpenPack = useCallback(async () => {
-    try {
-      if (numberOfPacks === 0) {
-        emitInfo(t('no_paquetes_para_abrir', 2000))
-        return
-      }
-      startLoading()
+  const handleOpenPack = useCallback(
+    async () => {
+      try {
+        if (numberOfPacks === 0) {
+          emitInfo(t('no_paquetes_para_abrir', 2000))
+          return
+        }
 
-      // llama al contrato para ver cantidad de sobres que tiene el usuario
-      const packs = await checkPacksByUser(walletAddress, gammaPacksContract) // llamada al contrato
+        startLoading()
 
-      setPackIsOpen(true)
-      const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-      // llama a la api para recibir los numeros de cartas del sobre y la firma
-      const data = await fetchPackData(walletAddress, packNumber)
-      const { packet_data, signature } = data
+        const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
+        let openedPack = false
 
-      // verify signer
-      // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-      // console.log('pack signer', signer)
+        if (numberOfPacks === 1) {
+          setPackIsOpen(true)
 
-      setOpenPackCardsNumbers(packet_data)
-      const openedPack = await openPack(
-        gammaCardsContract,
-        packNumber,
-        packet_data,
-        signature.signature
-      )
+          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+          const data = await fetchPackData(walletAddress, packNumber)
+          const { packet_data, signature } = data
 
-      if (openedPack) {
+          // verify signer
+          // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
+          // console.log('pack signer', signer)
+
+          setOpenPackCardsNumbers(packet_data)
+          openedPack = await openPack(
+            gammaCardsContract,
+            packNumber,
+            packet_data,
+            signature.signature
+          )
+        } else {
+          const maxQttyAllowed = await getMaxPacksAllowedToOpenAtOnce(gammaCardsContract)
+          const maxQttyPacksUser = numberOfPacks > maxQttyAllowed ? maxQttyAllowed : numberOfPacks
+          const msg = `${t('open_pack_input_validator').replace('{MAX}', maxQttyPacksUser)}`
+          stopLoading()
+
+          const result = await Swal.fire({
+            title: `${t('open_pack_title')}`,
+            input: 'number',
+            inputValue: 1,
+            inputPlaceholder: `${t('quantity')}`,
+            inputAttributes: {
+              min: 1,
+              max: maxQttyPacksUser,
+              step: 1
+            },
+            inputValidator: (value) => {
+              if (value < 1 || value > maxQttyPacksUser) {
+                return msg
+              }
+            },
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: `${t('open')}`,
+            confirmButtonColor: '#005EA3',
+            color: 'black',
+            background: 'white',
+            customClass: {
+              image: 'cardalertimg',
+              input: 'alertinput gamma_validators_centered_input'
+            }
+          })
+
+          if (!result.isConfirmed) {
+            return
+          }
+
+          startLoading()
+          setPackIsOpen(true)
+
+          let packsNumber = []
+          let packsData = []
+          let signatures = []
+          let packsCardsNumbers = []
+          const qttyPacksToOpen = result.value
+
+          for (let index = 0; index < qttyPacksToOpen; index++) {
+            const packNumber = ethers.BigNumber.from(packs[index]).toNumber()
+            const data = await fetchPackData(walletAddress, packNumber)
+            const { packet_data, signature } = data
+
+            packsNumber.push(packNumber)
+            packsData.push(packet_data)
+            signatures.push(signature.signature)
+            packsCardsNumbers = packsCardsNumbers.concat(packet_data)
+          }
+          setOpenPackCardsNumbers(packsCardsNumbers)
+          openedPack = await openPacks(
+            gammaCardsContract,
+            qttyPacksToOpen,
+            packsNumber,
+            packsData,
+            signatures
+          )
+        }
+
+        if (openedPack) {
+          setOpenPackage(true)
+          stopLoading()
+          await checkNumberOfPacks()
+          await updateUserData()
+        }
+
         stopLoading()
-        setOpenPackage(true)
-        await checkNumberOfPacks()
-        await updateUserData()
+      } catch (e) {
+        stopLoading()
+        emitError(t('open_pack_error'))
       }
-      stopLoading()
-    } catch (e) {
-      stopLoading()
-      emitError(t('open_pack_error'))
-    }
-  }, [
-    //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     openPackage,
@@ -278,25 +402,42 @@ const GammaMain = () => {
     cardsQtty,
     numberOfPacks,
     inventory,
-    cardInfoOpened
-  ])
+    cardInfoOpened]
+  )
 
   const buyPacksContract = async (numberOfPacks) => {
     /*
-    gammaPacksContract.on('PackPurchase', (returnValue, theEvent) => {
-      // console.log('evento PacksPurchase', returnValue)
+    gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
       for (let i = 0; i < theEvent.length; i++) {
         const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        // console.log(pack_number)
+        // console.log('PacksPurchase', pack_number)
       }
     })
     */
 
     try {
       startLoading()
-      const approval = await checkApproved(daiContract, walletAddress, gammaPacksContract.address)
+
+      const amountRequired = await gammaPacksContract.getAmountRequiredToBuyPacks(numberOfPacks)
+      const amountRequiredFormatted = parseFloat(ethers.utils.formatUnits(amountRequired, 18))
+
+      const userBalanceToken = await daiContract.balanceOf(walletAddress)
+      const userBalanceTokenFormatted = parseFloat(ethers.utils.formatUnits(userBalanceToken, 18))
+
+      if (userBalanceTokenFormatted < amountRequiredFormatted) {
+        stopLoading()
+        emitWarning(t('buy_pack_warning'))
+        return
+      }
+
+      const approval = await checkApproved(
+        daiContract,
+        walletAddress,
+        gammaPacksContract.address,
+        amountRequired
+      )
       if (!approval) {
-        await authorizeDaiContract(daiContract)
+        await authorizeDaiContract(daiContract, gammaPacksContract.address, amountRequired)
       }
       const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
       await call.wait()
@@ -325,6 +466,8 @@ const GammaMain = () => {
     const result = await Swal.fire({
       text: `${t('buy_pack_title_1')} (${t('buy_pack_title_2')} ${price || '1'} DAI)`,
       input: 'number',
+      inputValue: 1,
+      inputPlaceholder: `${t('quantity')}`,
       inputAttributes: {
         min: 1,
         max: 10
@@ -342,7 +485,7 @@ const GammaMain = () => {
       background: 'white',
       customClass: {
         image: 'cardalertimg',
-        input: 'alertinput'
+        input: 'alertinput gamma_validators_centered_input'
       }
     })
 
@@ -488,18 +631,21 @@ const GammaMain = () => {
     if (!inventory && cardsQtty >= 0) {
       return (
         <div className='gammaComplete'>
+          <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`A: ${albums120Qtty}/1`}</h3>
+          </div>
           <div className={cardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`${cardsQtty}/120`}</h3>
+            <h3>{`C: ${cardsQtty}/120`}</h3>
           </div>
-          <div className={cardsQtty >= 120 ? 'title_complete' : 'title_incomplete'}>
-            <h3>{cardsQtty === 120 ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
+          <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
+            <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
           </div>
-          {cardsQtty >= 120 && (
+          {canCompleteAlbum120() && (
             <div
               onClick={() => {
                 handleFinishAlbum()
               }}
-              className={cardsQtty >= 120 ? 'completeAlbum' : 'completeAlbum_disabled'}
+              className={canCompleteAlbum120() ? 'completeAlbum' : 'completeAlbum_disabled'}
             >
               <h3>{t('reclamar_premio')}</h3>
             </div>

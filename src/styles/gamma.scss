@@ -212,9 +212,10 @@
   flex-direction: column;
   align-items: center;
   font-size: 0.9rem;
+  line-height: 0;
 
   @include mobile {
-    position: absolute;
+    position: absolute;  
     height: 0%;
     width: 100px;
     bottom: 4%;
@@ -1135,4 +1136,11 @@
   cursor: pointer;
   top: 8%;
   right: 13%;
+}
+
+.gamma_validators_centered_input {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  margin-top: 15px;
 }

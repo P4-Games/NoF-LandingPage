@@ -63,6 +63,7 @@
     "no_paquetes_para_transferir": "You have no packs to transfer!",
     "no_paquetes_para_abrir": "You have no packs to open!",
     "album": "Album", 
+    "albumes": "Albums",
     "completo": "Complete", 
     "incompleto": "Incomplete", 
     "reclamar_premio": "Claim Prize",
@@ -81,16 +82,21 @@
     "buy_pack_title_2": "each",
     "buy_pack_input_validator": "Enter between 1 and 10!",
     "buy_pack_button": "Buy",
-    "buy_pack_error": "There was an error trying to buy packs",
-    "open_pack_error": "There was an error trying to open the pack",
+    "buy_pack_error": "There was an error trying to buy packs.",
+    "buy_pack_warning": "You don't have enough tokens to buy that many packs.",
+    "open_pack_title": "Opening packs",
+    "open_pack_error": "There was an error trying to open the pack.",
+    "open_pack_input_validator": "Enter between 1 and {MAX}!",
+
+    "mint_error": "There was an error trying to mint this card.",
     
-    "mint_error": "There was an error trying to mint this card",
-    
-    "transfer_card_error": "There was an error trying to transfer the card",
-    "transfer_pack_error": "There was an error trying to transfer one pack",
-    "finish_album_error": "An error occurred while trying to claim the prize",
+    "transfer_card_error": "There was an error trying to transfer the card.",
+    "transfer_pack_title": "Packs Transfer",
+    "transfer_pack_error": "There was an error trying to transfer one pack.",
+    "finish_album_error": "There was an error occurred while trying to claim the prize.",
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
     "finish_album_no_qtty": "You do not have the complete album yet to claim the prize",
+    "finish_album_no_album": "You do not have an album yet to claim the prize.",
     "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
 
     "publish_offer_error": "There was an error trying to publish",
@@ -141,7 +147,7 @@
     "account_text_copied": "Copied",
     "account_balance_zero": "You do not have enough balance to send.",
     "account_send_dai_title": "Token Transfer",
-    "account_send_dai_quantity": "Quantity",
-    "account_send_dai_quantity_invalid": "Invalid Quantity.",
+    "quantity": "Quantity",
+    "quantity_invalid": "Invalid Quantity.",
     "account_send_dai_error": "There was an error trying to transfer tokens."
 }

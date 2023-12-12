@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
   "contractName": "IgammaPacksContract",
-  "sourceName": "contracts/gamma/GammaCards.v4.sol",
+  "sourceName": "contracts/gamma/GammaCards.v5.sol",
   "abi": [
     {
       "inputs": [
@@ -36,6 +36,24 @@
         }
       ],
       "name": "openPack",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "tokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "openPacks",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

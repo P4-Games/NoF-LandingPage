@@ -1,0 +1,37 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "EIP712Base",
+  "sourceName": "contracts/testDai/TestDAI.v3.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getChainId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getDomainSeperator",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60806040526000805460ff19169055348015601957600080fd5b506088806100286000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806320379ee51460375780633408e47014604d575b600080fd5b6001545b60405190815260200160405180910390f35b46603b56fea264697066735822122093acaaafccca74552ebb6eccdc6d2772e6fe4dd002d3f162cf673ed5842407e164736f6c63430008140033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806320379ee51460375780633408e47014604d575b600080fd5b6001545b60405190815260200160405180910390f35b46603b56fea264697066735822122093acaaafccca74552ebb6eccdc6d2772e6fe4dd002d3f162cf673ed5842407e164736f6c63430008140033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
