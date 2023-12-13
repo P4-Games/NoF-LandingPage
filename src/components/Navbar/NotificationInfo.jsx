@@ -40,9 +40,9 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
 
   const existsUnreadNotifications = () => {
     if (!updatedNotifications || updatedNotifications.length === 0) {
-      return false;
+      return false
     }
-    return updatedNotifications.some(notification => !notification.read)
+    return updatedNotifications.some((notification) => !notification.read)
   }
 
   const handleRead = (notification, event) => {
@@ -85,8 +85,8 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
     deleteAllNotifications(walletAddress)
   }
 
-  const NotificationTitle = () => (
-    updatedNotifications && updatedNotifications.length > 0 ?
+  const NotificationTitle = () =>
+    updatedNotifications && updatedNotifications.length > 0 ? (
       <div className='notification__info__icon__and__link'>
         <div className='notification__info__link__container'>
           <p className={`notification__info__title`}>{t('notification_title')}</p>
@@ -95,24 +95,30 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
           {!existsUnreadNotifications() ? (
             <VscMailRead className='notification__info__icon__read' />
           ) : (
-            <IoMailUnreadOutline className='notification__info__icon'
-              onClick={(event) => { handleReadAll(event) }}
+            <IoMailUnreadOutline
+              className='notification__info__icon'
+              onClick={(event) => {
+                handleReadAll(event)
+              }}
             />
           )}
         </div>
         <div className='notification__info__icon__container'>
-          <RiDeleteBin2Line className='notification__info__icon'
-            onClick={(event) => { handleDeleteAll(event) }}
+          <RiDeleteBin2Line
+            className='notification__info__icon'
+            onClick={(event) => {
+              handleDeleteAll(event)
+            }}
           />
         </div>
       </div>
-    : 
-    <div className='notification__info__icon__and__link'>
-      <div>
-        <p className={`notification__info__title`}>{t('notification_title')}</p>
+    ) : (
+      <div className='notification__info__icon__and__link'>
+        <div>
+          <p className={`notification__info__title`}>{t('notification_title')}</p>
+        </div>
       </div>
-    </div>
-  )
+    )
 
   const NotificationMessage = ({ notification }) => (
     <React.Fragment>
@@ -131,14 +137,20 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
           {notification.read ? (
             <VscMailRead className='notification__info__icon__read' />
           ) : (
-            <IoMailUnreadOutline className='notification__info__icon'
-              onClick={(event) => { handleRead(notification, event) }}
+            <IoMailUnreadOutline
+              className='notification__info__icon'
+              onClick={(event) => {
+                handleRead(notification, event)
+              }}
             />
           )}
         </div>
         <div className='notification__info__icon__container'>
-          <RiDeleteBin2Line className='notification__info__icon'
-            onClick={(event) => { handleDelete(notification, event) }}
+          <RiDeleteBin2Line
+            className='notification__info__icon'
+            onClick={(event) => {
+              handleDelete(notification, event)
+            }}
           />
         </div>
       </div>
@@ -151,8 +163,7 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
 
   const NotificationMessages = () => (
     <React.Fragment>
-      {updatedNotifications.slice(0, 7).map((notification, index) => 
-      (
+      {updatedNotifications.slice(0, 7).map((notification, index) => (
         <NotificationMessage key={`notif-${index}`} notification={notification} />
       ))}
       {/*

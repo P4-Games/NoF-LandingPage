@@ -10,8 +10,9 @@ export const NotificationProvider = ({ children }) => {
 
   const getNotificationsByUser = (user) => {
     if (!user) return notifications
-    return notifications.filter((notification) => 
-      notification.walletAddress === user && notification.deleted === false)
+    return notifications.filter(
+      (notification) => notification.walletAddress === user && notification.deleted === false
+    )
   }
 
   useEffect(() => {
@@ -51,13 +52,15 @@ export const NotificationProvider = ({ children }) => {
 
   const readAllNotifications = (user) => {
     const updatedNotifs = notifications.map((notification) =>
-    notification.walletAddress === user ? { ...notification, read: true } : notification
+      notification.walletAddress === user ? { ...notification, read: true } : notification
     )
     setNotifications(updatedNotifs)
   }
 
   const deleteAllNotifications = (user) => {
-    const updatedNotifs = notifications.filter((notification) => notification.walletAddress !== user)
+    const updatedNotifs = notifications.filter(
+      (notification) => notification.walletAddress !== user
+    )
     setNotifications(updatedNotifs)
   }
 
