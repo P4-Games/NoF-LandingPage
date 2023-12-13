@@ -30,13 +30,13 @@ export default async function handler(req, res) {
     const u1NotInU2 = getNotPresentCards(u1Cards, u2Cards)
     const u2NotInU1 = getNotPresentCards(u2Cards, u1Cards)
 
-    console.log(u1Cards, u2Cards, u1NotInU2, u2NotInU1)
+    const match = Object.keys(u1NotInU2).length > 0 || Object.keys(u2NotInU1).length > 0;
 
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({
-      user1: u1Cards,
-      user2: u2Cards,
-      match: u1Cards.length > 0 && u2Cards.length > 0
+      user1: u1NotInU2,
+      user2: u2NotInU1,
+      match: match
     })
   } catch (error) {
     console.error(error)
@@ -51,7 +51,7 @@ async function getFilteredCards(contractInstance, wallet) {
 
   const filteredCards = Object.keys(userCards).reduce((filtered, key) => {
     const card = userCards[key]
-    if (card.quantity > 1 && card.stamped === true) {
+    if (card.quantity > 1) {
       filtered[key] = card
     }
     return filtered

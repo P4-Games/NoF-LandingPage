@@ -104,7 +104,7 @@ function Navbar() {
 
   const ButtonNotification = () => (
     <div onClick={() => handleNotificationClick()} className='navbar__right__coin'>
-      <Image src={'/images/notifications/message.png'} alt='coin' height='60' width='60' />
+      <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
       {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
     </div>
   )
