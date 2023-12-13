@@ -21,18 +21,22 @@ export default async function handler(req, res) {
       gammaCardsAbi.abi,
       provider
     )
-    const u1Cards = (await getCardsByUser(gammaCardsContractInstance, w1)).user
-    const u2Cards = (await getCardsByUser(gammaCardsContractInstance, w2)).user
 
-    // TODO: obtener repetidas
-    // TODO: ver las que ambos no tienen
-    // TODO: obtener match
+    // stamped = true && quantity > 1
+    const u1Cards = await getFilteredCards(gammaCardsContractInstance, w1)
+    const u2Cards = await getFilteredCards(gammaCardsContractInstance, w2)
+
+    // tiene user1 y no el user2 y viceversa
+    const u1NotInU2 = getNotPresentCards(u1Cards, u2Cards)
+    const u2NotInU1 = getNotPresentCards(u2Cards, u1Cards)
+
+    console.log(u1Cards, u2Cards, u1NotInU2, u2NotInU1)
 
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({
       user1: u1Cards,
       user2: u2Cards,
-      match: false
+      match: u1Cards.length > 0 && u2Cards.length > 0
     })
   } catch (error) {
     console.error(error)
@@ -40,4 +44,30 @@ export default async function handler(req, res) {
       error: 'An error occurred while processing the request.'
     })
   }
+}
+
+async function getFilteredCards(contractInstance, wallet) {
+  const userCards = (await getCardsByUser(contractInstance, wallet)).user
+
+  // TODO: ver las que tiene uno que no tenga el otro
+
+  const filteredCards = Object.keys(userCards).reduce((filtered, key) => {
+    const card = userCards[key]
+    if (card.quantity > 1 && card.stamped === true) {
+      filtered[key] = card
+    }
+    return filtered
+  }, {})
+
+  return filteredCards
+}
+
+function getNotPresentCards(userCards1, userCards2) {
+  const notPresentCards = {}
+  Object.keys(userCards1).forEach((key) => {
+    if (!userCards2[key]) {
+      notPresentCards[key] = userCards1[key]
+    }
+  })
+  return notPresentCards
 }
