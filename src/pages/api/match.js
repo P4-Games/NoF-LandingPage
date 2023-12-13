@@ -49,8 +49,6 @@ export default async function handler(req, res) {
 async function getFilteredCards(contractInstance, wallet) {
   const userCards = (await getCardsByUser(contractInstance, wallet)).user
 
-  // TODO: ver las que tiene uno que no tenga el otro
-
   const filteredCards = Object.keys(userCards).reduce((filtered, key) => {
     const card = userCards[key]
     if (card.quantity > 1 && card.stamped === true) {
