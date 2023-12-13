@@ -7,19 +7,22 @@ import '../styles/common.scss'
 import { appWithTranslation } from 'next-i18next'
 // import { Web3ContextProvider } from '../context/Web3ContextNew'
 import { Web3ContextProvider } from '../context/Web3Context'
+import { NotificationProvider } from '../context/NotificationContext'
 import { SettingsProvider } from '../context/SettingsContext'
 import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
 function MyApp({ Component, pageProps }) {
   return (
     <SettingsProvider>
-      <Web3ContextProvider>
-        <LayoutProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </LayoutProvider>
-      </Web3ContextProvider>
+      <NotificationProvider>
+        <Web3ContextProvider>
+          <LayoutProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </LayoutProvider>
+        </Web3ContextProvider>
+      </NotificationProvider>
     </SettingsProvider>
   )
 }

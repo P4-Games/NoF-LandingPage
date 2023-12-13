@@ -7,8 +7,9 @@ import { useRouter } from 'next/router'
 import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
 import AccountInfo from './AccountInfo.jsx'
+import NotificationInfo from './NotificationInfo.jsx'
 import LanguageSelection from '../LanguageSelection'
-import { useLayoutContext } from '../../hooks'
+import { useLayoutContext, useWeb3Context, useNotificationContext } from '../../hooks'
 
 function Navbar() {
   const { t } = useTranslation()
@@ -18,7 +19,14 @@ function Navbar() {
   const router = useRouter()
   const isHomePage = router.pathname === '/'
   const [showAccountInfo, setShowAccountInfo] = useState(false)
+  const [showNotificationInfo, setShowNotificationInfo] = useState(false)
+  const [notificationsNbr, setNotificationsNbr] = useState(0)
+  const [notificationsNbrClass, setNotificationsNbrClass] = useState('notification__badge__1')
+  const { notifications, getNotificationsByUser } = useNotificationContext()
+  const { walletAddress } = useWeb3Context()
+
   const accountRef = useRef(null)
+  const notificationRef = useRef(null)
 
   const handleAudioClick = () => {
     setClick(!click)
@@ -29,6 +37,10 @@ function Navbar() {
     }
   }
 
+  const handleNotificationClick = () => {
+    setShowNotificationInfo(!showNotificationInfo)
+  }
+
   const handleAccountClick = () => {
     setShowAccountInfo(!showAccountInfo)
   }
@@ -37,7 +49,19 @@ function Navbar() {
     if (accountRef.current && !accountRef.current.contains(event.target)) {
       setShowAccountInfo(false)
     }
+    if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      setShowNotificationInfo(false)
+    }
   }
+
+  useEffect(() => {
+    const notif = getNotificationsByUser(walletAddress) || []
+    const unreadNotifications = notif.filter(notification => !notification.read);
+    setNotificationsNbr(unreadNotifications.length)
+    setNotificationsNbrClass(unreadNotifications.length > 9 ? 'notification__badge__2' : 'notification__badge__1')
+    // setNotificationsNbr(20)
+    // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
+  }, [notifications, walletAddress])
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -76,6 +100,13 @@ function Navbar() {
     </div>
   )
 
+  const ButtonNotification = () => (
+    <div onClick={() => handleNotificationClick()} className='navbar__right__coin'>
+      <Image src={'/images/notifications/message.png'} alt='coin' height='60' width='60' />
+      {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
+    </div>
+  )
+
   const ButtonAccount = () => (
     <div onClick={() => handleAccountClick()} className='navbar__right__coin'>
       <Image src={'/images/navbar/logo-coin.png'} alt='coin' height='60' width='60' />
@@ -98,6 +129,13 @@ function Navbar() {
         <div className='navbar__right'>
           <ButtonAudio />
           <LanguageSelection />
+          <div ref={notificationRef} className='navbar__right__account'>
+            <ButtonNotification onClick={handleNotificationClick} />
+            <NotificationInfo
+              showNotificationInfo={showNotificationInfo}
+              setShowNotificationInfo={setShowNotificationInfo}
+            />
+          </div>
           <div ref={accountRef} className='navbar__right__account'>
             <ButtonAccount onClick={handleAccountClick} />
             <AccountInfo

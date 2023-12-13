@@ -94,7 +94,7 @@ export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
 
 export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
-    if(!cardsContract || !walletAddress) return
+    if (!cardsContract || !walletAddress) return
     const cardData = await cardsContract?.getCardsByUser(walletAddress)
     let cardsObj = { ...gammaCardsPages }
 
@@ -130,7 +130,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
 
 export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
   try {
-    if(!cardsContract || !walletAddress) return
+    if (!cardsContract || !walletAddress) return
     const result = await cardsContract.hasCard(walletAddress, cardNumber)
     return result
   } catch (e) {
@@ -141,7 +141,7 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
 
 export const getPackPrice = async (cardsContract) => {
   try {
-    if(!cardsContract) return
+    if (!cardsContract) return
     const price = await cardsContract.packPrice()
     const result = ethers.utils.formatUnits(price, 18)
     return result
@@ -153,7 +153,7 @@ export const getPackPrice = async (cardsContract) => {
 
 export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
   try {
-    if(!cardsContract || !walletAddress) return
+    if (!cardsContract || !walletAddress) return
     const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
     return userHasAlbum
   } catch (e) {
@@ -162,10 +162,9 @@ export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
   }
 }
 
-
 export const finishAlbum = async (cardsContract, daiContract, walletAddress) => {
   try {
-    if(!cardsContract || !walletAddress) return
+    if (!cardsContract || !walletAddress) return
     const result = await allowedToFinishAlbum(cardsContract, daiContract, walletAddress)
     if (result) {
       const transaction = await cardsContract.finishAlbum()
@@ -211,7 +210,7 @@ export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAdd
   // Las 4 se validan en el contrato y aquí (para evitar la llamada al contrato)
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
-  if(!cardsContract || !walletAddress) return
+  if (!cardsContract || !walletAddress) return
   const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
   const prizesBalance = await cardsContract.prizesBalance()
   const mainAlbumPrize = await cardsContract.mainAlbumPrize()
