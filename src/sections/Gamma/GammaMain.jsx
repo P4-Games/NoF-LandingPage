@@ -25,6 +25,7 @@ import {
 
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
+import GammaCardOffers from './GammaCardOffers'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -55,8 +56,7 @@ const GammaMain = () => {
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
 
-
-  const canCompleteAlbum120 = () => (cardsQtty >= 120 && albums120Qtty > 0)
+  const canCompleteAlbum120 = () => cardsQtty >= 120 && albums120Qtty > 0
 
   const getCardsQtty = (paginationObj) => {
     let total = 0
@@ -96,6 +96,24 @@ const GammaMain = () => {
       console.error(error)
     }
   }
+
+  /*
+  useEffect(() => {
+    if (!gammaCardsContract || !gammaPacksContract || !GammaCardOffers) return
+    gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
+      for (let i = 0; i < theEvent.length; i++) {
+        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+        console.log('PacksPurchase', returnValue, pack_number)
+      }
+    })
+
+    gammaCardsContract.on('ExchangeCardOffer', (p1, p2, p3, p4) => {
+      console.log('ExchangeCardOffer:', { p1, p2, p3, p4 })
+    })
+
+    // event ExchangeCardOffer(address from, address to, uint8 cardNumberFrom, uint8 cardNumberTo);
+  }, [gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  */
 
   useEffect(() => {
     setCardsQtty(getCardsQtty(paginationObj))
@@ -160,7 +178,8 @@ const GammaMain = () => {
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ])
+  ]
+  )
 
   useEffect(() => {
     if (walletAddress && inventory) {
@@ -194,7 +213,15 @@ const GammaMain = () => {
       console.error({ ex })
       emitError(t('finish_album_error'))
     }
-  }, [walletAddress, gammaPacksContract, paginationObj, inventory, cardInfoOpened, cardsQtty, albums120Qtty]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    walletAddress,
+    gammaPacksContract,
+    paginationObj,
+    inventory,
+    cardInfoOpened,
+    cardsQtty,
+    albums120Qtty
+  ]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferPack = useCallback(async () => {
     try {

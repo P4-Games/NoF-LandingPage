@@ -149,5 +149,17 @@
   "account_send_dai_title": "Transferência de token",
   "quantity": "Cantidad",
   "quantity_invalid": "Cantidad Inválida.",
-  "account_send_dai_error": "Ocorreu um erro ao tentar transferir tokens."  
+  "account_send_dai_error": "Ocorreu um erro ao tentar transferir tokens.",
+
+  "notification_title": "Notificações",
+  "notification_no_messages": "Você não tem mensagens",
+  "notification_view_all": "Ver tudo",
+  "notification_read": "Mensagem lida",
+  "notification_deleted": "Mensagem excluída",
+  "notification_all_read": "Mensagens lidas",
+  "notification_all_deleted": "Mensagens excluídas",
+  "notification_received_card": "Você recebeu a carta {CARD} de {WALLET}.",
+  "notification_sent_card": "Você enviou a carta {CARD} para {WALLET}.",
+  "notification_pack_transfer": "Você recebeu o pacote {PACK} de {WALLET}.",
+  "notification_exchange": "Você recebeu o cartão {CARD_RECEIVED} de {WALLET} em troca do cartão {CARD_SENT}."
 }
