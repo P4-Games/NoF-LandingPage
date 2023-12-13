@@ -12,7 +12,6 @@ import { CONTRACTS, NETWORK } from '../config'
 import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
 
-
 const initialState = {
   connectWallet: () => {}
 }
@@ -100,8 +99,8 @@ function Web3ContextProvider({ children }) {
       gammaPacksContractInstance.on('PackTransfer', (from, to, tokenId) => {
         const packNbr = ethers.BigNumber.from(tokenId).toNumber()
         addNotification(to, 'notification_pack_transfer', [
-          {item: 'PACK', value: packNbr, valueShort: packNbr },
-          {item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+          { item: 'PACK', value: packNbr, valueShort: packNbr },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
         ])
       })
 
@@ -109,7 +108,7 @@ function Web3ContextProvider({ children }) {
         addNotification(to, 'notification_exchange', [
           { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
           { item: 'CARD_SENT', value: cNTo, valueShort: cNTo },
-          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
         ])
         addNotification(from, 'notification_exchange', [
           { item: 'CARD_RECEIVED', value: cNTo, valueShort: cNTo },

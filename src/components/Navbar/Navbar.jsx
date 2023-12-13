@@ -56,9 +56,11 @@ function Navbar() {
 
   useEffect(() => {
     const notif = getNotificationsByUser(walletAddress) || []
-    const unreadNotifications = notif.filter(notification => !notification.read);
+    const unreadNotifications = notif.filter((notification) => !notification.read)
     setNotificationsNbr(unreadNotifications.length)
-    setNotificationsNbrClass(unreadNotifications.length > 9 ? 'notification__badge__2' : 'notification__badge__1')
+    setNotificationsNbrClass(
+      unreadNotifications.length > 9 ? 'notification__badge__2' : 'notification__badge__1'
+    )
     // setNotificationsNbr(20)
     // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
   }, [notifications, walletAddress])
