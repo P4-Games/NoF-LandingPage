@@ -30,7 +30,7 @@ export default async function handler(req, res) {
     const u1NotInU2 = getNotPresentCards(u1Cards, u2Cards)
     const u2NotInU1 = getNotPresentCards(u2Cards, u1Cards)
 
-    const match = Object.keys(u1NotInU2).length > 0 || Object.keys(u2NotInU1).length > 0;
+    const match = Object.keys(u1NotInU2).length > 0 || Object.keys(u2NotInU1).length > 0
 
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({

@@ -103,14 +103,14 @@ function Navbar() {
   )
 
   const ButtonNotification = () => (
-    <div onClick={() => handleNotificationClick()} className='navbar__right__coin'>
+    <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
       <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
       {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
     </div>
   )
 
   const ButtonAccount = () => (
-    <div onClick={() => handleAccountClick()} className='navbar__right__coin'>
+    <div onClick={() => handleAccountClick()} className='navbar__right__account'>
       <Image src={'/images/navbar/logo-coin.png'} alt='coin' height='60' width='60' />
     </div>
   )

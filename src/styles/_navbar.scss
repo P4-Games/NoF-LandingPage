@@ -91,14 +91,16 @@ header {
       }
     }
     &__coin {
-      cursor: pointer;
-      background-size: 100% 100%;
-      img {
-        position: relative;
-      }
-      &:hover {
-        transform: scale(1.1);
-        transition: 0.2s;
+      @extend .navbar__right__audio;
+    }
+    &__account {
+      @extend .navbar__right__audio;
+    }
+    &__notif {
+      @extend .navbar__right__audio;
+      margin-top: 15px!important;
+      @media (max-width: 768px) {
+        margin-top: 10px!important;
       }
     }
   }
