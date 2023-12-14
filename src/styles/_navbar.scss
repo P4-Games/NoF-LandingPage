@@ -85,10 +85,12 @@ header {
       img {
         position: relative;
       }
-      &:hover {
+      // el not evita el efecto de hover en las ventanas de account e info
+      &:hover > :not(.notification__info):not(.account__info) {
         transform: scale(1.1);
         transition: 0.2s;
       }
+      
     }
     &__coin {
       @extend .navbar__right__audio;

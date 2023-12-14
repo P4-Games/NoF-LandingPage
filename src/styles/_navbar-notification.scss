@@ -9,17 +9,20 @@
   display: none;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
   font-size: 0.9em !important;
-  max-width: 400px;
-
+  max-width: 450px;
+  
   @include mobile {
     right: 5px;
     left: 5px;
   }
 }
 
-.notification__info.active {
+.notification__info.active,
+.notification__info:hover
+{
   display: block;
 }
+
 
 .notification__info__data {
   margin-bottom: 5px;
