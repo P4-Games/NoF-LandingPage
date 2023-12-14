@@ -34,7 +34,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     setValidNetwork(isValidNetwork())
-  }, [showAccountInfo, chainId])
+  }, [showAccountInfo, chainId]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchTokenName = async () => {
     if (!walletAddress || !daiContract || !validNetwork) return

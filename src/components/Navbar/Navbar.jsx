@@ -63,7 +63,7 @@ function Navbar() {
     )
     // setNotificationsNbr(20)
     // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
-  }, [notifications, walletAddress])
+  }, [notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)

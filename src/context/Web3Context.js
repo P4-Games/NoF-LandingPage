@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect, createContext, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 

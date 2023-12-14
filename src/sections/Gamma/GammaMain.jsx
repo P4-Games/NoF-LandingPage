@@ -25,7 +25,6 @@ import {
 
 import { useWeb3Context } from '../../hooks'
 import { useLayoutContext } from '../../hooks'
-import GammaCardOffers from './GammaCardOffers'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -187,33 +186,36 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleFinishAlbum = useCallback(async () => {
-    try {
-      if (cardsQtty < 120) {
-        emitInfo(t('finish_album_no_qtty'), 100000)
-        return
-      }
+  const handleFinishAlbum = useCallback(
+    async () => {
+      try {
+        if (cardsQtty < 120) {
+          emitInfo(t('finish_album_no_qtty'), 100000)
+          return
+        }
 
-      if (albums120Qtty < 1) {
-        emitInfo(t('finish_album_no_album'), 100000)
-        return
-      }
+        if (albums120Qtty < 1) {
+          emitInfo(t('finish_album_no_album'), 100000)
+          return
+        }
 
-      startLoading()
-      const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
-      if (result) {
-        await updateUserData()
-        emitSuccess(t('finish_album_success'))
-      } else {
-        emitWarning(t('finish_album_warning'), 8000, '', false)
+        startLoading()
+        const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
+        if (result) {
+          await updateUserData()
+          emitSuccess(t('finish_album_success'))
+        } else {
+          emitWarning(t('finish_album_warning'), 8000, '', false)
+        }
+        stopLoading()
+      } catch (ex) {
+        stopLoading()
+        console.error({ ex })
+        emitError(t('finish_album_error'))
       }
-      stopLoading()
-    } catch (ex) {
-      stopLoading()
-      console.error({ ex })
-      emitError(t('finish_album_error'))
-    }
-  }, [
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     paginationObj,
@@ -221,7 +223,8 @@ const GammaMain = () => {
     cardInfoOpened,
     cardsQtty,
     albums120Qtty
-  ]) //eslint-disable-line react-hooks/exhaustive-deps
+  ]
+  )
 
   const handleTransferPack = useCallback(async () => {
     try {

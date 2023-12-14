@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
 import moment from 'moment'
 import { VscMailRead } from 'react-icons/vsc'
@@ -7,7 +8,7 @@ import { RiDeleteBin2Line } from 'react-icons/ri'
 
 import { useWeb3Context, useNotificationContext } from '../../hooks'
 
-const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => {
+const NotificationInfo = ({ showNotificationInfo }) => {
   const { t } = useTranslation()
   const {
     notifications,
@@ -25,7 +26,7 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
 
   useEffect(() => {
     setUpdatedNotifications(getNotificationsByUser(walletAddress))
-  }, [showNotificationInfo, notifications, walletAddress])
+  }, [showNotificationInfo, notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const formatNotificationDate = (date) => moment(date).fromNow()
 
@@ -181,6 +182,10 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
     </React.Fragment>
   )
 
+  NotificationMessage.propTypes = {
+    notification: PropTypes.object
+  }
+
   return (
     <div className={`notification__info ${showNotificationInfo ? 'active' : ''}`}>
       <React.Fragment>
@@ -196,6 +201,10 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
       </React.Fragment>
     </div>
   )
+}
+
+NotificationInfo.propTypes = {
+  showNotificationInfo: PropTypes.func
 }
 
 export default NotificationInfo

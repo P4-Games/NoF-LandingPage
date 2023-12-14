@@ -98,9 +98,9 @@ header {
     }
     &__notif {
       @extend .navbar__right__audio;
-      margin-top: 15px!important;
+      margin-top: 15px !important;
       @media (max-width: 768px) {
-        margin-top: 10px!important;
+        margin-top: 10px !important;
       }
     }
   }
