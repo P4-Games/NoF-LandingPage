@@ -63,7 +63,7 @@ function Navbar() {
     )
     // setNotificationsNbr(20)
     // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
-  }, [notifications, walletAddress])
+  }, [notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -103,14 +103,16 @@ function Navbar() {
   )
 
   const ButtonNotification = () => (
-    <div onClick={() => handleNotificationClick()} className='navbar__right__coin'>
-      <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
-      {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
-    </div>
+    <React.Fragment>
+      <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
+        {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
+        <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
+      </div>
+    </React.Fragment>
   )
 
   const ButtonAccount = () => (
-    <div onClick={() => handleAccountClick()} className='navbar__right__coin'>
+    <div onClick={() => handleAccountClick()} className='navbar__right__account'>
       <Image src={'/images/navbar/logo-coin.png'} alt='coin' height='60' width='60' />
     </div>
   )

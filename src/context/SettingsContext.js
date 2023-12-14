@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types'
-import { createContext } from 'react'
+import { createContext, useEffect } from 'react'
 import { useLocalStorage } from '../hooks'
 import getLanguagePresets, { languagePresets } from '../utils/getLanguagePresets'
 import { defaultSettings } from '../config'
+import moment from 'moment'
+import spanishLocalization from 'moment/locale/es'
+import englishLocalization from 'moment/locale/en-gb'
+import portugueseLocalization from 'moment/locale/pt-br'
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +29,12 @@ function SettingsProvider({ children }) {
     ...defaultSettings
   })
 
+  useEffect(() => {
+    moment.updateLocale('es', spanishLocalization)
+    moment.updateLocale('en-gb', englishLocalization)
+    moment.updateLocale('pt-br', portugueseLocalization)
+  }, [])
+
   const onToggleLanguageSetted = (newLng = 'es') => {
     const getUrl = window.location
     const urlEN = getUrl.pathname.includes('/en/') || getUrl.pathname.includes('/en')
@@ -44,6 +54,10 @@ function SettingsProvider({ children }) {
         ...settings,
         languageSetted: newLng
       })
+
+      if (newLng === 'en') moment.locale('en-gb')
+      else if (newLng === 'br') moment.locale('pt-br')
+      else moment.locale(newLng)
 
       const getUrl = window.location
       const pathName = getUrl.pathname
@@ -69,6 +83,7 @@ function SettingsProvider({ children }) {
     <SettingsContext.Provider
       value={{
         ...settings,
+        moment,
         onToggleLanguageSetted,
         //setUrlLanguage,
         // language

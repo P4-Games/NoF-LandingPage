@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
 import moment from 'moment'
 import { VscMailRead } from 'react-icons/vsc'
 import { IoMailUnreadOutline } from 'react-icons/io5'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 
-import { useWeb3Context, useNotificationContext } from '../../hooks'
+import { useWeb3Context, useNotificationContext, useSettingsContext } from '../../hooks'
 
-const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => {
+const NotificationInfo = ({ showNotificationInfo }) => {
   const { t } = useTranslation()
   const {
     notifications,
@@ -18,22 +19,28 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
     deleteAllNotifications
   } = useNotificationContext()
   const { walletAddress } = useWeb3Context()
+
   const [updatedNotifications, setUpdatedNotifications] = useState([])
   const [actionText, setActionText] = useState('')
   const [actionTextVisible, setActionTextVisible] = useState(false)
   const [actionTextPosition, setActionTextPosition] = useState(0)
+  const { languageSetted } = useSettingsContext()
 
   useEffect(() => {
     setUpdatedNotifications(getNotificationsByUser(walletAddress))
-  }, [showNotificationInfo, notifications, walletAddress])
+  }, [showNotificationInfo, notifications, walletAddress, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatNotificationDate = (date) => moment(date).fromNow()
+  const formatNotificationDate = (date) => {
+    moment.locale(languageSetted)
+    return moment(date).fromNow()
+  }
 
-  const translateNotificationMessage = (message, data) => {
+  const translateNotificationMessage = (message, data, short = true) => {
     let newMessage = t(message)
     data.forEach((element) => {
       const regex = new RegExp(`\\{${element.item}\\}`, 'g')
-      newMessage = newMessage.replaceAll(regex, element.valueShort)
+      if (short) newMessage = newMessage.replaceAll(regex, element.valueShort)
+      else newMessage = newMessage.replaceAll(regex, element.value)
     })
     return newMessage
   }
@@ -43,6 +50,16 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
       return false
     }
     return updatedNotifications.some((notification) => !notification.read)
+  }
+
+  const handleCopy = (notification, event) => {
+    navigator.clipboard.writeText(notification)
+    setActionText(t('account_text_copied'))
+    setActionTextPosition(event.clientY - 70)
+    setActionTextVisible(true)
+    setTimeout(() => {
+      setActionTextVisible(false)
+    }, 1500)
   }
 
   const handleRead = (notification, event) => {
@@ -124,8 +141,16 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
     <React.Fragment>
       <div className='notification__info__icon__and__link'>
         <div className='notification__info__link__container'>
-          <p className='notification__info__notification__message'>
-            {translateNotificationMessage(notification.message, notification.data)}
+          <p
+            className='notification__info__notification__message'
+            onClick={(event) => {
+              handleCopy(
+                translateNotificationMessage(notification.message, notification.data, false),
+                event
+              )
+            }}
+          >
+            {translateNotificationMessage(notification.message, notification.data, true)}
           </p>
           {actionTextVisible && (
             <span className='notification__info__action__text' style={{ top: actionTextPosition }}>
@@ -181,6 +206,10 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
     </React.Fragment>
   )
 
+  NotificationMessage.propTypes = {
+    notification: PropTypes.object
+  }
+
   return (
     <div className={`notification__info ${showNotificationInfo ? 'active' : ''}`}>
       <React.Fragment>
@@ -196,6 +225,10 @@ const NotificationInfo = ({ showNotificationInfo, setShowNotificationInfo }) => 
       </React.Fragment>
     </div>
   )
+}
+
+NotificationInfo.propTypes = {
+  showNotificationInfo: PropTypes.func
 }
 
 export default NotificationInfo

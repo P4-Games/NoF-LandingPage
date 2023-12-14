@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { Web3Context } from './Web3Context'
 
@@ -18,7 +19,7 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     const filteredNotifications = getNotificationsByUser(walletAddress)
     setNotifications(filteredNotifications)
-  }, [walletAddress])
+  }, [walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const addNotification = (user, message, data) => {
     const date = new Date().toLocaleString()
@@ -62,6 +63,10 @@ export const NotificationProvider = ({ children }) => {
       (notification) => notification.walletAddress !== user
     )
     setNotifications(updatedNotifs)
+  }
+
+  NotificationProvider.propTypes = {
+    children: PropTypes.node.isRequired
   }
 
   return (
