@@ -90,7 +90,6 @@ header {
         transform: scale(1.1);
         transition: 0.2s;
       }
-      
     }
     &__coin {
       @extend .navbar__right__audio;
@@ -101,9 +100,14 @@ header {
     &__notif {
       @extend .navbar__right__audio;
       margin-top: 15px !important;
+      position: relative;
       @media (max-width: 768px) {
         margin-top: 10px !important;
       }
+    }
+    &__notif__badge {
+      @extend .navbar__right__audio;
+      position: relative;
     }
   }
 
@@ -124,6 +128,29 @@ header {
       }
     }
   }
+}
+
+.notification__badge__1 {
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  background-color: #3896ee;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 9px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.notification__badge__2 {
+  @extend .notification__badge__1;
+  width: 30px;
+  height: 30px;
 }
 
 .corner__common {

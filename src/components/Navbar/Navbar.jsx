@@ -103,10 +103,12 @@ function Navbar() {
   )
 
   const ButtonNotification = () => (
-    <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
-      <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
-      {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
-    </div>
+    <React.Fragment>
+      <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
+        {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
+        <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
+      </div>
+    </React.Fragment>
   )
 
   const ButtonAccount = () => (

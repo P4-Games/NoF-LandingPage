@@ -6,7 +6,7 @@ import { VscMailRead } from 'react-icons/vsc'
 import { IoMailUnreadOutline } from 'react-icons/io5'
 import { RiDeleteBin2Line } from 'react-icons/ri'
 
-import { useWeb3Context, useNotificationContext } from '../../hooks'
+import { useWeb3Context, useNotificationContext, useSettingsContext } from '../../hooks'
 
 const NotificationInfo = ({ showNotificationInfo }) => {
   const { t } = useTranslation()
@@ -19,16 +19,22 @@ const NotificationInfo = ({ showNotificationInfo }) => {
     deleteAllNotifications
   } = useNotificationContext()
   const { walletAddress } = useWeb3Context()
+
   const [updatedNotifications, setUpdatedNotifications] = useState([])
   const [actionText, setActionText] = useState('')
   const [actionTextVisible, setActionTextVisible] = useState(false)
   const [actionTextPosition, setActionTextPosition] = useState(0)
+  const { languageSetted } = useSettingsContext()
 
   useEffect(() => {
     setUpdatedNotifications(getNotificationsByUser(walletAddress))
-  }, [showNotificationInfo, notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showNotificationInfo, notifications, walletAddress, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatNotificationDate = (date) => moment(date).fromNow()
+  const formatNotificationDate = (date) => {
+    console.log('moment', languageSetted)
+    moment.locale(languageSetted)
+    return moment(date).fromNow()
+  }
 
   const translateNotificationMessage = (message, data) => {
     let newMessage = t(message)

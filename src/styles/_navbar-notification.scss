@@ -10,7 +10,7 @@
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
   font-size: 0.9em !important;
   max-width: 450px;
-  
+
   @include mobile {
     right: 5px;
     left: 5px;
@@ -18,11 +18,9 @@
 }
 
 .notification__info.active,
-.notification__info:hover
-{
+.notification__info:hover {
   display: block;
 }
-
 
 .notification__info__data {
   margin-bottom: 5px;
@@ -153,38 +151,4 @@
   margin-bottom: 10px;
   font-size: 8px;
   color: #888;
-}
-
-.notification__badge__1 {
-  position: absolute;
-  top: 10px;
-  right: 90px;
-  background-color: #3896ee;
-  color: white;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 9px;
-  font-weight: bold;
-  z-index: 1;
-  @media (max-width: 768px) {
-    right: 45px;
-    width: 23px;
-    height: 23px;
-    font-size: 8px;
-  }
-}
-
-.notification__badge__2 {
-  @extend .notification__badge__1;
-  right: 85px;
-  width: 30px;
-  height: 30px;
-  @media (max-width: 768px) {
-    width: 25px;
-    height: 25px;
-  }
 }
