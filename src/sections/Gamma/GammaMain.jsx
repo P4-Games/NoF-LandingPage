@@ -96,24 +96,6 @@ const GammaMain = () => {
     }
   }
 
-  /*
-  useEffect(() => {
-    if (!gammaCardsContract || !gammaPacksContract || !GammaCardOffers) return
-    gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
-      for (let i = 0; i < theEvent.length; i++) {
-        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        console.log('PacksPurchase', returnValue, pack_number)
-      }
-    })
-
-    gammaCardsContract.on('ExchangeCardOffer', (p1, p2, p3, p4) => {
-      console.log('ExchangeCardOffer:', { p1, p2, p3, p4 })
-    })
-
-    // event ExchangeCardOffer(address from, address to, uint8 cardNumberFrom, uint8 cardNumberTo);
-  }, [gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
-  */
-
   useEffect(() => {
     setCardsQtty(getCardsQtty(paginationObj))
   }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps

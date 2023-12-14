@@ -31,7 +31,6 @@ const NotificationInfo = ({ showNotificationInfo }) => {
   }, [showNotificationInfo, notifications, walletAddress, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const formatNotificationDate = (date) => {
-    console.log('moment', languageSetted)
     moment.locale(languageSetted)
     return moment(date).fromNow()
   }
