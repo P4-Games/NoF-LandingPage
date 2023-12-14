@@ -35,11 +35,12 @@ const NotificationInfo = ({ showNotificationInfo }) => {
     return moment(date).fromNow()
   }
 
-  const translateNotificationMessage = (message, data) => {
+  const translateNotificationMessage = (message, data, short = true) => {
     let newMessage = t(message)
     data.forEach((element) => {
       const regex = new RegExp(`\\{${element.item}\\}`, 'g')
-      newMessage = newMessage.replaceAll(regex, element.valueShort)
+      if (short) newMessage = newMessage.replaceAll(regex, element.valueShort)
+      else newMessage = newMessage.replaceAll(regex, element.value)
     })
     return newMessage
   }
@@ -49,6 +50,16 @@ const NotificationInfo = ({ showNotificationInfo }) => {
       return false
     }
     return updatedNotifications.some((notification) => !notification.read)
+  }
+
+  const handleCopy = (notification, event) => {
+    navigator.clipboard.writeText(notification)
+    setActionText(t('account_text_copied'))
+    setActionTextPosition(event.clientY - 70)
+    setActionTextVisible(true)
+    setTimeout(() => {
+      setActionTextVisible(false)
+    }, 1500)
   }
 
   const handleRead = (notification, event) => {
@@ -130,8 +141,16 @@ const NotificationInfo = ({ showNotificationInfo }) => {
     <React.Fragment>
       <div className='notification__info__icon__and__link'>
         <div className='notification__info__link__container'>
-          <p className='notification__info__notification__message'>
-            {translateNotificationMessage(notification.message, notification.data)}
+          <p
+            className='notification__info__notification__message'
+            onClick={(event) => {
+              handleCopy(
+                translateNotificationMessage(notification.message, notification.data, false),
+                event
+              )
+            }}
+          >
+            {translateNotificationMessage(notification.message, notification.data, true)}
           </p>
           {actionTextVisible && (
             <span className='notification__info__action__text' style={{ top: actionTextPosition }}>
