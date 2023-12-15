@@ -488,7 +488,7 @@ $groundHeight: 40px;
       @extend .hero__top__album;
       background-image: url('/images/gamma/GammaFondo.png') !important;
       @include mobile {
-        background-image: url('/images/gamma/GammaFondo-libreta.png');
+        background-image: url('/images/gamma/GammaFondo-libreta.png') !important;
       }
     }
   }
@@ -1104,4 +1104,34 @@ $groundHeight: 40px;
   @include mobile {
     margin-top: 6%;
   }
+}
+
+.hero__top__album__book__button__bottom__hook {
+  position: absolute;
+  bottom: 30px;
+  left: 5px;
+  z-index: 999;
+}
+
+.hero__top__album__book__button__bottom__hook::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+}
+
+.hero__top__album__book__button__top__hook {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 999;
+}
+
+.hero__top__album__book__button__top__hook::before {
+  @extend .hero__top__album__book__button__bottom__hook;
 }
