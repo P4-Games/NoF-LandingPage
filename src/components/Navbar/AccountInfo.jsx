@@ -12,6 +12,7 @@ import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
+import { getAccountAddressText } from '../../utils/stringUtils'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
@@ -33,7 +34,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     setValidNetwork(isValidNetwork())
-  }, [showAccountInfo, chainId])
+  }, [showAccountInfo, chainId]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchTokenName = async () => {
     if (!walletAddress || !daiContract || !validNetwork) return
@@ -62,16 +63,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   useEffect(() => {
     fetchBalance()
   }, [showAccountInfo, walletBalance, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  const getAccountAddressText = () => {
-    if (walletAddress <= 15) {
-      return walletAddress
-    } else {
-      const firstPart = walletAddress.substring(0, 7)
-      const lastPart = walletAddress.substring(walletAddress.length - 5)
-      return `${firstPart}...${lastPart}`
-    }
-  }
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
@@ -216,7 +207,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           </span>
         )}
         <p className='account__info__account__link' onClick={handleCopy}>
-          {getAccountAddressText()}
+          {getAccountAddressText(walletAddress)}
         </p>
       </div>
       <div className='account__info__icon__container'>

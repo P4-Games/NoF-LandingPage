@@ -55,8 +55,7 @@ const GammaMain = () => {
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
 
-
-  const canCompleteAlbum120 = () => (cardsQtty >= 120 && albums120Qtty > 0)
+  const canCompleteAlbum120 = () => cardsQtty >= 120 && albums120Qtty > 0
 
   const getCardsQtty = (paginationObj) => {
     let total = 0
@@ -160,7 +159,8 @@ const GammaMain = () => {
     numberOfPacks,
     inventory,
     cardInfoOpened
-  ])
+  ]
+  )
 
   useEffect(() => {
     if (walletAddress && inventory) {
@@ -168,33 +168,45 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleFinishAlbum = useCallback(async () => {
-    try {
-      if (cardsQtty < 120) {
-        emitInfo(t('finish_album_no_qtty'), 100000)
-        return
-      }
+  const handleFinishAlbum = useCallback(
+    async () => {
+      try {
+        if (cardsQtty < 120) {
+          emitInfo(t('finish_album_no_qtty'), 100000)
+          return
+        }
 
-      if (albums120Qtty < 1) {
-        emitInfo(t('finish_album_no_album'), 100000)
-        return
-      }
+        if (albums120Qtty < 1) {
+          emitInfo(t('finish_album_no_album'), 100000)
+          return
+        }
 
-      startLoading()
-      const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
-      if (result) {
-        await updateUserData()
-        emitSuccess(t('finish_album_success'))
-      } else {
-        emitWarning(t('finish_album_warning'), 8000, '', false)
+        startLoading()
+        const result = await finishAlbum(gammaCardsContract, daiContract, walletAddress)
+        if (result) {
+          await updateUserData()
+          emitSuccess(t('finish_album_success'))
+        } else {
+          emitWarning(t('finish_album_warning'), 8000, '', false)
+        }
+        stopLoading()
+      } catch (ex) {
+        stopLoading()
+        console.error({ ex })
+        emitError(t('finish_album_error'))
       }
-      stopLoading()
-    } catch (ex) {
-      stopLoading()
-      console.error({ ex })
-      emitError(t('finish_album_error'))
-    }
-  }, [walletAddress, gammaPacksContract, paginationObj, inventory, cardInfoOpened, cardsQtty, albums120Qtty]) //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
+    walletAddress,
+    gammaPacksContract,
+    paginationObj,
+    inventory,
+    cardInfoOpened,
+    cardsQtty,
+    albums120Qtty
+  ]
+  )
 
   const handleTransferPack = useCallback(async () => {
     try {

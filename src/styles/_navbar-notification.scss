@@ -1,0 +1,154 @@
+.notification__info {
+  position: absolute;
+  top: calc(100% + 0px);
+  right: 10px;
+  background-color: #cfa763;
+  filter: saturate(90%) brightness(120%);
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-size: 0.9em !important;
+  max-width: 450px;
+
+  @include mobile {
+    right: 5px;
+    left: 5px;
+  }
+}
+
+.notification__info.active,
+.notification__info:hover {
+  display: block;
+}
+
+.notification__info__data {
+  margin-bottom: 5px;
+}
+
+.notification__info__separator {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 0;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.notification__info__title {
+  width: 100px;
+  margin-top: 5px;
+  line-height: 20px;
+}
+
+.notification__info__no__messages {
+  margin: 0;
+  margin-top: 20px;
+}
+
+.notification__info__notification__message,
+.notification__info__notification__message:hover,
+.notification__info__notification__message:visited {
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  transition: color 0.3s;
+  text-decoration: none;
+  line-height: 15px;
+}
+
+.notification__info__notification__message:hover {
+  color: #fff;
+}
+
+.notification__info__view__all {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  margin-top: 20px;
+  font-size: 0.7em;
+}
+
+.notification__info__action__text {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  border-radius: 5px;
+  animation: notification__fadeInOut 5s ease-in-out;
+}
+
+@keyframes notification__fadeInOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.notification__info__icon__and__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification__info__icon__link,
+.notification__info__icon,
+.notification__info__icon__read {
+  vertical-align: middle;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 17px;
+}
+
+.notification__info__icon__read {
+  cursor: auto;
+}
+
+.notification__info__icon__link {
+  fill: #000;
+}
+
+.notification__info__icon__link:hover {
+  fill: #fff;
+}
+
+.notification__info__icon__link:hover,
+.notification__info__icon:hover {
+  color: #fff;
+}
+
+.notification__info__icon__container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.notification__info__link__container {
+  width: 100%;
+  margin-right: 10px;
+}
+
+.notification__info__icon__container {
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+.notification__info__date {
+  width: 80%;
+  max-width: 80%;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 8px;
+  color: #888;
+}

@@ -1,5 +1,5 @@
+import { useState, useEffect, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { useState, useEffect, createContext } from 'react'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
 
@@ -9,6 +9,8 @@ import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
 import gammaCardsAbi from './abis/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/GammaOffers.v4.sol/NofGammaOffersV4.json'
 import { CONTRACTS, NETWORK } from '../config'
+import { NotificationContext } from './NotificationContext'
+import { getAccountAddressText } from '../utils/stringUtils'
 
 const initialState = {
   connectWallet: () => {}
@@ -26,6 +28,7 @@ function Web3ContextProvider({ children }) {
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
+  const { addNotification } = useContext(NotificationContext)
 
   async function requestAccount() {
     const web3Modal = new Web3Modal()
@@ -34,39 +37,32 @@ function Web3ContextProvider({ children }) {
     try {
       const connection = await web3Modal.connect()
       web3Provider = new ethers.providers.Web3Provider(connection)
+      if (!web3Provider) return
+
+      const chain = (await web3Provider.getNetwork()).chainId
+      setChainId(decToHex(chain))
+      switchOrCreateNetwork(
+        NETWORK.chainId,
+        NETWORK.chainName,
+        NETWORK.ChainRpcUrl,
+        NETWORK.chainCurrency,
+        NETWORK.chainExplorerUrl
+      )
+
       accountAddress = await web3Provider.getSigner().getAddress()
       setWalletAddress(accountAddress)
+      connectContracts(web3Provider.getSigner())
+      return [web3Provider, accountAddress]
     } catch (e) {
       console.error({ e })
     }
-
-    if (!web3Provider) return
-    const chain = (await web3Provider.getNetwork()).chainId
-    setChainId(decToHex(chain))
-    switchOrCreateNetwork(
-      NETWORK.chainId,
-      NETWORK.chainName,
-      NETWORK.ChainRpcUrl,
-      NETWORK.chainCurrency,
-      NETWORK.chainExplorerUrl
-    )
-    return [web3Provider, accountAddress]
   }
 
-  function connectWallet() {
+  async function connectWallet() {
     try {
       if (window.ethereum !== undefined) {
         setNoMetamaskError('')
-
-        requestAccount()
-          .then((data) => {
-            const [provider] = data
-            const signer = provider.getSigner()
-            connectContracts(signer)
-          })
-          .catch((e) => {
-            console.error({ e })
-          })
+        await requestAccount()
       } else {
         setNoMetamaskError('Por favor instala Metamask para continuar.')
       }
@@ -100,6 +96,27 @@ function Web3ContextProvider({ children }) {
         _signer
       )
 
+      gammaPacksContractInstance.on('PackTransfer', (from, to, tokenId) => {
+        const packNbr = ethers.BigNumber.from(tokenId).toNumber()
+        addNotification(to, 'notification_pack_transfer', [
+          { item: 'PACK', value: packNbr, valueShort: packNbr },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+      })
+
+      gammaCardsContractInstance.on('ExchangeCardOffer', (from, to, cNFrom, cNTo) => {
+        addNotification(to, 'notification_exchange', [
+          { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
+          { item: 'CARD_SENT', value: cNTo, valueShort: cNTo },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+        addNotification(from, 'notification_exchange', [
+          { item: 'CARD_RECEIVED', value: cNTo, valueShort: cNTo },
+          { item: 'CARD_SENT', value: cNFrom, valueShort: cNFrom },
+          { item: 'WALLET', value: to, valueShort: getAccountAddressText(to) }
+        ])
+      })
+
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
       setGammaPacksContract(gammaPacksContractInstance)
@@ -109,6 +126,25 @@ function Web3ContextProvider({ children }) {
       console.error({ e })
     }
   }
+
+  /*
+  function subscribeContractsEvents(_signer) {
+    const wallet = _signer.getAddress()
+
+    if (!gammaPacksContract || !gammaCardsContract || !gammaOffersContract) return
+    gammaPacksContract.on('PacksPurchase', (_, theEvent) => {
+      for (let i = 0; i < theEvent.length; i++) {
+        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
+        addNotification('Pack purchase' + pack_number.toString())
+        
+      }
+    })
+
+    gammaCardsContract.on('ExchangeCardOffer', (p1, p2, p3, p4) => {
+      // console.log('ExchangeCardOffer:', { p1, p2, p3, p4 })
+    })
+  }
+  */
 
   function disconnectWallet() {
     setWalletAddress(null)
