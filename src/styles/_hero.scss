@@ -486,9 +486,9 @@ $groundHeight: 40px;
 
     &__album__gamma {
       @extend .hero__top__album;
-      background-image: url('/images/gamma/GammaFondo.png') !important;
+      background-image: url('/images/gamma/GammaFondo.png')!important;
       @include mobile {
-        background-image: url('/images/gamma/GammaFondo-libreta.png');
+        background-image: url('/images/gamma/GammaFondo-libreta.png')!important;
       }
     }
   }
