@@ -15,6 +15,7 @@ try {
     `/locales/en/web3_onboard.json`,
     `/locales/es/common.json`,
     `/locales/es/web3_onboard.json`,
+    `/music/Dungeon.mp3`,
     '/_offline'
   ]
 
