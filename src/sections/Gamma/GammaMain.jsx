@@ -13,7 +13,6 @@ import GammaPackOpen from './GammaPackOpen'
 import { checkApproved, authorizeDaiContract } from '../../services/dai'
 import { fetchPackData } from '../../services/gamma'
 import {
-  getCardsByUser,
   checkPacksByUser,
   finishAlbum,
   openPack,
@@ -23,8 +22,7 @@ import {
   getUserAlbums120Qtty
 } from '../../services/gamma'
 
-import { useWeb3Context } from '../../hooks'
-import { useLayoutContext } from '../../hooks'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -33,6 +31,7 @@ const GammaMain = () => {
   const [openPackage, setOpenPackage] = useState(false)
   const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
+  const { paginationObj, refreshPaginationObj } = useGammaDataContext()
   const {
     walletAddress,
     daiContract,
@@ -49,7 +48,6 @@ const GammaMain = () => {
     updateButtonFunctions,
     updateFooterButtonsClasses
   } = useLayoutContext()
-  const [paginationObj, setPaginationObj] = useState({})
   const [cardsQtty, setCardsQtty] = useState(0)
   const [albums120Qtty, setAlbums120Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
@@ -57,11 +55,11 @@ const GammaMain = () => {
 
   const canCompleteAlbum120 = () => cardsQtty >= 120 && albums120Qtty > 0
 
-  const getCardsQtty = (paginationObj) => {
+  const getCardsQtty = (_userdata) => {
     let total = 0
-    if (!paginationObj) return
-    for (let key in paginationObj.user) {
-      if (paginationObj.user[key].quantity > 0) {
+    if (!_userdata) return
+    for (let key in _userdata.user) {
+      if (_userdata.user[key].quantity > 0) {
         total += 1
       }
     }
@@ -78,15 +76,15 @@ const GammaMain = () => {
   }
 
   const updateUserData = async () => {
-    const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
-    setPaginationObj(userCards)
+    refreshPaginationObj()
     const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
     setAlbums120Qtty(userAlbums120)
-    setCardsQtty(getCardsQtty(userCards))
+    setCardsQtty(getCardsQtty(paginationObj))
   }
 
   const fetchInventory = async () => {
     try {
+      if (!walletAddress) return
       startLoading()
       await updateUserData()
       stopLoading()
@@ -101,7 +99,6 @@ const GammaMain = () => {
   }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!walletAddress) return
     fetchInventory()
   }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -414,19 +411,11 @@ const GammaMain = () => {
     cardsQtty,
     numberOfPacks,
     inventory,
-    cardInfoOpened]
+    cardInfoOpened
+  ]
   )
 
   const buyPacksContract = async (numberOfPacks) => {
-    /*
-    gammaPacksContract.on('PacksPurchase', (returnValue, theEvent) => {
-      for (let i = 0; i < theEvent.length; i++) {
-        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        // console.log('PacksPurchase', pack_number)
-      }
-    })
-    */
-
     try {
       startLoading()
 
@@ -708,7 +697,7 @@ const GammaMain = () => {
           showInventory={inventory}
           updateUserData={updateUserData}
           setCardInfoOpened={setCardInfoOpened}
-          paginationObj={paginationObj}
+          // paginationObj={paginationObj}
         />
       )}
 

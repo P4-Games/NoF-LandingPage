@@ -4,19 +4,19 @@ import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
-import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
 import { removeOfferByCardNumber } from '../../services/offers'
-import { useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
+import { useWeb3Context, useLayoutContext } from '../../hooks'
 
 const GammaCardInfo = (props) => {
   const { t } = useTranslation()
+  const { handleFinishInfoCard, handleOpenCardOffers, userCard } = props
   const {
     loading,
     startLoading,
@@ -26,7 +26,6 @@ const GammaCardInfo = (props) => {
     updateFooterButtonsClasses
   } = useLayoutContext()
   const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
-  const { handleFinishInfoCard, handleOpenCardOffers, userCard, paginationObj } = props
   const [userHasCard, setUserHasCard] = useState(false)
   const [cardPublish, setCardPublish] = useState(false)
 
@@ -265,7 +264,6 @@ const GammaCardInfo = (props) => {
       {!cardPublish && <BookCard />}
       {cardPublish && (
         <GammaAlbumPublish
-          paginationObj={paginationObj}
           cardNumberOffered={userCard.name}
           handleFinishPublish={handleFinishPublish}
         />
@@ -276,7 +274,6 @@ const GammaCardInfo = (props) => {
 
 GammaCardInfo.propTypes = {
   userCard: PropTypes.object,
-  paginationObj: PropTypes.object,
   handleOpenCardOffers: PropTypes.func,
   handleFinishInfoCard: PropTypes.func
 }

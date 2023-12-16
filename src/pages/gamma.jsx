@@ -1,7 +1,12 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GammaMain } from '../sections/Gamma'
+import { GammaDataContextProvider } from '../context/GammaDataContext'
 
-const Gamma = () => <GammaMain />
+const Gamma = () => (
+  <GammaDataContextProvider>
+    <GammaMain />
+  </GammaDataContextProvider>
+)
 
 export default Gamma
 

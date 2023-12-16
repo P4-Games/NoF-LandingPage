@@ -8,8 +8,6 @@ import spanishLocalization from 'moment/locale/es'
 import englishLocalization from 'moment/locale/en-gb'
 import portugueseLocalization from 'moment/locale/pt-br'
 
-// ----------------------------------------------------------------------
-
 const initialState = {
   ...defaultSettings,
   onToggleLanguageSetted: () => {},
@@ -85,8 +83,6 @@ function SettingsProvider({ children }) {
         ...settings,
         moment,
         onToggleLanguageSetted,
-        //setUrlLanguage,
-        // language
         onChangeLanguagePresets,
         setLanguage: getLanguagePresets(settings.languagePresets),
         languageOption: languagePresets.map((lng) => ({
