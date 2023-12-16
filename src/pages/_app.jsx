@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import '../styles/index.scss'
 import '../styles/alpha.scss'
@@ -12,6 +13,21 @@ import { SettingsProvider } from '../context/SettingsContext'
 import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js', { type: 'module' }).then(
+          function (registration) {
+            console.log('Service Worker registration successful with scope: ', registration.scope)
+          },
+          function (err) {
+            console.error('Service Worker registration failed: ', err)
+          }
+        )
+      })
+    }
+  }, [])
+
   return (
     <SettingsProvider>
       <NotificationProvider>
