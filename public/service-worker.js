@@ -21,7 +21,7 @@ try {
 
   // The install handler takes care of precaching the resources we always need.
   self.addEventListener("install", (event) => {
-    console.log("SW installing")
+    // console.log("SW installing")
     event.waitUntil(
       caches.open(PRECACHE)
         .then((cache) => cache.addAll(PRECACHE_URLS))
@@ -32,10 +32,10 @@ try {
   // The activate handler takes care of cleaning up old caches.
   self.addEventListener("activate", (event) => {
     const currentCaches = [PRECACHE, RUNTIME]
-    console.log("SW activate cache")
+    // console.log("SW activate cache")
     event.waitUntil(
       caches.keys().then((cacheNames) => cacheNames.filter((cacheName) => !currentCaches.includes(cacheName))).then((cachesToDelete) => {
-        console.log("SW cache is deleting")
+        // console.log("SW cache is deleting")
         return Promise.all(cachesToDelete.map((cacheToDelete) => caches.delete(cacheToDelete)))
       }).then(() => self.clients.claim())
     )
@@ -55,7 +55,7 @@ try {
         !event.request.url.startsWith(self.location.origin & NEXT) &&
         !event.request.method === 'POST') {
 
-      console.log('SW calling: ', event.request.url)
+      // console.log('SW calling: ', event.request.url)
       try {
         event.respondWith(
           caches.match(event.request).then((cachedResponse) => {
@@ -76,7 +76,7 @@ try {
       }
 
     } else {
-      console.log('**SW Skiping: ', event.request.url)
+      // console.log('**SW Skiping: ', event.request.url)
     }
 
   })

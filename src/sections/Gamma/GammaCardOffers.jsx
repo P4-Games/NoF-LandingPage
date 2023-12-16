@@ -1,23 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
 import { storageUrlGamma } from '../../config'
-import { confirmOfferExchange } from '../../services/gamma'
-import { emitWarning, emitSuccess } from '../../utils/alert'
+import { emitWarning } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
-import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
+import { useLayoutContext, useGammaDataContext } from '../../hooks'
+import GammaCardExchange from './GammaCardExchange'
 
 const GammaCardOffers = (props) => {
   const { handleFinishInfoCard, offerData, cardNumber } = props
   const { t } = useTranslation()
-  const { loading, startLoading, stopLoading } = useLayoutContext()
-  const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const [showExchangeCards, setShowExchangeCards] = useState(false)
+  const [selectedCardNumber, setSelectedCardNumber] = useState(null)
+  const { loading } = useLayoutContext()
   const { paginationObj } = useGammaDataContext()
 
   const existInSomeOfferWantedCards = (cardNumber) => {
-    // verifica si una card estas en alguna de la colección de wantedCards de
+    // verifica si una card esta en alguna de la colección de wantedCards de
     // las ofertas
     for (let index = 0; index < offerData.length; index++) {
       const offer = offerData[index]
@@ -26,15 +26,15 @@ const GammaCardOffers = (props) => {
         if (wantedCard === cardNumber) return true
       }
     }
-
     return false
   }
 
-  function findFirstOfferByCardNumber(cardNumber) {
-    // Busca el elemento que contiene el cardNumber en wantedCards
-    // deveulve el primero
-    const offers = offerData.filter((item) => item.wantedCards.includes(cardNumber))
-    return offers[0] // puede haber mas de una oferta con el mismo cardNumber en wantedCards
+  const handleFinishCardExchange = (confirmed) => {
+    setSelectedCardNumber(null)
+    setShowExchangeCards(false)
+    if (confirmed) {
+      handleFinishInfoCard(true)
+    }
   }
 
   const userHasCard = (item) => {
@@ -42,13 +42,16 @@ const GammaCardOffers = (props) => {
     return paginationObj.user[item]?.quantity && paginationObj.user[item]?.quantity !== 0
   }
 
-  const handleExchangeClick = async (item) => {
+  const handleCardClick = async (item) => {
     try {
       if (!userHasCard(item)) {
         emitWarning(t('offer_card_no_la_tienes'))
         return
       }
+      setSelectedCardNumber(item)
+      setShowExchangeCards(true)
 
+      /*
       const offer = findFirstOfferByCardNumber(item)
       const walletFrom = walletAddress
       const cardNumberFrom = item
@@ -87,12 +90,12 @@ const GammaCardOffers = (props) => {
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
+      */
     } catch (ex) {
-      stopLoading()
       console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
     }
-  }
+  } 
 
   const getStyle = (item) => (userHasCard(item) ? {} : { filter: 'grayscale(1)' })
 
@@ -110,7 +113,7 @@ const GammaCardOffers = (props) => {
             <div
               onClick={() => {
                 if (existInSomeOfferWantedCards(item)) {
-                  handleExchangeClick(item)
+                  handleCardClick(item)
                 }
               }}
               style={getStyle(item)}
@@ -158,7 +161,19 @@ const GammaCardOffers = (props) => {
     />
   )
 
-  return loading ? <></> : <BookOffer />
+  return loading ? <></> : 
+    <React.Fragment>
+      {!showExchangeCards && 
+        <BookOffer />}
+
+      {showExchangeCards && 
+        <GammaCardExchange
+          handleFinishCardExchange={handleFinishCardExchange}
+          offerData={offerData}
+          selectedCardNumber={selectedCardNumber}
+        />
+      }
+    </React.Fragment>
 }
 
 GammaCardOffers.propTypes = {
