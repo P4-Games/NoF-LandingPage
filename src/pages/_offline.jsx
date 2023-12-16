@@ -1,15 +1,14 @@
-import React from 'react'
-import Link from 'next/link'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import OfflineMain from '../sections/Offline'
 
-const OfflinePage = () => (
-  <div>
-    <p>Website Currently offline or not internet connection is available</p>
-    <div>
-      <Link href='/' passHref>
-        Go to Home
-      </Link>
-    </div>
-  </div>
-)
+const Offline = () => <OfflineMain />
 
-export default OfflinePage
+export default Offline
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale))
+    }
+  }
+}
