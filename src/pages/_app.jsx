@@ -6,6 +6,7 @@ import '../styles/gamma.scss'
 import '../styles/admin.scss'
 import '../styles/common.scss'
 import '../styles/offline.scss'
+import '../styles/gamma-flip-cards.scss'
 
 import { appWithTranslation } from 'next-i18next'
 // import { Web3ContextProvider } from '../context/Web3ContextNew'

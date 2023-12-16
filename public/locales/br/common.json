@@ -164,6 +164,9 @@
   "notification_exchange": "Você recebeu o cartão {CARD_RECEIVED} de {WALLET} em troca do cartão {CARD_SENT}.",
 
   "offline_msg": "Site atualmente offline ou sem conexão com a Internet disponível",
-  "offline_action": "Ir para casa"
+  "offline_action": "Ir para casa",
+
+  "exhange_cards_to_send": "você enviará",
+  "exhange_cards_to_receive": "você receberá"
 
 }
