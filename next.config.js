@@ -9,6 +9,7 @@ const { pwa } = require('./next-pwa.config')
 module.exports = nextConfig
 module.exports = {
   i18n,
+  pwa,
   // https://nextjs.org/docs/api-reference/next.config.js/compression
   compress: true,
   images: {
