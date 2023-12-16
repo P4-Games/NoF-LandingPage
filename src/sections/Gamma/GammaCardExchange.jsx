@@ -6,6 +6,7 @@ import { emitWarning, emitSuccess } from '../../utils/alert'
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { confirmOfferExchange } from '../../services/gamma'
+import { getAccountAddressText } from '../../utils/stringUtils'
 
 const GammaCardExchange = (props) => {
   const { handleFinishCardExchange, offerData, selectedCardNumber } = props
@@ -70,7 +71,7 @@ const GammaCardExchange = (props) => {
     handleFinishCardExchange(false)
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const CardItem = ({ cardNumber, text }) => (
+  const CardItem = ({ cardNumber, text, wallet }) => (
     <div className='gamma__cards__exchange__item'>
       <p className='gamma__cards__exchange__text'>{`${t(text)} (#${cardNumber})`}</p>
       <div className='gamma__cards__exchange__image_container'>
@@ -80,23 +81,37 @@ const GammaCardExchange = (props) => {
           className='gamma__cards__exchange__image'
         />
       </div>
+      {wallet && (
+        <p className='gamma__cards__exchange__wallet'>{`${t('owner')}: ${getAccountAddressText(
+          wallet
+        )}`}</p>
+      )}
     </div>
   )
 
   CardItem.propTypes = {
     text: PropTypes.string,
-    cardNumber: PropTypes.number
+    cardNumber: PropTypes.number,
+    wallet: PropTypes.string
   }
 
   return (
     <div className='gamma__cards__exchange__main'>
       <div className='gamma__cards__exchange'>
         <div className='gamma__cards__exchange__container'>
-          <CardItem cardNumber={selectedCardNumber} text={'exhange_cards_to_send'} />
+          <CardItem
+            cardNumber={selectedCardNumber}
+            text={'exhange_cards_to_send'}
+            wallet={walletAddress}
+          />
           <div className='gamma__cards__exchange__center'>
             <p className='gamma__cards__exchange__transfer'>{`${t('offer_exchange_title')}`}</p>
           </div>
-          <CardItem cardNumber={offerData[0].offerCard} text={'exhange_cards_to_receive'} />
+          <CardItem
+            cardNumber={offerData[0].offerCard}
+            text={'exhange_cards_to_receive'}
+            wallet={offerData[0].offerWallet}
+          />
         </div>
       </div>
     </div>

@@ -1,10 +1,9 @@
-/* Estilos CSS actualizados */
 .gamma__cards__exchange__main {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding: 0px 0; /* Espacio superior e inferior proporcional */
+  padding: 0;
 }
 
 .gamma__cards__exchange {
@@ -12,8 +11,8 @@
   justify-content: space-around;
   align-items: center;
   text-align: center;
-  width: 80%; /* Ancho máximo del contenedor */
-  max-width: 800px; /* Ancho máximo del contenedor */
+  width: 80%;
+  max-width: 800px;
   gap: 20px;
 }
 
@@ -32,16 +31,16 @@
   gap: 5px;
 }
 
-/* Estilos para las imágenes */
 .gamma__cards__exchange__image {
-  width: 220px; /* Ancho fijo para desktop */
-  height: 220px; /* Altura fija para desktop */
-  max-width: 100%; /* Hacer la imagen sensible al tamaño del contenedor */
-  max-height: 100%; /* Hacer la imagen sensible al tamaño del contenedor */
-  border: 5px solid #cfa763; /* Estilo de marco dorado */
+  width: 200px;
+  height: 200px;
+  max-width: 100%;
+  max-height: 100%;
+  border: 5px solid #cfa763;
 }
 
-.gamma__cards__exchange__text {
+.gamma__cards__exchange__text,
+.gamma__cards__exchange__wallet {
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
   font-size: 0.6rem;
 }
@@ -58,11 +57,14 @@
   }
 
   .gamma__cards__exchange__image {
-    width: 110px; /* Ancho fijo para mobile */
-    height: 110px; /* Altura fija para mobile */
+    width: 140px;
+    height: 140px;
+    max-width: 100%;
+    max-height: 100%;
   }
 
-  .gamma__cards__exchange__text {
+  .gamma__cards__exchange__text,
+  .gamma__cards__exchange__wallet {
     font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
     font-size: 0.5rem;
   }
