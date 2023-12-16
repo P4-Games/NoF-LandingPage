@@ -95,7 +95,7 @@ const GammaCardOffers = (props) => {
       console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
     }
-  } 
+  }
 
   const getStyle = (item) => (userHasCard(item) ? {} : { filter: 'grayscale(1)' })
 
@@ -161,19 +161,21 @@ const GammaCardOffers = (props) => {
     />
   )
 
-  return loading ? <></> : 
+  return loading ? (
+    <></>
+  ) : (
     <React.Fragment>
-      {!showExchangeCards && 
-        <BookOffer />}
+      {!showExchangeCards && <BookOffer />}
 
-      {showExchangeCards && 
+      {showExchangeCards && (
         <GammaCardExchange
           handleFinishCardExchange={handleFinishCardExchange}
           offerData={offerData}
           selectedCardNumber={selectedCardNumber}
         />
-      }
+      )}
     </React.Fragment>
+  )
 }
 
 GammaCardOffers.propTypes = {

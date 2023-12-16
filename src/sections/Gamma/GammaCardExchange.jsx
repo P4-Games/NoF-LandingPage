@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { emitWarning, emitSuccess } from '../../utils/alert'
@@ -8,12 +7,12 @@ import { useWeb3Context, useLayoutContext } from '../../hooks'
 const GammaCardExchange = (props) => {
   const { handleFinishCardExchange, offerData, selectedCardNumber } = props
   const { t } = useTranslation()
-  const { 
-      startLoading,
-      stopLoading,
-      ToggleShowDefaultButtons,
-      updateShowButtons,
-      updateButtonFunctions
+  const {
+    startLoading,
+    stopLoading,
+    ToggleShowDefaultButtons,
+    updateShowButtons,
+    updateButtonFunctions
   } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
 

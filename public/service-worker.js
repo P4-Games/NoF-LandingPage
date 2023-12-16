@@ -34,10 +34,10 @@ try {
     const currentCaches = [PRECACHE, RUNTIME]
     // console.log("SW activate cache")
     event.waitUntil(
-      caches.keys().then((cacheNames) => cacheNames.filter((cacheName) => !currentCaches.includes(cacheName))).then((cachesToDelete) => {
+      caches.keys().then((cacheNames) => cacheNames.filter((cacheName) => !currentCaches.includes(cacheName))).then((cachesToDelete) => 
         // console.log("SW cache is deleting")
-        return Promise.all(cachesToDelete.map((cacheToDelete) => caches.delete(cacheToDelete)))
-      }).then(() => self.clients.claim())
+         Promise.all(cachesToDelete.map((cacheToDelete) => caches.delete(cacheToDelete)))
+      ).then(() => self.clients.claim())
     )
   })
 

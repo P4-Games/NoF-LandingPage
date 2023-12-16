@@ -1,16 +1,16 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const FlipCard = (props) => {
-  const [filped, setFliped] = useState(false);
+  const [filped, setFliped] = useState(false)
   return (
     <div
-      className={filped ? "flip App" : "App"}
+      className={filped ? 'flip App' : 'App'}
       onClick={() => {
-        setFliped(!filped);
+        setFliped(!filped)
       }}
     >
-      <div className="front">Card 3</div>
-      <div className="back">Wallet x</div>
+      <div className='front'>Card 3</div>
+      <div className='back'>Wallet x</div>
     </div>
   )
 }
