@@ -13,8 +13,9 @@ const GammaCardOffers = (props) => {
   const { t } = useTranslation()
   const [showExchangeCards, setShowExchangeCards] = useState(false)
   const [selectedCardNumber, setSelectedCardNumber] = useState(null)
-  const { loading } = useLayoutContext()
+  const { loading, getCurrentPage } = useLayoutContext()
   const { paginationObj } = useGammaDataContext()
+  const [currentPage, setCurrentPage] = useState(0)
 
   const existInSomeOfferWantedCards = (cardNumber) => {
     // verifica si una card esta en alguna de la colección de wantedCards de
@@ -48,6 +49,7 @@ const GammaCardOffers = (props) => {
         emitWarning(t('offer_card_no_la_tienes'))
         return
       }
+      setCurrentPage(getCurrentPage())
       setSelectedCardNumber(item)
       setShowExchangeCards(true)
     } catch (ex) {
@@ -108,6 +110,7 @@ const GammaCardOffers = (props) => {
 
   const BookOffer = () => (
     <FlipBook
+      startPage={currentPage}
       showClose={true}
       onCloseClick={handleCloseButtonClick}
       pages={Array.from({ length: 10 }, (_, index) => (
