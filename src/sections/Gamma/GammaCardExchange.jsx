@@ -86,10 +86,9 @@ const GammaCardExchange = (props) => {
   )
 
   CardItem.propTypes = {
-    text: PropTypes.text,
+    text: PropTypes.string,
     cardNumber: PropTypes.number
   }
-  
 
   return (
     <div className='gamma__cards__exchange__main'>

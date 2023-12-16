@@ -50,7 +50,6 @@ const GammaCardOffers = (props) => {
       }
       setSelectedCardNumber(item)
       setShowExchangeCards(true)
-
     } catch (ex) {
       console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
