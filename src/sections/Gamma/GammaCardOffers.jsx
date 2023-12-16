@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
-import { useWeb3Context } from '../../hooks'
 import { storageUrlGamma } from '../../config'
 import { confirmOfferExchange } from '../../services/gamma'
-import { useLayoutContext } from '../../hooks'
 import { emitWarning, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaCardOffers = (props) => {
-  const { handleFinishInfoCard, offerData, cardNumber, paginationObj } = props
+  const { handleFinishInfoCard, offerData, cardNumber } = props
   const { t } = useTranslation()
   const { loading, startLoading, stopLoading } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const { paginationObj } = useGammaDataContext()
 
   const existInSomeOfferWantedCards = (cardNumber) => {
     // verifica si una card estas en alguna de la colección de wantedCards de
@@ -164,8 +164,7 @@ const GammaCardOffers = (props) => {
 GammaCardOffers.propTypes = {
   offerData: PropTypes.array,
   handleFinishInfoCard: PropTypes.func,
-  cardNumber: PropTypes.number,
-  paginationObj: PropTypes.object
+  cardNumber: PropTypes.number
 }
 
 export default GammaCardOffers

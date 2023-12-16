@@ -1,5 +1,5 @@
+import { createContext, useState, useEffect, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
-import { createContext, useState, useEffect, useCallback } from 'react'
 import { ethers } from 'ethers'
 
 import coinbaseModule from '@web3-onboard/coinbase'
@@ -20,11 +20,16 @@ import brLocales from '../../public/locales/br/web3_onboard.json'
 import enLocales from '../../public/locales/en/web3_onboard.json'
 import esLocales from '../../public/locales/es/web3_onboard.json'
 
+import { NotificationContext } from './NotificationContext'
+import { getAccountAddressText } from '../utils/stringUtils'
+
 //----------------------------------------------------------
 
 const initialState = {
   connectWallet: () => {},
-  disconnectWallet: () => {}
+  disconnectWallet: () => {},
+  isValidNetwork: () => {},
+  switchOrCreateNetwork: () => {}
 }
 
 const Web3Context = createContext(initialState)
@@ -39,6 +44,7 @@ const Web3ContextProvider = ({ children }) => {
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
+  const { addNotification } = useContext(NotificationContext)
   // const { languageSetted } = useSettingsContext()
 
   const initWeb3Onboard = useCallback(async () => {
@@ -168,6 +174,27 @@ const Web3ContextProvider = ({ children }) => {
         _signer
       )
 
+      gammaPacksContractInstance.on('PackTransfer', (from, to, tokenId) => {
+        const packNbr = ethers.BigNumber.from(tokenId).toNumber()
+        addNotification(to, 'notification_pack_transfer', [
+          { item: 'PACK', value: packNbr, valueShort: packNbr },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+      })
+
+      gammaCardsContractInstance.on('ExchangeCardOffer', (from, to, cNFrom, cNTo) => {
+        addNotification(to, 'notification_exchange', [
+          { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
+          { item: 'CARD_SENT', value: cNTo, valueShort: cNTo },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+        addNotification(from, 'notification_exchange', [
+          { item: 'CARD_RECEIVED', value: cNTo, valueShort: cNTo },
+          { item: 'CARD_SENT', value: cNFrom, valueShort: cNFrom },
+          { item: 'WALLET', value: to, valueShort: getAccountAddressText(to) }
+        ])
+      })
+
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
       setGammaPacksContract(gammaPacksContractInstance)
@@ -217,7 +244,7 @@ const Web3ContextProvider = ({ children }) => {
       .catch((e) => {
         console.error({ e })
       })
-  }, [web3Onboard])
+  }, [web3Onboard]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const disconnectWallet = useCallback(() => {
     if (web3Onboard) {
@@ -264,6 +291,7 @@ const Web3ContextProvider = ({ children }) => {
   )
 
   const value = {
+    chainId,
     web3Onboard,
     wallets,
     walletAddress,

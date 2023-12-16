@@ -2,18 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
 import { storageUrlGamma } from '../../config'
-import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
 import FlipBook from '../../components/FlipBook'
-import { useWeb3Context } from '../../hooks'
 import { useTranslation } from 'next-i18next'
 import { createOffer } from '../../services/offers'
 import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbumPublish = (props) => {
   const { t } = useTranslation()
-  const { paginationObj, cardNumberOffered, handleFinishPublish } = props
+  const { cardNumberOffered, handleFinishPublish } = props
   const { gammaOffersContract } = useWeb3Context()
+  const { paginationObj } = useGammaDataContext()
   const [selectedCards, setSelectedCards] = useState([])
   const {
     loading,
@@ -139,7 +139,6 @@ const GammaAlbumPublish = (props) => {
 }
 
 GammaAlbumPublish.propTypes = {
-  paginationObj: PropTypes.object,
   cardNumberOffered: PropTypes.string,
   handleFinishPublish: PropTypes.func
 }
