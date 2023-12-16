@@ -44,8 +44,6 @@ const GammaCardExchange = (props) => {
       const walletTo = offer.offerWallet
       const cardNumberTo = offer.offerCard
 
-      console.log(offer, walletFrom, cardNumberFrom, walletTo, cardNumberTo)
-
       startLoading()
 
       await confirmOfferExchange(
