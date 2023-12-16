@@ -9,7 +9,7 @@ import { useLayoutContext, useGammaDataContext } from '../../hooks'
 import GammaCardExchange from './GammaCardExchange'
 
 const GammaCardOffers = (props) => {
-  const { handleFinishInfoCard, offerData, cardNumber } = props
+  const { handleFinishInfoCard, offerData } = props
   const { t } = useTranslation()
   const [showExchangeCards, setShowExchangeCards] = useState(false)
   const [selectedCardNumber, setSelectedCardNumber] = useState(null)
@@ -51,46 +51,6 @@ const GammaCardOffers = (props) => {
       setSelectedCardNumber(item)
       setShowExchangeCards(true)
 
-      /*
-      const offer = findFirstOfferByCardNumber(item)
-      const walletFrom = walletAddress
-      const cardNumberFrom = item
-      const walletTo = offer.offerWallet
-      const cardNumberTo = cardNumber
-      let msg = `${t('offer_exchange_message')}`
-      msg = msg.replaceAll('{CARD_NUMBER_FROM}', cardNumberFrom)
-      msg = msg.replaceAll('{CARD_NUMBER_TO}', cardNumberTo)
-      msg = msg.replaceAll('{WALLET_TO}', walletTo)
-
-      const result = await Swal.fire({
-        title: `${t('offer_exchange_title')}`,
-        html: `${msg}`,
-        icon: 'warning',
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonColor: '#005EA3',
-        confirmButtonText: `${t('exchange')}`,
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          content: 'swal2-text-content'
-        }
-      })
-
-      if (result.isConfirmed) {
-        startLoading()
-        await confirmOfferExchange(
-          gammaOffersContract,
-          walletFrom,
-          cardNumberFrom,
-          walletTo,
-          cardNumberTo
-        )
-        handleFinishInfoCard(true)
-        stopLoading()
-        emitSuccess(t('confirmado'), 2000)
-      }
-      */
     } catch (ex) {
       console.error(ex.message)
       emitWarning(t('offer_exchange_error'))

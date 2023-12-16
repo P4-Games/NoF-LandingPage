@@ -1,0 +1,74 @@
+/* Estilos CSS actualizados */
+.gamma__cards__exchange__main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0px 0; /* Espacio superior e inferior proporcional */
+}
+
+.gamma__cards__exchange {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  width: 80%; /* Ancho máximo del contenedor */
+  max-width: 800px; /* Ancho máximo del contenedor */
+  gap: 20px;
+}
+
+.gamma__cards__exchange__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gamma__cards__exchange__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Estilos para las imágenes */
+.gamma__cards__exchange__image {
+  width: 220px; /* Ancho fijo para desktop */
+  height: 220px; /* Altura fija para desktop */
+  max-width: 100%; /* Hacer la imagen sensible al tamaño del contenedor */
+  max-height: 100%; /* Hacer la imagen sensible al tamaño del contenedor */
+  border: 5px solid #cfa763; /* Estilo de marco dorado */
+}
+
+.gamma__cards__exchange__text {
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-size: 0.6rem;
+}
+
+.gamma__cards__exchange__transfer {
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .gamma__cards__exchange {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gamma__cards__exchange__image {
+    width: 110px; /* Ancho fijo para mobile */
+    height: 110px; /* Altura fija para mobile */
+  }
+
+  .gamma__cards__exchange__text {
+    font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+    font-size: 0.5rem;
+  }
+
+  .gamma__cards__exchange__transfer {
+    font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+    font-size: 0.7rem;
+  }
+}

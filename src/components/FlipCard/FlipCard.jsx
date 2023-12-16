@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const FlipCard = (props) => {
+const FlipCard = () => {
   const [filped, setFliped] = useState(false)
   return (
     <div

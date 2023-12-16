@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import CustomImage from '../../components/CustomImage'
+import { storageUrlGamma } from '../../config'
 import { emitWarning, emitSuccess } from '../../utils/alert'
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { confirmOfferExchange } from '../../services/gamma'
 
 const GammaCardExchange = (props) => {
   const { handleFinishCardExchange, offerData, selectedCardNumber } = props
@@ -44,7 +47,7 @@ const GammaCardExchange = (props) => {
       console.log(offer, walletFrom, cardNumberFrom, walletTo, cardNumberTo)
 
       startLoading()
-      /*
+
       await confirmOfferExchange(
         gammaOffersContract,
         walletFrom,
@@ -52,7 +55,7 @@ const GammaCardExchange = (props) => {
         walletTo,
         cardNumberTo
       )
-      */
+
       ToggleShowDefaultButtons(true)
       handleFinishCardExchange(true)
       stopLoading()
@@ -69,10 +72,37 @@ const GammaCardExchange = (props) => {
     handleFinishCardExchange(false)
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
+  const CardItem = ({ cardNumber, text }) => (
+    <div className='gamma__cards__exchange__item'>
+      <p className='gamma__cards__exchange__text'>{`${t(text)} (#${cardNumber})`}</p>
+      <div className='gamma__cards__exchange__image_container'>
+        <CustomImage
+          alt='gamma-exchange-from-image'
+          src={`${storageUrlGamma}/T1/${cardNumber}.png`}
+          className='gamma__cards__exchange__image'
+        />
+      </div>
+    </div>
+  )
+
+  CardItem.propTypes = {
+    text: PropTypes.text,
+    cardNumber: PropTypes.number
+  }
+  
+
   return (
-    <React.Fragment>
-      <div>HOLA</div>
-    </React.Fragment>
+    <div className='gamma__cards__exchange__main'>
+      <div className='gamma__cards__exchange'>
+        <div className='gamma__cards__exchange__container'>
+          <CardItem cardNumber={selectedCardNumber} text={'exhange_cards_to_send'} />
+          <div className='gamma__cards__exchange__center'>
+            <p className='gamma__cards__exchange__transfer'>{`${t('offer_exchange_title')}`}</p>
+          </div>
+          <CardItem cardNumber={offerData[0].offerCard} text={'exhange_cards_to_receive'} />
+        </div>
+      </div>
+    </div>
   )
 }
 
