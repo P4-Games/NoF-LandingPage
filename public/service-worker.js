@@ -50,6 +50,10 @@ try {
           fetchFilesFromFolder(MUSIC_FOLDER, ['mp3'])
         ]).then((fileURLs) => {
           const allFiles = fileURLs.flat();
+          allFiles.push('/_offline')
+          allFiles.push('/index')
+          allFiles.push('/alpha')
+          allFiles.push('/gamma')
           return caches.open(PRECACHE).then((cache) => cache.addAll(allFiles));
         }).then(self.skipWaiting())
       );
