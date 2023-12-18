@@ -2,23 +2,23 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
 import { MdOutlineLocalOffer } from 'react-icons/md'
+import { useTranslation } from 'next-i18next'
 import { storageUrlGamma } from '../../config'
-import { useLayoutContext } from '../../hooks'
 import CustomImage from '../../components/CustomImage'
 import FlipBook from '../../components/FlipBook'
 import GammaCardInfo from './GammaCardInfo'
 import GammaCardOffers from './GammaCardOffers'
 import { emitInfo } from '../../utils/alert'
 
-import { getOffersByCardNumber /*, getOffers*/ } from '../../services/offers'
-import { useWeb3Context } from '../../hooks'
-import { useTranslation } from 'next-i18next'
+import { getOffersByCardNumber } from '../../services/offers'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
-  const { paginationObj, showInventory, updateUserData, setCardInfoOpened } = props
+  const { showInventory, updateUserData, setCardInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const { paginationObj } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
@@ -234,7 +234,6 @@ const GammaAlbum = (props) => {
 
       {cardInfo && (
         <GammaCardInfo
-          paginationObj={paginationObj}
           userCard={getuserCardObject(imageNumber)}
           handleOpenCardOffers={handleOpenCardOffers}
           handleFinishInfoCard={handleFinishInfoCard}
@@ -243,7 +242,6 @@ const GammaAlbum = (props) => {
 
       {cardOffers && offersObj && offersObj.length > 0 && (
         <GammaCardOffers
-          paginationObj={paginationObj}
           offerData={offersObj}
           cardNumber={imageNumber}
           handleFinishInfoCard={handleFinishInfoCard}
@@ -254,7 +252,6 @@ const GammaAlbum = (props) => {
 }
 
 GammaAlbum.propTypes = {
-  paginationObj: PropTypes.object,
   showInventory: PropTypes.bool,
   updateUserData: PropTypes.func,
   setCardInfoOpened: PropTypes.func

@@ -161,6 +161,11 @@
     "notification_received_card": "You received the letter {CARD} from {WALLET}.",
     "notification_sent_card": "You sent the letter {CARD} to {WALLET}.",
     "notification_pack_transfer": "You received the pack {PACK} from {WALLET}.",
-    "notification_exchange": "You received the card {CARD_RECEIVED} from {WALLET} in exchange for the card {CARD_SENT}."
+    "notification_exchange": "You received the card {CARD_RECEIVED} from {WALLET} in exchange for the card {CARD_SENT}.",
 
+    "offline_msg": "Website currently offline or no Internet connection available",
+    "offline_action": "Go to Home",
+
+    "exhange_cards_to_send": "you will send",
+    "exhange_cards_to_receive": "you will receive"
 }

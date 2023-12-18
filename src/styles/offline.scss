@@ -1,0 +1,51 @@
+@import './media-queries.scss';
+
+.offline {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.offline_main_buttons_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.offline_main_buttons_container span {
+  color: red;
+  font-size: 0.7em;
+  margin-top: 10px;
+}
+
+.offline_message {
+  word-wrap: break-word;
+}
+
+.offline_main_button {
+  width: 100%;
+  max-width: 192px;
+  margin: 10px 0;
+}
+
+.offline_button {
+  cursor: pointer;
+  font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
+  box-shadow:
+    inset -4px 4px 1px 1px grey,
+    inset -4px -4px 1px 1px lightgrey,
+    inset 4px 0px 1px 1px lightgrey;
+  height: 50px;
+  background-color: #ffce00;
+  padding: 10px;
+  text-align: center;
+  font-size: 0.5em;
+  width: 7rem;
+  @include mobile {
+    width: 6rem;
+  }
+}

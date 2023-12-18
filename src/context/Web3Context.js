@@ -13,7 +13,10 @@ import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
 
 const initialState = {
-  connectWallet: () => {}
+  connectWallet: () => {},
+  disconnectWallet: () => {},
+  isValidNetwork: () => {},
+  switchOrCreateNetwork: () => {}
 }
 
 const Web3Context = createContext(initialState)
@@ -127,25 +130,6 @@ function Web3ContextProvider({ children }) {
     }
   }
 
-  /*
-  function subscribeContractsEvents(_signer) {
-    const wallet = _signer.getAddress()
-
-    if (!gammaPacksContract || !gammaCardsContract || !gammaOffersContract) return
-    gammaPacksContract.on('PacksPurchase', (_, theEvent) => {
-      for (let i = 0; i < theEvent.length; i++) {
-        const pack_number = ethers.BigNumber.from(theEvent[i]).toNumber()
-        addNotification('Pack purchase' + pack_number.toString())
-        
-      }
-    })
-
-    gammaCardsContract.on('ExchangeCardOffer', (p1, p2, p3, p4) => {
-      // console.log('ExchangeCardOffer:', { p1, p2, p3, p4 })
-    })
-  }
-  */
-
   function disconnectWallet() {
     setWalletAddress(null)
   }
@@ -210,26 +194,22 @@ function Web3ContextProvider({ children }) {
     }
   }, [])
 
-  return (
-    <Web3Context.Provider
-      value={{
-        chainId,
-        wallets,
-        walletAddress,
-        daiContract,
-        alphaContract,
-        gammaPacksContract,
-        gammaCardsContract,
-        gammaOffersContract,
-        connectWallet,
-        disconnectWallet,
-        isValidNetwork,
-        switchOrCreateNetwork
-      }}
-    >
-      {children}
-    </Web3Context.Provider>
-  )
+  const value = {
+    chainId,
+    wallets,
+    walletAddress,
+    daiContract,
+    alphaContract,
+    gammaPacksContract,
+    gammaCardsContract,
+    gammaOffersContract,
+    connectWallet,
+    disconnectWallet,
+    isValidNetwork,
+    switchOrCreateNetwork
+  }
+
+  return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>
 }
 
 Web3ContextProvider.propTypes = {

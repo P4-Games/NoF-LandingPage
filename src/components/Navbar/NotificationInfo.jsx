@@ -228,7 +228,7 @@ const NotificationInfo = ({ showNotificationInfo }) => {
 }
 
 NotificationInfo.propTypes = {
-  showNotificationInfo: PropTypes.func
+  showNotificationInfo: PropTypes.bool
 }
 
 export default NotificationInfo

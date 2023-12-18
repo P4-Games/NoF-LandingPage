@@ -3,3 +3,4 @@
 **/.next/*
 **/src/context/abis/*
 **/src/styles/*
+**/_static/*

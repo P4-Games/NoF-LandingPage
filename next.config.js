@@ -4,10 +4,14 @@ const nextConfig = {
 }
 const path = require('path')
 const { i18n } = require('./next-i18next.config')
+const { pwa } = require('./next-pwa.config')
 
 module.exports = nextConfig
 module.exports = {
   i18n,
+  pwa,
+  // https://nextjs.org/docs/api-reference/next.config.js/compression
+  compress: true,
   images: {
     domains: ['storage.googleapis.com']
   },
@@ -34,5 +38,20 @@ module.exports = {
     })
 
     return config
+  },
+  // https://nextjs.org/docs/api-reference/next.config.js/headers
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|png)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=9999999999, must-revalidate'
+          }
+        ]
+      }
+    ]
   }
 }
