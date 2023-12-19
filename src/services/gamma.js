@@ -13,10 +13,11 @@ export const getGammacardsPages = () => {
     page8: [84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95],
     page9: [96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107],
     page10: [108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119],
+    page11: [120, 121],
     user: {}
   }
 
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 122; i++) {
     gammaCardsPages.user[i] = {
       name: i.toString(),
       stamped: false,
@@ -34,7 +35,7 @@ export const getGammacardsExchangePages = (userCards) => {
     user: userCards
   }
 
-  console.log(gammaCardsExchangePages.user)
+  // console.log(gammaCardsExchangePages.user)
   return gammaCardsExchangePages 
 }
 */
@@ -137,7 +138,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
     let cardsObj = { ...cardsPages }
 
     // Inicializa array
-    for (let i = 0; i <= 119; i++) {
+    for (let i = 0; i <= 121; i++) {
       cardsObj.user[i] = {
         name: i.toString(),
         stamped: false,
@@ -158,6 +159,18 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
         quantity: quantity
       }
     }
+
+    // TODO: Al modificar el contrato de gamm, getCardsByUser y poner en el for que devuelva
+    /// hasta 121, sacar esto.
+    const albums120 = await cardsContract.getCardQuantityByUser(walletAddress, 120)
+    const albums60 = await cardsContract.getCardQuantityByUser(walletAddress, 121)
+    cardsObj.user[120] = {
+      name: '120',
+      stamped: albums120 > 0,
+      offered: false,
+      quantity: albums120
+    }
+    cardsObj.user[121] = { name: '121', stamped: albums60 > 0, offered: false, quantity: albums60 }
 
     return cardsObj
   } catch (e) {
