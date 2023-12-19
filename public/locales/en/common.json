@@ -95,6 +95,7 @@
     "mint_error": "There was an error trying to mint this card.",
     
     "transfer_card_error": "There was an error trying to transfer the card.",
+    "transfer_album_error":  "There was an error trying to transfer the album.",
     "transfer_pack_title": "Packs Transfer",
     "transfer_pack_error": "There was an error trying to transfer one pack.",
     "finish_album_error": "There was an error occurred while trying to claim the prize.",

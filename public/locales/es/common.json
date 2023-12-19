@@ -96,6 +96,7 @@
 
 
     "transfer_card_error": "Ocurrió un error al intentar transferir la carta.",
+    "transfer_album_error": "Ocurrió un error al intentar transferir el álbum.",
     "transfer_pack_title": "Transferencia de Packs",
     "transfer_pack_error": "Ocurrió un error al intentar transferir un pack.",
     "finish_album_error": "Ocurrió un error al intentar reclamar el premio.",
