@@ -60,7 +60,9 @@ const GammaMain = () => {
     let total = 0
     if (!_userdata) return
     for (let key in _userdata.user) {
-      if (_userdata.user[key].quantity > 0) {
+      if (_userdata.user[key].quantity > 0 &&
+        _userdata.user[key].name != 120 &&
+        _userdata.user[key].name != 121) {
         total += 1
       }
     }
