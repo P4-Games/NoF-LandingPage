@@ -60,7 +60,11 @@ const GammaMain = () => {
     let total = 0
     if (!_userdata) return
     for (let key in _userdata.user) {
-      if (_userdata.user[key].quantity > 0) {
+      if (
+        _userdata.user[key].quantity > 0 &&
+        _userdata.user[key].name != 120 &&
+        _userdata.user[key].name != 121
+      ) {
         total += 1
       }
     }
@@ -78,6 +82,7 @@ const GammaMain = () => {
 
   const updateUserData = async () => {
     refreshPaginationObj()
+    // TODO :ver de optimizar, no hace falta llamar al contrato, ya queda en paginationObj
     const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
     setAlbums120Qtty(userAlbums120)
     setCardsQtty(getCardsQtty(paginationObj))

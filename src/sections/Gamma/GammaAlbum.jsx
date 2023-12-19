@@ -79,7 +79,9 @@ const GammaAlbum = (props) => {
     const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
     if (offers && offers.length > 0) {
       // filtro mis ofertas
-      const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
+      const filterMyoffes = offers.filter(
+        (item) => item.offerWallet.toUpperCase() !== walletAddress.toUpperCase()
+      )
       setOffersObj(filterMyoffes)
     } else {
       setOffersObj(null)

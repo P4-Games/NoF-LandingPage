@@ -127,7 +127,7 @@ const GammaAlbumInfo = (props) => {
     } catch (ex) {
       stopLoading()
       console.error({ ex })
-      emitError(t('transfer_card_error'))
+      emitError(t('transfer_album_error'))
     }
   }
 
