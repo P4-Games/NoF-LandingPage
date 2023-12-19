@@ -14,6 +14,9 @@
   "bronze": "3 cartas.",
   "text2": "Todos os nossos NFTs podem ser trocados livremente.",
 
+  "wallet": "Carteira",
+  "owner": "Proprietário",
+  "you": "Você",
   "ALBUMS": "ÁLBUNS",
   "Earn Money": "Ganhe dinheiro completando álbuns. Assim como os nossos personagens, existem 3 tipos de álbuns com diferentes mecânicas de jogo.",
   "medal": "Estabelece o nível de colecionador.",
@@ -71,6 +74,7 @@
   "carta_minteada": "Carta Minted! Você pode vê-la",
   "aqui": "aqui",
   "mintear": "Mint",
+  "oferta": "Oferta",
   "ofertas": "Ofertas",
   "cartas_a_cambio": "Escolha o cartão que deseja em troca. Você pode inserir até 10 opções, separadas por vírgula, não repetidas e cartões que não possui.",
   "publicar": "Publicar",
@@ -167,6 +171,7 @@
   "offline_action": "Ir para casa",
 
   "exhange_cards_to_send": "você enviará",
-  "exhange_cards_to_receive": "você receberá"
+  "exhange_cards_to_receive": "você receberá",
+  "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca."
 
 }

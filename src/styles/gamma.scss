@@ -993,6 +993,49 @@
   }
 }
 
+.cardinfo-exchange {
+  @extend .cardinfo;
+}
+
+.cardinfo-exchange-img {
+  @extend .cardinfoimg;
+}
+
+.cardinfo-exchange-offer {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  margin-bottom: 0;
+  @include mobile {
+    font-size: 0.5rem;
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+}
+
+.cardinfo-exchange-wallet {
+  font-size: 0.65rem;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  @include mobile {
+    font-size: 0.5rem;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+}
+
+.cardinfo-exchange-leyend {
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
+  margin-left: 5%;
+  line-height: 1.5em;
+  font-size: 0.6rem;
+  text-justify: auto;
+  @include mobile {
+    font-size: 0.45rem;
+  }
+}
+
 .swal2-title {
   font-size: 12px;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
@@ -1143,4 +1186,8 @@
   display: block;
   margin: 0 auto;
   margin-top: 15px;
+}
+
+.grid-item-exchange {
+  cursor: pointer !important;
 }

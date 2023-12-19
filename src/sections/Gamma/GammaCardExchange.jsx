@@ -9,7 +9,7 @@ import { confirmOfferExchange } from '../../services/gamma'
 import { getAccountAddressText } from '../../utils/stringUtils'
 
 const GammaCardExchange = (props) => {
-  const { handleFinishCardExchange, offerData, selectedCardNumber } = props
+  const { handleFinishCardExchange, offerData, selectedOfferId, selectedCardNumber } = props
   const { t } = useTranslation()
   const {
     startLoading,
@@ -30,20 +30,20 @@ const GammaCardExchange = (props) => {
     updateButtonFunctions(1, handleConfirmClick)
   }, [handleConfirmClick]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  function findFirstOfferByCardNumber(cardNumber) {
-    // Busca el elemento que contiene el cardNumber en wantedCards
-    // deveulve el primero
-    const offers = offerData.filter((item) => item.wantedCards.includes(cardNumber))
-    return offers[0] // puede haber mas de una oferta con el mismo cardNumber en wantedCards
-  }
+  const getSelectedOffer = useCallback((offerId) => {
+    const offer = offerData.filter((item) => item.offerId === offerId)
+    return offer[0]
+  }, [offerData])
 
   const handleConfirmClick = useCallback(async () => {
     try {
-      const offer = findFirstOfferByCardNumber(selectedCardNumber)
+      const offer = getSelectedOffer(selectedOfferId)
       const walletFrom = walletAddress
       const cardNumberFrom = selectedCardNumber
       const walletTo = offer.offerWallet
       const cardNumberTo = offer.offerCard
+
+      console.log(offer)
 
       startLoading()
 
@@ -64,14 +64,14 @@ const GammaCardExchange = (props) => {
       console.error(ex.message)
       emitWarning(t('offer_exchange_error'))
     }
-  }, [selectedCardNumber]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedOfferId, selectedCardNumber]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCancelClick = useCallback(() => {
     ToggleShowDefaultButtons(true)
     handleFinishCardExchange(false)
   }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const CardItem = ({ cardNumber, text, wallet }) => (
+  const CardItem = ({ cardNumber, text, wallet, you = false }) => (
     <div className='gamma__cards__exchange__item'>
       <p className='gamma__cards__exchange__text'>{`${t(text)} (#${cardNumber})`}</p>
       <div className='gamma__cards__exchange__image_container'>
@@ -82,9 +82,9 @@ const GammaCardExchange = (props) => {
         />
       </div>
       {wallet && (
-        <p className='gamma__cards__exchange__wallet'>{`${t('owner')}: ${getAccountAddressText(
-          wallet
-        )}`}</p>
+        <p className='gamma__cards__exchange__wallet'>
+          {`${t('owner')}: ${getAccountAddressText(wallet)} ${you ? `(${t('you')})` : ''}`}
+        </p>
       )}
     </div>
   )
@@ -92,7 +92,8 @@ const GammaCardExchange = (props) => {
   CardItem.propTypes = {
     text: PropTypes.string,
     cardNumber: PropTypes.number,
-    wallet: PropTypes.string
+    wallet: PropTypes.string,
+    you: PropTypes.bool
   }
 
   return (
@@ -103,15 +104,18 @@ const GammaCardExchange = (props) => {
             cardNumber={selectedCardNumber}
             text={'exhange_cards_to_send'}
             wallet={walletAddress}
+            you={true}
           />
           <div className='gamma__cards__exchange__center'>
             <p className='gamma__cards__exchange__transfer'>{`${t('offer_exchange_title')}`}</p>
           </div>
-          <CardItem
-            cardNumber={offerData[0].offerCard}
-            text={'exhange_cards_to_receive'}
-            wallet={offerData[0].offerWallet}
-          />
+          {selectedOfferId && (
+            <CardItem
+              cardNumber={getSelectedOffer(selectedOfferId).offerCard}
+              text={'exhange_cards_to_receive'}
+              wallet={getSelectedOffer(selectedOfferId).offerWallet}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -121,6 +125,7 @@ const GammaCardExchange = (props) => {
 GammaCardExchange.propTypes = {
   handleFinishCardExchange: PropTypes.func,
   offerData: PropTypes.array,
+  selectedOfferId: PropTypes.string,
   selectedCardNumber: PropTypes.number
 }
 

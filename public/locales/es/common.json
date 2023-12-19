@@ -14,6 +14,9 @@
     "bronze": "Tres cartas de Bronce",
     "our NFTs": "Todos nuestros NFTs pueden ser intercambiados de manera libre!.",
 
+    "wallet": "Billetera",
+    "owner": "Dueño",
+    "you": "Vos",
     "ALBUMS": "ÁLBUMES",
     "Earn Money": "Gana dinero completando álbumes. Existen 3 tipos de álbumes con distinas mecánicas jugables:",
     "medal": "MEDAL: Define tu nivel de coleccionista.",
@@ -71,6 +74,7 @@
     "carta_minteada": "Carta Minteada! Puedes verla",
     "aqui": "aquí",
     "mintear": "Mintear",
+    "oferta": "Oferta",
     "ofertas": "Ofertas",
     "cartas_a_cambio": "Elige la carta que quieres a cambio. Puedes ingresar hasta 10 opciones, separadas por coma, no repetidos y cartas que no tengas.",
     "publicar": "Publicar",
@@ -168,6 +172,7 @@
     "offline_action": "Ir a Inicio",
 
     "exhange_cards_to_send": "enviarás",
-    "exhange_cards_to_receive": "recibirás"
+    "exhange_cards_to_receive": "recibirás",
+    "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio."
 
 }

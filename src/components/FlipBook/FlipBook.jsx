@@ -12,6 +12,7 @@ const FlipBook = (props) => {
     mainClassName = 'hero__top__album',
     disableFlipByClick = true
   } = props
+
   const { windowSize, bookRef, turnPrevPage } = useLayoutContext()
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
 
