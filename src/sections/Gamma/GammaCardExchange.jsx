@@ -30,10 +30,13 @@ const GammaCardExchange = (props) => {
     updateButtonFunctions(1, handleConfirmClick)
   }, [handleConfirmClick]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const getSelectedOffer = useCallback((offerId) => {
-    const offer = offerData.filter((item) => item.offerId === offerId)
-    return offer[0]
-  }, [offerData])
+  const getSelectedOffer = useCallback(
+    (offerId) => {
+      const offer = offerData.filter((item) => item.offerId === offerId)
+      return offer[0]
+    },
+    [offerData]
+  )
 
   const handleConfirmClick = useCallback(async () => {
     try {

@@ -168,7 +168,6 @@ const GammaCardOffers = (props) => {
   }
 
   const getPages = () => {
-    
     if (!pagedOffers || pagedOffers.length === 0) {
       return []
     }
@@ -192,7 +191,7 @@ const GammaCardOffers = (props) => {
           )
         })
       }
-      
+
       pageIndex += 1
       return pagesArray
     })
