@@ -7,6 +7,7 @@ import { storageUrlGamma } from '../../config'
 import CustomImage from '../../components/CustomImage'
 import FlipBook from '../../components/FlipBook'
 import GammaCardInfo from './GammaCardInfo'
+import GammaAlbumInfo from './GammaAlbumInfo'
 import GammaCardOffers from './GammaCardOffers'
 import { emitInfo } from '../../utils/alert'
 
@@ -15,11 +16,12 @@ import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hoo
 
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
-  const { showInventory, updateUserData, setCardInfoOpened } = props
+  const { showInventory, updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, walletAddress } = useWeb3Context()
   const { paginationObj } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
+  const [albumInfo, setAlbumInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
   const [offersObj, setOffersObj] = useState(null)
@@ -66,8 +68,10 @@ const GammaAlbum = (props) => {
       await updateUserData()
     }
     setCardInfo(false)
+    setAlbumInfo(false)
     setCardOffers(false)
     setCardInfoOpened(false)
+    setAlbumInfoOpened(false)
     stopLoading()
   }
 
@@ -75,7 +79,9 @@ const GammaAlbum = (props) => {
     const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
     if (offers && offers.length > 0) {
       // filtro mis ofertas
-      const filterMyoffes = offers.filter((item) => item.offerWallet !== walletAddress)
+      const filterMyoffes = offers.filter(
+        (item) => item.offerWallet.toUpperCase() !== walletAddress.toUpperCase()
+      )
       setOffersObj(filterMyoffes)
     } else {
       setOffersObj(null)
@@ -90,17 +96,30 @@ const GammaAlbum = (props) => {
   const handleCardClick = async (cardNumber) => {
     startLoading()
     setCurrentPage(getCurrentPage())
-    setCardInfoOpened(true)
+
     setImageNumber(cardNumber)
     updateCardOffers(cardNumber)
-    setCardInfo(true)
+
+    if (cardNumber === 120 || cardNumber === 121) {
+      setAlbumInfoOpened(true)
+      setAlbumInfo(true)
+    } else {
+      setCardInfoOpened(true)
+      setCardInfo(true)
+    }
+
     stopLoading()
   }
 
-  const getStyle = (item) =>
+  const getStyleInventory = (item) =>
     paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity
       ? { filter: 'grayscale(1)' }
       : {}
+
+  const getStyleAlbum120 = (item) =>
+    paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity
+      ? { background: 'none', filter: 'grayscale(1)' }
+      : { background: 'none' }
 
   /*
   const getCardNumberOffersQtty = (cardNumber) => {
@@ -131,7 +150,7 @@ const GammaAlbum = (props) => {
               onClick={() => {
                 handleCardClick(item)
               }}
-              style={getStyle(item)}
+              style={getStyleInventory(item)}
               key={index}
               className='grid-item'
             >
@@ -167,8 +186,10 @@ const GammaAlbum = (props) => {
       <div className={divWrapperClassName}>
         {page &&
           page.map((item, index) => (
-            <div style={{ background: 'none' }} key={index} className='grid-item'>
+            <div style={getStyleAlbum120(item)} key={index} className='grid-item'>
               {paginationObj.user[item]?.stamped ? (
+                <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+              ) : item === 120 || item === 121 ? (
                 <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
               ) : (
                 <CustomImage src='/images/gamma/Nofy.png' alt='img' />
@@ -216,7 +237,7 @@ const GammaAlbum = (props) => {
           startPage={currentPage}
           showClose={false}
           onCloseClick={undefined}
-          pages={Array.from({ length: 10 }, (_, index) => (
+          pages={Array.from({ length: 11 }, (_, index) => (
             <PageContent
               page={paginationObj[`page${index + 1}`]}
               key={index}
@@ -230,10 +251,18 @@ const GammaAlbum = (props) => {
 
   return (
     <>
-      {!cardInfo && !cardOffers && <Book />}
+      {!cardInfo && !albumInfo && !cardOffers && <Book />}
 
       {cardInfo && (
         <GammaCardInfo
+          userCard={getuserCardObject(imageNumber)}
+          handleOpenCardOffers={handleOpenCardOffers}
+          handleFinishInfoCard={handleFinishInfoCard}
+        />
+      )}
+
+      {albumInfo && (
+        <GammaAlbumInfo
           userCard={getuserCardObject(imageNumber)}
           handleOpenCardOffers={handleOpenCardOffers}
           handleFinishInfoCard={handleFinishInfoCard}
@@ -254,7 +283,8 @@ const GammaAlbum = (props) => {
 GammaAlbum.propTypes = {
   showInventory: PropTypes.bool,
   updateUserData: PropTypes.func,
-  setCardInfoOpened: PropTypes.func
+  setCardInfoOpened: PropTypes.func,
+  setAlbumInfoOpened: PropTypes.func
 }
 
 export default GammaAlbum

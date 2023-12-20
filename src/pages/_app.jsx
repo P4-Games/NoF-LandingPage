@@ -17,7 +17,7 @@ import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && window && !window.location.hostname.includes('localhost')) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/service-worker.js', { type: 'module' }).then(
           function (registration) {

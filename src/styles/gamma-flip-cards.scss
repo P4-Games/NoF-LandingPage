@@ -57,8 +57,8 @@
   }
 
   .gamma__cards__exchange__image {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     max-width: 100%;
     max-height: 100%;
   }
@@ -72,5 +72,12 @@
   .gamma__cards__exchange__transfer {
     font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
     font-size: 0.7rem;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    line-height: 150%;
+  }
+
+  .gamma__cards__exchange__center {
+    width: 110%;
   }
 }

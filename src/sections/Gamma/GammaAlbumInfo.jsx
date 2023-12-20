@@ -14,7 +14,7 @@ import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 
-const GammaCardInfo = (props) => {
+const GammaAlbumInfo = (props) => {
   const { t } = useTranslation()
   const { handleFinishInfoCard, handleOpenCardOffers, userCard } = props
   const {
@@ -127,7 +127,7 @@ const GammaCardInfo = (props) => {
     } catch (ex) {
       stopLoading()
       console.error({ ex })
-      emitError(t('transfer_card_error'))
+      emitError(t('transfer_album_error'))
     }
   }
 
@@ -173,7 +173,7 @@ const GammaCardInfo = (props) => {
   }
 
   const OfferButton = () => (
-    <div className={'option'} onClick={() => handleOfferClick()}>
+    <div className={'option_disabled'} onClick={() => handleOfferClick()}>
       {t('ofertas')}
     </div>
   )
@@ -183,7 +183,9 @@ const GammaCardInfo = (props) => {
       /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
        tengo que poder mintear la otra carta que tenga.*/
       className={
-        userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
+        userHasCard && (!userCard.offered || userCard.quantity > 1)
+          ? 'option_disabled'
+          : 'option_disabled'
       }
       onClick={() => handleMintClick()}
     >
@@ -193,7 +195,7 @@ const GammaCardInfo = (props) => {
 
   const PublishButton = () => (
     <div
-      className={userHasCard ? 'option' : 'option_disabled'}
+      className={userHasCard ? 'option_disabled' : 'option_disabled'}
       onClick={() => handlePublishClick()}
     >
       {t('publicar')}
@@ -212,7 +214,7 @@ const GammaCardInfo = (props) => {
   const TransferButton = () => (
     <div
       /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
-         tengo que poder transferir la otra carta que tenga.*/
+         tengo que poder mintear la otra carta que tenga.*/
       className={
         userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
       }
@@ -272,10 +274,10 @@ const GammaCardInfo = (props) => {
   )
 }
 
-GammaCardInfo.propTypes = {
+GammaAlbumInfo.propTypes = {
   userCard: PropTypes.object,
   handleOpenCardOffers: PropTypes.func,
   handleFinishInfoCard: PropTypes.func
 }
 
-export default GammaCardInfo
+export default GammaAlbumInfo
