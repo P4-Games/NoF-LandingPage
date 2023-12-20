@@ -49,8 +49,16 @@ const AlphaMain = () => {
   const [, setDisableTransfer] = useState(false)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
-  const { walletAddress, daiContract, alphaContract, noMetamaskError, connectWallet } =
-    useWeb3Context()
+  const {
+    walletAddress,
+    daiContract,
+    alphaContract,
+    web3Error,
+    connectWallet,
+    switchOrCreateNetwork,
+    isConnected,
+    isValidNetwork
+  } = useWeb3Context()
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
@@ -487,32 +495,47 @@ const AlphaMain = () => {
     }
   }
 
+  const NotConnected = () => (
+    <div className='alpha'>
+      <div className='main_buttons_container'>
+        <span>{t(web3Error)}</span>
+        {!isConnected && (
+          <button
+            className='alpha_button alpha_main_button'
+            id='connect_wallet_button'
+            onClick={() => connectWallet()}
+          >
+            {t('connect_wallet')}
+          </button>
+        )}
+        {isConnected && !isValidNetwork && (
+          <button
+            className='alpha_button alpha_main_button'
+            id='switch_network_button'
+            onClick={() => switchOrCreateNetwork()}
+          >
+            {t('account_switch')}
+          </button>
+        )}
+        <button
+          className='alpha_button alpha_main_button'
+          id='show_rules_button'
+          onClick={() => setShowRules(true)}
+        >
+          {t('reglas')}
+        </button>
+      </div>
+    </div>
+  )
+
   return (
     <div className='alpha_main'>
       <div className='alpha'>
-        {!walletAddress && (
-          <div className='main_buttons_container'>
-            <button
-              className='alpha_button alpha_main_button'
-              id='connect_wallet_button'
-              onClick={() => connectWallet()}
-            >
-              {t('connect_wallet')}
-            </button>
-            <button
-              className='alpha_button alpha_main_button'
-              id='show_rules_button'
-              onClick={() => setShowRules(true)}
-            >
-              {t('reglas')}
-            </button>
-            <span>{noMetamaskError}</span>
-          </div>
-        )}
+        {(!isConnected || !isValidNetwork) && <NotConnected />}
 
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
-        {walletAddress && alphaContract && seasonNames && (
+        {isConnected && isValidNetwork && alphaContract && seasonNames && (
           <div
             className={
               showMain

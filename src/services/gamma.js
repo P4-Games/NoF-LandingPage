@@ -28,18 +28,6 @@ export const getGammacardsPages = () => {
   return gammaCardsPages
 }
 
-/*
-export const getGammacardsExchangePages = (userCards) => {
-  const gammaCardsExchangePages = {
-    page1: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    user: userCards
-  }
-
-  // console.log(gammaCardsExchangePages.user)
-  return gammaCardsExchangePages 
-}
-*/
-
 export const fetchPackData = async (walletAddress, pack_number) => {
   // llamada a la api para que nos de la data a pasar en la llamada al contrato
   try {

@@ -2,6 +2,8 @@ import { useState, useEffect, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 import Web3Modal from 'web3modal'
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
 import daiAbi from './abis/TestDAI.v3.sol/NofTestDAIV3.json'
 import alphaAbi from './abis/Alpha.v3.sol/NofAlphaV3.json'
@@ -15,16 +17,18 @@ import { getAccountAddressText } from '../utils/stringUtils'
 const initialState = {
   connectWallet: () => {},
   disconnectWallet: () => {},
-  isValidNetwork: () => {},
   switchOrCreateNetwork: () => {}
 }
 
 const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {
-  const [, setNoMetamaskError] = useState('')
-  const [wallets] = useState(null)
+  const [web3Modal, setWeb3Modal] = useState(null)
+  const [web3Error, setWeb3Error] = useState('')
+  const [wallets, setWallets] = useState(null)
   const [walletAddress, setWalletAddress] = useState(null)
+  const [isConnected, setIsConnected] = useState(false)
+  const [isValidNetwork, setIsValidNetwork] = useState(false)
   const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
@@ -34,27 +38,53 @@ function Web3ContextProvider({ children }) {
   const { addNotification } = useContext(NotificationContext)
 
   async function requestAccount() {
-    const web3Modal = new Web3Modal()
+    const providerOptions = {
+      coinbasewallet: {
+        package: CoinbaseWalletSDK,
+        options: {
+          appName: 'NoF'
+        }
+      },
+      binancechainwallet: {
+        package: true
+      },
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            [NETWORK.chainId]: NETWORK.ChainRpcUrl
+          }
+        }
+      }
+    }
+
+    const _web3Modal = new Web3Modal({
+      network: NETWORK.chainName,
+      cacheProvider: false,
+      providerOptions
+    })
+
+    setWeb3Modal(_web3Modal)
+
     let web3Provider
     let accountAddress
     try {
-      const connection = await web3Modal.connect()
+      const connection = await _web3Modal.connect()
       web3Provider = new ethers.providers.Web3Provider(connection)
       if (!web3Provider) return
 
-      const chain = (await web3Provider.getNetwork()).chainId
-      setChainId(decToHex(chain))
-      switchOrCreateNetwork(
-        NETWORK.chainId,
-        NETWORK.chainName,
-        NETWORK.ChainRpcUrl,
-        NETWORK.chainCurrency,
-        NETWORK.chainExplorerUrl
-      )
+      const _wallets = await web3Provider.listAccounts()
+      const _chainId = (await web3Provider.getNetwork()).chainId
+
+      setWallets(_wallets)
+      setChainId(decToHex(_chainId))
+      switchOrCreateNetwork()
 
       accountAddress = await web3Provider.getSigner().getAddress()
       setWalletAddress(accountAddress)
       connectContracts(web3Provider.getSigner())
+      setIsConnected(true)
+      setIsValidNetwork(true)
       return [web3Provider, accountAddress]
     } catch (e) {
       console.error({ e })
@@ -64,10 +94,10 @@ function Web3ContextProvider({ children }) {
   async function connectWallet() {
     try {
       if (window.ethereum !== undefined) {
-        setNoMetamaskError('')
+        setWeb3Error('')
         await requestAccount()
       } else {
-        setNoMetamaskError('Por favor instala Metamask para continuar.')
+        setWeb3Error('Por favor instala Metamask para continuar.')
       }
     } catch (ex) {
       console.error(ex)
@@ -130,24 +160,25 @@ function Web3ContextProvider({ children }) {
     }
   }
 
-  function disconnectWallet() {
+  async function disconnectWallet() {
+    if (web3Modal) await web3Modal.clearCachedProvider()
+    setWallets(null)
     setWalletAddress(null)
-  }
-
-  function isValidNetwork() {
-    return chainId === NETWORK.chainId
+    setChainId(null)
+    setIsConnected(false)
   }
 
   function decToHex(number) {
     return `0x${parseInt(number).toString(16)}`
   }
 
-  async function switchOrCreateNetwork(chainIdHex, chainName, rpcUrl, currency, explorer) {
+  async function switchOrCreateNetwork() {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainIdHex }]
+        params: [{ chainId: NETWORK.chainId }]
       })
+      setIsValidNetwork(true)
     } catch (error) {
       if (error.code === 4902) {
         try {
@@ -155,15 +186,15 @@ function Web3ContextProvider({ children }) {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: chainIdHex,
-                chainName,
-                rpcUrls: [rpcUrl],
+                chainId: NETWORK.chainId,
+                chainName: NETWORK.chainName,
+                rpcUrls: [NETWORK.ChainRpcUrl],
                 nativeCurrency: {
-                  name: currency,
-                  symbol: currency,
+                  name: NETWORK.chainCurrency,
+                  symbol: NETWORK.chainCurrency,
                   decimals: 18
                 },
-                blockExplorerUrls: [explorer]
+                blockExplorerUrls: [NETWORK.chainExplorerUrl]
               }
             ]
           })
@@ -176,7 +207,7 @@ function Web3ContextProvider({ children }) {
 
   useEffect(() => {
     if (window && typeof window.ethereum === 'undefined') {
-      console.log('Please install metamask to use this website')
+      setWeb3Error('account_no_metamask')
       return
     }
 
@@ -203,9 +234,11 @@ function Web3ContextProvider({ children }) {
     gammaPacksContract,
     gammaCardsContract,
     gammaOffersContract,
+    web3Error,
+    isConnected,
+    isValidNetwork,
     connectWallet,
     disconnectWallet,
-    isValidNetwork,
     switchOrCreateNetwork
   }
 
