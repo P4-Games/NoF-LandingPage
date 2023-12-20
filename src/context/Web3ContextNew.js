@@ -53,85 +53,98 @@ const Web3ContextProvider = ({ children }) => {
   let updateLocale = () => {}
 
   const initWeb3Onboard = async () => {
-    console.log('initWeb3Onboard')
-    const wcV1InitOptions = {
-      version: 1,
-      bridge: 'https://bridge.walletconnect.org',
-      qrcodeModalOptions: {
-        mobileLinks: ['metamask', 'argent', 'trust']
-      },
-      connectFirstChainId: true
-    }
-
-    const wcV2InitOptions = {
-      version: 2,
-      projectId: WalletConnectProjectId || ''
-    }
-
-    const injected = injectedModule({
-      filter: {
-        // allow only on non-android mobile
-        [ProviderLabel.Detected]: ['Android', 'desktop', 'macOS', 'iOS'],
-        displayUnavailable: true
-      }
-    })
-
-    const walletConnect = walletConnectModule(wcV2InitOptions || wcV1InitOptions)
-    const trust = trustModule()
-    const coinbase = coinbaseModule()
-    const gnosis = gnosisModule({
-      whitelistedDomains: []
-    })
-
-    const onboard = init({
-      wallets: [injected, walletConnect, gnosis, coinbase, trust],
-      connect: {
-        showSidebar: true,
-        disableClose: false,
-        autoConnectLastWallet: true,
-        autoConnectAllPreviousWallet: true
-      },
-      accountCenter: {
-        desktop: {
-          enabled: false,
-          minimal: true,
-          position: 'bottomRight'
+    try {
+      console.log('initWeb3Onboard 1')
+      const wcV1InitOptions = {
+        version: 1,
+        bridge: 'https://bridge.walletconnect.org',
+        qrcodeModalOptions: {
+          mobileLinks: ['metamask', 'argent', 'trust']
         },
-        mobile: {
-          enabled: false,
-          minimal: true,
-          position: 'topRight'
-        }
-      },
-      notify: { enabled: true },
-      chains: [
-        {
-          id: NETWORK.chainId,
-          token: NETWORK.chainCurrency,
-          label: NETWORK.chainName,
-          rpcUrl: NETWORK.ChainRpcUrl
-        }
-      ],
-      i18n: {
-        en: enLocales,
-        es: esLocales,
-        br: brLocales
-      },
-      appMetadata: {
-        name: 'NoF',
-        description: 'Number one Fun',
-        icon: '/images/common/nof.png',
-        recommendedInjectedWallets: [
-          {
-            name: 'MetaMask',
-            url: 'https://metamask.io'
-          }
-        ]
+        connectFirstChainId: true
       }
-    })
+      console.log('initWeb3Onboard 2')
 
-    return onboard
-    // setWeb3Onboard(onboard)
+      const wcV2InitOptions = {
+        version: 2,
+        projectId: WalletConnectProjectId || ''
+      }
+      console.log('initWeb3Onboard 3')
+
+      const injected = injectedModule({
+        filter: {
+          // allow only on non-android mobile
+          [ProviderLabel.Detected]: ['Android', 'desktop', 'macOS', 'iOS'],
+          displayUnavailable: true
+        }
+      })
+      console.log('initWeb3Onboard 4')
+
+      const walletConnect = walletConnectModule(wcV2InitOptions || wcV1InitOptions)
+      console.log('initWeb3Onboard 5')
+
+      const trust = trustModule()
+      console.log('initWeb3Onboard 6')
+      const coinbase = coinbaseModule()
+      console.log('initWeb3Onboard 7')
+      const gnosis = gnosisModule({
+        whitelistedDomains: []
+      })
+      console.log('initWeb3Onboard 8')
+
+      const onboard = init({
+        wallets: [injected, walletConnect, gnosis, coinbase, trust],
+        connect: {
+          showSidebar: true,
+          disableClose: false,
+          autoConnectLastWallet: true,
+          autoConnectAllPreviousWallet: true
+        },
+        accountCenter: {
+          desktop: {
+            enabled: false,
+            minimal: true,
+            position: 'bottomRight'
+          },
+          mobile: {
+            enabled: false,
+            minimal: true,
+            position: 'topRight'
+          }
+        },
+        notify: { enabled: true },
+        chains: [
+          {
+            id: NETWORK.chainId,
+            token: NETWORK.chainCurrency,
+            label: NETWORK.chainName,
+            rpcUrl: NETWORK.ChainRpcUrl
+          }
+        ],
+        i18n: {
+          en: enLocales,
+          es: esLocales,
+          br: brLocales
+        },
+        appMetadata: {
+          name: 'NoF',
+          description: 'Number one Fun',
+          icon: '/images/common/nof.png',
+          recommendedInjectedWallets: [
+            {
+              name: 'MetaMask',
+              url: 'https://metamask.io'
+            }
+          ]
+        }
+      })
+      console.log('initWeb3Onboard 9')
+
+      return onboard
+      // setWeb3Onboard(onboard)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   /*
