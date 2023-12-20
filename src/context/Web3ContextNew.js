@@ -134,7 +134,6 @@ const Web3ContextProvider = ({ children }) => {
     // setWeb3Onboard(onboard)
   }
 
-
   /*
   useEffect(() => {
     initWeb3Onboard().then(() => {})
@@ -208,7 +207,7 @@ const Web3ContextProvider = ({ children }) => {
         _onboard = await initWeb3Onboard()
         setWeb3Onboard(_onboard)
         console.log('connectWallet called initWeb3Onboard 2', _onboard)
-      } 
+      }
 
       console.log('connectWallet called initWeb3Onboard 3', _onboard, web3Onboard)
       const wallets = await _onboard.connectWallet()
