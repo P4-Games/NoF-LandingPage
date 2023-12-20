@@ -37,8 +37,11 @@ const GammaMain = () => {
     daiContract,
     gammaCardsContract,
     gammaPacksContract,
-    noMetamaskError,
-    connectWallet
+    web3Error,
+    connectWallet,
+    switchOrCreateNetwork,
+    isConnected,
+    isValidNetwork
   } = useWeb3Context()
   const {
     startLoading,
@@ -320,10 +323,6 @@ const GammaMain = () => {
           const data = await fetchPackData(walletAddress, packNumber)
           const { packet_data, signature } = data
 
-          // verify signer
-          // const signer = await verifyPackSigner(gammaCardsContract, packNumber, packet_data, signature.signature)
-          // console.log('pack signer', signer)
-
           setOpenPackCardsNumbers(packet_data)
           openedPack = await openPack(
             gammaCardsContract,
@@ -461,10 +460,6 @@ const GammaMain = () => {
     }
   }
 
-  const connectWallet1 = async () => {
-    await connectWallet()
-  }
-
   const handleSwitchBook = useCallback(async () => {
     setCardInfoOpened(false)
     setAlbumInfoOpened(false)
@@ -509,13 +504,25 @@ const GammaMain = () => {
   const NotConnected = () => (
     <div className='alpha'>
       <div className='main_buttons_container'>
-        <button
-          className='alpha_button alpha_main_button'
-          id='connect_wallet_button'
-          onClick={() => connectWallet1()}
-        >
-          {t('connect_wallet')}
-        </button>
+        <span>{t(web3Error)}</span>
+        {!isConnected && (
+          <button
+            className='alpha_button alpha_main_button'
+            id='connect_wallet_button'
+            onClick={() => connectWallet()}
+          >
+            {t('connect_wallet')}
+          </button>
+        )}
+        {isConnected && !isValidNetwork && (
+          <button
+            className='alpha_button alpha_main_button'
+            id='switch_network_button'
+            onClick={() => switchOrCreateNetwork()}
+          >
+            {t('account_switch')}
+          </button>
+        )}
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
@@ -523,7 +530,6 @@ const GammaMain = () => {
         >
           {t('reglas')}
         </button>
-        <span>{noMetamaskError}</span>
       </div>
     </div>
   )
@@ -687,11 +693,11 @@ const GammaMain = () => {
 
   return (
     <div className='gamma_main'>
-      {!walletAddress && <NotConnected />}
+      {(!isConnected || !isValidNetwork) && <NotConnected />}
 
       {showRules && <Rules type='gamma' setShowRules={setShowRules} />}
 
-      {walletAddress && packIsOpen && (
+      {isConnected && isValidNetwork && packIsOpen && (
         <GammaPackOpen
           setPackIsOpen={setPackIsOpen}
           cardsNumbers={openPackCardsNumbers}
@@ -700,9 +706,9 @@ const GammaMain = () => {
         />
       )}
 
-      {walletAddress && <BookImageLeft />}
+      {isConnected && isValidNetwork && <BookImageLeft />}
 
-      {walletAddress && (
+      {isConnected && isValidNetwork && (
         <GammaAlbum
           showInventory={inventory}
           updateUserData={updateUserData}
@@ -711,7 +717,7 @@ const GammaMain = () => {
         />
       )}
 
-      {walletAddress && <GammaPackInfo />}
+      {isConnected && isValidNetwork && <GammaPackInfo />}
     </div>
   )
 }

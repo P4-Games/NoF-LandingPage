@@ -150,6 +150,8 @@
     "account_connect": "Conectar",
     "account_disconnect": "Desconectar",
     "account_invalid_network": "Red Inválida",
+    "account_no_metamask": "Por favor instale metamask para usar este sitio web",
+    "account_switch": "Cambiar Red",
     "account_text_copied": "Copiado",
     "account_balance_zero": "No tienes saldo suficiente para enviar.",
     "account_send_dai_title": "Transferencia de Tokens",
