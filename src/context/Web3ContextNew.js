@@ -2,6 +2,8 @@ import { createContext, useState, useEffect, useContext, useCallback } from 'rea
 import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 
+import { useSettingsContext } from '../hooks'
+import { useSetLocale } from '@web3-onboard/react'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import gnosisModule from '@web3-onboard/gnosis'
@@ -28,7 +30,7 @@ import { getAccountAddressText } from '../utils/stringUtils'
 const initialState = {
   connectWallet: () => {},
   disconnectWallet: () => {},
-  switchOrCreateNetwork: () => {}
+  switchOrCreateNetwork: () => {},
 }
 
 const Web3Context = createContext(initialState)
@@ -47,8 +49,9 @@ const Web3ContextProvider = ({ children }) => {
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
   const { addNotification } = useContext(NotificationContext)
-  // const { languageSetted } = useSettingsContext()
-
+  const { languageSetted } = useSettingsContext()
+  let updateLocale = () => {}
+  
   const initWeb3Onboard = useCallback(async () => {
     const wcV1InitOptions = {
       version: 1,
@@ -136,9 +139,10 @@ const Web3ContextProvider = ({ children }) => {
   /*
   useEffect(() => {
     if (web3Onboard) {
+      updateLocale = useSetLocale()
       updateLocale(languageSetted || 'en')
     }
-  }, [languageSetted])
+  }, [initWeb3Onboard])
   */
 
   const getProvider = (wlt) => {
@@ -152,6 +156,7 @@ const Web3ContextProvider = ({ children }) => {
     }
   }
 
+  /*
   const connectWallet = useCallback(() => {
     // const updateLocale = useSetLocale()
     // updateLocale(languageSetted || 'en')
@@ -188,6 +193,46 @@ const Web3ContextProvider = ({ children }) => {
         console.error({ e })
       })
   }, [web3Onboard, chainId]) //eslint-disable-line react-hooks/exhaustive-deps
+  */
+
+  const connectWallet = useCallback(async () => {
+    try {
+      if (!web3Onboard) {
+        await initWeb3Onboard()
+      }
+
+      const wallets = await web3Onboard.connectWallet()
+
+      if (wallets) {
+        setWallets(wallets)
+
+        if (wallets[0]) {
+          setWalletAddress(wallets[0].accounts[0].address)
+          const _chainId = wallets[0]?.chains?.[0].id.toString()
+
+          if (_chainId) {
+            const providerNetwork = ethers.providers.getNetwork(parseInt(_chainId, 16))
+            const chainIdHex = decToHex(providerNetwork.chainId)
+            setChainId(chainIdHex)
+            setIsConnected(true)
+
+            if (chainIdHex === NETWORK.chainId) {
+              const provider = getProvider(wallets[0])
+              const signer = provider.getSigner()
+              connectContracts(signer)
+              setIsValidNetwork(true)
+            } else {
+              setIsValidNetwork(false)
+              setWeb3Error('account_invalid_network')
+              await switchOrCreateNetwork()
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error({ error })
+    }
+  }, [web3Onboard, chainId, wallets, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
 
   function connectContracts(_signer) {
     try {
