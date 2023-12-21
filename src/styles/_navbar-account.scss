@@ -9,6 +9,11 @@
   display: none;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
   font-size: 0.9em !important;
+
+  @media (max-width: 1400px) {
+    right: 0;
+    margin: 2px;
+  }
 }
 
 .account__info.active {
@@ -73,6 +78,11 @@
 }
 
 .account__info__invalid__network {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: inherit;
+  line-height: 1rem;
   color: #f60008;
 }
 
@@ -148,4 +158,15 @@ account__info__icon__link:hover,
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', 'sans-serif';
   font-size: 10px;
   width: 80%;
+}
+
+.invalid__network__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invalid__network {
+  width: 100%;
+  padding: 10px;
 }

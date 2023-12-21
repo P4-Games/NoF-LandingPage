@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
-import { MdOutlinePublishedWithChanges } from 'react-icons/md'
+// import { MdOutlinePublishedWithChanges } from 'react-icons/md'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
@@ -22,7 +22,8 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     disconnectWallet,
     isValidNetwork,
     daiContract,
-    switchOrCreateNetwork
+    isConnected // ,
+    // switchOrCreateNetwork
   } = useWeb3Context()
   const { startLoading, stopLoading } = useLayoutContext()
   const [copiedTextVisible, setCopiedTextVisible] = useState(false)
@@ -170,10 +171,12 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
             !isValidNetwork ? 'account__info__invalid__network' : ''
           }`}
         >
-          {isValidNetwork ? NETWORK.chainName : t('account_invalid_network')}
+          {isValidNetwork
+            ? NETWORK.chainName
+            : t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
         </p>
       </div>
-      {!isValidNetwork && (
+      {/*!isValidNetwork && (
         <div className='account__info__icon__container'>
           <MdOutlinePublishedWithChanges
             onClick={() => {
@@ -182,7 +185,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
             className='account__info__icon'
           />
         </div>
-      )}
+      )*/}
     </div>
   )
 
@@ -238,7 +241,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   return (
     <div className={`account__info ${showAccountInfo ? 'active' : ''}`}>
-      {walletAddress ? (
+      {isConnected ? (
         <React.Fragment>
           <div className='account__info__data'>
             <NetworkComponent />

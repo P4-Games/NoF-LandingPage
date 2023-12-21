@@ -148,7 +148,7 @@
 
     "account_connect": "Connect",
     "account_disconnect": "Disconnect",
-    "account_invalid_network": "Invalid Network",
+    "account_invalid_network": "You are connected to an invalid network. Please, switch to {NETWORK} network.",
     "account_no_metamask": "Please install metamask to use this website",
     "account_switch": "Switch Network",
     "account_text_copied": "Copied",

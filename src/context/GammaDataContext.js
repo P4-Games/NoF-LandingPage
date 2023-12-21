@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-// import { Web3Context } from './Web3Context'
-import { Web3Context } from './Web3ContextNew'
+import { Web3Context } from './Web3Context'
+// import { Web3Context } from './Web3ContextNew'
 import { getCardsByUser } from '../services/gamma'
 
 const GammaDataContext = createContext()
