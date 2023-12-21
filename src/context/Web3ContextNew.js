@@ -1,15 +1,15 @@
+import { useConnectWallet, useSetChain, useSetLocale, useWallets, init } from '@web3-onboard/react'
 import { createContext, useState, useEffect, useContext, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
 
 import { useSettingsContext } from '../hooks'
-import { useSetLocale } from '@web3-onboard/react'
 import coinbaseModule from '@web3-onboard/coinbase'
 import trustModule from '@web3-onboard/trust'
 import gnosisModule from '@web3-onboard/gnosis'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
-import { init } from '@web3-onboard/react'
+
 
 import daiAbi from './abis/TestDAI.v3.sol/NofTestDAIV3.json'
 import alphaAbi from './abis/Alpha.v3.sol/NofAlphaV3.json'
@@ -24,6 +24,7 @@ import esLocales from '../../public/locales/es/web3_onboard.json'
 
 import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
+import { initWeb3Onboard } from './ web3Onboard'
 
 //----------------------------------------------------------
 
@@ -52,6 +53,7 @@ const Web3ContextProvider = ({ children }) => {
   const { languageSetted } = useSettingsContext()
   let updateLocale = () => {}
 
+  /*
   const initWeb3Onboard = async () => {
     try {
       console.log('initWeb3Onboard 1')
@@ -146,6 +148,7 @@ const Web3ContextProvider = ({ children }) => {
       console.log(error)
     }
   }
+*/
 
   /*
   useEffect(() => {
@@ -159,6 +162,11 @@ const Web3ContextProvider = ({ children }) => {
     }
   }, [initWeb3Onboard])
   */
+
+  useEffect(() => {
+    setWeb3Onboard(initWeb3Onboard)
+  }, [])
+
 
   const getProvider = (wlt) => {
     if (wlt) {
@@ -210,10 +218,12 @@ const Web3ContextProvider = ({ children }) => {
   }, [web3Onboard, chainId]) //eslint-disable-line react-hooks/exhaustive-deps
   */
 
+  const _wallets = useWallets()
   const connectWallet = async () => {
     try {
-      console.log('connectWallet')
+      console.log('connectWallet', initWeb3Onboard)
 
+      /*
       let _onboard = web3Onboard
       if (!_onboard) {
         console.log('connectWallet called initWeb3Onboard 1')
@@ -225,14 +235,16 @@ const Web3ContextProvider = ({ children }) => {
       console.log('connectWallet called initWeb3Onboard 3', _onboard, web3Onboard)
       const wallets = await _onboard.connectWallet()
       console.log('connectWallet called initWeb3Onboard 4')
+      */
 
-      if (wallets) {
+      const _wallets = await initWeb3Onboard.connectWallet()
+      if (_wallets) {
         console.log('connectWallet called initWeb3Onboard 5')
-        setWallets(wallets)
-
-        if (wallets[0]) {
-          setWalletAddress(wallets[0].accounts[0].address)
-          const _chainId = wallets[0]?.chains?.[0].id.toString()
+        setWallets(_wallets)
+        console.log(_wallets)
+        if (_wallets[0]) {
+          setWalletAddress(_wallets[0].accounts[0].address)
+          const _chainId = _wallets[0]?.chains?.[0].id.toString()
 
           if (_chainId) {
             const providerNetwork = ethers.providers.getNetwork(parseInt(_chainId, 16))
@@ -241,7 +253,7 @@ const Web3ContextProvider = ({ children }) => {
             setIsConnected(true)
 
             if (chainIdHex === NETWORK.chainId) {
-              const provider = getProvider(wallets[0])
+              const provider = getProvider(_wallets[0])
               const signer = provider.getSigner()
               connectContracts(signer)
               setIsValidNetwork(true)
