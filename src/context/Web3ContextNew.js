@@ -10,7 +10,6 @@ import gnosisModule from '@web3-onboard/gnosis'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import injectedModule, { ProviderLabel } from '@web3-onboard/injected-wallets'
 
-
 import daiAbi from './abis/TestDAI.v3.sol/NofTestDAIV3.json'
 import alphaAbi from './abis/Alpha.v3.sol/NofAlphaV3.json'
 import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
@@ -166,7 +165,6 @@ const Web3ContextProvider = ({ children }) => {
   useEffect(() => {
     setWeb3Onboard(initWeb3Onboard)
   }, [])
-
 
   const getProvider = (wlt) => {
     if (wlt) {

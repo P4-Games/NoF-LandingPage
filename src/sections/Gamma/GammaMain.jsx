@@ -21,6 +21,7 @@ import {
   getPackPrice,
   getUserAlbums120Qtty
 } from '../../services/gamma'
+import { NETWORK } from '../../config'
 
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
@@ -41,7 +42,8 @@ const GammaMain = () => {
     connectWallet,
     switchOrCreateNetwork,
     isConnected,
-    isValidNetwork
+    isValidNetwork,
+    open
   } = useWeb3Context()
   const {
     startLoading,
@@ -504,7 +506,9 @@ const GammaMain = () => {
   const NotConnected = () => (
     <div className='alpha'>
       <div className='main_buttons_container'>
-        <span>{t(web3Error)}</span>
+        {/*<button onClick={() => open()}>Open Connect Modal</button>*/}
+        {/*<button onClick={() => open({ view: 'Networks' })}>Open Network Modal</button>*/}
+
         {!isConnected && (
           <button
             className='alpha_button alpha_main_button'
@@ -515,6 +519,13 @@ const GammaMain = () => {
           </button>
         )}
         {isConnected && !isValidNetwork && (
+          <div className='invalid__network__div'>
+            <span className='invalid__network'>
+              {t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
+            </span>
+          </div>
+        )}
+        {/*isConnected && !isValidNetwork && (
           <button
             className='alpha_button alpha_main_button'
             id='switch_network_button'
@@ -522,7 +533,7 @@ const GammaMain = () => {
           >
             {t('account_switch')}
           </button>
-        )}
+        )*/}
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
