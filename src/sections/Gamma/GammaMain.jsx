@@ -22,7 +22,6 @@ import {
   getUserAlbums120Qtty
 } from '../../services/gamma'
 import { NETWORK } from '../../config'
-
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaMain = () => {
@@ -38,12 +37,9 @@ const GammaMain = () => {
     daiContract,
     gammaCardsContract,
     gammaPacksContract,
-    web3Error,
     connectWallet,
-    switchOrCreateNetwork,
     isConnected,
-    isValidNetwork,
-    open
+    isValidNetwork
   } = useWeb3Context()
   const {
     startLoading,
@@ -506,9 +502,6 @@ const GammaMain = () => {
   const NotConnected = () => (
     <div className='alpha'>
       <div className='main_buttons_container'>
-        {/*<button onClick={() => open()}>Open Connect Modal</button>*/}
-        {/*<button onClick={() => open({ view: 'Networks' })}>Open Network Modal</button>*/}
-
         {!isConnected && (
           <button
             className='alpha_button alpha_main_button'

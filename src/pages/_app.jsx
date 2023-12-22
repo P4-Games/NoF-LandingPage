@@ -9,7 +9,6 @@ import '../styles/offline.scss'
 import '../styles/gamma-flip-cards.scss'
 
 import { appWithTranslation } from 'next-i18next'
-// import { Web3ContextProvider } from '../context/Web3ContextNew'
 import { Web3ContextProvider } from '../context/Web3Context'
 import { NotificationProvider } from '../context/NotificationContext'
 import { SettingsProvider } from '../context/SettingsContext'
