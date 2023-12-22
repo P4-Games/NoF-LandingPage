@@ -42,7 +42,6 @@ try {
 
     try {
       console.log("SW installing")
-
       event.waitUntil(
         Promise.all([
           fetchFilesFromFolder(IMAGES_FOLDER, ['png', 'jpg', 'jpeg', 'gif']),
@@ -94,7 +93,7 @@ try {
 
     if (!isValidToCache) {
       if (!event.request.url.startsWith(self.location.origin + NEXT_FOLDER))
-        console.log('**SW Skiping 1: ', event.request.url)
+        console.log('**SW Skiping: ', event.request.url)
       return 
     }
 

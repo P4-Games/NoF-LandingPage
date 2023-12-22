@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
-import { MdOutlinePublishedWithChanges } from 'react-icons/md'
+// import { MdOutlinePublishedWithChanges } from 'react-icons/md'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
@@ -17,27 +17,22 @@ import { getAccountAddressText } from '../../utils/stringUtils'
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
   const {
-    chainId,
     walletAddress,
     connectWallet,
     disconnectWallet,
     isValidNetwork,
     daiContract,
-    switchOrCreateNetwork
+    isConnected // ,
+    // switchOrCreateNetwork
   } = useWeb3Context()
   const { startLoading, stopLoading } = useLayoutContext()
   const [copiedTextVisible, setCopiedTextVisible] = useState(false)
   const [copiedTextPosition, setCopiedTextPosition] = useState(0)
   const [walletBalance, setWalletBalance] = useState(0)
   const [tokenName, setTokenName] = useState('')
-  const [validNetwork, setValidNetwork] = useState(false)
-
-  useEffect(() => {
-    setValidNetwork(isValidNetwork())
-  }, [showAccountInfo, chainId]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchTokenName = async () => {
-    if (!walletAddress || !daiContract || !validNetwork) return
+    if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const token = await getTokenName(daiContract)
       setTokenName(token)
@@ -48,10 +43,10 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     fetchTokenName()
-  }, [showAccountInfo, tokenName, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, tokenName, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchBalance = async () => {
-    if (!walletAddress || !daiContract || !validNetwork) return
+    if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const balance = await getBalance(daiContract, walletAddress)
       setWalletBalance(balance)
@@ -62,7 +57,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   useEffect(() => {
     fetchBalance()
-  }, [showAccountInfo, walletBalance, walletAddress, validNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showAccountInfo, walletBalance, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
@@ -173,28 +168,24 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div>
         <p
           className={`account__info__account__network ${
-            !validNetwork ? 'account__info__invalid__network' : ''
+            !isValidNetwork ? 'account__info__invalid__network' : ''
           }`}
         >
-          {validNetwork ? NETWORK.chainName : t('account_invalid_network')}
+          {isValidNetwork
+            ? NETWORK.chainName
+            : t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
         </p>
       </div>
-      {!validNetwork && (
+      {/*!isValidNetwork && (
         <div className='account__info__icon__container'>
           <MdOutlinePublishedWithChanges
             onClick={() => {
-              switchOrCreateNetwork(
-                NETWORK.chainId,
-                NETWORK.chainName,
-                NETWORK.ChainRpcUrl,
-                NETWORK.chainCurrency,
-                NETWORK.chainExplorerUrl
-              )
+              switchOrCreateNetwork()
             }}
             className='account__info__icon'
           />
         </div>
-      )}
+      )*/}
     </div>
   )
 
@@ -250,11 +241,11 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   return (
     <div className={`account__info ${showAccountInfo ? 'active' : ''}`}>
-      {walletAddress ? (
+      {isConnected ? (
         <React.Fragment>
           <div className='account__info__data'>
             <NetworkComponent />
-            {validNetwork && (
+            {isValidNetwork && (
               <React.Fragment>
                 <hr className='account__info__separator' />
                 <WalletComponent />

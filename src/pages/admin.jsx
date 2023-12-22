@@ -6,7 +6,7 @@ import { useWeb3Context } from '../hooks'
 
 const Admin = () => {
   const { t } = useTranslation()
-  const { walletAddress, noMetamaskError, connectWallet } = useWeb3Context()
+  const { walletAddress, web3Error, connectWallet } = useWeb3Context()
 
   return (
     <div className='admincontainer'>
@@ -19,7 +19,7 @@ const Admin = () => {
           >
             {t('connect_wallet')}
           </button>
-          <span>{noMetamaskError}</span>
+          <span>{web3Error}</span>
         </div>
       )}
       {adminAccounts.includes(walletAddress) && <div className='adminpanel' />}
