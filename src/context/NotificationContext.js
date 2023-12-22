@@ -2,7 +2,6 @@ import { createContext, useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { Web3Context } from './Web3Context'
-// import { Web3Context } from './Web3ContextNew'
 
 export const NotificationContext = createContext()
 

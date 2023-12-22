@@ -1,13 +1,9 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { ethers } from 'ethers'
-// import Web3Modal from 'web3modal'
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5/react'
 import { useWeb3ModalProvider, useWeb3ModalAccount } from '@web3modal/ethers5/react'
 import { useWeb3Modal, useDisconnect } from '@web3modal/ethers5/react'
-// import CoinbaseWalletSDK from '@coinbase/wallet-sdk'
-// import WalletConnectProvider from '@walletconnect/web3-provider'
-
 import daiAbi from './abis/TestDAI.v3.sol/NofTestDAIV3.json'
 import alphaAbi from './abis/Alpha.v3.sol/NofAlphaV3.json'
 import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
@@ -26,51 +22,51 @@ const initialState = {
 const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {
-  // const [web3Modal, setWeb3Modal] = useState(null)
   const [web3Error, setWeb3Error] = useState('')
   const [wallets, setWallets] = useState(null)
-  const [walletAddress, setWalletAddress] = useState(null)
-  // const [isConnected, setIsConnected] = useState(false)
+  // const [walletAddress, setWalletAddress] = useState(null)
   const [isValidNetwork, setIsValidNetwork] = useState(false)
-  // const [chainId, setChainId] = useState(null)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
   const { addNotification } = useContext(NotificationContext)
-
   const { address, chainId, isConnected } = useWeb3ModalAccount()
   const { walletProvider } = useWeb3ModalProvider()
   const { disconnect } = useDisconnect()
 
   const mumbai = {
-    chainId: parseInt(NETWORK.chainId, 10),
+    chainId: hexToDec(NETWORK.chainId),
     name: NETWORK.chainName,
     currency: NETWORK.chainCurrency,
     explorerUrl: NETWORK.chainExplorerUrl,
     rpcUrl: NETWORK.ChainRpcUrl
   }
 
-  // 3. Create modal
   const metadata = {
     name: 'NoF',
     description: 'Number One Fun',
     url: 'https://nof.town',
-    icons: ['https://avatars.mywebsite.com/']
+    icons: ['https://avatars.githubusercontent.com/u/37784886']
   }
 
   createWeb3Modal({
     ethersConfig: defaultConfig({
       metadata,
-      defaultChainId: parseInt(NETWORK.chainId, 10),
+      defaultChainId: hexToDec(NETWORK.chainId),
       enableEIP6963: true,
       enableInjected: true,
       enableCoinbase: true,
-      rpcUrl: NETWORK.chainNodeProviderUrl
+      rpcUrl: NETWORK.ChainRpcUrl
     }),
     chains: [mumbai],
-    projectId: WalletConnectProjectId
+    projectId: WalletConnectProjectId,
+    enableAnalytics: true,
+    themeMode: 'light',
+    themeVariables: {
+      '--w3m-color-mix': '#00DCFF'
+    }
   })
   const { open } = useWeb3Modal()
 
@@ -78,14 +74,6 @@ function Web3ContextProvider({ children }) {
     let web3Provider
     let accountAddress
     try {
-      // const connection = await _web3Modal.connect()
-      // web3Provider = new ethers.providers.Web3Provider(connection)
-
-      /*
-      if (!isConnected) {
-        await open()
-      }
-      */
       if (!walletProvider) return
       web3Provider = new ethers.providers.Web3Provider(walletProvider)
 
@@ -95,15 +83,12 @@ function Web3ContextProvider({ children }) {
 
       setWallets(_wallets)
       accountAddress = await web3Provider.getSigner().getAddress()
-      setWalletAddress(accountAddress)
-
-      // console.log( _chainId, accountAddress, address)
+      // setWalletAddress(accountAddress)
 
       const chainIdHex = decToHex(_chainId)
       // setChainId(chainIdHex)
       // setIsConnected(true)
 
-      // console.log(chainIdHex, NETWORK.chainId)
       if (chainIdHex === NETWORK.chainId) {
         connectContracts(web3Provider.getSigner())
         setIsValidNetwork(true)
@@ -120,7 +105,7 @@ function Web3ContextProvider({ children }) {
 
   useEffect(() => {
     requestAccount()
-  }, [isConnected, chainId])
+  }, [isConnected, chainId, address]) //eslint-disable-line react-hooks/exhaustive-deps
 
   function connectWallet() {
     try {
@@ -201,7 +186,7 @@ function Web3ContextProvider({ children }) {
     // if (web3Modal) await web3Modal.clearCachedProvider()
     disconnect()
     setWallets(null)
-    setWalletAddress(null)
+    // setWalletAddress(null)
     // setChainId(null)
     setIsValidNetwork(false)
     // setIsConnected(false)
@@ -210,6 +195,10 @@ function Web3ContextProvider({ children }) {
 
   function decToHex(number) {
     return `0x${parseInt(number).toString(16)}`
+  }
+
+  function hexToDec(str) {
+    return parseInt(str, 16)
   }
 
   async function switchOrCreateNetwork() {
@@ -261,13 +250,17 @@ function Web3ContextProvider({ children }) {
 
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
+        console.log('chainChanged event', accounts, address)
+        /*
         if (accounts) {
           const address = accounts[0]
-          setWalletAddress(address)
+          // setWalletAddress(address)
         }
+        */
       })
 
       window.ethereum.on('chainChanged', (newChain) => {
+        console.log('chainChanged event')
         setWeb3Error('account_invalid_network')
         const _chanIdHex = decToHex(newChain)
         // setChainId(_chanIdHex)
@@ -280,12 +273,12 @@ function Web3ContextProvider({ children }) {
         }
       })
     }
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   const value = {
     chainId,
     wallets,
-    walletAddress,
+    walletAddress: address,
     daiContract,
     alphaContract,
     gammaPacksContract,
