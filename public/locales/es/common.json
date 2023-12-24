@@ -108,8 +108,13 @@
     "publish_offer_error": "Ocurrió un error al intentar realizar la publicación.",
     "publish_offer_error_invalid_numbers":  "Ingresa hasta 10 números del 0 al 119, no repetidos, separados por una coma y cartas que no tengas.",
     "publish_offer_error_own_card_number": "No puedes solicitar la misma carta que estás ofertando.",
-    "publish_offer_no_cards_selected": "Selecciona al menos una carta para poder crear la publicación.",
-    
+    "publish_offer_no_cards_selected": "Selecciona al menos una carta para poder crear la publicación.",    
+
+    "publish_offer_auto_title": "Selección automática",
+    "publish_offer_auto_msg": "Puedes crear la oferta sin seleccionar cartas, para que te envíen alguna de las que te faltan.",
+    "publish_offer_auto_confirm": "Omitir selección",
+    "publish_offer_auto_denied": "Quiero seleccionar",
+
     "unpublish_offer_dialog": "¿Deseas cancelar la publicación de la oferta para esta carta?",
     "unpublish_offer_error": "Ocurrió un error intentando cancelar la publicación",
 

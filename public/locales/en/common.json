@@ -109,6 +109,11 @@
     "publish_offer_error_own_card_number": "You cannot request the same card you are bidding on.",
     "publish_offer_no_cards_selected": "Select at least one card to create the publication.",
 
+    "publish_offer_auto_title": "Automatic Selection",
+    "publish_offer_auto_msg": "You can create the offer without selecting cards, so you can receive some of the ones you're missing.",
+    "publish_offer_auto_confirm": "Skip Selection",
+    "publish_offer_auto_denied": "I want to select",
+
     "unpublish_offer_dialog": "Do you want to cancel the publication of the offer for this card?",
     "unpublish_offer_error": "There was an error trying to unpublish",
 

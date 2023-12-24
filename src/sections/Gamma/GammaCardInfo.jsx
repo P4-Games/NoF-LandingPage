@@ -5,8 +5,8 @@ import { useTranslation } from 'next-i18next'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
-import { hasCard } from '../../services/gamma'
-import { removeOfferByCardNumber } from '../../services/offers'
+import { hasCard, getUserMissingCardsQtty } from '../../services/gamma'
+import { removeOfferByCardNumber, createOffer } from '../../services/offers'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
@@ -161,14 +161,54 @@ const GammaCardInfo = (props) => {
     const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
     if (!canUserPublishResult) {
       emitInfo(t('offer_user_limit'), 7000)
-    } else {
-      const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
-      if (!canAnyUserPublishResult) {
-        emitInfo(t('offer_game_limit'), 7000)
-      } else {
-        setCardPublish(true)
+      stopLoading()
+      return 
+    }
+    
+    const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
+    if (!canAnyUserPublishResult) {
+      emitInfo(t('offer_game_limit'), 7000)
+      stopLoading()
+      return 
+    }
+      
+    const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
+    
+    if (missingCardsQtty > 0) {
+      stopLoading()
+      const result = await Swal.fire({
+        title: `${t('publish_offer_auto_title')}`,
+        text: `${t('publish_offer_auto_msg')}`,
+        showCancelButton: true,
+        confirmButtonText: `${t('publish_offer_auto_confirm')}`,
+        cancelButtonText: `${t('publish_offer_auto_denied')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        }
+      })
+
+      if (result.isConfirmed) {
+        try {
+          startLoading()
+          await createOffer(gammaOffersContract, userCard.name, [])
+          stopLoading()
+          emitSuccess(t('confirmado'), 2000)
+          handleFinishPublish(true)
+        } catch (ex) {
+          stopLoading()
+          console.error(ex.message)
+          if (ex.message == 'publish_offer_error_own_card_number')
+            emitWarning(t('publish_offer_error_own_card_number'))
+          else emitError(t('publish_offer_error'))
+        }
+        return
       }
     }
+    setCardPublish(true)
     stopLoading()
   }
 
