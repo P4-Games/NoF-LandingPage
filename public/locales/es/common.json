@@ -170,6 +170,8 @@
     "notification_sent_card": "Enviaste la carta {CARD} a {WALLET}.",
     "notification_pack_transfer": "Recibiste el pack {PACK} de {WALLET}.",
     "notification_card_transfer": "Recibiste la cara {CARD} de {WALLET}.",
+    "notification_album_transfer": "Recibiste un álbum de {WALLET}.",
+    "notification_burn_album_transfer": "Recibiste un álbum de quema de {WALLET}.",
     "notification_exchange": "Recibiste la carta {CARD_RECEIVED} de {WALLET} a cambio de la carta {CARD_SENT}.",
 
     "offline_msg": "Sitio web actualmente sin conexión o sin conexión a Internet disponible",

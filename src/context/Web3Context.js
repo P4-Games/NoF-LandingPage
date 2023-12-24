@@ -145,7 +145,13 @@ function Web3ContextProvider({ children }) {
       })
 
       gammaCardsContractInstance.on('CardTransfered', (from, to, cardNumber) => {
-        addNotification(to, 'notification_card_transfer', [
+        const messages = {
+          120: 'notification_album_transfer',
+          121: 'notification_burn_album_transfer'
+        }
+        const msg = messages[cardNumber] || 'notification_card_transfer'
+
+        addNotification(to, msg, [
           { item: 'CARD', value: cardNumber, valueShort: cardNumber },
           { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
         ])
