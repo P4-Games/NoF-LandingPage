@@ -70,7 +70,7 @@ const GammaAlbumPublish = (props) => {
           pevSelectedCards.filter((card) => card !== selectedCard)
         )
       } else {
-        if (selectedCards.length < 10) {
+        if (selectedCards.length < 12) {
           setSelectedCards((pevSelectedCards) => [...pevSelectedCards, selectedCard])
         }
       }
