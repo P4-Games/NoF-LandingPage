@@ -136,7 +136,7 @@ function Web3ContextProvider({ children }) {
         _signer
       )
 
-      gammaPacksContractInstance.on('PackTransfer', (from, to, tokenId) => {
+      gammaPacksContractInstance.on('PackTransfered', (from, to, tokenId) => {
         const packNbr = ethers.BigNumber.from(tokenId).toNumber()
         addNotification(to, 'notification_pack_transfer', [
           { item: 'PACK', value: packNbr, valueShort: packNbr },
@@ -146,12 +146,12 @@ function Web3ContextProvider({ children }) {
 
       gammaCardsContractInstance.on('CardTransfered', (from, to, cardNumber) => {
         addNotification(to, 'notification_card_transfer', [
-          { item: 'PACK', value: cardNumber, valueShort: cardNumber },
+          { item: 'CARD', value: cardNumber, valueShort: cardNumber },
           { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
         ])
       })
 
-      gammaCardsContractInstance.on('ExchangeCardOffer', (from, to, cNFrom, cNTo) => {
+      gammaCardsContractInstance.on('OfferCardsExchanged', (from, to, cNFrom, cNTo) => {
         addNotification(to, 'notification_exchange', [
           { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
           { item: 'CARD_SENT', value: cNTo, valueShort: cNTo },
