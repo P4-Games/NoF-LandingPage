@@ -102,6 +102,26 @@ const GammaMain = () => {
   }
 
   useEffect(() => {
+    if (!gammaCardsContract || !walletAddress) return
+    gammaCardsContract.on('OfferCardsExchanged', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        updateUserData()
+      }
+    })
+    gammaCardsContract.on('CardTransfered', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        updateUserData()
+      }
+    })
+  }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
     setCardsQtty(getCardsQtty(paginationObj))
   }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
 
