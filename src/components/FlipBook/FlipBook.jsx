@@ -13,8 +13,7 @@ const FlipBook = (props) => {
     disableFlipByClick = true
   } = props
 
-  const { loading, startLoading, stopLoading, windowSize, bookRef, turnPrevPage } =
-    useLayoutContext()
+  const { windowSize, bookRef, turnPrevPage } = useLayoutContext()
   const [isClassesReplaced, setIsClassesReplaced] = useState(false)
 
   const CloseButton = () => (
@@ -33,6 +32,7 @@ const FlipBook = (props) => {
     // Limpiar el temporizador para evitar fugas de memoria
     return () => clearTimeout(timer)
   }, [])
+
   return (
     <div className='hero__top'>
       <div className={mainClassName}>
