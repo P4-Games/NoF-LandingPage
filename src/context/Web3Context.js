@@ -24,7 +24,6 @@ const Web3Context = createContext(initialState)
 function Web3ContextProvider({ children }) {
   const [web3Error, setWeb3Error] = useState('')
   const [wallets, setWallets] = useState(null)
-  // const [walletAddress, setWalletAddress] = useState(null)
   const [isValidNetwork, setIsValidNetwork] = useState(false)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
@@ -83,11 +82,7 @@ function Web3ContextProvider({ children }) {
 
       setWallets(_wallets)
       accountAddress = await web3Provider.getSigner().getAddress()
-      // setWalletAddress(accountAddress)
-
       const chainIdHex = decToHex(_chainId)
-      // setChainId(chainIdHex)
-      // setIsConnected(true)
 
       if (chainIdHex === NETWORK.chainId) {
         connectContracts(web3Provider.getSigner())
@@ -111,16 +106,6 @@ function Web3ContextProvider({ children }) {
     try {
       setWeb3Error('')
       open()
-
-      // await requestAccount()
-      /*
-      if (window.ethereum !== undefined) {
-        setWeb3Error('')
-        await requestAccount()
-      } else {
-        setWeb3Error('account_no_metamask')
-      }
-      */
     } catch (ex) {
       console.error(ex)
     }
@@ -151,7 +136,7 @@ function Web3ContextProvider({ children }) {
         _signer
       )
 
-      gammaPacksContractInstance.on('PackTransfer', (from, to, tokenId) => {
+      gammaPacksContractInstance.on('PackTransfered', (from, to, tokenId) => {
         const packNbr = ethers.BigNumber.from(tokenId).toNumber()
         addNotification(to, 'notification_pack_transfer', [
           { item: 'PACK', value: packNbr, valueShort: packNbr },
@@ -159,7 +144,14 @@ function Web3ContextProvider({ children }) {
         ])
       })
 
-      gammaCardsContractInstance.on('ExchangeCardOffer', (from, to, cNFrom, cNTo) => {
+      gammaCardsContractInstance.on('CardTransfered', (from, to, cardNumber) => {
+        addNotification(to, 'notification_card_transfer', [
+          { item: 'CARD', value: cardNumber, valueShort: cardNumber },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+      })
+
+      gammaCardsContractInstance.on('OfferCardsExchanged', (from, to, cNFrom, cNTo) => {
         addNotification(to, 'notification_exchange', [
           { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
           { item: 'CARD_SENT', value: cNTo, valueShort: cNTo },
@@ -183,13 +175,9 @@ function Web3ContextProvider({ children }) {
   }
 
   async function disconnectWallet() {
-    // if (web3Modal) await web3Modal.clearCachedProvider()
     disconnect()
     setWallets(null)
-    // setWalletAddress(null)
-    // setChainId(null)
     setIsValidNetwork(false)
-    // setIsConnected(false)
     setWeb3Error('')
   }
 
@@ -251,20 +239,14 @@ function Web3ContextProvider({ children }) {
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
         console.log('chainChanged event', accounts, address)
-        /*
-        if (accounts) {
-          const address = accounts[0]
-          // setWalletAddress(address)
-        }
-        */
       })
 
       window.ethereum.on('chainChanged', (newChain) => {
         console.log('chainChanged event')
         setWeb3Error('account_invalid_network')
         const _chanIdHex = decToHex(newChain)
-        // setChainId(_chanIdHex)
         setIsValidNetwork(false)
+
         if (_chanIdHex === NETWORK.chainId) {
           const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
           const signer = provider.getSigner()

@@ -168,6 +168,7 @@
   "notification_received_card": "Você recebeu a carta {CARD} de {WALLET}.",
   "notification_sent_card": "Você enviou a carta {CARD} para {WALLET}.",
   "notification_pack_transfer": "Você recebeu o pacote {PACK} de {WALLET}.",
+  "notification_card_transfer": "Você recebeu o cartão {CARD} de {WALLET}.",
   "notification_exchange": "Você recebeu o cartão {CARD_RECEIVED} de {WALLET} em troca do cartão {CARD_SENT}.",
 
   "offline_msg": "Site atualmente offline ou sem conexão com a Internet disponível",
