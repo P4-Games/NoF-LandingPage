@@ -74,31 +74,37 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
     const offers = await offersContract.getOffersByCardNumber(cardNumber)
     if (!offers) return []
 
-    console.log('offers before search', offers)
-
     const offerObject = await Promise.all(
       offers.map(async (item) => {
         const [offerId, offerCard, wantedCards, offerWallet, timeStamp] = item
         let cards = wantedCards
+
         if (wantedCards.length === 0 && offerId !== 0) {
           cards = await getUserMissingCards(cardsContract, offerWallet)
           cards = cards.length > 12 ? cards.slice(0, 12) : cards
         }
+
         return {
           offerId: offerId,
           offerCard: parseInt(offerCard),
           wantedCards: cards,
           offerWallet: offerWallet,
           timeStamp: timeStamp,
-          auto: wantedCards.length === 0
+          auto: wantedCards.length === 0,
+          // Desde que un usuario, creó una oferta, pudo haber completado cartas
+          // por lo que getUserMissingCards no devolverá nada, quedando inválida.
+          // No se filtran directamente, para que se le muestre la oferta al usuario
+          // que la generó. Al resto no, dado que se filtra por éste atributo.
+          // Además, al usuario, se le muestra el label de offer en base al atributo
+          // "offer" del paginationObject (ahí no tiene el wantedCards).
+          valid: wantedCards.length > 0
         }
       })
     )
 
-    console.log('offers after search', offerObject)
-
     // El contrato puede devolver una oferta vacia en lugar de null,
-    // por lo que quedará el offerId en 0
+    // por lo que quedará el offerId en 0, se filtran.
+    //
     const filteredResult = offerObject.filter((item) => item.offerId !== 0)
 
     return filteredResult

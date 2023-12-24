@@ -148,6 +148,7 @@
   "offer_only_own_offer": "A única oferta disponível para esta carta é a sua.",
   "offer_card_number_empty": "Não há ofertas para esta carta.",
   "offer_card_no_la_tienes": "Você não tem este cartão para trocá-lo.",
+  "offer_user_card_alredy_have": "O usuário já possui esse cartão. Tente enviar outro.",
   "offer_user_limit": "Você atingiu o limite de ofertas que pode fazer. Aguarde para confirmar uma troca ou remover uma publicação.",
   "offer_game_limit": "No momento, nenhuma outra oferta pode ser feita. Tente em alguns dias.",
 

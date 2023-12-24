@@ -2,10 +2,10 @@ import React, { useCallback, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import CustomImage from '../../components/CustomImage'
 import { storageUrlGamma } from '../../config'
-import { emitWarning, emitSuccess } from '../../utils/alert'
+import { emitError, emitSuccess, emitWarning } from '../../utils/alert'
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { confirmOfferExchange } from '../../services/gamma'
+import { confirmOfferExchange, hasCard } from '../../services/gamma'
 import { getAccountAddressText } from '../../utils/stringUtils'
 
 const GammaCardExchange = (props) => {
@@ -18,7 +18,7 @@ const GammaCardExchange = (props) => {
     updateShowButtons,
     updateButtonFunctions
   } = useLayoutContext()
-  const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
 
   useEffect(() => {
     ToggleShowDefaultButtons(false)
@@ -29,6 +29,20 @@ const GammaCardExchange = (props) => {
   useEffect(() => {
     updateButtonFunctions(1, handleConfirmClick)
   }, [handleConfirmClick]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const userOfferHasCard = (item, userOfferWalletAddress) => {
+    let result = false
+    try {
+      startLoading()
+      result = hasCard(gammaCardsContract, userOfferWalletAddress, item)
+    } catch (ex) {
+      stopLoading()
+      console.error(ex)
+      emitError(t('user_has_card_error'))
+    }
+    stopLoading()
+    return result
+  }
 
   const getSelectedOffer = useCallback(
     (offerId) => {
@@ -45,8 +59,17 @@ const GammaCardExchange = (props) => {
       const cardNumberFrom = selectedCardNumber
       const walletTo = offer.offerWallet
       const cardNumberTo = offer.offerCard
+      const auto = offer.offerAuto
 
       startLoading()
+
+      if (auto) {
+        const _userOfferHasCard = await userOfferHasCard()
+        if (_userOfferHasCard) {
+          emitWarning(t('offer_user_card_alredy_have'))
+          return
+        }
+      }
 
       await confirmOfferExchange(
         gammaOffersContract,
@@ -63,7 +86,7 @@ const GammaCardExchange = (props) => {
     } catch (ex) {
       stopLoading()
       console.error(ex.message)
-      emitWarning(t('offer_exchange_error'))
+      emitError(t('offer_exchange_error'))
     }
   }, [selectedOfferId, selectedCardNumber]) //eslint-disable-line react-hooks/exhaustive-deps
 

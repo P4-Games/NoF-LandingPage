@@ -58,6 +58,13 @@ const GammaAlbum = (props) => {
       return
     }
 
+    // verifico que las ofertas sean válidas (wantedCards != [])
+    const filteredResult = offersObj.filter((item) => item.valid)
+    if (filteredResult.length === 0) {
+      emitInfo(t('offer_card_number_empty'), 5500)
+      return
+    }
+
     setCardInfo(false)
     setCardOffers(true)
   }
@@ -98,12 +105,12 @@ const GammaAlbum = (props) => {
     setCurrentPage(getCurrentPage())
 
     setImageNumber(cardNumber)
-    updateCardOffers(cardNumber)
 
     if (cardNumber === 120 || cardNumber === 121) {
       setAlbumInfoOpened(true)
       setAlbumInfo(true)
     } else {
+      updateCardOffers(cardNumber)
       setCardInfoOpened(true)
       setCardInfo(true)
     }
