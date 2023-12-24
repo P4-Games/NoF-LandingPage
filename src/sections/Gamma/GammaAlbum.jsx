@@ -264,7 +264,6 @@ const GammaAlbum = (props) => {
       {albumInfo && (
         <GammaAlbumInfo
           userCard={getuserCardObject(imageNumber)}
-          handleOpenCardOffers={handleOpenCardOffers}
           handleFinishInfoCard={handleFinishInfoCard}
         />
       )}
