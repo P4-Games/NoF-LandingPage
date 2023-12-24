@@ -80,7 +80,7 @@
     "publicar": "Publish",
     "despublicar": "Unpublish",
     "confirmado": "Confirmed",
-    "wallet_destinatario": "Insert the recipient's wallet",
+    "wallet_destinatario": "Enter the recipient's wallet",
 
     "buy_pack_title_1": "Choose the number of packs you want to buy",
     "buy_pack_title_2": "each",
@@ -108,6 +108,11 @@
     "publish_offer_error_invalid_numbers": "Enter up to 10 numbers from 0 to 119, not repeated, separated by a comma and letters you do not have.",
     "publish_offer_error_own_card_number": "You cannot request the same card you are bidding on.",
     "publish_offer_no_cards_selected": "Select at least one card to create the publication.",
+
+    "publish_offer_auto_title": "Automatic Selection",
+    "publish_offer_auto_msg": "You can create the offer without selecting cards, so you can receive some of the ones you're missing.",
+    "publish_offer_auto_confirm": "Skip Selection",
+    "publish_offer_auto_denied": "I want to select",
 
     "unpublish_offer_dialog": "Do you want to cancel the publication of the offer for this card?",
     "unpublish_offer_error": "There was an error trying to unpublish",
@@ -143,6 +148,7 @@
     "offer_only_own_offer": "The only offer available for this card is yours.",
     "offer_card_number_empty": "There are no offers for this card.",
     "offer_card_no_la_tienes": "You do not have this card to exchange it.",
+    "offer_user_card_alredy_have": "The user already has that card. Try sending another one.",
     "offer_user_limit": "You have reached the limit of offers you can make. Wait to confirm an exchange or remove a publication.",
     "offer_game_limit": "At the moment, no more offers can be made. Please try in a few days.",
 

@@ -148,23 +148,24 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
       }
     }
 
-    // TODO: Al modificar el contrato de gamm, getCardsByUser y poner en el for que devuelva
-    /// hasta 121, sacar esto.
-    const albums120 = await cardsContract.getCardQuantityByUser(walletAddress, 120)
-    const albums60 = await cardsContract.getCardQuantityByUser(walletAddress, 121)
-    cardsObj.user[120] = {
-      name: '120',
-      stamped: albums120 > 0,
-      offered: false,
-      quantity: albums120
-    }
-    cardsObj.user[121] = { name: '121', stamped: albums60 > 0, offered: false, quantity: albums60 }
-
     return cardsObj
   } catch (e) {
     console.error({ e })
     throw e
   }
+}
+
+export const getUserMissingCards = async (cardsContract, walletAddress) => {
+  const userCards = await getCardsByUser(cardsContract, walletAddress)
+  const cardsQttyZero = Object.values(userCards.user)
+    .filter((card) => card.quantity === 0)
+    .map((card) => parseInt(card.name))
+  return cardsQttyZero
+}
+
+export const getUserMissingCardsQtty = async (cardsContract, walletAddress) => {
+  const userMissingCards = await getUserMissingCards(cardsContract, walletAddress)
+  return (await userMissingCards).length
 }
 
 export const hasCard = async (cardsContract, walletAddress, cardNumber) => {

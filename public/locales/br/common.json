@@ -109,6 +109,11 @@
   "publish_offer_error_own_card_number": "Você não pode solicitar o mesmo cartão que está licitando.",
   "publish_offer_no_cards_selected": "Selecione pelo menos um cartão para criar a publicação.",
 
+  "publish_offer_auto_title": "Seleção automática",
+  "publish_offer_auto_msg": "Você pode criar a oferta sem selecionar cartas, para que lhe enviem alguma das que lhe faltam.",
+  "publish_offer_auto_confirm": "Ignorar seleção",
+  "publish_offer_auto_denied": "Quero selecionar",
+
   "unpublish_offer_dialog": "Deseja cancelar a publicação da oferta desta carta?",
   "unpublish_offer_error": "Ocorreu um erro ao tentar cancelar a publicação",
 
@@ -143,6 +148,7 @@
   "offer_only_own_offer": "A única oferta disponível para esta carta é a sua.",
   "offer_card_number_empty": "Não há ofertas para esta carta.",
   "offer_card_no_la_tienes": "Você não tem este cartão para trocá-lo.",
+  "offer_user_card_alredy_have": "O usuário já possui esse cartão. Tente enviar outro.",
   "offer_user_limit": "Você atingiu o limite de ofertas que pode fazer. Aguarde para confirmar uma troca ou remover uma publicação.",
   "offer_game_limit": "No momento, nenhuma outra oferta pode ser feita. Tente em alguns dias.",
 
