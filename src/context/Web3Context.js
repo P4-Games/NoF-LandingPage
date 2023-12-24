@@ -144,6 +144,13 @@ function Web3ContextProvider({ children }) {
         ])
       })
 
+      gammaCardsContractInstance.on('CardTransfered', (from, to, cardNumber) => {
+        addNotification(to, 'notification_card_transfer', [
+          { item: 'PACK', value: cardNumber, valueShort: cardNumber },
+          { item: 'WALLET', value: from, valueShort: getAccountAddressText(from) }
+        ])
+      })
+
       gammaCardsContractInstance.on('ExchangeCardOffer', (from, to, cNFrom, cNTo) => {
         addNotification(to, 'notification_exchange', [
           { item: 'CARD_RECEIVED', value: cNFrom, valueShort: cNFrom },
