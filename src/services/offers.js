@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { getUserMissingCards } from './gamma'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
   for (const wantedCard of wantedCardNumbers) {
@@ -64,7 +65,7 @@ export const getOffersByUser = async (offersContract, userAddress) => {
 }
 */
 
-export const getOffersByCardNumber = async (offersContract, cardNumber) => {
+export const getOffersByCardNumber = async (offersContract, cardsContract, cardNumber) => {
   try {
     if (!offersContract) return
 
@@ -73,17 +74,32 @@ export const getOffersByCardNumber = async (offersContract, cardNumber) => {
     const offers = await offersContract.getOffersByCardNumber(cardNumber)
     if (!offers) return []
 
-    const offerObject = offers.map((item) => ({
-      offerId: item[0],
-      offerCard: parseInt(item[1]),
-      wantedCards: item[2],
-      offerWallet: item[3],
-      timeStamp: item[4]
-    }))
+    console.log('offers before search', offers)
+
+    const offerObject = await Promise.all(
+      offers.map(async (item) => {
+        const [offerId, offerCard, wantedCards, offerWallet, timeStamp] = item
+        let cards = wantedCards
+        if (wantedCards.length === 0 && offerId !== 0) {
+          cards = await getUserMissingCards(cardsContract, offerWallet)
+        }
+        return {
+          offerId: offerId,
+          offerCard: parseInt(offerCard),
+          wantedCards: cards,
+          offerWallet: offerWallet,
+          timeStamp: timeStamp,
+          auto: wantedCards.length === 0
+        }
+      })
+    )
+
+    console.log('offers after search', offerObject)
 
     // El contrato puede devolver una oferta vacia en lugar de null,
     // por lo que quedará el offerId en 0
     const filteredResult = offerObject.filter((item) => item.offerId !== 0)
+
     return filteredResult
   } catch (e) {
     console.error({ e })

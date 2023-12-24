@@ -18,7 +18,7 @@ const GammaAlbum = (props) => {
   const { t } = useTranslation()
   const { showInventory, updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
-  const { gammaOffersContract, walletAddress } = useWeb3Context()
+  const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
   const { paginationObj } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
@@ -76,7 +76,7 @@ const GammaAlbum = (props) => {
   }
 
   const updateCardOffers = async (cardNumber) => {
-    const offers = await getOffersByCardNumber(gammaOffersContract, cardNumber)
+    const offers = await getOffersByCardNumber(gammaOffersContract, gammaCardsContract, cardNumber)
     if (offers && offers.length > 0) {
       // filtro mis ofertas
       const filterMyoffes = offers.filter(
@@ -87,7 +87,7 @@ const GammaAlbum = (props) => {
       setOffersObj(null)
       /* Si el usuario2 confirma el intercambio de la carta X y el usuario1 abre el cardInfo
       de la carta X, va a tener objeto.offered = true (porque no tiene el update del usuario1)
-      A diferencia de ello, el OffersObj está actualizado, por lo que es nulo, se quida 
+      A diferencia de ello, el OffersObj está actualizado, por lo que es nulo, se quita
       el offered. del paginationObj */
       paginationObj.user[cardNumber].offered = false
     }
