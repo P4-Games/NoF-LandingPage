@@ -10,7 +10,7 @@ import { removeOfferByCardNumber, createOffer } from '../../services/offers'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
-import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
+import { emitError, emitWarning, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 
@@ -162,18 +162,18 @@ const GammaCardInfo = (props) => {
     if (!canUserPublishResult) {
       emitInfo(t('offer_user_limit'), 7000)
       stopLoading()
-      return 
+      return
     }
-    
+
     const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
     if (!canAnyUserPublishResult) {
       emitInfo(t('offer_game_limit'), 7000)
       stopLoading()
-      return 
+      return
     }
-      
+
     const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
-    
+
     if (missingCardsQtty > 0) {
       stopLoading()
       const result = await Swal.fire({
