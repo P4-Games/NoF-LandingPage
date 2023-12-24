@@ -82,6 +82,7 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
         let cards = wantedCards
         if (wantedCards.length === 0 && offerId !== 0) {
           cards = await getUserMissingCards(cardsContract, offerWallet)
+          cards = cards.length > 12 ? cards.slice(0, 12) : cards
         }
         return {
           offerId: offerId,
