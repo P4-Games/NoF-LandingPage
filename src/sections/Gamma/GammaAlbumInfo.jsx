@@ -127,11 +127,7 @@ const GammaAlbumInfo = (props) => {
     />
   )
 
-  return loading ? (
-    <></>
-  ) : (
-    <BookCard />
-  )
+  return loading ? <></> : <BookCard />
 }
 
 GammaAlbumInfo.propTypes = {
