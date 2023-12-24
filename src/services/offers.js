@@ -97,7 +97,7 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
           // que la generó. Al resto no, dado que se filtra por éste atributo.
           // Además, al usuario, se le muestra el label de offer en base al atributo
           // "offer" del paginationObject (ahí no tiene el wantedCards).
-          valid: cards.length 
+          valid: cards.length
         }
       })
     )
