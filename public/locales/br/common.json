@@ -88,6 +88,7 @@
   "buy_pack_button": "Comprar",
   "buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes.",
   "buy_pack_warning": "Não há tokens suficientes para comprar essa quantidade de pacotes.",
+  "buy_pack_qtty_warning": "O número de pacotes que você deseja comprar excede os disponíveis",
   "open_pack_title": "Abertura de pacotes",
   "open_pack_error": "Ocorreu um erro ao tentar abrir pacote.",
   "open_pack_input_validator": "Insira entre 1 e {MAX}!",
