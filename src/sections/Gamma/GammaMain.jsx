@@ -457,6 +457,14 @@ const GammaMain = () => {
         return
       }
 
+      const meetQttyConditionsToBuy =
+        await gammaPacksContract.meetQuantityConditionsToBuy(numberOfPacks)
+      if (!meetQttyConditionsToBuy) {
+        stopLoading()
+        emitWarning(t('buy_pack_qtty_warning'))
+        return
+      }
+
       const approval = await checkApproved(
         daiContract,
         walletAddress,
