@@ -158,7 +158,10 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
 export const getUserMissingCards = async (cardsContract, walletAddress) => {
   const userCards = await getCardsByUser(cardsContract, walletAddress)
   const cardsQttyZero = Object.values(userCards.user)
-    .filter((card) => card.quantity === 0)
+    .filter((card) => {
+      const cardNumber = parseInt(card.name)
+      return cardNumber !== 120 && cardNumber !== 121 && card.quantity === 0
+    })
     .map((card) => parseInt(card.name))
   return cardsQttyZero
 }
