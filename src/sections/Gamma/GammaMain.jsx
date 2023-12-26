@@ -681,10 +681,10 @@ const GammaMain = () => {
       return (
         <div className='gammaComplete'>
           <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`A: ${albums120Qtty}/1`}</h3>
+            <h3>{`A: ${albums120Qtty || 0}/1`}</h3>
           </div>
           <div className={cardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`C: ${cardsQtty}/120`}</h3>
+            <h3>{`C: ${cardsQtty || 0}/120`}</h3>
           </div>
           <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
             <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
