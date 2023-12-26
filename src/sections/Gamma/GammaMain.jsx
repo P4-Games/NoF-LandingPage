@@ -18,8 +18,7 @@ import {
   openPack,
   openPacks,
   getMaxPacksAllowedToOpenAtOnce,
-  getPackPrice,
-  getUserAlbums120Qtty
+  getPackPrice
 } from '../../services/gamma'
 import { NETWORK } from '../../config'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
@@ -30,8 +29,17 @@ const GammaMain = () => {
   const [numberOfPacks, setNumberOfPacks] = useState(0)
   const [openPackage, setOpenPackage] = useState(false)
   const [packIsOpen, setPackIsOpen] = useState(false)
-  const { ALBUMS, currentAlbum, switchAlbum, paginationObj, refreshPaginationObj } =
-    useGammaDataContext()
+  const {
+    ALBUMS,
+    currentAlbum,
+    switchAlbum,
+    paginationObj,
+    getRepeatedCardsQtty,
+    refreshPaginationObj,
+    getUniqueCardsQtty,
+    getAlbums120Qtty,
+    getAlbums60Qtty
+  } = useGammaDataContext()
   const {
     walletAddress,
     daiContract,
@@ -49,28 +57,16 @@ const GammaMain = () => {
     updateButtonFunctions,
     updateFooterButtonsClasses
   } = useLayoutContext()
-  const [cardsQtty, setCardsQtty] = useState(0)
+  const [uniqueCardsQtty, setUniqueCardsQtty] = useState(0)
+  const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
+  const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
   const [albums120Qtty, setAlbums120Qtty] = useState(0)
+  const [albums60Qtty, setAlbums60Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
   const [albumInfoOpened, setAlbumInfoOpened] = useState(false)
 
-  const canCompleteAlbum120 = () => cardsQtty >= 120 && albums120Qtty > 0
-
-  const getCardsQtty = (_userdata) => {
-    let total = 0
-    if (!_userdata) return
-    for (let key in _userdata.user) {
-      if (
-        _userdata.user[key].quantity > 0 &&
-        _userdata.user[key].name != 120 &&
-        _userdata.user[key].name != 121
-      ) {
-        total += 1
-      }
-    }
-    return total
-  }
+  const canCompleteAlbum120 = () => uniqueCardsQtty >= 120 && albums120Qtty > 0
 
   const checkNumberOfPacks = async () => {
     try {
@@ -82,11 +78,11 @@ const GammaMain = () => {
   }
 
   const updateUserData = async () => {
-    refreshPaginationObj()
-    // TODO :ver de optimizar, no hace falta llamar al contrato, ya queda en paginationObj
-    const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
-    setAlbums120Qtty(userAlbums120)
-    setCardsQtty(getCardsQtty(paginationObj))
+    await refreshPaginationObj()
+    setAlbums120Qtty(getAlbums120Qtty())
+    setAlbums60Qtty(getAlbums60Qtty())
+    setUniqueCardsQtty(getUniqueCardsQtty())
+    setRepeatedCardsQtty(getRepeatedCardsQtty())
   }
 
   const fetchInventory = async () => {
@@ -130,7 +126,10 @@ const GammaMain = () => {
   }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setCardsQtty(getCardsQtty(paginationObj))
+    setUniqueCardsQtty(getUniqueCardsQtty())
+    setAlbums120Qtty(getAlbums120Qtty())
+    setAlbums60Qtty(getAlbums60Qtty())
+    setRepeatedCardsQtty(getRepeatedCardsQtty())
   }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -167,11 +166,11 @@ const GammaMain = () => {
             ])
             break
           case ALBUMS.ALBUM_BURN_SELECTION:
-            updateShowButtons([true, true, true, false])
+            updateShowButtons([true, false, false, false])
             updateFooterButtonsClasses([null, null, null, null])
             break
           case ALBUMS.ALBUM_TO_BURN:
-            updateShowButtons([true, false, false, false])
+            updateShowButtons([true, true, true, false])
             updateFooterButtonsClasses([null, null, null, null])
             break
         }
@@ -227,7 +226,7 @@ const GammaMain = () => {
       gammaPacksContract,
       openPackage,
       packIsOpen,
-      cardsQtty,
+      uniqueCardsQtty,
       numberOfPacks,
       cardInfoOpened,
       albumInfoOpened,
@@ -255,7 +254,7 @@ const GammaMain = () => {
   const handleFinishAlbum = useCallback(
     async () => {
       try {
-        if (cardsQtty < 120) {
+        if (uniqueCardsQtty < 120) {
           emitInfo(t('finish_album_no_qtty'), 100000)
           return
         }
@@ -287,7 +286,7 @@ const GammaMain = () => {
     paginationObj,
     cardInfoOpened,
     albumInfoOpened,
-    cardsQtty,
+    uniqueCardsQtty,
     albums120Qtty
   ]
   )
@@ -498,7 +497,7 @@ const GammaMain = () => {
     gammaPacksContract,
     openPackage,
     packIsOpen,
-    cardsQtty,
+    uniqueCardsQtty,
     numberOfPacks,
     currentAlbum,
     cardInfoOpened,
@@ -653,150 +652,173 @@ const GammaMain = () => {
     </div>
   )
 
+  const InfofoRightInventory = () => (
+    <>
+      <div className='gammapack'>
+        {numberOfPacks === 0 || cardInfoOpened ? (
+          <>
+            <div className={'gammapack__content__disabled'}>
+              <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={'gammapack__content'}>
+              <h1 className={'pack_number'}>{numberOfPacks}</h1>
+            </div>
+          </>
+        )}
+        <div className='gammapack__actions'>
+          {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
+            <>
+              {cardInfoOpened || albumInfoOpened ? (
+                <div className={'gammapack__actions__buyPack_disabled'}>
+                  <Image
+                    src={'/images/gamma/buyPackOff.png'}
+                    alt='buy pack'
+                    height='40'
+                    width='40'
+                  />
+                </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    handleBuyPack()
+                  }}
+                  className={'gammapack__actions__buyPack'}
+                >
+                  <Image
+                    src={'/images/gamma/buyPackOn.png'}
+                    alt='buy pack'
+                    height='40'
+                    width='40'
+                  />
+                </div>
+              )}
+              <div className='gammapack__actions__openPack_disabled'>
+                <Image
+                  src={'/images/gamma/openPackOff.png'}
+                  alt='open pack'
+                  height='50'
+                  width='50'
+                />
+              </div>
+              <div className='gammapack__actions__transferPack_disabled'>
+                <Image
+                  src={'/images/gamma/transferPackOff.png'}
+                  alt='open pack'
+                  height='40'
+                  width='40'
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                onClick={() => {
+                  handleBuyPack()
+                }}
+                className={'gammapack__actions__buyPack'}
+              >
+                <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
+              </div>
+              <div
+                onClick={() => {
+                  handleOpenPack()
+                }}
+                className='gammapack__actions__openPack'
+              >
+                <Image
+                  src={'/images/gamma/openPackOn.png'}
+                  alt='open pack'
+                  height='50'
+                  width='50'
+                />
+              </div>
+              <div
+                onClick={() => {
+                  handleTransferPack()
+                }}
+                className='gammapack__actions__openPack'
+              >
+                <Image
+                  src={'/images/gamma/transferPackOn.png'}
+                  alt='open pack'
+                  height='40'
+                  width='40'
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  )
+
+  const InfoRightAlbum120 = () => {
+    if (uniqueCardsQtty > 0) {
+      return (
+        <div className='gammaComplete'>
+          <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`A: ${albums120Qtty || 0}/1`}</h3>
+          </div>
+          <div className={uniqueCardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`C: ${uniqueCardsQtty || 0}/120`}</h3>
+          </div>
+          <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
+            <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
+          </div>
+          {canCompleteAlbum120() && (
+            <div
+              onClick={() => {
+                handleFinishAlbum()
+              }}
+              className={canCompleteAlbum120() ? 'completeAlbum' : 'completeAlbum_disabled'}
+            >
+              <h3>{t('reclamar_premio')}</h3>
+            </div>
+          )}
+        </div>
+      )
+    } else {
+      return <></>
+    }
+  }
+
+  const InfoRightAlbumToBurn = () => (
+      <div className='gammaComplete'>
+        <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+          <h3>{`A: ${albums60Qtty || 0}`}</h3>
+        </div>
+        <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+          <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
+        </div>
+      </div>
+    )
+
+  const InfoRightAlbumBurnSelection = () => (
+      <div className='gammaComplete'>
+        <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+          <h3>{`A: ${albums60Qtty || 0}`}</h3>
+        </div>
+        <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+          <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
+        </div>
+      </div>
+    )
+
   const GammaPackInfoRight = () => {
     switch (currentAlbum) {
       case ALBUMS.ALBUM_INVENTORY:
-        return (
-          <>
-            <div className='gammapack'>
-              {numberOfPacks === 0 || cardInfoOpened ? (
-                <>
-                  <div className={'gammapack__content__disabled'}>
-                    <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className={'gammapack__content'}>
-                    <h1 className={'pack_number'}>{numberOfPacks}</h1>
-                  </div>
-                </>
-              )}
-              <div className='gammapack__actions'>
-                {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
-                  <>
-                    {cardInfoOpened || albumInfoOpened ? (
-                      <div className={'gammapack__actions__buyPack_disabled'}>
-                        <Image
-                          src={'/images/gamma/buyPackOff.png'}
-                          alt='buy pack'
-                          height='40'
-                          width='40'
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => {
-                          handleBuyPack()
-                        }}
-                        className={'gammapack__actions__buyPack'}
-                      >
-                        <Image
-                          src={'/images/gamma/buyPackOn.png'}
-                          alt='buy pack'
-                          height='40'
-                          width='40'
-                        />
-                      </div>
-                    )}
-                    <div className='gammapack__actions__openPack_disabled'>
-                      <Image
-                        src={'/images/gamma/openPackOff.png'}
-                        alt='open pack'
-                        height='50'
-                        width='50'
-                      />
-                    </div>
-                    <div className='gammapack__actions__transferPack_disabled'>
-                      <Image
-                        src={'/images/gamma/transferPackOff.png'}
-                        alt='open pack'
-                        height='40'
-                        width='40'
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div
-                      onClick={() => {
-                        handleBuyPack()
-                      }}
-                      className={'gammapack__actions__buyPack'}
-                    >
-                      <Image
-                        src={'/images/gamma/buyPackOn.png'}
-                        alt='buy pack'
-                        height='40'
-                        width='40'
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        handleOpenPack()
-                      }}
-                      className='gammapack__actions__openPack'
-                    >
-                      <Image
-                        src={'/images/gamma/openPackOn.png'}
-                        alt='open pack'
-                        height='50'
-                        width='50'
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        handleTransferPack()
-                      }}
-                      className='gammapack__actions__openPack'
-                    >
-                      <Image
-                        src={'/images/gamma/transferPackOn.png'}
-                        alt='open pack'
-                        height='40'
-                        width='40'
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </>
-        )
+        return <InfofoRightInventory />
       case ALBUMS.ALBUM_120:
-        if (cardsQtty > 0) {
-          return (
-            <div className='gammaComplete'>
-              <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-                <h3>{`A: ${albums120Qtty || 0}/1`}</h3>
-              </div>
-              <div className={cardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
-                <h3>{`C: ${cardsQtty || 0}/120`}</h3>
-              </div>
-              <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
-                <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
-              </div>
-              {canCompleteAlbum120() && (
-                <div
-                  onClick={() => {
-                    handleFinishAlbum()
-                  }}
-                  className={canCompleteAlbum120() ? 'completeAlbum' : 'completeAlbum_disabled'}
-                >
-                  <h3>{t('reclamar_premio')}</h3>
-                </div>
-              )}
-            </div>
-          )
-        } else {
-          return <></>
-        }
+        return <InfoRightAlbum120 />
       case ALBUMS.ALBUM_BURN_SELECTION:
-        return <></>
+        return <InfoRightAlbumBurnSelection />
       case ALBUMS.ALBUM_TO_BURN:
-        return <></>
+        return <InfoRightAlbumToBurn />
       default:
-        return <></>
+        return <InfofoRightInventory />
     }
   }
 
@@ -817,8 +839,6 @@ const GammaMain = () => {
         _className = `${'gammaAlbumsToBurn'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
         break
     }
-
-    console.log(_className)
 
     return (
       <div

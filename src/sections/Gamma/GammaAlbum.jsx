@@ -115,7 +115,7 @@ const GammaAlbum = (props) => {
 
     setImageNumber(cardNumber)
 
-    if (cardNumber === 120 || cardNumber === 121) {
+    if (parseInt(cardNumber) === 120 || parseInt(cardNumber) === 121) {
       setAlbumInfoOpened(true)
       setAlbumInfo(true)
     } else {
@@ -195,10 +195,9 @@ const GammaAlbum = (props) => {
               <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
 
               {paginationObj.user[item]?.quantity > 1 && (
-                <div className='quantity'>
-                  X:
-                  {paginationObj.user[item]?.quantity}
-                </div>
+                <React.Fragment>
+                  <div className='quantity'> X: {paginationObj.user[item]?.quantity}</div>
+                </React.Fragment>
               )}
 
               <div className='number'>{paginationObj.user[item]?.name || '0'}</div>

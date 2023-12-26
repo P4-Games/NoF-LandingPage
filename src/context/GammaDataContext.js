@@ -26,6 +26,56 @@ const GammaDataContextProvider = ({ children }) => {
     setCurrentAlbum(album)
   }
 
+  const getUniqueCardsQtty = () => {
+    let total = 0
+    if (!paginationObj || !paginationObj.user) return
+    for (let key in paginationObj.user) {
+      if (
+        paginationObj.user[key].quantity > 0 &&
+        paginationObj.user[key].name != '120' &&
+        paginationObj.user[key].name != '121'
+      ) {
+        total += 1
+      }
+    }
+    return total
+  }
+
+  const getRepeatedCardsQtty = () => {
+    let total = 0
+    if (!paginationObj || !paginationObj.user) return
+    for (let key in paginationObj.user) {
+      if (
+        paginationObj.user[key].quantity > 1 &&
+        paginationObj.user[key].name != '120' &&
+        paginationObj.user[key].name != '121'
+      ) {
+        total += paginationObj.user[key].quantity - 1
+      }
+    }
+    return total
+  }
+
+  const getAlbums120Qtty = () => {
+    if (!paginationObj || !paginationObj.user) return
+
+    const albums120Quantity = Object.values(paginationObj.user).filter(
+      (album) => album.quantity > 0 && album.name === '120'
+    ).length
+
+    return albums120Quantity
+  }
+
+  const getAlbums60Qtty = () => {
+    if (!paginationObj || !paginationObj.user) return
+
+    const albums120Quantity = Object.values(paginationObj.user).filter(
+      (album) => album.quantity > 0 && album.name === '121'
+    ).length
+
+    return albums120Quantity
+  }
+
   useEffect(() => {
     refreshPaginationObj()
     setCurrentAlbum(ALBUMS.ALBUM_INVENTORY)
@@ -38,7 +88,11 @@ const GammaDataContextProvider = ({ children }) => {
         currentAlbum,
         ALBUMS,
         refreshPaginationObj,
-        switchAlbum
+        switchAlbum,
+        getUniqueCardsQtty,
+        getAlbums120Qtty,
+        getAlbums60Qtty,
+        getRepeatedCardsQtty
       }}
     >
       {children}
