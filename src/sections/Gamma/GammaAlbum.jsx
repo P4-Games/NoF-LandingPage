@@ -16,10 +16,10 @@ import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hoo
 
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
-  const { showInventory, updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
+  const { updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
-  const { paginationObj } = useGammaDataContext()
+  const { ALBUMS, currentAlbum, paginationObj } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
@@ -74,6 +74,7 @@ const GammaAlbum = (props) => {
     if (update) {
       await updateUserData()
     }
+    setCurrentPage(getCurrentPage())
     setCardInfo(false)
     setAlbumInfo(false)
     setCardOffers(false)
@@ -150,6 +151,63 @@ const GammaAlbum = (props) => {
   }
   */
 
+  const PageContentToBurn = ({ page, pageNumber }) => {
+    let divWrapperClassName = 'grid-wrapper-left-album'
+    if (pageNumber % 2 === 0) {
+      // par
+      divWrapperClassName = 'grid-wrapper-right-album'
+    }
+
+    return (
+      <div className={divWrapperClassName}>
+        {page &&
+          page.map((item, index) => (
+            <div style={getStyleAlbum120(item)} key={index} className='grid-item'>
+              {paginationObj.user[item]?.stamped ? (
+                //<CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+                <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+              ) : (
+                <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+              )}
+            </div>
+          ))}
+      </div>
+    )
+  }
+
+  const PageContentBurning = ({ page, pageNumber }) => {
+    let divWrapperClassName = 'grid-wrapper-left'
+    if (pageNumber % 2 === 0) {
+      // par
+      divWrapperClassName = 'grid-wrapper-right'
+    }
+
+    return (
+      <div className={divWrapperClassName}>
+        {page &&
+          page.map((item, index) => (
+            <div
+              onClick={() => {}}
+              style={getStyleInventory(item)}
+              key={index}
+              className='grid-item'
+            >
+              <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+
+              {paginationObj.user[item]?.quantity > 1 && (
+                <div className='quantity'>
+                  X:
+                  {paginationObj.user[item]?.quantity}
+                </div>
+              )}
+
+              <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
+            </div>
+          ))}
+      </div>
+    )
+  }
+
   const PageContentInventory = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
     if (pageNumber % 2 === 0) {
@@ -190,7 +248,7 @@ const GammaAlbum = (props) => {
     )
   }
 
-  const PageContentAlbum = ({ page, pageNumber }) => {
+  const PageContentAlbum120 = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left-album'
     if (pageNumber % 2 === 0) {
       // par
@@ -215,12 +273,20 @@ const GammaAlbum = (props) => {
     )
   }
 
-  const PageContent = ({ page, pageNumber }) =>
-    showInventory ? (
-      <PageContentInventory page={page} pageNumber={pageNumber} />
-    ) : (
-      <PageContentAlbum page={page} pageNumber={pageNumber} />
-    )
+  const PageContent = ({ page, pageNumber }) => {
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        return <PageContentInventory page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_120:
+        return <PageContentAlbum120 page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        return <PageContentBurning page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_TO_BURN:
+        return <PageContentToBurn page={page} pageNumber={pageNumber} />
+      default:
+        return <PageContentInventory page={page} pageNumber={pageNumber} />
+    }
+  }
 
   PageContent.propTypes = {
     page: PropTypes.array,
@@ -232,7 +298,7 @@ const GammaAlbum = (props) => {
     pageNumber: PropTypes.number
   }
 
-  PageContentAlbum.propTypes = {
+  PageContentAlbum120.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
   }
@@ -245,21 +311,26 @@ const GammaAlbum = (props) => {
   }
 
   const Book = () => {
-    if (!paginationObj) return <></>
+    const qttyPages =
+      currentAlbum === ALBUMS.ALBUM_INVENTORY || currentAlbum === ALBUMS.ALBUM_120 ? 11 : 10
+
+    if (!paginationObj || !currentAlbum) return <></>
     else
       return (
         <FlipBook
           startPage={currentPage}
           showClose={false}
           onCloseClick={undefined}
-          pages={Array.from({ length: 11 }, (_, index) => (
+          pages={Array.from({ length: qttyPages }, (_, index) => (
             <PageContent
               page={paginationObj[`page${index + 1}`]}
               key={index}
               pageNumber={index + 1}
             />
           ))}
-          mainClassName={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}
+          mainClassName={
+            currentAlbum === ALBUMS.ALBUM_IVENTORY ? 'hero__top__album' : 'hero__top__album__gamma'
+          }
         />
       )
   }
@@ -295,7 +366,6 @@ const GammaAlbum = (props) => {
 }
 
 GammaAlbum.propTypes = {
-  showInventory: PropTypes.bool,
   updateUserData: PropTypes.func,
   setCardInfoOpened: PropTypes.func,
   setAlbumInfoOpened: PropTypes.func

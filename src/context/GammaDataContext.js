@@ -6,23 +6,39 @@ import { getCardsByUser } from '../services/gamma'
 const GammaDataContext = createContext()
 
 const GammaDataContextProvider = ({ children }) => {
+  const ALBUMS = {
+    ALBUM_INVENTORY: 'inventory',
+    ALBUM_120: 'album120',
+    ALBUM_BURN_SELECTION: 'albumBurnSelection',
+    ALBUM_TO_BURN: 'albumToBurn'
+  }
+
   const { gammaCardsContract, walletAddress } = useContext(Web3Context)
   const [paginationObj, setPaginationObj] = useState({})
+  const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
 
   const refreshPaginationObj = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
     setPaginationObj(userCards)
   }
 
+  const switchAlbum = async (album) => {
+    setCurrentAlbum(album)
+  }
+
   useEffect(() => {
     refreshPaginationObj()
+    setCurrentAlbum(ALBUMS.ALBUM_INVENTORY)
   }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <GammaDataContext.Provider
       value={{
         paginationObj,
-        refreshPaginationObj
+        currentAlbum,
+        ALBUMS,
+        refreshPaginationObj,
+        switchAlbum
       }}
     >
       {children}

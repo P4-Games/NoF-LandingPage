@@ -9,7 +9,7 @@ import { hasCard } from '../../services/gamma'
 import { checkInputAddress } from '../../utils/InputValidators'
 import { emitError, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
-import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbumInfo = (props) => {
   const { t } = useTranslation()
@@ -23,6 +23,7 @@ const GammaAlbumInfo = (props) => {
     updateFooterButtonsClasses
   } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
+  const { ALBUMS, switchAlbum } = useGammaDataContext()
   const [userHasCard, setUserHasCard] = useState(false)
 
   const verifyUserHasCard = async () => {
@@ -88,7 +89,8 @@ const GammaAlbumInfo = (props) => {
   }
 
   const handleBurnClick = async () => {
- 
+    switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
+    handleFinishInfoCard(false)
   }
 
   const handleCloseButtonClick = () => {
@@ -105,11 +107,7 @@ const GammaAlbumInfo = (props) => {
   )
 
   const BurnButton = () => (
-    <div   
-      className={
-        userHasCard ? 'option' : 'option_disabled'
-      } 
-      onClick={() => handleBurnClick()}>
+    <div className={userHasCard ? 'option' : 'option_disabled'} onClick={() => handleBurnClick()}>
       {t('burn_cards')}
     </div>
   )
