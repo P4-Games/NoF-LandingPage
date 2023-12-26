@@ -87,6 +87,10 @@ const GammaAlbumInfo = (props) => {
     }
   }
 
+  const handleBurnClick = async () => {
+ 
+  }
+
   const handleCloseButtonClick = () => {
     handleFinishInfoCard(false)
   }
@@ -97,6 +101,16 @@ const GammaAlbumInfo = (props) => {
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}
+    </div>
+  )
+
+  const BurnButton = () => (
+    <div   
+      className={
+        userHasCard ? 'option' : 'option_disabled'
+      } 
+      onClick={() => handleBurnClick()}>
+      {t('burn_cards')}
     </div>
   )
 
@@ -115,6 +129,7 @@ const GammaAlbumInfo = (props) => {
     <div className='cardinfo'>
       <div className='transactions'>
         <TransferButton />
+        {userCard.name === '121' && <BurnButton />}
       </div>
     </div>
   )

@@ -185,5 +185,7 @@
 
     "exhange_cards_to_send": "you will send",
     "exhange_cards_to_receive": "you will receive",
-    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange."
+    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange.",
+
+    "burn_cards": "Burn Cards"
 }

@@ -261,7 +261,7 @@ const GammaCardInfo = (props) => {
       {t('transferir')}
     </div>
   )
-
+  
   const handleCloseButtonClick = () => {
     handleFinishInfoCard(false)
   }

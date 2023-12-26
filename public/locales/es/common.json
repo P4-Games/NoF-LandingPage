@@ -186,6 +186,8 @@
 
     "exhange_cards_to_send": "enviarás",
     "exhange_cards_to_receive": "recibirás",
-    "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio."
+    "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio.",
+
+    "burn_cards": "Quemar Cartas"
 
 }

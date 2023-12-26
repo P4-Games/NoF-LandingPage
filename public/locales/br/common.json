@@ -185,6 +185,8 @@
 
   "exhange_cards_to_send": "você enviará",
   "exhange_cards_to_receive": "você receberá",
-  "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca."
+  "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca.",
+
+  "burn_cards": "Gravar Cartões"
 
 }
