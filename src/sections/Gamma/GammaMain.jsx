@@ -102,7 +102,7 @@ const GammaMain = () => {
   }
 
   useEffect(() => {
-    if (!gammaCardsContract || !walletAddress) return
+    if (!gammaCardsContract || !gammaPacksContract || !walletAddress) return
     gammaCardsContract.on('OfferCardsExchanged', (from, to) => {
       if (
         to.toUpperCase() === walletAddress.toUpperCase() ||
@@ -117,6 +117,14 @@ const GammaMain = () => {
         from.toUpperCase() === walletAddress.toUpperCase()
       ) {
         updateUserData()
+      }
+    })
+    gammaPacksContract.on('PacksTransfered', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        checkNumberOfPacks()
       }
     })
   }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps

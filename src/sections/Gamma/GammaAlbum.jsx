@@ -83,20 +83,28 @@ const GammaAlbum = (props) => {
   }
 
   const updateCardOffers = async (cardNumber) => {
-    const offers = await getOffersByCardNumber(gammaOffersContract, gammaCardsContract, cardNumber)
-    if (offers && offers.length > 0) {
-      // filtro mis ofertas
-      const filterMyoffes = offers.filter(
-        (item) => item.offerWallet.toUpperCase() !== walletAddress.toUpperCase()
+    try {
+      const offers = await getOffersByCardNumber(
+        gammaOffersContract,
+        gammaCardsContract,
+        cardNumber
       )
-      setOffersObj(filterMyoffes)
-    } else {
-      setOffersObj(null)
-      /* Si el usuario2 confirma el intercambio de la carta X y el usuario1 abre el cardInfo
-      de la carta X, va a tener objeto.offered = true (porque no tiene el update del usuario1)
-      A diferencia de ello, el OffersObj está actualizado, por lo que es nulo, se quita
-      el offered. del paginationObj */
-      paginationObj.user[cardNumber].offered = false
+      if (offers && offers.length > 0) {
+        // filtro mis ofertas
+        const filterMyoffes = offers.filter(
+          (item) => item.offerWallet.toUpperCase() !== walletAddress.toUpperCase()
+        )
+        setOffersObj(filterMyoffes)
+      } else {
+        setOffersObj(null)
+        /* Si el usuario2 confirma el intercambio de la carta X y el usuario1 abre el cardInfo
+        de la carta X, va a tener objeto.offered = true (porque no tiene el update del usuario1)
+        A diferencia de ello, el OffersObj está actualizado, por lo que es nulo, se quita 
+        el offered. del paginationObj */
+        paginationObj.user[cardNumber].offered = false
+      }
+    } catch (ex) {
+      // avoid show error
     }
   }
 
@@ -229,7 +237,7 @@ const GammaAlbum = (props) => {
     pageNumber: PropTypes.number
   }
 
-  const getuserCardObject = (imageNumber) => {
+  const getUserCardObject = (imageNumber) => {
     const data = paginationObj
       ? Object.values(paginationObj.user).find((entry) => entry.name === imageNumber.toString())
       : {}
@@ -262,7 +270,7 @@ const GammaAlbum = (props) => {
 
       {cardInfo && (
         <GammaCardInfo
-          userCard={getuserCardObject(imageNumber)}
+          userCard={getUserCardObject(imageNumber)}
           handleOpenCardOffers={handleOpenCardOffers}
           handleFinishInfoCard={handleFinishInfoCard}
         />
@@ -270,7 +278,7 @@ const GammaAlbum = (props) => {
 
       {albumInfo && (
         <GammaAlbumInfo
-          userCard={getuserCardObject(imageNumber)}
+          userCard={getUserCardObject(imageNumber)}
           handleFinishInfoCard={handleFinishInfoCard}
         />
       )}
