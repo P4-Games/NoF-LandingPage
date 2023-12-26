@@ -151,7 +151,7 @@ const GammaAlbum = (props) => {
   }
   */
 
-  const PageContentToBurn = ({ page, pageNumber }) => {
+  const PageContentAlbumToBurn = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left-album'
     if (pageNumber % 2 === 0) {
       // par
@@ -175,7 +175,7 @@ const GammaAlbum = (props) => {
     )
   }
 
-  const PageContentBurning = ({ page, pageNumber }) => {
+  const PageContentAlbumBurnSelection = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
     if (pageNumber % 2 === 0) {
       // par
@@ -280,9 +280,9 @@ const GammaAlbum = (props) => {
       case ALBUMS.ALBUM_120:
         return <PageContentAlbum120 page={page} pageNumber={pageNumber} />
       case ALBUMS.ALBUM_BURN_SELECTION:
-        return <PageContentBurning page={page} pageNumber={pageNumber} />
+        return <PageContentAlbumBurnSelection page={page} pageNumber={pageNumber} />
       case ALBUMS.ALBUM_TO_BURN:
-        return <PageContentToBurn page={page} pageNumber={pageNumber} />
+        return <PageContentAlbumToBurn page={page} pageNumber={pageNumber} />
       default:
         return <PageContentInventory page={page} pageNumber={pageNumber} />
     }
@@ -303,6 +303,16 @@ const GammaAlbum = (props) => {
     pageNumber: PropTypes.number
   }
 
+  PageContentAlbumBurnSelection.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
+  PageContentAlbumToBurn.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
   const getUserCardObject = (imageNumber) => {
     const data = paginationObj
       ? Object.values(paginationObj.user).find((entry) => entry.name === imageNumber.toString())
@@ -311,28 +321,43 @@ const GammaAlbum = (props) => {
   }
 
   const Book = () => {
+    if (!paginationObj || !currentAlbum) return <></>
+
     const qttyPages =
       currentAlbum === ALBUMS.ALBUM_INVENTORY || currentAlbum === ALBUMS.ALBUM_120 ? 11 : 10
 
-    if (!paginationObj || !currentAlbum) return <></>
-    else
-      return (
-        <FlipBook
-          startPage={currentPage}
-          showClose={false}
-          onCloseClick={undefined}
-          pages={Array.from({ length: qttyPages }, (_, index) => (
-            <PageContent
-              page={paginationObj[`page${index + 1}`]}
-              key={index}
-              pageNumber={index + 1}
-            />
-          ))}
-          mainClassName={
-            currentAlbum === ALBUMS.ALBUM_IVENTORY ? 'hero__top__album' : 'hero__top__album__gamma'
-          }
-        />
-      )
+    let _className = 'hero__top__album'
+
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        _className = 'hero__top__album'
+        break
+      case ALBUMS.ALBUM_120:
+        _className = 'hero__top__album__120'
+        break
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        _className = 'hero__top__album'
+        break
+      case ALBUMS.ALBUM_TO_BURN:
+        _className = 'hero__top__album__toburn'
+        break
+    }
+
+    return (
+      <FlipBook
+        mainClassName={_className}
+        startPage={currentPage}
+        showClose={false}
+        onCloseClick={undefined}
+        pages={Array.from({ length: qttyPages }, (_, index) => (
+          <PageContent
+            page={paginationObj[`page${index + 1}`]}
+            key={index}
+            pageNumber={index + 1}
+          />
+        ))}
+      />
+    )
   }
 
   return (

@@ -391,12 +391,16 @@
   background: url('/images/gamma/albums.png');
   background-size: 100% 100%;
 }
-.gammaAlbums2 {
+.gammaAlbums120 {
   @extend .gammaAlbumsCommon;
   background: url('/images/gamma/AlbumGamma2.png');
   background-size: 100% 100%;
 }
-
+.gammaAlbumsToBurn {
+  @extend .gammaAlbumsCommon;
+  background: url('/images/gamma/AlbumGammaToBurn.png');
+  background-size: 100% 100%;
+}
 .gammaAlbums-disabled {
   @extend .gammaAlbumsCommon;
   background: url('/images/gamma/albums-disabled.png');
@@ -405,10 +409,18 @@
   cursor: not-allowed;
 }
 
-.gammaAlbums2-disabled {
+.gammaAlbums120-disabled {
   @extend .gammaAlbumsCommon;
   background-size: 100% 100%;
-  background: url('/images/gamma/AlbumGamma2-disabled.png');
+  background: url('/images/gamma/AlbumGamma120-disabled.png');
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.gammaAlbumsToBurn-disabled {
+  @extend .gammaAlbumsCommon;
+  background-size: 100% 100%;
+  background: url('/images/gamma/AlbumGammaToBurn.png');
   pointer-events: none;
   cursor: not-allowed;
 }

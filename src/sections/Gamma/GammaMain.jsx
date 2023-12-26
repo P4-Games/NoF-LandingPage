@@ -235,20 +235,22 @@ const GammaMain = () => {
     ]
   )
 
-  useEffect(() => {
-    if (walletAddress && currentAlbum === ALBUMS.ALBUM_INVENTORY) {
-      updateButtonFunctions(3, handleTransferPack)
-    }
-  }, 
-  // prettier-ignore
-  [ //eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (walletAddress && currentAlbum === ALBUMS.ALBUM_INVENTORY) {
+        updateButtonFunctions(3, handleTransferPack)
+      }
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     numberOfPacks,
     currentAlbum,
     cardInfoOpened,
     albumInfoOpened
-  ])
+  ]
+  )
 
   const handleFinishAlbum = useCallback(
     async () => {
@@ -801,37 +803,22 @@ const GammaMain = () => {
   const BookImageLeft = () => {
     let _className = ''
 
-    if (cardInfoOpened || albumInfoOpened) {
-      switch (currentAlbum) {
-        case ALBUMS.ALBUM_INVENTORY:
-          _className = 'gammaAlbums-disabled'
-          break
-        case ALBUMS.ALBUM_120:
-          _className = 'gammaAlbums2-disabled'
-          break
-        case ALBUMS.ALBUM_BURN_SELECTION:
-          _className = 'gammaAlbums-disabled'
-          break
-        case ALBUMS.ALBUM_TO_BURN:
-          _className = 'gammaAlbums2-disabled'
-          break
-      }
-    } else {
-      switch (currentAlbum) {
-        case ALBUMS.ALBUM_INVENTORY:
-          _className = 'gammaAlbums'
-          break
-        case ALBUMS.ALBUM_120:
-          _className = 'gammaAlbums2'
-          break
-        case ALBUMS.ALBUM_BURN_SELECTION:
-          _className = 'gammaAlbums'
-          break
-        case ALBUMS.ALBUM_TO_BURN:
-          _className = 'gammaAlbums2'
-          break
-      }
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        _className = `${'gammaAlbums'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_120:
+        _className = `${'gammaAlbums120'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        _className = `${'gammaAlbums'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_TO_BURN:
+        _className = `${'gammaAlbumsToBurn'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
     }
+
+    console.log(_className)
 
     return (
       <div
