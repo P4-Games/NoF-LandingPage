@@ -26,12 +26,12 @@ const GammaDataContextProvider = ({ children }) => {
 
   const refreshPaginationObj = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
+    setPaginationObj({}) // para limpiar ref
     setPaginationObj(userCards)
     setAlbums120Qtty(getAlbums120Qtty())
     setAlbums60Qtty(getAlbums60Qtty())
     setUniqueCardsQtty(getUniqueCardsQtty())
     setRepeatedCardsQtty(getRepeatedCardsQtty())
-    setPaginationObjBurn({})
   }
 
   const generatePaginationObjToBurn = (force) => {
@@ -44,20 +44,34 @@ const GammaDataContextProvider = ({ children }) => {
     }
   }
 
-  const selectAllRepeatedCardsToBurn = () => {
+  const cleanBurnObjects = () => {
+    setPaginationObjBurn({})
+    setCardsToBurn([])
+    setCardsQttyToBurn(0)
+  }
+
+  const selectAllRepeatedCardsToBurn = (limit) => {
     if (!paginationObj || !paginationObj.user) return
     let total = 0
     let _cardsToBurn = []
+
     generatePaginationObjToBurn(true)
+
     for (let key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
         paginationObj.user[key].name != '120' &&
         paginationObj.user[key].name != '121'
       ) {
-        const itemQttyRepeated = paginationObj.user[key].quantity - 1
-        total += itemQttyRepeated
+        let itemQttyRepeated = paginationObj.user[key].quantity - 1
         const cardNumber = paginationObj.user[key].name
+        let itemQttyRepeatedCorrected = 0
+
+        if (total + itemQttyRepeated > limit) {
+          itemQttyRepeatedCorrected = total + itemQttyRepeated - limit
+          itemQttyRepeated = itemQttyRepeated - itemQttyRepeatedCorrected
+        }
+        total += itemQttyRepeated
         _cardsToBurn = _cardsToBurn.concat(Array(itemQttyRepeated).fill(parseInt(cardNumber)))
         paginationObjBurn.user[cardNumber].quantity =
           paginationObjBurn.user[cardNumber].quantity - itemQttyRepeated
@@ -159,7 +173,8 @@ const GammaDataContextProvider = ({ children }) => {
         refreshPaginationObj,
         setPaginationObjBurn,
         generatePaginationObjToBurn,
-        selectAllRepeatedCardsToBurn
+        selectAllRepeatedCardsToBurn,
+        cleanBurnObjects
       }}
     >
       {children}

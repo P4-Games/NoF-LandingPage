@@ -56,10 +56,10 @@ const GammaCardInfo = (props) => {
     handleOpenCardOffers()
   }
 
-  const handleFinishPublish = (update) => {
+  const handleFinishPublish = async (update) => {
     setCardPublish(false)
     if (update) {
-      handleFinishInfoCard(update)
+      await handleFinishInfoCard(update)
     }
   }
 
@@ -81,7 +81,7 @@ const GammaCardInfo = (props) => {
       if (result.isConfirmed) {
         startLoading()
         await removeOfferByCardNumber(gammaOffersContract, userCard.name)
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
@@ -120,7 +120,7 @@ const GammaCardInfo = (props) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, userCard.name)
         await transaction.wait()
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
@@ -136,7 +136,7 @@ const GammaCardInfo = (props) => {
       startLoading()
       const transaction = await gammaCardsContract.mintCard(userCard.name)
       await transaction.wait()
-      handleFinishInfoCard(true)
+      await handleFinishInfoCard(true)
       stopLoading()
       Swal.fire({
         title: '',
@@ -262,8 +262,8 @@ const GammaCardInfo = (props) => {
     </div>
   )
 
-  const handleCloseButtonClick = () => {
-    handleFinishInfoCard(false)
+  const handleCloseButtonClick = async () => {
+    await handleFinishInfoCard(false)
   }
 
   const Page1 = () => (

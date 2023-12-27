@@ -37,13 +37,13 @@ const GammaMain = () => {
     refreshPaginationObj,
     cardsQttyToBurn,
     cardsToBurn,
+    cleanBurnObjects,
     setCardsToBurn,
     setCardsQttyToBurn,
     uniqueCardsQtty,
     repeatedCardsQtty,
     albums120Qtty,
     albums60Qtty,
-    setPaginationObjBurn,
     generatePaginationObjToBurn,
     selectAllRepeatedCardsToBurn
   } = useGammaDataContext()
@@ -87,7 +87,7 @@ const GammaMain = () => {
     try {
       if (!walletAddress) return
       startLoading()
-      await updateUserData()
+      await refreshPaginationObj()
       stopLoading()
     } catch (error) {
       stopLoading()
@@ -626,8 +626,14 @@ const GammaMain = () => {
       emitInfo(t('burn_select_all_info', 2000))
       return
     }
+
+    if (cardsQttyToBurn >= 60) {
+      emitInfo(t('burn_select_all_info_60', 2000))
+      return
+    }
+
     startLoading()
-    selectAllRepeatedCardsToBurn()
+    selectAllRepeatedCardsToBurn(60)
     stopLoading()
     emitSuccess(t('burn_select_all_confirm'), 2000)
   }, [currentAlbum, cardsQttyToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
@@ -705,9 +711,8 @@ const GammaMain = () => {
           emitWarning(t('finish_album_warning'))
           return
         }
-        setCardsToBurn([])
-        setCardsQttyToBurn(0)
-        setPaginationObjBurn({})
+        cleanBurnObjects()
+        await updateUserData()
         switchAlbum(ALBUMS.ALBUM_INVENTORY)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
@@ -723,10 +728,8 @@ const GammaMain = () => {
     console.log('cardsQttyToBurn', cardsQttyToBurn)
 
     if (cardsQttyToBurn === 0) {
+      cleanBurnObjects()
       switchAlbum(ALBUMS.ALBUM_INVENTORY)
-      setCardsToBurn([])
-      setCardsQttyToBurn(0)
-      setPaginationObjBurn({})
       return
     }
 
@@ -747,10 +750,8 @@ const GammaMain = () => {
     })
 
     if (result.isConfirmed) {
+      cleanBurnObjects()
       switchAlbum(ALBUMS.ALBUM_INVENTORY)
-      setCardsToBurn([])
-      setCardsQttyToBurn(0)
-      setPaginationObjBurn({})
     }
   }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -932,7 +933,7 @@ const GammaMain = () => {
         <h3>{`A: ${albums60Qtty || 0}`}</h3>
       </div>
       <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-        <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
+        <h3>{`C: ${cardsQttyToBurn || 0}/60`}</h3>
       </div>
     </div>
   )
@@ -944,7 +945,7 @@ const GammaMain = () => {
           <h1 className={'pack_number'}>{cardsQttyToBurn}</h1>
         </div>
         <div className='gammaRightBurn__actions'>
-          {cardsQttyToBurn < repeatedCardsQtty ? (
+          {cardsQttyToBurn < repeatedCardsQtty && cardsQttyToBurn < 60 ? (
             <div
               onClick={() => {
                 handleBurnCardsSelectAll()
@@ -1049,11 +1050,7 @@ const GammaMain = () => {
       {isConnected && isValidNetwork && <BookImageLeft />}
 
       {isConnected && isValidNetwork && (
-        <GammaAlbum
-          updateUserData={updateUserData}
-          setCardInfoOpened={setCardInfoOpened}
-          setAlbumInfoOpened={setAlbumInfoOpened}
-        />
+        <GammaAlbum setCardInfoOpened={setCardInfoOpened} setAlbumInfoOpened={setAlbumInfoOpened} />
       )}
 
       {isConnected && isValidNetwork && <GammaPackInfoRight />}

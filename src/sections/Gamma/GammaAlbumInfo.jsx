@@ -77,7 +77,7 @@ const GammaAlbumInfo = (props) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, userCard.name)
         await transaction.wait()
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
@@ -93,13 +93,12 @@ const GammaAlbumInfo = (props) => {
       emitInfo(t('burn_repeated_info'), 100000)
       return
     }
-
     switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
-    handleFinishInfoCard(false)
+    await handleFinishInfoCard(true)
   }
 
-  const handleCloseButtonClick = () => {
-    handleFinishInfoCard(false)
+  const handleCloseButtonClick = async () => {
+    await handleFinishInfoCard(false)
   }
 
   const TransferButton = () => (

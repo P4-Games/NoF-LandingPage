@@ -18,7 +18,7 @@ import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hoo
 
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
-  const { updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
+  const { setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
   const {
@@ -29,7 +29,8 @@ const GammaAlbum = (props) => {
     setCardsQttyToBurn,
     cardsToBurn,
     setCardsToBurn,
-    paginationObjBurn
+    paginationObjBurn,
+    refreshPaginationObj
   } = useGammaDataContext()
 
   const [cardInfo, setCardInfo] = useState(false)
@@ -88,7 +89,7 @@ const GammaAlbum = (props) => {
   const handleFinishInfoCard = async (update = true) => {
     startLoading()
     if (update) {
-      await updateUserData()
+      await refreshPaginationObj()
     }
     setCurrentPage(getCurrentPage())
     setCardInfo(false)
@@ -435,7 +436,6 @@ const GammaAlbum = (props) => {
 }
 
 GammaAlbum.propTypes = {
-  updateUserData: PropTypes.func,
   setCardInfoOpened: PropTypes.func,
   setAlbumInfoOpened: PropTypes.func
 }
