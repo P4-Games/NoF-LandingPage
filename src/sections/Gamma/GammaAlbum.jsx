@@ -154,7 +154,7 @@ const GammaAlbum = (props) => {
     setCardsQttyToBurn(cardsQttyToBurn + 1)
     setCardsToBurn([...cardsToBurn, cardNumber])
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
-    console.log('paginationObj', cardsQttyToBurn, cardsToBurn, paginationObj, paginationObjBurn)
+    console.log('paginationObj', cardsQttyToBurn, cardsToBurn, paginationObj.user, paginationObjBurn.user)
   }
 
   const handleCardBurnUndoClick = async (cardNumber) => {
@@ -375,23 +375,25 @@ const GammaAlbum = (props) => {
   const Book = () => {
     if (!paginationObj || !paginationObjBurn || !currentAlbum) return <></>
 
-    const qttyPages =
-      currentAlbum === ALBUMS.ALBUM_INVENTORY || currentAlbum === ALBUMS.ALBUM_120 ? 11 : 10
-
+    let qttyPages = 11
     let _className = 'hero__top__album'
 
     switch (currentAlbum) {
       case ALBUMS.ALBUM_INVENTORY:
         _className = 'hero__top__album'
+        qttyPages = 11
         break
       case ALBUMS.ALBUM_120:
         _className = 'hero__top__album__120'
+        qttyPages = 11
         break
       case ALBUMS.ALBUM_BURN_SELECTION:
         _className = 'hero__top__album'
+        qttyPages = 10
         break
       case ALBUMS.ALBUM_TO_BURN:
         _className = 'hero__top__album__toburn'
+        qttyPages = 5
         break
     }
 
