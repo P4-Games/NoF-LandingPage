@@ -204,6 +204,8 @@
     "burn_cancel_text": "Do you want to cancel the burning? (the selection of cards to burn will be lost).",
     "burn_cancel_button_confirm": "Yes, cancel burning",
     "burn_cancel_button_cancel": "Keep selection",
+ 
+    "burn_repeated_info": "You have no repeated cards to burn.",
     
     "confirm": "Confirm",
     "cancel": "Cancel"

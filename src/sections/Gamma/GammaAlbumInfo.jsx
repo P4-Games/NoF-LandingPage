@@ -7,7 +7,7 @@ import { MdOutlineLocalOffer } from 'react-icons/md'
 import { storageUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
 import { checkInputAddress } from '../../utils/InputValidators'
-import { emitError, emitSuccess } from '../../utils/alert'
+import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
@@ -23,7 +23,8 @@ const GammaAlbumInfo = (props) => {
     updateFooterButtonsClasses
   } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
-  const { ALBUMS, switchAlbum } = useGammaDataContext()
+  const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
+  const { ALBUMS, switchAlbum, getRepeatedCardsQtty } = useGammaDataContext()
   const [userHasCard, setUserHasCard] = useState(false)
 
   const verifyUserHasCard = async () => {
@@ -47,7 +48,8 @@ const GammaAlbumInfo = (props) => {
 
   useEffect(() => {
     verifyUserHasCard()
-  }, [gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+    setRepeatedCardsQtty(getRepeatedCardsQtty())
+  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferClick = async () => {
     try {
@@ -89,6 +91,11 @@ const GammaAlbumInfo = (props) => {
   }
 
   const handleBurnClick = async () => {
+    if (repeatedCardsQtty === 0) {
+      emitInfo(t('burn_repeated_info'), 100000)
+      return
+    }
+
     switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
     handleFinishInfoCard(false)
   }

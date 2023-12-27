@@ -206,6 +206,8 @@
     "burn_cancel_button_confirm": "Si, cancelar quema",
     "burn_cancel_button_cancel": "Mantener selección",
 
+    "burn_repeated_info": "No tienes cartas repetidas para quemar.",
+
     "confirm": "Confirmar",
     "cancel": "Cancelar"
 }

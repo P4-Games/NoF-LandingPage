@@ -205,6 +205,8 @@
   "burn_cancel_button_confirm": "Sim, cancelar gravação",
   "burn_cancel_button_cancel": "Manter seleção",
 
+  "burn_repeated_info": "Você não tem cartas repetidas para queimar.",
+  
   "confirm": "Confirmar",
   "cancel": "Cancelar"
 
