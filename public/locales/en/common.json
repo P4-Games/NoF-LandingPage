@@ -192,6 +192,19 @@
     "burn_text": "You are going to burn {CARDS_TO_BURN} cards. Do you confirm?",
     "burn_no_cards_selected": "There are no cards selected to burn.",
     "burn_error": "There was an error attempting to burn",
+ 
+    "burn_undo_all_info": "There are no cards selected for burning, which can be removed from the burn.",
+    "burn_undo_all_title": "Undo selection",
+    "burn_undo_all_text": "All cards selected ({CARDS_TO_BURN}) for burning will be restored. Do you want to continue?",
+    "burn_undo_all_button_confirm": "Yes, undo selection",
+    "burn_undo_all_confirm": "Cards restored",
+    "burn_undo_all_error": "There was an error trying to restore cards from burning",
+
+    "burn_cancel_title": "Burn Cancellation",
+    "burn_cancel_text": "Do you want to cancel the burning? (the selection of cards to burn will be lost).",
+    "burn_cancel_button_confirm": "Yes, cancel burning",
+    "burn_cancel_button_cancel": "Keep selection",
+    
     "confirm": "Confirm",
     "cancel": "Cancel"
 }

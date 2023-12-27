@@ -171,18 +171,18 @@ const GammaMain = () => {
           case ALBUMS.ALBUM_BURN_SELECTION:
             updateShowButtons([true, true, true, false])
             updateFooterButtonsClasses([
-              'footer__buttons__bluebtn_custom_switch_album__toburn', 
-              null, 
-              null, 
+              'footer__buttons__bluebtn_custom_switch_album__toburn',
+              null,
+              null,
               null
             ])
             break
           case ALBUMS.ALBUM_TO_BURN:
             updateShowButtons([true, true, true, false])
             updateFooterButtonsClasses([
-              'footer__buttons__bluebtn_custom_switch_inventory', 
-              null, 
-              null, 
+              'footer__buttons__bluebtn_custom_switch_inventory',
+              null,
+              null,
               null
             ])
             break
@@ -206,10 +206,12 @@ const GammaMain = () => {
       if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
         if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
           updateButtonFunctions(1, handleBuyPack)
-        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
-          updateButtonFunctions(1, handleBurnCards)
         } else if (currentAlbum === ALBUMS.ALBUM_120) {
           updateButtonFunctions(1, handleFinishAlbum)
+        } else if (currentAlbum === ALBUMS.ALBUM_BURN_SELECTION) {
+          updateButtonFunctions(1, handleSelectAllBurnCards)
+        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
+          updateButtonFunctions(1, handleBurnCards)
         }
       }
     },
@@ -219,7 +221,9 @@ const GammaMain = () => {
     gammaPacksContract,
     cardInfoOpened,
     albumInfoOpened,
-    currentAlbum
+    currentAlbum,
+    cardsToBurn,
+    cardsQttyToBurn
   ]
   )
 
@@ -229,6 +233,8 @@ const GammaMain = () => {
         if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
           updateButtonFunctions(2, handleOpenPack)
         } else if (currentAlbum === ALBUMS.ALBUM_BURN_SELECTION) {
+          updateButtonFunctions(2, handleUndoAllBurnCards)
+        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
           updateButtonFunctions(2, handleCancelBurning)
         }
       }
@@ -243,25 +249,10 @@ const GammaMain = () => {
       numberOfPacks,
       cardInfoOpened,
       albumInfoOpened,
-      currentAlbum
+      currentAlbum,
+      cardsToBurn,
+      cardsQttyToBurn
     ]
-  )
-
-  useEffect(
-    () => {
-      if (walletAddress && currentAlbum === ALBUMS.ALBUM_INVENTORY) {
-        updateButtonFunctions(3, handleTransferPack)
-      }
-    },
-    // prettier-ignore
-    [ //eslint-disable-line react-hooks/exhaustive-deps
-    walletAddress,
-    gammaPacksContract,
-    numberOfPacks,
-    currentAlbum,
-    cardInfoOpened,
-    albumInfoOpened
-  ]
   )
 
   const handleFinishAlbum = useCallback(
@@ -618,6 +609,45 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
+  const handleSelectAllBurnCards = useCallback(async () => {
+    // TODO
+  }, [currentAlbum, cardsQttyToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleUndoAllBurnCards = useCallback(async () => {
+    if (cardsQttyToBurn === 0) {
+      emitInfo(t('burn_undo_all_info', 2000))
+      return
+    }
+
+    const result = await Swal.fire({
+      title: `${t('burn_undo_all_title')}`,
+      text: `${t('burn_undo_all_text').replace('{CARDS_TO_BURN}', cardsQttyToBurn)}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('burn_undo_all_button_confirm')}`,
+      cancelButtonText: `${t('cancel')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      try {
+        // TODO: actualizar arrays
+        setCardsToBurn([])
+        setCardsQttyToBurn(0)
+        emitSuccess(t('burn_undo_all_confirm'), 2000)
+      } catch (ex) {
+        console.error({ ex })
+        emitError(t('burn_undo_all_error'))
+      }
+    }
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn])
+
   const handleBurnCards = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
       emitInfo(t('burn_no_cards_selected', 2000))
@@ -659,13 +689,42 @@ const GammaMain = () => {
         emitError(t('burn_error'))
       }
     }
-  }, [currentAlbum, walletAddress, gammaPacksContract])
+  }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract])
 
   const handleCancelBurning = useCallback(async () => {
-    switchAlbum(ALBUMS.ALBUM_INVENTORY)
-    setCardsToBurn([])
-    setCardsQttyToBurn(0)
-  }, [currentAlbum])
+
+  console.log('cardsQttyToBurn', cardsQttyToBurn)
+
+    if (cardsQttyToBurn === 0) {
+      switchAlbum(ALBUMS.ALBUM_INVENTORY)
+      setCardsToBurn([])
+      setCardsQttyToBurn(0)
+      return
+    }
+
+    const result = await Swal.fire({
+      title: `${t('burn_cancel_title')}`,
+      text: `${t('burn_cancel_text')}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('burn_cancel_button_confirm')}`,
+      cancelButtonText: `${t('burn_cancel_button_cancel')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      switchAlbum(ALBUMS.ALBUM_INVENTORY)
+      setCardsToBurn([])
+      setCardsQttyToBurn(0)
+    }
+
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn])
 
   const NotConnected = () => (
     <div className='alpha'>

@@ -193,6 +193,19 @@
     "burn_text": "Vas a quemar {CARDS_TO_BURN} cartas. ¿Confirmas?",
     "burn_no_cards_selected": "No hay cartas seleccionadas para quemar.",
     "burn_error": "Hubo un error al intentar la quema",
+
+    "burn_undo_all_info": "No hay cartas seleccionadas para quemar, las cuales se puedan quitar de la quema.",
+    "burn_undo_all_title": "Deshacer selección",
+    "burn_undo_all_text": "Todas las cartas seleccionadas ({CARDS_TO_BURN}) para la quema, se restaurarán. ¿Deseas continuar?",
+    "burn_undo_all_button_confirm": "Si, deshacer selección",
+    "burn_undo_all_confirm": "Cartas restauradas",
+    "burn_undo_all_error": "Hubo un error al intentar restaurar las cartas de la quema",
+
+    "burn_cancel_title": "Cancelación de quema", 
+    "burn_cancel_text": "¿Deseas cancelar la quema? (se perderá la selección de cartas a quemar).",
+    "burn_cancel_button_confirm": "Si, cancelar quema",
+    "burn_cancel_button_cancel": "Mantener selección",
+
     "confirm": "Confirmar",
     "cancel": "Cancelar"
 }

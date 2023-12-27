@@ -192,6 +192,19 @@
   "burn_text": "Você vai queimar {CARDS_TO_BURN} cartas. Você confirma?",
   "burn_no_cards_selected": "Não há cartas selecionadas para queimar.",
   "burn_error": "Ocorreu um erro ao tentar gravar",
+
+  "burn_undo_all_info": "Não há cartas selecionadas para gravação que possam ser removidas da gravação.",
+  "burn_undo_all_title": "Desfazer seleção",
+  "burn_undo_all_text": "Todos os cards selecionados ({CARDS_TO_BURN}) para gravação serão restaurados. Deseja continuar?",
+  "burn_undo_all_button_confirm": "Sim, desfazer seleção",
+  "burn_undo_all_confirm": "Cartões restaurados",
+  "burn_undo_all_error": "Ocorreu um erro ao tentar restaurar os cartões da gravação",
+
+  "burn_cancel_title": "Cancelamento de gravação",
+  "burn_cancel_text": "Deseja cancelar a gravação? (a seleção de cartas para gravar será perdida).",
+  "burn_cancel_button_confirm": "Sim, cancelar gravação",
+  "burn_cancel_button_cancel": "Manter seleção",
+
   "confirm": "Confirmar",
   "cancel": "Cancelar"
 
