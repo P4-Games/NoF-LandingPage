@@ -272,6 +272,17 @@
         background-image: url(/images/gamma/claimPrize.png);
       }
     }
+    &__greenbtn_custom_confirm {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/check-mark.png);
+      }
+    }
     &__redbtn_custom_open {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/red-custom.png);
@@ -281,6 +292,17 @@
       &::before {
         @extend .footer__buttons__custom__before;
         background-image: url(/images/gamma/openPackOn.png);
+      }
+    }
+    &__redbtn_custom_cancel {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/cancel.png);
       }
     }
     &__yellowbtn_custom_transfer {

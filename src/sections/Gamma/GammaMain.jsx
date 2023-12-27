@@ -181,8 +181,8 @@ const GammaMain = () => {
             updateShowButtons([true, true, true, false])
             updateFooterButtonsClasses([
               'footer__buttons__bluebtn_custom_switch_inventory',
-              null,
-              null,
+              'footer__buttons__greenbtn_custom_confirm',
+              'footer__buttons__redbtn_custom_cancel',
               null
             ])
             break
@@ -254,6 +254,23 @@ const GammaMain = () => {
       cardsQttyToBurn
     ]
   )
+
+  useEffect(
+    () => {
+      if (walletAddress && currentAlbum) {
+        updateButtonFunctions(3, handleTransferPack)
+      }
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
+    walletAddress,
+    gammaPacksContract,
+    numberOfPacks,
+    currentAlbum,
+    cardInfoOpened,
+    albumInfoOpened
+  ]
+  ) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFinishAlbum = useCallback(
     async () => {
@@ -692,8 +709,7 @@ const GammaMain = () => {
   }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract])
 
   const handleCancelBurning = useCallback(async () => {
-
-  console.log('cardsQttyToBurn', cardsQttyToBurn)
+    console.log('cardsQttyToBurn', cardsQttyToBurn)
 
     if (cardsQttyToBurn === 0) {
       switchAlbum(ALBUMS.ALBUM_INVENTORY)
@@ -723,7 +739,6 @@ const GammaMain = () => {
       setCardsToBurn([])
       setCardsQttyToBurn(0)
     }
-
   }, [currentAlbum, cardsQttyToBurn, cardsToBurn])
 
   const NotConnected = () => (
@@ -910,14 +925,54 @@ const GammaMain = () => {
   )
 
   const InfoRightAlbumBurnSelection = () => (
-    <div className='gammaComplete'>
-      <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-        <h3>{`A: ${albums60Qtty || 0}`}</h3>
+    <>
+      <div className='gammapack'>
+        <div className={'gammapack__content'}>
+          <h1 className={'pack_number'}>{cardsQttyToBurn}</h1>
+        </div>
+        <div className='gammapack__actions'>
+          {cardsQttyToBurn <= repeatedCardsQtty ? (
+            <div
+              onClick={() => {
+                handleSelectAllBurnCards()
+              }}
+              className={'gammapack__actions__buyPack'}
+            >
+              <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
+            </div>
+          ) : (
+            <div className={'gammapack__actions__buyPack_disabled'}>
+              <Image src={'/images/gamma/buyPackOff.png'} alt='buy pack' height='40' width='40' />
+            </div>
+          )}
+
+          {cardsQttyToBurn === 0 ? (
+            <div className='gammapack__actions__transferPack_disabled'>
+              <Image
+                src={'/images/gamma/transferPackOff.png'}
+                alt='open pack'
+                height='40'
+                width='40'
+              />
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                handleUndoAllBurnCards()
+              }}
+              className='gammapack__actions__openPack'
+            >
+              <Image
+                src={'/images/gamma/transferPackOn.png'}
+                alt='open pack'
+                height='40'
+                width='40'
+              />
+            </div>
+          )}
+        </div>
       </div>
-      <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-        <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
-      </div>
-    </div>
+    </>
   )
 
   const GammaPackInfoRight = () => {
