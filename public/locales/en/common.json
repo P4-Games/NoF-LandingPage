@@ -214,7 +214,7 @@
  
     "burn_select_all_info": "All repeated cards are already selected.",
     "burn_select_all_info_60": "You can burn a maximum of 60 cards at a time.",
-    "burn_select_all_confirm": "All repeated cards were selected.",
+    "burn_select_all_confirm": "All repeat cards have been selected (up to a maximum of 60).",
 
     "confirm": "Confirm",
     "cancel": "Cancel"
