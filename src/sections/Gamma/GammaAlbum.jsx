@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
-import { FaBurn } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa'
 import { FaUndo } from 'react-icons/fa'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 import { useTranslation } from 'next-i18next'
@@ -145,14 +145,20 @@ const GammaAlbum = (props) => {
   }
 
   const handleCardBurnClick = async (cardNumber) => {
+    if (cardsQttyToBurn >= 60) {
+      emitInfo(t('burn_select_all_info_60', 2000))
+      return
+    }
+
+    console.log('handleCardBurnClick', cardNumber)
     setCardsQttyToBurn(cardsQttyToBurn + 1)
     setCardsToBurn([...cardsToBurn, cardNumber])
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
-    console.log('paginationObj', paginationObj)
-    console.log('paginationObjBurn', paginationObjBurn)
+    console.log('paginationObj', cardsQttyToBurn, cardsToBurn, paginationObj, paginationObjBurn)
   }
 
   const handleCardBurnUndoClick = async (cardNumber) => {
+    console.log('handleCardBurnUndoClick', cardNumber)
     setCardsQttyToBurn(cardsQttyToBurn - 1)
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
 
@@ -225,6 +231,10 @@ const GammaAlbum = (props) => {
             <div style={getStyleInventory(item)} key={index} className='grid-item'>
               <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
 
+              {paginationObjBurn.user[item]?.quantity > 1 && (
+                <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
+              )}
+
               {isCardNumberInCardsToBurn(item) && (
                 <FaUndo
                   className='image-burn-undo'
@@ -235,15 +245,12 @@ const GammaAlbum = (props) => {
               )}
 
               {paginationObjBurn.user[item]?.quantity > 1 && (
-                <React.Fragment>
-                  <FaBurn
-                    className='image-burn-select'
-                    onClick={() => {
-                      handleCardBurnClick(item)
-                    }}
-                  />
-                  <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
-                </React.Fragment>
+                <FaTrash
+                  className='image-burn-select'
+                  onClick={() => {
+                    handleCardBurnClick(item)
+                  }}
+                />
               )}
 
               <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
