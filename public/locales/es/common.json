@@ -188,6 +188,11 @@
     "exhange_cards_to_receive": "recibirás",
     "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio.",
 
-    "burn_cards": "Quemar Cartas"
-
+    "burn_cards": "Quemar Cartas",
+    "burn_title": "Quema de cartas",
+    "burn_text": "Vas a quemar {CARDS_TO_BURN} cartas. ¿Confirmas?",
+    "burn_no_cards_selected": "No hay cartas seleccionadas para quemar.",
+    "burn_error": "Hubo un error al intentar la quema",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
 }

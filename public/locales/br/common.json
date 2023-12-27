@@ -187,6 +187,12 @@
   "exhange_cards_to_receive": "você receberá",
   "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca.",
 
-  "burn_cards": "Gravar Cartões"
+  "burn_cards": "Gravar Cartões",
+  "burn_title": "Cartas queimadas",
+  "burn_text": "Você vai queimar {CARDS_TO_BURN} cartas. Você confirma?",
+  "burn_no_cards_selected": "Não há cartas selecionadas para queimar.",
+  "burn_error": "Ocorreu um erro ao tentar gravar",
+  "confirm": "Confirmar",
+  "cancel": "Cancelar"
 
 }

@@ -187,5 +187,11 @@
     "exhange_cards_to_receive": "you will receive",
     "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange.",
 
-    "burn_cards": "Burn Cards"
+    "burn_cards": "Burn Cards",
+    "burn_title": "Burning cards",
+    "burn_text": "You are going to burn {CARDS_TO_BURN} cards. Do you confirm?",
+    "burn_no_cards_selected": "There are no cards selected to burn.",
+    "burn_error": "There was an error attempting to burn",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
 }

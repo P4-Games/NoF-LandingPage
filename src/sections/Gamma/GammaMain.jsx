@@ -617,11 +617,12 @@ const GammaMain = () => {
     console.log('cardstoburn', cardsToBurn)
 
     const result = await Swal.fire({
-      title: 'quema de cartas',
-      text: `${'Vas a quemar'} ${cardsQttyToBurn} ${'cartas. ¿Confirmas?'}`,
+      title: `${t('burn_title')}`,
+      text: `${t('burn_text').replace('{CARDS_TO_BURN}', cardsQttyToBurn)}`,
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: `${t('confirm')}`,
+      cancelButtonText: `${t('cancel')}`,
       confirmButtonColor: '#005EA3',
       color: 'black',
       background: 'white',
@@ -635,7 +636,6 @@ const GammaMain = () => {
       try {
         startLoading()
 
-        // TODO call tur burn
         await burnCards(gammaCardsContract, cardsToBurn)
 
         setCardsToBurn([])
