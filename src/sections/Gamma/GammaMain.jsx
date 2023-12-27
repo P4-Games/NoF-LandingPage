@@ -782,25 +782,25 @@ const GammaMain = () => {
 
   const InfofoRightInventory = () => (
     <>
-      <div className='gammapack'>
+      <div className='gammaRightPack'>
         {numberOfPacks === 0 || cardInfoOpened ? (
           <>
-            <div className={'gammapack__content__disabled'}>
+            <div className={'gammaRightPack__content__disabled'}>
               <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
             </div>
           </>
         ) : (
           <>
-            <div className={'gammapack__content'}>
+            <div className={'gammaRightPack__content'}>
               <h1 className={'pack_number'}>{numberOfPacks}</h1>
             </div>
           </>
         )}
-        <div className='gammapack__actions'>
+        <div className='gammaRightPack__actions'>
           {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
             <>
               {cardInfoOpened || albumInfoOpened ? (
-                <div className={'gammapack__actions__buyPack_disabled'}>
+                <div className={'gammaRightPack__actions__buyPack_disabled'}>
                   <Image
                     src={'/images/gamma/buyPackOff.png'}
                     alt='buy pack'
@@ -813,7 +813,7 @@ const GammaMain = () => {
                   onClick={() => {
                     handleBuyPack()
                   }}
-                  className={'gammapack__actions__buyPack'}
+                  className={'gammaRightPack__actions__buyPack'}
                 >
                   <Image
                     src={'/images/gamma/buyPackOn.png'}
@@ -823,7 +823,7 @@ const GammaMain = () => {
                   />
                 </div>
               )}
-              <div className='gammapack__actions__openPack_disabled'>
+              <div className='gammaRightPack__actions__openPack_disabled'>
                 <Image
                   src={'/images/gamma/openPackOff.png'}
                   alt='open pack'
@@ -831,7 +831,7 @@ const GammaMain = () => {
                   width='50'
                 />
               </div>
-              <div className='gammapack__actions__transferPack_disabled'>
+              <div className='gammaRightPack__actions__transferPack_disabled'>
                 <Image
                   src={'/images/gamma/transferPackOff.png'}
                   alt='open pack'
@@ -846,7 +846,7 @@ const GammaMain = () => {
                 onClick={() => {
                   handleBuyPack()
                 }}
-                className={'gammapack__actions__buyPack'}
+                className={'gammaRightPack__actions__buyPack'}
               >
                 <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
               </div>
@@ -854,7 +854,7 @@ const GammaMain = () => {
                 onClick={() => {
                   handleOpenPack()
                 }}
-                className='gammapack__actions__openPack'
+                className='gammaRightPack__actions__openPack'
               >
                 <Image
                   src={'/images/gamma/openPackOn.png'}
@@ -867,7 +867,7 @@ const GammaMain = () => {
                 onClick={() => {
                   handleTransferPack()
                 }}
-                className='gammapack__actions__openPack'
+                className='gammaRightPack__actions__openPack'
               >
                 <Image
                   src={'/images/gamma/transferPackOn.png'}
@@ -926,28 +926,28 @@ const GammaMain = () => {
 
   const InfoRightAlbumBurnSelection = () => (
     <>
-      <div className='gammapack'>
-        <div className={'gammapack__content'}>
+      <div className='gammaRightBurn'>
+        <div className={'gammaRightBurn__content'}>
           <h1 className={'pack_number'}>{cardsQttyToBurn}</h1>
         </div>
-        <div className='gammapack__actions'>
+        <div className='gammaRightBurn__actions'>
           {cardsQttyToBurn <= repeatedCardsQtty ? (
             <div
               onClick={() => {
                 handleSelectAllBurnCards()
               }}
-              className={'gammapack__actions__buyPack'}
+              className={'gammaRightBurn__actions__buyPack'}
             >
               <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
             </div>
           ) : (
-            <div className={'gammapack__actions__buyPack_disabled'}>
+            <div className={'gammaRightBurn__actions__buyPack_disabled'}>
               <Image src={'/images/gamma/buyPackOff.png'} alt='buy pack' height='40' width='40' />
             </div>
           )}
 
           {cardsQttyToBurn === 0 ? (
-            <div className='gammapack__actions__transferPack_disabled'>
+            <div className='gammaRightBurn__actions__transferPack_disabled'>
               <Image
                 src={'/images/gamma/transferPackOff.png'}
                 alt='open pack'
@@ -960,7 +960,7 @@ const GammaMain = () => {
               onClick={() => {
                 handleUndoAllBurnCards()
               }}
-              className='gammapack__actions__openPack'
+              className='gammaRightBurn__actions__openPack'
             >
               <Image
                 src={'/images/gamma/transferPackOn.png'}
