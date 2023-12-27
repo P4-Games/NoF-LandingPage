@@ -15,6 +15,7 @@ const GammaDataContextProvider = ({ children }) => {
 
   const { gammaCardsContract, walletAddress } = useContext(Web3Context)
   const [paginationObj, setPaginationObj] = useState({})
+  const [paginationObjBurn, setPaginationObjBurn] = useState({})
   const [uniqueCardsQtty, setUniqueCardsQtty] = useState(0)
   const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
   const [albums120Qtty, setAlbums120Qtty] = useState(0)
@@ -22,7 +23,7 @@ const GammaDataContextProvider = ({ children }) => {
   const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
   const [cardsToBurn, setCardsToBurn] = useState([])
   const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
-  
+
   const refreshPaginationObj = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
     setPaginationObj(userCards)
@@ -30,15 +31,56 @@ const GammaDataContextProvider = ({ children }) => {
     setAlbums60Qtty(getAlbums60Qtty())
     setUniqueCardsQtty(getUniqueCardsQtty())
     setRepeatedCardsQtty(getRepeatedCardsQtty())
+    setPaginationObjBurn({})
+  }
+
+  const generatePaginationObjToBurn = (force) => {
+    if (!paginationObj) return
+    if (Object.keys(paginationObjBurn).length === 0 || force) {
+      console.log('generando copia de paginationObj')
+      // Se clona el objeto de paginado, para poder "jugar" con las cantidades
+      const _cloneObject = JSON.parse(JSON.stringify(paginationObj))
+      setPaginationObjBurn(_cloneObject)
+    }
+  }
+
+  const selectAllRepeatedCardsToBurn = () => {
+    if (!paginationObj || !paginationObj.user) return
+    let total = 0
+    let _cardsToBurn = []
+    generatePaginationObjToBurn(true)
+    for (let key in paginationObj.user) {
+      if (
+        paginationObj.user[key].quantity > 1 &&
+        paginationObj.user[key].name != '120' &&
+        paginationObj.user[key].name != '121'
+      ) {
+        const itemQttyRepeated = paginationObj.user[key].quantity - 1
+        total += itemQttyRepeated
+        const cardNumber = paginationObj.user[key].name
+        _cardsToBurn = _cardsToBurn.concat(Array(itemQttyRepeated).fill(parseInt(cardNumber)))
+        paginationObjBurn.user[cardNumber].quantity =
+          paginationObjBurn.user[cardNumber].quantity - itemQttyRepeated
+      }
+    }
+    setCardsQttyToBurn(total)
+    setCardsToBurn(_cardsToBurn)
+    console.log(cardsQttyToBurn, _cardsToBurn, cardsToBurn, paginationObjBurn)
   }
 
   const switchAlbum = (album) => {
     setCurrentAlbum(album)
+    if (
+      album === ALBUMS.ALBUM_BURN_SELECTION &&
+      (!paginationObjBurn || Object.keys(paginationObjBurn).length === 0)
+    ) {
+      generatePaginationObjToBurn()
+    }
   }
 
   const getUniqueCardsQtty = () => {
-    let total = 0
     if (!paginationObj || !paginationObj.user) return
+    let total = 0
     for (let key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 0 &&
@@ -52,8 +94,8 @@ const GammaDataContextProvider = ({ children }) => {
   }
 
   const getRepeatedCardsQtty = () => {
-    let total = 0
     if (!paginationObj || !paginationObj.user) return
+    let total = 0
     for (let key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
@@ -110,10 +152,14 @@ const GammaDataContextProvider = ({ children }) => {
         repeatedCardsQtty,
         albums120Qtty,
         albums60Qtty,
+        paginationObjBurn,
+        switchAlbum,
         setCardsQttyToBurn,
         setCardsToBurn,
         refreshPaginationObj,
-        switchAlbum
+        setPaginationObjBurn,
+        generatePaginationObjToBurn,
+        selectAllRepeatedCardsToBurn
       }}
     >
       {children}

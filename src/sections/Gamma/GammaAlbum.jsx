@@ -26,8 +26,10 @@ const GammaAlbum = (props) => {
     cardsQttyToBurn,
     setCardsQttyToBurn,
     cardsToBurn,
-    setCardsToBurn
+    setCardsToBurn,
+    paginationObjBurn
   } = useGammaDataContext()
+
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
@@ -135,9 +137,25 @@ const GammaAlbum = (props) => {
     stopLoading()
   }
 
-  const handleCardBurnSelectionClick = async (cardNumber) => {
+  const handleCardBurnClick = async (cardNumber) => {
     setCardsQttyToBurn(cardsQttyToBurn + 1)
     setCardsToBurn([...cardsToBurn, cardNumber])
+    paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
+    console.log('paginationObj', paginationObj)
+    console.log('paginationObjBurn', paginationObjBurn)
+  }
+
+  const handleCardBurnUndoClick = async (cardNumber) => {
+    setCardsQttyToBurn(cardsQttyToBurn - 1)
+    paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
+
+    // se hace con index, dado que el array puede tener cardNumbers repetidos.
+    const indexToRemove = cardsToBurn.indexOf(cardNumber)
+    if (indexToRemove !== -1) {
+      const updatedCardsToBurn = [...cardsToBurn]
+      updatedCardsToBurn.splice(indexToRemove, 1)
+      setCardsToBurn(updatedCardsToBurn)
+    }
   }
 
   const getStyleInventory = (item) =>
@@ -193,11 +211,13 @@ const GammaAlbum = (props) => {
 
     return (
       <div className={divWrapperClassName}>
-        {page &&
+        {paginationObjBurn &&
+          paginationObjBurn.user &&
+          page &&
           page.map((item, index) => (
             <div
               onClick={() => {
-                handleCardBurnSelectionClick(item)
+                handleCardBurnClick(item)
               }}
               style={getStyleInventory(item)}
               key={index}
@@ -205,13 +225,13 @@ const GammaAlbum = (props) => {
             >
               <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
 
-              {paginationObj.user[item]?.quantity > 1 && (
+              {paginationObjBurn.user[item]?.quantity > 1 && (
                 <React.Fragment>
-                  <div className='quantity'> X: {paginationObj.user[item]?.quantity}</div>
+                  <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
                 </React.Fragment>
               )}
 
-              <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
+              <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
             </div>
           ))}
       </div>
@@ -331,7 +351,7 @@ const GammaAlbum = (props) => {
   }
 
   const Book = () => {
-    if (!paginationObj || !currentAlbum) return <></>
+    if (!paginationObj || !paginationObjBurn || !currentAlbum) return <></>
 
     const qttyPages =
       currentAlbum === ALBUMS.ALBUM_INVENTORY || currentAlbum === ALBUMS.ALBUM_120 ? 11 : 10

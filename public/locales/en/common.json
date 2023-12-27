@@ -206,7 +206,10 @@
     "burn_cancel_button_cancel": "Keep selection",
  
     "burn_repeated_info": "You have no repeated cards to burn.",
-    
+ 
+    "burn_select_all_info": "All repeated cards are already selected.",
+    "burn_select_all_confirm": "All repeated cards were selected.",
+
     "confirm": "Confirm",
     "cancel": "Cancel"
 }
