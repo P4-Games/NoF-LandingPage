@@ -103,6 +103,7 @@
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
   "finish_album_no_qtty": "Você ainda não tem o álbum completo para reivindicar o prêmio",
   "finish_album_no_album": "Você ainda não tem um álbum para reivindicar o prêmio.",
+  "finish_album_no_album_60": "Você ainda não tem um álbum para gravar cartões.",
   "finish_album_warning": "As condições necessárias para completar os álbuns e reivindicar os prêmios ainda não estão disponíveis. Tente novamente em alguns dias!",
 
   "publish_offer_error": "Ocorreu um erro ao tentar publicar",

@@ -103,6 +103,7 @@
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
     "finish_album_no_qtty": "You do not have the complete album yet to claim the prize",
     "finish_album_no_album": "You do not have an album yet to claim the prize.",
+    "finish_album_no_album_60": "You do not have an album yet to burn cards.",
     "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
 
     "publish_offer_error": "There was an error trying to publish",
