@@ -16,6 +16,8 @@ const GammaDataContextProvider = ({ children }) => {
   const { gammaCardsContract, walletAddress } = useContext(Web3Context)
   const [paginationObj, setPaginationObj] = useState({})
   const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
+  const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
+  const [cardsToBurn, setCardsToBurn] = useState([])
 
   const refreshPaginationObj = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
@@ -87,6 +89,10 @@ const GammaDataContextProvider = ({ children }) => {
         paginationObj,
         currentAlbum,
         ALBUMS,
+        cardsQttyToBurn, 
+        cardsToBurn, 
+        setCardsQttyToBurn,
+        setCardsToBurn,
         refreshPaginationObj,
         switchAlbum,
         getUniqueCardsQtty,

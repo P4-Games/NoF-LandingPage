@@ -19,7 +19,11 @@ const GammaAlbum = (props) => {
   const { updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
-  const { ALBUMS, currentAlbum, paginationObj } = useGammaDataContext()
+  const { 
+    ALBUMS, currentAlbum, paginationObj,
+    cardsQttyToBurn, setCardsQttyToBurn,
+    cardsToBurn, setCardsToBurn
+  } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
@@ -109,7 +113,7 @@ const GammaAlbum = (props) => {
     }
   }
 
-  const handleCardClick = async (cardNumber) => {
+  const handleCardInventoryClick = async (cardNumber) => {
     startLoading()
     setCurrentPage(getCurrentPage())
 
@@ -126,6 +130,12 @@ const GammaAlbum = (props) => {
 
     stopLoading()
   }
+
+  const handleCardBurnSelectionClick = async (cardNumber) => {
+    setCardsQttyToBurn(cardsQttyToBurn+1)
+    setCardsToBurn([...cardsToBurn, cardNumber])
+  }
+
 
   const getStyleInventory = (item) =>
     paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity
@@ -163,12 +173,8 @@ const GammaAlbum = (props) => {
         {page &&
           page.map((item, index) => (
             <div style={getStyleAlbum120(item)} key={index} className='grid-item'>
-              {paginationObj.user[item]?.stamped ? (
-                //<CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-                <CustomImage src='/images/gamma/Nofy.png' alt='img' />
-              ) : (
-                <CustomImage src='/images/gamma/Nofy.png' alt='img' />
-              )}
+              {/*//<CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />*/}
+              <CustomImage src='/images/gamma/Nofy.png' alt='img' />
             </div>
           ))}
       </div>
@@ -187,7 +193,9 @@ const GammaAlbum = (props) => {
         {page &&
           page.map((item, index) => (
             <div
-              onClick={() => {}}
+            onClick={() => {
+              handleCardBurnSelectionClick(item)
+            }}
               style={getStyleInventory(item)}
               key={index}
               className='grid-item'
@@ -220,7 +228,7 @@ const GammaAlbum = (props) => {
           page.map((item, index) => (
             <div
               onClick={() => {
-                handleCardClick(item)
+                handleCardInventoryClick(item)
               }}
               style={getStyleInventory(item)}
               key={index}

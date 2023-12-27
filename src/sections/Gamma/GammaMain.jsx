@@ -38,7 +38,11 @@ const GammaMain = () => {
     refreshPaginationObj,
     getUniqueCardsQtty,
     getAlbums120Qtty,
-    getAlbums60Qtty
+    getAlbums60Qtty,
+    cardsQttyToBurn,
+    cardsToBurn,
+    setCardsToBurn,
+    setCardsQttyToBurn
   } = useGammaDataContext()
   const {
     walletAddress,
@@ -59,7 +63,6 @@ const GammaMain = () => {
   } = useLayoutContext()
   const [uniqueCardsQtty, setUniqueCardsQtty] = useState(0)
   const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
-  const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
   const [albums120Qtty, setAlbums120Qtty] = useState(0)
   const [albums60Qtty, setAlbums60Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
@@ -193,9 +196,9 @@ const GammaMain = () => {
       if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
         if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
           updateButtonFunctions(1, handleBuyPack)
-        } else if (currentAlbum === ALBUMS.ALBUM_BURN_SELECTION) {
+        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
           updateButtonFunctions(1, handleConfirmBurning)
-        } else {
+        } else if (currentAlbum === ALBUMS.ALBUM_120) {
           updateButtonFunctions(1, handleFinishAlbum)
         }
       }
@@ -207,8 +210,7 @@ const GammaMain = () => {
     cardInfoOpened,
     albumInfoOpened,
     currentAlbum
-  ]
-  )
+  ])
 
   useEffect(
     () => {
@@ -606,11 +608,54 @@ const GammaMain = () => {
   }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleConfirmBurning = useCallback(async () => {
-    switchAlbum(ALBUMS.ALBUM_INVENTORY)
-  }, [currentAlbum])
+    if (cardsQttyToBurn === 0) {
+      emitInfo(t('burn_no_cards_selected', 2000))
+      return
+    }
+
+    console.log('cardstoburn', cardsToBurn)
+
+    const result = await Swal.fire({
+      title: 'quema de cartas',
+      text: `${'Vas a quemar'} ${cardsQttyToBurn} ${ 'cartas. ¿Confirmas?'}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('confirm')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      try {
+        startLoading()
+        
+        // TODO call tur burn
+
+  
+        setCardsToBurn([])
+        setCardsQttyToBurn(0) 
+        switchAlbum(ALBUMS.ALBUM_INVENTORY)
+        stopLoading()
+        emitSuccess(t('confirmado'), 2000)
+
+      } catch (ex) {
+        stopLoading()
+        console.error({ ex })
+        emitError(t('burn_error'))
+      }
+    }
+
+  }, [currentAlbum, walletAddress, gammaPacksContract])
 
   const handleCancelBurning = useCallback(async () => {
     switchAlbum(ALBUMS.ALBUM_INVENTORY)
+    setCardsToBurn([])
+    setCardsQttyToBurn(0)
   }, [currentAlbum])
 
   const NotConnected = () => (
