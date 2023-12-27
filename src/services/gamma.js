@@ -283,7 +283,7 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
           )
         }
         const transaction = await cardsContract.burnCards(cardsToBurn)
-        await transaction.wait
+        await transaction.wait()
         return true
       } else {
         console.log('burn cards need to validate', meetConditions.result)
@@ -292,7 +292,7 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
     } else {
       console.log('burn cards NO necesita validate')
       const transaction = await cardsContract.burnCards(cardsToBurn)
-      await transaction.wait
+      await transaction.wait()
       return true
     }
   } catch (e) {
