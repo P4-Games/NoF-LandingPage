@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
+import { FaBurn } from 'react-icons/fa'
+import { FaUndo } from 'react-icons/fa'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 import { useTranslation } from 'next-i18next'
 import { storageUrlGamma } from '../../config'
@@ -59,6 +61,10 @@ const GammaAlbum = (props) => {
   }, [])
 
   */
+
+  function isCardNumberInCardsToBurn(cardNumber) {
+    return cardsToBurn.includes(parseInt(cardNumber))
+  }
 
   const handleOpenCardOffers = async () => {
     if (!offersObj || offersObj.length === 0) {
@@ -215,18 +221,26 @@ const GammaAlbum = (props) => {
           paginationObjBurn.user &&
           page &&
           page.map((item, index) => (
-            <div
-              onClick={() => {
-                handleCardBurnClick(item)
-              }}
-              style={getStyleInventory(item)}
-              key={index}
-              className='grid-item'
-            >
+            <div style={getStyleInventory(item)} key={index} className='grid-item'>
               <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+
+              {isCardNumberInCardsToBurn(item) && (
+                <FaUndo
+                  className='image-burn-undo'
+                  onClick={() => {
+                    handleCardBurnUndoClick(item)
+                  }}
+                />
+              )}
 
               {paginationObjBurn.user[item]?.quantity > 1 && (
                 <React.Fragment>
+                  <FaBurn
+                    className='image-burn-select'
+                    onClick={() => {
+                      handleCardBurnClick(item)
+                    }}
+                  />
                   <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
                 </React.Fragment>
               )}

@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { gammaServiceUrl } from '../config'
+import { checkApproved, authorizeDaiContract } from './dai'
 
 export const getGammacardsPages = () => {
   const gammaCardsPages = {
@@ -208,7 +209,7 @@ export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
 export const finishAlbum = async (cardsContract, daiContract, walletAddress) => {
   try {
     if (!cardsContract || !walletAddress) return
-    const result = await allowedToFinishAlbum(cardsContract, daiContract, walletAddress)
+    const result = await allowedToFinishAlbum120(cardsContract, daiContract, walletAddress)
     if (result) {
       const transaction = await cardsContract.finishAlbum()
       await transaction.wait()
@@ -244,17 +245,89 @@ export const confirmOfferExchange = async (
   }
 }
 
-export const burnCards = async (cardsContract, cardsToBurn) => {
+export const burnCards = async (cardsContract, daiContract, walletAddress, cardsToBurn) => {
   try {
-    const transaction = await cardsContract.burnCards(cardsToBurn)
-    await transaction.wait
+    if (!cardsContract || !walletAddress) return
+
+    const currentBurnedUserCards = await cardsContract.getBurnedCardQttyByUser(walletAddress)
+    const currentBurnedUserFmt = parseInt(ethers.utils.formatUnits(currentBurnedUserCards, 18))
+    const cardsToBurnQtty = cardsToBurn.length
+
+    console.log('burnCards', currentBurnedUserFmt, cardsToBurnQtty)
+    if (currentBurnedUserFmt + cardsToBurnQtty >= 60) {
+      console.log('burn cards need to validate')
+      const meetConditions = await allowedToFinishAlbum60(cardsContract, daiContract, walletAddress)
+      console.log('burn cards need to validate', meetConditions)
+      if (meetConditions.result) {
+        console.log('burn cards need to validate', meetConditions.result)
+        // uint256 userAllowance = erc20Token.allowance(msg.sender, address(this));
+        // require(userAllowance >= secondaryAlbumPrize, "Insufficient allowance to transfer prize for burning cards.");
+        const approval = await checkApproved(
+          daiContract,
+          walletAddress,
+          cardsContract.address,
+          meetConditions.amountRequired
+        )
+        if (!approval) {
+          await authorizeDaiContract(
+            daiContract,
+            cardsContract.address,
+            meetConditions.amountRequired
+          )
+        }
+        const transaction = await cardsContract.burnCards(cardsToBurn)
+        await transaction.wait
+        return true
+      } else {
+        console.log('burn cards need to validate', meetConditions.result)
+        return false
+      }
+    } else {
+      console.log('burn cards NO necesita validate')
+      const transaction = await cardsContract.burnCards(cardsToBurn)
+      await transaction.wait
+    }
   } catch (e) {
     console.error({ e })
     throw e
   }
 }
 
-export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAddress) => {
+export const allowedToFinishAlbum60 = async (cardsContract, daiContract, walletAddress) => {
+  const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 121)
+  const prizesBalance = await cardsContract.prizesBalance()
+  const secondaryAlbumPrize = await cardsContract.secondaryAlbumPrize()
+  const gammaContractBalance = await verifyDAIBalance(daiContract, cardsContract.address)
+  const prizeBalanceFormatted = ethers.utils.formatUnits(prizesBalance, 18)
+  const secondaryAlbumPrizeFormatted = ethers.utils.formatUnits(secondaryAlbumPrize, 18)
+  const gammaContractBalanceFormatted = ethers.utils.formatUnits(gammaContractBalance, 18)
+
+  // require(prizesBalance >= secondaryAlbumPrize, "Insufficient funds (burnCards balance).");
+  const prizesBalanzGTSecondaryAlbumPrice =
+    parseInt(prizeBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
+
+  // uint256 contractBalance = erc20Token.balanceOf(address(this));
+  // require(contractBalance >= secondaryAlbumPrize, "Insufficient funds (contract).");
+  const contractBalanzGTAlSecondarybumPrice =
+    parseInt(gammaContractBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
+
+  const result =
+    userHasAlbum && prizesBalanzGTSecondaryAlbumPrice && contractBalanzGTAlSecondarybumPrice
+
+  console.log('allowedToFinishAlbum60', {
+    userHasAlbum,
+    prizeBalanceFormatted,
+    secondaryAlbumPrizeFormatted,
+    gammaContractBalanceFormatted,
+    prizesBalanzGTSecondaryAlbumPrice,
+    contractBalanzGTAlSecondarybumPrice,
+    result
+  })
+
+  return { result: result, amountRequired: secondaryAlbumPrize }
+}
+
+export const allowedToFinishAlbum120 = async (cardsContract, daiContract, walletAddress) => {
   // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");

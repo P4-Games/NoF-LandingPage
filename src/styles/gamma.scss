@@ -629,6 +629,21 @@
       width: 30%;
       height: 30%;
     }
+    .image-burn-select {
+      position: absolute;
+      color: rgb(204, 110, 33);
+      // left: 65%;
+      // width: 30%;
+      // height: 30%;
+    }
+    .image-burn-undo {
+      position: absolute;
+      color: rgb(61, 44, 39);
+      left: 70%;
+      top: 10%;
+      width: 20%;
+      height: 20%;
+    }
     transition: 0.8s;
     background: url('/images/gamma/BordeGamma.png');
     background-size: cover !important;

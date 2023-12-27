@@ -300,101 +300,106 @@ const GammaMain = () => {
   ]
   )
 
-  const handleTransferPack = useCallback(async () => {
-    try {
-      if (numberOfPacks === 0) {
-        emitInfo(t('no_paquetes_para_transferir', 2000))
-        return
-      }
+  const handleTransferPack = useCallback(
+    async () => {
+      try {
+        if (numberOfPacks === 0) {
+          emitInfo(t('no_paquetes_para_transferir', 2000))
+          return
+        }
 
-      const result = await Swal.fire({
-        title: `${t('transfer_pack_title')}`,
-        html: `
+        const result = await Swal.fire({
+          title: `${t('transfer_pack_title')}`,
+          html: `
         <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
         <input id="amount" type='number' step='1' class="swal2-input" placeholder="${t(
           'quantity'
         )}">
         `,
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: `${t('transferir')}`,
-        confirmButtonColor: '#005EA3',
-        color: 'black',
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
-        },
-        preConfirm: () => {
-          const walletInput = Swal.getPopup().querySelector('#wallet')
-          const quantityInput = Swal.getPopup().querySelector('#amount')
-          const wallet = walletInput.value
-          const amount = parseInt(quantityInput.value)
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: `${t('transferir')}`,
+          confirmButtonColor: '#005EA3',
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          },
+          preConfirm: () => {
+            const walletInput = Swal.getPopup().querySelector('#wallet')
+            const quantityInput = Swal.getPopup().querySelector('#amount')
+            const wallet = walletInput.value
+            const amount = parseInt(quantityInput.value)
 
-          if (
-            !checkInputAddress(wallet, walletAddress) &&
-            !checkIntValue1GTValue2(amount, numberOfPacks, true)
-          ) {
-            walletInput.classList.add('swal2-inputerror')
-            quantityInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(
-              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
-            )
-          } else {
-            if (!checkInputAddress(wallet, walletAddress)) {
+            if (
+              !checkInputAddress(wallet, walletAddress) &&
+              !checkIntValue1GTValue2(amount, numberOfPacks, true)
+            ) {
               walletInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('direccion_destino_error')}`)
-            }
-            if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
               quantityInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('quantity_invalid')}`)
+              Swal.showValidationMessage(
+                `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
+              )
+            } else {
+              if (!checkInputAddress(wallet, walletAddress)) {
+                walletInput.classList.add('swal2-inputerror')
+                Swal.showValidationMessage(`${t('direccion_destino_error')}`)
+              }
+              if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
+                quantityInput.classList.add('swal2-inputerror')
+                Swal.showValidationMessage(`${t('quantity_invalid')}`)
+              }
             }
+            return { wallet: wallet, amount: amount }
           }
-          return { wallet: wallet, amount: amount }
-        }
-      })
+        })
 
-      if (result.isConfirmed) {
-        startLoading()
-        const qttyPacks = parseInt(result.value.amount)
-        const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
+        if (result.isConfirmed) {
+          startLoading()
+          const qttyPacks = parseInt(result.value.amount)
+          const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
 
-        if (qttyPacks === 1) {
-          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-          const transaction = await gammaPacksContract.transferPack(result.value.wallet, packNumber)
-          await transaction.wait()
-        } else {
-          let packsNumber = []
-          for (let index = 0; index < qttyPacks; index++) {
-            packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
-          }
-          if (packsNumber.length > 0) {
-            const transaction = await gammaPacksContract.transferPacks(
+          if (qttyPacks === 1) {
+            const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+            const transaction = await gammaPacksContract.transferPack(
               result.value.wallet,
-              packsNumber
+              packNumber
             )
             await transaction.wait()
+          } else {
+            let packsNumber = []
+            for (let index = 0; index < qttyPacks; index++) {
+              packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
+            }
+            if (packsNumber.length > 0) {
+              const transaction = await gammaPacksContract.transferPacks(
+                result.value.wallet,
+                packsNumber
+              )
+              await transaction.wait()
+            }
           }
+          emitSuccess(t('confirmado'), 2000)
+          await checkNumberOfPacks()
+          stopLoading()
         }
-        emitSuccess(t('confirmado'), 2000)
-        await checkNumberOfPacks()
+      } catch (ex) {
         stopLoading()
+        console.error({ ex })
+        emitError(t('transfer_pack_error'))
       }
-    } catch (ex) {
-      stopLoading()
-      console.error({ ex })
-      emitError(t('transfer_pack_error'))
-    }
-  }, 
-  // prettier-ignore
-  [ //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     numberOfPacks,
     currentAlbum,
     cardInfoOpened,
     albumInfoOpened
-  ]) //eslint-disable-line react-hooks/exhaustive-deps
+  ]
+  ) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOpenPack = useCallback(
     async () => {
@@ -579,7 +584,7 @@ const GammaMain = () => {
         switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
         break
     }
-  }, [currentAlbum, ALBUMS, switchAlbum]) 
+  }, [currentAlbum, ALBUMS, switchAlbum])
 
   const handleBuyPack = useCallback(async () => {
     const price = await getPackPrice(gammaPacksContract)
@@ -690,9 +695,14 @@ const GammaMain = () => {
     if (result.isConfirmed) {
       try {
         startLoading()
+        const result = await burnCards(gammaCardsContract, daiContract, walletAddress, cardsToBurn)
 
-        await burnCards(gammaCardsContract, cardsToBurn)
-
+        if (!result) {
+          // no se pudo realizar el burn-card por condiciones del contrato
+          stopLoading()
+          emitWarning(t('finish_album_warning'))
+          return
+        }
         setCardsToBurn([])
         setCardsQttyToBurn(0)
         setPaginationObjBurn({})
@@ -740,8 +750,7 @@ const GammaMain = () => {
       setCardsQttyToBurn(0)
       setPaginationObjBurn({})
     }
-  }, 
-  [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const NotConnected = () => (
     <div className='alpha'>
