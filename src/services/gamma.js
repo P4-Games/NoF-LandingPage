@@ -244,6 +244,16 @@ export const confirmOfferExchange = async (
   }
 }
 
+export const burnCards = async (cardsContract, cardsToBurn) => {
+  try {
+    const transaction = await cardsContract.burnCards(cardsToBurn)
+    await transaction.wait
+  } catch (e) {
+    console.error({ e })
+    throw e
+  }
+}
+
 export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAddress) => {
   // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");

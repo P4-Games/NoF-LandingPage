@@ -19,10 +19,14 @@ const GammaAlbum = (props) => {
   const { updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
-  const { 
-    ALBUMS, currentAlbum, paginationObj,
-    cardsQttyToBurn, setCardsQttyToBurn,
-    cardsToBurn, setCardsToBurn
+  const {
+    ALBUMS,
+    currentAlbum,
+    paginationObj,
+    cardsQttyToBurn,
+    setCardsQttyToBurn,
+    cardsToBurn,
+    setCardsToBurn
   } = useGammaDataContext()
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
@@ -132,10 +136,9 @@ const GammaAlbum = (props) => {
   }
 
   const handleCardBurnSelectionClick = async (cardNumber) => {
-    setCardsQttyToBurn(cardsQttyToBurn+1)
+    setCardsQttyToBurn(cardsQttyToBurn + 1)
     setCardsToBurn([...cardsToBurn, cardNumber])
   }
-
 
   const getStyleInventory = (item) =>
     paginationObj.user[item]?.quantity === 0 || !paginationObj.user[item]?.quantity
@@ -193,9 +196,9 @@ const GammaAlbum = (props) => {
         {page &&
           page.map((item, index) => (
             <div
-            onClick={() => {
-              handleCardBurnSelectionClick(item)
-            }}
+              onClick={() => {
+                handleCardBurnSelectionClick(item)
+              }}
               style={getStyleInventory(item)}
               key={index}
               className='grid-item'

@@ -11,7 +11,7 @@ import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
 import { checkApproved, authorizeDaiContract } from '../../services/dai'
-import { fetchPackData } from '../../services/gamma'
+import { fetchPackData, burnCards } from '../../services/gamma'
 import {
   checkPacksByUser,
   finishAlbum,
@@ -197,7 +197,7 @@ const GammaMain = () => {
         if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
           updateButtonFunctions(1, handleBuyPack)
         } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
-          updateButtonFunctions(1, handleConfirmBurning)
+          updateButtonFunctions(1, handleBurnCards)
         } else if (currentAlbum === ALBUMS.ALBUM_120) {
           updateButtonFunctions(1, handleFinishAlbum)
         }
@@ -210,7 +210,8 @@ const GammaMain = () => {
     cardInfoOpened,
     albumInfoOpened,
     currentAlbum
-  ])
+  ]
+  )
 
   useEffect(
     () => {
@@ -607,7 +608,7 @@ const GammaMain = () => {
     }
   }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleConfirmBurning = useCallback(async () => {
+  const handleBurnCards = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
       emitInfo(t('burn_no_cards_selected', 2000))
       return
@@ -617,7 +618,7 @@ const GammaMain = () => {
 
     const result = await Swal.fire({
       title: 'quema de cartas',
-      text: `${'Vas a quemar'} ${cardsQttyToBurn} ${ 'cartas. ¿Confirmas?'}`,
+      text: `${'Vas a quemar'} ${cardsQttyToBurn} ${'cartas. ¿Confirmas?'}`,
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: `${t('confirm')}`,
@@ -633,23 +634,21 @@ const GammaMain = () => {
     if (result.isConfirmed) {
       try {
         startLoading()
-        
-        // TODO call tur burn
 
-  
+        // TODO call tur burn
+        await burnCards(gammaCardsContract, cardsToBurn)
+
         setCardsToBurn([])
-        setCardsQttyToBurn(0) 
+        setCardsQttyToBurn(0)
         switchAlbum(ALBUMS.ALBUM_INVENTORY)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
-
       } catch (ex) {
         stopLoading()
         console.error({ ex })
         emitError(t('burn_error'))
       }
     }
-
   }, [currentAlbum, walletAddress, gammaPacksContract])
 
   const handleCancelBurning = useCallback(async () => {
@@ -831,26 +830,26 @@ const GammaMain = () => {
   }
 
   const InfoRightAlbumToBurn = () => (
-      <div className='gammaComplete'>
-        <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-          <h3>{`A: ${albums60Qtty || 0}`}</h3>
-        </div>
-        <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-          <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
-        </div>
+    <div className='gammaComplete'>
+      <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`A: ${albums60Qtty || 0}`}</h3>
       </div>
-    )
+      <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
+      </div>
+    </div>
+  )
 
   const InfoRightAlbumBurnSelection = () => (
-      <div className='gammaComplete'>
-        <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-          <h3>{`A: ${albums60Qtty || 0}`}</h3>
-        </div>
-        <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-          <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
-        </div>
+    <div className='gammaComplete'>
+      <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`A: ${albums60Qtty || 0}`}</h3>
       </div>
-    )
+      <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`C: ${cardsQttyToBurn || 0}/${repeatedCardsQtty || 0}`}</h3>
+      </div>
+    </div>
+  )
 
   const GammaPackInfoRight = () => {
     switch (currentAlbum) {
