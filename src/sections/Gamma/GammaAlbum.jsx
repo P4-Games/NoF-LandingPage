@@ -154,7 +154,13 @@ const GammaAlbum = (props) => {
     setCardsQttyToBurn(cardsQttyToBurn + 1)
     setCardsToBurn([...cardsToBurn, cardNumber])
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
-    console.log('paginationObj', cardsQttyToBurn, cardsToBurn, paginationObj.user, paginationObjBurn.user)
+    console.log(
+      'paginationObj',
+      cardsQttyToBurn,
+      cardsToBurn,
+      paginationObj.user,
+      paginationObjBurn.user
+    )
   }
 
   const handleCardBurnUndoClick = async (cardNumber) => {
