@@ -673,8 +673,10 @@ const GammaMain = () => {
       return
     }
 
-    // console.log('cardstoburn', cardsToBurn, cardsQttyToBurn)
-    // return
+    if (albums60Qtty < 1) {
+      emitInfo(t('finish_album_no_album_60'), 100000)
+      return
+    }
 
     const result = await Swal.fire({
       title: `${t('burn_title')}`,

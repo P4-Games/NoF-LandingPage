@@ -1,6 +1,5 @@
 import { ethers } from 'ethers'
 import { gammaServiceUrl } from '../config'
-import { checkApproved, authorizeDaiContract } from './dai'
 
 export const getGammacardsPages = () => {
   const gammaCardsPages = {
@@ -267,21 +266,6 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
       console.log('burn cards need to validate', meetConditions)
       if (meetConditions.result) {
         console.log('burn cards need to validate', meetConditions.result)
-        // uint256 userAllowance = erc20Token.allowance(msg.sender, address(this));
-        // require(userAllowance >= secondaryAlbumPrize, "Insufficient allowance to transfer prize for burning cards.");
-        const approval = await checkApproved(
-          daiContract,
-          walletAddress,
-          cardsContract.address,
-          meetConditions.amountRequired
-        )
-        if (!approval) {
-          await authorizeDaiContract(
-            daiContract,
-            cardsContract.address,
-            meetConditions.amountRequired
-          )
-        }
         const transaction = await cardsContract.burnCards(cardsToBurn)
         await transaction.wait()
         return true
