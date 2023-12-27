@@ -301,6 +301,38 @@
 .gammaRightBurn__actions {
   @extend .gammaRightPack__actions;
   margin-right: 0px;
+  margin-bottom: 20px;
+
+  &__selectAll,
+  &__undo {
+    cursor: pointer;
+    background-size: 100% 100%;
+    img {
+      position: relative;
+      @media all {
+        height: 35px;
+        width: 35px;
+      }
+    }
+    &:hover {
+      transform: scale(1.1);
+      transition: 0.2s;
+    }
+  }
+
+  &__selectAll_disabled,
+  &__undo_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-size: 100% 100%;
+    img {
+      position: relative;
+      @media all {
+        height: 35px;
+        width: 35px;
+      }
+    }
+  }
 }
 
 // gamma-info-right

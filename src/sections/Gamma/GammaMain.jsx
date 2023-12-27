@@ -172,8 +172,8 @@ const GammaMain = () => {
             updateShowButtons([true, true, true, false])
             updateFooterButtonsClasses([
               'footer__buttons__bluebtn_custom_switch_album__toburn',
-              null,
-              null,
+              'footer__buttons__greenbtn_custom_selectAll',
+              'footer__buttons__redbtn_custom_undo',
               null
             ])
             break
@@ -936,38 +936,38 @@ const GammaMain = () => {
               onClick={() => {
                 handleSelectAllBurnCards()
               }}
-              className={'gammaRightBurn__actions__buyPack'}
+              className={'gammaRightBurn__actions__selectAll'}
             >
-              <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
+              <Image
+                src={'/images/gamma/selectAllOn.png'}
+                alt='select all'
+                height='40'
+                width='40'
+              />
             </div>
           ) : (
-            <div className={'gammaRightBurn__actions__buyPack_disabled'}>
-              <Image src={'/images/gamma/buyPackOff.png'} alt='buy pack' height='40' width='40' />
+            <div className={'gammaRightBurn__actions__selectAll_disabled'}>
+              <Image
+                src={'/images/gamma/selectAllOff.png'}
+                alt='select all'
+                height='40'
+                width='40'
+              />
             </div>
           )}
 
           {cardsQttyToBurn === 0 ? (
-            <div className='gammaRightBurn__actions__transferPack_disabled'>
-              <Image
-                src={'/images/gamma/transferPackOff.png'}
-                alt='open pack'
-                height='40'
-                width='40'
-              />
+            <div className='gammaRightBurn__actions__undo_disabled'>
+              <Image src={'/images/gamma/undoOff.png'} alt='undo all' height='40' width='40' />
             </div>
           ) : (
             <div
               onClick={() => {
                 handleUndoAllBurnCards()
               }}
-              className='gammaRightBurn__actions__openPack'
+              className='gammaRightBurn__actions__undo'
             >
-              <Image
-                src={'/images/gamma/transferPackOn.png'}
-                alt='open pack'
-                height='40'
-                width='40'
-              />
+              <Image src={'/images/gamma/undoOn.png'} alt='undo all' height='40' width='40' />
             </div>
           )}
         </div>

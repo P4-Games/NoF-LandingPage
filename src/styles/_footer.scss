@@ -283,6 +283,17 @@
         background-image: url(/images/footer/check-mark.png);
       }
     }
+    &__greenbtn_custom_selectAll {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/selectAll.png);
+      }
+    }
     &__redbtn_custom_open {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/red-custom.png);
@@ -303,6 +314,17 @@
       &::before {
         @extend .footer__buttons__custom__before;
         background-image: url(/images/footer/cancel.png);
+      }
+    }
+    &__redbtn_custom_undo {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/undo.png);
       }
     }
     &__yellowbtn_custom_transfer {
