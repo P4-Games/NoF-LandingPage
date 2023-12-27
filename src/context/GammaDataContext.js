@@ -15,16 +15,24 @@ const GammaDataContextProvider = ({ children }) => {
 
   const { gammaCardsContract, walletAddress } = useContext(Web3Context)
   const [paginationObj, setPaginationObj] = useState({})
-  const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
+  const [uniqueCardsQtty, setUniqueCardsQtty] = useState(0)
+  const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
+  const [albums120Qtty, setAlbums120Qtty] = useState(0)
+  const [albums60Qtty, setAlbums60Qtty] = useState(0)
   const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
   const [cardsToBurn, setCardsToBurn] = useState([])
-
+  const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
+  
   const refreshPaginationObj = async () => {
     const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
     setPaginationObj(userCards)
+    setAlbums120Qtty(getAlbums120Qtty())
+    setAlbums60Qtty(getAlbums60Qtty())
+    setUniqueCardsQtty(getUniqueCardsQtty())
+    setRepeatedCardsQtty(getRepeatedCardsQtty())
   }
 
-  const switchAlbum = async (album) => {
+  const switchAlbum = (album) => {
     setCurrentAlbum(album)
   }
 
@@ -83,6 +91,13 @@ const GammaDataContextProvider = ({ children }) => {
     setCurrentAlbum(ALBUMS.ALBUM_INVENTORY)
   }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    setAlbums120Qtty(getAlbums120Qtty())
+    setAlbums60Qtty(getAlbums60Qtty())
+    setUniqueCardsQtty(getUniqueCardsQtty())
+    setRepeatedCardsQtty(getRepeatedCardsQtty())
+  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <GammaDataContext.Provider
       value={{
@@ -91,14 +106,14 @@ const GammaDataContextProvider = ({ children }) => {
         ALBUMS,
         cardsQttyToBurn,
         cardsToBurn,
+        uniqueCardsQtty,
+        repeatedCardsQtty,
+        albums120Qtty,
+        albums60Qtty,
         setCardsQttyToBurn,
         setCardsToBurn,
         refreshPaginationObj,
-        switchAlbum,
-        getUniqueCardsQtty,
-        getAlbums120Qtty,
-        getAlbums60Qtty,
-        getRepeatedCardsQtty
+        switchAlbum
       }}
     >
       {children}

@@ -23,8 +23,7 @@ const GammaAlbumInfo = (props) => {
     updateFooterButtonsClasses
   } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
-  const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
-  const { ALBUMS, switchAlbum, getRepeatedCardsQtty } = useGammaDataContext()
+  const { ALBUMS, switchAlbum, repeatedCardsQtty } = useGammaDataContext()
   const [userHasCard, setUserHasCard] = useState(false)
 
   const verifyUserHasCard = async () => {
@@ -48,7 +47,6 @@ const GammaAlbumInfo = (props) => {
 
   useEffect(() => {
     verifyUserHasCard()
-    setRepeatedCardsQtty(getRepeatedCardsQtty())
   }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferClick = async () => {

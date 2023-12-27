@@ -34,15 +34,15 @@ const GammaMain = () => {
     currentAlbum,
     switchAlbum,
     paginationObj,
-    getRepeatedCardsQtty,
     refreshPaginationObj,
-    getUniqueCardsQtty,
-    getAlbums120Qtty,
-    getAlbums60Qtty,
     cardsQttyToBurn,
     cardsToBurn,
     setCardsToBurn,
-    setCardsQttyToBurn
+    setCardsQttyToBurn,
+    uniqueCardsQtty, 
+    repeatedCardsQtty,
+    albums120Qtty,
+    albums60Qtty
   } = useGammaDataContext()
   const {
     walletAddress,
@@ -61,10 +61,6 @@ const GammaMain = () => {
     updateButtonFunctions,
     updateFooterButtonsClasses
   } = useLayoutContext()
-  const [uniqueCardsQtty, setUniqueCardsQtty] = useState(0)
-  const [repeatedCardsQtty, setRepeatedCardsQtty] = useState(0)
-  const [albums120Qtty, setAlbums120Qtty] = useState(0)
-  const [albums60Qtty, setAlbums60Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
   const [albumInfoOpened, setAlbumInfoOpened] = useState(false)
@@ -82,10 +78,6 @@ const GammaMain = () => {
 
   const updateUserData = async () => {
     await refreshPaginationObj()
-    setAlbums120Qtty(getAlbums120Qtty())
-    setAlbums60Qtty(getAlbums60Qtty())
-    setUniqueCardsQtty(getUniqueCardsQtty())
-    setRepeatedCardsQtty(getRepeatedCardsQtty())
   }
 
   const fetchInventory = async () => {
@@ -127,13 +119,6 @@ const GammaMain = () => {
       }
     })
   }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    setUniqueCardsQtty(getUniqueCardsQtty())
-    setAlbums120Qtty(getAlbums120Qtty())
-    setAlbums60Qtty(getAlbums60Qtty())
-    setRepeatedCardsQtty(getRepeatedCardsQtty())
-  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchInventory()
