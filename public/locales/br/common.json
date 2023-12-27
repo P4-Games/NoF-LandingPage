@@ -179,6 +179,10 @@
   "notification_album_transfer": "Você recebeu un álbum de {WALLET}.",
   "notification_burn_album_transfer": "Você recebeu un álbum de queima de {WALLET}.",
   "notification_exchange": "Você recebeu o cartão {CARD_RECEIVED} de {WALLET} em troca do cartão {CARD_SENT}.",
+  "notification_cards_burned": "Você queimou {CARDS_BURNED} cartões",
+  "notification_album_120_completed": "Você completou o álbum principal! Você receberá um prêmio em sua carteira.",
+  "notification_album_60_completed": "Ao queimar cartões, você completou a gravação do álbum. Você receberá um prêmio em sua carteira.",
+  "notification_ticket_reception": "Você recebeu um ticket ({TICKET_ID}) para completar a gravação do álbum.",
 
   "offline_msg": "Site atualmente offline ou sem conexão com a Internet disponível",
   "offline_action": "Ir para casa",
