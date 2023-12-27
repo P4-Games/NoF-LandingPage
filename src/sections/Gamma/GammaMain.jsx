@@ -153,7 +153,7 @@ const GammaMain = () => {
           case ALBUMS.ALBUM_INVENTORY:
             updateShowButtons([true, true, true, true])
             updateFooterButtonsClasses([
-              'footer__buttons__bluebtn_custom_switch_album',
+              'footer__buttons__bluebtn_custom_switch_album__120',
               'footer__buttons__greenbtn_custom_shop',
               'footer__buttons__redbtn_custom_open',
               'footer__buttons__yellowbtn_custom_transfer'
@@ -169,12 +169,22 @@ const GammaMain = () => {
             ])
             break
           case ALBUMS.ALBUM_BURN_SELECTION:
-            updateShowButtons([true, false, false, false])
-            updateFooterButtonsClasses([null, null, null, null])
+            updateShowButtons([true, true, true, false])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_album__toburn', 
+              null, 
+              null, 
+              null
+            ])
             break
           case ALBUMS.ALBUM_TO_BURN:
             updateShowButtons([true, true, true, false])
-            updateFooterButtonsClasses([null, null, null, null])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_inventory', 
+              null, 
+              null, 
+              null
+            ])
             break
         }
 

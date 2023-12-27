@@ -228,7 +228,7 @@
         background-image: url(/images/gamma/albumsReduced.png);
       }
     }
-    &__bluebtn_custom_switch_album {
+    &__bluebtn_custom_switch_album__120 {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/blue-custom.png);
       &:hover {
@@ -237,6 +237,17 @@
       &::before {
         @extend .footer__buttons__custom__before;
         background-image: url(/images/gamma/AlbumGamma120.png);
+      }
+    }
+    &__bluebtn_custom_switch_album__toburn {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-custom.png);
+      &:hover {
+        background-image: url(/images/footer/blue-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/AlbumGammaToBurn.png);
       }
     }
     &__greenbtn_custom_shop {
