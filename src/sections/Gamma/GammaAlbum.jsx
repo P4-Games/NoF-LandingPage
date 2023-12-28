@@ -30,7 +30,8 @@ const GammaAlbum = (props) => {
     cardsToBurn,
     setCardsToBurn,
     paginationObjBurn,
-    refreshPaginationObj
+    refreshPaginationObj,
+    setPaginationObjBurn
   } = useGammaDataContext()
 
   const [cardInfo, setCardInfo] = useState(false)
@@ -39,6 +40,10 @@ const GammaAlbum = (props) => {
   const [imageNumber, setImageNumber] = useState(0)
   const [offersObj, setOffersObj] = useState(null)
   const [currentPage, setCurrentPage] = useState(0)
+
+  // const [paginationObjBurn, setPaginationObjBurn] = useState({})
+  // const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
+  // const [cardsToBurn, setCardsToBurn] = useState([])
 
   // const [ allOffers, setAllOffers ] = useState(null)
 
@@ -62,6 +67,14 @@ const GammaAlbum = (props) => {
   }, [])
 
   */
+
+  /*
+  useEffect(() => {
+    if (!paginationObj) return
+    const _cloneObject = JSON.parse(JSON.stringify(paginationObj))
+    setPaginationObjBurn(_cloneObject)
+  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+*/
 
   function isCardNumberInCardsToBurn(cardNumber) {
     return cardsToBurn.includes(parseInt(cardNumber))
@@ -91,6 +104,7 @@ const GammaAlbum = (props) => {
     if (update) {
       await refreshPaginationObj()
     }
+    console.log('handleFinishInfoCard')
     setCurrentPage(getCurrentPage())
     setCardInfo(false)
     setAlbumInfo(false)
@@ -144,26 +158,38 @@ const GammaAlbum = (props) => {
     stopLoading()
   }
 
-  const handleCardBurnClick = async (cardNumber) => {
+  const handleCardBurnClick = (cardNumber) => {
     if (cardsQttyToBurn >= 60) {
       emitInfo(t('burn_select_all_info_60', 2000))
       return
     }
 
     console.log('handleCardBurnClick', cardNumber)
-    setCardsQttyToBurn(cardsQttyToBurn + 1)
-    setCardsToBurn([...cardsToBurn, cardNumber])
-    paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
-    console.log(
-      'paginationObj',
-      cardsQttyToBurn,
-      cardsToBurn,
-      paginationObj.user,
-      paginationObjBurn.user
-    )
+    setCardsQttyToBurn((prevCardsQttyToBurn) => prevCardsQttyToBurn + 1)
+    // setCardsQttyToBurn(cardsQttyToBurn + 1)
+
+    setCardsToBurn((prevCardsToBurn) => [...prevCardsToBurn, cardNumber])
+    // setCardsToBurn([...cardsToBurn, cardNumber])
+
+    setPaginationObjBurn((prevPaginationObjBurn) => {
+      const updatedUser = {
+        ...prevPaginationObjBurn.user,
+        [cardNumber]: {
+          ...prevPaginationObjBurn.user[cardNumber],
+          quantity: prevPaginationObjBurn.user[cardNumber].quantity - 1
+        }
+      }
+      return {
+        ...prevPaginationObjBurn,
+        user: updatedUser
+      }
+    })
+    // paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
   }
 
-  const handleCardBurnUndoClick = async (cardNumber) => {
+  const handleCardBurnUndoClick = (cardNumber) => {
+    console.log('currentPage', getCurrentPage())
+
     console.log('handleCardBurnUndoClick', cardNumber)
     setCardsQttyToBurn(cardsQttyToBurn - 1)
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
@@ -175,6 +201,8 @@ const GammaAlbum = (props) => {
       updatedCardsToBurn.splice(indexToRemove, 1)
       setCardsToBurn(updatedCardsToBurn)
     }
+    console.log('currentPage', currentPage)
+    setCurrentPage(currentPage)
   }
 
   const getStyleInventory = (item) =>
@@ -200,6 +228,14 @@ const GammaAlbum = (props) => {
     return totalCardNumberOffers
   }
   */
+  const CardsToBurnCardItem = ({ pageNumber, index }) => {
+    const value = index + 12 * (pageNumber - 1)
+    return cardsToBurn && cardsToBurn.length > value ? (
+      <CustomImage src={`${storageUrlGamma}/T1/${cardsToBurn[value]}.png`} alt='img' />
+    ) : (
+      <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+    )
+  }
 
   const PageContentAlbumToBurn = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left-album'
@@ -212,13 +248,53 @@ const GammaAlbum = (props) => {
       <div className={divWrapperClassName}>
         {page &&
           page.map((item, index) => (
-            <div style={getStyleAlbum120(item)} key={index} className='grid-item'>
-              {/*//<CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />*/}
-              <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+            <div style={{ background: 'none' }} key={index} className='grid-item'>
+              <CardsToBurnCardItem pageNumber={pageNumber} index={index} />
             </div>
           ))}
       </div>
     )
+  }
+
+  const PageContentCardUndo = ({ item }) =>
+    paginationObjBurn.user[item]?.quantity > 1 && (
+      <FaTrash
+        className='image-burn-select'
+        onClick={async (e) => {
+          e.preventDefault()
+          // setCurrentPage(getCurrentPage())
+          handleCardBurnClick(item)
+        }}
+      />
+    )
+
+  const PageContentCardBurn = ({ item }) =>
+    isCardNumberInCardsToBurn(item) && (
+      <FaUndo
+        className='image-burn-undo'
+        onClick={(e) => {
+          e.preventDefault()
+          // setCurrentPage(getCurrentPage())
+          handleCardBurnUndoClick(item)
+        }}
+      />
+    )
+
+  const PageContentCard = ({ item, index }) => (
+    <div style={getStyleInventory(item)} key={index} className='grid-item'>
+      <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+      {paginationObjBurn.user[item]?.quantity > 1 && (
+        <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
+      )}
+      <PageContentCardBurn item={item} />
+      <PageContentCardUndo item={item} />
+      <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
+    </div>
+  )
+
+  PageContentCard.propTypes = {
+    item: PropTypes.number,
+    index: PropTypes.number
   }
 
   const PageContentAlbumBurnSelection = ({ page, pageNumber }) => {
@@ -233,35 +309,7 @@ const GammaAlbum = (props) => {
         {paginationObjBurn &&
           paginationObjBurn.user &&
           page &&
-          page.map((item, index) => (
-            <div style={getStyleInventory(item)} key={index} className='grid-item'>
-              <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
-
-              {paginationObjBurn.user[item]?.quantity > 1 && (
-                <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
-              )}
-
-              {isCardNumberInCardsToBurn(item) && (
-                <FaUndo
-                  className='image-burn-undo'
-                  onClick={() => {
-                    handleCardBurnUndoClick(item)
-                  }}
-                />
-              )}
-
-              {paginationObjBurn.user[item]?.quantity > 1 && (
-                <FaTrash
-                  className='image-burn-select'
-                  onClick={() => {
-                    handleCardBurnClick(item)
-                  }}
-                />
-              )}
-
-              <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
-            </div>
-          ))}
+          page.map((item, index) => <PageContentCard key={index} item={item} index={index} />)}
       </div>
     )
   }
