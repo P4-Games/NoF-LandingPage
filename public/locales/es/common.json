@@ -212,7 +212,8 @@
     "burn_cancel_button_cancel": "Mantener selección",
 
     "burn_repeated_info": "No tienes cartas repetidas para quemar.",
-
+    "burn_repeated_info_less": "Necesitas un mínimo de 60 cartas repetidas para quemar.",
+    "burn_confirm_minimal": "Tienes que seleccionar 60 cartas para proceder con la quema.",
     "burn_select_all_info": "Ya están seleccionadas todas las cartas repetidas.",
     "burn_select_all_info_60": "Se pude quemar un máximo de 60 cartas por vez.",
     "burn_select_all_confirm": "Se seleccionaron todas las cartas repetidas (hasta un máximo de 60).",

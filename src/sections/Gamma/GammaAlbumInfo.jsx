@@ -90,9 +90,14 @@ const GammaAlbumInfo = (props) => {
 
   const handleBurnClick = async () => {
     if (repeatedCardsQtty === 0) {
-      emitInfo(t('burn_repeated_info'), 100000)
+      emitInfo(t('burn_repeated_info'), 10000)
       return
     }
+    if (repeatedCardsQtty < 60) {
+      emitInfo(t('burn_repeated_info_less'), 10000)
+      return
+    }
+
     switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
     await handleFinishInfoCard(true)
   }

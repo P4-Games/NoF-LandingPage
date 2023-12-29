@@ -264,12 +264,12 @@ const GammaMain = () => {
     async () => {
       try {
         if (uniqueCardsQtty < 120) {
-          emitInfo(t('finish_album_no_qtty'), 100000)
+          emitInfo(t('finish_album_no_qtty'), 10000)
           return
         }
 
         if (albums120Qtty < 1) {
-          emitInfo(t('finish_album_no_album'), 100000)
+          emitInfo(t('finish_album_no_album'), 10000)
           return
         }
 
@@ -675,12 +675,15 @@ const GammaMain = () => {
 
   const handleBurnCards = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
-      emitInfo(t('burn_no_cards_selected', 2000))
+      emitInfo(t('burn_no_cards_selected', 5000))
       return
     }
-
+    if (cardsQttyToBurn < 60) {
+      emitInfo(t('burn_confirm_minimal'), 501000)
+      return
+    }
     if (albums60Qtty < 1) {
-      emitInfo(t('finish_album_no_album_60'), 100000)
+      emitInfo(t('finish_album_no_album_60'), 5000)
       return
     }
 
