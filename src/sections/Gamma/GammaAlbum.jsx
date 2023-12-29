@@ -176,6 +176,8 @@ const GammaAlbum = (props) => {
       return
     }
 
+    setCurrentPage(getCurrentPage())
+
     console.log('handleCardBurnClick', cardNumber)
     setCardsQttyToBurn((prevCardsQttyToBurn) => prevCardsQttyToBurn + 1)
     // setCardsQttyToBurn(cardsQttyToBurn + 1)
@@ -201,8 +203,10 @@ const GammaAlbum = (props) => {
 
   const handleCardBurnUndoClick = (cardNumber) => {
     console.log('currentPage', getCurrentPage())
-
     console.log('handleCardBurnUndoClick', cardNumber)
+    
+    setCurrentPage(getCurrentPage())
+
     setCardsQttyToBurn(cardsQttyToBurn - 1)
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
 
@@ -214,7 +218,6 @@ const GammaAlbum = (props) => {
       setCardsToBurn(updatedCardsToBurn)
     }
     console.log('currentPage', currentPage)
-    setCurrentPage(currentPage)
   }
 
   const getStyleInventory = (item) =>
