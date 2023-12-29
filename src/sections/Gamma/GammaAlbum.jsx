@@ -104,7 +104,6 @@ const GammaAlbum = (props) => {
     if (update) {
       await refreshPaginationObj()
     }
-    console.log('handleFinishInfoCard')
     setCurrentPage(getCurrentPage())
     setCardInfo(false)
     setAlbumInfo(false)
@@ -178,7 +177,7 @@ const GammaAlbum = (props) => {
 
     setCurrentPage(getCurrentPage())
 
-    console.log('handleCardBurnClick', cardNumber)
+    // console.log('handleCardBurnClick', cardNumber)
     setCardsQttyToBurn((prevCardsQttyToBurn) => prevCardsQttyToBurn + 1)
     // setCardsQttyToBurn(cardsQttyToBurn + 1)
 
@@ -202,9 +201,8 @@ const GammaAlbum = (props) => {
   }
 
   const handleCardBurnUndoClick = (cardNumber) => {
-    console.log('currentPage', getCurrentPage())
-    console.log('handleCardBurnUndoClick', cardNumber)
-    
+    // console.log('handleCardBurnUndoClick', cardNumber)
+
     setCurrentPage(getCurrentPage())
 
     setCardsQttyToBurn(cardsQttyToBurn - 1)
@@ -217,7 +215,6 @@ const GammaAlbum = (props) => {
       updatedCardsToBurn.splice(indexToRemove, 1)
       setCardsToBurn(updatedCardsToBurn)
     }
-    console.log('currentPage', currentPage)
   }
 
   const getStyleInventory = (item) =>
@@ -306,11 +303,6 @@ const GammaAlbum = (props) => {
       <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
     </div>
   )
-
-  PageContentCard.propTypes = {
-    item: PropTypes.number,
-    index: PropTypes.number
-  }
 
   const PageContentAlbumBurnSelection = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
@@ -432,6 +424,29 @@ const GammaAlbum = (props) => {
   PageContentAlbumToBurn.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
+  }
+
+  PageContentAlbumBurnSelection.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
+  PageContentCard.propTypes = {
+    item: PropTypes.number,
+    index: PropTypes.number
+  }
+
+  PageContentCardBurn.propTypes = {
+    item: PropTypes.number
+  }
+
+  PageContentCardUndo.propTypes = {
+    item: PropTypes.number
+  }
+
+  CardsToBurnCardItem.propTypes = {
+    pageNumber: PropTypes.number,
+    index: PropTypes.number
   }
 
   const getUserCardObject = (imageNumber) => {
