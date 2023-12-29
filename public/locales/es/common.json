@@ -213,6 +213,7 @@
 
     "burn_repeated_info": "No tienes cartas repetidas para quemar.",
     "burn_repeated_info_less": "Necesitas un mínimo de 60 cartas repetidas para quemar.",
+    "burn_select_cart_offered": "No puedes quemar más copias de ésta carta, dado que tiene una oferta asociada.",
     "burn_confirm_minimal": "Tienes que seleccionar 60 cartas para proceder con la quema.",
     "burn_select_all_info": "Ya están seleccionadas todas las cartas repetidas.",
     "burn_select_all_info_60": "Se pude quemar un máximo de 60 cartas por vez.",

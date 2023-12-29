@@ -160,7 +160,19 @@ const GammaAlbum = (props) => {
 
   const handleCardBurnClick = (cardNumber) => {
     if (cardsQttyToBurn >= 60) {
-      emitInfo(t('burn_select_all_info_60', 2000))
+      emitInfo(t('burn_select_all_info_60', 5000))
+      return
+    }
+
+    if (
+      paginationObjBurn.user[cardNumber]?.offered &&
+      paginationObjBurn.user[cardNumber]?.quantity < 3
+    ) {
+      /* Si la carta tiene oferta, el usuario se tiene que quedar con
+         un mínimo de 2 copias. 1 para Él, otra para la oferta. 
+         A partir de la 3ra. puede quemar.
+      */
+      emitInfo(t('burn_select_cart_offered', 5000))
       return
     }
 

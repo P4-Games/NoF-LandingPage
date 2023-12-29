@@ -212,6 +212,7 @@
  
     "burn_repeated_info": "You have no repeated cards to burn.",
     "burn_repeated_info_less": "You need a minimum of 60 repeated cards to burn.",
+    "burn_select_cart_offered": "You cannot burn any more copies of this card, since it has an offer associated with it.",
     "burn_confirm_minimal": "You have to select 60 cards to proceed with burning.",
     "burn_select_all_info": "All repeated cards are already selected.",
     "burn_select_all_info_60": "You can burn a maximum of 60 cards at a time.",

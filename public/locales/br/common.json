@@ -212,6 +212,7 @@
 
   "burn_repeated_info": "Você não tem cartas repetidas para queimar.",
   "burn_repeated_info_less": "Você precisa de no mínimo 60 cartas repetidas para queimar.",
+  "burn_select_cart_offered": "Você não pode queimar mais cópias deste cartão, pois há uma oferta associada a ele.",
   "burn_confirm_minimal": "Você deve selecionar 60 cartões para prosseguir com a gravação.",
   "burn_select_all_info": "Todas as cartas repetidas agora estão selecionadas.",
   "burn_select_all_info_60": "Você pode queimar no máximo 60 cartas por vez.",
