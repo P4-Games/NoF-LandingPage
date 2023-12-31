@@ -264,12 +264,12 @@ const GammaMain = () => {
     async () => {
       try {
         if (uniqueCardsQtty < 120) {
-          emitInfo(t('finish_album_no_qtty'), 10000)
+          emitInfo(t('finish_album_no_qtty'), 5000)
           return
         }
 
         if (albums120Qtty < 1) {
-          emitInfo(t('finish_album_no_album'), 10000)
+          emitInfo(t('finish_album_no_album'), 5000)
           return
         }
 
@@ -304,7 +304,7 @@ const GammaMain = () => {
     async () => {
       try {
         if (numberOfPacks === 0) {
-          emitInfo(t('no_paquetes_para_transferir', 2000))
+          emitInfo(t('no_paquetes_para_transferir', 4000))
           return
         }
 
@@ -380,7 +380,7 @@ const GammaMain = () => {
               await transaction.wait()
             }
           }
-          emitSuccess(t('confirmado'), 2000)
+          emitSuccess(t('confirmado'), 3000)
           await checkNumberOfPacks()
           stopLoading()
         }
@@ -405,7 +405,7 @@ const GammaMain = () => {
     async () => {
       try {
         if (numberOfPacks === 0) {
-          emitInfo(t('no_paquetes_para_abrir', 2000))
+          emitInfo(t('no_paquetes_para_abrir', 4000))
           return
         }
 
@@ -623,24 +623,24 @@ const GammaMain = () => {
 
   const handleBurnCardsSelectAll = useCallback(async () => {
     if (cardsQttyToBurn >= repeatedCardsQtty) {
-      emitInfo(t('burn_select_all_info', 2000))
+      emitInfo(t('burn_select_all_info', 5000))
       return
     }
 
     if (cardsQttyToBurn >= 60) {
-      emitInfo(t('burn_select_all_info_60', 2000))
+      emitInfo(t('burn_select_all_info_60', 5000))
       return
     }
 
     startLoading()
     selectAllRepeatedCardsToBurn(60)
     stopLoading()
-    emitSuccess(t('burn_select_all_confirm'), 2000)
+    emitSuccess(t('burn_select_all_confirm'), 5000)
   }, [currentAlbum, cardsQttyToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsUndoAll = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
-      emitInfo(t('burn_undo_all_info', 2000))
+      emitInfo(t('burn_undo_all_info', 5000))
       return
     }
 
@@ -665,7 +665,7 @@ const GammaMain = () => {
         setCardsToBurn([])
         setCardsQttyToBurn(0)
         generatePaginationObjToBurn(true)
-        emitSuccess(t('burn_undo_all_confirm'), 2000)
+        emitSuccess(t('burn_undo_all_confirm'), 5000)
       } catch (ex) {
         console.error({ ex })
         emitError(t('burn_undo_all_error'))
@@ -679,7 +679,7 @@ const GammaMain = () => {
       return
     }
     if (cardsQttyToBurn < 60) {
-      emitInfo(t('burn_confirm_minimal'), 501000)
+      emitInfo(t('burn_confirm_minimal'), 5000)
       return
     }
     if (albums60Qtty < 1) {
@@ -718,7 +718,7 @@ const GammaMain = () => {
         await updateUserData()
         switchAlbum(ALBUMS.ALBUM_INVENTORY)
         stopLoading()
-        emitSuccess(t('confirmado'), 2000)
+        emitSuccess(t('confirmado'), 3000)
       } catch (ex) {
         stopLoading()
         console.error({ ex })
