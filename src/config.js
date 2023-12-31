@@ -54,7 +54,7 @@ export const CONTRACTS = {
 }
 
 export const openSeaUrlAlpha = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
+  ? `https://opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
   : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`
 
 export const openSeaUrlGamma = is_production

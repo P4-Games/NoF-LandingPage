@@ -141,7 +141,7 @@ const GammaCardInfo = (props) => {
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
-        <a target='_blank' href=${openSeaUrlGamma}/${userCard.name}'>
+        <a target='_blank' href=${openSeaUrlGamma}>
           ${t('aqui')}
         </a>`,
         icon: 'success',
