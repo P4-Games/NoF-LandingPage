@@ -200,7 +200,7 @@
  
     "burn_undo_all_info": "There are no cards selected for burning, which can be removed from the burn.",
     "burn_undo_all_title": "Undo selection",
-    "burn_undo_all_text": "All cards selected ({CARDS_TO_BURN}) for burning will be restored. Do you want to continue?",
+    "burn_undo_all_text": "All cards selected for burning ({CARDS_TO_BURN}) will be restored. Do you want to continue?",
     "burn_undo_all_button_confirm": "Yes, undo selection",
     "burn_undo_all_confirm": "Cards restored",
     "burn_undo_all_error": "There was an error trying to restore cards from burning",

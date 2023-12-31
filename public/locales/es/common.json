@@ -201,7 +201,7 @@
 
     "burn_undo_all_info": "No hay cartas seleccionadas para quemar, las cuales se puedan quitar de la quema.",
     "burn_undo_all_title": "Deshacer selección",
-    "burn_undo_all_text": "Todas las cartas seleccionadas ({CARDS_TO_BURN}) para la quema, se restaurarán. ¿Deseas continuar?",
+    "burn_undo_all_text": "Todas las cartas seleccionadas para la quema ({CARDS_TO_BURN}), se restaurarán. ¿Deseas continuar?",
     "burn_undo_all_button_confirm": "Si, deshacer selección",
     "burn_undo_all_confirm": "Cartas restauradas",
     "burn_undo_all_error": "Hubo un error al intentar restaurar las cartas de la quema",
@@ -216,7 +216,7 @@
     "burn_select_cart_offered": "No puedes quemar más copias de ésta carta, dado que tiene una oferta asociada.",
     "burn_confirm_minimal": "Tienes que seleccionar 60 cartas para proceder con la quema.",
     "burn_select_all_info": "Ya están seleccionadas todas las cartas repetidas.",
-    "burn_select_all_info_60": "Se pude quemar un máximo de 60 cartas por vez.",
+    "burn_select_all_info_60": "Se puede quemar un máximo de 60 cartas por vez.",
     "burn_select_all_confirm": "Se seleccionaron todas las cartas repetidas (hasta un máximo de 60).",
 
     "confirm": "Confirmar",

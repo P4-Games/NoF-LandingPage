@@ -200,7 +200,7 @@
 
   "burn_undo_all_info": "Não há cartas selecionadas para gravação que possam ser removidas da gravação.",
   "burn_undo_all_title": "Desfazer seleção",
-  "burn_undo_all_text": "Todos os cards selecionados ({CARDS_TO_BURN}) para gravação serão restaurados. Deseja continuar?",
+  "burn_undo_all_text": "Todos os cards selecionados para gravação ({CARDS_TO_BURN}) serão restaurados. Deseja continuar?",
   "burn_undo_all_button_confirm": "Sim, desfazer seleção",
   "burn_undo_all_confirm": "Cartões restaurados",
   "burn_undo_all_error": "Ocorreu um erro ao tentar restaurar os cartões da gravação",
