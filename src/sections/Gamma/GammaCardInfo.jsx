@@ -146,7 +146,7 @@ const GammaCardInfo = (props) => {
         </a>`,
         icon: 'success',
         showConfirmButton: true,
-        timer: 3000
+        timer: 5000
       })
     } catch (ex) {
       stopLoading()
