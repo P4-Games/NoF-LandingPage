@@ -9,6 +9,7 @@ import alphaAbi from './abis/Alpha.v3.sol/NofAlphaV3.json'
 import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
 import gammaCardsAbi from './abis/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/GammaOffers.v4.sol/NofGammaOffersV4.json'
+import gammaTicketsAbi from './abis/GammaTickets.v1.sol/NofGammaTicketsV1.json'
 import { CONTRACTS, NETWORK, WalletConnectProjectId } from '../config'
 import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
@@ -30,6 +31,7 @@ function Web3ContextProvider({ children }) {
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
+  const [gammaTicketsContract, setGammaTicketsContract] = useState(null)
   const { addNotification } = useContext(NotificationContext)
   const { address, chainId, isConnected } = useWeb3ModalAccount()
   const { walletProvider } = useWeb3ModalProvider()
@@ -135,6 +137,11 @@ function Web3ContextProvider({ children }) {
         gammaOffersAbi.abi,
         _signer
       )
+      const gammaTicketsContractInstance = new ethers.Contract(
+        CONTRACTS.gammaTicketsAddress,
+        gammaTicketsAbi.abi,
+        _signer
+      )
 
       gammaPacksContractInstance.on('PackTransfered', (from, to, tokenId) => {
         const packNbr = ethers.BigNumber.from(tokenId).toNumber()
@@ -170,11 +177,29 @@ function Web3ContextProvider({ children }) {
         ])
       })
 
+      gammaCardsContractInstance.on('CardsBurned', (user, cardNumbers) => {
+        addNotification(user, 'notification_cards_burned', [
+          { item: 'CARDS_BURNED', value: cardNumbers.length, valueShort: cardNumbers.length }
+        ])
+      })
+
+      gammaCardsContractInstance.on('AlbumCompleted', (user, clazz) => {
+        if (parseInt(clazz) === 1) addNotification(user, 'notification_album_120_completed', [])
+        else addNotification(user, 'notification_album_60_completed', [])
+      })
+
+      gammaTicketsContractInstance.on('TicketGenerated', (_, ticketId, __, user) => {
+        addNotification(user, 'notification_ticket_reception', [
+          { item: 'TICKET_ID', value: ticketId, valueShort: getAccountAddressText(ticketId) }
+        ])
+      })
+
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
       setGammaPacksContract(gammaPacksContractInstance)
       setGammaCardsContract(gammaCardsContractInstance)
       setGammaOffersContract(gammaOffersContractInstance)
+      setGammaTicketsContract(gammaTicketsContractInstance)
     } catch (e) {
       console.error({ e })
     }
@@ -272,6 +297,7 @@ function Web3ContextProvider({ children }) {
     gammaPacksContract,
     gammaCardsContract,
     gammaOffersContract,
+    gammaTicketsContract,
     web3Error,
     isConnected,
     isValidNetwork,

@@ -21,12 +21,19 @@ const GammaAlbumPublish = (props) => {
     stopLoading,
     ToggleShowDefaultButtons,
     updateShowButtons,
+    updateFooterButtonsClasses,
     updateButtonFunctions
   } = useLayoutContext()
 
   useEffect(() => {
     ToggleShowDefaultButtons(false)
     updateShowButtons([false, true, true, false])
+    updateFooterButtonsClasses([
+      null,
+      'footer__buttons__greenbtn_custom_confirm',
+      'footer__buttons__redbtn_custom_cancel',
+      null
+    ])
     updateButtonFunctions(2, handleCancelClick)
   }, [handleCancelClick]) //eslint-disable-line react-hooks/exhaustive-deps
 

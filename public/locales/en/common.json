@@ -103,6 +103,7 @@
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
     "finish_album_no_qtty": "You do not have the complete album yet to claim the prize",
     "finish_album_no_album": "You do not have an album yet to claim the prize.",
+    "finish_album_no_album_60": "You do not have an album yet to burn cards.",
     "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
 
     "publish_offer_error": "There was an error trying to publish",
@@ -179,11 +180,44 @@
     "notification_album_transfer": "You have received an album from {WALLET}.",
     "notification_burn_album_transfer": "You have received a burnt album from {WALLET}.",
     "notification_exchange": "You received the card {CARD_RECEIVED} from {WALLET} in exchange for the card {CARD_SENT}.",
-
+    "notification_cards_burned": "You burned {CARDS_BURNED} cards",
+    "notification_album_120_completed": "You completed the main album! You will receive a prize in your wallet.",
+    "notification_album_60_completed": "By burning cards, you completed the burning album. You will receive a prize in your wallet.",
+    "notification_ticket_reception": "You received a ticket ({TICKET_ID}) for completing the burn album.",
+    
     "offline_msg": "Website currently offline or no Internet connection available",
     "offline_action": "Go to Home",
 
     "exhange_cards_to_send": "you will send",
     "exhange_cards_to_receive": "you will receive",
-    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange."
+    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange.",
+
+    "burn_cards": "Burn Cards",
+    "burn_title": "Burning cards",
+    "burn_text": "You are going to burn {CARDS_TO_BURN} cards. Do you confirm?",
+    "burn_no_cards_selected": "There are no cards selected to burn.",
+    "burn_error": "There was an error attempting to burn",
+ 
+    "burn_undo_all_info": "There are no cards selected for burning, which can be removed from the burn.",
+    "burn_undo_all_title": "Undo selection",
+    "burn_undo_all_text": "All cards selected for burning ({CARDS_TO_BURN}) will be restored. Do you want to continue?",
+    "burn_undo_all_button_confirm": "Yes, undo selection",
+    "burn_undo_all_confirm": "Cards restored",
+    "burn_undo_all_error": "There was an error trying to restore cards from burning",
+
+    "burn_cancel_title": "Burn Cancellation",
+    "burn_cancel_text": "Do you want to cancel the burning? (the selection of cards to burn will be lost).",
+    "burn_cancel_button_confirm": "Yes, cancel burning",
+    "burn_cancel_button_cancel": "Keep selection",
+ 
+    "burn_repeated_info": "You have no repeated cards to burn.",
+    "burn_repeated_info_less": "You need a minimum of 60 repeated cards to burn.",
+    "burn_select_cart_offered": "You cannot burn any more copies of this card, since it has an offer associated with it.",
+    "burn_confirm_minimal": "You have to select 60 cards to proceed with burning.",
+    "burn_select_all_info": "All repeated cards are already selected.",
+    "burn_select_all_info_60": "You can burn a maximum of 60 cards at a time.",
+    "burn_select_all_confirm": "All repeat cards have been selected (up to a maximum of 60).",
+
+    "confirm": "Confirm",
+    "cancel": "Cancel"
 }

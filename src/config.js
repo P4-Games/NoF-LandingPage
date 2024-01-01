@@ -42,19 +42,19 @@ export const WalletConnectProjectId =
 export const CONTRACTS = {
   daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
   alphaAddress:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0x210e3999B0dcD11aFe155ef915aE916d0A3418cc',
+    process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
   gammaCardsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0x82fd55a375a0154101fde3F81feC5B611f636454',
+    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0x34658c07F05638E12793d0961595cBc72fA69452',
   gammaPackAddress:
-    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0x78D09B1e3Eb64AF5468fDa8515C060f0B36E5B27',
+    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
   gammaOffersAddress:
-    process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0x885F2a39477e87A9379E5980a0319eBC80adC4Bd',
+    process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0x3Da346C40A0D90cf5642944613586439A3456d45',
   gammaTicketsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_TICKETS_ADDRESS || '0xF11D042EEe43Cf7276B5A5801de1ACffbCf17887'
+    process.env.NEXT_PUBLIC_GAMMA_TICKETS_ADDRESS || '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
 }
 
 export const openSeaUrlAlpha = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
+  ? `https://opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
   : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`
 
 export const openSeaUrlGamma = is_production

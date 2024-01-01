@@ -485,11 +485,19 @@ $groundHeight: 40px;
       }
     }
 
-    &__album__gamma {
+    &__album__120 {
       @extend .hero__top__album;
-      background-image: url('/images/gamma/GammaFondo2.png') !important;
+      background-image: url('/images/gamma/GammaFondo120.png') !important;
       @include mobile {
-        background-image: url('/images/gamma/GammaFondo-libreta2.png') !important;
+        background-image: url('/images/gamma/GammaFondo120-libreta.png') !important;
+      }
+    }
+
+    &__album__toburn {
+      @extend .hero__top__album;
+      background-image: url('/images/gamma/GammaFondoToBurn.png') !important;
+      @include mobile {
+        background-image: url('/images/gamma/GammaFondoToBurn-libreta.png') !important;
       }
     }
   }

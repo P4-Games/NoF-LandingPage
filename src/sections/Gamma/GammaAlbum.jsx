@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
+import { FaTrash } from 'react-icons/fa'
+import { FaUndo } from 'react-icons/fa'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 import { useTranslation } from 'next-i18next'
 import { storageUrlGamma } from '../../config'
@@ -16,16 +18,32 @@ import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hoo
 
 const GammaAlbum = (props) => {
   const { t } = useTranslation()
-  const { showInventory, updateUserData, setCardInfoOpened, setAlbumInfoOpened } = props
+  const { setCardInfoOpened, setAlbumInfoOpened } = props
   const { startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { gammaOffersContract, gammaCardsContract, walletAddress } = useWeb3Context()
-  const { paginationObj } = useGammaDataContext()
+  const {
+    ALBUMS,
+    currentAlbum,
+    paginationObj,
+    cardsQttyToBurn,
+    setCardsQttyToBurn,
+    cardsToBurn,
+    setCardsToBurn,
+    paginationObjBurn,
+    refreshPaginationObj,
+    setPaginationObjBurn
+  } = useGammaDataContext()
+
   const [cardInfo, setCardInfo] = useState(false)
   const [albumInfo, setAlbumInfo] = useState(false)
   const [cardOffers, setCardOffers] = useState(false)
   const [imageNumber, setImageNumber] = useState(0)
   const [offersObj, setOffersObj] = useState(null)
   const [currentPage, setCurrentPage] = useState(0)
+
+  // const [paginationObjBurn, setPaginationObjBurn] = useState({})
+  // const [cardsQttyToBurn, setCardsQttyToBurn] = useState(0)
+  // const [cardsToBurn, setCardsToBurn] = useState([])
 
   // const [ allOffers, setAllOffers ] = useState(null)
 
@@ -50,6 +68,18 @@ const GammaAlbum = (props) => {
 
   */
 
+  /*
+  useEffect(() => {
+    if (!paginationObj) return
+    const _cloneObject = JSON.parse(JSON.stringify(paginationObj))
+    setPaginationObjBurn(_cloneObject)
+  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+*/
+
+  function isCardNumberInCardsToBurn(cardNumber) {
+    return cardsToBurn.includes(parseInt(cardNumber))
+  }
+
   const handleOpenCardOffers = async () => {
     if (!offersObj || offersObj.length === 0) {
       const myOffer = paginationObj.user[imageNumber]?.offered
@@ -72,8 +102,9 @@ const GammaAlbum = (props) => {
   const handleFinishInfoCard = async (update = true) => {
     startLoading()
     if (update) {
-      await updateUserData()
+      await refreshPaginationObj()
     }
+    setCurrentPage(getCurrentPage())
     setCardInfo(false)
     setAlbumInfo(false)
     setCardOffers(false)
@@ -108,13 +139,13 @@ const GammaAlbum = (props) => {
     }
   }
 
-  const handleCardClick = async (cardNumber) => {
+  const handleCardInventoryClick = async (cardNumber) => {
     startLoading()
     setCurrentPage(getCurrentPage())
 
     setImageNumber(cardNumber)
 
-    if (cardNumber === 120 || cardNumber === 121) {
+    if (parseInt(cardNumber) === 120 || parseInt(cardNumber) === 121) {
       setAlbumInfoOpened(true)
       setAlbumInfo(true)
     } else {
@@ -124,6 +155,66 @@ const GammaAlbum = (props) => {
     }
 
     stopLoading()
+  }
+
+  const handleCardBurnClick = (cardNumber) => {
+    if (cardsQttyToBurn >= 60) {
+      emitInfo(t('burn_select_all_info_60', 5000))
+      return
+    }
+
+    if (
+      paginationObjBurn.user[cardNumber]?.offered &&
+      paginationObjBurn.user[cardNumber]?.quantity < 3
+    ) {
+      /* Si la carta tiene oferta, el usuario se tiene que quedar con
+         un mínimo de 2 copias. 1 para Él, otra para la oferta. 
+         A partir de la 3ra. puede quemar.
+      */
+      emitInfo(t('burn_select_cart_offered', 5000))
+      return
+    }
+
+    setCurrentPage(getCurrentPage())
+
+    // console.log('handleCardBurnClick', cardNumber)
+    setCardsQttyToBurn((prevCardsQttyToBurn) => prevCardsQttyToBurn + 1)
+    // setCardsQttyToBurn(cardsQttyToBurn + 1)
+
+    setCardsToBurn((prevCardsToBurn) => [...prevCardsToBurn, cardNumber])
+    // setCardsToBurn([...cardsToBurn, cardNumber])
+
+    setPaginationObjBurn((prevPaginationObjBurn) => {
+      const updatedUser = {
+        ...prevPaginationObjBurn.user,
+        [cardNumber]: {
+          ...prevPaginationObjBurn.user[cardNumber],
+          quantity: prevPaginationObjBurn.user[cardNumber].quantity - 1
+        }
+      }
+      return {
+        ...prevPaginationObjBurn,
+        user: updatedUser
+      }
+    })
+    // paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
+  }
+
+  const handleCardBurnUndoClick = (cardNumber) => {
+    // console.log('handleCardBurnUndoClick', cardNumber)
+
+    setCurrentPage(getCurrentPage())
+
+    setCardsQttyToBurn(cardsQttyToBurn - 1)
+    paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
+
+    // se hace con index, dado que el array puede tener cardNumbers repetidos.
+    const indexToRemove = cardsToBurn.indexOf(cardNumber)
+    if (indexToRemove !== -1) {
+      const updatedCardsToBurn = [...cardsToBurn]
+      updatedCardsToBurn.splice(indexToRemove, 1)
+      setCardsToBurn(updatedCardsToBurn)
+    }
   }
 
   const getStyleInventory = (item) =>
@@ -149,6 +240,86 @@ const GammaAlbum = (props) => {
     return totalCardNumberOffers
   }
   */
+  const CardsToBurnCardItem = ({ pageNumber, index }) => {
+    const value = index + 12 * (pageNumber - 1)
+    return cardsToBurn && cardsToBurn.length > value ? (
+      <CustomImage src={`${storageUrlGamma}/T1/${cardsToBurn[value]}.png`} alt='img' />
+    ) : (
+      <CustomImage src='/images/gamma/Nofy.png' alt='img' />
+    )
+  }
+
+  const PageContentAlbumToBurn = ({ page, pageNumber }) => {
+    let divWrapperClassName = 'grid-wrapper-left-album'
+    if (pageNumber % 2 === 0) {
+      // par
+      divWrapperClassName = 'grid-wrapper-right-album'
+    }
+
+    return (
+      <div className={divWrapperClassName}>
+        {page &&
+          page.map((item, index) => (
+            <div style={{ background: 'none' }} key={index} className='grid-item'>
+              <CardsToBurnCardItem pageNumber={pageNumber} index={index} />
+            </div>
+          ))}
+      </div>
+    )
+  }
+
+  const PageContentCardUndo = ({ item }) =>
+    paginationObjBurn.user[item]?.quantity > 1 && (
+      <FaTrash
+        className='image-burn-select'
+        onClick={async (e) => {
+          e.preventDefault()
+          // setCurrentPage(getCurrentPage())
+          handleCardBurnClick(item)
+        }}
+      />
+    )
+
+  const PageContentCardBurn = ({ item }) =>
+    isCardNumberInCardsToBurn(item) && (
+      <FaUndo
+        className='image-burn-undo'
+        onClick={(e) => {
+          e.preventDefault()
+          // setCurrentPage(getCurrentPage())
+          handleCardBurnUndoClick(item)
+        }}
+      />
+    )
+
+  const PageContentCard = ({ item, index }) => (
+    <div style={getStyleInventory(item)} key={index} className='grid-item'>
+      <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
+      {paginationObjBurn.user[item]?.quantity > 1 && (
+        <div className='quantity'> X: {paginationObjBurn.user[item]?.quantity}</div>
+      )}
+      <PageContentCardBurn item={item} />
+      <PageContentCardUndo item={item} />
+      <div className='number'>{paginationObjBurn.user[item]?.name || '0'}</div>
+    </div>
+  )
+
+  const PageContentAlbumBurnSelection = ({ page, pageNumber }) => {
+    let divWrapperClassName = 'grid-wrapper-left'
+    if (pageNumber % 2 === 0) {
+      // par
+      divWrapperClassName = 'grid-wrapper-right'
+    }
+
+    return (
+      <div className={divWrapperClassName}>
+        {paginationObjBurn &&
+          paginationObjBurn.user &&
+          page &&
+          page.map((item, index) => <PageContentCard key={index} item={item} index={index} />)}
+      </div>
+    )
+  }
 
   const PageContentInventory = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left'
@@ -163,7 +334,7 @@ const GammaAlbum = (props) => {
           page.map((item, index) => (
             <div
               onClick={() => {
-                handleCardClick(item)
+                handleCardInventoryClick(item)
               }}
               style={getStyleInventory(item)}
               key={index}
@@ -190,7 +361,7 @@ const GammaAlbum = (props) => {
     )
   }
 
-  const PageContentAlbum = ({ page, pageNumber }) => {
+  const PageContentAlbum120 = ({ page, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-left-album'
     if (pageNumber % 2 === 0) {
       // par
@@ -215,12 +386,20 @@ const GammaAlbum = (props) => {
     )
   }
 
-  const PageContent = ({ page, pageNumber }) =>
-    showInventory ? (
-      <PageContentInventory page={page} pageNumber={pageNumber} />
-    ) : (
-      <PageContentAlbum page={page} pageNumber={pageNumber} />
-    )
+  const PageContent = ({ page, pageNumber }) => {
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        return <PageContentInventory page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_120:
+        return <PageContentAlbum120 page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        return <PageContentAlbumBurnSelection page={page} pageNumber={pageNumber} />
+      case ALBUMS.ALBUM_TO_BURN:
+        return <PageContentAlbumToBurn page={page} pageNumber={pageNumber} />
+      default:
+        return <PageContentInventory page={page} pageNumber={pageNumber} />
+    }
+  }
 
   PageContent.propTypes = {
     page: PropTypes.array,
@@ -232,9 +411,42 @@ const GammaAlbum = (props) => {
     pageNumber: PropTypes.number
   }
 
-  PageContentAlbum.propTypes = {
+  PageContentAlbum120.propTypes = {
     page: PropTypes.array,
     pageNumber: PropTypes.number
+  }
+
+  PageContentAlbumBurnSelection.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
+  PageContentAlbumToBurn.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
+  PageContentAlbumBurnSelection.propTypes = {
+    page: PropTypes.array,
+    pageNumber: PropTypes.number
+  }
+
+  PageContentCard.propTypes = {
+    item: PropTypes.number,
+    index: PropTypes.number
+  }
+
+  PageContentCardBurn.propTypes = {
+    item: PropTypes.number
+  }
+
+  PageContentCardUndo.propTypes = {
+    item: PropTypes.number
+  }
+
+  CardsToBurnCardItem.propTypes = {
+    pageNumber: PropTypes.number,
+    index: PropTypes.number
   }
 
   const getUserCardObject = (imageNumber) => {
@@ -245,23 +457,45 @@ const GammaAlbum = (props) => {
   }
 
   const Book = () => {
-    if (!paginationObj) return <></>
-    else
-      return (
-        <FlipBook
-          startPage={currentPage}
-          showClose={false}
-          onCloseClick={undefined}
-          pages={Array.from({ length: 11 }, (_, index) => (
-            <PageContent
-              page={paginationObj[`page${index + 1}`]}
-              key={index}
-              pageNumber={index + 1}
-            />
-          ))}
-          mainClassName={showInventory ? 'hero__top__album' : 'hero__top__album__gamma'}
-        />
-      )
+    if (!paginationObj || !paginationObjBurn || !currentAlbum) return <></>
+
+    let qttyPages = 11
+    let _className = 'hero__top__album'
+
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        _className = 'hero__top__album'
+        qttyPages = 11
+        break
+      case ALBUMS.ALBUM_120:
+        _className = 'hero__top__album__120'
+        qttyPages = 11
+        break
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        _className = 'hero__top__album'
+        qttyPages = 10
+        break
+      case ALBUMS.ALBUM_TO_BURN:
+        _className = 'hero__top__album__toburn'
+        qttyPages = 5
+        break
+    }
+
+    return (
+      <FlipBook
+        mainClassName={_className}
+        startPage={currentPage}
+        showClose={false}
+        onCloseClick={undefined}
+        pages={Array.from({ length: qttyPages }, (_, index) => (
+          <PageContent
+            page={paginationObj[`page${index + 1}`]}
+            key={index}
+            pageNumber={index + 1}
+          />
+        ))}
+      />
+    )
   }
 
   return (
@@ -295,8 +529,6 @@ const GammaAlbum = (props) => {
 }
 
 GammaAlbum.propTypes = {
-  showInventory: PropTypes.bool,
-  updateUserData: PropTypes.func,
   setCardInfoOpened: PropTypes.func,
   setAlbumInfoOpened: PropTypes.func
 }

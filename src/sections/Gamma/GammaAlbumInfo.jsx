@@ -7,9 +7,9 @@ import { MdOutlineLocalOffer } from 'react-icons/md'
 import { storageUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
 import { checkInputAddress } from '../../utils/InputValidators'
-import { emitError, emitSuccess } from '../../utils/alert'
+import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
-import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbumInfo = (props) => {
   const { t } = useTranslation()
@@ -23,6 +23,7 @@ const GammaAlbumInfo = (props) => {
     updateFooterButtonsClasses
   } = useLayoutContext()
   const { gammaCardsContract, walletAddress } = useWeb3Context()
+  const { ALBUMS, switchAlbum, repeatedCardsQtty } = useGammaDataContext()
   const [userHasCard, setUserHasCard] = useState(false)
 
   const verifyUserHasCard = async () => {
@@ -46,7 +47,7 @@ const GammaAlbumInfo = (props) => {
 
   useEffect(() => {
     verifyUserHasCard()
-  }, [gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferClick = async () => {
     try {
@@ -76,7 +77,7 @@ const GammaAlbumInfo = (props) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, userCard.name)
         await transaction.wait()
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
@@ -87,8 +88,22 @@ const GammaAlbumInfo = (props) => {
     }
   }
 
-  const handleCloseButtonClick = () => {
-    handleFinishInfoCard(false)
+  const handleBurnClick = async () => {
+    if (repeatedCardsQtty === 0) {
+      emitInfo(t('burn_repeated_info'), 5000)
+      return
+    }
+    if (repeatedCardsQtty < 60) {
+      emitInfo(t('burn_repeated_info_less'), 5000)
+      return
+    }
+
+    switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
+    await handleFinishInfoCard(true)
+  }
+
+  const handleCloseButtonClick = async () => {
+    await handleFinishInfoCard(false)
   }
 
   const TransferButton = () => (
@@ -97,6 +112,12 @@ const GammaAlbumInfo = (props) => {
       onClick={() => handleTransferClick()}
     >
       {t('transferir')}
+    </div>
+  )
+
+  const BurnButton = () => (
+    <div className={userHasCard ? 'option' : 'option_disabled'} onClick={() => handleBurnClick()}>
+      {t('burn_cards')}
     </div>
   )
 
@@ -115,6 +136,7 @@ const GammaAlbumInfo = (props) => {
     <div className='cardinfo'>
       <div className='transactions'>
         <TransferButton />
+        {userCard.name === '121' && <BurnButton />}
       </div>
     </div>
   )
