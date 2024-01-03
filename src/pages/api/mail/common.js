@@ -104,5 +104,3 @@ export async function sendMail(subject, textContent, htmlContent, mailTo) {
     return false
   }
 }
-
-export default { sendMail }

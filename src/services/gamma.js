@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { gammaServiceUrl } from '../config'
+import { handleError } from './handleError'
 
 export const getGammacardsPages = () => {
   const gammaCardsPages = {
@@ -45,7 +46,7 @@ export const fetchPackData = async (walletAddress, pack_number) => {
     const data = await response.json()
     return data
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'fetchPackData', e)
     throw e
   }
 }
@@ -55,7 +56,7 @@ export const checkPacksByUser = async (walletAddress, packsContract) => {
     const packs = await packsContract?.getPacksByUser(walletAddress)
     return packs
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'checkPacksByUser', e)
     throw e
   }
 }
@@ -65,7 +66,7 @@ export const verifyPackSigner = async (cardsContract, packNumber, packData, sign
     const signer = await cardsContract.verifyPackSigner(packNumber, packData, signature)
     return signer
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'verifyPackSigner', e)
     throw e
   }
 }
@@ -78,7 +79,7 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
     await openPackTx.wait()
     return openPackTx
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'openPack', e)
     throw e
   }
 }
@@ -103,7 +104,7 @@ export const openPacks = async (
     await openPacksTx.wait()
     return openPacksTx
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'openPacks', e)
     throw e
   }
 }
@@ -113,7 +114,7 @@ export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
     const result = await cardsContract.maxPacksToOpenAtOnce()
     return result
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getMaxPacksAllowedToOpenAtOnce', e)
     throw e
   }
 }
@@ -150,7 +151,7 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
 
     return cardsObj
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'getCardsByUser', e)
     throw e
   }
 }
@@ -168,7 +169,7 @@ export const getUserMissingCards = async (cardsContract, walletAddress) => {
 
 export const getUserMissingCardsQtty = async (cardsContract, walletAddress) => {
   const userMissingCards = await getUserMissingCards(cardsContract, walletAddress)
-  return (await userMissingCards).length
+  return userMissingCards.length
 }
 
 export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
@@ -177,7 +178,7 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
     const result = await cardsContract.hasCard(walletAddress, cardNumber)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'hasCard', e)
     throw e
   }
 }
@@ -189,7 +190,7 @@ export const getPackPrice = async (cardsContract) => {
     const result = ethers.utils.formatUnits(price, 18)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getPackPrice', e)
     throw e
   }
 }
@@ -200,7 +201,7 @@ export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
     const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
     return userHasAlbum
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'getUserAlbums120Qtty', e)
     throw e
   }
 }
@@ -217,7 +218,7 @@ export const finishAlbum = async (cardsContract, daiContract, walletAddress) => 
       return false
     }
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'finishAlbum', e)
     throw e
   }
 }
@@ -239,7 +240,7 @@ export const confirmOfferExchange = async (
     await transaction.wait()
     return true
   } catch (e) {
-    console.error({ e })
+    handleError(addressFrom, 'confirmOfferExchange', e)
     throw e
   }
 }
@@ -267,7 +268,7 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
       return true
     }
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'burnCards', e)
     throw e
   }
 }
@@ -346,12 +347,12 @@ export const allowedToFinishAlbum120 = async (cardsContract, daiContract, wallet
   return result
 }
 
-const verifyDAIBalance = async (daiContract, address) => {
+const verifyDAIBalance = async (daiContract, walletAddress) => {
   try {
-    const result = await daiContract.balanceOf(address)
+    const result = await daiContract.balanceOf(walletAddress)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'verifyDAIBalance', e)
     throw e
   }
 }

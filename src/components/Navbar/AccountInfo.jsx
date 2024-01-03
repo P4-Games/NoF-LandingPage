@@ -36,8 +36,8 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     try {
       const token = await getTokenName(daiContract)
       setTokenName(token)
-    } catch (ex) {
-      console.error(ex)
+    } catch (e) {
+      console.error({ e })
     }
   }
 
@@ -50,8 +50,8 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     try {
       const balance = await getBalance(daiContract, walletAddress)
       setWalletBalance(balance)
-    } catch (ex) {
-      console.error(ex)
+    } catch (e) {
+      console.error({ e })
     }
   }
 
@@ -132,9 +132,9 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         emitSuccess(t('confirmado'), 2000)
         stopLoading()
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('account_send_dai_error'))
     }
   }

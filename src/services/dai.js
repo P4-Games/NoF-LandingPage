@@ -45,8 +45,8 @@ export const getTokenName = async (daiContract) => {
   try {
     const tokenName = await daiContract.name()
     return tokenName || 'DAI'
-  } catch (error) {
-    console.error('Error al obtener el nombre del token:', error)
+  } catch (e) {
+    console.error('Error al obtener el nombre del token:', e)
     return 'DAI'
   }
 }

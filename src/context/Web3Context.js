@@ -108,8 +108,8 @@ function Web3ContextProvider({ children }) {
     try {
       setWeb3Error('')
       open()
-    } catch (ex) {
-      console.error(ex)
+    } catch (e) {
+      console.error({ e })
     }
   }
 
@@ -250,7 +250,7 @@ function Web3ContextProvider({ children }) {
               ]
             })
           } catch (e) {
-            console.error(e.message)
+            console.error({ e })
           }
         } else {
           console.error('Error switching network', error)

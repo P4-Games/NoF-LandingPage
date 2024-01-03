@@ -35,9 +35,9 @@ const GammaCardInfo = (props) => {
       const result = await hasCard(gammaCardsContract, walletAddress, userCard.name)
       setUserHasCard(result)
       stopLoading()
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex)
+      console.error({ e })
       emitError(t('user_has_card_error'))
     }
   }
@@ -85,9 +85,9 @@ const GammaCardInfo = (props) => {
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex.message)
+      console.error({ e })
       emitError(t('unpublish_offer_error'))
     }
   }
@@ -124,9 +124,9 @@ const GammaCardInfo = (props) => {
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('transfer_card_error'))
     }
   }
@@ -148,9 +148,9 @@ const GammaCardInfo = (props) => {
         showConfirmButton: true,
         timer: 5000
       })
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('mint_error'))
     }
   }
@@ -198,10 +198,10 @@ const GammaCardInfo = (props) => {
           stopLoading()
           emitSuccess(t('confirmado'), 2000)
           handleFinishPublish(true)
-        } catch (ex) {
+        } catch (e) {
           stopLoading()
-          console.error(ex.message)
-          if (ex.message == 'publish_offer_error_own_card_number')
+          console.error({ e })
+          if (e.message == 'publish_offer_error_own_card_number')
             emitWarning(t('publish_offer_error_own_card_number'))
           else emitError(t('publish_offer_error'))
         }

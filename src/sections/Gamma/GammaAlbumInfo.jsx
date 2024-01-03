@@ -32,9 +32,9 @@ const GammaAlbumInfo = (props) => {
       const result = await hasCard(gammaCardsContract, walletAddress, userCard.name)
       setUserHasCard(result)
       stopLoading()
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex)
+      console.error({ e })
       emitError(t('user_has_card_error'))
     }
   }
@@ -81,9 +81,9 @@ const GammaAlbumInfo = (props) => {
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('transfer_album_error'))
     }
   }

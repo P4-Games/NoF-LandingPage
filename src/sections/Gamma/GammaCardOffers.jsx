@@ -75,9 +75,9 @@ const GammaCardOffers = (props) => {
     try {
       startLoading()
       result = hasCard(gammaCardsContract, userOfferWalletAddress, item)
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex)
+      console.error({ e })
       emitError(t('user_has_card_error'))
     }
     stopLoading()
@@ -112,8 +112,8 @@ const GammaCardOffers = (props) => {
       setSelectedOfferId(offerId)
       setSelectedCardNumber(item)
       setShowExchangeCards(true)
-    } catch (ex) {
-      console.error(ex.message)
+    } catch (e) {
+      console.error({ e })
       emitError(t('offer_exchange_error'))
     }
   }
