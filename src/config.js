@@ -32,12 +32,10 @@ export const NETWORK = {
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
     (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
   chainNodeProviderUrl:
-    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL ||
-    'https://polygon-mumbai.g.alchemy.com/v2/hziHWY3e4L_wQsKSrYdICHSJ7wBf-49e'
+    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 }
 
-export const WalletConnectProjectId =
-  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
+export const WalletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || ''
 
 export const CONTRACTS = {
   daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
@@ -71,5 +69,10 @@ export const defaultSettings = {
   languageSetted: 'es'
 }
 
-console.info('Network and Contracts', NETWORK, CONTRACTS)
+console.info(
+  'Network and Contracts',
+  NETWORK,
+  CONTRACTS,
+  WalletConnectProjectId
+)
 // ------------------------------------------------------------------
