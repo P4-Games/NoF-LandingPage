@@ -69,10 +69,5 @@ export const defaultSettings = {
   languageSetted: 'es'
 }
 
-console.info(
-  'Network and Contracts',
-  NETWORK,
-  CONTRACTS,
-  WalletConnectProjectId
-)
+console.info('Network and Contracts', NETWORK, CONTRACTS, WalletConnectProjectId)
 // ------------------------------------------------------------------

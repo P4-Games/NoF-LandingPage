@@ -728,8 +728,6 @@ const GammaMain = () => {
   }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsCancel = useCallback(async () => {
-    console.log('cardsQttyToBurn', cardsQttyToBurn)
-
     if (cardsQttyToBurn === 0) {
       cleanBurnObjects()
       switchAlbum(ALBUMS.ALBUM_INVENTORY)

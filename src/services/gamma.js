@@ -252,29 +252,16 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
     const currentBurnedUserFmt = ethers.BigNumber.from(currentBurnedUserCards).toNumber()
     const cardsToBurnQtty = cardsToBurn.length
 
-    console.log(
-      'burnCards',
-      walletAddress,
-      currentBurnedUserCards,
-      currentBurnedUserFmt,
-      cardsToBurnQtty
-    )
-
     if (currentBurnedUserFmt + cardsToBurnQtty >= 60) {
-      console.log('burn cards need to validate')
       const meetConditions = await allowedToFinishAlbum60(cardsContract, daiContract, walletAddress)
-      console.log('burn cards need to validate', meetConditions)
       if (meetConditions.result) {
-        console.log('burn cards need to validate', meetConditions.result)
         const transaction = await cardsContract.burnCards(cardsToBurn)
         await transaction.wait()
         return true
       } else {
-        console.log('burn cards need to validate', meetConditions.result)
         return false
       }
     } else {
-      console.log('burn cards NO necesita validate')
       const transaction = await cardsContract.burnCards(cardsToBurn)
       await transaction.wait()
       return true
@@ -346,7 +333,7 @@ export const allowedToFinishAlbum120 = async (cardsContract, daiContract, wallet
 
   const result = userHasAlbum && prizesBalanzGTAlbumPrice && contractBalanzGTAlbumPrice
 
-  console.log('prizesBalanzGTAlbumPrice', {
+  console.log('allowedToFinishAlbum120', {
     userHasAlbum,
     prizeBalanceFormatted,
     albumPrizeFormatted,

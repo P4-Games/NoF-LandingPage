@@ -37,7 +37,6 @@ const GammaDataContextProvider = ({ children }) => {
   const generatePaginationObjToBurn = (force) => {
     if (!paginationObj) return
     if (Object.keys(paginationObjBurn).length === 0 || force) {
-      console.log('generando copia de paginationObj')
       // Se clona el objeto de paginado, para poder "jugar" con las cantidades
       const _cloneObject = JSON.parse(JSON.stringify(paginationObj))
       setPaginationObjBurn(_cloneObject)
@@ -79,7 +78,6 @@ const GammaDataContextProvider = ({ children }) => {
     }
     setCardsQttyToBurn(total)
     setCardsToBurn(_cardsToBurn)
-    console.log(cardsQttyToBurn, _cardsToBurn, cardsToBurn, paginationObjBurn)
   }
 
   const switchAlbum = (album) => {

@@ -273,7 +273,6 @@ function Web3ContextProvider({ children }) {
       })
 
       window.ethereum.on('chainChanged', (newChain) => {
-        console.log('chainChanged event')
         setWeb3Error('account_invalid_network')
         const _chanIdHex = decToHex(newChain)
         setIsValidNetwork(false)
