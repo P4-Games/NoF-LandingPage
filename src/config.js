@@ -28,11 +28,11 @@ export const NETWORK = {
   ChainRpcUrl:
     process.env.NEXT_PUBLIC_CHAIN_RPC_URL ||
     (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
+  chainNodeProviderUrl:
+    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/',
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
-  chainNodeProviderUrl:
-    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
+    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
 }
 
 export const WalletConnectProjectId =
