@@ -33,7 +33,7 @@ export const NETWORK = {
     (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
   chainNodeProviderUrl:
     process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL ||
-    'https://polygon-mumbai.g.alchemy.com/v2/6Ge-klr1O_0kD4ZUSAFffyC7QNNEOJZJ'
+    'https://polygon-mumbai.g.alchemy.com/v2/hziHWY3e4L_wQsKSrYdICHSJ7wBf-49e'
 }
 
 export const WalletConnectProjectId =
