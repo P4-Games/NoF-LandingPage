@@ -73,7 +73,7 @@ export const verifyPackSigner = async (cardsContract, packNumber, packData, sign
 
 export const openPack = async (cardsContract, packNumber, packData, signature) => {
   try {
-    const openPackTx = await cardsContract.openPack(packNumber, packData, signature, {
+    const openPackTx = await cardsContract.openPack(null, packData, signature, {
       gasLimit: 6000000
     })
     await openPackTx.wait()
