@@ -53,8 +53,13 @@ try {
           allFiles.push('/index')
           allFiles.push('/alpha')
           allFiles.push('/gamma')
+          console.log('sw', allFiles, caches)
           return caches.open(PRECACHE).then((cache) => cache.addAll(allFiles));
-        }).then(self.skipWaiting())
+        })
+        .then(self.skipWaiting())
+        .catch((error) => {
+          console.error("SW error caching files", error);
+        })
       );
 
     } catch (ex) {
