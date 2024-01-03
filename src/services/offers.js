@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { getUserMissingCards } from './gamma'
+import { handleError } from './handleError'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
   for (const wantedCard of wantedCardNumbers) {
@@ -16,7 +17,7 @@ export const removeOfferByCardNumber = async (offersContract, cardNumber) => {
     const trx = await offersContract.removeOfferByCardNumber(cardNumber)
     await trx.wait()
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'removeOfferByCardNumber', e)
     throw e
   }
 }
@@ -26,7 +27,7 @@ export const getOffers = async (offersContract) => {
     const trx = await offersContract.getOffers()
     return trx
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getOffers', e)
     throw e
   }
 }
@@ -36,7 +37,7 @@ export const canUserPublishOffer = async (offersContract, walletAddress) => {
     const result = await offersContract.canUserPublishOffer(walletAddress)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'canUserPublishOffer', e)
     throw e
   }
 }
@@ -46,7 +47,7 @@ export const canAnyUserPublishOffer = async (offersContract) => {
     const result = await offersContract.canAnyUserPublishOffer()
     return result
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'canAnyUserPublishOffer', e)
     throw e
   }
 }
@@ -59,7 +60,7 @@ export const getOffersByUser = async (offersContract, userAddress) => {
     // console.log(result)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(userAddress, 'getOffersByUser', e)
     throw e
   }
 }
@@ -109,7 +110,7 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
 
     return filteredResult
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getOffersByCardNumber', e)
     throw e
   }
 }
@@ -141,7 +142,7 @@ export const deleteUserOffers = async (offersContract, userAddress) => {
     }
     return true
   } catch (e) {
-    console.error({ e })
+    handleError(userAddress, 'deleteUserOffers', e)
     throw e
   }
 }

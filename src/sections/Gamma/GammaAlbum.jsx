@@ -55,9 +55,9 @@ const GammaAlbum = (props) => {
       const offers = await getOffers(gammaOffersContract)
       setAllOffers(offers)
       stopLoading()
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ex})
+      console.error({ e })
       emitError('error')
     }
   }

@@ -32,12 +32,10 @@ export const NETWORK = {
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
     (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
   chainNodeProviderUrl:
-    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL ||
-    'https://polygon-mumbai.g.alchemy.com/v2/hziHWY3e4L_wQsKSrYdICHSJ7wBf-49e'
+    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 }
 
-export const WalletConnectProjectId =
-  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
+export const WalletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || ''
 
 export const CONTRACTS = {
   daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
@@ -71,5 +69,26 @@ export const defaultSettings = {
   languageSetted: 'es'
 }
 
-console.info('Network and Contracts', NETWORK, CONTRACTS)
+export const MAIL_CONFIG = {
+  client: process.env.MAIL_CLIENT || 'ethereal',
+  from: process.env.MAIL_FROM || 'no-reply@nof.town',
+  to: process.env.MAIL_TO || 'dapps.ar@gmail.com',
+  sg_key: process.env.MAIL_SG_KEY,
+  sg_from: process.env.MAIL_SG_FROM || 'no-reply@nof.town',
+  ethereal_host: process.env.MAIL_ETHEREAL_HOST || 'smtp.ethereal.email',
+  ethereal_port: process.env.MAIL_ETHEREAL_PORT || 587,
+  ethereal_user: process.env.MAIL_ETHEREAL_USER,
+  ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
+}
+
+export const MAIL_TYPE = {
+  reportError: 'REPORT_ERROR'
+}
+
+export const MAIL_CLIENT = {
+  sendgrid: 'sendgrid',
+  ethereal: 'ethereal'
+}
+
+console.info('Network and Contracts', NETWORK, CONTRACTS, WalletConnectProjectId)
 // ------------------------------------------------------------------

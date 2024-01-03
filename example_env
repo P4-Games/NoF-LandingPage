@@ -4,6 +4,15 @@ NODE_ENV='development' // development, production
 APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+MAIL_CLIENT= // sendgrid | ethereal
+MAIL_FROM='no-reply@nof.town'
+MAIL_TO= // email address
+MAIL_ETHEREAL_HOST=smtp.ethereal.email
+MAIL_ETHEREAL_PORT=587
+MAIL_ETHEREAL_USER= // email address from ethereal.email
+MAIL_ETHEREAL_PSWD= // pswd from ethereal.email
+MAIL_SG_KEY= // sendgrid api key
+MAIL_SG_FROM= // email address
 
 // client-side
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'

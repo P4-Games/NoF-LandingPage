@@ -42,9 +42,9 @@ const GammaCardExchange = (props) => {
     try {
       startLoading()
       result = hasCard(gammaCardsContract, userOfferWalletAddress, item)
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex)
+      console.error({ e })
       emitError(t('user_has_card_error'))
     }
     stopLoading()
@@ -90,9 +90,9 @@ const GammaCardExchange = (props) => {
       handleFinishCardExchange(true)
       stopLoading()
       emitSuccess(t('confirmado'), 2000)
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex.message)
+      console.error({ e })
       emitError(t('offer_exchange_error'))
     }
   }, [selectedOfferId, selectedCardNumber]) //eslint-disable-line react-hooks/exhaustive-deps

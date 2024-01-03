@@ -89,9 +89,9 @@ const GammaMain = () => {
       startLoading()
       await refreshPaginationObj()
       stopLoading()
-    } catch (error) {
+    } catch (e) {
       stopLoading()
-      console.error(error)
+      console.error({ e })
     }
   }
 
@@ -282,9 +282,9 @@ const GammaMain = () => {
           emitWarning(t('finish_album_warning'), 8000, '', false)
         }
         stopLoading()
-      } catch (ex) {
+      } catch (e) {
         stopLoading()
-        console.error({ ex })
+        console.error({ e })
         emitError(t('finish_album_error'))
       }
     },
@@ -384,9 +384,9 @@ const GammaMain = () => {
           await checkNumberOfPacks()
           stopLoading()
         }
-      } catch (ex) {
+      } catch (e) {
         stopLoading()
-        console.error({ ex })
+        console.error({ e })
         emitError(t('transfer_pack_error'))
       }
     },
@@ -666,8 +666,8 @@ const GammaMain = () => {
         setCardsQttyToBurn(0)
         generatePaginationObjToBurn(true)
         emitSuccess(t('burn_undo_all_confirm'), 5000)
-      } catch (ex) {
-        console.error({ ex })
+      } catch (e) {
+        console.error({ e })
         emitError(t('burn_undo_all_error'))
       }
     }
@@ -719,17 +719,15 @@ const GammaMain = () => {
         switchAlbum(ALBUMS.ALBUM_INVENTORY)
         stopLoading()
         emitSuccess(t('confirmado'), 3000)
-      } catch (ex) {
+      } catch (e) {
         stopLoading()
-        console.error({ ex })
+        console.error({ e })
         emitError(t('burn_error'))
       }
     }
   }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsCancel = useCallback(async () => {
-    console.log('cardsQttyToBurn', cardsQttyToBurn)
-
     if (cardsQttyToBurn === 0) {
       cleanBurnObjects()
       switchAlbum(ALBUMS.ALBUM_INVENTORY)

@@ -54,10 +54,10 @@ const GammaAlbumPublish = (props) => {
       handleFinishPublish(true)
       stopLoading()
       emitSuccess(t('confirmado'), 2000)
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex.message)
-      if (ex.message == 'publish_offer_error_own_card_number')
+      console.error({ e })
+      if (e.message == 'publish_offer_error_own_card_number')
         emitWarning(t('publish_offer_error_own_card_number'))
       else emitError(t('publish_offer_error'))
     }
