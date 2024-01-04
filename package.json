@@ -31,7 +31,6 @@
     "@web3modal/ethers5": "^3.5.1",
     "axios": "^1.6.2",
     "book-flip": "^1.0.0",
-    "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
     "framer-motion": "^9.0.2",
     "gsap": "^3.11.4",
