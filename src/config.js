@@ -4,6 +4,7 @@
 // ------------------------------------------------------------------
 // server-side environment variables
 // ------------------------------------------------------------------
+
 export const BASE_URL = process.env.BASE_URL
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.APP_ENV || 'development').toLowerCase()
@@ -91,5 +92,14 @@ export const MAIL_CLIENT = {
   ethereal: 'ethereal'
 }
 
-console.info('Network and Contracts', NETWORK, CONTRACTS, WalletConnectProjectId)
+console.log(process.env)
+console.info(
+  'vars',
+  process.env.MONGODB,
+  process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL,
+  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+  process.env.MAIL_CLIENT,
+  process.env.APP_ENV,  
+  MAIL_CONFIG, NETWORK, CONTRACTS, environment
+)
 // ------------------------------------------------------------------
