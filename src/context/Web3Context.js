@@ -20,9 +20,6 @@ const initialState = {
   switchOrCreateNetwork: () => {}
 }
 
-console.log('web3 WalletConnectProjectId1', walletConnectProjectId)
-console.log('web3 WalletConnectProjectId2', process.env.WALLET_CONNECT_PROJECT_ID)
-
 const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {
@@ -303,7 +300,6 @@ function Web3ContextProvider({ children }) {
     web3Error,
     isConnected,
     isValidNetwork,
-    open,
     connectWallet,
     disconnectWallet,
     switchOrCreateNetwork

@@ -30,13 +30,13 @@ export const MAIL_CONFIG = {
   sg_key: process.env.MAIL_SG_KEY,
   sg_from: process.env.MAIL_SG_FROM || 'no-reply@nof.town',
   ethereal_host: process.env.MAIL_ETHEREAL_HOST || 'smtp.ethereal.email',
-  ethereal_port: process.env.MAIL_ETHEREAL_PORT || 587,
+  ethereal_port: parseInt(process.env.MAIL_ETHEREAL_PORT || 587),
   ethereal_user: process.env.MAIL_ETHEREAL_USER,
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 export const is_production = environment === 'production' || environment === 'prod'
-export const walletConnectProjectId = process.env.WALLET_CONNECT_PROJECT_ID
-// not exposed, included them in NETWORK
+export const walletConnectProjectId = process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
+// not exposed, included then in NETWORK variable.
 const NodeProviderUrl =
   process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 
@@ -102,8 +102,10 @@ export const MAIL_CLIENT = {
   ethereal: 'ethereal'
 }
 
+
 // ------------------------------------------------------------------
 
+// used to debug in develop (could be removed!)
 export const combinedVariables = {
   V: 'V4',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
