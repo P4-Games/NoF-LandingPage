@@ -105,7 +105,7 @@ export const MAIL_CLIENT = {
 // ------------------------------------------------------------------
 
 export const combinedVariables = {
-  V: 'V3',
+  V: 'V4',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
   environment: (process.env.APP_ENV || 'development').toLowerCase(),
   is_production: environment === 'production' || environment === 'prod',
