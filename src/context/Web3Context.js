@@ -21,7 +21,7 @@ const initialState = {
 }
 
 console.log('web3 WalletConnectProjectId1', walletConnectProjectId)
-console.log('web3 WalletConnectProjectId2', process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
+console.log('web3 WalletConnectProjectId2', process.env.WALLET_CONNECT_PROJECT_ID)
 
 const Web3Context = createContext(initialState)
 
@@ -65,7 +65,7 @@ function Web3ContextProvider({ children }) {
       rpcUrl: NETWORK.ChainRpcUrl
     }),
     chains: [mumbai],
-    projectId: walletConnectProjectId || process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+    projectId: walletConnectProjectId || 'ND',
     enableAnalytics: true,
     themeMode: 'light',
     themeVariables: {
