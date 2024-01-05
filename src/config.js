@@ -35,7 +35,8 @@ export const MAIL_CONFIG = {
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 export const is_production = environment === 'production' || environment === 'prod'
-export const walletConnectProjectId = process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
+export const walletConnectProjectId =
+  process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
 // not exposed, included then in NETWORK variable.
 const NodeProviderUrl =
   process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
@@ -101,7 +102,6 @@ export const MAIL_CLIENT = {
   sendgrid: 'sendgrid',
   ethereal: 'ethereal'
 }
-
 
 // ------------------------------------------------------------------
 

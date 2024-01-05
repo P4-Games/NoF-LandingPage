@@ -5,7 +5,8 @@ try {
   const STORAGE_BACKEND_URL = 'https://storage.googleapis.com'
   const FONTS1_URL = 'https://fonts.googleapis.com'
   const FONTS2_URL = 'https://fonts.gstatic.com'
-  // const WEB3MODAL_IMAGES = 'https://api.web3modal.com'
+  const WEB3MODAL_IMAGES = 'https://api.web3modal.com/getWalletImage'
+
   const NEXT_FOLDER = '/_next/'
   const IMAGES_FOLDER = `/images/`
   const LOCALES_FOLDER = `/locales/`
@@ -94,7 +95,7 @@ try {
     const isStorageBackendUrl = event.request.url.startsWith(STORAGE_BACKEND_URL)
     const isFonts1Url = event.request.url.startsWith(FONTS1_URL)
     const isFonts2Url = event.request.url.startsWith(FONTS2_URL)
-    const isweb3ModalImages = false // event.request.url.startsWith(WEB3MODAL_IMAGES)
+    const isweb3ModalImages = event.request.url.startsWith(WEB3MODAL_IMAGES)
 
     const isValidToCache = (isGet && (isHttp || isHttps) && 
       (isOriginUrl || isBackendUrl || isFonts1Url || isFonts2Url || 

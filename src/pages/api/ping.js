@@ -9,7 +9,6 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Q1 invalid' })
     }
 
-    console.log('server', combinedVariables)
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json(combinedVariables)
   } catch (error) {

@@ -20,8 +20,6 @@ async function sendWithEthereal(subject, textContent, htmlContent, mailTo) {
       html: htmlContent
     }
 
-    console.log(mailOptions)
-
     return transporter
       .sendMail(mailOptions)
       .then(() => {

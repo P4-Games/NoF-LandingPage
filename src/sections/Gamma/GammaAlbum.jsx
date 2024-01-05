@@ -177,7 +177,6 @@ const GammaAlbum = (props) => {
 
     setCurrentPage(getCurrentPage())
 
-    // console.log('handleCardBurnClick', cardNumber)
     setCardsQttyToBurn((prevCardsQttyToBurn) => prevCardsQttyToBurn + 1)
     // setCardsQttyToBurn(cardsQttyToBurn + 1)
 
@@ -201,10 +200,7 @@ const GammaAlbum = (props) => {
   }
 
   const handleCardBurnUndoClick = (cardNumber) => {
-    // console.log('handleCardBurnUndoClick', cardNumber)
-
     setCurrentPage(getCurrentPage())
-
     setCardsQttyToBurn(cardsQttyToBurn - 1)
     paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
 
