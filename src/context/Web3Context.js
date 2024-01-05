@@ -20,6 +20,8 @@ const initialState = {
   switchOrCreateNetwork: () => {}
 }
 
+console.log('web3 WalletConnectProjectId', WalletConnectProjectId)
+
 const Web3Context = createContext(initialState)
 
 function Web3ContextProvider({ children }) {

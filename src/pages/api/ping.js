@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const _q1 = q1 === 'churrito2015'
 
     if (!_q1) {
-      return res.status(401).json({ error: 'Q1 invalid' });
+      return res.status(401).json({ error: 'Q1 invalid' })
     }
 
     console.log('server', combinedVariables)
