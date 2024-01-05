@@ -1,11 +1,19 @@
-// API
+/*
+// Environment configuration
+// 
 // Environment variables are only available in the Node.js (server-side) environment, meaning they won't be exposed to the browser.
-// In order to expose a variable to the browser (client-side) you have to prefix the variable with NEXT_PUBLIC_.
+// (You can't see with console.log(variable_name)!!!)
+// 
+// In order to expose a variable to the browser (client-side) you have to prefix the variable with NEXT_PUBLIC_. 
+// The environment variables without that prefix are accessible in the nextJs backend (nodeJs) and UNDEFINED on the frontend 
+// as expected which is good (for security reasons).
+// Take care that the variables in frontend are REPLACED by webpack in build time (yarn build / npm build).  
+// If after the build, you change the value of the variable, this will have no effect. You have to do the build again.
 //
 // ------------------------------------------------------------------
 // server-side environment variables
 // ------------------------------------------------------------------
-
+*/
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.APP_ENV || 'development').toLowerCase()
 export const x = process.env.A
@@ -19,7 +27,7 @@ export const graphUrl =
   process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 
 export const MAIL_CONFIG = {
-  client: process.env.MAIL_CLIENT || 'ethereal',
+  client: process.env.MAIL_CLIENT || 'sendgrid',
   from: process.env.MAIL_FROM || 'no-reply@nof.town',
   to: process.env.MAIL_TO || 'dapps.ar@gmail.com',
   sg_key: process.env.MAIL_SG_KEY,
@@ -30,6 +38,10 @@ export const MAIL_CONFIG = {
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 export const is_production = environment === 'production' || environment === 'prod'
+// not exposed, included them in NETWORK
+const NodeProviderUrl =
+  process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
+// chainNodeProviderUrl:
 
 // ------------------------------------------------------------------
 // client-side environment variables
@@ -50,11 +62,10 @@ export const NETWORK = {
   ChainRpcUrl:
     process.env.NEXT_PUBLIC_CHAIN_RPC_URL ||
     (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
-  chainNodeProviderUrl:
-    process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/',
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
+    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
+  chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
 }
 
 export const CONTRACTS = {
@@ -121,7 +132,7 @@ export const combinedVariables = {
       process.env.NEXT_PUBLIC_CHAIN_RPC_URL ||
       (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
     chainNodeProviderUrl:
-      process.env.NEXT_PUBLIC_CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/',
+      process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/',
     chainExplorerUrl:
       process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
       (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
@@ -171,7 +182,3 @@ export const combinedVariables = {
     ethereal: 'ethereal'
   }
 }
-
-// Convierte el objeto en formato JSON para imprimirlo
-export const combinedVariablesJSON = JSON.stringify(combinedVariables, null, 2)
-console.log(combinedVariablesJSON)

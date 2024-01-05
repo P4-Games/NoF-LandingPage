@@ -6,6 +6,7 @@ import { getCardsByUser } from '../../services/gamma'
 // example call: http://localhost:3000/api/match?w1=0x117b706DEF40310eF5926aB57868dAcf46605b8d&w2=0x35dad65F60c1A32c9895BE97f6bcE57D32792E83
 export default async function handler(req, res) {
   try {
+    console.log('xxxxxxxxxxxxxxxxxxxx')
     const { w1, w2 } = req.query
 
     if (!w1 || !w2) {
