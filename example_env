@@ -13,17 +13,17 @@ MAIL_ETHEREAL_USER= // email address from ethereal.email
 MAIL_ETHEREAL_PSWD= // pswd from ethereal.email
 MAIL_SG_KEY= // sendgrid api key
 MAIL_SG_FROM= // email address
+WALLET_CONNECT_PROJECT_ID='your_project_id_api_key'
+CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/YOUR_API_KEY'
 
 // client-side
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID='your_project_id_api_key'
 NEXT_PUBLIC_CHAIN_NAME='localhost'
 NEXT_PUBLIC_CHAIN_ID='0x539' // '0x539' = 1337 (hardhat node) | '0x89' = Polygon Mainnet | '0x13881' = Mumbai
 NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
 NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
 NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com'
-CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/YOUR_API_KEY'
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x...,0X....,0xfa3....' // accounts separated by a comma
 NEXT_PUBLIC_DAI_ADDRESS='0x59876b33dd6e725Da632B4DB50d90d33ab022dB6'
 NEXT_PUBLIC_ALPHA_ADDRESS='0x1772F33b587B4ed32f59Dc6B09B9e994616C1eCB'

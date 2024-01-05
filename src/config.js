@@ -35,10 +35,10 @@ export const MAIL_CONFIG = {
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 export const is_production = environment === 'production' || environment === 'prod'
+export const walletConnectProjectId = process.env.WALLET_CONNECT_PROJECT_ID
 // not exposed, included them in NETWORK
 const NodeProviderUrl =
   process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
-// chainNodeProviderUrl:
 
 // ------------------------------------------------------------------
 // client-side environment variables
@@ -47,7 +47,6 @@ export const storageUrlAlpha =
   process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha'
 export const storageUrlGamma =
   process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
-export const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 
@@ -106,7 +105,7 @@ export const MAIL_CLIENT = {
 // ------------------------------------------------------------------
 
 export const combinedVariables = {
-  V: 'V3',
+  V: 'V4',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
   environment: (process.env.APP_ENV || 'development').toLowerCase(),
   is_production: environment === 'production' || environment === 'prod',
@@ -131,7 +130,7 @@ export const combinedVariables = {
       process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
       (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
   },
-  WalletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'undefined',
+  WalletConnectProjectId: process.env.WALLET_CONNECT_PROJECT_ID,
   CONTRACTS: {
     daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
     alphaAddress:
