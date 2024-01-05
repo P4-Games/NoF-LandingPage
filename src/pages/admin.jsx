@@ -1,5 +1,5 @@
 import React from 'react'
-import { adminAccounts, combinedVariables } from '../config'
+import { adminAccounts } from '../config'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context } from '../hooks'
@@ -7,8 +7,6 @@ import { useWeb3Context } from '../hooks'
 const Admin = () => {
   const { t } = useTranslation()
   const { walletAddress, web3Error, connectWallet } = useWeb3Context()
-
-  console.log(combinedVariables)
 
   return (
     <div className='admincontainer'>

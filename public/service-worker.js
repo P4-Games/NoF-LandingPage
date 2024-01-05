@@ -5,7 +5,7 @@ try {
   const STORAGE_BACKEND_URL = 'https://storage.googleapis.com'
   const FONTS1_URL = 'https://fonts.googleapis.com'
   const FONTS2_URL = 'https://fonts.gstatic.com'
-  const WEB3MODAL_IMAGES = 'https://api.web3modal.com'
+  // const WEB3MODAL_IMAGES = 'https://api.web3modal.com'
   const NEXT_FOLDER = '/_next/'
   const IMAGES_FOLDER = `/images/`
   const LOCALES_FOLDER = `/locales/`
