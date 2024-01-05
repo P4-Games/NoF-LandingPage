@@ -47,8 +47,7 @@ export const storageUrlAlpha =
   process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha'
 export const storageUrlGamma =
   process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
-export const WalletConnectProjectId =
-  process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'undefined'
+export const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 
@@ -107,7 +106,7 @@ export const MAIL_CLIENT = {
 // ------------------------------------------------------------------
 
 export const combinedVariables = {
-  V: 'V2',
+  V: 'V3',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
   environment: (process.env.APP_ENV || 'development').toLowerCase(),
   is_production: environment === 'production' || environment === 'prod',

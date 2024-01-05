@@ -10,7 +10,7 @@ import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
 import gammaCardsAbi from './abis/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/GammaOffers.v4.sol/NofGammaOffersV4.json'
 import gammaTicketsAbi from './abis/GammaTickets.v1.sol/NofGammaTicketsV1.json'
-import { CONTRACTS, NETWORK, WalletConnectProjectId } from '../config'
+import { CONTRACTS, NETWORK, walletConnectProjectId } from '../config'
 import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
 
@@ -20,7 +20,8 @@ const initialState = {
   switchOrCreateNetwork: () => {}
 }
 
-console.log('web3 WalletConnectProjectId', WalletConnectProjectId)
+console.log('web3 WalletConnectProjectId1', walletConnectProjectId)
+console.log('web3 WalletConnectProjectId2', process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID)
 
 const Web3Context = createContext(initialState)
 
@@ -64,7 +65,7 @@ function Web3ContextProvider({ children }) {
       rpcUrl: NETWORK.ChainRpcUrl
     }),
     chains: [mumbai],
-    projectId: WalletConnectProjectId,
+    projectId: walletConnectProjectId || process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
     enableAnalytics: true,
     themeMode: 'light',
     themeVariables: {
