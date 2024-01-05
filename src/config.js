@@ -16,9 +16,6 @@
 */
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.APP_ENV || 'development').toLowerCase()
-export const x = process.env.A
-export const y = process.env.Y
-export const z = process.env.NEXT_PUBLIC_Z
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
@@ -110,9 +107,7 @@ export const MAIL_CLIENT = {
 // ------------------------------------------------------------------
 
 export const combinedVariables = {
-  A: process.env.A || '',
-  Y: process.env.Y || '',
-  Z: process.env.NEXT_PUBLIC_Z || '',
+  V: 'V2',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
   environment: (process.env.APP_ENV || 'development').toLowerCase(),
   is_production: environment === 'production' || environment === 'prod',
