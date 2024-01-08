@@ -4,7 +4,7 @@
 ![](https://img.shields.io/badge/Solidity-informational?style=flat&logo=solidity&logoColor=white&color=6aa6f8)
 ![](https://img.shields.io/badge/Hardhat-informational?style=flat&logo=hardhat&logoColor=white&color=6aa6f8)
 
-# Number One Fun (NoF)
+# Number One Fan (NoF)
 
 ![nof-landing](./.doc/images/nof.png)
 

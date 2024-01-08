@@ -47,7 +47,7 @@ function Web3ContextProvider({ children }) {
 
   const metadata = {
     name: 'NoF',
-    description: 'Number One Fun',
+    description: 'Number One Fan',
     url: 'https://nof.town',
     icons: ['https://avatars.githubusercontent.com/u/37784886']
   }
