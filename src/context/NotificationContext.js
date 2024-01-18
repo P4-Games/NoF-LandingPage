@@ -11,9 +11,22 @@ export const NotificationProvider = ({ children }) => {
 
   const getNotificationsByUser = (user) => {
     if (!user) return notifications
-    return notifications.filter(
+    const myNotifications = notifications.filter(
       (notification) => notification.walletAddress === user && notification.deleted === false
     )
+    return filterUniqueNotifications(myNotifications)
+  }
+
+  const filterUniqueNotifications = (notificationList) => {
+    const uniqueIdentifiers = new Set()
+    return notificationList.filter((notification) => {
+      const identifier = `${notification.message}-${JSON.stringify(notification.data)}`
+      if (uniqueIdentifiers.has(identifier)) {
+        return false
+      }
+      uniqueIdentifiers.add(identifier)
+      return true
+    })
   }
 
   useEffect(() => {

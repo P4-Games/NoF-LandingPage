@@ -42,7 +42,9 @@ function FooterButtons() {
           onClick={() => {
             buttonFunctions[0]()
           }}
-          className={footerButtonsClasses[0] ?? 'footer__buttons__bluebtn_custom'}
+          className={
+            (footerButtonsClasses && footerButtonsClasses[0]) ?? 'footer__buttons__bluebtn_custom'
+          }
         >
           <></>
         </div>
@@ -52,7 +54,9 @@ function FooterButtons() {
           onClick={() => {
             buttonFunctions[1]()
           }}
-          className={footerButtonsClasses[1] ?? 'footer__buttons__greenbtn_custom'}
+          className={
+            (footerButtonsClasses && footerButtonsClasses[1]) ?? 'footer__buttons__greenbtn_custom'
+          }
         >
           <></>
         </div>
@@ -62,7 +66,9 @@ function FooterButtons() {
           onClick={() => {
             buttonFunctions[2]()
           }}
-          className={footerButtonsClasses[2] ?? 'footer__buttons__redbtn_custom'}
+          className={
+            (footerButtonsClasses && footerButtonsClasses[2]) ?? 'footer__buttons__redbtn_custom'
+          }
         >
           <></>
         </div>
@@ -72,7 +78,9 @@ function FooterButtons() {
           onClick={() => {
             buttonFunctions[3]()
           }}
-          className={footerButtonsClasses[3] ?? 'footer__buttons__yellowbtn_custom'}
+          className={
+            (footerButtonsClasses && footerButtonsClasses[3]) ?? 'footer__buttons__yellowbtn_custom'
+          }
         >
           <></>
         </div>

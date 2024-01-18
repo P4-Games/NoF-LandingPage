@@ -80,7 +80,7 @@
     "publicar": "Publicar",
     "despublicar": "Despublicar",
     "confirmado": "Confirmado",
-    "wallet_destinatario": "Inserte la wallet del destinatario",
+    "wallet_destinatario": "Ingrese la wallet del destinatario",
 
     "buy_pack_title_1": "Elige la cantidad de sobres que quieres comprar",
     "buy_pack_title_2": "c/u",
@@ -88,6 +88,7 @@
     "buy_pack_button": "Comprar",
     "buy_pack_error": "Ocurrió un error al intentar comprar packs.",
     "buy_pack_warning": "No tienes tokens suficientes para comprar esa cantidad de packs.",
+    "buy_pack_qtty_warning": "El número de packs que deseas comprar supera los disponibles",
     "open_pack_title": "Apertura de packs",
     "open_pack_error": "Ocurrió un error al intentar abrir el pack.",
     "open_pack_input_validator": "ingresa entre 1 y {MAX}!",
@@ -103,13 +104,19 @@
     "finish_album_success": "Felicitaciones! Completaste el álbum. Recibirás en tu wallet tu premio en DAIs.",
     "finish_album_no_qtty": "Aún no tienes el album completo para poder reclamar el premio.",
     "finish_album_no_album": "Aún no tienes un álbum para poder reclamar el premio.",
+    "finish_album_no_album_60": "Aún no tienes un álbum para poder quemar cartas.",
     "finish_album_warning": "Aún no están dadas las condiciones para que se puedan completar los álbumnes y reclamas los premios. Intenta en unos días!.",
 
     "publish_offer_error": "Ocurrió un error al intentar realizar la publicación.",
     "publish_offer_error_invalid_numbers":  "Ingresa hasta 10 números del 0 al 119, no repetidos, separados por una coma y cartas que no tengas.",
     "publish_offer_error_own_card_number": "No puedes solicitar la misma carta que estás ofertando.",
-    "publish_offer_no_cards_selected": "Selecciona al menos una carta para poder crear la publicación.",
-    
+    "publish_offer_no_cards_selected": "Selecciona al menos una carta para poder crear la publicación.",    
+
+    "publish_offer_auto_title": "Selección automática",
+    "publish_offer_auto_msg": "Puedes crear la oferta sin seleccionar cartas, para que te envíen alguna de las que te faltan.",
+    "publish_offer_auto_confirm": "Omitir selección",
+    "publish_offer_auto_denied": "Quiero seleccionar",
+
     "unpublish_offer_dialog": "¿Deseas cancelar la publicación de la oferta para esta carta?",
     "unpublish_offer_error": "Ocurrió un error intentando cancelar la publicación",
 
@@ -144,6 +151,7 @@
     "offer_only_own_offer": "La única oferta que hay para ésta carta es la tuya.",
     "offer_card_number_empty": "No hay ofertas para esta carta.",
     "offer_card_no_la_tienes": "No tienes esta carta para poder intercambiarla.",
+    "offer_user_card_alredy_have": "El usuario ya consigió esa carta. Intenta enviarle otra.",
     "offer_user_limit": "Alcanzaste el límite de ofertas que podes realizar. Espera a confirmar algún intercambio o quita alguna publicación.",
     "offer_game_limit": "Por el momento, no se pueden realizar más ofertas. Intenta en unos días.",
 
@@ -169,13 +177,48 @@
     "notification_received_card": "Has recibido la carta {CARD} de {WALLET}.",
     "notification_sent_card": "Enviaste la carta {CARD} a {WALLET}.",
     "notification_pack_transfer": "Recibiste el pack {PACK} de {WALLET}.",
+    "notification_card_transfer": "Recibiste la cara {CARD} de {WALLET}.",
+    "notification_album_transfer": "Recibiste un álbum de {WALLET}.",
+    "notification_burn_album_transfer": "Recibiste un álbum de quema de {WALLET}.",
     "notification_exchange": "Recibiste la carta {CARD_RECEIVED} de {WALLET} a cambio de la carta {CARD_SENT}.",
+    "notification_cards_burned": "Quemaste {CARDS_BURNED} cartas",
+    "notification_album_120_completed": "Completaste el álbum principal!. Recibirás un premio en tu wallet.",
+    "notification_album_60_completed": "Con la quema de cartas, completaste el álbum de quema!. Recibirás un premio en tu wallet.",
+    "notification_ticket_reception": "Recibiste un ticket ({TICKET_ID}) por completar el álbum de quema.",
 
     "offline_msg": "Sitio web actualmente sin conexión o sin conexión a Internet disponible",
     "offline_action": "Ir a Inicio",
 
     "exhange_cards_to_send": "enviarás",
     "exhange_cards_to_receive": "recibirás",
-    "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio."
+    "exchange_cards_leyend": "A continuación puedes elegir una carta entre las que desea el dueño de ésta wallet, para proceder con el intercambio.",
 
+    "burn_cards": "Quemar Cartas",
+    "burn_title": "Quema de cartas",
+    "burn_text": "Vas a quemar {CARDS_TO_BURN} cartas. ¿Confirmas?",
+    "burn_no_cards_selected": "No hay cartas seleccionadas para quemar.",
+    "burn_error": "Hubo un error al intentar la quema",
+
+    "burn_undo_all_info": "No hay cartas seleccionadas para quemar, las cuales se puedan quitar de la quema.",
+    "burn_undo_all_title": "Deshacer selección",
+    "burn_undo_all_text": "Todas las cartas seleccionadas para la quema ({CARDS_TO_BURN}), se restaurarán. ¿Deseas continuar?",
+    "burn_undo_all_button_confirm": "Si, deshacer selección",
+    "burn_undo_all_confirm": "Cartas restauradas",
+    "burn_undo_all_error": "Hubo un error al intentar restaurar las cartas de la quema",
+
+    "burn_cancel_title": "Cancelación de quema", 
+    "burn_cancel_text": "¿Deseas cancelar la quema? (se perderá la selección de cartas a quemar).",
+    "burn_cancel_button_confirm": "Si, cancelar quema",
+    "burn_cancel_button_cancel": "Mantener selección",
+
+    "burn_repeated_info": "No tienes cartas repetidas para quemar.",
+    "burn_repeated_info_less": "Necesitas un mínimo de 60 cartas repetidas para quemar.",
+    "burn_select_cart_offered": "No puedes quemar más copias de ésta carta, dado que tiene una oferta asociada.",
+    "burn_confirm_minimal": "Tienes que seleccionar 60 cartas para proceder con la quema.",
+    "burn_select_all_info": "Ya están seleccionadas todas las cartas repetidas.",
+    "burn_select_all_info_60": "Se puede quemar un máximo de 60 cartas por vez.",
+    "burn_select_all_confirm": "Se seleccionaron todas las cartas repetidas (hasta un máximo de 60).",
+
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
 }

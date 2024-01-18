@@ -34,69 +34,64 @@ const FlipBook = (props) => {
   }, [])
 
   return (
-    <React.Fragment>
-      <div className='hero__top'>
-        <div className={mainClassName}>
-          {/* just a hack to allow click-left in book required by flip-book issue */}
-          <div
-            onClick={() => turnPrevPage()}
-            className='hero__top__album__book__button__top__hook'
-          />
-          <HTMLFlipBook
-            id='Book'
-            size='stretch'
-            width={360}
-            height={500}
-            minWidth={300}
-            maxWidth={800}
-            minHeight={350}
-            maxHeight={600}
-            swipeDistance={30}
-            showPageCorners={true}
-            autoSize={true}
-            startPage={startPage}
-            ref={bookRef}
-            usePortrait={windowSize.size}
-            drawShadow={false}
-            disableFlipByClick={disableFlipByClick}
-            className='hero__top__album__book'
-          >
-            {pages.map((content, index) => (
-              <div
-                key={`page-${index}`}
-                className={
-                  index % 2 === 0
-                    ? isClassesReplaced
-                      ? 'hero__top__album__book__page'
-                      : ''
-                    : isClassesReplaced
-                    ? 'hero__top__album__book__page0'
+    <div className='hero__top'>
+      <div className={mainClassName}>
+        {/* just a hack to allow click-left in book required by flip-book issue */}
+        <div onClick={() => turnPrevPage()} className='hero__top__album__book__button__top__hook' />
+        <HTMLFlipBook
+          id='Book'
+          size='stretch'
+          width={360}
+          height={500}
+          minWidth={300}
+          maxWidth={800}
+          minHeight={350}
+          maxHeight={600}
+          swipeDistance={30}
+          showPageCorners={true}
+          autoSize={true}
+          startPage={startPage}
+          ref={bookRef}
+          usePortrait={windowSize.size}
+          drawShadow={false}
+          disableFlipByClick={disableFlipByClick}
+          className='hero__top__album__book'
+        >
+          {pages.map((content, index) => (
+            <div
+              key={`page-${index}`}
+              className={
+                index % 2 === 0
+                  ? isClassesReplaced
+                    ? 'hero__top__album__book__page'
                     : ''
-                }
-                data-density='hard'
-                number={index + 1}
-              >
-                <div className='hero__top__album__book__page__page-content'>
-                  {index % 2 === 0 ? (
-                    <React.Fragment>{content}</React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      {showClose && <CloseButton />}
-                      {content}
-                    </React.Fragment>
-                  )}
-                </div>
+                  : isClassesReplaced
+                  ? 'hero__top__album__book__page0'
+                  : ''
+              }
+              data-density='hard'
+              number={index + 1}
+            >
+              <div className='hero__top__album__book__page__page-content'>
+                {index % 2 === 0 ? (
+                  <React.Fragment>{content}</React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {showClose && <CloseButton />}
+                    {content}
+                  </React.Fragment>
+                )}
               </div>
-            ))}
-          </HTMLFlipBook>
-          {/* just a hack to allow click-left in book required by flip-book issue */}
-          <div
-            onClick={() => turnPrevPage()}
-            className='hero__top__album__book__button__bottom__hook'
-          />
-        </div>
+            </div>
+          ))}
+        </HTMLFlipBook>
+        {/* just a hack to allow click-left in book required by flip-book issue */}
+        <div
+          onClick={() => turnPrevPage()}
+          className='hero__top__album__book__button__bottom__hook'
+        />
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

@@ -80,7 +80,7 @@
     "publicar": "Publish",
     "despublicar": "Unpublish",
     "confirmado": "Confirmed",
-    "wallet_destinatario": "Insert the recipient's wallet",
+    "wallet_destinatario": "Enter the recipient's wallet",
 
     "buy_pack_title_1": "Choose the number of packs you want to buy",
     "buy_pack_title_2": "each",
@@ -88,6 +88,7 @@
     "buy_pack_button": "Buy",
     "buy_pack_error": "There was an error trying to buy packs.",
     "buy_pack_warning": "You don't have enough tokens to buy that many packs.",
+    "buy_pack_qtty_warning": "The number of packs you want to buy exceeds those available",
     "open_pack_title": "Opening packs",
     "open_pack_error": "There was an error trying to open the pack.",
     "open_pack_input_validator": "Enter between 1 and {MAX}!",
@@ -102,12 +103,18 @@
     "finish_album_success": "Congratulations! You completed the album. You will receive your prize in DAIs to your wallet.",
     "finish_album_no_qtty": "You do not have the complete album yet to claim the prize",
     "finish_album_no_album": "You do not have an album yet to claim the prize.",
+    "finish_album_no_album_60": "You do not have an album yet to burn cards.",
     "finish_album_warning": " The conditions required to complete the albums and claim the prizes are not yet met. Please try again in a few days!",
 
     "publish_offer_error": "There was an error trying to publish",
     "publish_offer_error_invalid_numbers": "Enter up to 10 numbers from 0 to 119, not repeated, separated by a comma and letters you do not have.",
     "publish_offer_error_own_card_number": "You cannot request the same card you are bidding on.",
     "publish_offer_no_cards_selected": "Select at least one card to create the publication.",
+
+    "publish_offer_auto_title": "Automatic Selection",
+    "publish_offer_auto_msg": "You can create the offer without selecting cards, so you can receive some of the ones you're missing.",
+    "publish_offer_auto_confirm": "Skip Selection",
+    "publish_offer_auto_denied": "I want to select",
 
     "unpublish_offer_dialog": "Do you want to cancel the publication of the offer for this card?",
     "unpublish_offer_error": "There was an error trying to unpublish",
@@ -143,6 +150,7 @@
     "offer_only_own_offer": "The only offer available for this card is yours.",
     "offer_card_number_empty": "There are no offers for this card.",
     "offer_card_no_la_tienes": "You do not have this card to exchange it.",
+    "offer_user_card_alredy_have": "The user already has that card. Try sending another one.",
     "offer_user_limit": "You have reached the limit of offers you can make. Wait to confirm an exchange or remove a publication.",
     "offer_game_limit": "At the moment, no more offers can be made. Please try in a few days.",
 
@@ -168,12 +176,48 @@
     "notification_received_card": "You received the letter {CARD} from {WALLET}.",
     "notification_sent_card": "You sent the letter {CARD} to {WALLET}.",
     "notification_pack_transfer": "You received the pack {PACK} from {WALLET}.",
+    "notification_card_transfer": "You received the card {CARD} from {WALLET}.",
+    "notification_album_transfer": "You have received an album from {WALLET}.",
+    "notification_burn_album_transfer": "You have received a burnt album from {WALLET}.",
     "notification_exchange": "You received the card {CARD_RECEIVED} from {WALLET} in exchange for the card {CARD_SENT}.",
-
+    "notification_cards_burned": "You burned {CARDS_BURNED} cards",
+    "notification_album_120_completed": "You completed the main album! You will receive a prize in your wallet.",
+    "notification_album_60_completed": "By burning cards, you completed the burning album. You will receive a prize in your wallet.",
+    "notification_ticket_reception": "You received a ticket ({TICKET_ID}) for completing the burn album.",
+    
     "offline_msg": "Website currently offline or no Internet connection available",
     "offline_action": "Go to Home",
 
     "exhange_cards_to_send": "you will send",
     "exhange_cards_to_receive": "you will receive",
-    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange."
+    "exchange_cards_leyend": "Next you can choose a card among those that the owner of this wallet wants, to proceed with the exchange.",
+
+    "burn_cards": "Burn Cards",
+    "burn_title": "Burning cards",
+    "burn_text": "You are going to burn {CARDS_TO_BURN} cards. Do you confirm?",
+    "burn_no_cards_selected": "There are no cards selected to burn.",
+    "burn_error": "There was an error attempting to burn",
+ 
+    "burn_undo_all_info": "There are no cards selected for burning, which can be removed from the burn.",
+    "burn_undo_all_title": "Undo selection",
+    "burn_undo_all_text": "All cards selected for burning ({CARDS_TO_BURN}) will be restored. Do you want to continue?",
+    "burn_undo_all_button_confirm": "Yes, undo selection",
+    "burn_undo_all_confirm": "Cards restored",
+    "burn_undo_all_error": "There was an error trying to restore cards from burning",
+
+    "burn_cancel_title": "Burn Cancellation",
+    "burn_cancel_text": "Do you want to cancel the burning? (the selection of cards to burn will be lost).",
+    "burn_cancel_button_confirm": "Yes, cancel burning",
+    "burn_cancel_button_cancel": "Keep selection",
+ 
+    "burn_repeated_info": "You have no repeated cards to burn.",
+    "burn_repeated_info_less": "You need a minimum of 60 repeated cards to burn.",
+    "burn_select_cart_offered": "You cannot burn any more copies of this card, since it has an offer associated with it.",
+    "burn_confirm_minimal": "You have to select 60 cards to proceed with burning.",
+    "burn_select_all_info": "All repeated cards are already selected.",
+    "burn_select_all_info_60": "You can burn a maximum of 60 cards at a time.",
+    "burn_select_all_confirm": "All repeat cards have been selected (up to a maximum of 60).",
+
+    "confirm": "Confirm",
+    "cancel": "Cancel"
 }

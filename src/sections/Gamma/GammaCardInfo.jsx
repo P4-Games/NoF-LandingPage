@@ -5,12 +5,12 @@ import { useTranslation } from 'next-i18next'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
 import { storageUrlGamma, openSeaUrlGamma } from '../../config'
-import { hasCard } from '../../services/gamma'
-import { removeOfferByCardNumber } from '../../services/offers'
+import { hasCard, getUserMissingCardsQtty } from '../../services/gamma'
+import { removeOfferByCardNumber, createOffer } from '../../services/offers'
 import { checkInputAddress } from '../../utils/InputValidators'
 import GammaAlbumPublish from './GammaAlbumPublish'
 import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
-import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
+import { emitError, emitWarning, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 
@@ -35,9 +35,9 @@ const GammaCardInfo = (props) => {
       const result = await hasCard(gammaCardsContract, walletAddress, userCard.name)
       setUserHasCard(result)
       stopLoading()
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex)
+      console.error({ e })
       emitError(t('user_has_card_error'))
     }
   }
@@ -56,10 +56,10 @@ const GammaCardInfo = (props) => {
     handleOpenCardOffers()
   }
 
-  const handleFinishPublish = (update) => {
+  const handleFinishPublish = async (update) => {
     setCardPublish(false)
     if (update) {
-      handleFinishInfoCard(update)
+      await handleFinishInfoCard(update)
     }
   }
 
@@ -81,13 +81,13 @@ const GammaCardInfo = (props) => {
       if (result.isConfirmed) {
         startLoading()
         await removeOfferByCardNumber(gammaOffersContract, userCard.name)
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex.message)
+      console.error({ e })
       emitError(t('unpublish_offer_error'))
     }
   }
@@ -120,13 +120,13 @@ const GammaCardInfo = (props) => {
         startLoading()
         const transaction = await gammaCardsContract.transferCard(result.value, userCard.name)
         await transaction.wait()
-        handleFinishInfoCard(true)
+        await handleFinishInfoCard(true)
         stopLoading()
         emitSuccess(t('confirmado'), 2000)
       }
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('transfer_card_error'))
     }
   }
@@ -136,21 +136,21 @@ const GammaCardInfo = (props) => {
       startLoading()
       const transaction = await gammaCardsContract.mintCard(userCard.name)
       await transaction.wait()
-      handleFinishInfoCard(true)
+      await handleFinishInfoCard(true)
       stopLoading()
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
-        <a target='_blank' href=${openSeaUrlGamma}/${userCard.name}'>
+        <a target='_blank' href=${openSeaUrlGamma}>
           ${t('aqui')}
         </a>`,
         icon: 'success',
         showConfirmButton: true,
-        timer: 3000
+        timer: 5000
       })
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error({ ex })
+      console.error({ e })
       emitError(t('mint_error'))
     }
   }
@@ -161,14 +161,54 @@ const GammaCardInfo = (props) => {
     const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
     if (!canUserPublishResult) {
       emitInfo(t('offer_user_limit'), 7000)
-    } else {
-      const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
-      if (!canAnyUserPublishResult) {
-        emitInfo(t('offer_game_limit'), 7000)
-      } else {
-        setCardPublish(true)
+      stopLoading()
+      return
+    }
+
+    const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
+    if (!canAnyUserPublishResult) {
+      emitInfo(t('offer_game_limit'), 7000)
+      stopLoading()
+      return
+    }
+
+    const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
+
+    if (missingCardsQtty > 0) {
+      stopLoading()
+      const result = await Swal.fire({
+        title: `${t('publish_offer_auto_title')}`,
+        text: `${t('publish_offer_auto_msg')}`,
+        showCancelButton: true,
+        confirmButtonText: `${t('publish_offer_auto_confirm')}`,
+        cancelButtonText: `${t('publish_offer_auto_denied')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        }
+      })
+
+      if (result.isConfirmed) {
+        try {
+          startLoading()
+          await createOffer(gammaOffersContract, userCard.name, [])
+          stopLoading()
+          emitSuccess(t('confirmado'), 2000)
+          handleFinishPublish(true)
+        } catch (e) {
+          stopLoading()
+          console.error({ e })
+          if (e.message == 'publish_offer_error_own_card_number')
+            emitWarning(t('publish_offer_error_own_card_number'))
+          else emitError(t('publish_offer_error'))
+        }
+        return
       }
     }
+    setCardPublish(true)
     stopLoading()
   }
 
@@ -222,8 +262,8 @@ const GammaCardInfo = (props) => {
     </div>
   )
 
-  const handleCloseButtonClick = () => {
-    handleFinishInfoCard(false)
+  const handleCloseButtonClick = async () => {
+    await handleFinishInfoCard(false)
   }
 
   const Page1 = () => (

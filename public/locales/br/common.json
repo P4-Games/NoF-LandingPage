@@ -88,6 +88,7 @@
   "buy_pack_button": "Comprar",
   "buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes.",
   "buy_pack_warning": "Não há tokens suficientes para comprar essa quantidade de pacotes.",
+  "buy_pack_qtty_warning": "O número de pacotes que você deseja comprar excede os disponíveis",
   "open_pack_title": "Abertura de pacotes",
   "open_pack_error": "Ocorreu um erro ao tentar abrir pacote.",
   "open_pack_input_validator": "Insira entre 1 e {MAX}!",
@@ -102,12 +103,18 @@
   "finish_album_success": "Parabéns! Você completou o álbum. Você receberá seu prêmio em DAIs na sua carteira.",
   "finish_album_no_qtty": "Você ainda não tem o álbum completo para reivindicar o prêmio",
   "finish_album_no_album": "Você ainda não tem um álbum para reivindicar o prêmio.",
+  "finish_album_no_album_60": "Você ainda não tem um álbum para gravar cartões.",
   "finish_album_warning": "As condições necessárias para completar os álbuns e reivindicar os prêmios ainda não estão disponíveis. Tente novamente em alguns dias!",
 
   "publish_offer_error": "Ocorreu um erro ao tentar publicar",
   "publish_offer_error_invalid_numbers": "Insira até 10 números de 0 a 119, não repetidos, separados por vírgula e letras que você não possui.",
   "publish_offer_error_own_card_number": "Você não pode solicitar o mesmo cartão que está licitando.",
   "publish_offer_no_cards_selected": "Selecione pelo menos um cartão para criar a publicação.",
+
+  "publish_offer_auto_title": "Seleção automática",
+  "publish_offer_auto_msg": "Você pode criar a oferta sem selecionar cartas, para que lhe enviem alguma das que lhe faltam.",
+  "publish_offer_auto_confirm": "Ignorar seleção",
+  "publish_offer_auto_denied": "Quero selecionar",
 
   "unpublish_offer_dialog": "Deseja cancelar a publicação da oferta desta carta?",
   "unpublish_offer_error": "Ocorreu um erro ao tentar cancelar a publicação",
@@ -143,6 +150,7 @@
   "offer_only_own_offer": "A única oferta disponível para esta carta é a sua.",
   "offer_card_number_empty": "Não há ofertas para esta carta.",
   "offer_card_no_la_tienes": "Você não tem este cartão para trocá-lo.",
+  "offer_user_card_alredy_have": "O usuário já possui esse cartão. Tente enviar outro.",
   "offer_user_limit": "Você atingiu o limite de ofertas que pode fazer. Aguarde para confirmar uma troca ou remover uma publicação.",
   "offer_game_limit": "No momento, nenhuma outra oferta pode ser feita. Tente em alguns dias.",
 
@@ -168,13 +176,49 @@
   "notification_received_card": "Você recebeu a carta {CARD} de {WALLET}.",
   "notification_sent_card": "Você enviou a carta {CARD} para {WALLET}.",
   "notification_pack_transfer": "Você recebeu o pacote {PACK} de {WALLET}.",
+  "notification_card_transfer": "Você recebeu o cartão {CARD} de {WALLET}.",
+  "notification_album_transfer": "Você recebeu un álbum de {WALLET}.",
+  "notification_burn_album_transfer": "Você recebeu un álbum de queima de {WALLET}.",
   "notification_exchange": "Você recebeu o cartão {CARD_RECEIVED} de {WALLET} em troca do cartão {CARD_SENT}.",
+  "notification_cards_burned": "Você queimou {CARDS_BURNED} cartões",
+  "notification_album_120_completed": "Você completou o álbum principal! Você receberá um prêmio em sua carteira.",
+  "notification_album_60_completed": "Ao queimar cartões, você completou a gravação do álbum. Você receberá um prêmio em sua carteira.",
+  "notification_ticket_reception": "Você recebeu um ticket ({TICKET_ID}) para completar a gravação do álbum.",
 
   "offline_msg": "Site atualmente offline ou sem conexão com a Internet disponível",
   "offline_action": "Ir para casa",
 
   "exhange_cards_to_send": "você enviará",
   "exhange_cards_to_receive": "você receberá",
-  "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca."
+  "exchange_cards_leyend": "A seguir você pode escolher um cartão entre aqueles que o dono desta carteira deseja, para prosseguir com a troca.",
+
+  "burn_cards": "Gravar Cartões",
+  "burn_title": "Cartas queimadas",
+  "burn_text": "Você vai queimar {CARDS_TO_BURN} cartas. Você confirma?",
+  "burn_no_cards_selected": "Não há cartas selecionadas para queimar.",
+  "burn_error": "Ocorreu um erro ao tentar gravar",
+
+  "burn_undo_all_info": "Não há cartas selecionadas para gravação que possam ser removidas da gravação.",
+  "burn_undo_all_title": "Desfazer seleção",
+  "burn_undo_all_text": "Todos os cards selecionados para gravação ({CARDS_TO_BURN}) serão restaurados. Deseja continuar?",
+  "burn_undo_all_button_confirm": "Sim, desfazer seleção",
+  "burn_undo_all_confirm": "Cartões restaurados",
+  "burn_undo_all_error": "Ocorreu um erro ao tentar restaurar os cartões da gravação",
+
+  "burn_cancel_title": "Cancelamento de gravação",
+  "burn_cancel_text": "Deseja cancelar a gravação? (a seleção de cartas para gravar será perdida).",
+  "burn_cancel_button_confirm": "Sim, cancelar gravação",
+  "burn_cancel_button_cancel": "Manter seleção",
+
+  "burn_repeated_info": "Você não tem cartas repetidas para queimar.",
+  "burn_repeated_info_less": "Você precisa de no mínimo 60 cartas repetidas para queimar.",
+  "burn_select_cart_offered": "Você não pode queimar mais cópias deste cartão, pois há uma oferta associada a ele.",
+  "burn_confirm_minimal": "Você deve selecionar 60 cartões para prosseguir com a gravação.",
+  "burn_select_all_info": "Todas as cartas repetidas agora estão selecionadas.",
+  "burn_select_all_info_60": "Você pode queimar no máximo 60 cartas por vez.",
+  "burn_select_all_confirm": "Todos os cartões repetidos foram selecionados (até um máximo de 60).",
+
+  "confirm": "Confirmar",
+  "cancel": "Cancelar"
 
 }

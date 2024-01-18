@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { gammaServiceUrl } from '../config'
+import { handleError } from './handleError'
 
 export const getGammacardsPages = () => {
   const gammaCardsPages = {
@@ -45,7 +46,7 @@ export const fetchPackData = async (walletAddress, pack_number) => {
     const data = await response.json()
     return data
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'fetchPackData', e)
     throw e
   }
 }
@@ -55,7 +56,7 @@ export const checkPacksByUser = async (walletAddress, packsContract) => {
     const packs = await packsContract?.getPacksByUser(walletAddress)
     return packs
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'checkPacksByUser', e)
     throw e
   }
 }
@@ -65,7 +66,7 @@ export const verifyPackSigner = async (cardsContract, packNumber, packData, sign
     const signer = await cardsContract.verifyPackSigner(packNumber, packData, signature)
     return signer
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'verifyPackSigner', e)
     throw e
   }
 }
@@ -78,7 +79,7 @@ export const openPack = async (cardsContract, packNumber, packData, signature) =
     await openPackTx.wait()
     return openPackTx
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'openPack', e)
     throw e
   }
 }
@@ -103,7 +104,7 @@ export const openPacks = async (
     await openPacksTx.wait()
     return openPacksTx
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'openPacks', e)
     throw e
   }
 }
@@ -113,7 +114,7 @@ export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
     const result = await cardsContract.maxPacksToOpenAtOnce()
     return result
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getMaxPacksAllowedToOpenAtOnce', e)
     throw e
   }
 }
@@ -148,23 +149,27 @@ export const getCardsByUser = async (cardsContract, walletAddress) => {
       }
     }
 
-    // TODO: Al modificar el contrato de gamm, getCardsByUser y poner en el for que devuelva
-    /// hasta 121, sacar esto.
-    const albums120 = await cardsContract.getCardQuantityByUser(walletAddress, 120)
-    const albums60 = await cardsContract.getCardQuantityByUser(walletAddress, 121)
-    cardsObj.user[120] = {
-      name: '120',
-      stamped: albums120 > 0,
-      offered: false,
-      quantity: albums120
-    }
-    cardsObj.user[121] = { name: '121', stamped: albums60 > 0, offered: false, quantity: albums60 }
-
     return cardsObj
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'getCardsByUser', e)
     throw e
   }
+}
+
+export const getUserMissingCards = async (cardsContract, walletAddress) => {
+  const userCards = await getCardsByUser(cardsContract, walletAddress)
+  const cardsQttyZero = Object.values(userCards.user)
+    .filter((card) => {
+      const cardNumber = parseInt(card.name)
+      return cardNumber !== 120 && cardNumber !== 121 && card.quantity === 0
+    })
+    .map((card) => parseInt(card.name))
+  return cardsQttyZero
+}
+
+export const getUserMissingCardsQtty = async (cardsContract, walletAddress) => {
+  const userMissingCards = await getUserMissingCards(cardsContract, walletAddress)
+  return userMissingCards.length
 }
 
 export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
@@ -173,7 +178,7 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
     const result = await cardsContract.hasCard(walletAddress, cardNumber)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'hasCard', e)
     throw e
   }
 }
@@ -185,7 +190,7 @@ export const getPackPrice = async (cardsContract) => {
     const result = ethers.utils.formatUnits(price, 18)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError('0x', 'getPackPrice', e)
     throw e
   }
 }
@@ -196,7 +201,7 @@ export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
     const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
     return userHasAlbum
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'getUserAlbums120Qtty', e)
     throw e
   }
 }
@@ -204,7 +209,7 @@ export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
 export const finishAlbum = async (cardsContract, daiContract, walletAddress) => {
   try {
     if (!cardsContract || !walletAddress) return
-    const result = await allowedToFinishAlbum(cardsContract, daiContract, walletAddress)
+    const result = await allowedToFinishAlbum120(cardsContract, daiContract, walletAddress)
     if (result) {
       const transaction = await cardsContract.finishAlbum()
       await transaction.wait()
@@ -213,7 +218,7 @@ export const finishAlbum = async (cardsContract, daiContract, walletAddress) => 
       return false
     }
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'finishAlbum', e)
     throw e
   }
 }
@@ -235,12 +240,74 @@ export const confirmOfferExchange = async (
     await transaction.wait()
     return true
   } catch (e) {
-    console.error({ e })
+    handleError(addressFrom, 'confirmOfferExchange', e)
     throw e
   }
 }
 
-export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAddress) => {
+export const burnCards = async (cardsContract, daiContract, walletAddress, cardsToBurn) => {
+  try {
+    if (!cardsContract || !walletAddress) return
+
+    const currentBurnedUserCards = await cardsContract.getBurnedCardQttyByUser(walletAddress)
+    const currentBurnedUserFmt = ethers.BigNumber.from(currentBurnedUserCards).toNumber()
+    const cardsToBurnQtty = cardsToBurn.length
+
+    if (currentBurnedUserFmt + cardsToBurnQtty >= 60) {
+      const meetConditions = await allowedToFinishAlbum60(cardsContract, daiContract, walletAddress)
+      if (meetConditions.result) {
+        const transaction = await cardsContract.burnCards(cardsToBurn)
+        await transaction.wait()
+        return true
+      } else {
+        return false
+      }
+    } else {
+      const transaction = await cardsContract.burnCards(cardsToBurn)
+      await transaction.wait()
+      return true
+    }
+  } catch (e) {
+    handleError(walletAddress, 'burnCards', e)
+    throw e
+  }
+}
+
+export const allowedToFinishAlbum60 = async (cardsContract, daiContract, walletAddress) => {
+  const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 121)
+  const prizesBalance = await cardsContract.prizesBalance()
+  const secondaryAlbumPrize = await cardsContract.secondaryAlbumPrize()
+  const gammaContractBalance = await verifyDAIBalance(daiContract, cardsContract.address)
+  const prizeBalanceFormatted = ethers.utils.formatUnits(prizesBalance, 18)
+  const secondaryAlbumPrizeFormatted = ethers.utils.formatUnits(secondaryAlbumPrize, 18)
+  const gammaContractBalanceFormatted = ethers.utils.formatUnits(gammaContractBalance, 18)
+
+  // require(prizesBalance >= secondaryAlbumPrize, "Insufficient funds (burnCards balance).");
+  const prizesBalanzGTSecondaryAlbumPrice =
+    parseInt(prizeBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
+
+  // uint256 contractBalance = erc20Token.balanceOf(address(this));
+  // require(contractBalance >= secondaryAlbumPrize, "Insufficient funds (contract).");
+  const contractBalanzGTAlSecondarybumPrice =
+    parseInt(gammaContractBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
+
+  const result =
+    userHasAlbum && prizesBalanzGTSecondaryAlbumPrice && contractBalanzGTAlSecondarybumPrice
+
+  console.log('allowedToFinishAlbum60', {
+    userHasAlbum,
+    prizeBalanceFormatted,
+    secondaryAlbumPrizeFormatted,
+    gammaContractBalanceFormatted,
+    prizesBalanzGTSecondaryAlbumPrice,
+    contractBalanzGTAlSecondarybumPrice,
+    result
+  })
+
+  return { result: result, amountRequired: secondaryAlbumPrize }
+}
+
+export const allowedToFinishAlbum120 = async (cardsContract, daiContract, walletAddress) => {
   // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
@@ -267,7 +334,7 @@ export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAdd
 
   const result = userHasAlbum && prizesBalanzGTAlbumPrice && contractBalanzGTAlbumPrice
 
-  console.log('prizesBalanzGTAlbumPrice', {
+  console.log('allowedToFinishAlbum120', {
     userHasAlbum,
     prizeBalanceFormatted,
     albumPrizeFormatted,
@@ -280,12 +347,12 @@ export const allowedToFinishAlbum = async (cardsContract, daiContract, walletAdd
   return result
 }
 
-const verifyDAIBalance = async (daiContract, address) => {
+const verifyDAIBalance = async (daiContract, walletAddress) => {
   try {
-    const result = await daiContract.balanceOf(address)
+    const result = await daiContract.balanceOf(walletAddress)
     return result
   } catch (e) {
-    console.error({ e })
+    handleError(walletAddress, 'verifyDAIBalance', e)
     throw e
   }
 }

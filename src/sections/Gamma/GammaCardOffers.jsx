@@ -1,13 +1,15 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
 import { storageUrlGamma } from '../../config'
-import { emitWarning } from '../../utils/alert'
+import { emitError, emitInfo } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
-import { useLayoutContext, useGammaDataContext } from '../../hooks'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 import GammaCardExchange from './GammaCardExchange'
 import { getAccountAddressText } from '../../utils/stringUtils'
+import { hasCard } from '../../services/gamma'
 
 const GammaCardOffers = (props) => {
   const { handleFinishInfoCard, offerData } = props
@@ -15,12 +17,13 @@ const GammaCardOffers = (props) => {
   const [showExchangeCards, setShowExchangeCards] = useState(false)
   const [selectedCardNumber, setSelectedCardNumber] = useState(null)
   const [selectedOfferId, setSelectedOfferId] = useState(null)
-  const { loading, getCurrentPage } = useLayoutContext()
+  const { loading, startLoading, stopLoading, getCurrentPage } = useLayoutContext()
   const { paginationObj } = useGammaDataContext()
   const [currentPage, setCurrentPage] = useState(0)
   const [pagedOffers, setPagedOffers] = useState([])
+  const { gammaCardsContract } = useWeb3Context()
 
-  function partirArray(array, chunkSize) {
+  function splitArray(array, chunkSize) {
     const arrayCopy = array.slice()
     const sortedArray = arrayCopy.sort((a, b) => a - b)
     const chunks = []
@@ -47,19 +50,14 @@ const GammaCardOffers = (props) => {
 
     for (let index = 0; index < offerData.length; index++) {
       const offer = offerData[index]
-
       _pagedOffer = {}
       _pagedOffer.offerId = offer.offerId
       _pagedOffer.offerWallet = offer.offerWallet
       _pagedOffer.offerCard = offer.offerCard
-
-      if (offer.wantedCards.length > 0) {
-        _pagedOffer.offerId = offer.offerId
-        _pagedOffer.pagedWantedCards = partirArray(offer.wantedCards, 12)
-      } else {
-        // TODO: insertar como wantedCards las cartas que no tiene el user que ofertó
-        // (hay que buscarlas)
-      }
+      _pagedOffer.offerId = offer.offerId
+      _pagedOffer.pagedWantedCards = splitArray(offer.wantedCards, 12)
+      _pagedOffer.offerAuto = offer.auto
+      _pagedOffer.offerValid = offer.valid
       _pagedOffers.push(_pagedOffer)
     }
 
@@ -72,6 +70,20 @@ const GammaCardOffers = (props) => {
     return paginationObj.user[item]?.quantity && paginationObj.user[item]?.quantity !== 0
   }
 
+  const userOfferHasCard = (item, userOfferWalletAddress) => {
+    let result = false
+    try {
+      startLoading()
+      result = hasCard(gammaCardsContract, userOfferWalletAddress, item)
+    } catch (e) {
+      stopLoading()
+      console.error({ e })
+      emitError(t('user_has_card_error'))
+    }
+    stopLoading()
+    return result
+  }
+
   const handleFinishCardExchange = (confirmed) => {
     setSelectedCardNumber(null)
     setSelectedOfferId(null)
@@ -81,19 +93,28 @@ const GammaCardOffers = (props) => {
     }
   }
 
-  const handleCardClick = async (offerId, item) => {
+  const handleCardClick = async (offerId, offerAuto, item) => {
     try {
       if (!userHasCard(item)) {
-        emitWarning(t('offer_card_no_la_tienes'))
+        emitInfo(t('offer_card_no_la_tienes'))
         return
       }
+
+      if (offerAuto) {
+        const _userOfferHasCard = await userOfferHasCard()
+        if (_userOfferHasCard) {
+          emitInfo(t('offer_user_card_alredy_have'))
+          return
+        }
+      }
+
       setCurrentPage(getCurrentPage())
       setSelectedOfferId(offerId)
       setSelectedCardNumber(item)
       setShowExchangeCards(true)
-    } catch (ex) {
-      console.error(ex.message)
-      emitWarning(t('offer_exchange_error'))
+    } catch (e) {
+      console.error({ e })
+      emitError(t('offer_exchange_error'))
     }
   }
 
@@ -103,7 +124,7 @@ const GammaCardOffers = (props) => {
 
   const getStyle = (item) => (userHasCard(item) ? {} : { filter: 'grayscale(1)' })
 
-  const OfferWantedCardsPage = ({ page, offerId, pageNumber }) => {
+  const OfferWantedCardsPage = ({ page, offerId, offerAuto, pageNumber }) => {
     let divWrapperClassName = 'grid-wrapper-right-album'
     const pagePar = pageNumber % 2 === 0
     if (pagePar) {
@@ -117,7 +138,7 @@ const GammaCardOffers = (props) => {
           page.wantedCards.map((item, index) => (
             <div
               onClick={() => {
-                item === -1 ? {} : handleCardClick(offerId, item)
+                item === -1 ? {} : handleCardClick(offerId, offerAuto, item)
               }}
               style={getStyle(item)}
               key={index}
@@ -140,12 +161,6 @@ const GammaCardOffers = (props) => {
     )
   }
 
-  OfferWantedCardsPage.propTypes = {
-    page: PropTypes.object,
-    offerId: PropTypes.string,
-    pageNumber: PropTypes.number
-  }
-
   const OfferFirstPage = ({ offer, index }) => (
     <div className='cardinfo-exchange'>
       <h6 className='cardinfo-exchange-offer'>
@@ -161,11 +176,6 @@ const GammaCardOffers = (props) => {
       <p className='cardinfo-exchange-leyend'>{t('exchange_cards_leyend')}</p>
     </div>
   )
-
-  OfferFirstPage.propTypes = {
-    offer: PropTypes.object,
-    index: PropTypes.number
-  }
 
   const getPages = () => {
     if (!pagedOffers || pagedOffers.length === 0) {
@@ -185,6 +195,7 @@ const GammaCardOffers = (props) => {
             <OfferWantedCardsPage
               key={`page${pageIndex}`}
               offerId={offer.offerId}
+              offerAuto={offer.offerAuto}
               page={page}
               pageNumber={pageIndex}
             />

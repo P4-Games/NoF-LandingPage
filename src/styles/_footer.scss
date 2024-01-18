@@ -228,7 +228,7 @@
         background-image: url(/images/gamma/albumsReduced.png);
       }
     }
-    &__bluebtn_custom_switch_album {
+    &__bluebtn_custom_switch_album__120 {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/blue-custom.png);
       &:hover {
@@ -236,7 +236,18 @@
       }
       &::before {
         @extend .footer__buttons__custom__before;
-        background-image: url(/images/gamma/AlbumGamma2.png);
+        background-image: url(/images/gamma/AlbumGamma120.png);
+      }
+    }
+    &__bluebtn_custom_switch_album__toburn {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/blue-custom.png);
+      &:hover {
+        background-image: url(/images/footer/blue-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/gamma/AlbumGammaToBurn.png);
       }
     }
     &__greenbtn_custom_shop {
@@ -261,6 +272,28 @@
         background-image: url(/images/gamma/claimPrize.png);
       }
     }
+    &__greenbtn_custom_confirm {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/check-mark.png);
+      }
+    }
+    &__greenbtn_custom_selectAll {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/green-custom.png);
+      &:hover {
+        background-image: url(/images/footer/green-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/selectAll.png);
+      }
+    }
     &__redbtn_custom_open {
       @extend .footer__buttons__default;
       background-image: url(/images/footer/red-custom.png);
@@ -270,6 +303,28 @@
       &::before {
         @extend .footer__buttons__custom__before;
         background-image: url(/images/gamma/openPackOn.png);
+      }
+    }
+    &__redbtn_custom_cancel {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/cancel.png);
+      }
+    }
+    &__redbtn_custom_undo {
+      @extend .footer__buttons__default;
+      background-image: url(/images/footer/red-custom.png);
+      &:hover {
+        background-image: url(/images/footer/red-custom-hover.png);
+      }
+      &::before {
+        @extend .footer__buttons__custom__before;
+        background-image: url(/images/footer/undo.png);
       }
     }
     &__yellowbtn_custom_transfer {

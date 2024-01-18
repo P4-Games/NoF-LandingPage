@@ -11,15 +11,14 @@ import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
 import { checkApproved, authorizeDaiContract } from '../../services/dai'
-import { fetchPackData } from '../../services/gamma'
+import { fetchPackData, burnCards } from '../../services/gamma'
 import {
   checkPacksByUser,
   finishAlbum,
   openPack,
   openPacks,
   getMaxPacksAllowedToOpenAtOnce,
-  getPackPrice,
-  getUserAlbums120Qtty
+  getPackPrice
 } from '../../services/gamma'
 import { NETWORK } from '../../config'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
@@ -29,9 +28,25 @@ const GammaMain = () => {
   const [openPackCardsNumbers, setOpenPackCardsNumbers] = useState([])
   const [numberOfPacks, setNumberOfPacks] = useState(0)
   const [openPackage, setOpenPackage] = useState(false)
-  const [inventory, setInventory] = useState(true)
   const [packIsOpen, setPackIsOpen] = useState(false)
-  const { paginationObj, refreshPaginationObj } = useGammaDataContext()
+  const {
+    ALBUMS,
+    currentAlbum,
+    switchAlbum,
+    paginationObj,
+    refreshPaginationObj,
+    cardsQttyToBurn,
+    cardsToBurn,
+    cleanBurnObjects,
+    setCardsToBurn,
+    setCardsQttyToBurn,
+    uniqueCardsQtty,
+    repeatedCardsQtty,
+    albums120Qtty,
+    albums60Qtty,
+    generatePaginationObjToBurn,
+    selectAllRepeatedCardsToBurn
+  } = useGammaDataContext()
   const {
     walletAddress,
     daiContract,
@@ -49,28 +64,11 @@ const GammaMain = () => {
     updateButtonFunctions,
     updateFooterButtonsClasses
   } = useLayoutContext()
-  const [cardsQtty, setCardsQtty] = useState(0)
-  const [albums120Qtty, setAlbums120Qtty] = useState(0)
   const [showRules, setShowRules] = useState(false)
   const [cardInfoOpened, setCardInfoOpened] = useState(false)
   const [albumInfoOpened, setAlbumInfoOpened] = useState(false)
 
-  const canCompleteAlbum120 = () => cardsQtty >= 120 && albums120Qtty > 0
-
-  const getCardsQtty = (_userdata) => {
-    let total = 0
-    if (!_userdata) return
-    for (let key in _userdata.user) {
-      if (
-        _userdata.user[key].quantity > 0 &&
-        _userdata.user[key].name != 120 &&
-        _userdata.user[key].name != 121
-      ) {
-        total += 1
-      }
-    }
-    return total
-  }
+  const canCompleteAlbum120 = () => uniqueCardsQtty >= 120 && albums120Qtty > 0
 
   const checkNumberOfPacks = async () => {
     try {
@@ -82,28 +80,48 @@ const GammaMain = () => {
   }
 
   const updateUserData = async () => {
-    refreshPaginationObj()
-    // TODO :ver de optimizar, no hace falta llamar al contrato, ya queda en paginationObj
-    const userAlbums120 = await getUserAlbums120Qtty(gammaCardsContract, walletAddress)
-    setAlbums120Qtty(userAlbums120)
-    setCardsQtty(getCardsQtty(paginationObj))
+    await refreshPaginationObj()
   }
 
   const fetchInventory = async () => {
     try {
       if (!walletAddress) return
       startLoading()
-      await updateUserData()
+      await refreshPaginationObj()
       stopLoading()
-    } catch (error) {
+    } catch (e) {
       stopLoading()
-      console.error(error)
+      console.error({ e })
     }
   }
 
   useEffect(() => {
-    setCardsQtty(getCardsQtty(paginationObj))
-  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+    if (!gammaCardsContract || !gammaPacksContract || !walletAddress) return
+    gammaCardsContract.on('OfferCardsExchanged', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        updateUserData()
+      }
+    })
+    gammaCardsContract.on('CardTransfered', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        updateUserData()
+      }
+    })
+    gammaPacksContract.on('PacksTransfered', (from, to) => {
+      if (
+        to.toUpperCase() === walletAddress.toUpperCase() ||
+        from.toUpperCase() === walletAddress.toUpperCase()
+      ) {
+        checkNumberOfPacks()
+      }
+    })
+  }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchInventory()
@@ -114,75 +132,144 @@ const GammaMain = () => {
     checkNumberOfPacks()
   }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
-      ToggleShowDefaultButtons(false)
+  useEffect(
+    () => {
+      if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
+        ToggleShowDefaultButtons(false)
 
-      if (inventory) {
-        updateShowButtons([true, true, true, true])
-        updateFooterButtonsClasses([
-          'footer__buttons__bluebtn_custom_switch_album',
-          'footer__buttons__greenbtn_custom_shop',
-          'footer__buttons__redbtn_custom_open',
-          'footer__buttons__yellowbtn_custom_transfer'
-        ])
-      } else {
-        updateShowButtons([true, true, false, false])
-        updateFooterButtonsClasses([
-          'footer__buttons__bluebtn_custom_switch_inventory',
-          'footer__buttons__greenbtn_custom_claim',
-          null,
-          null
-        ])
+        switch (currentAlbum) {
+          case ALBUMS.ALBUM_INVENTORY:
+            updateShowButtons([true, true, true, true])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_album__120',
+              'footer__buttons__greenbtn_custom_shop',
+              'footer__buttons__redbtn_custom_open',
+              'footer__buttons__yellowbtn_custom_transfer'
+            ])
+            break
+          case ALBUMS.ALBUM_120:
+            updateShowButtons([true, true, false, false])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_inventory',
+              'footer__buttons__greenbtn_custom_claim',
+              null,
+              null
+            ])
+            break
+          case ALBUMS.ALBUM_BURN_SELECTION:
+            updateShowButtons([true, true, true, false])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_album__toburn',
+              'footer__buttons__greenbtn_custom_selectAll',
+              'footer__buttons__redbtn_custom_undo',
+              null
+            ])
+            break
+          case ALBUMS.ALBUM_TO_BURN:
+            updateShowButtons([true, true, true, false])
+            updateFooterButtonsClasses([
+              'footer__buttons__bluebtn_custom_switch_inventory',
+              'footer__buttons__greenbtn_custom_confirm',
+              'footer__buttons__redbtn_custom_cancel',
+              null
+            ])
+            break
+        }
+
+        updateButtonFunctions(0, handleSwitchBook)
       }
-
-      updateButtonFunctions(0, handleSwitchBook)
-    }
-  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
-      if (inventory) updateButtonFunctions(1, handleBuyPack)
-      else updateButtonFunctions(1, handleFinishAlbum)
-    }
-  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
+    walletAddress,
+    gammaPacksContract,
+    cardInfoOpened,
+    albumInfoOpened,
+    currentAlbum
+  ]
+  )
 
   useEffect(
     () => {
-      if (walletAddress && inventory && !cardInfoOpened && !albumInfoOpened) {
-        updateButtonFunctions(2, handleOpenPack)
+      if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
+        if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
+          updateButtonFunctions(1, handleBuyPack)
+        } else if (currentAlbum === ALBUMS.ALBUM_120) {
+          updateButtonFunctions(1, handleFinishAlbum)
+        } else if (currentAlbum === ALBUMS.ALBUM_BURN_SELECTION) {
+          updateButtonFunctions(1, handleBurnCardsSelectAll)
+        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
+          updateButtonFunctions(1, handleBurnCards)
+        }
+      }
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
+    walletAddress, 
+    gammaPacksContract,
+    cardInfoOpened,
+    albumInfoOpened,
+    currentAlbum,
+    cardsToBurn,
+    cardsQttyToBurn
+  ]
+  )
+
+  useEffect(
+    () => {
+      if (walletAddress && !cardInfoOpened && !albumInfoOpened) {
+        if (currentAlbum === ALBUMS.ALBUM_INVENTORY) {
+          updateButtonFunctions(2, handleOpenPack)
+        } else if (currentAlbum === ALBUMS.ALBUM_BURN_SELECTION) {
+          updateButtonFunctions(2, handleBurnCardsUndoAll)
+        } else if (currentAlbum === ALBUMS.ALBUM_TO_BURN) {
+          updateButtonFunctions(2, handleBurnCardsCancel)
+        }
+      }
+    },
+    // prettier-ignore
+    [ // eslint-disable-line react-hooks/exhaustive-deps
+      walletAddress,
+      gammaPacksContract,
+      openPackage,
+      packIsOpen,
+      uniqueCardsQtty,
+      numberOfPacks,
+      cardInfoOpened,
+      albumInfoOpened,
+      currentAlbum,
+      cardsToBurn,
+      cardsQttyToBurn
+    ]
+  )
+
+  useEffect(
+    () => {
+      if (walletAddress && currentAlbum) {
+        updateButtonFunctions(3, handleTransferPack)
       }
     },
     // prettier-ignore
     [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
-    openPackage,
-    packIsOpen,
-    cardsQtty,
     numberOfPacks,
-    inventory,
+    currentAlbum,
     cardInfoOpened,
     albumInfoOpened
   ]
-  )
-
-  useEffect(() => {
-    if (walletAddress && inventory) {
-      updateButtonFunctions(3, handleTransferPack)
-    }
-  }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+  ) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFinishAlbum = useCallback(
     async () => {
       try {
-        if (cardsQtty < 120) {
-          emitInfo(t('finish_album_no_qtty'), 100000)
+        if (uniqueCardsQtty < 120) {
+          emitInfo(t('finish_album_no_qtty'), 5000)
           return
         }
 
         if (albums120Qtty < 1) {
-          emitInfo(t('finish_album_no_album'), 100000)
+          emitInfo(t('finish_album_no_album'), 5000)
           return
         }
 
@@ -195,9 +282,9 @@ const GammaMain = () => {
           emitWarning(t('finish_album_warning'), 8000, '', false)
         }
         stopLoading()
-      } catch (ex) {
+      } catch (e) {
         stopLoading()
-        console.error({ ex })
+        console.error({ e })
         emitError(t('finish_album_error'))
       }
     },
@@ -206,106 +293,119 @@ const GammaMain = () => {
     walletAddress,
     gammaPacksContract,
     paginationObj,
-    inventory,
     cardInfoOpened,
     albumInfoOpened,
-    cardsQtty,
+    uniqueCardsQtty,
     albums120Qtty
   ]
   )
 
-  const handleTransferPack = useCallback(async () => {
-    try {
-      if (numberOfPacks === 0) {
-        emitInfo(t('no_paquetes_para_transferir', 2000))
-        return
-      }
+  const handleTransferPack = useCallback(
+    async () => {
+      try {
+        if (numberOfPacks === 0) {
+          emitInfo(t('no_paquetes_para_transferir', 4000))
+          return
+        }
 
-      const result = await Swal.fire({
-        title: `${t('transfer_pack_title')}`,
-        html: `
+        const result = await Swal.fire({
+          title: `${t('transfer_pack_title')}`,
+          html: `
         <input id="wallet" class="swal2-input" placeholder="${t('wallet_destinatario')}">
         <input id="amount" type='number' step='1' class="swal2-input" placeholder="${t(
           'quantity'
         )}">
         `,
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: `${t('transferir')}`,
-        confirmButtonColor: '#005EA3',
-        color: 'black',
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
-        },
-        preConfirm: () => {
-          const walletInput = Swal.getPopup().querySelector('#wallet')
-          const quantityInput = Swal.getPopup().querySelector('#amount')
-          const wallet = walletInput.value
-          const amount = parseInt(quantityInput.value)
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: `${t('transferir')}`,
+          confirmButtonColor: '#005EA3',
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          },
+          preConfirm: () => {
+            const walletInput = Swal.getPopup().querySelector('#wallet')
+            const quantityInput = Swal.getPopup().querySelector('#amount')
+            const wallet = walletInput.value
+            const amount = parseInt(quantityInput.value)
 
-          if (
-            !checkInputAddress(wallet, walletAddress) &&
-            !checkIntValue1GTValue2(amount, numberOfPacks, true)
-          ) {
-            walletInput.classList.add('swal2-inputerror')
-            quantityInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(
-              `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
-            )
-          } else {
-            if (!checkInputAddress(wallet, walletAddress)) {
+            if (
+              !checkInputAddress(wallet, walletAddress) &&
+              !checkIntValue1GTValue2(amount, numberOfPacks, true)
+            ) {
               walletInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('direccion_destino_error')}`)
-            }
-            if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
               quantityInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('quantity_invalid')}`)
+              Swal.showValidationMessage(
+                `${t('direccion_destino_error')}<br />${t('quantity_invalid')}`
+              )
+            } else {
+              if (!checkInputAddress(wallet, walletAddress)) {
+                walletInput.classList.add('swal2-inputerror')
+                Swal.showValidationMessage(`${t('direccion_destino_error')}`)
+              }
+              if (!checkIntValue1GTValue2(amount, numberOfPacks, true)) {
+                quantityInput.classList.add('swal2-inputerror')
+                Swal.showValidationMessage(`${t('quantity_invalid')}`)
+              }
             }
+            return { wallet: wallet, amount: amount }
           }
-          return { wallet: wallet, amount: amount }
-        }
-      })
+        })
 
-      if (result.isConfirmed) {
-        startLoading()
-        const qttyPacks = parseInt(result.value.amount)
-        const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
+        if (result.isConfirmed) {
+          startLoading()
+          const qttyPacks = parseInt(result.value.amount)
+          const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
 
-        if (qttyPacks === 1) {
-          const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
-          const transaction = await gammaPacksContract.transferPack(result.value.wallet, packNumber)
-          await transaction.wait()
-        } else {
-          let packsNumber = []
-          for (let index = 0; index < qttyPacks; index++) {
-            packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
-          }
-          if (packsNumber.length > 0) {
-            const transaction = await gammaPacksContract.transferPacks(
+          if (qttyPacks === 1) {
+            const packNumber = ethers.BigNumber.from(packs[0]).toNumber()
+            const transaction = await gammaPacksContract.transferPack(
               result.value.wallet,
-              packsNumber
+              packNumber
             )
             await transaction.wait()
+          } else {
+            let packsNumber = []
+            for (let index = 0; index < qttyPacks; index++) {
+              packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
+            }
+            if (packsNumber.length > 0) {
+              const transaction = await gammaPacksContract.transferPacks(
+                result.value.wallet,
+                packsNumber
+              )
+              await transaction.wait()
+            }
           }
+          emitSuccess(t('confirmado'), 3000)
+          await checkNumberOfPacks()
+          stopLoading()
         }
-        emitSuccess(t('confirmado'), 2000)
-        await checkNumberOfPacks()
+      } catch (e) {
         stopLoading()
+        console.error({ e })
+        emitError(t('transfer_pack_error'))
       }
-    } catch (ex) {
-      stopLoading()
-      console.error({ ex })
-      emitError(t('transfer_pack_error'))
-    }
-  }, [walletAddress, gammaPacksContract, numberOfPacks, inventory, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+    },
+    // prettier-ignore
+    [ //eslint-disable-line react-hooks/exhaustive-deps
+    walletAddress,
+    gammaPacksContract,
+    numberOfPacks,
+    currentAlbum,
+    cardInfoOpened,
+    albumInfoOpened
+  ]
+  ) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOpenPack = useCallback(
     async () => {
       try {
         if (numberOfPacks === 0) {
-          emitInfo(t('no_paquetes_para_abrir', 2000))
+          emitInfo(t('no_paquetes_para_abrir', 4000))
           return
         }
 
@@ -413,9 +513,9 @@ const GammaMain = () => {
     gammaPacksContract,
     openPackage,
     packIsOpen,
-    cardsQtty,
+    uniqueCardsQtty,
     numberOfPacks,
-    inventory,
+    currentAlbum,
     cardInfoOpened,
     albumInfoOpened
   ]
@@ -434,6 +534,14 @@ const GammaMain = () => {
       if (userBalanceTokenFormatted < amountRequiredFormatted) {
         stopLoading()
         emitWarning(t('buy_pack_warning'))
+        return
+      }
+
+      const meetQttyConditionsToBuy =
+        await gammaPacksContract.meetQuantityConditionsToBuy(numberOfPacks)
+      if (!meetQttyConditionsToBuy) {
+        stopLoading()
+        emitWarning(t('buy_pack_qtty_warning'))
         return
       }
 
@@ -461,8 +569,22 @@ const GammaMain = () => {
   const handleSwitchBook = useCallback(async () => {
     setCardInfoOpened(false)
     setAlbumInfoOpened(false)
-    setInventory(!inventory)
-  }, [inventory])
+
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        switchAlbum(ALBUMS.ALBUM_120)
+        break
+      case ALBUMS.ALBUM_120:
+        switchAlbum(ALBUMS.ALBUM_INVENTORY)
+        break
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        switchAlbum(ALBUMS.ALBUM_TO_BURN)
+        break
+      case ALBUMS.ALBUM_TO_BURN:
+        switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
+        break
+    }
+  }, [currentAlbum, ALBUMS, switchAlbum])
 
   const handleBuyPack = useCallback(async () => {
     const price = await getPackPrice(gammaPacksContract)
@@ -497,7 +619,142 @@ const GammaMain = () => {
       const packsToBuy = result.value
       await buyPacksContract(packsToBuy)
     }
-  }, [walletAddress, gammaPacksContract, inventory, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleBurnCardsSelectAll = useCallback(async () => {
+    if (cardsQttyToBurn >= repeatedCardsQtty) {
+      emitInfo(t('burn_select_all_info', 5000))
+      return
+    }
+
+    if (cardsQttyToBurn >= 60) {
+      emitInfo(t('burn_select_all_info_60', 5000))
+      return
+    }
+
+    startLoading()
+    selectAllRepeatedCardsToBurn(60)
+    stopLoading()
+    emitSuccess(t('burn_select_all_confirm'), 5000)
+  }, [currentAlbum, cardsQttyToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleBurnCardsUndoAll = useCallback(async () => {
+    if (cardsQttyToBurn === 0) {
+      emitInfo(t('burn_undo_all_info', 5000))
+      return
+    }
+
+    const result = await Swal.fire({
+      title: `${t('burn_undo_all_title')}`,
+      text: `${t('burn_undo_all_text').replace('{CARDS_TO_BURN}', cardsQttyToBurn)}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('burn_undo_all_button_confirm')}`,
+      cancelButtonText: `${t('cancel')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      try {
+        setCardsToBurn([])
+        setCardsQttyToBurn(0)
+        generatePaginationObjToBurn(true)
+        emitSuccess(t('burn_undo_all_confirm'), 5000)
+      } catch (e) {
+        console.error({ e })
+        emitError(t('burn_undo_all_error'))
+      }
+    }
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleBurnCards = useCallback(async () => {
+    if (cardsQttyToBurn === 0) {
+      emitInfo(t('burn_no_cards_selected', 5000))
+      return
+    }
+    if (cardsQttyToBurn < 60) {
+      emitInfo(t('burn_confirm_minimal'), 5000)
+      return
+    }
+    if (albums60Qtty < 1) {
+      emitInfo(t('finish_album_no_album_60'), 5000)
+      return
+    }
+
+    const result = await Swal.fire({
+      title: `${t('burn_title')}`,
+      text: `${t('burn_text').replace('{CARDS_TO_BURN}', cardsQttyToBurn)}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('confirm')}`,
+      cancelButtonText: `${t('cancel')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      try {
+        startLoading()
+        const result = await burnCards(gammaCardsContract, daiContract, walletAddress, cardsToBurn)
+
+        if (!result) {
+          // no se pudo realizar el burn-card por condiciones del contrato
+          stopLoading()
+          emitWarning(t('finish_album_warning'))
+          return
+        }
+        cleanBurnObjects()
+        await updateUserData()
+        switchAlbum(ALBUMS.ALBUM_INVENTORY)
+        stopLoading()
+        emitSuccess(t('confirmado'), 3000)
+      } catch (e) {
+        stopLoading()
+        console.error({ e })
+        emitError(t('burn_error'))
+      }
+    }
+  }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleBurnCardsCancel = useCallback(async () => {
+    if (cardsQttyToBurn === 0) {
+      cleanBurnObjects()
+      switchAlbum(ALBUMS.ALBUM_INVENTORY)
+      return
+    }
+
+    const result = await Swal.fire({
+      title: `${t('burn_cancel_title')}`,
+      text: `${t('burn_cancel_text')}`,
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: `${t('burn_cancel_button_confirm')}`,
+      cancelButtonText: `${t('burn_cancel_button_cancel')}`,
+      confirmButtonColor: '#005EA3',
+      color: 'black',
+      background: 'white',
+      customClass: {
+        image: 'cardalertimg',
+        input: 'alertinput gamma_validators_centered_input'
+      }
+    })
+
+    if (result.isConfirmed) {
+      cleanBurnObjects()
+      switchAlbum(ALBUMS.ALBUM_INVENTORY)
+    }
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const NotConnected = () => (
     <div className='alpha'>
@@ -538,125 +795,118 @@ const GammaMain = () => {
     </div>
   )
 
-  const GammaPackInfo = () => {
-    if (inventory) {
-      return (
-        <>
-          <div className='gammapack'>
-            {numberOfPacks === 0 || cardInfoOpened ? (
-              <>
-                <div className={'gammapack__content__disabled'}>
-                  <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={'gammapack__content'}>
-                  <h1 className={'pack_number'}>{numberOfPacks}</h1>
-                </div>
-              </>
-            )}
-            <div className='gammapack__actions'>
-              {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
-                <>
-                  {cardInfoOpened || albumInfoOpened ? (
-                    <div className={'gammapack__actions__buyPack_disabled'}>
-                      <Image
-                        src={'/images/gamma/buyPackOff.png'}
-                        alt='buy pack'
-                        height='40'
-                        width='40'
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        handleBuyPack()
-                      }}
-                      className={'gammapack__actions__buyPack'}
-                    >
-                      <Image
-                        src={'/images/gamma/buyPackOn.png'}
-                        alt='buy pack'
-                        height='40'
-                        width='40'
-                      />
-                    </div>
-                  )}
-                  <div className='gammapack__actions__openPack_disabled'>
-                    <Image
-                      src={'/images/gamma/openPackOff.png'}
-                      alt='open pack'
-                      height='50'
-                      width='50'
-                    />
-                  </div>
-                  <div className='gammapack__actions__transferPack_disabled'>
-                    <Image
-                      src={'/images/gamma/transferPackOff.png'}
-                      alt='open pack'
-                      height='40'
-                      width='40'
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div
-                    onClick={() => {
-                      handleBuyPack()
-                    }}
-                    className={'gammapack__actions__buyPack'}
-                  >
-                    <Image
-                      src={'/images/gamma/buyPackOn.png'}
-                      alt='buy pack'
-                      height='40'
-                      width='40'
-                    />
-                  </div>
-                  <div
-                    onClick={() => {
-                      handleOpenPack()
-                    }}
-                    className='gammapack__actions__openPack'
-                  >
-                    <Image
-                      src={'/images/gamma/openPackOn.png'}
-                      alt='open pack'
-                      height='50'
-                      width='50'
-                    />
-                  </div>
-                  <div
-                    onClick={() => {
-                      handleTransferPack()
-                    }}
-                    className='gammapack__actions__openPack'
-                  >
-                    <Image
-                      src={'/images/gamma/transferPackOn.png'}
-                      alt='open pack'
-                      height='40'
-                      width='40'
-                    />
-                  </div>
-                </>
-              )}
+  const InfofoRightInventory = () => (
+    <>
+      <div className='gammaRightPack'>
+        {numberOfPacks === 0 || cardInfoOpened ? (
+          <>
+            <div className={'gammaRightPack__content__disabled'}>
+              <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
             </div>
-          </div>
-        </>
-      )
-    }
+          </>
+        ) : (
+          <>
+            <div className={'gammaRightPack__content'}>
+              <h1 className={'pack_number'}>{numberOfPacks}</h1>
+            </div>
+          </>
+        )}
+        <div className='gammaRightPack__actions'>
+          {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
+            <>
+              {cardInfoOpened || albumInfoOpened ? (
+                <div className={'gammaRightPack__actions__buyPack_disabled'}>
+                  <Image
+                    src={'/images/gamma/buyPackOff.png'}
+                    alt='buy pack'
+                    height='40'
+                    width='40'
+                  />
+                </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    handleBuyPack()
+                  }}
+                  className={'gammaRightPack__actions__buyPack'}
+                >
+                  <Image
+                    src={'/images/gamma/buyPackOn.png'}
+                    alt='buy pack'
+                    height='40'
+                    width='40'
+                  />
+                </div>
+              )}
+              <div className='gammaRightPack__actions__openPack_disabled'>
+                <Image
+                  src={'/images/gamma/openPackOff.png'}
+                  alt='open pack'
+                  height='50'
+                  width='50'
+                />
+              </div>
+              <div className='gammaRightPack__actions__transferPack_disabled'>
+                <Image
+                  src={'/images/gamma/transferPackOff.png'}
+                  alt='open pack'
+                  height='40'
+                  width='40'
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                onClick={() => {
+                  handleBuyPack()
+                }}
+                className={'gammaRightPack__actions__buyPack'}
+              >
+                <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
+              </div>
+              <div
+                onClick={() => {
+                  handleOpenPack()
+                }}
+                className='gammaRightPack__actions__openPack'
+              >
+                <Image
+                  src={'/images/gamma/openPackOn.png'}
+                  alt='open pack'
+                  height='50'
+                  width='50'
+                />
+              </div>
+              <div
+                onClick={() => {
+                  handleTransferPack()
+                }}
+                className='gammaRightPack__actions__openPack'
+              >
+                <Image
+                  src={'/images/gamma/transferPackOn.png'}
+                  alt='open pack'
+                  height='40'
+                  width='40'
+                />
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  )
 
-    if (!inventory && cardsQtty >= 0) {
+  const InfoRightAlbum120 = () => {
+    if (uniqueCardsQtty > 0) {
       return (
         <div className='gammaComplete'>
           <div className={albums120Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`A: ${albums120Qtty}/1`}</h3>
+            <h3>{`A: ${albums120Qtty || 0}/1`}</h3>
           </div>
-          <div className={cardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
-            <h3>{`C: ${cardsQtty}/120`}</h3>
+          <div className={uniqueCardsQtty >= 120 ? 'qtty_complete' : 'qtty_incomplete'}>
+            <h3>{`C: ${uniqueCardsQtty || 0}/120`}</h3>
           </div>
           <div className={canCompleteAlbum120() ? 'title_complete' : 'title_incomplete'}>
             <h3>{canCompleteAlbum120() ? `(${t('completo')})` : `(${t('incompleto')})`}</h3>
@@ -673,27 +923,115 @@ const GammaMain = () => {
           )}
         </div>
       )
+    } else {
+      return <></>
     }
-
-    return <></>
   }
 
-  const BookImageLeft = () => (
-    <div
-      onClick={() => {
-        handleSwitchBook()
-      }}
-      className={
-        cardInfoOpened || albumInfoOpened
-          ? inventory
-            ? 'gammaAlbums-disabled'
-            : 'gammaAlbums2-disabled'
-          : inventory
-          ? 'gammaAlbums'
-          : 'gammaAlbums2'
-      }
-    />
+  const InfoRightAlbumToBurn = () => (
+    <div className='gammaComplete'>
+      <div className={albums60Qtty > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`A: ${albums60Qtty || 0}`}</h3>
+      </div>
+      <div className={cardsQttyToBurn > 0 ? 'qtty_complete' : 'qtty_incomplete'}>
+        <h3>{`C: ${cardsQttyToBurn || 0}/60`}</h3>
+      </div>
+    </div>
   )
+
+  const InfoRightAlbumBurnSelection = () => (
+    <>
+      <div className='gammaRightBurn'>
+        <div className={'gammaRightBurn__content'}>
+          <h1 className={'pack_number'}>{cardsQttyToBurn}</h1>
+        </div>
+        <div className='gammaRightBurn__actions'>
+          {cardsQttyToBurn < repeatedCardsQtty && cardsQttyToBurn < 60 ? (
+            <div
+              onClick={() => {
+                handleBurnCardsSelectAll()
+              }}
+              className={'gammaRightBurn__actions__selectAll'}
+            >
+              <Image
+                src={'/images/gamma/selectAllOn.png'}
+                alt='select all'
+                height='40'
+                width='40'
+              />
+            </div>
+          ) : (
+            <div className={'gammaRightBurn__actions__selectAll_disabled'}>
+              <Image
+                src={'/images/gamma/selectAllOff.png'}
+                alt='select all'
+                height='40'
+                width='40'
+              />
+            </div>
+          )}
+
+          {cardsQttyToBurn === 0 ? (
+            <div className='gammaRightBurn__actions__undo_disabled'>
+              <Image src={'/images/gamma/undoOff.png'} alt='undo all' height='40' width='40' />
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                handleBurnCardsUndoAll()
+              }}
+              className='gammaRightBurn__actions__undo'
+            >
+              <Image src={'/images/gamma/undoOn.png'} alt='undo all' height='40' width='40' />
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  )
+
+  const GammaPackInfoRight = () => {
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        return <InfofoRightInventory />
+      case ALBUMS.ALBUM_120:
+        return <InfoRightAlbum120 />
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        return <InfoRightAlbumBurnSelection />
+      case ALBUMS.ALBUM_TO_BURN:
+        return <InfoRightAlbumToBurn />
+      default:
+        return <InfofoRightInventory />
+    }
+  }
+
+  const BookImageLeft = () => {
+    let _className = ''
+
+    switch (currentAlbum) {
+      case ALBUMS.ALBUM_INVENTORY:
+        _className = `${'gammaAlbums'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_120:
+        _className = `${'gammaAlbums120'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_BURN_SELECTION:
+        _className = `${'gammaAlbums'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      case ALBUMS.ALBUM_TO_BURN:
+        _className = `${'gammaAlbumsToBurn'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+    }
+
+    return (
+      <div
+        onClick={() => {
+          handleSwitchBook()
+        }}
+        className={_className}
+      />
+    )
+  }
 
   return (
     <div className='gamma_main'>
@@ -713,15 +1051,10 @@ const GammaMain = () => {
       {isConnected && isValidNetwork && <BookImageLeft />}
 
       {isConnected && isValidNetwork && (
-        <GammaAlbum
-          showInventory={inventory}
-          updateUserData={updateUserData}
-          setCardInfoOpened={setCardInfoOpened}
-          setAlbumInfoOpened={setAlbumInfoOpened}
-        />
+        <GammaAlbum setCardInfoOpened={setCardInfoOpened} setAlbumInfoOpened={setAlbumInfoOpened} />
       )}
 
-      {isConnected && isValidNetwork && <GammaPackInfo />}
+      {isConnected && isValidNetwork && <GammaPackInfoRight />}
     </div>
   )
 }

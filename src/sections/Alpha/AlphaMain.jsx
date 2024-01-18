@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
@@ -94,8 +94,6 @@ const AlphaMain = () => {
     }
   }
 
-  const hasFetchedSeasonData = useRef(false)
-
   useEffect(() => {
     fetchAlbums()
   }, [walletAddress, isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
@@ -156,7 +154,7 @@ const AlphaMain = () => {
     }
 
     fetchSeasonData()
-  }, [walletAddress, isValidNetwork])
+  }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {

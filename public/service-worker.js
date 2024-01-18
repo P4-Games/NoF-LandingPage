@@ -5,6 +5,8 @@ try {
   const STORAGE_BACKEND_URL = 'https://storage.googleapis.com'
   const FONTS1_URL = 'https://fonts.googleapis.com'
   const FONTS2_URL = 'https://fonts.gstatic.com'
+  const WEB3MODAL_IMAGES = 'https://api.web3modal.com/getWalletImage'
+
   const NEXT_FOLDER = '/_next/'
   const IMAGES_FOLDER = `/images/`
   const LOCALES_FOLDER = `/locales/`
@@ -53,8 +55,13 @@ try {
           allFiles.push('/index')
           allFiles.push('/alpha')
           allFiles.push('/gamma')
+          console.log('sw', allFiles, caches)
           return caches.open(PRECACHE).then((cache) => cache.addAll(allFiles));
-        }).then(self.skipWaiting())
+        })
+        .then(self.skipWaiting())
+        .catch((error) => {
+          console.error("SW error caching files", error);
+        })
       );
 
     } catch (ex) {
@@ -88,8 +95,11 @@ try {
     const isStorageBackendUrl = event.request.url.startsWith(STORAGE_BACKEND_URL)
     const isFonts1Url = event.request.url.startsWith(FONTS1_URL)
     const isFonts2Url = event.request.url.startsWith(FONTS2_URL)
+    const isweb3ModalImages = event.request.url.startsWith(WEB3MODAL_IMAGES)
+
     const isValidToCache = (isGet && (isHttp || isHttps) && 
-      (isOriginUrl || isBackendUrl || isFonts1Url || isFonts2Url || isStorageBackendUrl))
+      (isOriginUrl || isBackendUrl || isFonts1Url || isFonts2Url || 
+       isweb3ModalImages || isStorageBackendUrl))
 
     if (!isValidToCache) {
       if (!event.request.url.startsWith(self.location.origin + NEXT_FOLDER))

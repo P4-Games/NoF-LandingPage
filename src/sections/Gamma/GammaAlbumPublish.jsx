@@ -21,12 +21,19 @@ const GammaAlbumPublish = (props) => {
     stopLoading,
     ToggleShowDefaultButtons,
     updateShowButtons,
+    updateFooterButtonsClasses,
     updateButtonFunctions
   } = useLayoutContext()
 
   useEffect(() => {
     ToggleShowDefaultButtons(false)
     updateShowButtons([false, true, true, false])
+    updateFooterButtonsClasses([
+      null,
+      'footer__buttons__greenbtn_custom_confirm',
+      'footer__buttons__redbtn_custom_cancel',
+      null
+    ])
     updateButtonFunctions(2, handleCancelClick)
   }, [handleCancelClick]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -47,10 +54,10 @@ const GammaAlbumPublish = (props) => {
       handleFinishPublish(true)
       stopLoading()
       emitSuccess(t('confirmado'), 2000)
-    } catch (ex) {
+    } catch (e) {
       stopLoading()
-      console.error(ex.message)
-      if (ex.message == 'publish_offer_error_own_card_number')
+      console.error({ e })
+      if (e.message == 'publish_offer_error_own_card_number')
         emitWarning(t('publish_offer_error_own_card_number'))
       else emitError(t('publish_offer_error'))
     }
@@ -70,7 +77,7 @@ const GammaAlbumPublish = (props) => {
           pevSelectedCards.filter((card) => card !== selectedCard)
         )
       } else {
-        if (selectedCards.length < 10) {
+        if (selectedCards.length < 12) {
           setSelectedCards((pevSelectedCards) => [...pevSelectedCards, selectedCard])
         }
       }

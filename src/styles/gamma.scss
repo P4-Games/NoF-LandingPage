@@ -18,7 +18,7 @@
 }
 
 // gamma-pack-right
-.gammapack {
+.gammaRightPack {
   position: absolute;
   bottom: 38%;
   right: 0%;
@@ -65,7 +65,7 @@
   }
 }
 
-.gammapack__content__common {
+.gammaRightPack__content__common {
   background-color: black;
   display: flex;
   justify-content: center;
@@ -125,21 +125,21 @@
   }
 }
 
-.gammapack__content {
-  @extend .gammapack__content__common;
+.gammaRightPack__content {
+  @extend .gammaRightPack__content__common;
   background: url('/images/gamma/SobreGamma.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
-.gammapack__content__disabled {
-  @extend .gammapack__content__common;
+.gammaRightPack__content__disabled {
+  @extend .gammaRightPack__content__common;
   background: url('/images/gamma/SobreGamma-disabled.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
-.gammapack__actions {
+.gammaRightPack__actions {
   position: absolute;
   bottom: 0; /* Ubicación en la parte inferior del contenedor padre */
   // left: 0; /* Ubicación a la izquierda del contenedor padre */
@@ -195,6 +195,141 @@
       @media all {
         height: 30px;
         width: 30px;
+      }
+    }
+  }
+}
+
+.gammaRightBurn {
+  @extend .gammaRightPack;
+
+  @include mobile {
+    width: 28%;
+    height: 14%;
+    bottom: -1.5%;
+    z-index: 500;
+    left: 71%;
+  }
+  @include tablet {
+    width: 28%;
+    height: 18%;
+    bottom: -1.5%;
+    z-index: 500;
+    left: 61%;
+  }
+  @include mobile-landscape {
+    width: 28%;
+    height: 22%;
+    bottom: -1.5%;
+    z-index: 500;
+    left: 72%;
+  }
+  @include tablet-landscape {
+    width: 28%;
+    height: 22%;
+    bottom: -1.5%;
+    z-index: 500;
+    left: 72%;
+  }
+  @include desktop-portrait {
+    width: 28%;
+    height: 16%;
+    bottom: -1.5%;
+    z-index: 500;
+    left: 72%;
+  }
+}
+
+.gammaRightBurn__content__common {
+  @extend .gammaRightPack__content__common;
+  @media all {
+    margin-top: 15px;
+    margin-bottom: 0px;
+    width: 90%;
+    height: 90%;
+  }
+
+  .pack_number {
+    margin-top: 65px;
+    margin-right: 0px;
+    font-size: 1.3rem;
+    color: red;
+    filter: drop-shadow(2px 4px 6px grey);
+
+    @include mobile {
+      font-size: 0.4rem;
+      margin-bottom: 45px;
+      margin-left: 0px;
+    }
+
+    @include mobile-landscape {
+      font-size: 0.6rem;
+      margin-bottom: 45px;
+    }
+
+    @include tablet {
+      font-size: 0.6rem;
+      margin-bottom: 45px;
+    }
+
+    @include tablet-landscape {
+      font-size: 0.6rem;
+      margin-bottom: 45px;
+    }
+
+    @include desktop-portrait {
+      font-size: 0.6rem;
+      margin-bottom: 45px;
+    }
+  }
+}
+
+.gammaRightBurn__content {
+  @extend .gammaRightBurn__content__common;
+  background: url('/images/gamma/TrashFire.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.gammaRightBurn__content__disabled {
+  @extend .gammaRightBurn__content__common;
+  background: url('/images/gamma/TrashFire-disabled.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.gammaRightBurn__actions {
+  @extend .gammaRightPack__actions;
+  margin-right: 0px;
+  margin-bottom: 20px;
+
+  &__selectAll,
+  &__undo {
+    cursor: pointer;
+    background-size: 100% 100%;
+    img {
+      position: relative;
+      @media all {
+        height: 35px;
+        width: 35px;
+      }
+    }
+    &:hover {
+      transform: scale(1.1);
+      transition: 0.2s;
+    }
+  }
+
+  &__selectAll_disabled,
+  &__undo_disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-size: 100% 100%;
+    img {
+      position: relative;
+      @media all {
+        height: 35px;
+        width: 35px;
       }
     }
   }
@@ -391,12 +526,16 @@
   background: url('/images/gamma/albums.png');
   background-size: 100% 100%;
 }
-.gammaAlbums2 {
+.gammaAlbums120 {
   @extend .gammaAlbumsCommon;
-  background: url('/images/gamma/AlbumGamma2.png');
+  background: url('/images/gamma/AlbumGamma120.png');
   background-size: 100% 100%;
 }
-
+.gammaAlbumsToBurn {
+  @extend .gammaAlbumsCommon;
+  background: url('/images/gamma/AlbumGammaToBurn.png');
+  background-size: 100% 100%;
+}
 .gammaAlbums-disabled {
   @extend .gammaAlbumsCommon;
   background: url('/images/gamma/albums-disabled.png');
@@ -405,10 +544,18 @@
   cursor: not-allowed;
 }
 
-.gammaAlbums2-disabled {
+.gammaAlbums120-disabled {
   @extend .gammaAlbumsCommon;
   background-size: 100% 100%;
-  background: url('/images/gamma/AlbumGamma2-disabled.png');
+  background: url('/images/gamma/AlbumGamma120-disabled.png');
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.gammaAlbumsToBurn-disabled {
+  @extend .gammaAlbumsCommon;
+  background-size: 100% 100%;
+  background: url('/images/gamma/AlbumGammaToBurn.png');
   pointer-events: none;
   cursor: not-allowed;
 }
@@ -481,6 +628,22 @@
       top: 3%;
       width: 30%;
       height: 30%;
+    }
+    .image-burn-select {
+      position: absolute;
+      color: rgb(214, 54, 22);
+      // left: 65%;
+      top: 60%;
+      width: 30%;
+      height: 30%;
+    }
+    .image-burn-undo {
+      position: absolute;
+      color: rgb(61, 44, 39);
+      left: 70%;
+      top: 10%;
+      width: 20%;
+      height: 20%;
     }
     transition: 0.8s;
     background: url('/images/gamma/BordeGamma.png');
@@ -953,6 +1116,9 @@
 
     .option {
       padding: 10px 20px;
+      width: 100%;
+      font-size: 0.8rem;
+      text-align: center;
       background: url('/images/common/marco.png');
       background-size: 100% 100%;
       background-position: center;
@@ -1044,7 +1210,7 @@
 .swal2-html-container {
   font-size: 12px !important;
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
-  line-height: 1em;
+  line-height: 1.2em !important;
   font-weight: lighter;
   text-align: center;
 }
