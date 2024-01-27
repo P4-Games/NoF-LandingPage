@@ -280,10 +280,12 @@ const Main = () => {
       )}
       {windowSize.mobile && (
         <div className='hero__top__container__mobile'>
-          <h3 className='title'>{t ? t('collections') : ''}</h3>
+          <h3 className='title'>{t ? t('cards') : ''}</h3>
           <SwiperComp />
-          <Whitepaper />
-          <NofTown />
+          <br />
+          <br />
+          <Whitepaper defaultClassName={'hero__top__album__book__page__btn'} />
+          <NofTown defaultClassName={'hero__top__album__book__page__btn2'} />
         </div>
       )}
     </React.Fragment>
@@ -302,8 +304,8 @@ const Main = () => {
         <Page6 key={'page-6'} />,
         <Page7 key={'page-7'} />,
         <Page8 key={'page-8'} />,
-        <Page9 key={'page-9'} />,
-        <Page9 key={'page-10'} />
+        windowSize.mobile ? <Page10 key={'page-9'} /> : <Page9 key={'page-9'} />,
+        windowSize.mobile ? <Page9 key={'page-10'} /> : <Page10 key={'page-10'} />
       ]}
     />
   )
