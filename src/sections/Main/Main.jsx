@@ -210,7 +210,7 @@ const Main = () => {
         <h3 className='hero__top__album__book__page__profiles__title'>{t ? t('TEAM') : ''}</h3>
         <div className='hero__top__album__book__page__profiles__content'>
           {Profiles &&
-            Profiles.map((profile) => (
+            Profiles.slice(0, 9).map((profile) => (
               <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
                 <Image fill alt='profile' className='img' src={profile.icon} />
                 <p>
@@ -228,6 +228,27 @@ const Main = () => {
   const Page8 = () => (
     <React.Fragment>
       <div className='hero__top__album__book__page__profiles'>
+        <h3 className='hero__top__album__book__page__profiles__title'>{t ? t('TEAM') : ''}</h3>
+        <div className='hero__top__album__book__page__profiles__content'>
+          {Profiles &&
+            Profiles.slice(9).map((profile) => (
+              <div className='hero__top__album__book__page__profiles__box' key={profile.id}>
+                <Image fill alt='profile' className='img' src={profile.icon} />
+                <p>
+                  {profile.caption}
+                  <br />
+                  {profile.position}
+                </p>
+              </div>
+            ))}
+        </div>
+      </div>
+    </React.Fragment>
+  )
+
+  const Page9 = () => (
+    <React.Fragment>
+      <div className='hero__top__album__book__page__profiles'>
         <h3 className='hero__top__album__book__page__profiles__title'>{t ? t('FRIENDS') : ''}</h3>
         <div className='hero__top__album__book__page__profiles__content'>
           {Friends &&
@@ -242,7 +263,7 @@ const Main = () => {
     </React.Fragment>
   )
 
-  const Page9 = () => (
+  const Page10 = () => (
     <React.Fragment>
       {!windowSize.mobile && (
         <>
@@ -281,7 +302,8 @@ const Main = () => {
         <Page6 key={'page-6'} />,
         <Page7 key={'page-7'} />,
         <Page8 key={'page-8'} />,
-        <Page9 key={'page-9'} />
+        <Page9 key={'page-9'} />,
+        <Page9 key={'page-10'} />
       ]}
     />
   )
