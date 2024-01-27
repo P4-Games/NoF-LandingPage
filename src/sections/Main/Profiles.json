@@ -52,5 +52,11 @@
         "caption": "N. Huircapan",
         "position": "Web3 Developer",
         "icon": "/images/book/Huircapan.png"
+    },
+    {
+        "id": 10,
+        "caption": "dappsar",
+        "position": "Web3/FE Developer",
+        "icon": "/images/book/dappsar.png"
     }
 ]
