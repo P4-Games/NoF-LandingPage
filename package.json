@@ -8,6 +8,7 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
+    "create-env": "printenv > .env",
     "serve": "yarn build && npm i -g http-server && http-server ./.next",
     "export": "yarn build && next export -o _static",
     "clear-all": "rm -rf .next _static node_modules",
