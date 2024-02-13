@@ -73,6 +73,7 @@ export const MAIL_CLIENT = {
 export const NETWORKS = {
   hardhat: {
     config: {
+      enabled: 'true',
       chainName: 'localhost',
       chainId: '0x539',
       chainCurrency: 'ETH',
@@ -92,6 +93,7 @@ export const NETWORKS = {
   },
   mumbai: {
     config: {
+      enabled: 'true',
       chainName: 'mumbai',
       chainId: '0x13881',
       chainCurrency: 'MATIC',
@@ -111,6 +113,7 @@ export const NETWORKS = {
   },
   matic: {
     config: {
+      enabled: 'false',
       chainName: 'matic',
       chainId: '0x89',
       chainCurrency: 'MATIC',
@@ -130,6 +133,7 @@ export const NETWORKS = {
   },
   'bsc-testnet': {
     config: {
+      enabled: 'true',
       chainName: 'bsc-testnet',
       chainId: '0x61',
       chainCurrency: 'BNB',
