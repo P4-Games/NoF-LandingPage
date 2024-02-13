@@ -1,3 +1,4 @@
+/*
 import { ethers } from 'ethers'
 import { NETWORK, CONTRACTS } from '../../config'
 import gammaCardsAbi from '../../context/abis/GammaCards.v5.sol/NofGammaCardsV5.json'
@@ -69,3 +70,4 @@ function getNotPresentCards(userCards1, userCards2) {
   })
   return notPresentCards
 }
+*/

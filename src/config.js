@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------
 */
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
-export const environment = (process.env.APP_ENV || 'development').toLowerCase()
+export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'development').toLowerCase()
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
@@ -34,10 +34,11 @@ export const MAIL_CONFIG = {
   ethereal_user: process.env.MAIL_ETHEREAL_USER,
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
+
 export const is_production = environment === 'production' || environment === 'prod'
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
-// not exposed, included then in NETWORK variable.
+// not exposed, included then in NETWORKS variable.
 const NodeProviderUrl =
   process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 
@@ -51,43 +52,9 @@ export const storageUrlGamma =
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 
-export const NETWORK = {
-  chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),
-  chainId: process.env.NEXT_PUBLIC_CHAIN_ID || (is_production ? '0x89' : '0x13881'),
-  chainCurrency: process.env.NEXT_PUBLIC_CHAIN_CURRENCY || 'MATIC',
-  ChainRpcUrl:
-    process.env.NEXT_PUBLIC_CHAIN_RPC_URL ||
-    (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
-  chainExplorerUrl:
-    process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-    (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
-  chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
-}
-
-export const CONTRACTS = {
-  daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
-  alphaAddress:
-    process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
-  gammaCardsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0x34658c07F05638E12793d0961595cBc72fA69452',
-  gammaPackAddress:
-    process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
-  gammaOffersAddress:
-    process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0x3Da346C40A0D90cf5642944613586439A3456d45',
-  gammaTicketsAddress:
-    process.env.NEXT_PUBLIC_GAMMA_TICKETS_ADDRESS || '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
-}
-
 // ------------------------------------------------------------------
 // calculated variables
 // ------------------------------------------------------------------
-export const openSeaUrlAlpha = is_production
-  ? `https://opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`
-
-export const openSeaUrlGamma = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.gammaCardsAddress}`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.gammaCardsAddress}`
 
 export const defaultSettings = {
   languagePresets: 'es',
@@ -103,77 +70,91 @@ export const MAIL_CLIENT = {
   ethereal: 'ethereal'
 }
 
-// ------------------------------------------------------------------
-
-// used to debug in develop (could be removed!)
-export const combinedVariables = {
-  V: 'V4',
-  MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
-  environment: (process.env.APP_ENV || 'development').toLowerCase(),
-  is_production: environment === 'production' || environment === 'prod',
-  gammaServiceUrl:
-    process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app',
-  graphUrl:
-    process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon',
-  storageUrlAlpha:
-    process.env.NEXT_PUBLIC_STORAGE_URL_ALPHA || 'https://storage.googleapis.com/nof-alpha',
-  storageUrlGamma:
-    process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma',
-  NETWORK: {
-    chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID || (is_production ? '0x89' : '0x13881'),
-    chainCurrency: process.env.NEXT_PUBLIC_CHAIN_CURRENCY || 'MATIC',
-    ChainRpcUrl:
-      process.env.NEXT_PUBLIC_CHAIN_RPC_URL ||
-      (is_production ? 'https://polygon-mainnet.infura.io' : 'https://rpc-mumbai.maticvigil.com'),
-    chainNodeProviderUrl:
-      process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/',
-    chainExplorerUrl:
-      process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
-      (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com')
+export const NETWORKS = {
+  hardhat: {
+    config: {
+      enabled: 'true',
+      environment: 'development',
+      chainName: 'localhost',
+      chainId: '0x539',
+      chainCurrency: 'ETH',
+      ChainRpcUrl: 'http://localhost:8545',
+      chainExplorerUrl: 'http://localhost:8545',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/',
+      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d',
+      alphaAddress: '0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E',
+      gammaCardsAddress: '0xC9a43158891282A2B1475592D5719c001986Aaec',
+      gammaPackAddress: '0x1c85638e118b37167e9298c2268758e058DdfDA0',
+      gammaOffersAddress: '0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb',
+      gammaTicketsAddress: '0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901'
+    }
   },
-  WalletConnectProjectId: process.env.WALLET_CONNECT_PROJECT_ID,
-  CONTRACTS: {
-    daiAddress: process.env.NEXT_PUBLIC_DAI_ADDRESS || '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
-    alphaAddress:
-      process.env.NEXT_PUBLIC_ALPHA_ADDRESS || '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
-    gammaCardsAddress:
-      process.env.NEXT_PUBLIC_GAMMA_CARDS_ADDRESS || '0x34658c07F05638E12793d0961595cBc72fA69452',
-    gammaPackAddress:
-      process.env.NEXT_PUBLIC_GAMMA_PACKS_ADDRESS || '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
-    gammaOffersAddress:
-      process.env.NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS || '0x3Da346C40A0D90cf5642944613586439A3456d45',
-    gammaTicketsAddress:
-      process.env.NEXT_PUBLIC_GAMMA_TICKETS_ADDRESS || '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
+  mumbai: {
+    config: {
+      enabled: 'true',
+      environment: 'testing',
+      chainName: 'mumbai',
+      chainId: '0x13881',
+      chainCurrency: 'MATIC',
+      ChainRpcUrl: 'https://rpc-mumbai.maticvigil.com',
+      chainExplorerUrl: 'https://mumbai.polygonscan.com',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/mumbai',
+      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
+      alphaAddress: '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
+      gammaCardsAddress: '0x34658c07F05638E12793d0961595cBc72fA69452',
+      gammaPackAddress: '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
+      gammaOffersAddress: '0x3Da346C40A0D90cf5642944613586439A3456d45',
+      gammaTicketsAddress: '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
+    }
   },
-  openSeaUrlAlpha: is_production
-    ? `https://opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
-    : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`,
-  openSeaUrlGamma: is_production
-    ? `https://.opensea.io/assets/matic/${CONTRACTS.gammaCardsAddress}`
-    : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.gammaCardsAddress}`,
-  adminAccounts:
-    process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E',
-  defaultSettings: {
-    languagePresets: 'es',
-    languageSetted: 'es'
+  'bsc-testnet': {
+    config: {
+      enabled: 'true',
+      environment: 'testing',
+      chainName: 'bsc-testnet',
+      chainId: '0x61',
+      chainCurrency: 'BNB',
+      ChainRpcUrl: 'https://bsc-testnet-dataseed.bnbchain.org',
+      chainExplorerUrl: 'https://testnet.bscscan.com',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/bsc-testnet',
+      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '0x83330b5803838604d85B7Cba393C930084F45A7d',
+      alphaAddress: '0x4eE8C9cc2cF081f11F56A264EF52e3FeaDe1b35e',
+      gammaCardsAddress: '0x25f85D878972f9506b4De49cEff480f627935521',
+      gammaPackAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
+      gammaOffersAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
+      gammaTicketsAddress: '0xA5c3Cd20AB6FF1e299D93ee268370BCC19a32E71'
+    }
   },
-  MAIL_CONFIG: {
-    client: process.env.MAIL_CLIENT || 'ethereal',
-    from: process.env.MAIL_FROM || 'no-reply@nof.town',
-    to: process.env.MAIL_TO || 'dapps.ar@gmail.com',
-    sg_key: process.env.MAIL_SG_KEY,
-    sg_from: process.env.MAIL_SG_FROM || 'no-reply@nof.town',
-    ethereal_host: process.env.MAIL_ETHEREAL_HOST || 'smtp.ethereal.email',
-    ethereal_port: process.env.MAIL_ETHEREAL_PORT || 587,
-    ethereal_user: process.env.MAIL_ETHEREAL_USER,
-    ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
-  },
-  MAIL_TYPE: {
-    reportError: 'REPORT_ERROR'
-  },
-  MAIL_CLIENT: {
-    sendgrid: 'sendgrid',
-    ethereal: 'ethereal'
+  matic: {
+    config: {
+      enabled: 'false',
+      environment: 'production',
+      chainName: 'matic',
+      chainId: '0x89',
+      chainCurrency: 'MATIC',
+      ChainRpcUrl: 'https://polygon-mainnet.infura.io',
+      chainExplorerUrl: 'https://polygonscan.com',
+      chainOpenSeaBaseUrl: 'https://opensea.io/assets/matic',
+      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '',
+      alphaAddress: '',
+      gammaCardsAddress: '',
+      gammaPackAddress: '',
+      gammaOffersAddress: '',
+      gammaTicketsAddress: ''
+    }
   }
 }
+
+// ------------------------------------------------------------------

@@ -1,0 +1,95 @@
+steps:
+  # Para para generar un .env para que sea tomado por el step de build.
+  # Las variables serán tomadas de la definición del "trigger",  
+  # "variables de sustitución", en Google Cloud Build.
+  # en gcp, se tiene que poner como nombre de cada variable, el unserscore 
+  # como prefijo. Ejemplo: "_APP_ENV"
+  #
+  - name: 'gcr.io/cloud-builders/npm'
+    id: CreateEnv
+    args: ['run', 'create-env']
+    env:
+      - NODE_ENV=${_NODE_ENV}
+      - MONGODB=${_MONGODB}
+      - GAMMA_SERVICE_URL=${_GAMMA_SERVICE_URL}
+      - GRAPH_URL=${_GRAPH_URL}
+      - WALLET_CONNECT_PROJECT_ID=${_WALLET_CONNECT_PROJECT_ID}
+      - CHAIN_NODE_PROVIDER_URL=${_CHAIN_NODE_PROVIDER_URL}
+      - MAIL_CLIENT=${_MAIL_CLIENT}
+      - MAIL_FROM=${_MAIL_FROM}
+      - MAIL_TO=${_MAIL_TO}
+      - MAIL_ETHEREAL_HOST=${_MAIL_ETHEREAL_HOST}
+      - MAIL_ETHEREAL_PORT=${_MAIL_ETHEREAL_PORT}
+      - MAIL_ETHEREAL_USER=${_MAIL_ETHEREAL_USER}
+      - MAIL_ETHEREAL_PSWD=${_MAIL_ETHEREAL_PSWD}
+      - MAIL_SG_KEY=${_MAIL_SG_KEY}
+      - MAIL_SG_FROM=${_MAIL_SG_FROM}
+      - NEXT_PUBLIC_APP_ENV=${_NEXT_PUBLIC_APP_ENV}
+      - NEXT_PUBLIC_STORAGE_URL_ALPHA=${_NEXT_PUBLIC_STORAGE_URL_ALPHA}
+      - NEXT_PUBLIC_STORAGE_URL_GAMMA=${_NEXT_PUBLIC_STORAGE_URL_GAMMA}
+      - NEXT_PUBLIC_ADMIN_ACCOUNTS=${_NEXT_PUBLIC_ADMIN_ACCOUNTS}
+
+
+  # build the container images
+  - name: "gcr.io/cloud-builders/docker"
+    id: Build
+    args: [
+      "build", 
+      "--no-cache", 
+      "-t", 
+      "$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA", 
+      "--build-arg", "NODE_ENV=${_NODE_ENV}",
+      "--build-arg", "MONGODB=${_MONGODB}",
+      "--build-arg", "GAMMA_SERVICE_URL=${_GAMMA_SERVICE_URL}",
+      "--build-arg", "GRAPH_URL=${_GRAPH_URL}",
+      "--build-arg", "WALLET_CONNECT_PROJECT_ID=${_WALLET_CONNECT_PROJECT_ID}",
+      "--build-arg", "CHAIN_NODE_PROVIDER_URL=${_CHAIN_NODE_PROVIDER_URL}",
+      "--build-arg", "MAIL_CLIENT=${_MAIL_CLIENT}",
+      "--build-arg", "MAIL_FROM=${_MAIL_FROM}",
+      "--build-arg", "MAIL_TO=${_MAIL_TO}",
+      "--build-arg", "MAIL_ETHEREAL_HOST=${_MAIL_ETHEREAL_HOST}",
+      "--build-arg", "MAIL_ETHEREAL_PORT=${_MAIL_ETHEREAL_PORT}",
+      "--build-arg", "MAIL_ETHEREAL_USER=${_MAIL_ETHEREAL_USER}",
+      "--build-arg", "MAIL_ETHEREAL_PSWD=${_MAIL_ETHEREAL_PSWD}",
+      "--build-arg", "MAIL_SG_KEY=${_MAIL_SG_KEY}",
+      "--build-arg", "MAIL_SG_FROM=${_MAIL_SG_FROM}",
+      "--build-arg", "NEXT_PUBLIC_APP_ENV=${_NEXT_PUBLIC_APP_ENV}",
+      "--build-arg", "NEXT_PUBLIC_STORAGE_URL_ALPHA=${_NEXT_PUBLIC_STORAGE_URL_ALPHA}",
+      "--build-arg", "NEXT_PUBLIC_STORAGE_URL_GAMMA=${_NEXT_PUBLIC_STORAGE_URL_GAMMA}",
+      "--build-arg", "NEXT_PUBLIC_ADMIN_ACCOUNTS=${_NEXT_PUBLIC_ADMIN_ACCOUNTS}",
+
+      "."
+    ]
+
+  # push the container images to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    id: Push
+    args: [
+      "push", 
+      "$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA"
+    ]
+
+  # Deploy container images to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: Deploy
+    entrypoint: gcloud
+    args: [
+      "run",
+      "deploy",
+      "$_SERVICE_NAME",
+      "--platform",
+      "managed",
+      "--region",
+      "$_DEPLOY_REGION",
+      "--image",
+      "$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA",
+      "--labels",
+      "managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID",
+      "--quiet",
+      "--allow-unauthenticated",
+    ]
+images:
+  - $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+
+options:
+  logging: CLOUD_LOGGING_ONLY

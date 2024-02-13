@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import { useTranslation } from 'next-i18next'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
-import { storageUrlGamma, openSeaUrlGamma } from '../../config'
+import { storageUrlGamma } from '../../config'
 import { hasCard, getUserMissingCardsQtty } from '../../services/gamma'
 import { removeOfferByCardNumber, createOffer } from '../../services/offers'
 import { checkInputAddress } from '../../utils/InputValidators'
@@ -25,9 +25,11 @@ const GammaCardInfo = (props) => {
     updateShowButtons,
     updateFooterButtonsClasses
   } = useLayoutContext()
-  const { gammaCardsContract, gammaOffersContract, walletAddress } = useWeb3Context()
+  const { getCurrentNetwork, gammaCardsContract, gammaOffersContract, walletAddress } =
+    useWeb3Context()
   const [userHasCard, setUserHasCard] = useState(false)
   const [cardPublish, setCardPublish] = useState(false)
+  const [openSeaUrl, setOpenSeaUrl] = useState('')
 
   const verifyUserHasCard = async () => {
     try {
@@ -41,6 +43,14 @@ const GammaCardInfo = (props) => {
       emitError(t('user_has_card_error'))
     }
   }
+
+  useEffect(() => {
+    const ntwk = getCurrentNetwork()
+    if (ntwk) {
+      const openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${gammaCardsContract.address}`
+      setOpenSeaUrl(openSeaUrlGamma)
+    }
+  }, [getCurrentNetwork, gammaCardsContract])
 
   useEffect(() => {
     ToggleShowDefaultButtons(true)
@@ -141,7 +151,7 @@ const GammaCardInfo = (props) => {
       Swal.fire({
         title: '',
         html: `${t('carta_minteada')} 
-        <a target='_blank' href=${openSeaUrlGamma}>
+        <a target='_blank' href=${openSeaUrl}>
           ${t('aqui')}
         </a>`,
         icon: 'success',

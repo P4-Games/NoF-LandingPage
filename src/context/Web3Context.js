@@ -10,14 +10,14 @@ import gammaPacksAbi from './abis/GammaPacks.v3.sol/NofGammaPacksV3.json'
 import gammaCardsAbi from './abis/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/GammaOffers.v4.sol/NofGammaOffersV4.json'
 import gammaTicketsAbi from './abis/GammaTickets.v1.sol/NofGammaTicketsV1.json'
-import { CONTRACTS, NETWORK, walletConnectProjectId } from '../config'
+import { NETWORKS, walletConnectProjectId, environment } from '../config'
 import { NotificationContext } from './NotificationContext'
 import { getAccountAddressText } from '../utils/stringUtils'
 
 const initialState = {
   connectWallet: () => {},
   disconnectWallet: () => {},
-  switchOrCreateNetwork: () => {}
+  getCurrentNetwork: () => {}
 }
 
 const Web3Context = createContext(initialState)
@@ -37,14 +37,6 @@ function Web3ContextProvider({ children }) {
   const { walletProvider } = useWeb3ModalProvider()
   const { disconnect } = useDisconnect()
 
-  const mumbai = {
-    chainId: hexToDec(NETWORK.chainId),
-    name: NETWORK.chainName,
-    currency: NETWORK.chainCurrency,
-    explorerUrl: NETWORK.chainExplorerUrl,
-    rpcUrl: NETWORK.ChainRpcUrl
-  }
-
   const metadata = {
     name: 'NoF',
     description: 'Number One Fan',
@@ -52,16 +44,42 @@ function Web3ContextProvider({ children }) {
     icons: ['https://avatars.githubusercontent.com/u/37784886']
   }
 
+  const enabledNetworks = Object.keys(NETWORKS)
+    .filter((networkKey) => {
+      const network = NETWORKS[networkKey]
+      return network.config.enabled === 'true' && network.config.environment === environment
+    })
+    .map((networkKey) => {
+      const network = NETWORKS[networkKey]
+      return {
+        web3ModalConfig: {
+          chainId: hexToDec(network.config.chainId),
+          name: network.config.chainName,
+          currency: network.config.chainCurrency,
+          explorerUrl: network.config.chainExplorerUrl,
+          rpcUrl: network.config.ChainRpcUrl
+        },
+        config: network.config,
+        contracts: network.contracts
+      }
+    })
+
+  const enabledNetworkNames = enabledNetworks
+    .map((network) => network.web3ModalConfig.name)
+    .join(', ')
+  const enabledNetworkChainIds = enabledNetworks.map((network) => network.web3ModalConfig.chainId)
+  const webModalConfigs = enabledNetworks.map((network) => network.web3ModalConfig)
+
   createWeb3Modal({
     ethersConfig: defaultConfig({
       metadata,
-      defaultChainId: hexToDec(NETWORK.chainId),
+      defaultChainId: hexToDec(enabledNetworks[0].config.chainId),
       enableEIP6963: true,
       enableInjected: true,
       enableCoinbase: true,
-      rpcUrl: NETWORK.ChainRpcUrl
+      rpcUrl: enabledNetworks[0].config.ChainRpcUrl
     }),
-    chains: [mumbai],
+    chains: webModalConfigs,
     projectId: walletConnectProjectId || 'ND',
     enableAnalytics: true,
     themeMode: 'light',
@@ -86,13 +104,22 @@ function Web3ContextProvider({ children }) {
       accountAddress = await web3Provider.getSigner().getAddress()
       const chainIdHex = decToHex(_chainId)
 
-      if (chainIdHex === NETWORK.chainId) {
+      const networkKeys = Object.keys(NETWORKS)
+      const isValidNetwork = networkKeys.some((networkKey) => {
+        const network = NETWORKS[networkKey]
+        return (
+          network.config.enabled === 'true' &&
+          network.config.environment === environment &&
+          network.config.chainId === chainIdHex
+        )
+      })
+
+      if (isValidNetwork) {
         connectContracts(web3Provider.getSigner())
         setIsValidNetwork(true)
       } else {
         setIsValidNetwork(false)
         setWeb3Error('account_invalid_network')
-        // await switchOrCreateNetwork()
       }
       return [web3Provider, accountAddress]
     } catch (e) {
@@ -113,32 +140,39 @@ function Web3ContextProvider({ children }) {
     }
   }
 
+  function getCurrentNetwork() {
+    const network = enabledNetworks.find((network) => network.web3ModalConfig.chainId === chainId)
+    return network ? network : null
+  }
+
   function connectContracts(_signer) {
     try {
-      const daiContractInstance = new ethers.Contract(CONTRACTS.daiAddress, daiAbi.abi, _signer)
+      const _contracts = getCurrentNetwork().contracts
+
+      const daiContractInstance = new ethers.Contract(_contracts.daiAddress, daiAbi.abi, _signer)
 
       const alphaContractInstance = new ethers.Contract(
-        CONTRACTS.alphaAddress,
+        _contracts.alphaAddress,
         alphaAbi.abi,
         _signer
       )
       const gammaPacksContractInstance = new ethers.Contract(
-        CONTRACTS.gammaPackAddress,
+        _contracts.gammaPackAddress,
         gammaPacksAbi.abi,
         _signer
       )
       const gammaCardsContractInstance = new ethers.Contract(
-        CONTRACTS.gammaCardsAddress,
+        _contracts.gammaCardsAddress,
         gammaCardsAbi.abi,
         _signer
       )
       const gammaOffersContractInstance = new ethers.Contract(
-        CONTRACTS.gammaOffersAddress,
+        _contracts.gammaOffersAddress,
         gammaOffersAbi.abi,
         _signer
       )
       const gammaTicketsContractInstance = new ethers.Contract(
-        CONTRACTS.gammaTicketsAddress,
+        _contracts.gammaTicketsAddress,
         gammaTicketsAbi.abi,
         _signer
       )
@@ -220,47 +254,6 @@ function Web3ContextProvider({ children }) {
     return parseInt(str, 16)
   }
 
-  async function switchOrCreateNetwork() {
-    // open({ view: 'Networks' })
-
-    if (window && window.ethereum) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: NETWORK.chainId }]
-        })
-        setIsValidNetwork(true)
-      } catch (error) {
-        if (error.code === 4902) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: NETWORK.chainId,
-                  chainName: NETWORK.chainName,
-                  rpcUrls: [NETWORK.ChainRpcUrl],
-                  nativeCurrency: {
-                    name: NETWORK.chainCurrency,
-                    symbol: NETWORK.chainCurrency,
-                    decimals: 18
-                  },
-                  blockExplorerUrls: [NETWORK.chainExplorerUrl]
-                }
-              ]
-            })
-          } catch (e) {
-            console.error({ e })
-          }
-        } else {
-          console.error('Error switching network', error)
-        }
-      }
-    } else {
-      console.error('Metamask or compatible wallet not installed')
-    }
-  }
-
   useEffect(() => {
     if (window && typeof window.ethereum === 'undefined') {
       setWeb3Error('account_no_metamask')
@@ -277,7 +270,7 @@ function Web3ContextProvider({ children }) {
         const _chanIdHex = decToHex(newChain)
         setIsValidNetwork(false)
 
-        if (_chanIdHex === NETWORK.chainId) {
+        if (enabledNetworkChainIds.includes(_chanIdHex)) {
           const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
           const signer = provider.getSigner()
           connectContracts(signer)
@@ -300,9 +293,10 @@ function Web3ContextProvider({ children }) {
     web3Error,
     isConnected,
     isValidNetwork,
+    enabledNetworkNames,
     connectWallet,
     disconnectWallet,
-    switchOrCreateNetwork
+    getCurrentNetwork
   }
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>

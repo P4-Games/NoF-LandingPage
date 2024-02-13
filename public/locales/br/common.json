@@ -156,7 +156,7 @@
 
   "account_connect": "Conectar",
   "account_disconnect": "Desconectar",
-  "account_invalid_network": "Você está conectado a uma rede inválida. Por favor, mude para a rede {NETWORK}.",
+  "account_invalid_network": "Você está conectado a uma rede inválida. Por favor, mude para uma dessas redes: {NETWORKS}.",
   "account_no_metamask": "Por favor instale o metamask para usar este site",
   "account_switch": "Mudar de rede",
   "account_text_copied": "Copiado",
