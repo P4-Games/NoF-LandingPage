@@ -1,4 +1,4 @@
-import { combinedVariables } from '../../config'
+// import { combinedVariables } from '../../config'
 
 export default async function handler(req, res) {
   try {
@@ -10,7 +10,8 @@ export default async function handler(req, res) {
     }
 
     res.setHeader('Content-Type', 'application/json')
-    res.status(200).json(combinedVariables)
+    res.status(200).json('ok')
+    // res.status(200).json(combinedVariables)
   } catch (error) {
     console.error(error)
     res.status(500).json({

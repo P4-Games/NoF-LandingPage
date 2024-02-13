@@ -34,6 +34,7 @@ export const MAIL_CONFIG = {
   ethereal_user: process.env.MAIL_ETHEREAL_USER,
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
+
 export const is_production = environment === 'production' || environment === 'prod'
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
@@ -52,7 +53,7 @@ export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
 
 export const NETWORK = {
-  chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'Polygon Mainnet' : 'Mumbai'),
+  chainName: process.env.NEXT_PUBLIC_CHAIN_NAME || (is_production ? 'matic' : 'mumbai'),
   chainId: process.env.NEXT_PUBLIC_CHAIN_ID || (is_production ? '0x89' : '0x13881'),
   chainCurrency: process.env.NEXT_PUBLIC_CHAIN_CURRENCY || 'MATIC',
   ChainRpcUrl:
@@ -61,6 +62,8 @@ export const NETWORK = {
   chainExplorerUrl:
     process.env.NEXT_PUBLIC_CHAIN_EXPLORER_URL ||
     (is_production ? 'https://polygonscan.com' : 'https://mumbai.polygonscan.com'),
+  chainOpenSeaBaseUrl:
+    process.env.NEXT_PUBLIC_CHAIN_OPENSEA_BASE_URL || 'https://testnets.opensea.io/assets/mumbai',
   chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
 }
 
@@ -81,13 +84,8 @@ export const CONTRACTS = {
 // ------------------------------------------------------------------
 // calculated variables
 // ------------------------------------------------------------------
-export const openSeaUrlAlpha = is_production
-  ? `https://opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.alphaAddress}`
-  : `https://testnets.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.alphaAddress}`
-
-export const openSeaUrlGamma = is_production
-  ? `https://.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.gammaCardsAddress}`
-  : `https://testnets.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.gammaCardsAddress}`
+export const openSeaUrlAlpha = `${NETWORK.chainOpenSeaBaseUrl}/${CONTRACTS.alphaAddress}`
+export const openSeaUrlGamma = `${NETWORK.chainOpenSeaBaseUrl}/${CONTRACTS.gammaCardsAddress}`
 
 export const defaultSettings = {
   languagePresets: 'es',
@@ -106,6 +104,7 @@ export const MAIL_CLIENT = {
 // ------------------------------------------------------------------
 
 // used to debug in develop (could be removed!)
+/*
 export const combinedVariables = {
   V: 'V4',
   MONGODB: process.env.MONGODB || 'mongodb://localhost:27017',
@@ -177,3 +176,4 @@ export const combinedVariables = {
     ethereal: 'ethereal'
   }
 }
+*/
