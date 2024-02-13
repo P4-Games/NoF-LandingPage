@@ -45,14 +45,13 @@ PORT=3000
 
 # server-side
 MONGODB='mongodb://localhost:27017'
-NODE_ENV='development'
-APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 WALLET_CONNECT_PROJECT_ID={you project ID from walletconnect.com}
 CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY'
 
 # Client-side
+NEXT_PUBLIC_APP_ENV='development'
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x35dad65F60c1A32c9895BE97f6bcE57D32792E83,0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'

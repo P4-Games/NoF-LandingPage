@@ -20,7 +20,7 @@ import {
   getMaxPacksAllowedToOpenAtOnce,
   getPackPrice
 } from '../../services/gamma'
-import { NETWORK } from '../../config'
+
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaMain = () => {
@@ -54,7 +54,8 @@ const GammaMain = () => {
     gammaPacksContract,
     connectWallet,
     isConnected,
-    isValidNetwork
+    isValidNetwork,
+    enabledNetworkNames
   } = useWeb3Context()
   const {
     startLoading,
@@ -771,19 +772,10 @@ const GammaMain = () => {
         {isConnected && !isValidNetwork && (
           <div className='invalid__network__div'>
             <span className='invalid__network'>
-              {t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
+              {t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
             </span>
           </div>
         )}
-        {/*isConnected && !isValidNetwork && (
-          <button
-            className='alpha_button alpha_main_button'
-            id='switch_network_button'
-            onClick={() => switchOrCreateNetwork()}
-          >
-            {t('account_switch')}
-          </button>
-        )*/}
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'

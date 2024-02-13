@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
@@ -15,9 +15,10 @@ import SwiperCore, {
   EffectCards
 } from 'swiper'
 import Swal from 'sweetalert2'
-import { storageUrlAlpha, openSeaUrlAlpha } from '../../config'
+import { storageUrlAlpha } from '../../config'
 import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
+import { useWeb3Context } from '../../hooks'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
@@ -25,11 +26,21 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
   const { t } = useTranslation()
   const noAlbumMessage = t('juega_para_completar')
   const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
+  const { getCurrentNetwork, alphaContract } = useWeb3Context()
+  const [openSeaUrl, setOpenSeaUrl] = useState('')
+
+  useEffect(() => {
+    const ntwk = getCurrentNetwork()
+    if (ntwk) {
+      const openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${alphaContract.address}`
+      setOpenSeaUrl(openSeaUrlGamma)
+    }
+  }, [getCurrentNetwork, alphaContract])
 
   function handleRedirectAlbum(album) {
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
-      window.open(`${openSeaUrlAlpha}/${album[0].tokenId}`, '_blank')
+      window.open(`${openSeaUrl}/${album[0].tokenId}`, '_blank')
     } else {
       // Otherwise, display a message to the user and perform some actions
       setSeasonName(album[0].season)

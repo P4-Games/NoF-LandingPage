@@ -1,7 +1,6 @@
 // server-site
 MONGODB='mongodb://localhost:27017'
 NODE_ENV='development' // development, production
-APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 MAIL_CLIENT= // sendgrid | ethereal
@@ -17,6 +16,7 @@ WALLET_CONNECT_PROJECT_ID='your_project_id_api_key'
 CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/YOUR_API_KEY'
 
 // client-side
+NEXT_PUBLIC_APP_ENV='development'
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x...,0X....,0xfa3....' // accounts separated by a comma

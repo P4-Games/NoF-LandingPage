@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------
 */
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
-export const environment = (process.env.APP_ENV || 'development').toLowerCase()
+export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'development').toLowerCase()
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
@@ -38,7 +38,7 @@ export const MAIL_CONFIG = {
 export const is_production = environment === 'production' || environment === 'prod'
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
-// not exposed, included then in NETWORK variable.
+// not exposed, included then in NETWORKS variable.
 const NodeProviderUrl =
   process.env.CHAIN_NODE_PROVIDER_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 
@@ -74,6 +74,7 @@ export const NETWORKS = {
   hardhat: {
     config: {
       enabled: 'true',
+      environment: 'development',
       chainName: 'localhost',
       chainId: '0x539',
       chainCurrency: 'ETH',
@@ -94,6 +95,7 @@ export const NETWORKS = {
   mumbai: {
     config: {
       enabled: 'true',
+      environment: 'testing',
       chainName: 'mumbai',
       chainId: '0x13881',
       chainCurrency: 'MATIC',
@@ -111,29 +113,10 @@ export const NETWORKS = {
       gammaTicketsAddress: '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
     }
   },
-  matic: {
-    config: {
-      enabled: 'false',
-      chainName: 'matic',
-      chainId: '0x89',
-      chainCurrency: 'MATIC',
-      ChainRpcUrl: 'https://polygon-mainnet.infura.io',
-      chainExplorerUrl: 'https://polygonscan.com',
-      chainOpenSeaBaseUrl: 'https://opensea.io/assets/matic',
-      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
-    },
-    contracts: {
-      daiAddress: '',
-      alphaAddress: '',
-      gammaCardsAddress: '',
-      gammaPackAddress: '',
-      gammaOffersAddress: '',
-      gammaTicketsAddress: ''
-    }
-  },
   'bsc-testnet': {
     config: {
       enabled: 'true',
+      environment: 'testing',
       chainName: 'bsc-testnet',
       chainId: '0x61',
       chainCurrency: 'BNB',
@@ -150,13 +133,28 @@ export const NETWORKS = {
       gammaOffersAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
       gammaTicketsAddress: '0xA5c3Cd20AB6FF1e299D93ee268370BCC19a32E71'
     }
+  },
+  matic: {
+    config: {
+      enabled: 'false',
+      environment: 'production',
+      chainName: 'matic',
+      chainId: '0x89',
+      chainCurrency: 'MATIC',
+      ChainRpcUrl: 'https://polygon-mainnet.infura.io',
+      chainExplorerUrl: 'https://polygonscan.com',
+      chainOpenSeaBaseUrl: 'https://opensea.io/assets/matic',
+      chainNodeProviderUrl: NodeProviderUrl // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '',
+      alphaAddress: '',
+      gammaCardsAddress: '',
+      gammaPackAddress: '',
+      gammaOffersAddress: '',
+      gammaTicketsAddress: ''
+    }
   }
 }
-
-export const NETWORK = NETWORKS['bsc-testnet'].config
-export const CONTRACTS = NETWORKS['bsc-testnet'].contracts
-
-export const openSeaUrlAlpha = `${NETWORK.chainOpenSeaBaseUrl}/${CONTRACTS.alphaAddress}`
-export const openSeaUrlGamma = `${NETWORK.chainOpenSeaBaseUrl}/${CONTRACTS.gammaCardsAddress}`
 
 // ------------------------------------------------------------------
