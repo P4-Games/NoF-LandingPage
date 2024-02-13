@@ -82,12 +82,12 @@ export const CONTRACTS = {
 // calculated variables
 // ------------------------------------------------------------------
 export const openSeaUrlAlpha = is_production
-  ? `https://opensea.io/assets/matic/${CONTRACTS.alphaAddress}`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.alphaAddress}`
+  ? `https://opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.alphaAddress}`
+  : `https://testnets.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.alphaAddress}`
 
 export const openSeaUrlGamma = is_production
-  ? `https://.opensea.io/assets/matic/${CONTRACTS.gammaCardsAddress}`
-  : `https://testnets.opensea.io/assets/mumbai/${CONTRACTS.gammaCardsAddress}`
+  ? `https://.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.gammaCardsAddress}`
+  : `https://testnets.opensea.io/assets/${NETWORK.chainName}/${CONTRACTS.gammaCardsAddress}`
 
 export const defaultSettings = {
   languagePresets: 'es',
