@@ -536,7 +536,7 @@ const AlphaMain = () => {
             }
           >
             <div className='alpha_data'>
-              {seasonNames && seasonNames.length && seasonName && !showMain && (
+              {!error && seasonNames && seasonNames.length && seasonName && !showMain && (
                 <>
                   <div className='alpha_season'>
                     <img alt='marco' src={'/images/common/marco.png'} />
@@ -553,7 +553,9 @@ const AlphaMain = () => {
                       }}
                       id='alpha_select_season_button'
                     >
-                      {seasonNames && seasonNames.map((name) => <option key={name}>{name}</option>)}
+                      {seasonNames &&
+                        seasonNames.length &&
+                        seasonNames.map((name) => <option key={name}>{name}</option>)}
                     </select>
                   </div>
                   <div className='alpha_start_buttons'>

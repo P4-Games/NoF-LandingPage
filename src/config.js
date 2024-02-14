@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------
 */
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
-export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'development').toLowerCase()
+export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'testing').toLowerCase()
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
@@ -35,7 +35,6 @@ export const MAIL_CONFIG = {
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 
-export const is_production = environment === 'production' || environment === 'prod'
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
 // not exposed, included then in NETWORKS variable.
