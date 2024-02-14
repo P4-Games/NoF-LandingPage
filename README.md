@@ -67,9 +67,9 @@ NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
 NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
 ```
 
-## Quick commands
+# Quick commands
 
-### Install dependencies
+## Install dependencies
 
 ```sh
 - yarn install # with yarn
@@ -89,19 +89,19 @@ yarn config delete proxy
 yarn --network-timeout 100000
 ```
 
-### Run App
+## Run App
 
 ```sh
 npm run dev / yarn dev
 ```
 
-### Use App
+## Use App
 
 ```sh
 Open browser in http://localhost:3000/
 ```
 
-### Mock Data
+## Mock Data
 
 You can load mock data from the alpha, gamma collections and have DAIs in your wallet in a local environment, with these commands:
 
@@ -113,9 +113,9 @@ yarn deploy-mock-data # run the mock data
 # Then upload the hardhat addresses to your wallets
 ```
 
-## Contribution
+# Contribution
 
-### Commit changes
+## Commit changes
 
 The application uses a linter for commit messages, requiring them to be specified in the following format:
 
@@ -154,3 +154,7 @@ git reset --soft HEAD~1
 ```
 
 For more information, refer to: [commitlint](https://commitlint.js.org/#/).
+
+# Links
+
+* BNB & opBNB node provider: [nodereal.io](https://nodereal.io/)
