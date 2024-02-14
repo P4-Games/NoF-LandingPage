@@ -35,7 +35,6 @@ export const MAIL_CONFIG = {
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
 
-export const is_production = environment === 'production' || environment === 'prod'
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
 // not exposed, included then in NETWORKS variable.
