@@ -182,9 +182,9 @@ const GammaCardInfo = (props) => {
         stopLoading()
         return
       }
-  
+
       const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
-  
+
       if (missingCardsQtty > 0) {
         stopLoading()
         const result = await Swal.fire({
@@ -201,7 +201,7 @@ const GammaCardInfo = (props) => {
             input: 'alertinput'
           }
         })
-  
+
         if (result.isConfirmed) {
           try {
             startLoading()
@@ -225,7 +225,7 @@ const GammaCardInfo = (props) => {
       stopLoading()
       console.error({ e })
       emitError(t('publish_offer_error'))
-    }   
+    }
   }
 
   const OfferButton = () => (
