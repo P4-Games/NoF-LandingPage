@@ -157,4 +157,4 @@ For more information, refer to: [commitlint](https://commitlint.js.org/#/).
 
 # Links
 
-* BNB & opBNB node provider: [nodereal.io](https://nodereal.io/)
+- BNB & opBNB node provider: [nodereal.io](https://nodereal.io/)

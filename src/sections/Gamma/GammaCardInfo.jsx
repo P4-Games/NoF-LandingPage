@@ -47,7 +47,12 @@ const GammaCardInfo = (props) => {
   useEffect(() => {
     const ntwk = getCurrentNetwork()
     if (ntwk) {
-      const openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${gammaCardsContract.address}`
+      let openSeaUrlGamma = ''
+      if (ntwk.config.chainOpenSeaBaseUrl === '') {
+        openSeaUrlGamma = `${ntwk.config.chainNftUrl}`
+      } else {
+        openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${gammaCardsContract.address}`
+      }
       setOpenSeaUrl(openSeaUrlGamma)
     }
   }, [getCurrentNetwork, gammaCardsContract])
