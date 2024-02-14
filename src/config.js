@@ -129,7 +129,7 @@ export const NETWORKS = {
       alphaAddress: '0x4eE8C9cc2cF081f11F56A264EF52e3FeaDe1b35e',
       gammaCardsAddress: '0x25f85D878972f9506b4De49cEff480f627935521',
       gammaPackAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
-      gammaOffersAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
+      gammaOffersAddress: '0x168eE5cfE8b7EDC7F24cA0326DFfF3Ef6DF37f2F',
       gammaTicketsAddress: '0xA5c3Cd20AB6FF1e299D93ee268370BCC19a32E71'
     }
   },

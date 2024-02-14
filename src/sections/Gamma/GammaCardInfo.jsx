@@ -168,58 +168,64 @@ const GammaCardInfo = (props) => {
   const handlePublishClick = async () => {
     startLoading()
 
-    const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
-    if (!canUserPublishResult) {
-      emitInfo(t('offer_user_limit'), 7000)
-      stopLoading()
-      return
-    }
-
-    const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
-    if (!canAnyUserPublishResult) {
-      emitInfo(t('offer_game_limit'), 7000)
-      stopLoading()
-      return
-    }
-
-    const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
-
-    if (missingCardsQtty > 0) {
-      stopLoading()
-      const result = await Swal.fire({
-        title: `${t('publish_offer_auto_title')}`,
-        text: `${t('publish_offer_auto_msg')}`,
-        showCancelButton: true,
-        confirmButtonText: `${t('publish_offer_auto_confirm')}`,
-        cancelButtonText: `${t('publish_offer_auto_denied')}`,
-        confirmButtonColor: '#005EA3',
-        color: 'black',
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
-        }
-      })
-
-      if (result.isConfirmed) {
-        try {
-          startLoading()
-          await createOffer(gammaOffersContract, userCard.name, [])
-          stopLoading()
-          emitSuccess(t('confirmado'), 2000)
-          handleFinishPublish(true)
-        } catch (e) {
-          stopLoading()
-          console.error({ e })
-          if (e.message == 'publish_offer_error_own_card_number')
-            emitWarning(t('publish_offer_error_own_card_number'))
-          else emitError(t('publish_offer_error'))
-        }
+    try {
+      const canUserPublishResult = await canUserPublishOffer(gammaOffersContract, walletAddress)
+      if (!canUserPublishResult) {
+        emitInfo(t('offer_user_limit'), 7000)
+        stopLoading()
         return
       }
-    }
-    setCardPublish(true)
-    stopLoading()
+
+      const canAnyUserPublishResult = await canAnyUserPublishOffer(gammaOffersContract)
+      if (!canAnyUserPublishResult) {
+        emitInfo(t('offer_game_limit'), 7000)
+        stopLoading()
+        return
+      }
+  
+      const missingCardsQtty = await getUserMissingCardsQtty(gammaCardsContract, walletAddress)
+  
+      if (missingCardsQtty > 0) {
+        stopLoading()
+        const result = await Swal.fire({
+          title: `${t('publish_offer_auto_title')}`,
+          text: `${t('publish_offer_auto_msg')}`,
+          showCancelButton: true,
+          confirmButtonText: `${t('publish_offer_auto_confirm')}`,
+          cancelButtonText: `${t('publish_offer_auto_denied')}`,
+          confirmButtonColor: '#005EA3',
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          }
+        })
+  
+        if (result.isConfirmed) {
+          try {
+            startLoading()
+            await createOffer(gammaOffersContract, userCard.name, [])
+            stopLoading()
+            emitSuccess(t('confirmado'), 2000)
+            handleFinishPublish(true)
+          } catch (e) {
+            stopLoading()
+            console.error({ e })
+            if (e.message == 'publish_offer_error_own_card_number')
+              emitWarning(t('publish_offer_error_own_card_number'))
+            else emitError(t('publish_offer_error'))
+          }
+          return
+        }
+      }
+      setCardPublish(true)
+      stopLoading()
+    } catch (e) {
+      stopLoading()
+      console.error({ e })
+      emitError(t('publish_offer_error'))
+    }   
   }
 
   const OfferButton = () => (

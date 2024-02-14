@@ -70,11 +70,11 @@ const GammaCardOffers = (props) => {
     return paginationObj.user[item]?.quantity && paginationObj.user[item]?.quantity !== 0
   }
 
-  const userOfferHasCard = (item, userOfferWalletAddress) => {
+  const userOfferHasCard = async (item, userOfferWalletAddress) => {
     let result = false
     try {
       startLoading()
-      result = hasCard(gammaCardsContract, userOfferWalletAddress, item)
+      result = await hasCard(gammaCardsContract, userOfferWalletAddress, item)
     } catch (e) {
       stopLoading()
       console.error({ e })
