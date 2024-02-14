@@ -32,7 +32,12 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
   useEffect(() => {
     const ntwk = getCurrentNetwork()
     if (ntwk && alphaContract) {
-      const openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${alphaContract.address}`
+      let openSeaUrlGamma = ''
+      if (ntwk.config.chainOpenSeaBaseUrl === '') {
+        openSeaUrlGamma = `${ntwk.config.chainNftUrl}`
+      } else {
+        openSeaUrlGamma = `${ntwk.config.chainOpenSeaBaseUrl}/${alphaContract.address}`
+      }
       setOpenSeaUrl(openSeaUrlGamma)
     }
   }, [getCurrentNetwork, alphaContract])
