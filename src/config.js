@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------
 */
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
-export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'development').toLowerCase()
+export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'testing').toLowerCase()
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
