@@ -45,27 +45,15 @@ PORT=3000
 
 # server-side
 MONGODB='mongodb://localhost:27017'
-NODE_ENV='development'
-APP_ENV='development'
 GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 WALLET_CONNECT_PROJECT_ID={you project ID from walletconnect.com}
 CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY'
 
 # Client-side
+NEXT_PUBLIC_APP_ENV='development'
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
-NEXT_PUBLIC_CHAIN_NAME='mumbai'
-NEXT_PUBLIC_CHAIN_ID='0x13881'
-NEXT_PUBLIC_CHAIN_CURRENCY='MATIC'
-NEXT_PUBLIC_CHAIN_RPC_URL='https://rpc-mumbai.maticvigil.com'
-NEXT_PUBLIC_CHAIN_EXPLORER_URL='https://mumbai.polygonscan.com'
-NEXT_PUBLIC_DAI_ADDRESS=''
-NEXT_PUBLIC_ALPHA_ADDRESS=''
-NEXT_PUBLIC_GAMMA_PACKS_ADDRESS=''
-NEXT_PUBLIC_GAMMA_CARDS_ADDRESS=''
-NEXT_PUBLIC_GAMMA_OFFERS_ADDRESS=''
-NEXT_PUBLIC_GAMMA_TICKETS_ADDRESS=''
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x35dad65F60c1A32c9895BE97f6bcE57D32792E83,0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
 
 ```
@@ -79,9 +67,9 @@ NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
 NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
 ```
 
-## Quick commands
+# Quick commands
 
-### Install dependencies
+## Install dependencies
 
 ```sh
 - yarn install # with yarn
@@ -101,19 +89,19 @@ yarn config delete proxy
 yarn --network-timeout 100000
 ```
 
-### Run App
+## Run App
 
 ```sh
 npm run dev / yarn dev
 ```
 
-### Use App
+## Use App
 
 ```sh
 Open browser in http://localhost:3000/
 ```
 
-### Mock Data
+## Mock Data
 
 You can load mock data from the alpha, gamma collections and have DAIs in your wallet in a local environment, with these commands:
 
@@ -125,9 +113,9 @@ yarn deploy-mock-data # run the mock data
 # Then upload the hardhat addresses to your wallets
 ```
 
-## Contribution
+# Contribution
 
-### Commit changes
+## Commit changes
 
 The application uses a linter for commit messages, requiring them to be specified in the following format:
 
@@ -166,3 +154,7 @@ git reset --soft HEAD~1
 ```
 
 For more information, refer to: [commitlint](https://commitlint.js.org/#/).
+
+# Links
+
+- BNB & opBNB node provider: [nodereal.io](https://nodereal.io/)

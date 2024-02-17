@@ -6,9 +6,8 @@ import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { GoLinkExternal } from 'react-icons/go'
 import { AiOutlineSend } from 'react-icons/ai'
-// import { MdOutlinePublishedWithChanges } from 'react-icons/md'
+
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { NETWORK, CONTRACTS } from '../../config'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
@@ -20,16 +19,19 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     walletAddress,
     connectWallet,
     disconnectWallet,
+    getCurrentNetwork,
     isValidNetwork,
+    enabledNetworkNames,
     daiContract,
-    isConnected // ,
-    // switchOrCreateNetwork
+    isConnected
   } = useWeb3Context()
   const { startLoading, stopLoading } = useLayoutContext()
   const [copiedTextVisible, setCopiedTextVisible] = useState(false)
   const [copiedTextPosition, setCopiedTextPosition] = useState(0)
   const [walletBalance, setWalletBalance] = useState(0)
   const [tokenName, setTokenName] = useState('')
+
+  const currentNwk = getCurrentNetwork()
 
   const fetchTokenName = async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
@@ -172,8 +174,10 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           }`}
         >
           {isValidNetwork
-            ? NETWORK.chainName
-            : t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
+            ? currentNwk
+              ? currentNwk.config.chainName
+              : ''
+            : t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
         </p>
       </div>
       {/*!isValidNetwork && (
@@ -204,7 +208,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div className='account__info__icon__container'>
         <HiOutlineClipboardDocument onClick={handleCopy} className='account__info__icon' />
         <Link
-          href={`${NETWORK.chainExplorerUrl}/address/${walletAddress}`}
+          href={currentNwk ? `${currentNwk.config.chainExplorerUrl}/address/${walletAddress}` : ''}
           target='_blank'
           rel='noreferrer'
           className='account__info__account__link'
@@ -228,7 +232,11 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           className='account__info__icon'
         />
         <Link
-          href={`${NETWORK.chainExplorerUrl}/token/${CONTRACTS.daiAddress}?a=${walletAddress}`}
+          href={
+            currentNwk
+              ? `${currentNwk.config.chainExplorerUrl}/token/${daiContract.address}?a=${walletAddress}`
+              : ''
+          }
           target='_blank'
           rel='noreferrer'
           className='account__info__account__link'

@@ -4,7 +4,7 @@ import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
-import { storageUrlAlpha, CONTRACTS } from '../../config'
+import { storageUrlAlpha } from '../../config'
 import { fetchDataAlpha } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
@@ -13,8 +13,6 @@ import { emitError, emitSuccess } from '../../utils/alert'
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { checkInputAddress } from '../../utils/InputValidators'
-
-import { NETWORK } from '../../config'
 
 const vidas = [
   '/images/alpha/vida0.png',
@@ -50,8 +48,15 @@ const AlphaMain = () => {
   const [, setDisableTransfer] = useState(false)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
-  const { walletAddress, daiContract, alphaContract, connectWallet, isConnected, isValidNetwork } =
-    useWeb3Context()
+  const {
+    walletAddress,
+    daiContract,
+    alphaContract,
+    connectWallet,
+    isConnected,
+    isValidNetwork,
+    enabledNetworkNames
+  } = useWeb3Context()
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
@@ -249,7 +254,7 @@ const AlphaMain = () => {
   const authorizeDaiContract = async () => {
     try {
       const authorization = await daiContract.approve(
-        CONTRACTS.alphaAddress,
+        alphaContract.address,
         ethers.constants.MaxUint256,
         { gasLimit: 2500000 }
       )
@@ -363,7 +368,7 @@ const AlphaMain = () => {
               setError(t('no_mas_packs'))
             } else {
               if (checkBalance(walletAddress)) {
-                checkApproved(daiContract, walletAddress, CONTRACTS.alphaAddress)
+                checkApproved(daiContract, walletAddress, alphaContract.address)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
                       const pack = await alphaContract.buyPack(price, name, {
@@ -500,19 +505,10 @@ const AlphaMain = () => {
         {isConnected && !isValidNetwork && (
           <div className='invalid__network__div'>
             <span className='invalid__network'>
-              {t('account_invalid_network').replace('{NETWORK}', NETWORK.chainName)}
+              {t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
             </span>
           </div>
         )}
-        {/*isConnected && !isValidNetwork && (
-            <button
-              className='alpha_button alpha_main_button'
-              id='switch_network_button'
-              onClick={() => switchOrCreateNetwork()}
-            >
-              {t('account_switch')}
-            </button>
-          )*/}
         <button
           className='alpha_button alpha_main_button'
           id='show_rules_button'
@@ -540,7 +536,7 @@ const AlphaMain = () => {
             }
           >
             <div className='alpha_data'>
-              {seasonNames && seasonNames.length && seasonName && !showMain && (
+              {!error && seasonNames && seasonNames.length && seasonName && !showMain && (
                 <>
                   <div className='alpha_season'>
                     <img alt='marco' src={'/images/common/marco.png'} />
@@ -557,7 +553,9 @@ const AlphaMain = () => {
                       }}
                       id='alpha_select_season_button'
                     >
-                      {seasonNames && seasonNames.map((name) => <option key={name}>{name}</option>)}
+                      {seasonNames &&
+                        seasonNames.length &&
+                        seasonNames.map((name) => <option key={name}>{name}</option>)}
                     </select>
                   </div>
                   <div className='alpha_start_buttons'>
