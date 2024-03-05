@@ -26,7 +26,6 @@ const GammaDataContextProvider = ({ children }) => {
 
   const refreshPaginationObj = async () => {
     try {
-      console.log(gammaCardsContract?.address)
       const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
       setPaginationObj({}) // para limpiar ref
       setPaginationObj(userCards)

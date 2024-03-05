@@ -185,11 +185,8 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
 
 export const getPackPrice = async (cardsContract) => {
   try {
-    console.log("trying...")
-    console.log({ cardsContract })
     if (!cardsContract) return
     const price = await cardsContract.s_packPrice()
-    console.log({ price })
     const result = ethers.utils.formatUnits(price, 18)
     return result
   } catch (e) {

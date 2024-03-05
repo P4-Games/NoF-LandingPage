@@ -88,9 +88,7 @@ const GammaMain = () => {
     try {
       if (!walletAddress) return
       startLoading()
-      console.log("hola")
       await refreshPaginationObj()
-      console.log("chau")
       stopLoading()
     } catch (e) {
       stopLoading()
