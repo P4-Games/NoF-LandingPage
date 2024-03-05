@@ -86,11 +86,11 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d',
+      daiAddress: '0x950795BFeCf1AD7A0e4B82051Fac0e47385942eF',
       alphaAddress: '0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E',
-      gammaCardsAddress: '0xC9a43158891282A2B1475592D5719c001986Aaec',
-      gammaPackAddress: '0x1c85638e118b37167e9298c2268758e058DdfDA0',
-      gammaOffersAddress: '0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb',
+      gammaCardsAddress: '0xc147F78a979266c07e2A49e01B6af2fc3D7793c5',
+      gammaPackAddress: '0x941157F9B5b77e27fBdA12eb0c35988A1117De2D',
+      gammaOffersAddress: '0xBc3e1E3690329eDE0364784da68F77A8515EB55f',
       gammaTicketsAddress: '0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901'
     }
   },

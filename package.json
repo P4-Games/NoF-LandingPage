@@ -27,6 +27,7 @@
   "dependencies": {
     "@next/eslint-plugin-next": "^14.0.1",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@openzeppelin/contracts": "^5.0.2",
     "@sendgrid/mail": "^8.1.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "@web3modal/ethers5": "^3.5.1",

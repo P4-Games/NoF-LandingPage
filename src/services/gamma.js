@@ -111,7 +111,7 @@ export const openPacks = async (
 
 export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
   try {
-    const result = await cardsContract.maxPacksToOpenAtOnce()
+    const result = await cardsContract.s_maxPacksToOpenAtOnce()
     return result
   } catch (e) {
     handleError('0x', 'getMaxPacksAllowedToOpenAtOnce', e)
@@ -121,9 +121,8 @@ export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
 
 export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
-    if (!cardsContract || !walletAddress) return
+    if (!cardsContract || !walletAddress) return;
     const cardData = await cardsContract?.getCardsByUser(walletAddress)
-
     const cardsPages = getGammacardsPages()
     let cardsObj = { ...cardsPages }
 
@@ -186,8 +185,11 @@ export const hasCard = async (cardsContract, walletAddress, cardNumber) => {
 
 export const getPackPrice = async (cardsContract) => {
   try {
+    console.log("trying...")
+    console.log({ cardsContract })
     if (!cardsContract) return
-    const price = await cardsContract.packPrice()
+    const price = await cardsContract.s_packPrice()
+    console.log({ price })
     const result = ethers.utils.formatUnits(price, 18)
     return result
   } catch (e) {
@@ -199,7 +201,7 @@ export const getPackPrice = async (cardsContract) => {
 export const getUserAlbums120Qtty = async (cardsContract, walletAddress) => {
   try {
     if (!cardsContract || !walletAddress) return
-    const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
+    const userHasAlbum = await cardsContract.s_cardsByUser(walletAddress, 120)
     return userHasAlbum
   } catch (e) {
     handleError(walletAddress, 'getUserAlbums120Qtty', e)
@@ -275,20 +277,20 @@ export const burnCards = async (cardsContract, daiContract, walletAddress, cards
 }
 
 export const allowedToFinishAlbum60 = async (cardsContract, daiContract, walletAddress) => {
-  const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 121)
-  const prizesBalance = await cardsContract.prizesBalance()
-  const secondaryAlbumPrize = await cardsContract.secondaryAlbumPrize()
+  const userHasAlbum = await cardsContract.s_cardsByUser(walletAddress, 121)
+  const s_prizesBalance = await cardsContract.s_prizesBalance()
+  const s_secondaryAlbumPrize = await cardsContract.s_secondaryAlbumPrize()
   const gammaContractBalance = await verifyDAIBalance(daiContract, cardsContract.address)
-  const prizeBalanceFormatted = ethers.utils.formatUnits(prizesBalance, 18)
-  const secondaryAlbumPrizeFormatted = ethers.utils.formatUnits(secondaryAlbumPrize, 18)
+  const prizeBalanceFormatted = ethers.utils.formatUnits(s_prizesBalance, 18)
+  const secondaryAlbumPrizeFormatted = ethers.utils.formatUnits(s_secondaryAlbumPrize, 18)
   const gammaContractBalanceFormatted = ethers.utils.formatUnits(gammaContractBalance, 18)
 
-  // require(prizesBalance >= secondaryAlbumPrize, "Insufficient funds (burnCards balance).");
+  // require(s_prizesBalance >= s_secondaryAlbumPrize, "Insufficient funds (burnCards balance).");
   const prizesBalanzGTSecondaryAlbumPrice =
     parseInt(prizeBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
 
   // uint256 contractBalance = erc20Token.balanceOf(address(this));
-  // require(contractBalance >= secondaryAlbumPrize, "Insufficient funds (contract).");
+  // require(contractBalance >= s_secondaryAlbumPrize, "Insufficient funds (contract).");
   const contractBalanzGTAlSecondarybumPrice =
     parseInt(gammaContractBalanceFormatted) >= parseInt(secondaryAlbumPrizeFormatted)
 
@@ -305,31 +307,31 @@ export const allowedToFinishAlbum60 = async (cardsContract, daiContract, walletA
     result
   })
 
-  return { result: result, amountRequired: secondaryAlbumPrize }
+  return { result: result, amountRequired: s_secondaryAlbumPrize }
 }
 
 export const allowedToFinishAlbum120 = async (cardsContract, daiContract, walletAddress) => {
   // Hay 4 condicione sen el contrato para poder completarlo:
   // 1. Que el usuario tengan un álbum: require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
-  // 2. Que haya un balance mayor a lo que se paga de premio: require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
+  // 2. Que haya un balance mayor a lo que se paga de premio: require(s_prizesBalance >= s_mainAlbumPrize, "Fondos insuficientes");
   // 3. Que el usuario tenga todas las cartas.
-  // 4. Que el contrato tenga un balance superior al precio del premio (mainAlbumPrize)
+  // 4. Que el contrato tenga un balance superior al precio del premio (s_mainAlbumPrize)
   // Las 4 se validan en el contrato y aquí (para evitar la llamada al contrato)
 
   // require(cardsByUser[msg.sender][120] > 0, "No tienes ningun album");
   if (!cardsContract || !walletAddress) return
-  const userHasAlbum = await cardsContract.cardsByUser(walletAddress, 120)
-  const prizesBalance = await cardsContract.prizesBalance()
-  const mainAlbumPrize = await cardsContract.mainAlbumPrize()
+  const userHasAlbum = await cardsContract.s_cardsByUser(walletAddress, 120)
+  const s_prizesBalance = await cardsContract.s_prizesBalance()
+  const s_mainAlbumPrize = await cardsContract.s_mainAlbumPrize()
   const gammaContractBalance = await verifyDAIBalance(daiContract, cardsContract.address)
-  const prizeBalanceFormatted = ethers.utils.formatUnits(prizesBalance, 18)
-  const albumPrizeFormatted = ethers.utils.formatUnits(mainAlbumPrize, 18)
+  const prizeBalanceFormatted = ethers.utils.formatUnits(s_prizesBalance, 18)
+  const albumPrizeFormatted = ethers.utils.formatUnits(s_mainAlbumPrize, 18)
   const gammaContractBalanceFormatted = ethers.utils.formatUnits(gammaContractBalance, 18)
 
-  // require(prizesBalance >= mainAlbumPrize, "Fondos insuficientes");
+  // require(s_prizesBalance >= s_mainAlbumPrize, "Fondos insuficientes");
   const prizesBalanzGTAlbumPrice = parseInt(prizeBalanceFormatted) >= parseInt(albumPrizeFormatted)
 
-  // require gammaCardContractBalance >= mainAlbumPrize
+  // require gammaCardContractBalance >= s_mainAlbumPrize
   const contractBalanzGTAlbumPrice =
     parseInt(gammaContractBalanceFormatted) >= parseInt(albumPrizeFormatted)
 

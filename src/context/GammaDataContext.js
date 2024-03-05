@@ -25,13 +25,19 @@ const GammaDataContextProvider = ({ children }) => {
   const [currentAlbum, setCurrentAlbum] = useState(ALBUMS.INVENTORY)
 
   const refreshPaginationObj = async () => {
-    const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
-    setPaginationObj({}) // para limpiar ref
-    setPaginationObj(userCards)
-    setAlbums120Qtty(getAlbums120Qtty())
-    setAlbums60Qtty(getAlbums60Qtty())
-    setUniqueCardsQtty(getUniqueCardsQtty())
-    setRepeatedCardsQtty(getRepeatedCardsQtty())
+    try {
+      console.log(gammaCardsContract?.address)
+      const userCards = await getCardsByUser(gammaCardsContract, walletAddress)
+      setPaginationObj({}) // para limpiar ref
+      setPaginationObj(userCards)
+      setAlbums120Qtty(getAlbums120Qtty())
+      setAlbums60Qtty(getAlbums60Qtty())
+      setUniqueCardsQtty(getUniqueCardsQtty())
+      setRepeatedCardsQtty(getRepeatedCardsQtty())
+    } catch(e) {
+      console.error({ e });
+      throw e;
+    }
   }
 
   const generatePaginationObjToBurn = (force) => {
