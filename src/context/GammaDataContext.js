@@ -33,9 +33,9 @@ const GammaDataContextProvider = ({ children }) => {
       setAlbums60Qtty(getAlbums60Qtty())
       setUniqueCardsQtty(getUniqueCardsQtty())
       setRepeatedCardsQtty(getRepeatedCardsQtty())
-    } catch(e) {
-      console.error({ e });
-      throw e;
+    } catch (e) {
+      console.error({ e })
+      throw e
     }
   }
 

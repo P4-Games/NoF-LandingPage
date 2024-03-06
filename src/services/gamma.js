@@ -121,7 +121,7 @@ export const getMaxPacksAllowedToOpenAtOnce = async (cardsContract) => {
 
 export const getCardsByUser = async (cardsContract, walletAddress) => {
   try {
-    if (!cardsContract || !walletAddress) return;
+    if (!cardsContract || !walletAddress) return
     const cardData = await cardsContract?.getCardsByUser(walletAddress)
     const cardsPages = getGammacardsPages()
     let cardsObj = { ...cardsPages }
