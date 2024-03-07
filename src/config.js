@@ -86,12 +86,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d',
-      alphaAddress: '0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E',
-      gammaCardsAddress: '0xC9a43158891282A2B1475592D5719c001986Aaec',
-      gammaPackAddress: '0x1c85638e118b37167e9298c2268758e058DdfDA0',
-      gammaOffersAddress: '0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb',
-      gammaTicketsAddress: '0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901'
+      daiAddress: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+      alphaAddress: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+      gammaCardsAddress: '0x0165878A594ca255338adfa4d48449f69242Eb8F',
+      gammaPackAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
+      gammaOffersAddress: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
+      gammaTicketsAddress: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318'
     }
   },
   mumbai: {
@@ -110,11 +110,11 @@ export const NETWORKS = {
     },
     contracts: {
       daiAddress: '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
-      alphaAddress: '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
-      gammaCardsAddress: '0x34658c07F05638E12793d0961595cBc72fA69452',
-      gammaPackAddress: '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
-      gammaOffersAddress: '0x3Da346C40A0D90cf5642944613586439A3456d45',
-      gammaTicketsAddress: '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
+      alphaAddress: '0xf9e8570b88798CcC3bde56C6Eb7dF60C6DAA84Fe',
+      gammaCardsAddress: '0x560c7d01011fbBF0438C804365cfea4B61E8985c',
+      gammaPackAddress: '0x8b22aacc17b81610449FC978B0df558dA447A7A6',
+      gammaOffersAddress: '0xd1f5FBBDACe8bE489246099603eeF5866EA1544e',
+      gammaTicketsAddress: '0x34D6e75f13dA814dDEde5ce20afC245103A54edf'
     }
   },
   'bsc-testnet': {
@@ -131,12 +131,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlbscTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0x83330b5803838604d85B7Cba393C930084F45A7d',
-      alphaAddress: '0x4eE8C9cc2cF081f11F56A264EF52e3FeaDe1b35e',
-      gammaCardsAddress: '0x25f85D878972f9506b4De49cEff480f627935521',
-      gammaPackAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
-      gammaOffersAddress: '0x168eE5cfE8b7EDC7F24cA0326DFfF3Ef6DF37f2F',
-      gammaTicketsAddress: '0xA5c3Cd20AB6FF1e299D93ee268370BCC19a32E71'
+      daiAddress: '0xF292D1ea9f5AAFFc24bC8831EF772cc4ab10cAEe',
+      alphaAddress: '0x5FADd1178f6962c4cB7369CBE30f45212aBC3e12',
+      gammaCardsAddress: '0x449392C509B218043b2d23262F06c834F2C3f5D9',
+      gammaPackAddress: '0x9085a89Fe556f3180f328942832E44bDD4aeF54A',
+      gammaOffersAddress: '0xE513DC5C4c789Da7B308E4a76786Ed97eE44d4BE',
+      gammaTicketsAddress: '0xE8c40aaB664D9353753a80c3a68F011985E8D039'
     }
   },
   'opbnb-testnet': {
@@ -153,12 +153,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlopBnbTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0x46480E0d10966Ea274831D9693a56f9c09D7339d',
-      alphaAddress: '0x36f19A5397DbE26b548b15C158f7a8e00979B408',
-      gammaCardsAddress: '0x2842c8FD88F801018E53dDDeBbC944aE377D0F72',
-      gammaPackAddress: '0x1116218412559628B67aa15F3c527D68F0A71b91',
-      gammaOffersAddress: '0xe810524F7C7C62A2201FdF1bCA20649Bd7D70844',
-      gammaTicketsAddress: '0xd9988C491805AE2573FA156b27CDE1a6f7B3E073'
+      daiAddress: '0x8d2a7988FbF205724fcF40387A7A3b9eE89B97a1',
+      alphaAddress: '0x2BEBce69E67B9b4a29eb0BA363245f9B82004503',
+      gammaCardsAddress: '0xCcCC970eb4A307E75d6fe0C1D42f0Fd0C6cA6BeA',
+      gammaPackAddress: '0x87502b899F3f6eA979C9e7DD5abDA95ce4Fbc247',
+      gammaOffersAddress: '0x03388a96d37Aea7E302DB897aDacc9De433799c5',
+      gammaTicketsAddress: '0x5d8fF80112c1a9C6Ed1593405f9Fb145F72f38a9'
     }
   },
   matic: {
