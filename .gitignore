@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+/contracts
+/artifacts
+hardhat.config.ts
 
 # testing
 /coverage
