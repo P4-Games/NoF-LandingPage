@@ -92,7 +92,7 @@ export const NETWORKS = {
       gammaPackAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
       gammaOffersAddress: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
       gammaTicketsAddress: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318'
-    }  
+    }
   },
   mumbai: {
     config: {
@@ -137,7 +137,7 @@ export const NETWORKS = {
       gammaPackAddress: '0x9085a89Fe556f3180f328942832E44bDD4aeF54A',
       gammaOffersAddress: '0xE513DC5C4c789Da7B308E4a76786Ed97eE44d4BE',
       gammaTicketsAddress: '0xE8c40aaB664D9353753a80c3a68F011985E8D039'
-    }  
+    }
   },
   'opbnb-testnet': {
     config: {
@@ -159,7 +159,7 @@ export const NETWORKS = {
       gammaPackAddress: '0x87502b899F3f6eA979C9e7DD5abDA95ce4Fbc247',
       gammaOffersAddress: '0x03388a96d37Aea7E302DB897aDacc9De433799c5',
       gammaTicketsAddress: '0x5d8fF80112c1a9C6Ed1593405f9Fb145F72f38a9'
-    } 
+    }
   },
   matic: {
     config: {
