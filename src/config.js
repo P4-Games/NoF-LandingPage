@@ -130,11 +130,11 @@ export const NETWORKS = {
     },
     contracts: {
       daiAddress: '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
-      alphaAddress: '0xf9e8570b88798CcC3bde56C6Eb7dF60C6DAA84Fe',
-      gammaCardsAddress: '0x560c7d01011fbBF0438C804365cfea4B61E8985c',
-      gammaPackAddress: '0x8b22aacc17b81610449FC978B0df558dA447A7A6',
-      gammaOffersAddress: '0xd1f5FBBDACe8bE489246099603eeF5866EA1544e',
-      gammaTicketsAddress: '0x34D6e75f13dA814dDEde5ce20afC245103A54edf'
+      alphaAddress: '0x816EA704F9bEf91284bA72bEBdAC1d1c5788246b',
+      gammaCardsAddress: '0x394Fc1975972de88806b2E81Ed53f3E020f29D09',
+      gammaPackAddress: '0xfb4C387227d3692Be50376ff930472294ADEcED8',
+      gammaOffersAddress: '0x1eDB114Bb7A0CBaDA9c9550BD2F3F1bFC08Bd7a7',
+      gammaTicketsAddress: '0x091C994c5766D79bF592e08C71D49C49Eaf1DCee'
     }
   },
   'bsc-testnet': {
@@ -151,12 +151,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlbscTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0xF292D1ea9f5AAFFc24bC8831EF772cc4ab10cAEe',
-      alphaAddress: '0x5FADd1178f6962c4cB7369CBE30f45212aBC3e12',
-      gammaCardsAddress: '0x449392C509B218043b2d23262F06c834F2C3f5D9',
-      gammaPackAddress: '0x9085a89Fe556f3180f328942832E44bDD4aeF54A',
-      gammaOffersAddress: '0xE513DC5C4c789Da7B308E4a76786Ed97eE44d4BE',
-      gammaTicketsAddress: '0xE8c40aaB664D9353753a80c3a68F011985E8D039'
+      daiAddress: '0x1ba960c6f624eC8d3fA3ACC4aFaF867538afd787',
+      alphaAddress: '0x56e14bf3adBE4C7566b4F9dCC9acc264429f5DC9',
+      gammaCardsAddress: '0x369443c3a885b6687d0f2a2Dc97b4EC69b9d90b3',
+      gammaPackAddress: '0xA62A947c0BD0A14317A6EAd7e32b227f4F9C36ef',
+      gammaOffersAddress: '0x4C1d15c7EcEDF52eE7073CeD26b0A6c482b27c69',
+      gammaTicketsAddress: '0xC67963E0742074bfa74610D28663FB3a524201D8'
     }
   },
   'opbnb-testnet': {
@@ -173,12 +173,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlopBnbTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0x8d2a7988FbF205724fcF40387A7A3b9eE89B97a1',
-      alphaAddress: '0x2BEBce69E67B9b4a29eb0BA363245f9B82004503',
-      gammaCardsAddress: '0xCcCC970eb4A307E75d6fe0C1D42f0Fd0C6cA6BeA',
-      gammaPackAddress: '0x87502b899F3f6eA979C9e7DD5abDA95ce4Fbc247',
-      gammaOffersAddress: '0x03388a96d37Aea7E302DB897aDacc9De433799c5',
-      gammaTicketsAddress: '0x5d8fF80112c1a9C6Ed1593405f9Fb145F72f38a9'
+      daiAddress: '0xE3Afd0e2b6b955a56A1823039DE577d3ce7B15BC',
+      alphaAddress: '0xaAf52b86Cb71c14bd01eC6AC88481BC94470fFD7',
+      gammaCardsAddress: '0x4a65B5138fCaBFE8a7c676688E9884F1eBdc1906',
+      gammaPackAddress: '0xd792e3040FaCa21E0a7414422DeC6000Cc66BB79',
+      gammaOffersAddress: '0xB90B462d5c609CC548a8135C264b212688A9Fe1f',
+      gammaTicketsAddress: '0xa7ec2fd75cAfd694866AF76e865D8b34b24CB5D8'
     }
   },
   matic: {
