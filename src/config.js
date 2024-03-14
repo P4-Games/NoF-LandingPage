@@ -57,6 +57,25 @@ export const adminAccounts =
 // calculated variables
 // ------------------------------------------------------------------
 
+const hardhatContractAddressDAI = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_DAI_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressAlpha = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_ALPHA_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaCards = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_CARDS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaPacks = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_PACKS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaOffers = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_OFFERS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaTickets = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_TICKETS_HARDHAT_CONTRACT_ADDRESS
+)
+
 export const defaultSettings = {
   languagePresets: 'es',
   languageSetted: 'es'
@@ -86,12 +105,13 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
-      alphaAddress: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
-      gammaCardsAddress: '0x0165878A594ca255338adfa4d48449f69242Eb8F',
-      gammaPackAddress: '0xa513E6E4b8f2a923D98304ec87F64353C4D5C853',
-      gammaOffersAddress: '0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6',
-      gammaTicketsAddress: '0x8A791620dd6260079BF849Dc5567aDC3F2FdC318'
+      // In local environment (hardhat), it take contracts addresss from environment variables
+      daiAddress: hardhatContractAddressDAI,
+      alphaAddress: hardhatContractAddressAlpha,
+      gammaCardsAddress: hardhatContractAddressGammaCards,
+      gammaPackAddress: hardhatContractAddressGammaPacks,
+      gammaOffersAddress: hardhatContractAddressGammaOffers,
+      gammaTicketsAddress: hardhatContractAddressGammaTickets
     }
   },
   mumbai: {
@@ -186,3 +206,8 @@ export const NETWORKS = {
 }
 
 // ------------------------------------------------------------------
+
+function removeQuotes(text) {
+  if (text === '' || !text) return text
+  return text.replace("'", '').replace('"', '')
+}
