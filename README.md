@@ -56,6 +56,15 @@ NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x35dad65F60c1A32c9895BE97f6bcE57D32792E83,0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
 
+# Only por local environment to put contracts addresses from hardhat
+NEXT_PUBLIC_NOF_DAI_HARDHAT_CONTRACT_ADDRESS=''
+NEXT_PUBLIC_NOF_ALPHA_HARDHAT_CONTRACT_ADDRESS=''
+NEXT_PUBLIC_NOF_GAMMA_CARDS_HARDHAT_CONTRACT_ADDRESS=''
+NEXT_PUBLIC_NOF_GAMMA_PACKS_HARDHAT_CONTRACT_ADDRESS=''
+NEXT_PUBLIC_NOF_GAMMA_OFFERS_HARDHAT_CONTRACT_ADDRESS=''
+NEXT_PUBLIC_NOF_GAMMA_TICKETS_HARDHAT_CONTRACT_ADDRESS=''
+
+
 ```
 
 The source code of the smart contracts is located at [https://github.com/P4-Games/NoF-Smart-Contracts](https://github.com/P4-Games/NoF-Smart-Contracts). If you want to run them locally (example: on a hardhat or ganache node), after compiling them locally, change the addresses in the .env and set these options to network:
