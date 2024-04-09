@@ -41,7 +41,6 @@ export default async function handler(req, res) {
       join(process.cwd(), 'scripts', 'characters', `${c.id}.png`)
     )
 
-
     // Crear una matriz de promesas para cargar las imágenes
     const imagePromises = characterImagePaths.map(async (imagePath) => await Jimp.read(imagePath))
 

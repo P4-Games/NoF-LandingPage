@@ -57,6 +57,25 @@ export const adminAccounts =
 // calculated variables
 // ------------------------------------------------------------------
 
+const hardhatContractAddressDAI = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_DAI_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressAlpha = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_ALPHA_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaCards = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_CARDS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaPacks = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_PACKS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaOffers = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_OFFERS_HARDHAT_CONTRACT_ADDRESS
+)
+const hardhatContractAddressGammaTickets = removeQuotes(
+  process.env.NEXT_PUBLIC_NOF_GAMMA_TICKETS_HARDHAT_CONTRACT_ADDRESS
+)
+
 export const defaultSettings = {
   languagePresets: 'es',
   languageSetted: 'es'
@@ -86,12 +105,13 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0xfbC22278A96299D91d41C453234d97b4F5Eb9B2d',
-      alphaAddress: '0x46b142DD1E924FAb83eCc3c08e4D46E82f005e0E',
-      gammaCardsAddress: '0xC9a43158891282A2B1475592D5719c001986Aaec',
-      gammaPackAddress: '0x1c85638e118b37167e9298c2268758e058DdfDA0',
-      gammaOffersAddress: '0x367761085BF3C12e5DA2Df99AC6E1a824612b8fb',
-      gammaTicketsAddress: '0x4C2F7092C2aE51D986bEFEe378e50BD4dB99C901'
+      // In local environment (hardhat), it take contracts addresss from environment variables
+      daiAddress: hardhatContractAddressDAI,
+      alphaAddress: hardhatContractAddressAlpha,
+      gammaCardsAddress: hardhatContractAddressGammaCards,
+      gammaPackAddress: hardhatContractAddressGammaPacks,
+      gammaOffersAddress: hardhatContractAddressGammaOffers,
+      gammaTicketsAddress: hardhatContractAddressGammaTickets
     }
   },
   mumbai: {
@@ -110,11 +130,11 @@ export const NETWORKS = {
     },
     contracts: {
       daiAddress: '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
-      alphaAddress: '0x7C201e88e43b5FBEEfB77F966c2a5D2E09178B49',
-      gammaCardsAddress: '0x34658c07F05638E12793d0961595cBc72fA69452',
-      gammaPackAddress: '0xDc06FbD70b2159863d079aE282d69AEe8a88A18E',
-      gammaOffersAddress: '0x3Da346C40A0D90cf5642944613586439A3456d45',
-      gammaTicketsAddress: '0x7593aad3e13fBd27F113aad8688E8817Ac4f9A33'
+      alphaAddress: '0x816EA704F9bEf91284bA72bEBdAC1d1c5788246b',
+      gammaCardsAddress: '0x394Fc1975972de88806b2E81Ed53f3E020f29D09',
+      gammaPackAddress: '0xfb4C387227d3692Be50376ff930472294ADEcED8',
+      gammaOffersAddress: '0x1eDB114Bb7A0CBaDA9c9550BD2F3F1bFC08Bd7a7',
+      gammaTicketsAddress: '0x091C994c5766D79bF592e08C71D49C49Eaf1DCee'
     }
   },
   'bsc-testnet': {
@@ -131,12 +151,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlbscTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0x83330b5803838604d85B7Cba393C930084F45A7d',
-      alphaAddress: '0x4eE8C9cc2cF081f11F56A264EF52e3FeaDe1b35e',
-      gammaCardsAddress: '0x25f85D878972f9506b4De49cEff480f627935521',
-      gammaPackAddress: '0x71aA05fD8532a1395DffaB6FdA8be191fC8168FE',
-      gammaOffersAddress: '0x168eE5cfE8b7EDC7F24cA0326DFfF3Ef6DF37f2F',
-      gammaTicketsAddress: '0xA5c3Cd20AB6FF1e299D93ee268370BCC19a32E71'
+      daiAddress: '0x1ba960c6f624eC8d3fA3ACC4aFaF867538afd787',
+      alphaAddress: '0x56e14bf3adBE4C7566b4F9dCC9acc264429f5DC9',
+      gammaCardsAddress: '0x369443c3a885b6687d0f2a2Dc97b4EC69b9d90b3',
+      gammaPackAddress: '0xA62A947c0BD0A14317A6EAd7e32b227f4F9C36ef',
+      gammaOffersAddress: '0x4C1d15c7EcEDF52eE7073CeD26b0A6c482b27c69',
+      gammaTicketsAddress: '0xC67963E0742074bfa74610D28663FB3a524201D8'
     }
   },
   'opbnb-testnet': {
@@ -153,12 +173,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlopBnbTestnet // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '0x46480E0d10966Ea274831D9693a56f9c09D7339d',
-      alphaAddress: '0x36f19A5397DbE26b548b15C158f7a8e00979B408',
-      gammaCardsAddress: '0x2842c8FD88F801018E53dDDeBbC944aE377D0F72',
-      gammaPackAddress: '0x1116218412559628B67aa15F3c527D68F0A71b91',
-      gammaOffersAddress: '0xe810524F7C7C62A2201FdF1bCA20649Bd7D70844',
-      gammaTicketsAddress: '0xd9988C491805AE2573FA156b27CDE1a6f7B3E073'
+      daiAddress: '0xE3Afd0e2b6b955a56A1823039DE577d3ce7B15BC',
+      alphaAddress: '0xaAf52b86Cb71c14bd01eC6AC88481BC94470fFD7',
+      gammaCardsAddress: '0x4a65B5138fCaBFE8a7c676688E9884F1eBdc1906',
+      gammaPackAddress: '0xd792e3040FaCa21E0a7414422DeC6000Cc66BB79',
+      gammaOffersAddress: '0xB90B462d5c609CC548a8135C264b212688A9Fe1f',
+      gammaTicketsAddress: '0xa7ec2fd75cAfd694866AF76e865D8b34b24CB5D8'
     }
   },
   matic: {
@@ -186,3 +206,8 @@ export const NETWORKS = {
 }
 
 // ------------------------------------------------------------------
+
+function removeQuotes(text) {
+  if (text === '' || !text) return text
+  return text.replace(/['"]/g, '')
+}
