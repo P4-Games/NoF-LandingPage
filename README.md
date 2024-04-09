@@ -122,9 +122,7 @@ yarn deploy-mock-data # run the mock data
 # Then upload the hardhat addresses to your wallets
 ```
 
-# Collaborators
-
-[P4Troy](https://github.com/mpefaur) - [dvj](https://github.com/dappsar) - [tomasfrancisco](https://github.com/tomasfrancizco) [NextDoor](https://github.com/NextDoor95) - [Julian624](https://github.com/julian624) - [Gabriel Vazquez](https://github.com/gavafue) - [Ezeee](https://github.com/EperezOk)
+# Contribution
 
 Thank you for considering helping out with the source code! We welcome contributions from anyone on the internet, and are grateful for even the smallest of fixes!
 
