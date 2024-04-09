@@ -130,17 +130,12 @@ If you'd like to contribute to NoF, please fork, fix, commit and send a pull req
 
 Please make sure your contributions adhere to our [coding guidelines](./.doc/contribution.md).
 
-
 ## Contributors
 
 [P4Troy](https://github.com/mpefaur) - [dappsar](https://github.com/dappsar) - [tomasfrancisco](https://github.com/tomasfrancizco) [NextDoor](https://github.com/NextDoor95) - [Julian624](https://github.com/julian624) - [Gabriel Vazquez](https://github.com/gavafue) - [Ezeee](https://github.com/EperezOk)
 
 see more in: https://github.com/P4-Games/NoF-LandingPage/graphs/contributors
 
-
-
 # Links
 
 - BNB & opBNB node provider: [nodereal.io](https://nodereal.io/)
-
-
