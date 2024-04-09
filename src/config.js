@@ -209,5 +209,5 @@ export const NETWORKS = {
 
 function removeQuotes(text) {
   if (text === '' || !text) return text
-  return text.replace("'", '').replace('"', '')
+  return text.replace(/['"]/g, '')
 }
