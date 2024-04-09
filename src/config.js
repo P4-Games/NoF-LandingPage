@@ -38,7 +38,7 @@ export const MAIL_CONFIG = {
 export const walletConnectProjectId =
   process.env.WALLET_CONNECT_PROJECT_ID || 'd66ff03f26d5a3ef19530ba69b815448'
 // not exposed, included then in NETWORKS variable.
-const NodeProviderUrlMumbai =
+const NodeProviderUrlPolygon =
   process.env.NODE_PROVIDER_MUMBAI_URL || 'https://polygon-mumbai.g.alchemy.com/v2/'
 const NodeProviderUrlbscTestnet = process.env.NODE_PROVIDER_BSC_TESTNET_URL
 const NodeProviderUrlopBnbTestnet = process.env.NODE_PROVIDER_OPBNB_TESTNET
@@ -102,7 +102,7 @@ export const NETWORKS = {
       chainExplorerUrl: 'http://localhost:8545',
       chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/',
       chainNftUrl: '',
-      chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
       // In local environment (hardhat), it take contracts addresss from environment variables
@@ -112,6 +112,28 @@ export const NETWORKS = {
       gammaPackAddress: hardhatContractAddressGammaPacks,
       gammaOffersAddress: hardhatContractAddressGammaOffers,
       gammaTicketsAddress: hardhatContractAddressGammaTickets
+    }
+  },
+  amoy: {
+    config: {
+      enabled: 'true',
+      environment: 'testing',
+      chainName: 'amoy',
+      chainId: '0x13882',
+      chainCurrency: 'MATIC',
+      ChainRpcUrl: 'https://rpc-amoy.polygon.technology',
+      chainExplorerUrl: 'https://www.oklink.com/amoy',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/amoy',
+      chainNftUrl: 'https://www.oklink.com/es-la/amoy/',
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '0xd5654b986d5aDba8662c06e847E32579078561dC',
+      alphaAddress: '0xBA5E2aF09e39CC36dfBc9530c4d4C89d5C44d323',
+      gammaCardsAddress: '0xe6C812381DF5532A4bA4dA27baA1889adf67eec4',
+      gammaPackAddress: '0xc616ac2191C6012791d3aBFA0e8f372579986090',
+      gammaOffersAddress: '0x7DC00081F078D64B7b02535d82D3b6041D79Ce32',
+      gammaTicketsAddress: '0xCD177Fa01b249Ee8ca1afF0136c06cD279E8Bf3e'
     }
   },
   mumbai: {
@@ -126,7 +148,7 @@ export const NETWORKS = {
       chainOpenSeaBaseUrl: 'https://testnets.opensea.io/assets/mumbai',
       chainNftUrl:
         'https://mumbai.polygonscan.com/token/0x34658c07F05638E12793d0961595cBc72fA69452',
-      chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
       daiAddress: '0xEa4c35c858E15Cef77821278A88435dE57bc8707',
@@ -183,7 +205,7 @@ export const NETWORKS = {
   },
   matic: {
     config: {
-      enabled: 'false',
+      enabled: 'true',
       environment: 'production',
       chainName: 'matic',
       chainId: '0x89',
@@ -191,8 +213,8 @@ export const NETWORKS = {
       ChainRpcUrl: 'https://polygon-mainnet.infura.io',
       chainExplorerUrl: 'https://polygonscan.com',
       chainOpenSeaBaseUrl: 'https://opensea.io/assets/matic',
-      chainNftUrl: '',
-      chainNodeProviderUrl: NodeProviderUrlMumbai // visible ONLY in server side code! (in cliente side will be undefined)
+      chainNftUrl: 'https://polygonscan.com/',
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
       daiAddress: '',
