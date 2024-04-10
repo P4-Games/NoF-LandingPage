@@ -217,12 +217,12 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '',
-      alphaAddress: '',
-      gammaCardsAddress: '',
-      gammaPackAddress: '',
-      gammaOffersAddress: '',
-      gammaTicketsAddress: ''
+      daiAddress: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+      alphaAddress: '0x5A2ccC423C0C36A1B05a080eb4972993a1Dd0980',
+      gammaCardsAddress: '0x0a703481a0C67B9A4EE0EE49945F193f117F7505',
+      gammaPackAddress: '0x78E491965a1A8646643126A38C8217CfA27F2339',
+      gammaOffersAddress: '0x94Ac8Cb81Ef3c3B056dca42974bF8A57A7B9BA03',
+      gammaTicketsAddress: '0x0DC4f203E9113018010720484d35a4bfa1c0beA5'
     }
   }
 }
