@@ -69,7 +69,12 @@ function LayoutProvider({ children }) {
 
   const getCurrentPage = useCallback(() => {
     if (!bookRef || !bookRef.current) return 0
-    const currentPage = bookRef.current.pageFlip().getCurrentPageIndex()
+    let currentPage = 0
+    try {
+      currentPage = bookRef.current.pageFlip().getCurrentPageIndex()
+    } catch (e) {
+      console.error('Error when try to set crrent page', e)
+    }
     return currentPage
   }, [])
 

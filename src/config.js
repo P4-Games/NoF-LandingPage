@@ -213,7 +213,7 @@ export const NETWORKS = {
       ChainRpcUrl: 'https://polygon-mainnet.infura.io',
       chainExplorerUrl: 'https://polygonscan.com',
       chainOpenSeaBaseUrl: 'https://opensea.io/assets/matic',
-      chainNftUrl: 'https://polygonscan.com/',
+      chainNftUrl: 'https://polygonscan.com/token/0x0a703481a0c67b9a4ee0ee49945f193f117f7505',
       chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
