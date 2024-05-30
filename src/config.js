@@ -224,7 +224,29 @@ export const NETWORKS = {
       gammaOffersAddress: '0x94Ac8Cb81Ef3c3B056dca42974bF8A57A7B9BA03',
       gammaTicketsAddress: '0x0DC4f203E9113018010720484d35a4bfa1c0beA5'
     }
-  }
+  },
+  sepolia: {
+    config: {
+      enabled: 'true',
+      environment: 'testing',
+      chainName: 'sepolia',
+      chainId: '0xaa36a7',
+      chainCurrency: 'ETH',
+      ChainRpcUrl: 'https://sepolia.infura.io/v3',
+      chainExplorerUrl: 'https://sepolia.etherscan.io',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io',
+      chainNftUrl: '',
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '',
+      alphaAddress: '',
+      gammaCardsAddress: '',
+      gammaPackAddress: '',
+      gammaOffersAddress: '',
+      gammaTicketsAddress: ''
+    }
+  },
 }
 
 // ------------------------------------------------------------------
