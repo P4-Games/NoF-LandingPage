@@ -1,5 +1,11 @@
 import { ethers } from 'ethers'
 
+export const mintDai = async (daiContract, walletAddress, amount) => {
+  const trx = await daiContract._mint(walletAddress, ethers.utils.parseUnits(amount, 18))
+  await trx.wait()
+  return true
+}
+
 export const transfer = async (daiContract, walletAddress, amount) => {
   const trx = await daiContract.transfer(walletAddress, ethers.utils.parseUnits(amount, 18))
   await trx.wait()
