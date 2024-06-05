@@ -239,14 +239,14 @@ export const NETWORKS = {
       chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
     },
     contracts: {
-      daiAddress: '',
+      daiAddress: '0xed5aa3683d3CdD009dCC48f6fC7540bc5cdAbBe9',
       alphaAddress: '',
       gammaCardsAddress: '',
       gammaPackAddress: '',
       gammaOffersAddress: '',
       gammaTicketsAddress: ''
     }
-  },
+  }
 }
 
 // ------------------------------------------------------------------
