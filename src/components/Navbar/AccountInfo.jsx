@@ -86,7 +86,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         `,
         showDenyButton: false,
         showCancelButton: true,
-        confirmButtonText: `${t('mint')}`,
+        confirmButtonText: `${t('mintear')}`,
         confirmButtonColor: '#005EA3',
         color: 'black',
         background: 'white',
@@ -100,9 +100,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
           if (isNaN(amount)) {
             amountInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(
-              `${t('monto_error')}`
-            )
+            Swal.showValidationMessage(`${t('amount_invalid')}`)
           } else {
             if (isNaN(amount)) {
               amountInput.classList.add('swal2-inputerror')
@@ -276,9 +274,11 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div>
         <p>{`${walletBalance} ${tokenName}`}</p>
       </div>
-      
+
       <div className='account__info__icon__container'>
-        {currentNwk?.config.environment == 'testing' && <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />}
+        {currentNwk?.config.environment == 'testing' && (
+          <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
+        )}
         <AiOutlineSend
           onClick={() => {
             handleSendTokenClick()

@@ -162,9 +162,12 @@
     "account_text_copied": "Copied",
     "account_balance_zero": "You do not have enough balance to send.",
     "account_send_dai_title": "Token Transfer",
+    "account_mint_dai_title": "Mint DAI",
     "quantity": "Quantity",
     "quantity_invalid": "Invalid Quantity.",
+    "amount_invalid": "Invalid Amount.",
     "account_send_dai_error": "There was an error trying to transfer tokens.",
+    "account_mint_dai_error": "There was an error trying to mint DAI.",
     
     "notification_title": "Notifications",
     "notification_no_messages": "No Messages",
