@@ -5,7 +5,7 @@ import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { GoLinkExternal } from 'react-icons/go'
-import { AiOutlineSend } from 'react-icons/ai'
+import { AiOutlineSend, AiOutlineBank } from 'react-icons/ai'
 
 import { useWeb3Context, useLayoutContext } from '../../hooks'
 import { getBalance, getTokenName, transfer } from '../../services/dai'
@@ -72,6 +72,17 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     setTimeout(() => {
       setCopiedTextVisible(false)
     }, 1000)
+  }
+
+  const handleMintDaiClick = async () => {
+    try {
+      setShowAccountInfo(false)
+
+    } catch (e) {
+      stopLoading()
+      console.error({ e })
+      emitError(t('account_mint_dai_error'))
+    }
   }
 
   const handleSendTokenClick = async () => {
@@ -225,6 +236,10 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
         <p>{`${walletBalance} ${tokenName}`}</p>
       </div>
       <div className='account__info__icon__container'>
+        <AiOutlineBank
+          onClick={() => handleMintDaiClick()}
+          className='account__info__icon'
+        />
         <AiOutlineSend
           onClick={() => {
             handleSendTokenClick()
