@@ -353,7 +353,7 @@ const AlphaMain = () => {
     return albumData
   }
 
-  const showCards = (address, seasonName) => {
+  const showCards = (address, seasonName, isBuyingPack = false) => {
     try {
       checkPacks()
         .then((res) => {
@@ -409,7 +409,19 @@ const AlphaMain = () => {
             setShowMain((prevShowMain) => !prevShowMain)
             return pack
           } else {
-            setError(t('necesitas_comprar_pack'))
+            !isBuyingPack && Swal.fire({
+              title: `${t('alpha_no_cards_error_title')}`,
+              text: `${t('alpha_no_cards_error_text')}`,
+              icon: 'error',
+              showDenyButton: false,
+              showCancelButton: false,
+              color: 'black',
+              background: 'white',
+              customClass: {
+                image: 'cardalertimg',
+                input: 'alertinput'
+              }
+            })
           }
         })
         .catch((e) => {
@@ -422,7 +434,7 @@ const AlphaMain = () => {
   }
 
   const buyPack = (price, name) => {
-    showCards(walletAddress, seasonName)
+    showCards(walletAddress, seasonName, true)
       .then((cards) => {
         setError('')
         if (cards && cards.length > 0) {
