@@ -151,7 +151,7 @@ const AlphaMain = () => {
           setSeasonNames(activeSeasons)
 
           if (!activeSeasons || !activeSeasons.length) {
-            setError(t('no_season_nampes'))
+            setError(t('no_season_names'))
           } else {
             setError('')
           }
@@ -654,7 +654,7 @@ const AlphaMain = () => {
                 }}
               >
                 {error}
-                {error == t('no_season_nampes') && (
+                {error == t('no_season_names') && (
                   <button
                     id='alpha-create-new-season-button'
                     className='alpha_button alpha_main_button'
