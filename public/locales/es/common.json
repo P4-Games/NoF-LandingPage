@@ -151,6 +151,7 @@
     "alpha_season_name_error": "Nombre inválido",
     "alpha_season_price_error": "Precio inválido",
     "alpha_create_new_season_error": "Ocurrió un error al intentar crear la temporada",
+    "alpha_no_cards_error_text": "Debes comprar cartas para poder jugar.",
     "user_has_card_error": "Error verificando si el usuario tiene carta",
 
     "alpha_fetch_albums_error": "Ocurrió un error al intentar obtener los álbumes",

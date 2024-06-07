@@ -5,7 +5,7 @@ import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha } from '../../config'
-import { fetchDataAlpha, createNewSeason } from '../../services/alpha'
+import { fetchDataAlpha, createNewSeason, getAlbumData } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
 import Swal from 'sweetalert2'
@@ -348,11 +348,6 @@ const AlphaMain = () => {
     return number > minimum // True if the walletAddress balance is greater than the minimum value
   }
 
-  const getAlbumData = async (tokenId) => {
-    const albumData = await alphaContract.cards(tokenId)
-    return albumData
-  }
-
   const showCards = (address, seasonName, isBuyingPack = false) => {
     try {
       checkPacks()
@@ -409,19 +404,20 @@ const AlphaMain = () => {
             setShowMain((prevShowMain) => !prevShowMain)
             return pack
           } else {
-            !isBuyingPack && Swal.fire({
-              title: `${t('alpha_no_cards_error_title')}`,
-              text: `${t('alpha_no_cards_error_text')}`,
-              icon: 'error',
-              showDenyButton: false,
-              showCancelButton: false,
-              color: 'black',
-              background: 'white',
-              customClass: {
-                image: 'cardalertimg',
-                input: 'alertinput'
-              }
-            })
+            !isBuyingPack &&
+              Swal.fire({
+                title: "Error",
+                text: `${t('alpha_no_cards_error_text')}`,
+                icon: 'error',
+                showDenyButton: false,
+                showCancelButton: false,
+                color: 'black',
+                background: 'white',
+                customClass: {
+                  image: 'cardalertimg',
+                  input: 'alertinput'
+                }
+              })
           }
         })
         .catch((e) => {
@@ -522,7 +518,7 @@ const AlphaMain = () => {
       pegarCarta(cardIndex)
         .then((tokenId) => {
           showCards(walletAddress, seasonName)
-          getAlbumData(tokenId).then((res) => {
+          getAlbumData(alphaContract, tokenId).then((res) => {
             if (res.completion == 5) {
               emitSuccess(t('album_completo'))
             } else {

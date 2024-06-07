@@ -42,3 +42,8 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
   await trx.wait()
   return true
 }
+
+const getAlbumData = async (alphaContract, tokenId) => {
+  const albumData = await alphaContract.cards(tokenId)
+  return albumData
+}
