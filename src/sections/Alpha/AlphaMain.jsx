@@ -5,8 +5,16 @@ import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha } from '../../config'
-import { fetchDataAlpha, createNewSeason, getAlbumData } from '../../services/alpha'
-import { checkApproved } from '../../services/dai'
+import {
+  fetchDataAlpha,
+  createNewSeason,
+  getAlbumData,
+  checkPacks,
+  getSeasonFolder,
+  getUserCards,
+  getWinners
+} from '../../services/alpha'
+import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
 import Swal from 'sweetalert2'
 import { emitError, emitSuccess } from '../../utils/alert'
@@ -86,7 +94,7 @@ const AlphaMain = () => {
         const album = await alphaContract.getCardsByUserBySeason(walletAddress, seasonNames[i])
         for (let j = 0; j < album.length; j++) {
           if (album[j].class == 0) {
-            const folder = await getSeasonFolder(album[j].season)
+            const folder = await getSeasonFolder(alphaContract, album[j].season)
             albumsArr.push([album[j], folder])
           }
         }
@@ -291,66 +299,9 @@ const AlphaMain = () => {
     }
   }
 
-  const getUserCards = async (address, seasonName) => {
-    try {
-      const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
-      return cards
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
-  const getSeasonFolder = async (seasonName) => {
-    try {
-      const response = await alphaContract.seasons(seasonName)
-      return response.folder
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
-  const getWinners = async () => {
-    try {
-      const winners = await alphaContract.getWinners(seasonName)
-      return winners
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
-  const authorizeDaiContract = async () => {
-    try {
-      const authorization = await daiContract.approve(
-        alphaContract.address,
-        ethers.constants.MaxUint256,
-        { gasLimit: 2500000 }
-      )
-      await authorization.wait()
-      return authorization
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
-  const checkPacks = async () => {
-    try {
-      const check = await alphaContract.getSeasonAlbums(seasonName)
-      return check
-    } catch (ex) {
-      console.error(ex)
-    }
-  }
-
-  const checkBalance = async () => {
-    const balance = await daiContract.balanceOf(walletAddress)
-    const number = JSON.parse(ethers.BigNumber.from(balance).toString())
-    const minimum = 1000000000000000000 // Set the minimum balance value to 1 Dai
-    return number > minimum // True if the walletAddress balance is greater than the minimum value
-  }
-
   const showCards = (address, seasonName, isBuyingPack = false) => {
     try {
-      checkPacks()
+      checkPacks(alphaContract, seasonName)
         .then((res) => {
           if (res.length == 0) {
             setDisableTransfer(false)
@@ -361,7 +312,7 @@ const AlphaMain = () => {
         .catch((e) => {
           console.error({ e })
         })
-      const cards = getUserCards(address, seasonName)
+      const cards = getUserCards(alphaContract, address, seasonName)
         .then((pack) => {
           if (pack.length) {
             const albumData = []
@@ -376,7 +327,7 @@ const AlphaMain = () => {
             const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
             setAlbumCompletion(completion)
             setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
-            getSeasonFolder(seasonName)
+            getSeasonFolder(alphaContract, seasonName)
               .then((data) => {
                 if (data == 'alpha_jsons') {
                   setSeasonFolder('T1')
@@ -388,7 +339,7 @@ const AlphaMain = () => {
                   setAlbumImage(`${baseUrl}/${albumData[0].number + '.png'}`)
                 } else {
                   setAlbumImage(`${baseUrl}/${albumData[0].number + 'F.png'}`)
-                  getWinners()
+                  getWinners(alphaContract, seasonName)
                     .then((winners) => {
                       if (winners.includes(walletAddress)) {
                         setWinnerPosition(winners.indexOf(walletAddress) + 1)
@@ -406,7 +357,6 @@ const AlphaMain = () => {
           } else {
             !isBuyingPack &&
               Swal.fire({
-                title: "Error",
                 text: `${t('alpha_no_cards_error_text')}`,
                 icon: 'error',
                 showDenyButton: false,
@@ -437,12 +387,12 @@ const AlphaMain = () => {
           emitSuccess(t('ya_tienes_cartas'), 2000)
           return
         }
-        checkPacks()
+        checkPacks(alphaContract, name)
           .then((res) => {
             if (!res || res.length == 0) {
               setError(t('no_mas_packs'))
             } else {
-              if (checkBalance(walletAddress)) {
+              if (checkBalance(daiContract, walletAddress)) {
                 checkApproved(daiContract, walletAddress, alphaContract.address)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
@@ -465,7 +415,11 @@ const AlphaMain = () => {
                           stopLoading()
                         })
                     } else {
-                      authorizeDaiContract()
+                      authorizeDaiContract(
+                        daiContract,
+                        alphaContract.address,
+                        ethers.constants.MaxUint256
+                      )
                         .then(() => {
                           comprarPack(price, name)
                             .then((pack) => {
@@ -503,10 +457,10 @@ const AlphaMain = () => {
       })
   }
 
-  const pasteCard = (cardIndex) => {
+  const handlePasteCard = (cardIndex) => {
     try {
       startLoading()
-      const pegarCarta = async (cardIndex) => {
+      const pasteCard = async (cardIndex) => {
         const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
         const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
         const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
@@ -515,7 +469,7 @@ const AlphaMain = () => {
         await paste.wait()
         return albumTokenId
       }
-      pegarCarta(cardIndex)
+      pasteCard(cardIndex)
         .then((tokenId) => {
           showCards(walletAddress, seasonName)
           getAlbumData(alphaContract, tokenId).then((res) => {
@@ -692,7 +646,7 @@ const AlphaMain = () => {
                   <div className='alpha_progress_button_container'>
                     <button
                       className='alpha_button'
-                      onClick={() => pasteCard(cardIndex)}
+                      onClick={() => handlePasteCard(cardIndex)}
                       disabled={!isCollection}
                     >
                       {t('pegar')}

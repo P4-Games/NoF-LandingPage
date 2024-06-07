@@ -43,7 +43,43 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
   return true
 }
 
-const getAlbumData = async (alphaContract, tokenId) => {
+export const getAlbumData = async (alphaContract, tokenId) => {
   const albumData = await alphaContract.cards(tokenId)
   return albumData
+}
+
+export const checkPacks = async (alphaContract, seasonName) => {
+  try {
+    const check = await alphaContract.getSeasonAlbums(seasonName)
+    return check
+  } catch (ex) {
+    console.error(ex)
+  }
+}
+
+export const getSeasonFolder = async (alphaContract, seasonName) => {
+  try {
+    const response = await alphaContract.seasons(seasonName)
+    return response.folder
+  } catch (ex) {
+    console.error(ex)
+  }
+}
+
+export const getUserCards = async (alphaContract, address, seasonName) => {
+  try {
+    const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
+    return cards
+  } catch (ex) {
+    console.error(ex)
+  }
+}
+
+export const getWinners = async (alphaContract, seasonName) => {
+  try {
+    const winners = await alphaContract.getWinners(seasonName)
+    return winners
+  } catch (ex) {
+    console.error(ex)
+  }
 }
