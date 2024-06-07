@@ -379,7 +379,7 @@ const AlphaMain = () => {
     }
   }
 
-  const buyPack = (price, name) => {
+  const handleBuyPack = (price, name) => {
     showCards(walletAddress, seasonName, true)
       .then((cards) => {
         setError('')
@@ -408,7 +408,7 @@ const AlphaMain = () => {
                       comprarPack(price, name)
                         .then((pack) => {
                           setPack(pack)
-                          showCards(walletAddress, seasonName)
+                          showCards(walletAddress, seasonName, true)
                         })
                         .catch((err) => {
                           console.error({ err })
@@ -424,7 +424,7 @@ const AlphaMain = () => {
                           comprarPack(price, name)
                             .then((pack) => {
                               setPack(pack)
-                              showCards(walletAddress, seasonName)
+                              showCards(walletAddress, seasonName, true)
                             })
                             .catch((e) => {
                               console.error({ e })
@@ -471,7 +471,7 @@ const AlphaMain = () => {
       }
       pasteCard(cardIndex)
         .then((tokenId) => {
-          showCards(walletAddress, seasonName)
+          showCards(walletAddress, seasonName, true)
           getAlbumData(alphaContract, tokenId).then((res) => {
             if (res.completion == 5) {
               emitSuccess(t('album_completo'))
@@ -490,7 +490,7 @@ const AlphaMain = () => {
     }
   }
 
-  async function transferToken() {
+  const handleTokenTransfer = async () => {
     try {
       if (checkInputAddress(receiverAccount, walletAddress)) {
         setTransferError('')
@@ -503,7 +503,7 @@ const AlphaMain = () => {
         modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
         startLoading()
         await transaction.wait()
-        showCards(walletAddress, seasonName)
+        showCards(walletAddress, seasonName, true)
         setReceiverAccount('')
         stopLoading()
         emitSuccess(t('carta_enviada'))
@@ -596,7 +596,7 @@ const AlphaMain = () => {
                       {t('ver_cartas')}
                     </button>
                     <button
-                      onClick={() => buyPack(packPrice, seasonName)}
+                      onClick={() => handleBuyPack(packPrice, seasonName)}
                       className='alpha_button'
                       id='alpha_buy_pack_button'
                     >
@@ -724,7 +724,7 @@ const AlphaMain = () => {
                     />
                     <button
                       className='alpha_button'
-                      onClick={() => transferToken()}
+                      onClick={() => handleTokenTransfer()}
                       // disabled={disableTransfer}
                     >
                       {t('transferir')}
