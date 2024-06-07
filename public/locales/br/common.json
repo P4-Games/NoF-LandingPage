@@ -143,7 +143,7 @@
   "alpha_create_new_season": "Criar nova temporada",
   "alpha_season_create_title": "Criar nova temporada",
   "alpha_season_name": "Nome",
-  "alpha_season_price": "Preço (DAI)",
+  "alpha_season_pack_price": "Preço do pacote (DAI)",
   "alpha_season_cards_quantity": "Número de cartões",
   "alpha_season_folder": "Arquivo",
   "alpha_confirm_new_season": "Criar",

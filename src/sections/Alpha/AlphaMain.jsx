@@ -235,8 +235,8 @@ const AlphaMain = () => {
       const result = await Swal.fire({
         title: `${t('alpha_season_create_title')}`,
         html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
-          <input id="price" type='number' class="swal2-input" placeholder="${t(
-            'alpha_season_price'
+          <input id="packPrice" type='number' class="swal2-input" placeholder="${t(
+            'alpha_season_pack_price'
           )}">`,
 
         // <input id="amount" type='number' class="swal2-input" placeholder="${t(
