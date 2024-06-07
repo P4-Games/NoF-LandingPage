@@ -5,9 +5,10 @@ import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha } from '../../config'
-import { fetchDataAlpha } from '../../services/alpha'
+import { fetchDataAlpha, createNewSeason } from '../../services/alpha'
 import { checkApproved } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
+import Swal from 'sweetalert2'
 import { emitError, emitSuccess } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
@@ -148,7 +149,12 @@ const AlphaMain = () => {
           setPackPrice(currentPrice?.toString())
           setPackPrices(seasonData[1])
           setSeasonNames(activeSeasons)
-          setError(!activeSeasons || !activeSeasons.length ? t('no_season_nampes') : error)
+
+          if (!activeSeasons || !activeSeasons.length) {
+            setError(t('no_season_nampes'))
+          } else {
+            setError('')
+          }
         }
         stopLoading()
       } catch (ex) {
@@ -223,6 +229,67 @@ const AlphaMain = () => {
       }
     }
   }, [seasonName])
+
+  const handleCreateNewSeason = async () => {
+    try {
+      const result = await Swal.fire({
+        title: `${t('alpha_send_dai_title')}`,
+        html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
+          <input id="price" type='number' class="swal2-input" placeholder="${t(
+            'alpha_season_price'
+          )}">`,
+
+        // <input id="amount" type='number' class="swal2-input" placeholder="${t(
+        //   'alpha_season_cards_quantity'
+        // )}">
+        // <input id="folder" class="swal2-input" placeholder="${t('alpha_season_folder')}">
+
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('alpha_confirm_new_season')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        },
+        preConfirm: () => {
+          const nameInput = Swal.getPopup().querySelector('#name')
+          const priceInput = Swal.getPopup().querySelector('#price')
+          const name = nameInput.value
+          const price = priceInput.value
+
+          // const amountInput = Swal.getPopup().querySelector('#amount')
+          // const folderInput = Swal.getPopup().querySelector('#folder')
+          // const amount = amountInput.value
+          // const folder = folderInput.value
+
+          if (name.length > 12) {
+            nameInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(`${t('alpha_season_name_error')}`)
+          }
+          if (price < 1) {
+            priceInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
+          }
+
+          return { name: name, price: price }
+        }
+      })
+
+      if (result.isConfirmed) {
+        startLoading()
+        await createNewSeason(alphaContract, result.value.name, result.value.price)
+        emitSuccess(t('confirmado'), 2000)
+        stopLoading()
+      }
+    } catch (e) {
+      console.error({ e })
+      stopLoading()
+      emitError(t('alpha_create_new_season_error'))
+    }
+  }
 
   const getUserCards = async (address, seasonName) => {
     try {
@@ -580,10 +647,22 @@ const AlphaMain = () => {
                 style={{
                   color: 'red',
                   textAlign: 'center',
-                  marginTop: '10px'
+                  marginTop: '10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
                 }}
               >
                 {error}
+                {error == t('no_season_nampes') && (
+                  <button
+                    id='alpha-create-new-season-button'
+                    className='alpha_button alpha_main_button'
+                    onClick={() => handleCreateNewSeason()}
+                  >
+                    {t('alpha_create_new_season')}
+                  </button>
+                )}
               </span>
             </div>
 

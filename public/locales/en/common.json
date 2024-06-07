@@ -140,6 +140,7 @@
     "rules_gamma_right_text_4": "Multiple accounts are not allowed.",
 
     "no_season_nampes": "No seasons found",
+    "alpha_create_new_season": "Create New Season",
     "user_has_card_error": "Error checking if the user has a card",
 
     "alpha_fetch_albums_error": "There was an error while trying to fetch the albums",

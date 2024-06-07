@@ -140,6 +140,7 @@
   "rules_gamma_right_text_4": "Contas múltiplas não são permitidas.",
 
   "no_season_nampes": "Nenhuma temporada encontrada",
+  "alpha_create_new_season": "Criar nova temporada",
   "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
 
   "alpha_fetch_albums_error": "Houve um erro ao tentar obter os álbuns",

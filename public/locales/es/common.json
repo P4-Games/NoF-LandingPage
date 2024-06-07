@@ -141,6 +141,7 @@
     "rules_gamma_right_text_4": "No están permitidas las multicuentas.",
 
     "no_season_nampes": "No se encontraron temporadas",
+    "alpha_create_new_season": "Crear nueva temporada",
     "user_has_card_error": "Error verificando si el usuario tiene carta",
 
     "alpha_fetch_albums_error": "Ocurrió un error al intentar obtener los álbumes",

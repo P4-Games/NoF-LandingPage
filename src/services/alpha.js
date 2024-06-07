@@ -26,3 +26,12 @@ export const fetchDataAlpha = async () => {
     console.error({ e })
   }
 }
+
+export const createNewSeason = async (alphaContract, name, price) => {
+  const amount = 60;
+  const folder = 'T1';
+  console.log({alphaContract}, {name}, {price}, {amount}, {folder})
+  // const trx = await alphaContract.newSeason(name, price, amount, folder)
+  // await trx.wait()
+  return true
+}
