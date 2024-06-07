@@ -142,6 +142,15 @@
 
     "no_season_nampes": "No se encontraron temporadas",
     "alpha_create_new_season": "Crear nueva temporada",
+    "alpha_season_create_title": "Crear nueva temporada",
+    "alpha_season_name": "Nombre",
+    "alpha_season_price": "Precio (DAI)",
+    "alpha_season_cards_quantity": "Cantidad de cartas",
+    "alpha_season_folder": "Carpeta",
+    "alpha_confirm_new_season": "Crear",
+    "alpha_season_name_error": "Nombre inválido",
+    "alpha_season_price_error": "Precio inválido",
+    "alpha_create_new_season_error": "Ocurrió un error al intentar crear la temporada",
     "user_has_card_error": "Error verificando si el usuario tiene carta",
 
     "alpha_fetch_albums_error": "Ocurrió un error al intentar obtener los álbumes",

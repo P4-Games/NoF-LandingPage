@@ -233,7 +233,7 @@ const AlphaMain = () => {
   const handleCreateNewSeason = async () => {
     try {
       const result = await Swal.fire({
-        title: `${t('alpha_send_dai_title')}`,
+        title: `${t('alpha_season_create_title')}`,
         html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
           <input id="price" type='number' class="swal2-input" placeholder="${t(
             'alpha_season_price'

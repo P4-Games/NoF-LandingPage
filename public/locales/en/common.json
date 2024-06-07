@@ -141,6 +141,15 @@
 
     "no_season_nampes": "No seasons found",
     "alpha_create_new_season": "Create New Season",
+    "alpha_season_create_title": "Create New Season",
+    "alpha_season_name": "Name",
+    "alpha_season_price": "Price (DAI)",
+    "alpha_season_cards_quantity": "Cards quantity",
+    "alpha_season_folder": "Folder",
+    "alpha_confirm_new_season": "Create",
+    "alpha_season_name_error": "Invalid name",
+    "alpha_season_price_error": "Invalid price",
+    "alpha_create_new_season_error": "There was an error trying to create the new season",
     "user_has_card_error": "Error checking if the user has a card",
 
     "alpha_fetch_albums_error": "There was an error while trying to fetch the albums",

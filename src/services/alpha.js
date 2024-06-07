@@ -1,4 +1,9 @@
-import { graphUrl } from '../config'
+import {
+  graphUrl
+} from '../config'
+import {
+  ethers
+} from 'ethers'
 
 const query = `
   query getSeasonWinners {
@@ -18,20 +23,21 @@ export const fetchDataAlpha = async () => {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({
+        query
+      })
     })
     const json = await response.json()
     return json
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
   }
 }
 
-export const createNewSeason = async (alphaContract, name, price) => {
-  const amount = 60;
-  const folder = 'T1';
-  console.log({alphaContract}, {name}, {price}, {amount}, {folder})
-  // const trx = await alphaContract.newSeason(name, price, amount, folder)
-  // await trx.wait()
+export const createNewSeason = async (alphaContract, name, price, amount = 60, folder = 'T1') => {
+  const trx = await alphaContract.newSeason(name, ethers.utils.parseUnits(price, 18), amount, folder)
+  await trx.wait()
   return true
 }
