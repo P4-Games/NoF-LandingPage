@@ -242,7 +242,6 @@ const AlphaMain = () => {
   const handleCreateNewSeason = async () => {
     try {
       const authorization = await getAuthorized(alphaContract, walletAddress)
-      console.log({ authorization })
       if (authorization) {
         const result = await Swal.fire({
           title: `${t('alpha_season_create_title')}`,
@@ -297,7 +296,7 @@ const AlphaMain = () => {
           stopLoading()
         }
       } else {
-        emitError(t('no_autorizado'), 2000)
+        emitError(t('alpha_season_authorization'), 2000)
       }
     } catch (e) {
       console.error({ e })
