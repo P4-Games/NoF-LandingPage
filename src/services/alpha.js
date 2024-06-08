@@ -50,8 +50,8 @@ export const getAlbumData = async (alphaContract, tokenId) => {
 
 export const checkPacks = async (alphaContract, seasonName) => {
   try {
-    const check = await alphaContract.getSeasonAlbums(seasonName)
-    return check
+    const packs = await alphaContract.getSeasonAlbums(seasonName)
+    return packs
   } catch (ex) {
     console.error(ex)
   }

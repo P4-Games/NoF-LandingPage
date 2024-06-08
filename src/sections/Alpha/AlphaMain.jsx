@@ -385,82 +385,69 @@ const AlphaMain = () => {
     }
   }
 
-  const handleBuyPack = (price, name) => {
-    showCards(walletAddress, seasonName)
-      .then((cards) => {
-        setError('')
-        if (cards && cards.length > 0) {
-          emitSuccess(t('ya_tienes_cartas'), 2000)
-          return
-        }
-        checkPacks(alphaContract, name)
-          .then((res) => {
-            if (!res || res.length == 0) {
-              setError(t('no_mas_packs'))
-            } else {
-              if (checkBalance(daiContract, walletAddress)) {
-                checkApproved(daiContract, walletAddress, alphaContract.address)
-                  .then((res) => {
-                    const comprarPack = async (price, name) => {
-                      startLoading()
-                      const pack = await alphaContract.buyPack(price, name, {
-                        gasLimit: 2500000
-                      })
-                      await pack.wait()
-                      stopLoading()
-                      return pack
-                    }
-                    if (res) {
-                      comprarPack(price, name)
-                        .then((pack) => {
-                          setPack(pack)
-                          showCards(walletAddress, seasonName)
-                        })
-                        .catch((err) => {
-                          console.error({ err })
-                          stopLoading()
-                        })
-                    } else {
-                      authorizeDaiContract(
-                        daiContract,
-                        alphaContract.address,
-                        ethers.constants.MaxUint256
-                      )
-                        .then(() => {
-                          comprarPack(price, name)
-                            .then((pack) => {
-                              setPack(pack)
-                              showCards(walletAddress, seasonName)
-                            })
-                            .catch((e) => {
-                              console.error({ e })
-                              stopLoading()
-                            })
-                        })
-                        .catch((e) => {
-                          console.error({ e })
-                          stopLoading()
-                        })
-                    }
-                  })
-                  .catch((e) => {
-                    console.error({ e })
-                    stopLoading()
-                  })
-              } else {
-                emitError(t('no_dai'), 2000)
-              }
+  const handleBuyPack = async (price, name) => {
+    try {
+      const cards = await showCards(walletAddress, seasonName)
+      setError('')
+
+      if (cards && cards.length > 0) {
+        emitSuccess(t('ya_tienes_cartas'), 2000)
+        return
+      }
+
+      const packs = await checkPacks(alphaContract, name)
+      if (!packs || packs.length == 0) {
+        setError(t('no_mas_packs'))
+      } else {
+        const balance = await checkBalance(daiContract, walletAddress)
+        if (balance) {
+          const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
+          const comprarPack = async (price, name) => {
+            startLoading()
+            try {
+              const pack = await alphaContract.buyPack(price, name, {
+                gasLimit: 2500000
+              })
+              await pack.wait()
+              stopLoading()
+              return pack
+            } catch (err) {
+              console.error({ err })
+              stopLoading()
+              throw err
             }
-          })
-          .catch((e) => {
-            console.error({ e })
-            stopLoading()
-          })
-      })
-      .catch((e) => {
-        console.error({ e })
-        stopLoading()
-      })
+          }
+
+          if (approved) {
+            try {
+              const pack = await comprarPack(price, name)
+              setPack(pack)
+              await showCards(walletAddress, seasonName)
+            } catch (err) {
+              console.error({ err })
+            }
+          } else {
+            try {
+              await authorizeDaiContract(
+                daiContract,
+                alphaContract.address,
+                ethers.constants.MaxUint256
+              )
+              const pack = await comprarPack(price, name)
+              setPack(pack)
+              await showCards(walletAddress, seasonName)
+            } catch (err) {
+              console.error({ err })
+            }
+          }
+        } else {
+          emitError(t('no_dai'), 2000)
+        }
+      }
+    } catch (err) {
+      console.error({ err })
+      stopLoading()
+    }
   }
 
   const handlePasteCard = (cardIndex) => {
@@ -488,6 +475,7 @@ const AlphaMain = () => {
         })
         .catch((e) => {
           console.error({ e })
+          stopLoading()
         })
       stopLoading()
     } catch (ex) {
