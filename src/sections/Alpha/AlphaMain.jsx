@@ -114,65 +114,6 @@ const AlphaMain = () => {
   }, [walletAddress, isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const fetchSeasonData = async () => {
-      try {
-        if (!walletAddress || !isValidNetwork || !alphaContract) return
-        startLoading()
-        let seasonData = await alphaContract.getSeasonData()
-
-        if (seasonData) {
-          let currentSeason
-          let currentPrice
-
-          for (let i = 0; i < seasonData[0].length; i++) {
-            const season = await alphaContract.getSeasonAlbums(seasonData[0][i])
-
-            if (season.length > 0) {
-              currentSeason = seasonData[0][i]
-              currentPrice = seasonData[1][i]
-              break
-            } else {
-              currentSeason = seasonData[0][i]
-              currentPrice = seasonData[1][i]
-            }
-          }
-
-          const seasonWinnersCount = {}
-          const winnersQuery = await fetchDataAlpha()
-          const { winners } = winnersQuery.data
-
-          for (let i = 0; i < winners.length; i++) {
-            if (!seasonWinnersCount[winners[i].season]) {
-              seasonWinnersCount[winners[i].season] = 1
-            } else {
-              seasonWinnersCount[winners[i].season]++
-            }
-          }
-
-          const finishedSeasons = Object.entries(seasonWinnersCount)
-            .filter((season) => season[1] == 10)
-            .map((season) => season[0])
-          const activeSeasons = seasonData[0].filter((season) => !finishedSeasons.includes(season))
-
-          setSeasonName(currentSeason)
-          setPackPrice(currentPrice?.toString())
-          setPackPrices(seasonData[1])
-          setSeasonNames(activeSeasons)
-
-          if (!activeSeasons || !activeSeasons.length) {
-            setError(t('no_season_names'))
-          } else {
-            setError('')
-          }
-        }
-        stopLoading()
-      } catch (ex) {
-        stopLoading()
-        console.error(ex)
-        emitError(t('alpha_fetch_season_data_error'))
-      }
-    }
-
     fetchSeasonData()
   }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
@@ -239,6 +180,65 @@ const AlphaMain = () => {
     }
   }, [seasonName])
 
+  const fetchSeasonData = async () => {
+    try {
+      if (!walletAddress || !isValidNetwork || !alphaContract) return
+      startLoading()
+      let seasonData = await alphaContract.getSeasonData()
+
+      if (seasonData) {
+        let currentSeason
+        let currentPrice
+
+        for (let i = 0; i < seasonData[0].length; i++) {
+          const season = await alphaContract.getSeasonAlbums(seasonData[0][i])
+
+          if (season.length > 0) {
+            currentSeason = seasonData[0][i]
+            currentPrice = seasonData[1][i]
+            break
+          } else {
+            currentSeason = seasonData[0][i]
+            currentPrice = seasonData[1][i]
+          }
+        }
+
+        const seasonWinnersCount = {}
+        const winnersQuery = await fetchDataAlpha()
+        const { winners } = winnersQuery.data
+
+        for (let i = 0; i < winners.length; i++) {
+          if (!seasonWinnersCount[winners[i].season]) {
+            seasonWinnersCount[winners[i].season] = 1
+          } else {
+            seasonWinnersCount[winners[i].season]++
+          }
+        }
+
+        const finishedSeasons = Object.entries(seasonWinnersCount)
+          .filter((season) => season[1] == 10)
+          .map((season) => season[0])
+        const activeSeasons = seasonData[0].filter((season) => !finishedSeasons.includes(season))
+
+        setSeasonName(currentSeason)
+        setPackPrice(currentPrice?.toString())
+        setPackPrices(seasonData[1])
+        setSeasonNames(activeSeasons)
+
+        if (!activeSeasons || !activeSeasons.length) {
+          setError(t('no_season_names'))
+        } else {
+          setError('')
+        }
+      }
+      stopLoading()
+    } catch (ex) {
+      stopLoading()
+      console.error(ex)
+      emitError(t('alpha_fetch_season_data_error'))
+    }
+  }
+
   const handleCreateNewSeason = async () => {
     try {
       const authorization = await getAuthorized(alphaContract, walletAddress)
@@ -294,6 +294,7 @@ const AlphaMain = () => {
           await createNewSeason(alphaContract, result.value.name, result.value.price)
           emitSuccess(t('confirmado'), 2000)
           stopLoading()
+          fetchSeasonData()
         }
       } else {
         emitError(t('alpha_season_authorization'), 2000)
@@ -397,7 +398,7 @@ const AlphaMain = () => {
 
       const packs = await checkPacks(alphaContract, name)
       if (!packs || packs.length == 0) {
-        setError(t('no_mas_packs'))
+        emitError(t('no_mas_packs'))
       } else {
         const balance = await checkBalance(daiContract, walletAddress)
         if (balance) {
