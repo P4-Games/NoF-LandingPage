@@ -299,7 +299,7 @@ const AlphaMain = () => {
     }
   }
 
-  const showCards = (address, seasonName, isBuyingPack = false) => {
+  const showCards = (address, seasonName, isBuyingPack = true) => {
     try {
       checkPacks(alphaContract, seasonName)
         .then((res) => {
@@ -380,7 +380,7 @@ const AlphaMain = () => {
   }
 
   const handleBuyPack = (price, name) => {
-    showCards(walletAddress, seasonName, true)
+    showCards(walletAddress, seasonName)
       .then((cards) => {
         setError('')
         if (cards && cards.length > 0) {
@@ -408,7 +408,7 @@ const AlphaMain = () => {
                       comprarPack(price, name)
                         .then((pack) => {
                           setPack(pack)
-                          showCards(walletAddress, seasonName, true)
+                          showCards(walletAddress, seasonName)
                         })
                         .catch((err) => {
                           console.error({ err })
@@ -424,7 +424,7 @@ const AlphaMain = () => {
                           comprarPack(price, name)
                             .then((pack) => {
                               setPack(pack)
-                              showCards(walletAddress, seasonName, true)
+                              showCards(walletAddress, seasonName)
                             })
                             .catch((e) => {
                               console.error({ e })
@@ -471,7 +471,7 @@ const AlphaMain = () => {
       }
       pasteCard(cardIndex)
         .then((tokenId) => {
-          showCards(walletAddress, seasonName, true)
+          showCards(walletAddress, seasonName)
           getAlbumData(alphaContract, tokenId).then((res) => {
             if (res.completion == 5) {
               emitSuccess(t('album_completo'))
@@ -503,7 +503,7 @@ const AlphaMain = () => {
         modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
         startLoading()
         await transaction.wait()
-        showCards(walletAddress, seasonName, true)
+        showCards(walletAddress, seasonName)
         setReceiverAccount('')
         stopLoading()
         emitSuccess(t('carta_enviada'))
@@ -589,7 +589,7 @@ const AlphaMain = () => {
                   </div>
                   <div className='alpha_start_buttons'>
                     <button
-                      onClick={() => showCards(walletAddress, seasonName)}
+                      onClick={() => showCards(walletAddress, seasonName, false)}
                       className='alpha_button'
                       id='alpha_show_cards_button'
                     >
