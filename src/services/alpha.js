@@ -83,3 +83,12 @@ export const getWinners = async (alphaContract, seasonName) => {
     console.error(ex)
   }
 }
+
+export const getAuthorized = async (alphaContract, address) => {
+  try {
+    const authorized = await alphaContract.getAuthorized(address)
+    return authorized
+  } catch (ex) {
+    console.error(ex)
+  }
+}

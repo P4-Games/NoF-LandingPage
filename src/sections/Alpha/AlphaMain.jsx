@@ -12,7 +12,8 @@ import {
   checkPacks,
   getSeasonFolder,
   getUserCards,
-  getWinners
+  getWinners,
+  getAuthorized
 } from '../../services/alpha'
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
@@ -240,57 +241,63 @@ const AlphaMain = () => {
 
   const handleCreateNewSeason = async () => {
     try {
-      const result = await Swal.fire({
-        title: `${t('alpha_season_create_title')}`,
-        html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
-          <input id="packPrice" type='number' class="swal2-input" placeholder="${t(
-            'alpha_season_pack_price'
-          )}">`,
+      const authorization = await getAuthorized(alphaContract, walletAddress)
+      console.log({ authorization })
+      if (authorization) {
+        const result = await Swal.fire({
+          title: `${t('alpha_season_create_title')}`,
+          html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
+            <input id="packPrice" type='number' class="swal2-input" placeholder="${t(
+              'alpha_season_pack_price'
+            )}">`,
 
-        // <input id="amount" type='number' class="swal2-input" placeholder="${t(
-        //   'alpha_season_cards_quantity'
-        // )}">
-        // <input id="folder" class="swal2-input" placeholder="${t('alpha_season_folder')}">
+          // <input id="amount" type='number' class="swal2-input" placeholder="${t(
+          //   'alpha_season_cards_quantity'
+          // )}">
+          // <input id="folder" class="swal2-input" placeholder="${t('alpha_season_folder')}">
 
-        showDenyButton: false,
-        showCancelButton: true,
-        confirmButtonText: `${t('alpha_confirm_new_season')}`,
-        confirmButtonColor: '#005EA3',
-        color: 'black',
-        background: 'white',
-        customClass: {
-          image: 'cardalertimg',
-          input: 'alertinput'
-        },
-        preConfirm: () => {
-          const nameInput = Swal.getPopup().querySelector('#name')
-          const priceInput = Swal.getPopup().querySelector('#packPrice')
-          const name = nameInput.value
-          const price = priceInput.value
+          showDenyButton: false,
+          showCancelButton: true,
+          confirmButtonText: `${t('alpha_confirm_new_season')}`,
+          confirmButtonColor: '#005EA3',
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          },
+          preConfirm: () => {
+            const nameInput = Swal.getPopup().querySelector('#name')
+            const priceInput = Swal.getPopup().querySelector('#packPrice')
+            const name = nameInput.value
+            const price = priceInput.value
 
-          // const amountInput = Swal.getPopup().querySelector('#amount')
-          // const folderInput = Swal.getPopup().querySelector('#folder')
-          // const amount = amountInput.value
-          // const folder = folderInput.value
+            // const amountInput = Swal.getPopup().querySelector('#amount')
+            // const folderInput = Swal.getPopup().querySelector('#folder')
+            // const amount = amountInput.value
+            // const folder = folderInput.value
 
-          if (name.length > 12) {
-            nameInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(`${t('alpha_season_name_error')}`)
+            if (name.length > 12) {
+              nameInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('alpha_season_name_error')}`)
+            }
+            if (price < 1) {
+              priceInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
+            }
+
+            return { name: name, price: price }
           }
-          if (price < 1) {
-            priceInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
-          }
+        })
 
-          return { name: name, price: price }
+        if (result.isConfirmed) {
+          startLoading()
+          await createNewSeason(alphaContract, result.value.name, result.value.price)
+          emitSuccess(t('confirmado'), 2000)
+          stopLoading()
         }
-      })
-
-      if (result.isConfirmed) {
-        startLoading()
-        await createNewSeason(alphaContract, result.value.name, result.value.price)
-        emitSuccess(t('confirmado'), 2000)
-        stopLoading()
+      } else {
+        emitError(t('no_autorizado'), 2000)
       }
     } catch (e) {
       console.error({ e })
