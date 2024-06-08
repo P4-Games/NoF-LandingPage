@@ -264,7 +264,7 @@ const AlphaMain = () => {
         },
         preConfirm: () => {
           const nameInput = Swal.getPopup().querySelector('#name')
-          const priceInput = Swal.getPopup().querySelector('#price')
+          const priceInput = Swal.getPopup().querySelector('#packPrice')
           const name = nameInput.value
           const price = priceInput.value
 
@@ -396,10 +396,10 @@ const AlphaMain = () => {
                 checkApproved(daiContract, walletAddress, alphaContract.address)
                   .then((res) => {
                     const comprarPack = async (price, name) => {
+                      startLoading()
                       const pack = await alphaContract.buyPack(price, name, {
                         gasLimit: 2500000
                       })
-                      startLoading()
                       await pack.wait()
                       stopLoading()
                       return pack
@@ -601,6 +601,13 @@ const AlphaMain = () => {
                       id='alpha_buy_pack_button'
                     >
                       {`${t('comprar_pack')} ($${packPrice?.substring(0, packPrice.length - 18)})`}
+                    </button>
+                    <button
+                      id='alpha-create-new-season-button'
+                      className='alpha_button alpha_main_button'
+                      onClick={() => handleCreateNewSeason()}
+                    >
+                      {t('alpha_create_new_season')}
                     </button>
                   </div>
                 </>
