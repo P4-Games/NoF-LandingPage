@@ -13,7 +13,9 @@ import {
   getSeasonFolder,
   getUserCards,
   getWinners,
-  getAuthorized
+  getAuthorized,
+  transferCard,
+  getSeasonPlayers
 } from '../../services/alpha'
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
@@ -250,11 +252,6 @@ const AlphaMain = () => {
               'alpha_season_pack_price'
             )}">`,
 
-          // <input id="amount" type='number' class="swal2-input" placeholder="${t(
-          //   'alpha_season_cards_quantity'
-          // )}">
-          // <input id="folder" class="swal2-input" placeholder="${t('alpha_season_folder')}">
-
           showDenyButton: false,
           showCancelButton: true,
           confirmButtonText: `${t('alpha_confirm_new_season')}`,
@@ -270,11 +267,6 @@ const AlphaMain = () => {
             const priceInput = Swal.getPopup().querySelector('#packPrice')
             const name = nameInput.value
             const price = priceInput.value
-
-            // const amountInput = Swal.getPopup().querySelector('#amount')
-            // const folderInput = Swal.getPopup().querySelector('#folder')
-            // const amount = amountInput.value
-            // const folder = folderInput.value
 
             if (name.length > 12) {
               nameInput.classList.add('swal2-inputerror')
@@ -428,6 +420,7 @@ const AlphaMain = () => {
               console.error({ err })
             }
           } else {
+            startLoading()
             try {
               await authorizeDaiContract(
                 daiContract,
@@ -436,9 +429,11 @@ const AlphaMain = () => {
               )
               const pack = await comprarPack(price, name)
               setPack(pack)
+              stopLoading()
               await showCards(walletAddress, seasonName)
             } catch (err) {
               console.error({ err })
+              stopLoading()
             }
           }
         } else {
@@ -482,6 +477,52 @@ const AlphaMain = () => {
     } catch (ex) {
       stopLoading()
       console.error(ex)
+    }
+  }
+
+  const handleTokenTransfer2 = async (tokenId, collection) => {
+    setCardToTransfer(tokenId)
+    const players = await getSeasonPlayers(alphaContract, seasonName)
+    const playersOptions = players
+      .filter((player) => player != walletAddress)
+      .reduce((obj, player) => ({ ...obj, [player]: player }), {})
+    try {
+      const result = await Swal.fire({
+        title: `${t('alpha_transfer_card_title')} ${collection}`,
+
+        input: 'select',
+        inputPlaceholder: `${t('wallet_destinatario')}`,
+        inputOptions: playersOptions,
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('alpha_confirm_transfer_card')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        },
+        inputValidator: (value) => {
+          if (!value) {
+            return `${t('alpha_transfer_card_address_error')}`
+          }
+        }
+      })
+
+      if (result.isConfirmed) {
+        console.log({ result })
+        console.log({ cardToTransfer })
+        startLoading()
+        const tx = await transferCard(alphaContract, walletAddress, result.value, cardToTransfer)
+        emitSuccess(t('carta_enviada'), 2000)
+        stopLoading()
+        showCards(walletAddress, seasonName)
+      }
+    } catch (e) {
+      stopLoading()
+      console.error({ e })
+      emitError(t('alpha_transfer_card_error'))
     }
   }
 
@@ -656,11 +697,13 @@ const AlphaMain = () => {
                     <button
                       className='alpha_button'
                       onClick={() => {
-                        setCardToTransfer(
-                          ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
-                        )
-                        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                        modal.setAttribute('class', 'alpha_transfer_modal')
+                        const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
+                        const collection = ethers.BigNumber.from(
+                          cards[cardIndex].collection
+                        ).toNumber()
+                        handleTokenTransfer2(tokenId, collection)
+                        // const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
+                        // modal.setAttribute('class', 'alpha_transfer_modal')
                       }}
                       disabled={!(cards.length > 0)}
                     >
