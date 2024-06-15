@@ -284,8 +284,8 @@ const AlphaMain = () => {
         if (result.isConfirmed) {
           startLoading()
           await createNewSeason(alphaContract, result.value.name, result.value.price)
-          emitSuccess(t('confirmado'), 2000)
           stopLoading()
+          emitSuccess(t('confirmado'), 2000)
           fetchSeasonData()
         }
       } else {
@@ -480,7 +480,8 @@ const AlphaMain = () => {
     }
   }
 
-  const handleTokenTransfer2 = async (tokenId, collection) => {
+  const handleTokenTransfer = async (tokenId, collection) => {
+    console.log({ tokenId, collection })
     setCardToTransfer(tokenId)
     const players = await getSeasonPlayers(alphaContract, seasonName)
     const playersOptions = players
@@ -495,7 +496,7 @@ const AlphaMain = () => {
         inputOptions: playersOptions,
         showDenyButton: false,
         showCancelButton: true,
-        confirmButtonText: `${t('alpha_confirm_transfer_card')}`,
+        confirmButtonText: `${t('transferir')}`,
         confirmButtonColor: '#005EA3',
         color: 'black',
         background: 'white',
@@ -505,53 +506,29 @@ const AlphaMain = () => {
         },
         inputValidator: (value) => {
           if (!value) {
-            return `${t('alpha_transfer_card_address_error')}`
+            return `${t('error')}`
           }
         }
       })
 
       if (result.isConfirmed) {
-        console.log({ result })
-        console.log({ cardToTransfer })
+        console.log({ tokenId })
         startLoading()
-        const tx = await transferCard(alphaContract, walletAddress, result.value, cardToTransfer)
-        emitSuccess(t('carta_enviada'), 2000)
-        stopLoading()
+        const tx = await transferCard(alphaContract, walletAddress, result.value, tokenId)
+        console.log("tx stack", tx.stack)
+        if(tx.stack.includes('Error')){
+          stopLoading()
+          emitError(t('alpha_transfer_card_error'))
+        } else {
+          stopLoading()
+          emitSuccess(t('carta_enviada'), 2000)
+        }
         showCards(walletAddress, seasonName)
       }
     } catch (e) {
       stopLoading()
       console.error({ e })
       emitError(t('alpha_transfer_card_error'))
-    }
-  }
-
-  const handleTokenTransfer = async () => {
-    try {
-      if (checkInputAddress(receiverAccount, walletAddress)) {
-        setTransferError('')
-        const transaction = await alphaContract['safeTransferFrom(address,address,uint256)'](
-          walletAddress,
-          receiverAccount,
-          cardToTransfer
-        )
-        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-        modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
-        startLoading()
-        await transaction.wait()
-        showCards(walletAddress, seasonName)
-        setReceiverAccount('')
-        stopLoading()
-        emitSuccess(t('carta_enviada'))
-      } else {
-        setTransferError(t('direccion_destino_error'))
-      }
-    } catch (e) {
-      stopLoading()
-      console.error({ e })
-      if (e.reason.includes('Receiver is not playing this season')) {
-        setTransferError(t('usuario_no_en_temporada'))
-      }
     }
   }
 
@@ -701,9 +678,7 @@ const AlphaMain = () => {
                         const collection = ethers.BigNumber.from(
                           cards[cardIndex].collection
                         ).toNumber()
-                        handleTokenTransfer2(tokenId, collection)
-                        // const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                        // modal.setAttribute('class', 'alpha_transfer_modal')
+                        handleTokenTransfer(tokenId, collection)
                       }}
                       disabled={!(cards.length > 0)}
                     >
