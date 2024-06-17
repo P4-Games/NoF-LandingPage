@@ -286,7 +286,7 @@ const AlphaMain = () => {
           startLoading()
           const tx = await createNewSeason(alphaContract, result.value.name, result.value.price)
           stopLoading()
-          if(!tx) {
+          if (!tx) {
             emitError(t('alpha_create_new_season_error'))
           } else {
             emitSuccess(t('confirmado'), 2000)

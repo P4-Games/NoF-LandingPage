@@ -154,6 +154,7 @@
     "alpha_season_authorization": "You are not authorized to create a new season.",
     "alpha_transfer_card_title": "Transfer card from season ",
     "alpha_transfer_card_address_error": "Invalid address",
+    "alpha_paste_card_error": "There was an error trying to paste the card.",
     "user_has_card_error": "Error checking if the user has a card",
 
     "alpha_fetch_albums_error": "There was an error while trying to fetch the albums",

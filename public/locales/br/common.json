@@ -154,6 +154,7 @@
   "alpha_season_authorization": "Você deve estar autorizado a criar novas temporadas.",
   "alpha_transfer_card_title": "Enviar carta da temporada ",
   "alpha_transfer_card_address_error": "Endereço inválido",
+  "alpha_paste_card_error": "Ocorreu um erro ao tentar colar o cartão.",
   "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
 
   "alpha_fetch_albums_error": "Houve um erro ao tentar obter os álbuns",
