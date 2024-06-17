@@ -481,11 +481,10 @@ const AlphaMain = () => {
     const players = await getSeasonPlayers(alphaContract, seasonName)
     const playersOptions = players
       .filter((player) => player != walletAddress)
-      .reduce((obj, player) => ({ ...obj, [player]: player }), {})
+      .reduce((obj, player) => ({ ...obj, [player]: player.slice(0,6) + "..." + player.slice(-6) }), {})
     try {
       const result = await Swal.fire({
         title: `${t('alpha_transfer_card_title')} ${collection}`,
-
         input: 'select',
         inputPlaceholder: `${t('wallet_destinatario')}`,
         inputOptions: playersOptions,
@@ -510,7 +509,7 @@ const AlphaMain = () => {
         console.log({ tokenId })
         startLoading()
         const tx = await transferCard(alphaContract, walletAddress, result.value, tokenId)
-        if (tx.stack.includes('Error')) {
+        if (!tx) {
           stopLoading()
           emitError(t('alpha_transfer_card_error'))
         } else {
