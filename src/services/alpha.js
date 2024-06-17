@@ -26,9 +26,8 @@ export const fetchDataAlpha = async () => {
     const json = await response.json()
     return json
   } catch (e) {
-    console.error({
-      e
-    })
+    console.error({ e })
+    return e;
   }
 }
 
@@ -44,6 +43,31 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
     return true
   } catch (e) {
     console.error({ e })
+    return e;
+  }
+}
+
+export const transferCard = async (alphaContract, from, to, tokenId) => {
+  try {
+    const trx = await alphaContract.transferFrom(from, to, tokenId)
+    await trx.wait()
+    return true
+  } catch (e) {
+    console.error({ e })
+    return e;
+  }
+}
+
+export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
+  try {
+    const trx = await alphaContract.pasteCards(cardTokenId, albumTokenId, {
+      gasLimit: 2500000
+    });
+    await trx.wait();
+    return trx;
+  } catch (e) {
+    console.error({ e });
+    return e;
   }
 }
 
@@ -53,6 +77,7 @@ export const getAlbumData = async (alphaContract, tokenId) => {
     return albumData
   } catch (e) {
     console.error({ e })
+    return e;
   }
 }
 
@@ -60,8 +85,9 @@ export const checkPacks = async (alphaContract, seasonName) => {
   try {
     const packs = await alphaContract.getSeasonAlbums(seasonName)
     return packs
-  } catch (ex) {
-    console.error(ex)
+  } catch (e) {
+    console.error({ e })
+    return e;
   }
 }
 
@@ -71,6 +97,7 @@ export const getSeasonFolder = async (alphaContract, seasonName) => {
     return response.folder
   } catch (e) {
     console.error({ e })
+    return e;
   }
 }
 
@@ -80,6 +107,7 @@ export const getUserCards = async (alphaContract, address, seasonName) => {
     return cards
   } catch (e) {
     console.error({ e })
+    return e;
   }
 }
 
@@ -96,19 +124,9 @@ export const getAuthorized = async (alphaContract, address) => {
   try {
     const authorized = await alphaContract.getAuthorized(address)
     return authorized
-  } catch (ex) {
-    console.error(ex)
-  }
-}
-
-export const transferCard = async (alphaContract, from, to, tokenId) => {
-  try {
-    const trx = await alphaContract.transferFrom(from, to, tokenId)
-    await trx.wait()
-    return true
   } catch (e) {
     console.error({ e })
-    return e
+    return e;
   }
 }
 
@@ -118,5 +136,6 @@ export const getSeasonPlayers = async (alphaContract, seasonName) => {
     return players
   } catch (e) {
     console.error({ e })
+    return e;
   }
 }

@@ -15,6 +15,7 @@ import {
   getWinners,
   getAuthorized,
   transferCard,
+  pasteCard,
   getSeasonPlayers
 } from '../../services/alpha'
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
@@ -446,43 +447,37 @@ const AlphaMain = () => {
     }
   }
 
-  const handlePasteCard = (cardIndex) => {
+  const handlePasteCard = async (cardIndex) => {
+    console.log({ cardIndex, cards, album })
     try {
       startLoading()
-      const pasteCard = async (cardIndex) => {
-        const tokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
-        const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-        const paste = await alphaContract.pasteCards(tokenId, albumTokenId, {
-          gasLimit: 2500000
-        })
-        await paste.wait()
-        return albumTokenId
+      const cardTokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
+      console.log({ cardTokenId })
+      const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
+      console.log({ albumTokenId })
+      const tx = await pasteCard(alphaContract, cardTokenId, albumTokenId)
+      console.log({ tx })
+      if (tx.stack.includes('Error')) {
+        stopLoading()
+        emitError(t('alpha_paste_card_error'))
+      } else {
+        stopLoading()
+        const albumData = await getAlbumData(alphaContract, albumTokenId)
+        console.log({ albumData })
+        if (albumData.completion == 5) {
+          emitSuccess(t('album_completo'), 2000)
+        } else {
+          emitSuccess(t('carta_en_album'), 2000)
+        }
       }
-      pasteCard(cardIndex)
-        .then((tokenId) => {
-          showCards(walletAddress, seasonName)
-          getAlbumData(alphaContract, tokenId).then((res) => {
-            if (res.completion == 5) {
-              emitSuccess(t('album_completo'))
-            } else {
-              emitSuccess(t('carta_en_album'))
-            }
-          })
-        })
-        .catch((e) => {
-          console.error({ e })
-          stopLoading()
-        })
+      showCards(walletAddress, seasonName)
+    } catch (e) {
+      console.error({ e })
       stopLoading()
-    } catch (ex) {
-      stopLoading()
-      console.error(ex)
     }
   }
 
   const handleTokenTransfer = async (tokenId, collection) => {
-    console.log({ tokenId, collection })
-    setCardToTransfer(tokenId)
     const players = await getSeasonPlayers(alphaContract, seasonName)
     const playersOptions = players
       .filter((player) => player != walletAddress)
@@ -515,8 +510,7 @@ const AlphaMain = () => {
         console.log({ tokenId })
         startLoading()
         const tx = await transferCard(alphaContract, walletAddress, result.value, tokenId)
-        console.log("tx stack", tx.stack)
-        if(tx.stack.includes('Error')){
+        if (tx.stack.includes('Error')) {
           stopLoading()
           emitError(t('alpha_transfer_card_error'))
         } else {
