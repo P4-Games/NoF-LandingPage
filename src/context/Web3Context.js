@@ -98,6 +98,7 @@ function Web3ContextProvider({ children }) {
 
       if (!web3Provider) return
       const _wallets = await web3Provider.listAccounts()
+      console.log(window.location)
       const _chainId = (await web3Provider.getNetwork()).chainId
 
       setWallets(_wallets)

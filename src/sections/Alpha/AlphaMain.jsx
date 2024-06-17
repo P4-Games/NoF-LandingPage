@@ -25,7 +25,6 @@ import { emitError, emitSuccess } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { checkInputAddress } from '../../utils/InputValidators'
 
 const vidas = [
   '/images/alpha/vida0.png',
@@ -73,20 +72,6 @@ const AlphaMain = () => {
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
-
-  function clickFromAlbums() {
-    alphaMidButton()
-    setShowMain((prevShowMain) => !prevShowMain)
-  }
-
-  function alphaMidButton() {
-    const albums = document.getElementsByClassName('alpha_full_albums_container')
-    const game = document.getElementsByClassName('alpha_inner_container')
-    if (game && game.length > 0) {
-      albums[0].classList.toggle('alpha_display_none')
-      game[0].classList.toggle('alpha_display_none')
-    }
-  }
 
   const fetchAlbums = async () => {
     try {
@@ -646,7 +631,7 @@ const AlphaMain = () => {
 
             {pack && pack.length && showMain ? (
               <div className='alpha_container'>
-                <div className='alpha_album_container' onClick={() => alphaMidButton()}>
+                <div className='alpha_album_container'>
                   <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
                 </div>
                 <div className='alpha_progress_container'>
@@ -753,7 +738,7 @@ const AlphaMain = () => {
           </div>
         )}
 
-        <AlphaAlbums clickFromAlbums={clickFromAlbums} setSeasonName={setSeasonName} />
+        <AlphaAlbums setSeasonName={setSeasonName} />
       </div>
     </div>
   )

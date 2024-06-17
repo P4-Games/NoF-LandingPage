@@ -19,10 +19,11 @@ import { storageUrlAlpha } from '../../config'
 import { useTranslation } from 'next-i18next'
 import CustomImage from '../../components/CustomImage'
 import { useWeb3Context } from '../../hooks'
+import { emitError, emitSuccess } from '../../utils/alert'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
-const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
+const AlphaAlbums = ({ albums, setSeasonName }) => {
   const { t } = useTranslation()
   const noAlbumMessage = t('juega_para_completar')
   const [seasonNameAlbum, setSeasonNameAlbums] = useState('')
@@ -42,14 +43,14 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
     }
   }, [getCurrentNetwork, alphaContract])
 
-  function handleRedirectAlbum(album) {
+  const handleRedirectAlbum = album => {
+    console.log("handleRedirectAlbum", album)
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
       window.open(`${openSeaUrl}/${album[0].tokenId}`, '_blank')
     } else {
       // Otherwise, display a message to the user and perform some actions
       setSeasonName(album[0].season)
-      clickFromAlbums()
       Swal.fire({
         text: noAlbumMessage,
         timer: 3000
@@ -100,12 +101,6 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
             </Swiper>
           </div>
         )}
-
-        {!albums && (
-          <div className='alpha_no_album_message' onClick={() => clickFromAlbums()}>
-            {noAlbumMessage}
-          </div>
-        )}
       </div>
     </div>
   )
@@ -113,7 +108,6 @@ const AlphaAlbums = ({ albums, clickFromAlbums, setSeasonName }) => {
 
 AlphaAlbums.propTypes = {
   albums: PropTypes.object,
-  clickFromAlbums: PropTypes.func,
   setSeasonName: PropTypes.func
 }
 
