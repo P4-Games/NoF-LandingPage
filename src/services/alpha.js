@@ -43,7 +43,7 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
     return true
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 
@@ -64,10 +64,10 @@ export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
       gasLimit: 2500000
     })
     await trx.wait()
-    return trx
+    return true
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 

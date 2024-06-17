@@ -284,10 +284,14 @@ const AlphaMain = () => {
 
         if (result.isConfirmed) {
           startLoading()
-          await createNewSeason(alphaContract, result.value.name, result.value.price)
+          const tx = await createNewSeason(alphaContract, result.value.name, result.value.price)
           stopLoading()
-          emitSuccess(t('confirmado'), 2000)
-          fetchSeasonData()
+          if(!tx) {
+            emitError(t('alpha_create_new_season_error'))
+          } else {
+            emitSuccess(t('confirmado'), 2000)
+            fetchSeasonData()
+          }
         }
       } else {
         emitError(t('alpha_season_authorization'), 2000)
@@ -452,25 +456,21 @@ const AlphaMain = () => {
     try {
       startLoading()
       const cardTokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
-      console.log({ cardTokenId })
       const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
-      console.log({ albumTokenId })
       const tx = await pasteCard(alphaContract, cardTokenId, albumTokenId)
-      console.log({ tx })
-      if (tx.stack.includes('Error')) {
+      if (!tx) {
         stopLoading()
         emitError(t('alpha_paste_card_error'))
       } else {
         stopLoading()
         const albumData = await getAlbumData(alphaContract, albumTokenId)
-        console.log({ albumData })
         if (albumData.completion == 5) {
           emitSuccess(t('album_completo'), 2000)
         } else {
           emitSuccess(t('carta_en_album'), 2000)
         }
+        showCards(walletAddress, seasonName)
       }
-      showCards(walletAddress, seasonName)
     } catch (e) {
       console.error({ e })
       stopLoading()
@@ -481,7 +481,10 @@ const AlphaMain = () => {
     const players = await getSeasonPlayers(alphaContract, seasonName)
     const playersOptions = players
       .filter((player) => player != walletAddress)
-      .reduce((obj, player) => ({ ...obj, [player]: player.slice(0,6) + "..." + player.slice(-6) }), {})
+      .reduce(
+        (obj, player) => ({ ...obj, [player]: player.slice(0, 6) + '...' + player.slice(-6) }),
+        {}
+      )
     try {
       const result = await Swal.fire({
         title: `${t('alpha_transfer_card_title')} ${collection}`,
