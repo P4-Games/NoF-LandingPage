@@ -43,8 +43,8 @@ const AlphaAlbums = ({ albums, setSeasonName }) => {
     }
   }, [getCurrentNetwork, alphaContract])
 
-  const handleRedirectAlbum = album => {
-    console.log("handleRedirectAlbum", album)
+  const handleRedirectAlbum = (album) => {
+    console.log('handleRedirectAlbum', album)
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
       window.open(`${openSeaUrl}/${album[0].tokenId}`, '_blank')

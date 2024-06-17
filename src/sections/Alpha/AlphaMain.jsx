@@ -437,7 +437,6 @@ const AlphaMain = () => {
   }
 
   const handlePasteCard = async (cardIndex) => {
-    console.log({ cardIndex, cards, album })
     try {
       startLoading()
       const cardTokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
@@ -454,7 +453,7 @@ const AlphaMain = () => {
         } else {
           emitSuccess(t('carta_en_album'), 2000)
         }
-        showCards(walletAddress, seasonName)
+        showCards(walletAddress, seasonName, false)
       }
     } catch (e) {
       console.error({ e })
