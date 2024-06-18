@@ -694,45 +694,6 @@ const AlphaMain = () => {
                     <div className='swiper-pagination' />
                   </div>
                 </div>
-
-                {cards.length > 0 ? (
-                  <div className='alpha_transfer_modal alpha_display_none'>
-                    <button
-                      className='alpha_transfer_modal_close alpha_modal_close'
-                      onClick={() => {
-                        const modal = document.getElementsByClassName('alpha_transfer_modal')[0]
-                        modal.setAttribute('class', 'alpha_transfer_modal alpha_display_none')
-                        setTransferError('')
-                        setReceiverAccount('')
-                      }}
-                    >
-                      X
-                    </button>
-                    <span
-                      style={{
-                        fontSize: '0.9rem'
-                      }}
-                    >
-                      {t('carta_de_coleccion')}{' '}
-                      {cards[cardIndex]
-                        ? ethers.BigNumber.from(cards[cardIndex].collection).toNumber()
-                        : ethers.BigNumber.from(cards[cardIndex - 1].collection).toNumber()}
-                    </span>
-                    <input
-                      placeholder={t('wallet_destinatario')}
-                      value={receiverAccount}
-                      onChange={(e) => setReceiverAccount(e.target.value)}
-                    />
-                    <button
-                      className='alpha_button'
-                      onClick={() => handleTokenTransfer()}
-                      // disabled={disableTransfer}
-                    >
-                      {t('transferir')}
-                    </button>
-                    <span className='alpha_transfer_error'>{transferError}</span>
-                  </div>
-                ) : null}
               </div>
             ) : null}
           </div>
