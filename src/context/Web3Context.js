@@ -98,7 +98,6 @@ function Web3ContextProvider({ children }) {
 
       if (!web3Provider) return
       const _wallets = await web3Provider.listAccounts()
-      console.log(window.location)
       const _chainId = (await web3Provider.getNetwork()).chainId
 
       setWallets(_wallets)
@@ -263,7 +262,7 @@ function Web3ContextProvider({ children }) {
 
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
-        console.log('chainChanged event', accounts, address)
+        console.log('accountsChanged event', accounts, address)
       })
 
       window.ethereum.on('chainChanged', (newChain) => {

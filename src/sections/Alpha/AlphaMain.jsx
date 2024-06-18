@@ -39,6 +39,7 @@ let swiper //eslint-disable-line
 
 const AlphaMain = () => {
   const { t } = useTranslation()
+
   const [pack, setPack] = useState(null)
   const [album, setAlbum] = useState([])
   const [albumImage, setAlbumImage] = useState(null)
@@ -99,7 +100,7 @@ const AlphaMain = () => {
 
   useEffect(() => {
     fetchAlbums()
-  }, [walletAddress, isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSeasonData()
