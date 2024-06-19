@@ -47,6 +47,19 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
   }
 }
 
+export const buyPack = async (alphaContract, packPrice, seasonName) => {
+  try {
+    const trx = await alphaContract.buyPack(packPrice, seasonName, {
+      gasLimit: 2500000
+    })
+    await trx.wait()
+    return trx
+  } catch (e) {
+    console.error({ e })
+    return false
+  }
+}
+
 export const transferCard = async (alphaContract, from, to, tokenId) => {
   try {
     const trx = await alphaContract.transferFrom(from, to, tokenId)

@@ -8,6 +8,7 @@ import { storageUrlAlpha } from '../../config'
 import {
   fetchDataAlpha,
   createNewSeason,
+  buyPack,
   getAlbumData,
   checkPacks,
   getSeasonFolder,
@@ -372,8 +373,6 @@ const AlphaMain = () => {
   const handleBuyPack = async (price, name) => {
     try {
       const cards = await showCards(walletAddress, seasonName)
-      setError('')
-
       if (cards && cards.length > 0) {
         emitSuccess(t('ya_tienes_cartas'), 2000)
         return
@@ -382,58 +381,53 @@ const AlphaMain = () => {
       const packs = await checkPacks(alphaContract, name)
       if (!packs || packs.length == 0) {
         emitError(t('no_mas_packs'))
+        return
       } else {
+        startLoading()
         const balance = await checkBalance(daiContract, walletAddress)
         if (balance) {
           const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
-          const comprarPack = async (price, name) => {
-            startLoading()
-            try {
-              const pack = await alphaContract.buyPack(price, name, {
-                gasLimit: 2500000
-              })
-              await pack.wait()
-              stopLoading()
-              return pack
-            } catch (err) {
-              console.error({ err })
-              stopLoading()
-              throw err
-            }
-          }
-
           if (approved) {
             try {
-              const pack = await comprarPack(price, name)
+              const pack = await buyPack(alphaContract, price, name)
               setPack(pack)
+              stopLoading()
+              emitSuccess(t('confirmed'), 2000)
               await showCards(walletAddress, seasonName)
             } catch (err) {
               console.error({ err })
+              stopLoading()
+              emitError(t('alpha_buy_pack_error'))
+              return
             }
           } else {
-            startLoading()
             try {
               await authorizeDaiContract(
                 daiContract,
                 alphaContract.address,
                 ethers.constants.MaxUint256
               )
-              const pack = await comprarPack(price, name)
+              const pack = await buyPack(alphaContract, price, name)
               setPack(pack)
               stopLoading()
               await showCards(walletAddress, seasonName)
             } catch (err) {
               console.error({ err })
               stopLoading()
+              return
             }
           }
         } else {
           emitError(t('no_dai'), 2000)
+          stopLoading()
+          return
         }
       }
     } catch (err) {
       console.error({ err })
+      emitError(t('alpha_buy_pack_error'))
       stopLoading()
+      return
     }
   }
 
