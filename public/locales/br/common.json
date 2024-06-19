@@ -141,6 +141,7 @@
 
   "no_season_names": "Nenhuma temporada encontrada",
   "alpha_create_new_season": "Criar nova temporada",
+  "alpha_buy_pack_error": "Ocorreu um erro ao tentar comprar pacotes.",
   "alpha_season_create_title": "Criar nova temporada",
   "alpha_season_name": "Nome",
   "alpha_season_pack_price": "Preço do pacote (DAI)",
