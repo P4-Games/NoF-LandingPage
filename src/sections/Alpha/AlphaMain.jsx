@@ -171,6 +171,17 @@ const AlphaMain = () => {
     }
   }, [seasonName])
 
+  const resetShowMain = (cardsData) => {
+    startLoading()
+    setCards([])
+    setShowMain(false)
+    setTimeout(() => {
+      setCards(cardsData)
+      setShowMain(true)
+      stopLoading()
+    }, 1000)
+  }
+
   const fetchSeasonData = async () => {
     try {
       if (!walletAddress || !isValidNetwork || !alphaContract) return
@@ -343,8 +354,12 @@ const AlphaMain = () => {
                 }
               })
               .catch((e) => console.error({ e }))
-            setCards(cardsData)
-            setShowMain((prevShowMain) => !prevShowMain)
+            if(showMain){
+              resetShowMain(cardsData)
+            } else {
+              setCards(cardsData)
+              setShowMain(true)
+            }
             return pack
           } else {
             !isBuyingPack &&
@@ -374,7 +389,7 @@ const AlphaMain = () => {
   const handleBuyPack = async (price, name) => {
     // ${packPrice?.substring(0, packPrice.length - 18)}
     try {
-      const cards = await showCards(walletAddress, seasonName)
+      const cards = showCards(walletAddress, seasonName)
       if (cards && cards.length > 0) {
         emitSuccess(t('ya_tienes_cartas'), 2000)
         return
@@ -400,7 +415,7 @@ const AlphaMain = () => {
                 setPack(pack)
                 stopLoading()
                 emitSuccess(t('confirmed'), 2000)
-                await showCards(walletAddress, seasonName)
+                showCards(walletAddress, seasonName)
               }
             } catch (err) {
               console.error({ err })

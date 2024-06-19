@@ -46,7 +46,7 @@ export const authorizeDaiContract = async (
     const authorization = await daiContract.approve(spenderAddress, amount, { gasLimit: 2500000 })
     await authorization.wait()
     return authorization
-  } catch(e) {
+  } catch (e) {
     console.error({ e })
     return false
   }
