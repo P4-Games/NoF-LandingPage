@@ -472,6 +472,10 @@ const AlphaMain = () => {
         (obj, player) => ({ ...obj, [player]: player.slice(0, 6) + '...' + player.slice(-6) }),
         {}
       )
+    if (Object.keys(playersOptions).length < 9) {
+      emitError(t('alpha_transfer_card_must_wait'))
+      return
+    }
     try {
       const result = await Swal.fire({
         title: `${t('alpha_transfer_card_title')} ${collection}`,
