@@ -510,7 +510,6 @@ const AlphaMain = () => {
           stopLoading()
           emitSuccess(t('carta_enviada'), 2000)
         }
-        showCards(walletAddress, seasonName)
       }
     } catch (e) {
       stopLoading()
