@@ -152,7 +152,7 @@
   "alpha_create_new_season_error": "Ocorreu um erro ao tentar criar a temporada",
   "alpha_no_cards_error_text": "Você deve comprar cartas para jogar.",
   "alpha_season_authorization": "Você deve estar autorizado a criar novas temporadas.",
-  "alpha_transfer_card_title": "Enviar carta da temporada ",
+  "alpha_transfer_card_title": "Enviar carta da álbum #",
   "alpha_transfer_card_address_error": "Endereço inválido",
   "alpha_paste_card_error": "Ocorreu um erro ao tentar colar o cartão.",
   "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
