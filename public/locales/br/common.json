@@ -155,6 +155,8 @@
   "alpha_season_authorization": "Você deve estar autorizado a criar novas temporadas.",
   "alpha_transfer_card_title": "Enviar carta da álbum #",
   "alpha_transfer_card_address_error": "Endereço inválido",
+  "alpha_transfer_card_must_wait": "Você deve esperar que todos os jogadores comprem pacotes antes de poder transferir cartas.",
+  "alpha_transfer_card_error": "Ocorreu um erro ao tentar transferir o cartão.",
   "alpha_paste_card_error": "Ocorreu um erro ao tentar colar o cartão.",
   "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
 
