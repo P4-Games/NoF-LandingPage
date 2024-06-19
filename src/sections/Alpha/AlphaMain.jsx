@@ -642,7 +642,7 @@ const AlphaMain = () => {
                   </span>
                   <img alt='vida' src={vida} />
                   <span>
-                    {t('coleccion')}: {albumCollection}
+                    {t('album')}: #{albumCollection}
                   </span>
                   <div className='alpha_progress_button_container'>
                     <button
@@ -681,7 +681,7 @@ const AlphaMain = () => {
                             className='swiper-slide alpha-swiper-slide'
                             key={ethers.BigNumber.from(card.tokenId).toNumber()}
                           >
-                            <span className='alpha_card_collection'>C:{cardCollection}</span>
+                            <span className='alpha_card_collection'>A:{cardCollection}</span>
                             <CustomImage
                               alt='img'
                               src={`${storageUrlAlpha}/${seasonFolder || 'T1'}/${card.number}.png`}
