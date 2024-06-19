@@ -42,9 +42,14 @@ export const authorizeDaiContract = async (
   spenderAddress,
   amount = ethers.constants.MaxUint256
 ) => {
-  const authorization = await daiContract.approve(spenderAddress, amount, { gasLimit: 2500000 })
-  await authorization.wait()
-  return authorization
+  try {
+    const authorization = await daiContract.approve(spenderAddress, amount, { gasLimit: 2500000 })
+    await authorization.wait()
+    return authorization
+  } catch(e) {
+    console.error({ e })
+    return false
+  }
 }
 
 export const getTokenName = async (daiContract) => {

@@ -385,9 +385,9 @@ const AlphaMain = () => {
         emitError(t('no_mas_packs'))
         return
       } else {
-        startLoading()
         const balance = await checkBalance(daiContract, walletAddress)
         if (balance) {
+          startLoading()
           const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
           if (approved) {
             try {
@@ -415,10 +415,22 @@ const AlphaMain = () => {
                 alphaContract.address,
                 ethers.constants.MaxUint256
               )
-              const pack = await buyPack(alphaContract, price, name)
-              setPack(pack)
-              stopLoading()
-              await showCards(walletAddress, seasonName)
+              if (!approved) {
+                emitError(t('alpha_buy_pack_error'))
+                stopLoading()
+                return
+              } else {
+                const pack = await buyPack(alphaContract, price, name)
+                if (!pack) {
+                  stopLoading()
+                  emitError(t('alpha_buy_pack_error'))
+                  return
+                } else {
+                  setPack(pack)
+                  stopLoading()
+                  showCards(walletAddress, seasonName)
+                }
+              }
             } catch (err) {
               console.error({ err })
               stopLoading()
@@ -427,7 +439,6 @@ const AlphaMain = () => {
           }
         } else {
           emitError(t('no_dai'), 2000)
-          stopLoading()
           return
         }
       }
@@ -509,6 +520,7 @@ const AlphaMain = () => {
         } else {
           stopLoading()
           emitSuccess(t('carta_enviada'), 2000)
+          showCards(walletAddress, seasonName, false)
         }
       }
     } catch (e) {
