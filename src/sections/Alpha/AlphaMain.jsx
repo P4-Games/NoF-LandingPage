@@ -391,10 +391,16 @@ const AlphaMain = () => {
           if (approved) {
             try {
               const pack = await buyPack(alphaContract, price, name)
-              setPack(pack)
-              stopLoading()
-              emitSuccess(t('confirmed'), 2000)
-              await showCards(walletAddress, seasonName)
+              if (!pack) {
+                stopLoading()
+                emitError(t('alpha_buy_pack_error'))
+                return
+              } else {
+                setPack(pack)
+                stopLoading()
+                emitSuccess(t('confirmed'), 2000)
+                await showCards(walletAddress, seasonName)
+              }
             } catch (err) {
               console.error({ err })
               stopLoading()
