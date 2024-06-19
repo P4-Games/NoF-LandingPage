@@ -372,6 +372,7 @@ const AlphaMain = () => {
   }
 
   const handleBuyPack = async (price, name) => {
+    // ${packPrice?.substring(0, packPrice.length - 18)}
     try {
       const cards = await showCards(walletAddress, seasonName)
       if (cards && cards.length > 0) {
@@ -595,7 +596,7 @@ const AlphaMain = () => {
                       className='alpha_button'
                       id='alpha_buy_pack_button'
                     >
-                      {`${t('comprar_pack')} ($${packPrice?.substring(0, packPrice.length - 18)})`}
+                      {`${t('comprar_pack')}`}
                     </button>
                     <button
                       id='alpha-create-new-season-button'
