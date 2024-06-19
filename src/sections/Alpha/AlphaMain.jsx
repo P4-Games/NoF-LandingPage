@@ -105,6 +105,7 @@ const AlphaMain = () => {
 
   useEffect(() => {
     fetchSeasonData()
+    setShowMain(false)
   }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
