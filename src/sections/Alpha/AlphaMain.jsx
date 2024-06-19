@@ -55,10 +55,7 @@ const AlphaMain = () => {
   const [seasonName, setSeasonName] = useState('')
   const [packPrices, setPackPrices] = useState(null)
   const [packPrice, setPackPrice] = useState('')
-  const [receiverAccount, setReceiverAccount] = useState('')
-  const [cardToTransfer, setCardToTransfer] = useState(null)
   const [winnerPosition, setWinnerPosition] = useState(0)
-  const [transferError, setTransferError] = useState('')
   const [, setDisableTransfer] = useState(false)
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
@@ -354,7 +351,7 @@ const AlphaMain = () => {
                 }
               })
               .catch((e) => console.error({ e }))
-            if(showMain){
+            if (showMain) {
               resetShowMain(cardsData)
             } else {
               setCards(cardsData)
@@ -387,9 +384,8 @@ const AlphaMain = () => {
   }
 
   const handleBuyPack = async (price, name) => {
-    // ${packPrice?.substring(0, packPrice.length - 18)}
     try {
-      const cards = showCards(walletAddress, seasonName)
+      const cards = await showCards(walletAddress, seasonName)
       if (cards && cards.length > 0) {
         emitSuccess(t('ya_tienes_cartas'), 2000)
         return
@@ -402,39 +398,25 @@ const AlphaMain = () => {
       } else {
         const balance = await checkBalance(daiContract, walletAddress)
         if (balance) {
-          startLoading()
-          const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
-          if (approved) {
-            try {
-              const pack = await buyPack(alphaContract, price, name)
-              if (!pack) {
-                stopLoading()
-                emitError(t('alpha_buy_pack_error'))
-                return
-              } else {
-                setPack(pack)
-                stopLoading()
-                emitSuccess(t('confirmed'), 2000)
-                showCards(walletAddress, seasonName)
-              }
-            } catch (err) {
-              console.error({ err })
-              stopLoading()
-              emitError(t('alpha_buy_pack_error'))
-              return
-            }
-          } else {
-            try {
-              await authorizeDaiContract(
-                daiContract,
-                alphaContract.address,
-                ethers.constants.MaxUint256
-              )
-              if (!approved) {
-                emitError(t('alpha_buy_pack_error'))
-                stopLoading()
-                return
-              } else {
+          const result = await Swal.fire({
+            // title: `${t('alpha_buy_pack_title')}`,
+            text: `${t('alpha_buy_pack_text')
+              .replace('{PRICE}', packPrice?.substring(0, packPrice.length - 18))
+              .replace('{SEASON_NAME}', seasonName)}`,
+            icon: 'warning',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: `${t('comprar_pack')}`,
+            confirmButtonColor: '#005EA3',
+            color: 'black',
+            background: 'white'
+          })
+
+          if (result.isConfirmed) {
+            startLoading()
+            const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
+            if (approved) {
+              try {
                 const pack = await buyPack(alphaContract, price, name)
                 if (!pack) {
                   stopLoading()
@@ -443,24 +425,56 @@ const AlphaMain = () => {
                 } else {
                   setPack(pack)
                   stopLoading()
-                  showCards(walletAddress, seasonName)
+                  emitSuccess(t('confirmed'), 2000)
+                  await showCards(walletAddress, seasonName)
                 }
+              } catch (err) {
+                console.error({ err })
+                stopLoading()
+                emitError(t('alpha_buy_pack_error'))
+                return
               }
-            } catch (err) {
-              console.error({ err })
-              stopLoading()
-              return
+            } else {
+              try {
+                await authorizeDaiContract(
+                  daiContract,
+                  alphaContract.address,
+                  ethers.constants.MaxUint256
+                )
+                if (!approved) {
+                  emitError(t('alpha_buy_pack_error'))
+                  stopLoading()
+                  return
+                } else {
+                  const pack = await buyPack(alphaContract, price, name)
+                  if (!pack) {
+                    stopLoading()
+                    emitError(t('alpha_buy_pack_error'))
+                    return
+                  } else {
+                    setPack(pack)
+                    stopLoading()
+                    await showCards(walletAddress, seasonName)
+                  }
+                }
+              } catch (err) {
+                console.error({ err })
+                stopLoading()
+                emitError(t('alpha_buy_pack_error'))
+                return
+              }
             }
           }
         } else {
-          emitError(t('no_dai'), 2000)
+          stopLoading()
+          emitError(t('no_dai'))
           return
         }
       }
     } catch (err) {
       console.error({ err })
-      emitError(t('alpha_buy_pack_error'))
       stopLoading()
+      emitError(t('alpha_buy_pack_error'))
       return
     }
   }
@@ -482,7 +496,7 @@ const AlphaMain = () => {
         } else {
           emitSuccess(t('carta_en_album'), 2000)
         }
-        showCards(walletAddress, seasonName, false)
+        await showCards(walletAddress, seasonName, false)
       }
     } catch (e) {
       console.error({ e })
@@ -535,7 +549,7 @@ const AlphaMain = () => {
         } else {
           stopLoading()
           emitSuccess(t('carta_enviada'), 2000)
-          showCards(walletAddress, seasonName, false)
+          await showCards(walletAddress, seasonName, false)
         }
       }
     } catch (e) {
