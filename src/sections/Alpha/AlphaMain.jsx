@@ -176,7 +176,7 @@ const AlphaMain = () => {
       setCards(cardsData)
       setShowMain(true)
       stopLoading()
-    }, 1000)
+    }, 500)
   }
 
   const fetchSeasonData = async () => {
@@ -299,89 +299,74 @@ const AlphaMain = () => {
     }
   }
 
-  const showCards = (address, seasonName, isBuyingPack = true) => {
+  const showCards = async (address, seasonName, isBuyingPack = true) => {
     try {
-      checkPacks(alphaContract, seasonName)
-        .then((res) => {
-          if (res.length == 0) {
-            setDisableTransfer(false)
-          } else {
-            setDisableTransfer(true)
-          }
-        })
-        .catch((e) => {
-          console.error({ e })
-        })
-      const cards = getUserCards(alphaContract, address, seasonName)
-        .then((pack) => {
-          if (pack.length) {
-            const albumData = []
-            const cardsData = []
-            pack.forEach((card) => {
-              card.class == 0 ? albumData.push(card) : cardsData.push(card)
-            })
-            setError('')
-            setPack(pack)
-            setAlbum(albumData)
-            setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
-            const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
-            setAlbumCompletion(completion)
-            setVida(vidas[ethers.BigNumber.from(albumData[0].completion).toNumber()])
-            getSeasonFolder(alphaContract, seasonName)
-              .then((data) => {
-                if (data == 'alpha_jsons') {
-                  setSeasonFolder('T1')
-                } else {
-                  setSeasonFolder(data || 'UNKNOWN_FOLDER')
-                }
-                const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`
-                if (completion < 5) {
-                  setAlbumImage(`${baseUrl}/${albumData[0].number + '.png'}`)
-                } else {
-                  setAlbumImage(`${baseUrl}/${albumData[0].number + 'F.png'}`)
-                  getWinners(alphaContract, seasonName)
-                    .then((winners) => {
-                      if (winners.includes(walletAddress)) {
-                        setWinnerPosition(winners.indexOf(walletAddress) + 1)
-                      }
-                    })
-                    .catch((e) => {
-                      console.error({ e })
-                    })
-                }
-              })
-              .catch((e) => console.error({ e }))
-            if (showMain) {
-              resetShowMain(cardsData)
-            } else {
-              setCards(cardsData)
-              setShowMain(true)
+      const checkPacksResult = await checkPacks(alphaContract, seasonName);
+      setDisableTransfer(checkPacksResult.length == 0 ? false : true);
+  
+      const cards = await getUserCards(alphaContract, address, seasonName);
+  
+      if (cards.length) {
+        const albumData = [];
+        const cardsData = [];
+  
+        cards.forEach((card) => {
+          card.class == 0 ? albumData.push(card) : cardsData.push(card);
+        });
+  
+        setError('');
+        setPack(cards);
+        setAlbum(albumData);
+        setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber());
+        const completion = ethers.BigNumber.from(albumData[0].completion).toNumber();
+        setAlbumCompletion(completion);
+        setVida(vidas[completion]);
+  
+        const seasonFolderData = await getSeasonFolder(alphaContract, seasonName);
+        setSeasonFolder(seasonFolderData == 'alpha_jsons' ? 'T1' : seasonFolderData || 'UNKNOWN_FOLDER');
+        const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`;
+        setAlbumImage(completion < 5 ? `${baseUrl}/${albumData[0].number + '.png'}` : `${baseUrl}/${albumData[0].number + 'F.png'}`);
+  
+        if (completion >= 5) {
+          try {
+            const winners = await getWinners(alphaContract, seasonName);
+            if (winners.includes(walletAddress)) {
+              setWinnerPosition(winners.indexOf(walletAddress) + 1);
             }
-            return pack
-          } else {
-            !isBuyingPack &&
-              Swal.fire({
-                text: `${t('alpha_no_cards_error_text')}`,
-                icon: 'error',
-                showDenyButton: false,
-                showCancelButton: false,
-                color: 'black',
-                background: 'white',
-                customClass: {
-                  image: 'cardalertimg',
-                  input: 'alertinput'
-                }
-              })
+          } catch (e) {
+            console.error({ e });
           }
-        })
-        .catch((e) => {
-          console.error({ e })
-        })
-      return cards
+        }
+  
+        if (showMain) {
+          resetShowMain(cardsData);
+        } else {
+          setCards(cardsData);
+          setShowMain(true);
+        }
+  
+        return cards;
+      } else {
+        if (!isBuyingPack) {
+          Swal.fire({
+            text: `${t('alpha_no_cards_error_text')}`,
+            icon: 'error',
+            showDenyButton: false,
+            showCancelButton: false,
+            color: 'black',
+            background: 'white',
+            customClass: {
+              image: 'cardalertimg',
+              input: 'alertinput'
+            }
+          });
+        }
+      }
     } catch (ex) {
-      console.error(ex)
+      emitError(t('alpha_show_cards_error'));
+      console.error(ex);
     }
-  }
+  };
 
   const handleBuyPack = async (price, name) => {
     try {
@@ -540,7 +525,6 @@ const AlphaMain = () => {
       })
 
       if (result.isConfirmed) {
-        console.log({ tokenId })
         startLoading()
         const tx = await transferCard(alphaContract, walletAddress, result.value, tokenId)
         if (!tx) {
@@ -716,7 +700,9 @@ const AlphaMain = () => {
                 <div className='alpha_cards_container'>
                   <div className='swiper-container alpha-swiper-container'>
                     <div className='swiper-wrapper alpha-swiper-wrapper'>
+                      {console.log({cards})}
                       {cards.map((card) => {
+                        console.log({cards})
                         const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                         return (
                           <div
