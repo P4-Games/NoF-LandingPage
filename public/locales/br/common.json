@@ -159,6 +159,7 @@
   "alpha_transfer_card_must_wait": "Você deve esperar que todos os jogadores comprem pacotes antes de poder transferir cartas.",
   "alpha_transfer_card_error": "Ocorreu um erro ao tentar transferir o cartão.",
   "alpha_paste_card_error": "Ocorreu um erro ao tentar colar o cartão.",
+  "alpha_show_cards_error": "Ocorreu um erro ao tentar mostrar as cartas.",
   "user_has_card_error": "Erro ao verificar se o usuário possui um cartão",
 
   "alpha_fetch_albums_error": "Houve um erro ao tentar obter os álbuns",

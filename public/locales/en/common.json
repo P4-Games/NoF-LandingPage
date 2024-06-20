@@ -159,6 +159,7 @@
     "alpha_transfer_card_must_wait": "You must wait until all players are ready to transfer the card.",
     "alpha_transfer_card_error": "There was an error trying to transfer the card.",
     "alpha_paste_card_error": "There was an error trying to paste the card.",
+    "alpha_show_cards_error": "There was an error trying to get the cards.",
     "user_has_card_error": "Error checking if the user has a card",
 
     "alpha_fetch_albums_error": "There was an error while trying to fetch the albums",

@@ -301,51 +301,70 @@ const AlphaMain = () => {
 
   const showCards = async (address, seasonName, isBuyingPack = true) => {
     try {
-      const checkPacksResult = await checkPacks(alphaContract, seasonName);
-      setDisableTransfer(checkPacksResult.length == 0 ? false : true);
-  
-      const cards = await getUserCards(alphaContract, address, seasonName);
-  
+      const checkPacksResult = await checkPacks(alphaContract, seasonName)
+      if (!checkPacksResult) {
+        emitError(t('alpha_show_cards_error'))
+        return
+      }
+
+      setDisableTransfer(checkPacksResult.length == 0 ? false : true)
+
+      const cards = await getUserCards(alphaContract, address, seasonName)
+      if (!cards) {
+        emitError(t('alpha_show_cards_error'))
+        return
+      }
+
       if (cards.length) {
-        const albumData = [];
-        const cardsData = [];
-  
+        const albumData = []
+        const cardsData = []
+
         cards.forEach((card) => {
-          card.class == 0 ? albumData.push(card) : cardsData.push(card);
-        });
-  
-        setError('');
-        setPack(cards);
-        setAlbum(albumData);
-        setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber());
-        const completion = ethers.BigNumber.from(albumData[0].completion).toNumber();
-        setAlbumCompletion(completion);
-        setVida(vidas[completion]);
-  
-        const seasonFolderData = await getSeasonFolder(alphaContract, seasonName);
-        setSeasonFolder(seasonFolderData == 'alpha_jsons' ? 'T1' : seasonFolderData || 'UNKNOWN_FOLDER');
-        const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`;
-        setAlbumImage(completion < 5 ? `${baseUrl}/${albumData[0].number + '.png'}` : `${baseUrl}/${albumData[0].number + 'F.png'}`);
-  
+          card.class == 0 ? albumData.push(card) : cardsData.push(card)
+        })
+
+        setError('')
+        setPack(cards)
+        setAlbum(albumData)
+        setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
+        const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
+        setAlbumCompletion(completion)
+        setVida(vidas[completion])
+
+        const seasonFolderData = await getSeasonFolder(alphaContract, seasonName)
+        if(!seasonFolderData) {
+          emitError(t('alpha_show_cards_error'))
+          return
+        }
+        setSeasonFolder(
+          seasonFolderData == 'alpha_jsons' ? 'T1' : seasonFolderData || 'UNKNOWN_FOLDER'
+        )
+        const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`
+        setAlbumImage(
+          completion < 5
+            ? `${baseUrl}/${albumData[0].number + '.png'}`
+            : `${baseUrl}/${albumData[0].number + 'F.png'}`
+        )
+
         if (completion >= 5) {
           try {
-            const winners = await getWinners(alphaContract, seasonName);
+            const winners = await getWinners(alphaContract, seasonName)
             if (winners.includes(walletAddress)) {
-              setWinnerPosition(winners.indexOf(walletAddress) + 1);
+              setWinnerPosition(winners.indexOf(walletAddress) + 1)
             }
           } catch (e) {
-            console.error({ e });
+            console.error({ e })
           }
         }
-  
+
         if (showMain) {
-          resetShowMain(cardsData);
+          resetShowMain(cardsData)
         } else {
-          setCards(cardsData);
-          setShowMain(true);
+          setCards(cardsData)
+          setShowMain(true)
         }
-  
-        return cards;
+
+        return cards
       } else {
         if (!isBuyingPack) {
           Swal.fire({
@@ -359,14 +378,14 @@ const AlphaMain = () => {
               image: 'cardalertimg',
               input: 'alertinput'
             }
-          });
+          })
         }
       }
     } catch (ex) {
-      emitError(t('alpha_show_cards_error'));
-      console.error(ex);
+      emitError(t('alpha_show_cards_error'))
+      console.error(ex)
     }
-  };
+  }
 
   const handleBuyPack = async (price, name) => {
     try {
@@ -377,14 +396,17 @@ const AlphaMain = () => {
       }
 
       const packs = await checkPacks(alphaContract, name)
-      if (!packs || packs.length == 0) {
+      if (!packs) {
+        emitError(t('alpha_buy_pack_error'))
+        return
+      }
+      if (packs.length == 0) {
         emitError(t('no_mas_packs'))
         return
       } else {
         const balance = await checkBalance(daiContract, walletAddress)
         if (balance) {
           const result = await Swal.fire({
-            // title: `${t('alpha_buy_pack_title')}`,
             text: `${t('alpha_buy_pack_text')
               .replace('{PRICE}', packPrice?.substring(0, packPrice.length - 18))
               .replace('{SEASON_NAME}', seasonName)}`,
@@ -700,9 +722,9 @@ const AlphaMain = () => {
                 <div className='alpha_cards_container'>
                   <div className='swiper-container alpha-swiper-container'>
                     <div className='swiper-wrapper alpha-swiper-wrapper'>
-                      {console.log({cards})}
+                      {console.log({ cards })}
                       {cards.map((card) => {
-                        console.log({cards})
+                        console.log({ cards })
                         const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                         return (
                           <div

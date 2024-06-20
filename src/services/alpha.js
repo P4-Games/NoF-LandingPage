@@ -100,7 +100,7 @@ export const checkPacks = async (alphaContract, seasonName) => {
     return packs
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 
@@ -110,7 +110,7 @@ export const getSeasonFolder = async (alphaContract, seasonName) => {
     return response.folder
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 
@@ -120,7 +120,7 @@ export const getUserCards = async (alphaContract, address, seasonName) => {
     return cards
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 
