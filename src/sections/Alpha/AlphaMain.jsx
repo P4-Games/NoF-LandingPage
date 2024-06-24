@@ -6,18 +6,17 @@ import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha } from '../../config'
 import {
-  fetchWinnersQuery,
   createNewSeason,
   buyPack,
   getAlbumData,
   checkPacks,
   getSeasonFolder,
   getUserCards,
-  getWinners,
+  getWinnersBySeason,
   getAuthorized,
   transferCard,
   pasteCard,
-  getSeasonPlayers
+  getSeasonPlayers,
 } from '../../services/alpha'
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
@@ -183,37 +182,37 @@ const AlphaMain = () => {
     try {
       if (!walletAddress || !isValidNetwork || !alphaContract) return
       startLoading()
+      // devuelve un array con los nombres de las temporadas [0] y los precios de los packs [1]
       let seasonData = await alphaContract.getSeasonData()
 
       if (seasonData) {
         let currentSeason
         let currentPrice
         for (let i = 0; i < seasonData[0].length; i++) {
-          const season = await checkPacks(alphaContract, seasonData[0][i])
-          if(!season) {
+          const seasonName = seasonData[0][i]
+          const seasonPackPrice = seasonData[1][i]
+          const packsAvailable = await checkPacks(alphaContract, seasonName)
+          if (!packsAvailable) {
             stopLoading()
             emitError(t('alpha_fetch_season_data_error'))
             return
           }
-          if (season.length > 0) {
-            currentSeason = seasonData[0][i]
-            currentPrice = seasonData[1][i]
+          if (packsAvailable.length > 0) {
+            currentSeason = seasonName
+            currentPrice = seasonPackPrice
             break
           } else {
-            currentSeason = seasonData[0][i]
-            currentPrice = seasonData[1][i]
+            currentSeason = seasonName
+            currentPrice = seasonPackPrice
           }
         }
+
         const seasonWinnersCount = {}
-        const winnersQuery = await fetchWinnersQuery()
-        const { winners } = winnersQuery.data
-        for (let i = 0; i < winners.length; i++) {
-          if (!seasonWinnersCount[winners[i].season]) {
-            seasonWinnersCount[winners[i].season] = 1
-          } else {
-            seasonWinnersCount[winners[i].season]++
-          }
+        for (let i = 0; i < seasonData[0].length; i++) {
+          const winnersBySeason = await getWinnersBySeason(alphaContract, seasonData[0][i])
+          seasonWinnersCount[seasonData[0][i]] = winnersBySeason.length
         }
+
         const finishedSeasons = Object.entries(seasonWinnersCount)
           .filter((season) => season[1] == 10)
           .map((season) => season[0])
@@ -328,8 +327,6 @@ const AlphaMain = () => {
         setAlbum(albumData)
         setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
         const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
-        console.log({ completion })
-        console.log({ winnerPosition })
         setAlbumCompletion(completion)
         setVida(vidas[completion])
 
@@ -350,7 +347,7 @@ const AlphaMain = () => {
 
         if (completion >= 5) {
           try {
-            const winners = await getWinners(alphaContract, seasonName)
+            const winners = await getWinnersBySeason(alphaContract, seasonName)
             if (winners.includes(walletAddress)) {
               setWinnerPosition(winners.indexOf(walletAddress) + 1)
             }
@@ -501,7 +498,7 @@ const AlphaMain = () => {
         stopLoading()
         const albumData = await getAlbumData(alphaContract, albumTokenId)
         if (albumData.completion == 5) {
-          emitSuccess(t('album_completo'), 5000);
+          emitSuccess(t('album_completo'), 5000)
         } else {
           emitSuccess(t('carta_en_album'), 2000)
         }

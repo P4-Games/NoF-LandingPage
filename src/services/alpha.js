@@ -124,12 +124,13 @@ export const getUserCards = async (alphaContract, address, seasonName) => {
   }
 }
 
-export const getWinners = async (alphaContract, seasonName) => {
+export const getWinnersBySeason = async (alphaContract, seasonName) => {
   try {
     const winners = await alphaContract.getWinners(seasonName)
     return winners
   } catch (e) {
     console.error({ e })
+    return false
   }
 }
 
