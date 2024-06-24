@@ -16,7 +16,7 @@ import {
   getAuthorized,
   transferCard,
   pasteCard,
-  getSeasonPlayers,
+  getSeasonPlayers
 } from '../../services/alpha'
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
@@ -299,9 +299,11 @@ const AlphaMain = () => {
   }
 
   const showCards = async (address, seasonName, isBuyingPack = true) => {
+    startLoading()
     try {
       const checkPacksResult = await checkPacks(alphaContract, seasonName)
       if (!checkPacksResult) {
+        stopLoading()
         emitError(t('alpha_show_cards_error'))
         return
       }
@@ -310,6 +312,7 @@ const AlphaMain = () => {
 
       const cards = await getUserCards(alphaContract, address, seasonName)
       if (!cards) {
+        stopLoading()
         emitError(t('alpha_show_cards_error'))
         return
       }
@@ -332,6 +335,7 @@ const AlphaMain = () => {
 
         const seasonFolderData = await getSeasonFolder(alphaContract, seasonName)
         if (!seasonFolderData) {
+          stopLoading()
           emitError(t('alpha_show_cards_error'))
           return
         }
@@ -352,6 +356,7 @@ const AlphaMain = () => {
               setWinnerPosition(winners.indexOf(walletAddress) + 1)
             }
           } catch (e) {
+            stopLoading()
             console.error({ e })
           }
         }
@@ -361,10 +366,12 @@ const AlphaMain = () => {
         } else {
           setCards(cardsData)
           setShowMain(true)
+          stopLoading()
         }
 
         return cards
       } else {
+        stopLoading()
         if (!isBuyingPack) {
           Swal.fire({
             text: `${t('alpha_no_cards_error_text')}`,
