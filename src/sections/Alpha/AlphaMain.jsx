@@ -167,6 +167,19 @@ const AlphaMain = () => {
     }
   }, [seasonName])
 
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      const elements = document.querySelectorAll('.wui-flex');
+      elements.forEach(element => {
+        if (window.innerWidth <= 430) {
+          element.style.alignItems = 'center'; // Change to your desired value
+        } else {
+          element.style.alignItems = ''; // Reset to default or remove the inline style
+        }
+      });
+    });
+  }, [])
+
   const resetShowMain = (cardsData) => {
     startLoading()
     setCards([])
@@ -394,19 +407,23 @@ const AlphaMain = () => {
   }
 
   const handleBuyPack = async (price, name) => {
+    startLoading()
     try {
       const cards = await showCards(walletAddress, seasonName)
       if (cards && cards.length > 0) {
+        stopLoading()
         emitSuccess(t('ya_tienes_cartas'), 2000)
         return
       }
 
       const packs = await checkPacks(alphaContract, name)
       if (!packs) {
+        stopLoading()
         emitError(t('alpha_buy_pack_error'))
         return
       }
       if (packs.length == 0) {
+        stopLoading()
         emitError(t('no_mas_packs'))
         return
       } else {
@@ -424,6 +441,7 @@ const AlphaMain = () => {
             color: 'black',
             background: 'white'
           })
+          stopLoading()
 
           if (result.isConfirmed) {
             startLoading()

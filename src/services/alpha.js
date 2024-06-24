@@ -1,5 +1,9 @@
-import { graphUrl } from '../config'
-import { ethers } from 'ethers'
+import {
+  graphUrl
+} from '../config'
+import {
+  ethers
+} from 'ethers'
 
 const query = `
   query getSeasonWinners {
@@ -26,7 +30,9 @@ export const fetchWinnersQuery = async () => {
     const json = await response.json()
     return json
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -42,20 +48,22 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
     await trx.wait()
     return true
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
 
 export const buyPack = async (alphaContract, packPrice, seasonName) => {
   try {
-    const trx = await alphaContract.buyPack(packPrice, seasonName, {
-      gasLimit: 2500000
-    })
+    const trx = await alphaContract.buyPack(packPrice, seasonName)
     await trx.wait()
     return trx
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -66,7 +74,9 @@ export const transferCard = async (alphaContract, from, to, tokenId) => {
     await trx.wait()
     return true
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -79,7 +89,9 @@ export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
     await trx.wait()
     return true
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -89,7 +101,9 @@ export const getAlbumData = async (alphaContract, tokenId) => {
     const albumData = await alphaContract.cards(tokenId)
     return albumData
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return e
   }
 }
@@ -99,7 +113,9 @@ export const checkPacks = async (alphaContract, seasonName) => {
     const packs = await alphaContract.getSeasonAlbums(seasonName)
     return packs
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -109,7 +125,9 @@ export const getSeasonFolder = async (alphaContract, seasonName) => {
     const response = await alphaContract.seasons(seasonName)
     return response.folder
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -119,7 +137,9 @@ export const getUserCards = async (alphaContract, address, seasonName) => {
     const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
     return cards
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -129,7 +149,9 @@ export const getWinnersBySeason = async (alphaContract, seasonName) => {
     const winners = await alphaContract.getWinners(seasonName)
     return winners
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return false
   }
 }
@@ -139,7 +161,9 @@ export const getAuthorized = async (alphaContract, address) => {
     const authorized = await alphaContract.getAuthorized(address)
     return authorized
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return e
   }
 }
@@ -149,7 +173,9 @@ export const getSeasonPlayers = async (alphaContract, seasonName) => {
     const players = await alphaContract.getSeasonPlayers(seasonName)
     return players
   } catch (e) {
-    console.error({ e })
+    console.error({
+      e
+    })
     return e
   }
 }
