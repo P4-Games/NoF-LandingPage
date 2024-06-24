@@ -1,9 +1,5 @@
-import {
-  graphUrl
-} from '../config'
-import {
-  ethers
-} from 'ethers'
+import { graphUrl } from '../config'
+import { ethers } from 'ethers'
 
 const query = `
   query getSeasonWinners {

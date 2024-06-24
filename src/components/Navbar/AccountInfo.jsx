@@ -276,7 +276,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       </div>
 
       <div className='account__info__icon__container'>
-        {currentNwk?.config.environment == 'testing' && (
+        {(currentNwk?.config.environment == 'testing' || currentNwk?.config.chainName == 'sepolia') && (
           <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
         )}
         <AiOutlineSend

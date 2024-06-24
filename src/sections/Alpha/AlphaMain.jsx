@@ -91,7 +91,7 @@ const AlphaMain = () => {
     } catch (ex) {
       stopLoading()
       console.error({ ex })
-      emitError(t('alpha_fetch_albums'))
+      emitError(t('alpha_fetch_albums_error'))
     }
   }
 
@@ -166,19 +166,6 @@ const AlphaMain = () => {
       }
     }
   }, [seasonName])
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      const elements = document.querySelectorAll('.wui-flex');
-      elements.forEach(element => {
-        if (window.innerWidth <= 430) {
-          element.style.alignItems = 'center'; // Change to your desired value
-        } else {
-          element.style.alignItems = ''; // Reset to default or remove the inline style
-        }
-      });
-    });
-  }, [])
 
   const resetShowMain = (cardsData) => {
     startLoading()
