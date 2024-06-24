@@ -12,7 +12,7 @@ const query = `
   }
 `
 
-export const fetchDataAlpha = async () => {
+export const fetchWinnersQuery = async () => {
   try {
     const response = await fetch(graphUrl, {
       method: 'POST',
@@ -27,7 +27,7 @@ export const fetchDataAlpha = async () => {
     return json
   } catch (e) {
     console.error({ e })
-    return e
+    return false
   }
 }
 

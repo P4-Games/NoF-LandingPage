@@ -6,7 +6,7 @@ import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
 import { storageUrlAlpha } from '../../config'
 import {
-  fetchDataAlpha,
+  fetchWinnersQuery,
   createNewSeason,
   buyPack,
   getAlbumData,
@@ -188,10 +188,13 @@ const AlphaMain = () => {
       if (seasonData) {
         let currentSeason
         let currentPrice
-
         for (let i = 0; i < seasonData[0].length; i++) {
-          const season = await alphaContract.getSeasonAlbums(seasonData[0][i])
-
+          const season = await checkPacks(alphaContract, seasonData[0][i])
+          if(!season) {
+            stopLoading()
+            emitError(t('alpha_fetch_season_data_error'))
+            return
+          }
           if (season.length > 0) {
             currentSeason = seasonData[0][i]
             currentPrice = seasonData[1][i]
@@ -201,11 +204,9 @@ const AlphaMain = () => {
             currentPrice = seasonData[1][i]
           }
         }
-
         const seasonWinnersCount = {}
-        const winnersQuery = await fetchDataAlpha()
+        const winnersQuery = await fetchWinnersQuery()
         const { winners } = winnersQuery.data
-
         for (let i = 0; i < winners.length; i++) {
           if (!seasonWinnersCount[winners[i].season]) {
             seasonWinnersCount[winners[i].season] = 1
@@ -213,7 +214,6 @@ const AlphaMain = () => {
             seasonWinnersCount[winners[i].season]++
           }
         }
-
         const finishedSeasons = Object.entries(seasonWinnersCount)
           .filter((season) => season[1] == 10)
           .map((season) => season[0])
@@ -328,11 +328,13 @@ const AlphaMain = () => {
         setAlbum(albumData)
         setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
         const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
+        console.log({ completion })
+        console.log({ winnerPosition })
         setAlbumCompletion(completion)
         setVida(vidas[completion])
 
         const seasonFolderData = await getSeasonFolder(alphaContract, seasonName)
-        if(!seasonFolderData) {
+        if (!seasonFolderData) {
           emitError(t('alpha_show_cards_error'))
           return
         }
@@ -499,7 +501,7 @@ const AlphaMain = () => {
         stopLoading()
         const albumData = await getAlbumData(alphaContract, albumTokenId)
         if (albumData.completion == 5) {
-          emitSuccess(t('album_completo'), 2000)
+          emitSuccess(t('album_completo'), 5000);
         } else {
           emitSuccess(t('carta_en_album'), 2000)
         }
@@ -508,6 +510,7 @@ const AlphaMain = () => {
     } catch (e) {
       console.error({ e })
       stopLoading()
+      emitError(t('alpha_paste_card_error'))
     }
   }
 
@@ -722,9 +725,7 @@ const AlphaMain = () => {
                 <div className='alpha_cards_container'>
                   <div className='swiper-container alpha-swiper-container'>
                     <div className='swiper-wrapper alpha-swiper-wrapper'>
-                      {console.log({ cards })}
                       {cards.map((card) => {
-                        console.log({ cards })
                         const cardCollection = ethers.BigNumber.from(card.collection).toNumber()
                         return (
                           <div

@@ -1,4 +1,5 @@
 @import './media-queries.scss';
+
 .loader {
   width: 5rem;
   height: 5rem;
@@ -51,9 +52,6 @@
   text-align: center;
   font-size: 0.5em;
   width: 7rem;
-  @include mobile {
-    width: 6rem;
-  }
 }
 
 .alpha_button:hover:enabled {
@@ -71,9 +69,6 @@
   font-family: 'Press Start 2P', 'Share Tech Mono', 'Share Tech', sans-serif;
   background-color: #eec48a;
   border: 0px;
-  @include mobile {
-    width: 140px;
-  }
 }
 
 .alpha_display_none {
@@ -135,9 +130,6 @@
 .alpha_season > span,
 .alpha_albums_season > span {
   position: absolute;
-  @include mobile {
-    width: 170px;
-  }
 }
 
 .alpha_albums_season {
@@ -168,18 +160,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @include mobile {
-    margin-top: 50px;
-    flex-direction: column;
-  }
 }
 
 .alpha_card,
 .alpha_album {
   width: 250px;
-  @include mobile {
-    width: 110px;
-  }
 }
 
 .alpha_albums_swiper_container {
@@ -193,16 +178,8 @@
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
-  @include mobile {
-    margin: 0px;
-    font-size: 13px;
-  }
 }
-.alpha_progress_container img {
-  @include mobile {
-    width: 100px;
-  }
-}
+
 .alpha_progress_button_container {
   display: flex;
   align-items: center;
@@ -232,17 +209,8 @@
   padding-top: 0;
   text-align: center;
   font-size: 18px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
   align-items: center;
 }
 
@@ -262,10 +230,6 @@
   top: 25px;
   left: 65px;
   background-color: rgba(255, 255, 255, 0.7);
-  @include mobile {
-    top: 6px;
-    left: 150px;
-  }
 }
 
 .alpha_transfer_modal {
@@ -335,9 +299,6 @@
 
   .alpha_season {
     min-height: 90px;
-    @include mobile {
-      margin-top: -10px !important;
-    }
   }
 
   .alpha_data div {
@@ -350,6 +311,9 @@
 }
 
 @media (max-width: 820px) {
+  .alpha_container {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 768px) {
@@ -357,9 +321,6 @@
     margin-top: 10vh;
     padding-bottom: 10vh;
   }
-}
-
-@media (max-width: 610px) {
 }
 
 @media (max-width: 576px) {
@@ -373,6 +334,27 @@
 }
 
 @media (max-width: 480px) {
+  .alpha_inner_container {
+    flex-direction: column;
+  }
+
+  .alpha_progress_container {
+    margin: 20px;
+  }
+
+  .alpha_card,
+  .alpha_album {
+    width: 200px;
+  }
+
+  .alpha_cards_container {
+    width: 200px;
+  }
+
+  .alpha-swiper-container,
+  #alpha-albums-swiper-container {
+    width: 300px;
+  }
 }
 
 .alpha_no_album_message {
