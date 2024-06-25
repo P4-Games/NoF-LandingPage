@@ -70,6 +70,7 @@ const AlphaMain = () => {
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
+  const [disableBuyPackButton, setDisableBuyPackButton] = useState(false)
 
   const fetchAlbums = async () => {
     try {
@@ -394,10 +395,12 @@ const AlphaMain = () => {
   }
 
   const handleBuyPack = async (price, name) => {
+    setDisableBuyPackButton(true)
     startLoading()
     try {
       const cards = await showCards(walletAddress, seasonName)
       if (cards && cards.length > 0) {
+        setDisableBuyPackButton(false)
         stopLoading()
         emitSuccess(t('ya_tienes_cartas'), 2000)
         return
@@ -405,11 +408,13 @@ const AlphaMain = () => {
 
       const packs = await checkPacks(alphaContract, name)
       if (!packs) {
+        setDisableBuyPackButton(false)
         stopLoading()
         emitError(t('alpha_buy_pack_error'))
         return
       }
       if (packs.length == 0) {
+        setDisableBuyPackButton(false)
         stopLoading()
         emitError(t('no_mas_packs'))
         return
@@ -430,6 +435,10 @@ const AlphaMain = () => {
           })
           stopLoading()
 
+          if (result.isDismissed || result.isDenied) {
+            setDisableBuyPackButton(false)
+          }
+
           if (result.isConfirmed) {
             startLoading()
             const approved = await checkApproved(daiContract, walletAddress, alphaContract.address)
@@ -437,17 +446,20 @@ const AlphaMain = () => {
               try {
                 const pack = await buyPack(alphaContract, price, name)
                 if (!pack) {
+                  setDisableBuyPackButton(false)
                   stopLoading()
                   emitError(t('alpha_buy_pack_error'))
                   return
                 } else {
                   setPack(pack)
+                  setDisableBuyPackButton(false)
                   stopLoading()
                   emitSuccess(t('confirmed'), 2000)
                   await showCards(walletAddress, seasonName)
                 }
               } catch (err) {
                 console.error({ err })
+                setDisableBuyPackButton(false)
                 stopLoading()
                 emitError(t('alpha_buy_pack_error'))
                 return
@@ -461,22 +473,26 @@ const AlphaMain = () => {
                 )
                 if (!approved) {
                   emitError(t('alpha_buy_pack_error'))
+                  setDisableBuyPackButton(false)
                   stopLoading()
                   return
                 } else {
                   const pack = await buyPack(alphaContract, price, name)
                   if (!pack) {
+                    setDisableBuyPackButton(false)
                     stopLoading()
                     emitError(t('alpha_buy_pack_error'))
                     return
                   } else {
                     setPack(pack)
+                    setDisableBuyPackButton(false)
                     stopLoading()
                     await showCards(walletAddress, seasonName)
                   }
                 }
               } catch (err) {
                 console.error({ err })
+                setDisableBuyPackButton(false)
                 stopLoading()
                 emitError(t('alpha_buy_pack_error'))
                 return
@@ -484,6 +500,7 @@ const AlphaMain = () => {
             }
           }
         } else {
+          setDisableBuyPackButton(false)
           stopLoading()
           emitError(t('no_dai'))
           return
@@ -657,6 +674,7 @@ const AlphaMain = () => {
                       onClick={() => handleBuyPack(packPrice, seasonName)}
                       className='alpha_button'
                       id='alpha_buy_pack_button'
+                      disabled={disableBuyPackButton}
                     >
                       {`${t('comprar_pack')}`}
                     </button>
