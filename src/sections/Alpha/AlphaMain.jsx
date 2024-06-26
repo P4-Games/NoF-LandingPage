@@ -4,7 +4,7 @@ import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
-import { storageUrlAlpha } from '../../config'
+import { storageUrlAlpha, NETWORKS } from '../../config'
 import {
   createNewSeason,
   buyPack,
@@ -25,6 +25,7 @@ import { emitError, emitSuccess, emitInfo } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { NextFetchEvent } from 'next/server'
 
 const vidas = [
   '/images/alpha/vida0.png',
@@ -45,6 +46,7 @@ const AlphaMain = () => {
   const [albumImage, setAlbumImage] = useState(null)
   const [albumCollection, setAlbumCollection] = useState(null)
   const [albumCompletion, setAlbumCompletion] = useState(null)
+  const [openSeaUrl, setOpenSeaUrl] = useState('')
   const [isCollection, setIsCollection] = useState(false)
   const [cards, setCards] = useState([])
   const [error, setError] = useState('')
@@ -59,6 +61,7 @@ const AlphaMain = () => {
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
   const {
+    chainId,
     walletAddress,
     daiContract,
     alphaContract,
@@ -177,6 +180,23 @@ const AlphaMain = () => {
       setShowMain(true)
       stopLoading()
     }, 500)
+  }
+
+  const getOpenseaUrl = () => {
+    let baseUrl = ''
+    let chainName = ''
+    if (chainId) {
+      Object.entries(NETWORKS).forEach(([key, value]) => {
+        if (value.config.chainId == chainId) {
+          const openseaUrl = value.config.chainOpenSeaBaseUrl
+          baseUrl = openseaUrl
+          chainName = value.config.chainName
+        }
+      })
+      return `${baseUrl}/assets/${chainName}/${alphaContract?.address}`
+    } else {
+      return ''
+    }
   }
 
   const fetchSeasonData = async () => {
@@ -325,6 +345,10 @@ const AlphaMain = () => {
           card.class == 0 ? albumData.push(card) : cardsData.push(card)
         })
 
+        const openSeaBaseUrl = getOpenseaUrl()
+        const openSeaFullUrl = `${openSeaBaseUrl}/${albumData[0].tokenId}`
+
+        setOpenSeaUrl(openSeaFullUrl)
         setError('')
         setPack(cards)
         setAlbum(albumData)
@@ -348,8 +372,6 @@ const AlphaMain = () => {
             ? `${baseUrl}/${albumData[0].number + '.png'}`
             : `${baseUrl}/${albumData[0].number + 'F.png'}`
         )
-
-        console.log({ completion })
         if (completion >= 5) {
           try {
             const winners = await getWinnersBySeason(alphaContract, seasonName)
@@ -716,7 +738,9 @@ const AlphaMain = () => {
             {pack && pack.length && showMain ? (
               <div className='alpha_container'>
                 <div className='alpha_album_container'>
-                  <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
+                  <a href={openSeaUrl} target='_blank'>
+                    <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
+                  </a>
                 </div>
                 <div className='alpha_progress_container'>
                   <span>
