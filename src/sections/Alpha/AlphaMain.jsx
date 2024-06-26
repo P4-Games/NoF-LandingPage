@@ -25,7 +25,6 @@ import { emitError, emitSuccess, emitInfo } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { NextFetchEvent } from 'next/server'
 
 const vidas = [
   '/images/alpha/vida0.png',
