@@ -183,7 +183,6 @@ const AlphaMain = () => {
     try {
       if (!walletAddress || !isValidNetwork || !alphaContract) return
       startLoading()
-      // devuelve un array con los nombres de las temporadas [0] y los precios de los packs [1]
       let seasonData = await alphaContract.getSeasonData()
 
       if (seasonData) {
@@ -419,7 +418,7 @@ const AlphaMain = () => {
         emitError(t('no_mas_packs'))
         return
       } else {
-        const balance = await checkBalance(daiContract, walletAddress)
+        const balance = await checkBalance(daiContract, walletAddress, packPrice)
         if (balance) {
           const result = await Swal.fire({
             text: `${t('alpha_buy_pack_text')
