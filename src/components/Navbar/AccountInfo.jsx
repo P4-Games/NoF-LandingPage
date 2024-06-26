@@ -5,10 +5,10 @@ import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
 import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { GoLinkExternal } from 'react-icons/go'
-import { AiOutlineSend } from 'react-icons/ai'
+import { AiOutlineSend, AiOutlineBank } from 'react-icons/ai'
 
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { getBalance, getTokenName, transfer } from '../../services/dai'
+import { getBalance, getTokenName, transfer, mintDai } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
 import { getAccountAddressText } from '../../utils/stringUtils'
@@ -72,6 +72,56 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     setTimeout(() => {
       setCopiedTextVisible(false)
     }, 1000)
+  }
+
+  const handleMintDaiClick = async () => {
+    try {
+      setShowAccountInfo(false)
+
+      // swal2-inputerror
+      const result = await Swal.fire({
+        title: `${t('account_mint_dai_title')}`,
+        html: `
+          <input id="amount" type='number' class="swal2-input" placeholder="${t('quantity')}">
+        `,
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('mintear')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        },
+        preConfirm: () => {
+          const amountInput = Swal.getPopup().querySelector('#amount')
+          const amount = amountInput.value
+
+          if (isNaN(amount)) {
+            amountInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(`${t('amount_invalid')}`)
+          } else {
+            if (isNaN(amount)) {
+              amountInput.classList.add('swal2-inputerror')
+              Swal.showValidationMessage(`${t('amount_invalid')}`)
+            }
+          }
+          return { amount: amount }
+        }
+      })
+
+      if (result.isConfirmed) {
+        startLoading()
+        await mintDai(daiContract, walletAddress, result.value.amount)
+        emitSuccess(t('confirmado'), 2000)
+        stopLoading()
+      }
+    } catch (e) {
+      stopLoading()
+      console.error({ e })
+      emitError(t('account_mint_dai_error'))
+    }
   }
 
   const handleSendTokenClick = async () => {
@@ -224,7 +274,12 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       <div>
         <p>{`${walletBalance} ${tokenName}`}</p>
       </div>
+
       <div className='account__info__icon__container'>
+        {(currentNwk?.config.environment == 'testing' ||
+          currentNwk?.config.chainName == 'sepolia') && (
+          <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
+        )}
         <AiOutlineSend
           onClick={() => {
             handleSendTokenClick()

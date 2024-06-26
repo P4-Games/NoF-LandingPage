@@ -224,6 +224,28 @@ export const NETWORKS = {
       gammaOffersAddress: '0x94Ac8Cb81Ef3c3B056dca42974bF8A57A7B9BA03',
       gammaTicketsAddress: '0x0DC4f203E9113018010720484d35a4bfa1c0beA5'
     }
+  },
+  sepolia: {
+    config: {
+      enabled: 'true',
+      environment: 'testing',
+      chainName: 'sepolia',
+      chainId: '0xaa36a7',
+      chainCurrency: 'ETH',
+      ChainRpcUrl: 'https://sepolia.gateway.tenderly.co',
+      chainExplorerUrl: 'https://sepolia.etherscan.io',
+      chainOpenSeaBaseUrl: 'https://testnets.opensea.io',
+      chainNftUrl: '',
+      chainNodeProviderUrl: NodeProviderUrlPolygon // visible ONLY in server side code! (in cliente side will be undefined)
+    },
+    contracts: {
+      daiAddress: '0x916153db00beD5Df8D242d54FE116226Fd9Aa12F',
+      alphaAddress: '0x08EDe954E7582c14E59E295dCb9a2c7f211d2B9c',
+      gammaCardsAddress: '0xaf1BDeFC663a5f9A47679f1B0468BCa2f41650F5',
+      gammaPackAddress: '0x2C5e7B01639621ff5A402984E3d18454190f30Ee',
+      gammaOffersAddress: '0x0d0E683E567881C714a2E1096dEC774D72591D02',
+      gammaTicketsAddress: '0xD96c2655c8c04b4Bab2E0664F7ed3179a2d05d14'
+    }
   }
 }
 
