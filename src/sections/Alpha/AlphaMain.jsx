@@ -349,6 +349,7 @@ const AlphaMain = () => {
             : `${baseUrl}/${albumData[0].number + 'F.png'}`
         )
 
+        console.log({ completion })
         if (completion >= 5) {
           try {
             const winners = await getWinnersBySeason(alphaContract, seasonName)
@@ -359,6 +360,8 @@ const AlphaMain = () => {
             stopLoading()
             console.error({ e })
           }
+        } else {
+          setWinnerPosition(0)
         }
 
         if (showMain) {
