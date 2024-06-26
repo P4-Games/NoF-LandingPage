@@ -23,7 +23,7 @@ header {
 }
 
 p {
-  font-size: 62.5%;
+  font-size: 50%;
 }
 
 ::-webkit-scrollbar {
@@ -58,5 +58,11 @@ a {
     background-position: center;
     box-sizing: border-box;
     max-width: 100%;
+  }
+}
+
+@media (min-width: 1440px) {
+  p {
+    font-size: 60%;
   }
 }

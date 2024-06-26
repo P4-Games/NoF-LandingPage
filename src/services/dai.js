@@ -1,5 +1,11 @@
 import { ethers } from 'ethers'
 
+export const mintDai = async (daiContract, walletAddress, amount) => {
+  const trx = await daiContract._mint(walletAddress, ethers.utils.parseUnits(amount, 18))
+  await trx.wait()
+  return true
+}
+
 export const transfer = async (daiContract, walletAddress, amount) => {
   const trx = await daiContract.transfer(walletAddress, ethers.utils.parseUnits(amount, 18))
   await trx.wait()
@@ -13,17 +19,14 @@ export const getBalance = async (daiContract, walletAddress) => {
   return number
 }
 
-export const checkBalance = async (daiContract, walletAddress) => {
+export const checkBalance = async (daiContract, walletAddress, daiNeeded) => {
   // Get the walletAddress balance from the Dai contract
   const balance = await daiContract.balanceOf(walletAddress)
   // Convert the balance from a BigNumber to a number
   const number = JSON.parse(ethers.BigNumber.from(balance).toString())
 
-  // Set the minimum balance value to 1 Dai
-  const minimum = 1000000000000000000
-
-  // Return true if the walletAddress balance is greater than the minimum value, false otherwise
-  return number > minimum
+  // Return true if the walletAddress balance is greater than the amount needed, false otherwise
+  return number >= daiNeeded
 }
 
 export const checkApproved = async (daiContract, tokenOwnerAddress, spenderAddress, amount = 0) => {
@@ -36,9 +39,18 @@ export const authorizeDaiContract = async (
   spenderAddress,
   amount = ethers.constants.MaxUint256
 ) => {
-  const authorization = await daiContract.approve(spenderAddress, amount, { gasLimit: 2500000 })
-  await authorization.wait()
-  return authorization
+  try {
+    const authorization = await daiContract.approve(spenderAddress, amount, {
+      gasLimit: 2500000
+    })
+    await authorization.wait()
+    return authorization
+  } catch (e) {
+    console.error({
+      e
+    })
+    return false
+  }
 }
 
 export const getTokenName = async (daiContract) => {
