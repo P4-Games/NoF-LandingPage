@@ -1,6 +1,4 @@
-import {
-  ethers
-} from 'ethers'
+import { ethers } from 'ethers'
 
 export const mintDai = async (daiContract, walletAddress, amount) => {
   const trx = await daiContract._mint(walletAddress, ethers.utils.parseUnits(amount, 18))

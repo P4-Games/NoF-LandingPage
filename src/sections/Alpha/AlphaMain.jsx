@@ -21,7 +21,7 @@ import {
 import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
 import CustomImage from '../../components/CustomImage'
 import Swal from 'sweetalert2'
-import { emitError, emitSuccess } from '../../utils/alert'
+import { emitError, emitSuccess, emitInfo } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
@@ -289,7 +289,7 @@ const AlphaMain = () => {
           }
         }
       } else {
-        emitError(t('alpha_season_authorization'), 2000)
+        emitInfo(t('alpha_season_authorization'), 2000)
       }
     } catch (e) {
       console.error({ e })
@@ -375,7 +375,7 @@ const AlphaMain = () => {
         if (!isBuyingPack) {
           Swal.fire({
             text: `${t('alpha_no_cards_error_text')}`,
-            icon: 'error',
+            icon: 'info',
             showDenyButton: false,
             showCancelButton: false,
             color: 'black',
@@ -415,7 +415,7 @@ const AlphaMain = () => {
       if (packs.length == 0) {
         setDisableBuyPackButton(false)
         stopLoading()
-        emitError(t('no_mas_packs'))
+        emitInfo(t('no_mas_packs'))
         return
       } else {
         const balance = await checkBalance(daiContract, walletAddress, packPrice)
@@ -501,7 +501,7 @@ const AlphaMain = () => {
         } else {
           setDisableBuyPackButton(false)
           stopLoading()
-          emitError(t('no_dai'))
+          emitInfo(t('no_dai'))
           return
         }
       }
@@ -548,7 +548,7 @@ const AlphaMain = () => {
         {}
       )
     if (Object.keys(playersOptions).length < 9) {
-      emitError(t('alpha_transfer_card_must_wait'))
+      emitInfo(t('alpha_transfer_card_must_wait'))
       return
     }
     try {

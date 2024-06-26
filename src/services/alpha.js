@@ -1,9 +1,5 @@
-import {
-  graphUrl
-} from '../config'
-import {
-  ethers
-} from 'ethers'
+import { graphUrl } from '../config'
+import { ethers } from 'ethers'
 
 const query = `
   query getSeasonWinners {
@@ -42,14 +38,16 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
     name,
     ethers.utils.parseUnits(price, 18),
     amount,
-    folder);
-  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100));
+    folder
+  )
+  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
   try {
     const trx = await alphaContract.newSeason(
       name,
       ethers.utils.parseUnits(price, 18),
       amount,
-      folder, {
+      folder,
+      {
         gasLimit
       }
     )
@@ -64,8 +62,8 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
 }
 
 export const buyPack = async (alphaContract, packPrice, seasonName) => {
-  const estimatedGas = await alphaContract.estimateGas.buyPack(packPrice, seasonName);
-  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100));
+  const estimatedGas = await alphaContract.estimateGas.buyPack(packPrice, seasonName)
+  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
   try {
     const trx = await alphaContract.buyPack(packPrice, seasonName, {
       gasLimit
@@ -81,8 +79,8 @@ export const buyPack = async (alphaContract, packPrice, seasonName) => {
 }
 
 export const transferCard = async (alphaContract, from, to, tokenId) => {
-  const estimatedGas = await alphaContract.estimateGas.transferFrom(from, to, tokenId);
-  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100));
+  const estimatedGas = await alphaContract.estimateGas.transferFrom(from, to, tokenId)
+  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
   try {
     const trx = await alphaContract.transferFrom(from, to, tokenId, {
       gasLimit
@@ -98,8 +96,8 @@ export const transferCard = async (alphaContract, from, to, tokenId) => {
 }
 
 export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
-  const estimatedGas = await alphaContract.estimateGas.pasteCards(cardTokenId, albumTokenId);
-  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100));
+  const estimatedGas = await alphaContract.estimateGas.pasteCards(cardTokenId, albumTokenId)
+  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
   try {
     const trx = await alphaContract.pasteCards(cardTokenId, albumTokenId, {
       gasLimit
