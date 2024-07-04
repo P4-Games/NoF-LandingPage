@@ -67,6 +67,7 @@ const AlphaMain = () => {
     connectWallet,
     isConnected,
     isValidNetwork,
+    isValidNetworkForAlpha,
     enabledNetworkNames
   } = useWeb3Context()
   const [showRules, setShowRules] = useState(false)
@@ -76,7 +77,7 @@ const AlphaMain = () => {
 
   const fetchAlbums = async () => {
     try {
-      if (!walletAddress || !isValidNetwork || !alphaContract || !seasonNames) return
+      if (!walletAddress || !isValidNetworkForAlpha || !alphaContract || !seasonNames) return
       startLoading()
 
       let albumsArr = []
@@ -100,12 +101,12 @@ const AlphaMain = () => {
 
   useEffect(() => {
     fetchAlbums()
-  }, [isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isValidNetworkForAlpha, albums]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSeasonData()
     setShowMain(false)
-  }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, isValidNetworkForAlpha]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -200,7 +201,7 @@ const AlphaMain = () => {
 
   const fetchSeasonData = async () => {
     try {
-      if (!walletAddress || !isValidNetwork || !alphaContract) return
+      if (!walletAddress || !isValidNetworkForAlpha || !alphaContract) return
       startLoading()
       let seasonData = await alphaContract.getSeasonData()
 
@@ -629,10 +630,10 @@ const AlphaMain = () => {
             {t('connect_wallet')}
           </button>
         )}
-        {isConnected && !isValidNetwork && (
+        {isConnected && !isValidNetworkForAlpha && (
           <div className='invalid__network__div'>
             <span className='invalid__network'>
-              {t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
+              {t('account_invalid_network').replace('{NETWORKS}', 'sepolia')}
             </span>
           </div>
         )}
@@ -650,11 +651,11 @@ const AlphaMain = () => {
   return (
     <div className='alpha_main'>
       <div className='alpha'>
-        {(!isConnected || !isValidNetwork) && <NotConnected />}
+        {(!isConnected || !isValidNetworkForAlpha) && <NotConnected />}
 
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
-        {isConnected && isValidNetwork && alphaContract && seasonNames && (
+        {isConnected && isValidNetworkForAlpha && alphaContract && seasonNames && (
           <div
             className={
               showMain

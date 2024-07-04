@@ -26,6 +26,7 @@ function Web3ContextProvider({ children }) {
   const [web3Error, setWeb3Error] = useState('')
   const [wallets, setWallets] = useState(null)
   const [isValidNetwork, setIsValidNetwork] = useState(false)
+  const [isValidNetworkForAlpha, setIsValidNetworkForAlpha] = useState(false)
   const [daiContract, setDaiContract] = useState(null)
   const [alphaContract, setAlphaContract] = useState(null)
   const [gammaPacksContract, setGammaPacksContract] = useState(null)
@@ -114,6 +115,13 @@ function Web3ContextProvider({ children }) {
         )
       })
 
+      const isValidNetworkForAlpha = () => {
+        const network = NETWORKS['sepolia']
+        return (
+          network.config.chainId === chainIdHex
+        )
+      }
+
       if (isValidNetwork) {
         connectContracts(web3Provider.getSigner())
         setIsValidNetwork(true)
@@ -121,6 +129,15 @@ function Web3ContextProvider({ children }) {
         setIsValidNetwork(false)
         setWeb3Error('account_invalid_network')
       }
+
+      if(isValidNetworkForAlpha()) {
+        connectContractsForAlpha(web3Provider.getSigner())
+        setIsValidNetworkForAlpha(true)
+      } else {
+        setIsValidNetworkForAlpha(false)
+        setWeb3Error('account_invalid_network')
+      }
+
       return [web3Provider, accountAddress]
     } catch (e) {
       console.error({ e })
@@ -143,6 +160,11 @@ function Web3ContextProvider({ children }) {
   function getCurrentNetwork() {
     const network = enabledNetworks.find((network) => network.web3ModalConfig.chainId === chainId)
     return network ? network : null
+  }
+
+  function getCurrentNetworkForAlpha() {
+    const network = NETWORKS['sepolia'].config.chainId === decToHex(chainId)
+    return network ? NETWORKS['sepolia'] : null
   }
 
   function connectContracts(_signer) {
@@ -239,10 +261,29 @@ function Web3ContextProvider({ children }) {
     }
   }
 
+  function connectContractsForAlpha (_signer) {
+    try {
+      const _contracts = getCurrentNetworkForAlpha().contracts
+
+      const daiContractInstance = new ethers.Contract(_contracts.daiAddress, daiAbi.abi, _signer)
+
+      const alphaContractInstance = new ethers.Contract(
+        _contracts.alphaAddress,
+        alphaAbi.abi,
+        _signer
+      )
+      setDaiContract(daiContractInstance)
+      setAlphaContract(alphaContractInstance)
+    } catch (e) {
+      console.error({ e })
+    }
+  }
+
   async function disconnectWallet() {
     disconnect()
     setWallets(null)
     setIsValidNetwork(false)
+    setIsValidNetworkForAlpha(false)
     setWeb3Error('')
   }
 
@@ -269,12 +310,20 @@ function Web3ContextProvider({ children }) {
         setWeb3Error('account_invalid_network')
         const _chanIdHex = decToHex(newChain)
         setIsValidNetwork(false)
+        setIsValidNetworkForAlpha(false)
 
         if (enabledNetworkChainIds.includes(_chanIdHex)) {
           const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
           const signer = provider.getSigner()
           connectContracts(signer)
           setIsValidNetwork(true)
+        }
+
+        if(_chanIdHex === NETWORKS['sepolia'].config.chainId) {
+          const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
+          const signer = provider.getSigner()
+          connectContractsForAlpha(signer)
+          setIsValidNetworkForAlpha(true)
         }
       })
     }
@@ -293,6 +342,7 @@ function Web3ContextProvider({ children }) {
     web3Error,
     isConnected,
     isValidNetwork,
+    isValidNetworkForAlpha,
     enabledNetworkNames,
     connectWallet,
     disconnectWallet,
