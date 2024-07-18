@@ -117,9 +117,7 @@ function Web3ContextProvider({ children }) {
 
       const isValidNetworkForAlpha = () => {
         const network = NETWORKS['sepolia']
-        return (
-          network.config.chainId === chainIdHex
-        )
+        return network.config.chainId === chainIdHex
       }
 
       if (isValidNetwork) {
@@ -130,7 +128,7 @@ function Web3ContextProvider({ children }) {
         setWeb3Error('account_invalid_network')
       }
 
-      if(isValidNetworkForAlpha()) {
+      if (isValidNetworkForAlpha()) {
         connectContractsForAlpha(web3Provider.getSigner())
         setIsValidNetworkForAlpha(true)
       } else {
@@ -163,8 +161,16 @@ function Web3ContextProvider({ children }) {
   }
 
   function getCurrentNetworkForAlpha() {
-    const network = NETWORKS['sepolia'].config.chainId === decToHex(chainId)
-    return network ? NETWORKS['sepolia'] : null
+    const sepolia = NETWORKS['sepolia']
+    const network = sepolia.config.chainId === decToHex(chainId)
+    sepolia.web3ModalConfig = {
+      chainId: hexToDec(sepolia.config.chainId),
+      name: sepolia.config.chainName,
+      currency: sepolia.config.chainCurrency,
+      explorerUrl: sepolia.config.chainExplorerUrl,
+      rpcUrl: sepolia.config.ChainRpcUrl
+    }
+    return network ? sepolia : null
   }
 
   function connectContracts(_signer) {
@@ -261,7 +267,7 @@ function Web3ContextProvider({ children }) {
     }
   }
 
-  function connectContractsForAlpha (_signer) {
+  function connectContractsForAlpha(_signer) {
     try {
       const _contracts = getCurrentNetworkForAlpha().contracts
 
@@ -319,7 +325,7 @@ function Web3ContextProvider({ children }) {
           setIsValidNetwork(true)
         }
 
-        if(_chanIdHex === NETWORKS['sepolia'].config.chainId) {
+        if (_chanIdHex === NETWORKS['sepolia'].config.chainId) {
           const provider = new ethers.providers.Web3Provider(window.ethereum, 'any')
           const signer = provider.getSigner()
           connectContractsForAlpha(signer)
