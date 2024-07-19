@@ -232,7 +232,7 @@ export const NETWORKS = {
       chainName: 'sepolia',
       chainId: '0xaa36a7',
       chainCurrency: 'ETH',
-      ChainRpcUrl: 'https://rpc.sepolia.org',
+      ChainRpcUrl: 'https://1rpc.io/sepolia',
       chainExplorerUrl: 'https://sepolia.etherscan.io',
       chainOpenSeaBaseUrl: 'https://testnets.opensea.io',
       chainNftUrl: '',
