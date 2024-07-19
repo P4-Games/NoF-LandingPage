@@ -10,7 +10,7 @@ export const NotificationProvider = ({ children }) => {
   const { walletAddress } = useContext(Web3Context)
 
   const getNotificationsByUser = (user) => {
-    if (!user) return notifications
+    if (!user || !notifications.length) return notifications
     const myNotifications = notifications.filter(
       (notification) => notification.walletAddress === user && notification.deleted === false
     )
@@ -29,10 +29,12 @@ export const NotificationProvider = ({ children }) => {
     })
   }
 
+  /*
   useEffect(() => {
     const filteredNotifications = getNotificationsByUser(walletAddress)
     setNotifications(filteredNotifications)
   }, [walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  */
 
   const addNotification = (user, message, data) => {
     const date = new Date().toLocaleString()
