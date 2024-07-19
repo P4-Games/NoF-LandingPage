@@ -228,7 +228,7 @@ export const NETWORKS = {
   sepolia: {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environment: 'production',
       chainName: 'sepolia',
       chainId: '0xaa36a7',
       chainCurrency: 'ETH',
