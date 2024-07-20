@@ -1,4 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import Main from '../sections/Main'
 
 const Home = () => <Main />

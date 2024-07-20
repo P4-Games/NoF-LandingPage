@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+/* eslint-disable jsx-a11y/img-redundant-alt */
+/* eslint-disable @next/next/no-img-element */
 import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
 function CustomImage({ src, alt, className }) {
   const [error, setError] = useState(false)

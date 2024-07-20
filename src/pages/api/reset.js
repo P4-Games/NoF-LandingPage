@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import connectToDatabase from '../../utils/db'
 
 // Función para actualizar la URL de la imagen de los personajes en la colección

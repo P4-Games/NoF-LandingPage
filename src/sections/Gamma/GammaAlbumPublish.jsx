@@ -1,12 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react'
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
-import { storageUrlGamma } from '../../config'
-import CustomImage from '../../components/CustomImage'
-import FlipBook from '../../components/FlipBook'
 import { useTranslation } from 'next-i18next'
+import React, { useState, useEffect, useCallback } from 'react'
+
+import { storageUrlGamma } from '../../config'
+import FlipBook from '../../components/FlipBook'
 import { createOffer } from '../../services/offers'
-import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
+import CustomImage from '../../components/CustomImage'
+import { emitInfo, emitError, emitSuccess, emitWarning } from '../../utils/alert'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbumPublish = (props) => {
@@ -35,11 +40,11 @@ const GammaAlbumPublish = (props) => {
       null
     ])
     updateButtonFunctions(2, handleCancelClick)
-  }, [handleCancelClick]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleCancelClick]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     updateButtonFunctions(1, handleConfirmClick)
-  }, [handleConfirmClick, selectedCards]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleConfirmClick, selectedCards]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleConfirmClick = useCallback(async () => {
     if (selectedCards.length === 0) {
@@ -57,30 +62,26 @@ const GammaAlbumPublish = (props) => {
     } catch (e) {
       stopLoading()
       console.error({ e })
-      if (e.message == 'publish_offer_error_own_card_number')
+      if (e.message === 'publish_offer_error_own_card_number')
         emitWarning(t('publish_offer_error_own_card_number'))
       else emitError(t('publish_offer_error'))
     }
-  }, [gammaOffersContract, cardNumberOffered, selectedCards]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [gammaOffersContract, cardNumberOffered, selectedCards]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCancelClick = useCallback(() => {
     ToggleShowDefaultButtons(true)
     handleFinishPublish(false)
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCardClick = async (selectedCard) => {
-    if (parseInt(selectedCard) === parseInt(cardNumberOffered)) {
+    if (parseInt(selectedCard, 10) === parseInt(cardNumberOffered, 10)) {
       emitWarning(t('publish_offer_error_own_card_number'))
-    } else {
-      if (selectedCards.includes(selectedCard)) {
-        setSelectedCards((pevSelectedCards) =>
-          pevSelectedCards.filter((card) => card !== selectedCard)
-        )
-      } else {
-        if (selectedCards.length < 12) {
-          setSelectedCards((pevSelectedCards) => [...pevSelectedCards, selectedCard])
-        }
-      }
+    } else if (selectedCards.includes(selectedCard)) {
+      setSelectedCards((pevSelectedCards) =>
+        pevSelectedCards.filter((card) => card !== selectedCard)
+      )
+    } else if (selectedCards.length < 12) {
+      setSelectedCards((pevSelectedCards) => [...pevSelectedCards, selectedCard])
     }
   }
 
@@ -102,7 +103,7 @@ const GammaAlbumPublish = (props) => {
       {paginationObj.user[item]?.quantity > 1 && (
         <div className='quantity'>X:{paginationObj.user[item]?.quantity}</div>
       )}
-      {<div className='number'>{paginationObj.user[item]?.name || '0'}</div>}
+      <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
     </div>
   )
 
@@ -137,7 +138,7 @@ const GammaAlbumPublish = (props) => {
     <FlipBook
       showClose={false}
       onCloseClick={undefined}
-      disableFlipByClick={true}
+      disableFlipByClick
       pages={Array.from({ length: 10 }, (_, index) => (
         <PageContent key={index} page={paginationObj[`page${index + 1}`]} pageNumber={index + 1} />
       ))}

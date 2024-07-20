@@ -1,4 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import { AlphaMain } from '../sections/Alpha'
 
 const Alpha = () => <AlphaMain />

@@ -1,4 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import { GammaMain } from '../sections/Gamma'
 import { GammaDataContextProvider } from '../context/GammaDataContext'
 

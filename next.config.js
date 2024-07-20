@@ -10,7 +10,7 @@ const { EventEmitter } = require('events');
 // Configuración del EventEmitter
 const originalAddListener = EventEmitter.prototype.addListener;
 EventEmitter.prototype.addListener = function(event) {
-  console.log(`Adding listener for event: ${event}`);
+  console.info(`Adding listener for event: ${event}`);
   return originalAddListener.apply(this, arguments);
 };
 EventEmitter.defaultMaxListeners = 50;

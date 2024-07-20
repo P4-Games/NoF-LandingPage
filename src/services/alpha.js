@@ -1,42 +1,18 @@
-// import { graphUrl } from '../config'
 import { ethers } from 'ethers'
+
 import { handleError } from './handleError'
+import { fetchWithRetry } from './middleware'
 
-/*
-const query = `
-  query getSeasonWinners {
-    winners(first: 1000) {
-      season
-      winner
-      position
-      blockTimestamp
-    }
+export const getSeasonData = async (alphaContract, walletAddress) => {
+  // Define la función de solicitud
+  const key = `fetchSeasonData-${walletAddress}`
+  const requestFunc = async () => {
+    const seasonData = await alphaContract.getSeasonData()
+    return seasonData
   }
-`
-*/
-
-/*
-export const fetchWinnersQuery = async () => {
-  try {
-    const response = await fetch(graphUrl, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        query
-      })
-    })
-    const json = await response.json()
-    return json
-  } catch (e) {
-    console.error({
-      e
-    })
-    return false
-  }
+  const seasonData = await fetchWithRetry(key, requestFunc)
+  return seasonData
 }
-*/
 export const createNewSeason = async (alphaContract, name, price, amount = 60, folder = 'T1') => {
   try {
     const estimatedGas = await alphaContract.estimateGas.newSeason(
@@ -111,7 +87,7 @@ export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
 
 export const getAlbumData = async (alphaContract, tokenId) => {
   try {
-    console.log('calling getAlbumData')
+    // console.log('calling getAlbumData')
     const albumData = await alphaContract.cards(tokenId)
     return albumData
   } catch (e) {
@@ -122,7 +98,7 @@ export const getAlbumData = async (alphaContract, tokenId) => {
 
 export const checkPacks = async (alphaContract, seasonName) => {
   try {
-    console.log('calling checkPacks')
+    // console.log('calling checkPacks')
     const packs = await alphaContract.getSeasonAlbums(seasonName)
     return packs
   } catch (e) {
@@ -133,7 +109,7 @@ export const checkPacks = async (alphaContract, seasonName) => {
 
 export const getSeasonFolder = async (alphaContract, seasonName) => {
   try {
-    console.log('calling getSeasonFolder')
+    // console.log('calling getSeasonFolder')
     const response = await alphaContract.seasons(seasonName)
     return response.folder
   } catch (e) {
@@ -144,7 +120,7 @@ export const getSeasonFolder = async (alphaContract, seasonName) => {
 
 export const getUserCards = async (alphaContract, address, seasonName) => {
   try {
-    console.log('calling getUserCards')
+    // console.log('calling getUserCards')
     const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
     return cards
   } catch (e) {
@@ -155,7 +131,7 @@ export const getUserCards = async (alphaContract, address, seasonName) => {
 
 export const getWinnersBySeason = async (alphaContract, seasonName) => {
   try {
-    console.log('calling getWinnersBySeason')
+    // console.log('calling getWinnersBySeason')
     const winners = await alphaContract.getWinners(seasonName)
     return winners
   } catch (e) {
@@ -166,7 +142,7 @@ export const getWinnersBySeason = async (alphaContract, seasonName) => {
 
 export const getAuthorized = async (alphaContract, address) => {
   try {
-    console.log('calling getAuthorized')
+    // console.log('calling getAuthorized')
     const authorized = await alphaContract.getAuthorized(address)
     return authorized
   } catch (e) {
@@ -177,7 +153,7 @@ export const getAuthorized = async (alphaContract, address) => {
 
 export const getSeasonPlayers = async (alphaContract, seasonName) => {
   try {
-    console.log('calling getSeasonPlayers')
+    // console.log('calling getSeasonPlayers')
     const players = await alphaContract.getSeasonPlayers(seasonName)
     return players
   } catch (e) {

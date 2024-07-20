@@ -1,6 +1,7 @@
+import axios from 'axios'
+
 import connectToDatabase from '../../utils/db'
 import { storageUrlGamma } from '../../config'
-import axios from 'axios'
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users')
@@ -23,7 +24,7 @@ export default async function handler(req, res) {
     const user = await findUserByDiscordID(db, discordID)
 
     if (user) {
-      const characters = user.characters
+      const { characters } = user
 
       // Encontrar los personajes que faltan en el inventario del usuario
       const missingCharacters = charactersToCheck.filter(

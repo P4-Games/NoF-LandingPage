@@ -1,7 +1,8 @@
 import React from 'react'
-import { adminAccounts } from '../config'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import { adminAccounts } from '../config'
 import { useWeb3Context } from '../hooks'
 
 const Admin = () => {
@@ -13,6 +14,7 @@ const Admin = () => {
       {!walletAddress && (
         <div className='main_buttons_container'>
           <button
+            type='button'
             className='alpha_button alpha_main_button'
             id='connect_wallet_button'
             onClick={() => connectWallet()}

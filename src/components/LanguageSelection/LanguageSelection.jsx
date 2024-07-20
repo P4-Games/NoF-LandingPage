@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
 import Image from 'next/image'
+import React, { useState } from 'react'
+
 import { useSettingsContext } from '../../hooks'
 
 function LanguageSelection() {
@@ -35,52 +36,50 @@ function LanguageSelection() {
   }
 
   return (
-    <>
-      <div className='dropdown' data-dropdown>
-        <button className='link' data-dropdown-button onClick={toggleDropdown}>
-          <Image src={'/images/navbar/world.png'} alt='language button' fill />
-        </button>
-        {dropdownOpen && (
-          <div className='dropdown-menu '>
-            <ul className='language_ul'>
-              <li className='language_li'>
-                <button className='lang-btn' onClick={() => handleChangeLang('en')}>
-                  <Image
-                    onClick={() => handleChangeLang('en')}
-                    src={'/images/flags/en.png'}
-                    alt='English button'
-                    height={30}
-                    width={50}
-                  />
-                </button>
-              </li>
-              <li className='language_li'>
-                <button className='lang-btn' onClick={() => handleChangeLang('br')}>
-                  <Image
-                    onClick={() => handleChangeLang('br')}
-                    src={'/images/flags/br.png'}
-                    alt='Brazilean button'
-                    height={30}
-                    width={50}
-                  />
-                </button>
-              </li>
-              <li className='language_li'>
-                <button className='lang-btn' onClick={() => handleChangeLang('es')}>
-                  <Image
-                    onClick={() => handleChangeLang('es')}
-                    src={'/images/flags/es.png'}
-                    alt='Spanish button'
-                    height={30}
-                    width={50}
-                  />
-                </button>
-              </li>
-            </ul>
-          </div>
-        )}
-      </div>
-    </>
+    <div className='dropdown' data-dropdown>
+      <button type='button' className='link' data-dropdown-button onClick={toggleDropdown}>
+        <Image src='/images/navbar/world.png' alt='language button' fill />
+      </button>
+      {dropdownOpen && (
+        <div className='dropdown-menu '>
+          <ul className='language_ul'>
+            <li className='language_li'>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('en')}>
+                <Image
+                  onClick={() => handleChangeLang('en')}
+                  src='/images/flags/en.png'
+                  alt='English button'
+                  height={30}
+                  width={50}
+                />
+              </button>
+            </li>
+            <li className='language_li'>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('br')}>
+                <Image
+                  onClick={() => handleChangeLang('br')}
+                  src='/images/flags/br.png'
+                  alt='Brazilean button'
+                  height={30}
+                  width={50}
+                />
+              </button>
+            </li>
+            <li className='language_li'>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('es')}>
+                <Image
+                  onClick={() => handleChangeLang('es')}
+                  src='/images/flags/es.png'
+                  alt='Spanish button'
+                  height={30}
+                  width={50}
+                />
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
   )
 }
 

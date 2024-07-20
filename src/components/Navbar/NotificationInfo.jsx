@@ -9,16 +9,16 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/require-default-props */
-import React, { useState, useEffect } from 'react'
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
-import moment from 'moment'
 import { VscMailRead } from 'react-icons/vsc'
-import { IoMailUnreadOutline } from 'react-icons/io5'
 import { RiDeleteBin2Line } from 'react-icons/ri'
+/* eslint-disable react/require-default-props */
+import React, { useState, useEffect } from 'react'
+import { IoMailUnreadOutline } from 'react-icons/io5'
 
-import { useWeb3Context, useNotificationContext, useSettingsContext } from '../../hooks'
+import { useWeb3Context, useSettingsContext, useNotificationContext } from '../../hooks'
 
 const NotificationInfo = ({ showNotificationInfo }) => {
   const { t } = useTranslation()

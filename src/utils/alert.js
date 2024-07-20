@@ -18,10 +18,10 @@ export function emitSuccess(message, timer = 2000, title = '', showConfirmButton
 
 function emitmsg(title, message, icon, timer, showConfirmButton = true) {
   Swal.fire({
-    title: title,
+    title,
     text: message,
-    icon: icon,
-    timer: timer,
-    showConfirmButton: showConfirmButton
+    icon,
+    timer,
+    showConfirmButton
   })
 }

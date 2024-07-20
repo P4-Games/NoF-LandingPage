@@ -1,18 +1,27 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Swal from 'sweetalert2'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
+import React, { useState, useEffect } from 'react'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
 import { storageUrlGamma } from '../../config'
-import { hasCard, getUserMissingCardsQtty } from '../../services/gamma'
-import { removeOfferByCardNumber, createOffer } from '../../services/offers'
-import { checkInputAddress } from '../../utils/InputValidators'
-import GammaAlbumPublish from './GammaAlbumPublish'
-import { canUserPublishOffer, canAnyUserPublishOffer } from '../../services/offers'
-import { emitError, emitWarning, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
+import GammaAlbumPublish from './GammaAlbumPublish'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { checkInputAddress } from '../../utils/InputValidators'
+import { hasCard, getUserMissingCardsQtty } from '../../services/gamma'
+import { emitInfo, emitError, emitWarning, emitSuccess } from '../../utils/alert'
+import {
+  createOffer,
+  canUserPublishOffer,
+  canAnyUserPublishOffer,
+  removeOfferByCardNumber
+} from '../../services/offers'
 
 const GammaCardInfo = (props) => {
   const { t } = useTranslation()
@@ -61,11 +70,11 @@ const GammaCardInfo = (props) => {
     ToggleShowDefaultButtons(true)
     updateShowButtons([true, true, true, true])
     updateFooterButtonsClasses([null, null, null, null])
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     verifyUserHasCard()
-  }, [gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOfferClick = async () => {
     handleOpenCardOffers()
@@ -217,7 +226,7 @@ const GammaCardInfo = (props) => {
           } catch (e) {
             stopLoading()
             console.error({ e })
-            if (e.message == 'publish_offer_error_own_card_number')
+            if (e.message === 'publish_offer_error_own_card_number')
               emitWarning(t('publish_offer_error_own_card_number'))
             else emitError(t('publish_offer_error'))
           }
@@ -234,7 +243,7 @@ const GammaCardInfo = (props) => {
   }
 
   const OfferButton = () => (
-    <div className={'option'} onClick={() => handleOfferClick()}>
+    <div className='option' onClick={() => handleOfferClick()}>
       {t('ofertas')}
     </div>
   )
@@ -242,7 +251,7 @@ const GammaCardInfo = (props) => {
   const MintButton = () => (
     <div
       /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
-       tengo que poder mintear la otra carta que tenga.*/
+       tengo que poder mintear la otra carta que tenga. */
       className={
         userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
       }
@@ -273,7 +282,7 @@ const GammaCardInfo = (props) => {
   const TransferButton = () => (
     <div
       /* Solo se puede tener una oferta para una carta, por lo que si tengo quantity > 1,
-         tengo que poder transferir la otra carta que tenga.*/
+         tengo que poder transferir la otra carta que tenga. */
       className={
         userHasCard && (!userCard.offered || userCard.quantity > 1) ? 'option' : 'option_disabled'
       }
@@ -312,9 +321,9 @@ const GammaCardInfo = (props) => {
 
   const BookCard = () => (
     <FlipBook
-      showClose={true}
+      showClose
       onCloseClick={handleCloseButtonClick}
-      pages={[<Page1 key={'page-1'} />, <Page2 key={'page-2'} />]}
+      pages={[<Page1 key='page-1' />, <Page2 key='page-2' />]}
     />
   )
 

@@ -1,5 +1,5 @@
-import { MAIL_CONFIG } from '../../../config'
 import { sendMail } from './common'
+import { MAIL_CONFIG } from '../../../config'
 
 export default async function handler(req, res) {
   const data = req.body

@@ -1,7 +1,9 @@
-import { v4 as uuidv4 } from 'uuid'
-import connectToDatabase from '../../utils/db'
-import { join } from 'path'
+/* eslint-disable no-return-await */
 import Jimp from 'jimp'
+import { join } from 'path'
+import { v4 as uuidv4 } from 'uuid'
+
+import connectToDatabase from '../../utils/db'
 
 export default async function handler(req, res) {
   const {
@@ -103,13 +105,15 @@ export default async function handler(req, res) {
 function getNumberOfColumns(imageCount) {
   if (imageCount <= 30) {
     return 6
-  } else if (imageCount <= 60) {
-    return 7
-  } else if (imageCount <= 90) {
-    return 8
-  } else if (imageCount <= 120) {
-    return 10
-  } else {
-    return 11
   }
+  if (imageCount <= 60) {
+    return 7
+  }
+  if (imageCount <= 90) {
+    return 8
+  }
+  if (imageCount <= 120) {
+    return 10
+  }
+  return 11
 }

@@ -1,16 +1,21 @@
-import React, { useRef, useEffect, useState } from 'react'
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable import/extensions */
 import Link from 'next/link'
 import Image from 'next/image'
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import React, { useRef, useState, useEffect } from 'react'
 
-import Whitepaper from './Whitepaper.jsx'
 import NofTown from './NofTown.jsx'
+import Whitepaper from './Whitepaper.jsx'
 import AccountInfo from './AccountInfo.jsx'
-import NotificationInfo from './NotificationInfo.jsx'
 import LanguageSelection from '../LanguageSelection'
-import { useLayoutContext, useWeb3Context, useNotificationContext } from '../../hooks'
+import NotificationInfo from './NotificationInfo.jsx'
 import { getProductVersion } from '../../services/handleVersion.js'
+import { useWeb3Context, useLayoutContext, useNotificationContext } from '../../hooks'
 
 function Navbar() {
   const { t } = useTranslation()
@@ -74,7 +79,7 @@ function Navbar() {
 
   useEffect(() => {
     fetchVersion().then(setProductVersion)
-  }, [productVersion]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [productVersion]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -85,6 +90,7 @@ function Navbar() {
 
   const MidButton = () => (
     <button
+      type='button'
       onClick={() => {
         goToCollectionsPage()
       }}
@@ -97,7 +103,7 @@ function Navbar() {
   const ButtonNof = () => (
     <div onClick={() => handleAudioClick()} className='navbar__left__nof'>
       <Link href='/'>
-        <Image src={'/images/navbar/logo-1.png'} alt='nof' height='60' width='120' />
+        <Image src='/images/navbar/logo-1.png' alt='nof' height='60' width='120' />
       </Link>
       <span className='navbar__left__nof__version'>{productVersion}</span>
     </div>
@@ -115,17 +121,15 @@ function Navbar() {
   )
 
   const ButtonNotification = () => (
-    <React.Fragment>
-      <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
-        {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
-        <Image src={'/images/notifications/message2.png'} alt='coin' height='60' width='60' />
-      </div>
-    </React.Fragment>
+    <div onClick={() => handleNotificationClick()} className='navbar__right__notif'>
+      {notificationsNbr > 0 && <div className={notificationsNbrClass}>{notificationsNbr}</div>}
+      <Image src='/images/notifications/message2.png' alt='coin' height='60' width='60' />
+    </div>
   )
 
   const ButtonAccount = () => (
     <div onClick={() => handleAccountClick()} className='navbar__right__account'>
-      <Image src={'/images/navbar/logo-coin.png'} alt='coin' height='60' width='60' />
+      <Image src='/images/navbar/logo-coin.png' alt='coin' height='60' width='60' />
     </div>
   )
 
@@ -136,7 +140,7 @@ function Navbar() {
           <ButtonNof />
         </div>
         <ul className='navbar__center'>
-          <li className={'navbar__center__li'}>
+          <li className='navbar__center__li'>
             <NofTown />
             {isHomePage && <MidButton />}
             <Whitepaper />
@@ -161,7 +165,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <audio src={'/music/Dungeon.mp3'} ref={ref} loop />
+      <audio src='/music/Dungeon.mp3' ref={ref} loop />
     </>
   )
 }

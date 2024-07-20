@@ -43,7 +43,7 @@ try {
     }
 
     try {
-      console.log("SW installing")
+      console.info("SW installing")
       event.waitUntil(
         Promise.all([
           fetchFilesFromFolder(IMAGES_FOLDER, ['png', 'jpg', 'jpeg', 'gif']),
@@ -55,7 +55,7 @@ try {
           allFiles.push('/index')
           allFiles.push('/alpha')
           allFiles.push('/gamma')
-          console.log('sw', allFiles, caches)
+          console.info('sw', allFiles, caches)
           return caches.open(PRECACHE).then((cache) => cache.addAll(allFiles));
         })
         .then(self.skipWaiting())
@@ -72,11 +72,9 @@ try {
   // The activate handler takes care of cleaning up old caches.
   self.addEventListener("activate", (event) => {
     const currentCaches = [PRECACHE, RUNTIME]
-    // console.log("SW activate cache")
     event.waitUntil(
       caches.keys().then((cacheNames) => cacheNames.filter((cacheName) => !currentCaches.includes(cacheName))).then((cachesToDelete) => 
-        // console.log("SW cache is deleting")
-         Promise.all(cachesToDelete.map((cacheToDelete) => caches.delete(cacheToDelete)))
+        Promise.all(cachesToDelete.map((cacheToDelete) => caches.delete(cacheToDelete)))
       ).then(() => self.clients.claim())
     )
   })
@@ -85,7 +83,6 @@ try {
   // The fetch handler serves responses for same-origin resources from a cache.
   // If no response is found, it populates the runtime cache with the response
   // from the network before returning it to the page.
-  //console.log('next', self.location.origin & NEXT)
   self.addEventListener("fetch", (event) => {
     const isGet = event.request.method === 'GET'
     const isHttp = event.request.url.startsWith('http')
@@ -103,7 +100,7 @@ try {
 
     if (!isValidToCache) {
       if (!event.request.url.startsWith(self.location.origin + NEXT_FOLDER))
-        console.log('**SW Skiping: ', event.request.url)
+        console.info('**SW Skiping: ', event.request.url)
       return 
     }
 

@@ -1,21 +1,23 @@
-import { useState, useEffect, createContext, useContext } from 'react'
-import PropTypes from 'prop-types'
+/* eslint-disable import/no-unresolved */
 import { ethers } from 'ethers'
+import PropTypes from 'prop-types'
+import { useState, useEffect, createContext } from 'react'
 import {
-  createWeb3Modal,
-  defaultConfig,
-  useWeb3ModalProvider,
-  useWeb3ModalAccount,
   useWeb3Modal,
-  useDisconnect
+  defaultConfig,
+  useDisconnect,
+  createWeb3Modal,
+  useWeb3ModalAccount,
+  useWeb3ModalProvider
 } from '@web3modal/ethers5/react'
-import daiAbi from './abis/testDai/TestDAI.v3.sol/NofTestDAIV3.json'
+
 import alphaAbi from './abis/alpha/Alpha.v4.sol/NofAlphaV4.json'
+import daiAbi from './abis/testDai/TestDAI.v3.sol/NofTestDAIV3.json'
+import { NETWORKS, environment, walletConnectProjectId } from '../config'
 import gammaPacksAbi from './abis/gamma/GammaPacks.v3.sol/NofGammaPacksV3.json'
 import gammaCardsAbi from './abis/gamma/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/gamma/GammaOffers.v4.sol/NofGammaOffersV4.json'
 import gammaTicketsAbi from './abis/gamma/GammaTickets.v1.sol/NofGammaTicketsV1.json'
-import { NETWORKS, walletConnectProjectId, environment } from '../config'
 // import { NotificationContext } from './NotificationContext'
 // import { getAccountAddressText } from '../utils/stringUtils'
 
@@ -248,7 +250,7 @@ function Web3ContextProvider({ children }) {
 
   useEffect(() => {
     requestAccount()
-  }, [isConnected, chainId, address]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isConnected, chainId, address]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function connectWallet() {
     try {
@@ -278,7 +280,7 @@ function Web3ContextProvider({ children }) {
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
         // eslint-disable-next-line no-console
-        console.log('accountsChanged event', accounts, address)
+        console.info('accountsChanged event', accounts, address)
       })
 
       window.ethereum.on('chainChanged', (newChainIdDec) => {
@@ -296,7 +298,7 @@ function Web3ContextProvider({ children }) {
         }
       })
     }
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const value = {
@@ -326,4 +328,4 @@ Web3ContextProvider.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-export { Web3ContextProvider, Web3Context }
+export { Web3Context, Web3ContextProvider }
