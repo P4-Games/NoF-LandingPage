@@ -56,6 +56,7 @@ function Navbar() {
     }
   }
 
+  /*
   useEffect(() => {
     const notif = getNotificationsByUser(walletAddress) || []
     const unreadNotifications = notif.filter((notification) => !notification.read)
@@ -63,9 +64,9 @@ function Navbar() {
     setNotificationsNbrClass(
       unreadNotifications.length > 9 ? 'notification__badge__2' : 'notification__badge__1'
     )
-    // setNotificationsNbr(20)
-    // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
-  }, [notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [notifications, walletAddress]) // eslint-disable-line react-hooks/exhaustive-deps
+  */
+
   const fetchVersion = async () => {
     const version = await getProductVersion()
     return version
