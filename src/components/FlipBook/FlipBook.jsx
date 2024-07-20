@@ -66,8 +66,8 @@ const FlipBook = (props) => {
                     ? 'hero__top__album__book__page'
                     : ''
                   : isClassesReplaced
-                  ? 'hero__top__album__book__page0'
-                  : ''
+                    ? 'hero__top__album__book__page0'
+                    : ''
               }
               data-density='hard'
               number={index + 1}

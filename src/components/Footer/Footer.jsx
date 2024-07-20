@@ -1,6 +1,7 @@
 import React from 'react'
-import FooterButtons from './FooterButtons'
+
 import { useLayoutContext } from '../../hooks'
+import FooterButtons from './FooterButtons'
 
 function Footer() {
   const { mobile, turnNextPage, turnPrevPage } = useLayoutContext()
