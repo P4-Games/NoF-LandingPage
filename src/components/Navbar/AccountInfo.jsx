@@ -1,3 +1,7 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-unstable-nested-components */
 import Link from 'next/link'
 import Swal from 'sweetalert2'
 import PropTypes from 'prop-types'
@@ -98,10 +102,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           const amountInput = Swal.getPopup().querySelector('#amount')
           const amount = amountInput.value
 
-          if (isNaN(amount)) {
-            amountInput.classList.add('swal2-inputerror')
-            Swal.showValidationMessage(`${t('amount_invalid')}`)
-          } else if (isNaN(amount)) {
+          if (Number.isNaN(amount)) {
             amountInput.classList.add('swal2-inputerror')
             Swal.showValidationMessage(`${t('amount_invalid')}`)
           }
@@ -191,6 +192,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const ConnectButton = () => (
     <button
+      type='button'
       onClick={() => {
         connectWallet()
         setShowAccountInfo(false)
@@ -203,6 +205,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const DisconnectButton = () => (
     <button
+      type='button'
       onClick={() => {
         disconnectWallet()
         setShowAccountInfo(false)
@@ -264,8 +267,8 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       </div>
 
       <div className='account__info__icon__container'>
-        {(currentNwk?.config.environment == 'testing' ||
-          currentNwk?.config.chainName == 'sepolia') && (
+        {(currentNwk?.config.environment === 'testing' ||
+          currentNwk?.config.chainName === 'sepolia') && (
           <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
         )}
         <AiOutlineSend

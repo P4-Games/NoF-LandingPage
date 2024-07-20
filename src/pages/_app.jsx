@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { appWithTranslation } from 'next-i18next'
 
@@ -15,22 +16,20 @@ import { SettingsProvider } from '../context/SettingsContext'
 import { NotificationProvider } from '../context/NotificationContext'
 
 function MyApp({ Component, pageProps }) {
-  /*
   useEffect(() => {
     if ('serviceWorker' in navigator && window && !window.location.hostname.includes('localhost')) {
-      window.addEventListener('load', function () {
+      window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js', { type: 'module' }).then(
-          function (registration) {
-            console.log('Service Worker registration successful with scope: ', registration.scope)
+          (registration) => {
+            console.info('Service Worker registration successful with scope: ', registration.scope)
           },
-          function (err) {
+          (err) => {
             console.error('Service Worker registration failed: ', err)
           }
         )
       })
     }
   }, [])
-  */
 
   return (
     <SettingsProvider>

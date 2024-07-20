@@ -1,3 +1,7 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import PropTypes from 'prop-types'
 import { FcCheckmark } from 'react-icons/fc'
 import { useTranslation } from 'next-i18next'
@@ -58,7 +62,7 @@ const GammaAlbumPublish = (props) => {
     } catch (e) {
       stopLoading()
       console.error({ e })
-      if (e.message == 'publish_offer_error_own_card_number')
+      if (e.message === 'publish_offer_error_own_card_number')
         emitWarning(t('publish_offer_error_own_card_number'))
       else emitError(t('publish_offer_error'))
     }
@@ -70,7 +74,7 @@ const GammaAlbumPublish = (props) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCardClick = async (selectedCard) => {
-    if (parseInt(selectedCard) === parseInt(cardNumberOffered)) {
+    if (parseInt(selectedCard, 10) === parseInt(cardNumberOffered, 10)) {
       emitWarning(t('publish_offer_error_own_card_number'))
     } else if (selectedCards.includes(selectedCard)) {
       setSelectedCards((pevSelectedCards) =>

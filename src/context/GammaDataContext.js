@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-restricted-syntax */
 import PropTypes from 'prop-types'
 import { useState, useEffect, useContext, createContext } from 'react'
 
@@ -65,8 +68,8 @@ const GammaDataContextProvider = ({ children }) => {
     for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
-        paginationObj.user[key].name != '120' &&
-        paginationObj.user[key].name != '121'
+        paginationObj.user[key].name !== '120' &&
+        paginationObj.user[key].name !== '121'
       ) {
         let itemQttyRepeated = paginationObj.user[key].quantity - 1
         const cardNumber = paginationObj.user[key].name
@@ -77,9 +80,8 @@ const GammaDataContextProvider = ({ children }) => {
           itemQttyRepeated -= itemQttyRepeatedCorrected
         }
         total += itemQttyRepeated
-        _cardsToBurn = _cardsToBurn.concat(Array(itemQttyRepeated).fill(parseInt(cardNumber)))
-        paginationObjBurn.user[cardNumber].quantity =
-          paginationObjBurn.user[cardNumber].quantity - itemQttyRepeated
+        _cardsToBurn = _cardsToBurn.concat(Array(itemQttyRepeated).fill(parseInt(cardNumber, 10)))
+        paginationObjBurn.user[cardNumber].quantity -= itemQttyRepeated
       }
     }
     setCardsQttyToBurn(total)
@@ -102,8 +104,8 @@ const GammaDataContextProvider = ({ children }) => {
     for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 0 &&
-        paginationObj.user[key].name != '120' &&
-        paginationObj.user[key].name != '121'
+        paginationObj.user[key].name !== '120' &&
+        paginationObj.user[key].name !== '121'
       ) {
         total += 1
       }
@@ -117,8 +119,8 @@ const GammaDataContextProvider = ({ children }) => {
     for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
-        paginationObj.user[key].name != '120' &&
-        paginationObj.user[key].name != '121'
+        paginationObj.user[key].name !== '120' &&
+        paginationObj.user[key].name !== '121'
       ) {
         total += paginationObj.user[key].quantity - 1
       }

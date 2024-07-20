@@ -11,6 +11,7 @@ const OfflineMain = () => {
       <div className='offline_main_buttons_container'>
         <h5 className='offline_message'>{t('offline_msg')}</h5>
         <button
+          type='button'
           className='offline_button offline_main_button'
           id='offline_action'
           onClick={() => router.push('/')}

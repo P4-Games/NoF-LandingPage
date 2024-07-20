@@ -238,7 +238,7 @@ export const allowedToFinishAlbum60 = async (cardsContract, daiContract, walletA
   const result =
     userHasAlbum && prizesBalanzGTSecondaryAlbumPrice && contractBalanzGTAlSecondarybumPrice
 
-  console.log('allowedToFinishAlbum60', {
+  console.info('allowedToFinishAlbum60', {
     userHasAlbum,
     prizeBalanceFormatted,
     secondaryAlbumPrizeFormatted,
@@ -279,7 +279,7 @@ export const allowedToFinishAlbum120 = async (cardsContract, daiContract, wallet
 
   const result = userHasAlbum && prizesBalanzGTAlbumPrice && contractBalanzGTAlbumPrice
 
-  console.log('allowedToFinishAlbum120', {
+  console.info('allowedToFinishAlbum120', {
     userHasAlbum,
     prizeBalanceFormatted,
     albumPrizeFormatted,

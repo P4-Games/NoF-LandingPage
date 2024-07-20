@@ -37,14 +37,14 @@ function LanguageSelection() {
 
   return (
     <div className='dropdown' data-dropdown>
-      <button className='link' data-dropdown-button onClick={toggleDropdown}>
+      <button type='button' className='link' data-dropdown-button onClick={toggleDropdown}>
         <Image src='/images/navbar/world.png' alt='language button' fill />
       </button>
       {dropdownOpen && (
         <div className='dropdown-menu '>
           <ul className='language_ul'>
             <li className='language_li'>
-              <button className='lang-btn' onClick={() => handleChangeLang('en')}>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('en')}>
                 <Image
                   onClick={() => handleChangeLang('en')}
                   src='/images/flags/en.png'
@@ -55,7 +55,7 @@ function LanguageSelection() {
               </button>
             </li>
             <li className='language_li'>
-              <button className='lang-btn' onClick={() => handleChangeLang('br')}>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('br')}>
                 <Image
                   onClick={() => handleChangeLang('br')}
                   src='/images/flags/br.png'
@@ -66,7 +66,7 @@ function LanguageSelection() {
               </button>
             </li>
             <li className='language_li'>
-              <button className='lang-btn' onClick={() => handleChangeLang('es')}>
+              <button type='button' className='lang-btn' onClick={() => handleChangeLang('es')}>
                 <Image
                   onClick={() => handleChangeLang('es')}
                   src='/images/flags/es.png'

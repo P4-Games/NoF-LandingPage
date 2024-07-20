@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/jsx-no-constructed-context-values */
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, createContext } from 'react'

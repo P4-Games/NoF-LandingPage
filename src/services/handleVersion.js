@@ -10,7 +10,7 @@ export const getProductVersion = async () => {
     const result = await res.json()
     return result.version
   } catch (ex) {
-    console.log('error en getProductVersion', ex)
+    console.error('error en getProductVersion', ex)
     return '1.0.0'
   }
 }

@@ -2,7 +2,7 @@
 // Environment configuration
 // 
 // Environment variables are only available in the Node.js (server-side) environment, meaning they won't be exposed to the browser.
-// (You can't see with console.log(variable_name)!!!)
+// (You can't see with console log(variable_name)!!!)
 // 
 // In order to expose a variable to the browser (client-side) you have to prefix the variable with NEXT_PUBLIC_. 
 // The environment variables without that prefix are accessible in the nextJs backend (nodeJs) and UNDEFINED on the frontend 

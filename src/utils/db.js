@@ -13,10 +13,10 @@ const client = new MongoClient(uri, {
 async function connectToDatabase() {
   try {
     await client.connect()
-    console.log('Connected to MongoDB successfully!')
+    console.info('Connected to MongoDB successfully!')
     return client.db('nombre_de_tu_base_de_datos')
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }
 

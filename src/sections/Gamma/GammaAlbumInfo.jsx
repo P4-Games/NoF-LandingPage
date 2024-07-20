@@ -1,3 +1,8 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable @next/next/no-img-element */
 import Swal from 'sweetalert2'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'

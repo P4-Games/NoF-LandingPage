@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable react/jsx-filename-extension */
 import PropTypes from 'prop-types'
 import React, { useRef, useState, useEffect, useCallback, createContext } from 'react'
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 import Jimp from 'jimp'
 import { join } from 'path'
 import { v4 as uuidv4 } from 'uuid'

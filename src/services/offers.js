@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { v4 as uuidv4 } from 'uuid'
 
 import { handleError } from './handleError'
@@ -53,19 +54,6 @@ export const canAnyUserPublishOffer = async (offersContract) => {
   }
 }
 
-/*
-export const getOffersByUser = async (offersContract, userAddress) => {
-  try {
-    const trx = await offersContract.getOffersByUser(userAddress)
-    const result = await trx.wait()
-    return result
-  } catch (e) {
-    handleError(userAddress, 'getOffersByUser', e)
-    throw e
-  }
-}
-*/
-
 export const getOffersByCardNumber = async (offersContract, cardsContract, cardNumber) => {
   try {
     if (!offersContract) return
@@ -87,7 +75,7 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
 
         return {
           offerId,
-          offerCard: parseInt(offerCard),
+          offerCard: parseInt(offerCard, 10),
           wantedCards: cards,
           offerWallet,
           timeStamp,

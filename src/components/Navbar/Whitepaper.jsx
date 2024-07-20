@@ -8,7 +8,9 @@ function Whitepaper({ defaultClassName = 'navbar__center__li__whitepaper' }) {
 
   return (
     <Link href='https://number-one-fan.gitbook.io/doc/' target='_blank' rel='noreferrer'>
-      <button className={defaultClassName}>{t('whitepaper')}</button>
+      <button type='button' className={defaultClassName}>
+        {t('whitepaper')}
+      </button>
     </Link>
   )
 }

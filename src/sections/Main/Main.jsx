@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable import/no-unresolved */
 import 'swiper/css'
 import 'swiper/css/bundle'
 import Link from 'next/link'
@@ -168,20 +170,26 @@ const Main = () => {
         {t ? t('alpha') : ''}
       </p>
       <Link href='/alpha'>
-        <button className='hero__top__album__book__page__btn'>ALPHA</button>
+        <button type='button' className='hero__top__album__book__page__btn'>
+          ALPHA
+        </button>
       </Link>
       <p className='hero__top__album__book__page__text2 hero__top__album__book__page__collection-text'>
         {t ? t('gamma') : ''}
       </p>
       <Link href='/gamma'>
-        <button className='hero__top__album__book__page__btn2'>GAMMA</button>
+        <button type='button' className='hero__top__album__book__page__btn2'>
+          GAMMA
+        </button>
       </Link>
       <p className='hero__top__album__book__page__text2 hero__top__album__book__page__collection-text'>
         {/* {t("omega")} */}
         {t ? t('omega') : ''}
       </p>
       <Link href='https://opensea.io/collection/nofomega' target='_blank' rel='noreferrer'>
-        <button className='hero__top__album__book__page__btn3'>OMEGA</button>
+        <button type='button' className='hero__top__album__book__page__btn3'>
+          OMEGA
+        </button>
       </Link>
     </>
   )

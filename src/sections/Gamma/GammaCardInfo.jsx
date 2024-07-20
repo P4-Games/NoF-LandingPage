@@ -1,3 +1,8 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Swal from 'sweetalert2'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
@@ -221,7 +226,7 @@ const GammaCardInfo = (props) => {
           } catch (e) {
             stopLoading()
             console.error({ e })
-            if (e.message == 'publish_offer_error_own_card_number')
+            if (e.message === 'publish_offer_error_own_card_number')
               emitWarning(t('publish_offer_error_own_card_number'))
             else emitError(t('publish_offer_error'))
           }

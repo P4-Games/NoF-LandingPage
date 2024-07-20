@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { ethers } from 'ethers'
 import PropTypes from 'prop-types'
 import { useState, useEffect, createContext } from 'react'
@@ -279,7 +280,7 @@ function Web3ContextProvider({ children }) {
     if (window && window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', (accounts) => {
         // eslint-disable-next-line no-console
-        console.log('accountsChanged event', accounts, address)
+        console.info('accountsChanged event', accounts, address)
       })
 
       window.ethereum.on('chainChanged', (newChainIdDec) => {

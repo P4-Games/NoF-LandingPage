@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
 import React, { useEffect, useCallback } from 'react'

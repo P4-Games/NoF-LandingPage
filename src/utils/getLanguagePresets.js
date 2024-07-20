@@ -1,4 +1,4 @@
-const presetsKey = {
+const presetsKeyLng = {
   es: 'es',
   en: 'en',
   br: 'br'
@@ -21,21 +21,21 @@ export const languagePresets = [
 
 const getPreset = (presetsKey) => languagePresets.filter((item) => item.name === presetsKey)[0]
 
-export default function getLanguagePresets(languagePresets) {
+export default function getLanguagePresets(opc) {
   let lng
 
-  switch (languagePresets) {
-    case presetsKey.es:
-      lng = getPreset(presetsKey.es)
+  switch (opc) {
+    case presetsKeyLng.es:
+      lng = getPreset(presetsKeyLng.es)
       break
-    case presetsKey.en:
-      lng = getPreset(presetsKey.en)
+    case presetsKeyLng.en:
+      lng = getPreset(presetsKeyLng.en)
       break
-    case presetsKey.br:
-      lng = getPreset(presetsKey.br)
+    case presetsKeyLng.br:
+      lng = getPreset(presetsKeyLng.br)
       break
     default:
-      lng = getPreset(presetsKey.es)
+      lng = getPreset(presetsKeyLng.es)
   }
   return lng
 }

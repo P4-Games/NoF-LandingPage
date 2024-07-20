@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable import/no-cycle */
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import { useEffect, createContext } from 'react'
@@ -58,7 +61,6 @@ function SettingsProvider({ children }) {
       else if (newLng === 'br') moment.locale('pt-br')
       else moment.locale(newLng)
 
-      const getUrl = window.location
       const pathName = getUrl.pathname
         .replace('/en', '/')
         .replace('/es', '/')

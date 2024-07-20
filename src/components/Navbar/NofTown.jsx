@@ -9,7 +9,9 @@ function NofTown({ defaultClassName = 'navbar__center__li__noftown' }) {
       target='_blank'
       rel='noreferrer'
     >
-      <button className={defaultClassName}>NoF Town</button>
+      <button type='button' className={defaultClassName}>
+        NoF Town
+      </button>
     </Link>
   )
 }

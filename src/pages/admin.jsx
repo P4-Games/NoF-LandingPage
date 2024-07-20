@@ -14,6 +14,7 @@ const Admin = () => {
       {!walletAddress && (
         <div className='main_buttons_container'>
           <button
+            type='button'
             className='alpha_button alpha_main_button'
             id='connect_wallet_button'
             onClick={() => connectWallet()}

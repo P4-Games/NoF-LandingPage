@@ -1,3 +1,9 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/button-has-type */
+/* eslint-disable no-await-in-loop */
 import Image from 'next/image'
 import Swal from 'sweetalert2'
 import { ethers } from 'ethers'
@@ -174,6 +180,8 @@ const GammaMain = () => {
               null
             ])
             break
+          default:
+            break
         }
 
         updateButtonFunctions(0, handleSwitchBook)
@@ -330,7 +338,7 @@ const GammaMain = () => {
             const walletInput = Swal.getPopup().querySelector('#wallet')
             const quantityInput = Swal.getPopup().querySelector('#amount')
             const wallet = walletInput.value
-            const amount = parseInt(quantityInput.value)
+            const amount = parseInt(quantityInput.value, 10)
 
             if (
               !checkInputAddress(wallet, walletAddress) &&
@@ -357,7 +365,7 @@ const GammaMain = () => {
 
         if (result.isConfirmed) {
           startLoading()
-          const qttyPacks = parseInt(result.value.amount)
+          const qttyPacks = parseInt(result.value.amount, 10)
           const packs = await checkPacksByUser(walletAddress, gammaPacksContract)
 
           if (qttyPacks === 1) {
@@ -521,11 +529,11 @@ const GammaMain = () => {
   ]
   )
 
-  const buyPacksContract = async (numberOfPacks) => {
+  const buyPacksContract = async (nbrOfPacks) => {
     try {
       startLoading()
 
-      const amountRequired = await gammaPacksContract.getAmountRequiredToBuyPacks(numberOfPacks)
+      const amountRequired = await gammaPacksContract.getAmountRequiredToBuyPacks(nbrOfPacks)
       const amountRequiredFormatted = parseFloat(ethers.utils.formatUnits(amountRequired, 18))
 
       const userBalanceToken = await daiContract.balanceOf(walletAddress)
@@ -538,7 +546,7 @@ const GammaMain = () => {
       }
 
       const meetQttyConditionsToBuy =
-        await gammaPacksContract.meetQuantityConditionsToBuy(numberOfPacks)
+        await gammaPacksContract.meetQuantityConditionsToBuy(nbrOfPacks)
       if (!meetQttyConditionsToBuy) {
         stopLoading()
         emitWarning(t('buy_pack_qtty_warning'))
@@ -554,7 +562,7 @@ const GammaMain = () => {
       if (!approval) {
         await authorizeDaiContract(daiContract, gammaPacksContract.address, amountRequired)
       }
-      const call = await gammaPacksContract.buyPacks(numberOfPacks, { gasLimit: 6000000 })
+      const call = await gammaPacksContract.buyPacks(nbrOfPacks, { gasLimit: 6000000 })
       await call.wait()
       await checkNumberOfPacks()
       stopLoading()
@@ -582,6 +590,8 @@ const GammaMain = () => {
         break
       case ALBUMS.ALBUM_TO_BURN:
         switchAlbum(ALBUMS.ALBUM_BURN_SELECTION)
+        break
+      default:
         break
     }
   }, [currentAlbum, ALBUMS, switchAlbum])
@@ -706,9 +716,14 @@ const GammaMain = () => {
     if (result.isConfirmed) {
       try {
         startLoading()
-        const result = await burnCards(gammaCardsContract, daiContract, walletAddress, cardsToBurn)
+        const burnCardsResult = await burnCards(
+          gammaCardsContract,
+          daiContract,
+          walletAddress,
+          cardsToBurn
+        )
 
-        if (!result) {
+        if (!burnCardsResult) {
           // no se pudo realizar el burn-card por condiciones del contrato
           stopLoading()
           emitWarning(t('finish_album_warning'))
@@ -761,6 +776,7 @@ const GammaMain = () => {
       <div className='main_buttons_container'>
         {!isConnected && (
           <button
+            type='button'
             className='alpha_button alpha_main_button'
             id='connect_wallet_button'
             onClick={() => connectWallet()}
@@ -776,6 +792,7 @@ const GammaMain = () => {
           </div>
         )}
         <button
+          type='button'
           className='alpha_button alpha_main_button'
           id='show_rules_button'
           onClick={() => setShowRules(true)}
@@ -972,6 +989,8 @@ const GammaMain = () => {
         break
       case ALBUMS.ALBUM_TO_BURN:
         _className = `${'gammaAlbumsToBurn'}${cardInfoOpened || albumInfoOpened ? '-disabled' : ''}`
+        break
+      default:
         break
     }
 

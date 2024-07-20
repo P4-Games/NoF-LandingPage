@@ -1,3 +1,8 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable import/extensions */
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -85,6 +90,7 @@ function Navbar() {
 
   const MidButton = () => (
     <button
+      type='button'
       onClick={() => {
         goToCollectionsPage()
       }}

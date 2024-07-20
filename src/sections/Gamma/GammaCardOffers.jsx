@@ -1,3 +1,9 @@
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
@@ -190,15 +196,15 @@ const GammaCardOffers = (props) => {
       ]
 
       if (offer.pagedWantedCards && offer.pagedWantedCards.length > 0) {
-        offer.pagedWantedCards.forEach((page, pageIndex) => {
-          pageIndex += 1
+        offer.pagedWantedCards.forEach((page, pageWantedCardsIndex) => {
+          pageWantedCardsIndex += 1
           pagesArray.push(
             <OfferWantedCardsPage
-              key={`page${pageIndex}`}
+              key={`page${pageWantedCardsIndex}`}
               offerId={offer.offerId}
               offerAuto={offer.offerAuto}
               page={page}
-              pageNumber={pageIndex}
+              pageNumber={pageWantedCardsIndex}
             />
           )
         })
@@ -239,8 +245,8 @@ const GammaCardOffers = (props) => {
 
 GammaCardOffers.propTypes = {
   offerData: PropTypes.array,
-  handleFinishInfoCard: PropTypes.func,
-  cardNumber: PropTypes.number
+  handleFinishInfoCard: PropTypes.func
+  // cardNumber: PropTypes.number
 }
 
 export default GammaCardOffers

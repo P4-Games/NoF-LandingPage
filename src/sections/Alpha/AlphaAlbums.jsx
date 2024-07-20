@@ -1,5 +1,11 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
+import 'swiper/css'
 import Swal from 'sweetalert2'
-import 'swiper/swiper-bundle.css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'next-i18next'
@@ -19,7 +25,6 @@ import { storageUrlAlpha } from '../../config'
 import CustomImage from '../../components/CustomImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
-
 const AlphaAlbums = ({ albums, setSeasonName }) => {
   const { t } = useTranslation()
   const noAlbumMessage = t('juega_para_completar')
@@ -38,7 +43,7 @@ const AlphaAlbums = ({ albums, setSeasonName }) => {
       }
       setOpenSeaUrl(openSeaUrlGamma)
     }
-  }, [getCurrentNetwork, alphaContract])
+  }, [alphaContract])
 
   const handleRedirectAlbum = (album) => {
     if (album[0].completion === 5) {

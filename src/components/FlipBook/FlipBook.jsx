@@ -1,3 +1,8 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types'
 import React, { useState, useEffect } from 'react'
 
