@@ -354,3 +354,20 @@ header {
     margin-right: 10px;
   }
 }
+
+.navbar__left__nof {
+  position: relative;
+}
+
+.navbar__left__nof__version {
+  position: absolute;
+  bottom: -22px; /* Ajusta según sea necesario */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px; /* Ajusta el tamaño de la fuente según prefieras */
+  color: #343131; /* Cambia el color si es necesario */
+  background: #ede8e8; /* Puedes cambiar el fondo si quieres */
+  padding: 2px 5px;
+  border-radius: 4px;
+  text-align: center;
+}
