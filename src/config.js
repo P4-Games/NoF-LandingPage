@@ -33,7 +33,7 @@ export const MAIL_CONFIG = {
   sg_key: process.env.MAIL_SG_KEY,
   sg_from: process.env.MAIL_SG_FROM || 'no-reply@nof.town',
   ethereal_host: process.env.MAIL_ETHEREAL_HOST || 'smtp.ethereal.email',
-  ethereal_port: parseInt(process.env.MAIL_ETHEREAL_PORT || 587),
+  ethereal_port: parseInt(process.env.MAIL_ETHEREAL_PORT || 587, 10),
   ethereal_user: process.env.MAIL_ETHEREAL_USER,
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
