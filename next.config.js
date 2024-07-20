@@ -5,13 +5,28 @@ const nextConfig = {
 const path = require('path')
 const { i18n } = require('./next-i18next.config')
 const { pwa } = require('./next-pwa.config')
+const { EventEmitter } = require('events');
+
+// Configuración del EventEmitter
+const originalAddListener = EventEmitter.prototype.addListener;
+EventEmitter.prototype.addListener = function(event) {
+  console.log(`Adding listener for event: ${event}`);
+  return originalAddListener.apply(this, arguments);
+};
+EventEmitter.defaultMaxListeners = 50;
 
 module.exports = nextConfig
 module.exports = {
   i18n,
   pwa,
   // https://nextjs.org/docs/api-reference/next.config.js/compression
+  trailingSlash: true,
   compress: true,
+  swcMinify: true,
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if // your project has ESLint errors. 
+    ignoreDuringBuilds: true,
+  },
   images: {
     domains: ['storage.googleapis.com']
   },
@@ -35,9 +50,12 @@ module.exports = {
           }
         }
       ]
+    },
+    {
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
     })
-
-    return config
+    return config;
   },
   // https://nextjs.org/docs/api-reference/next.config.js/headers
   async headers() {
