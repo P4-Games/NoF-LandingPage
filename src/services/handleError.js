@@ -1,6 +1,14 @@
 export const handleError = async (wallet, operation, errorMsg) => {
   try {
     console.error({ errorMsg })
+  } catch (ex) {
+    console.log('error en _handleError', ex)
+  }
+}
+
+export const handleError2 = async (wallet, operation, errorMsg) => {
+  try {
+    console.error({ errorMsg })
 
     const data = {}
     data.wallet = wallet

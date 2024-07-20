@@ -1,8 +1,11 @@
-node_modules
-.next
-yarn.lock
+build/*
+dist/*
+public/*
+**/out/*
+**/.next/*
+**/node_modules/*
 package-lock.json
-public
+yarn.lock
 .github
 .vscode
 **/src/context/abis/*

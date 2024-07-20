@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { ethers } from 'ethers'
 import 'swiper/css/bundle'
 import Swiper from 'swiper/bundle'
 import AlphaAlbums from './AlphaAlbums'
 import Rules from '../Common/Rules'
-import { storageUrlAlpha, NETWORKS } from '../../config'
+import { storageUrlAlpha } from '../../config'
 import {
   createNewSeason,
   buyPack,
@@ -25,8 +25,9 @@ import { emitError, emitSuccess, emitInfo } from '../../utils/alert'
 
 import { useTranslation } from 'next-i18next'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { fetchWithRetry } from '../../services/middleware'
 
-const vidas = [
+const lives = [
   '/images/alpha/vida0.png',
   '/images/alpha/vida1.png',
   '/images/alpha/vida2.png',
@@ -50,7 +51,7 @@ const AlphaMain = () => {
   const [cards, setCards] = useState([])
   const [error, setError] = useState('')
   const [cardIndex, setCardIndex] = useState(0)
-  const [vida, setVida] = useState('/images/alpha/vida0.png')
+  const [live, setLive] = useState('/images/alpha/vida0.png')
   const [seasonNames, setSeasonNames] = useState(null)
   const [seasonName, setSeasonName] = useState('')
   const [packPrices, setPackPrices] = useState(null)
@@ -60,24 +61,24 @@ const AlphaMain = () => {
   const [seasonFolder, setSeasonFolder] = useState(null)
   const { startLoading, stopLoading } = useLayoutContext()
   const {
-    chainId,
     walletAddress,
     daiContract,
     alphaContract,
     connectWallet,
     isConnected,
     isValidNetwork,
-    isValidNetworkForAlpha,
-    enabledNetworkNames
+    enabledNetworkNames,
+    getCurrentNetwork
   } = useWeb3Context()
   const [showRules, setShowRules] = useState(false)
   const [albums, setAlbums] = useState(null)
   const [showMain, setShowMain] = useState(false)
   const [disableBuyPackButton, setDisableBuyPackButton] = useState(false)
 
-  const fetchAlbums = async () => {
+  const fetchAlbums = useCallback(async () => {
     try {
-      if (!walletAddress || !isValidNetworkForAlpha || !alphaContract || !seasonNames) return
+      console.log('fetchAlbums')
+      if (!walletAddress || !isValidNetwork || !alphaContract || !seasonNames) return
       startLoading()
 
       let albumsArr = []
@@ -97,16 +98,91 @@ const AlphaMain = () => {
       console.error({ ex })
       emitError(t('alpha_fetch_albums_error'))
     }
-  }
+  }, [walletAddress, isValidNetwork, alphaContract, seasonNames, t]) //eslint-disable-line react-hooks/exhaustive-deps
+
+  const fetchSeasonData = useCallback(async () => {
+    try {
+      console.log('fetchSeasonData')
+
+      if (!walletAddress || !isValidNetwork || !alphaContract) return
+      startLoading()
+      console.log('fetchSeasonData 2', alphaContract.address)
+      console.log('fetchSeasonData 2', alphaContract)
+
+      // Define la función de solicitud
+      const key = `fetchSeasonData-${walletAddress}`
+      const requestFunc = async () => {
+        const seasonData = await alphaContract.getSeasonData()
+        console.log('fetchSeasonData 3', seasonData)
+        return seasonData
+      }
+
+      // Usa fetchWithRetry para realizar la solicitud
+      let seasonData = await fetchWithRetry(key, requestFunc)
+
+      // let seasonData = await alphaContract.getSeasonData()
+
+      if (seasonData) {
+        let currentSeason
+        let currentPrice
+        for (let i = 0; i < seasonData[0].length; i++) {
+          const seasonName = seasonData[0][i]
+          const seasonPackPrice = seasonData[1][i]
+          const packsAvailable = await checkPacks(alphaContract, seasonName)
+          if (!packsAvailable) {
+            stopLoading()
+            emitError(t('alpha_fetch_season_data_error'))
+            return
+          }
+          if (packsAvailable.length > 0) {
+            currentSeason = seasonName
+            currentPrice = seasonPackPrice
+            break
+          } else {
+            currentSeason = seasonName
+            currentPrice = seasonPackPrice
+          }
+        }
+
+        const seasonWinnersCount = {}
+        for (let i = 0; i < seasonData[0].length; i++) {
+          const winnersBySeason = await getWinnersBySeason(alphaContract, seasonData[0][i])
+          seasonWinnersCount[seasonData[0][i]] = winnersBySeason.length
+        }
+
+        const finishedSeasons = Object.entries(seasonWinnersCount)
+          .filter((season) => season[1] == 10)
+          .map((season) => season[0])
+        const activeSeasons = seasonData[0].filter((season) => !finishedSeasons.includes(season))
+
+        setSeasonName(currentSeason)
+        setPackPrice(currentPrice?.toString())
+        setPackPrices(seasonData[1])
+        setSeasonNames(activeSeasons)
+
+        if (!activeSeasons || !activeSeasons.length) {
+          setError(t('no_season_names'))
+        } else {
+          setError('')
+        }
+      }
+      stopLoading()
+    } catch (ex) {
+      stopLoading()
+      console.log('fetchSeasonData error', ex.error)
+      console.error(ex)
+      emitError(t('alpha_fetch_season_data_error'))
+    }
+  }, [walletAddress, isValidNetwork, alphaContract, t]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchAlbums()
-  }, [isValidNetworkForAlpha, albums]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSeasonData()
     setShowMain(false)
-  }, [walletAddress, isValidNetworkForAlpha]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -171,7 +247,7 @@ const AlphaMain = () => {
     }
   }, [seasonName])
 
-  const resetShowMain = (cardsData) => {
+  const resetShowMain = useCallback((cardsData) => {
     startLoading()
     setCards([])
     setShowMain(false)
@@ -180,136 +256,73 @@ const AlphaMain = () => {
       setShowMain(true)
       stopLoading()
     }, 500)
-  }
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
-  const getOpenseaUrl = () => {
-    let baseUrl = ''
-    let chainName = ''
-    if (chainId) {
-      Object.entries(NETWORKS).forEach(([key, value]) => {
-        if (value.config.chainId == chainId) {
-          const openseaUrl = value.config.chainOpenSeaBaseUrl
-          baseUrl = openseaUrl
-          chainName = value.config.chainName
-        }
-      })
+  const getOpenseaUrl = useCallback(() => {
+    const currentNetwork = getCurrentNetwork()
+    if (currentNetwork) {
+      const baseUrl = currentNetwork.config.chainOpenSeaBaseUrl
+      const chainName = currentNetwork.config.chainName
       return `${baseUrl}/assets/${chainName}/${alphaContract?.address}`
     } else {
       return ''
     }
-  }
-
-  const fetchSeasonData = async () => {
-    try {
-      if (!walletAddress || !isValidNetworkForAlpha || !alphaContract) return
-      startLoading()
-      let seasonData = await alphaContract.getSeasonData()
-
-      if (seasonData) {
-        let currentSeason
-        let currentPrice
-        for (let i = 0; i < seasonData[0].length; i++) {
-          const seasonName = seasonData[0][i]
-          const seasonPackPrice = seasonData[1][i]
-          const packsAvailable = await checkPacks(alphaContract, seasonName)
-          if (!packsAvailable) {
-            stopLoading()
-            emitError(t('alpha_fetch_season_data_error'))
-            return
-          }
-          if (packsAvailable.length > 0) {
-            currentSeason = seasonName
-            currentPrice = seasonPackPrice
-            break
-          } else {
-            currentSeason = seasonName
-            currentPrice = seasonPackPrice
-          }
-        }
-
-        const seasonWinnersCount = {}
-        for (let i = 0; i < seasonData[0].length; i++) {
-          const winnersBySeason = await getWinnersBySeason(alphaContract, seasonData[0][i])
-          seasonWinnersCount[seasonData[0][i]] = winnersBySeason.length
-        }
-
-        const finishedSeasons = Object.entries(seasonWinnersCount)
-          .filter((season) => season[1] == 10)
-          .map((season) => season[0])
-        const activeSeasons = seasonData[0].filter((season) => !finishedSeasons.includes(season))
-
-        setSeasonName(currentSeason)
-        setPackPrice(currentPrice?.toString())
-        setPackPrices(seasonData[1])
-        setSeasonNames(activeSeasons)
-
-        if (!activeSeasons || !activeSeasons.length) {
-          setError(t('no_season_names'))
-        } else {
-          setError('')
-        }
-      }
-      stopLoading()
-    } catch (ex) {
-      stopLoading()
-      console.error(ex)
-      emitError(t('alpha_fetch_season_data_error'))
-    }
-  }
+  }, [alphaContract])
 
   const handleCreateNewSeason = async () => {
     try {
       const authorization = await getAuthorized(alphaContract, walletAddress)
-      if (authorization) {
-        const result = await Swal.fire({
-          title: `${t('alpha_season_create_title')}`,
-          html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
-            <input id="packPrice" type='number' class="swal2-input" placeholder="${t(
-              'alpha_season_pack_price'
-            )}">`,
-
-          showDenyButton: false,
-          showCancelButton: true,
-          confirmButtonText: `${t('alpha_confirm_new_season')}`,
-          confirmButtonColor: '#005EA3',
-          color: 'black',
-          background: 'white',
-          customClass: {
-            image: 'cardalertimg',
-            input: 'alertinput'
-          },
-          preConfirm: () => {
-            const nameInput = Swal.getPopup().querySelector('#name')
-            const priceInput = Swal.getPopup().querySelector('#packPrice')
-            const name = nameInput.value
-            const price = priceInput.value
-
-            if (name.length > 12) {
-              nameInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('alpha_season_name_error')}`)
-            }
-            if (price < 1) {
-              priceInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
-            }
-
-            return { name: name, price: price }
-          }
-        })
-
-        if (result.isConfirmed) {
-          startLoading()
-          const tx = await createNewSeason(alphaContract, result.value.name, result.value.price)
-          stopLoading()
-          if (!tx) {
-            emitError(t('alpha_create_new_season_error'))
-          } else {
-            emitSuccess(t('confirmado'), 2000)
-            fetchSeasonData()
-          }
-        }
-      } else {
+      if (!authorization) {
         emitInfo(t('alpha_season_authorization'), 2000)
+        return
+      }
+
+      const result = await Swal.fire({
+        title: `${t('alpha_season_create_title')}`,
+        html: `<input id="name" class="swal2-input" placeholder="${t('alpha_season_name')}">
+          <input id="packPrice" type='number' class="swal2-input" placeholder="${t(
+            'alpha_season_pack_price'
+          )}">`,
+
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: `${t('alpha_confirm_new_season')}`,
+        confirmButtonColor: '#005EA3',
+        color: 'black',
+        background: 'white',
+        customClass: {
+          image: 'cardalertimg',
+          input: 'alertinput'
+        },
+        preConfirm: () => {
+          const nameInput = Swal.getPopup().querySelector('#name')
+          const priceInput = Swal.getPopup().querySelector('#packPrice')
+          const name = nameInput.value
+          const price = priceInput.value
+
+          if (name.length > 12) {
+            nameInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(`${t('alpha_season_name_error')}`)
+          }
+          if (price < 1) {
+            priceInput.classList.add('swal2-inputerror')
+            Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
+          }
+
+          return { name: name, price: price }
+        }
+      })
+
+      if (result.isConfirmed) {
+        startLoading()
+        const tx = await createNewSeason(alphaContract, result.value.name, result.value.price)
+        stopLoading()
+        if (!tx) {
+          emitError(t('alpha_create_new_season_error'))
+        } else {
+          emitSuccess(t('confirmado'), 2000)
+          fetchSeasonData()
+        }
       }
     } catch (e) {
       console.error({ e })
@@ -321,6 +334,7 @@ const AlphaMain = () => {
   const showCards = async (address, seasonName, isBuyingPack = true) => {
     startLoading()
     try {
+      console.log('calling showCards')
       const checkPacksResult = await checkPacks(alphaContract, seasonName)
       if (!checkPacksResult) {
         stopLoading()
@@ -329,8 +343,8 @@ const AlphaMain = () => {
       }
 
       setDisableTransfer(checkPacksResult.length == 0 ? false : true)
-
       const cards = await getUserCards(alphaContract, address, seasonName)
+
       if (!cards) {
         stopLoading()
         emitError(t('alpha_show_cards_error'))
@@ -355,7 +369,7 @@ const AlphaMain = () => {
         setAlbumCollection(ethers.BigNumber.from(albumData[0].collection).toNumber())
         const completion = ethers.BigNumber.from(albumData[0].completion).toNumber()
         setAlbumCompletion(completion)
-        setVida(vidas[completion])
+        setLive(lives[completion])
 
         const seasonFolderData = await getSeasonFolder(alphaContract, seasonName)
         if (!seasonFolderData) {
@@ -413,12 +427,15 @@ const AlphaMain = () => {
         }
       }
     } catch (ex) {
-      emitError(t('alpha_show_cards_error'))
+      stopLoading()
       console.error(ex)
+      emitError(t('alpha_show_cards_error'))
     }
   }
 
   const handleBuyPack = async (price, name) => {
+    console.log('calling handleBuyPack')
+
     setDisableBuyPackButton(true)
     startLoading()
     try {
@@ -540,6 +557,8 @@ const AlphaMain = () => {
 
   const handlePasteCard = async (cardIndex) => {
     try {
+      console.log('calling handlePasteCard')
+
       startLoading()
       const cardTokenId = ethers.BigNumber.from(cards[cardIndex].tokenId).toNumber()
       const albumTokenId = ethers.BigNumber.from(album[0].tokenId).toNumber()
@@ -565,6 +584,7 @@ const AlphaMain = () => {
   }
 
   const handleTokenTransfer = async (tokenId, collection) => {
+    console.log('calling handleTokenTransfer')
     const players = await getSeasonPlayers(alphaContract, seasonName)
     const playersOptions = players
       .filter((player) => player != walletAddress)
@@ -630,10 +650,10 @@ const AlphaMain = () => {
             {t('connect_wallet')}
           </button>
         )}
-        {isConnected && !isValidNetworkForAlpha && (
+        {isConnected && !isValidNetwork && (
           <div className='invalid__network__div'>
             <span className='invalid__network'>
-              {t('account_invalid_network').replace('{NETWORKS}', 'sepolia')}
+              {t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
             </span>
           </div>
         )}
@@ -651,11 +671,11 @@ const AlphaMain = () => {
   return (
     <div className='alpha_main'>
       <div className='alpha'>
-        {(!isConnected || !isValidNetworkForAlpha) && <NotConnected />}
+        {(!isConnected || !isValidNetwork) && <NotConnected />}
 
         {showRules && <Rules type='alpha' setShowRules={setShowRules} />}
 
-        {isConnected && isValidNetworkForAlpha && alphaContract && seasonNames && (
+        {isConnected && isValidNetwork && alphaContract && seasonNames && (
           <div
             className={
               showMain
@@ -738,7 +758,7 @@ const AlphaMain = () => {
             {pack && pack.length && showMain ? (
               <div className='alpha_container'>
                 <div className='alpha_album_container'>
-                  <a href={openSeaUrl} target='_blank'>
+                  <a href={openSeaUrl} target='_blank' rel='noreferrer'>
                     <CustomImage alt='alpha-album' src={albumImage} className='alpha_album' />
                   </a>
                 </div>
@@ -748,7 +768,7 @@ const AlphaMain = () => {
                       ? `${t('progreso')}: ${albumCompletion}/5`
                       : `${t('posicion')}: ${winnerPosition}`}
                   </span>
-                  <img alt='vida' src={vida} />
+                  <img alt='vida' src={live} />
                   <span>
                     {t('album')}: #{albumCollection}
                   </span>

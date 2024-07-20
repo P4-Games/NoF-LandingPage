@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
@@ -33,7 +33,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const currentNwk = getCurrentNetwork()
 
-  const fetchTokenName = async () => {
+  const fetchTokenName = useCallback(async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const token = await getTokenName(daiContract)
@@ -41,13 +41,9 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     } catch (e) {
       console.error({ e })
     }
-  }
+  }, [walletAddress, daiContract, isValidNetwork])
 
-  useEffect(() => {
-    fetchTokenName()
-  }, [showAccountInfo, tokenName, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchBalance = async () => {
+  const fetchBalance = useCallback(async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const balance = await getBalance(daiContract, walletAddress)
@@ -55,11 +51,15 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     } catch (e) {
       console.error({ e })
     }
-  }
+  }, [walletAddress, daiContract, isValidNetwork])
+
+  useEffect(() => {
+    fetchTokenName()
+  }, [walletAddress, daiContract, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchBalance()
-  }, [showAccountInfo, walletBalance, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletBalance, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
@@ -230,16 +230,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
             : t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
         </p>
       </div>
-      {/*!isValidNetwork && (
-        <div className='account__info__icon__container'>
-          <MdOutlinePublishedWithChanges
-            onClick={() => {
-              switchOrCreateNetwork()
-            }}
-            className='account__info__icon'
-          />
-        </div>
-      )*/}
     </div>
   )
 

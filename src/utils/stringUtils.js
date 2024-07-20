@@ -4,9 +4,13 @@ export const capitalizeFirstLetter = (word) =>
 export const getAccountAddressText = (walletAddress) => {
   if (walletAddress <= 15 || !walletAddress) {
     return walletAddress
-  } else {
-    const firstPart = walletAddress.substring(0, 7)
-    const lastPart = walletAddress.substring(walletAddress.length - 5)
-    return `${firstPart}...${lastPart}`
   }
+  const firstPart = walletAddress.substring(0, 7)
+  const lastPart = walletAddress.substring(walletAddress.length - 5)
+  return `${firstPart}...${lastPart}`
+}
+
+export function removeQuotes(text) {
+  if (text === '' || !text) return text
+  return text.replace(/['"]/g, '')
 }

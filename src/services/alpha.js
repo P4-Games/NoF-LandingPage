@@ -1,6 +1,8 @@
-import { graphUrl } from '../config'
+// import { graphUrl } from '../config'
 import { ethers } from 'ethers'
+import { handleError } from './handleError'
 
+/*
 const query = `
   query getSeasonWinners {
     winners(first: 1000) {
@@ -11,7 +13,9 @@ const query = `
     }
   }
 `
+*/
 
+/*
 export const fetchWinnersQuery = async () => {
   try {
     const response = await fetch(graphUrl, {
@@ -32,16 +36,17 @@ export const fetchWinnersQuery = async () => {
     return false
   }
 }
-
+*/
 export const createNewSeason = async (alphaContract, name, price, amount = 60, folder = 'T1') => {
-  const estimatedGas = await alphaContract.estimateGas.newSeason(
-    name,
-    ethers.utils.parseUnits(price, 18),
-    amount,
-    folder
-  )
-  const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
   try {
+    const estimatedGas = await alphaContract.estimateGas.newSeason(
+      name,
+      ethers.utils.parseUnits(price, 18),
+      amount,
+      folder
+    )
+    const gasLimit = estimatedGas.mul(ethers.BigNumber.from(120)).div(ethers.BigNumber.from(100))
+
     const trx = await alphaContract.newSeason(
       name,
       ethers.utils.parseUnits(price, 18),
@@ -54,10 +59,8 @@ export const createNewSeason = async (alphaContract, name, price, amount = 60, f
     await trx.wait()
     return true
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'createNewSeason', e)
+    throw e
   }
 }
 
@@ -71,10 +74,8 @@ export const buyPack = async (alphaContract, packPrice, seasonName) => {
     await trx.wait()
     return trx
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'buyPack', e)
+    throw e
   }
 }
 
@@ -88,10 +89,8 @@ export const transferCard = async (alphaContract, from, to, tokenId) => {
     await trx.wait()
     return true
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'transferCard', e)
+    throw e
   }
 }
 
@@ -105,93 +104,84 @@ export const pasteCard = async (alphaContract, cardTokenId, albumTokenId) => {
     await trx.wait()
     return true
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'pasteCard', e)
+    throw e
   }
 }
 
 export const getAlbumData = async (alphaContract, tokenId) => {
   try {
+    console.log('calling getAlbumData')
     const albumData = await alphaContract.cards(tokenId)
     return albumData
   } catch (e) {
-    console.error({
-      e
-    })
-    return e
+    handleError('0x', 'getAlbumData', e)
+    throw e
   }
 }
 
 export const checkPacks = async (alphaContract, seasonName) => {
   try {
+    console.log('calling checkPacks')
     const packs = await alphaContract.getSeasonAlbums(seasonName)
     return packs
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'checkPacks', e)
+    throw e
   }
 }
 
 export const getSeasonFolder = async (alphaContract, seasonName) => {
   try {
+    console.log('calling getSeasonFolder')
     const response = await alphaContract.seasons(seasonName)
     return response.folder
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'getSeasonFolder', e)
+    throw e
   }
 }
 
 export const getUserCards = async (alphaContract, address, seasonName) => {
   try {
+    console.log('calling getUserCards')
     const cards = await alphaContract.getCardsByUserBySeason(address, seasonName)
     return cards
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'getUserCards', e)
+    throw e
   }
 }
 
 export const getWinnersBySeason = async (alphaContract, seasonName) => {
   try {
+    console.log('calling getWinnersBySeason')
     const winners = await alphaContract.getWinners(seasonName)
     return winners
   } catch (e) {
-    console.error({
-      e
-    })
-    return false
+    handleError('0x', 'getWinnersBySeason', e)
+    throw e
   }
 }
 
 export const getAuthorized = async (alphaContract, address) => {
   try {
+    console.log('calling getAuthorized')
     const authorized = await alphaContract.getAuthorized(address)
     return authorized
   } catch (e) {
-    console.error({
-      e
-    })
-    return e
+    handleError('0x', 'getAuthorized', e)
+    throw e
   }
 }
 
 export const getSeasonPlayers = async (alphaContract, seasonName) => {
   try {
+    console.log('calling getSeasonPlayers')
     const players = await alphaContract.getSeasonPlayers(seasonName)
     return players
   } catch (e) {
-    console.error({
-      e
-    })
-    return e
+    handleError('0x', 'getSeasonPlayers', e)
+    throw e
   }
 }

@@ -20,12 +20,8 @@ export const getBalance = async (daiContract, walletAddress) => {
 }
 
 export const checkBalance = async (daiContract, walletAddress, daiNeeded) => {
-  // Get the walletAddress balance from the Dai contract
   const balance = await daiContract.balanceOf(walletAddress)
-  // Convert the balance from a BigNumber to a number
   const number = JSON.parse(ethers.BigNumber.from(balance).toString())
-
-  // Return true if the walletAddress balance is greater than the amount needed, false otherwise
   return number >= daiNeeded
 }
 
