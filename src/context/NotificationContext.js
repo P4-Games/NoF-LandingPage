@@ -21,21 +21,19 @@ export function NotificationProvider({ children }) {
     })
   }
 
-  const getNotificationsByUser = (userWalletAddress) => {
-    /*
-    if (!userWalletAddress) return notifications
+  const getNotificationsByUser = (user) => {
+    if (!user || !notifications.length) return notifications
     const myNotifications = notifications.filter(
-      (notification) => notification.walletAddress === userWalletAddress && notification.deleted === false
+      (notification) => notification.walletAddress === user && notification.deleted === false
     )
     return filterUniqueNotifications(myNotifications)
-    */
   }
 
   /*
   useEffect(() => {
     const filteredNotifications = getNotificationsByUser(walletAddress)
     setNotifications(filteredNotifications)
-  }, [walletAddress]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
   */
 
   const addNotification = (user, message, data) => {

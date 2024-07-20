@@ -16,8 +16,8 @@ import gammaCardsAbi from './abis/gamma/GammaCards.v5.sol/NofGammaCardsV5.json'
 import gammaOffersAbi from './abis/gamma/GammaOffers.v4.sol/NofGammaOffersV4.json'
 import gammaTicketsAbi from './abis/gamma/GammaTickets.v1.sol/NofGammaTicketsV1.json'
 import { NETWORKS, walletConnectProjectId, environment } from '../config'
-import { NotificationContext } from './NotificationContext'
-import { getAccountAddressText } from '../utils/stringUtils'
+// import { NotificationContext } from './NotificationContext'
+// import { getAccountAddressText } from '../utils/stringUtils'
 
 const initialState = {
   connectWallet: () => {},
@@ -37,7 +37,7 @@ function Web3ContextProvider({ children }) {
   const [gammaCardsContract, setGammaCardsContract] = useState(null)
   const [gammaOffersContract, setGammaOffersContract] = useState(null)
   const [gammaTicketsContract, setGammaTicketsContract] = useState(null)
-  const { addNotification } = useContext(NotificationContext)
+  // const { addNotification } = useContext(NotificationContext)
   const { address, chainId, isConnected } = useWeb3ModalAccount()
   const { walletProvider } = useWeb3ModalProvider()
   const { disconnect } = useDisconnect()
@@ -138,6 +138,7 @@ function Web3ContextProvider({ children }) {
         _signer
       )
 
+      /*
       gammaPacksContractInstance.on('PackTransfered', (from, to, tokenId) => {
         const packNbr = ethers.BigNumber.from(tokenId).toNumber()
         addNotification(to, 'notification_pack_transfer', [
@@ -188,6 +189,7 @@ function Web3ContextProvider({ children }) {
           { item: 'TICKET_ID', value: ticketId, valueShort: getAccountAddressText(ticketId) }
         ])
       })
+      */ 
 
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)
