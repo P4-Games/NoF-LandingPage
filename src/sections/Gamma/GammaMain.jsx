@@ -1,27 +1,26 @@
-import React, { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { ethers } from 'ethers'
 import Swal from 'sweetalert2'
+import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
-
-import { emitError, emitInfo, emitSuccess, emitWarning } from '../../utils/alert'
-import { checkInputAddress, checkIntValue1GTValue2 } from '../../utils/InputValidators'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import Rules from '../Common/Rules'
 import GammaAlbum from './GammaAlbum'
 import GammaPackOpen from './GammaPackOpen'
 import { checkApproved, authorizeDaiContract } from '../../services/dai'
-import { fetchPackData, burnCards } from '../../services/gamma'
-import {
-  checkPacksByUser,
-  finishAlbum,
-  openPack,
-  openPacks,
-  getMaxPacksAllowedToOpenAtOnce,
-  getPackPrice
-} from '../../services/gamma'
-
+import { emitInfo, emitError, emitSuccess, emitWarning } from '../../utils/alert'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
+import { checkInputAddress, checkIntValue1GTValue2 } from '../../utils/InputValidators'
+import {
+  openPack,
+  burnCards,
+  openPacks,
+  finishAlbum,
+  getPackPrice,
+  fetchPackData,
+  checkPacksByUser,
+  getMaxPacksAllowedToOpenAtOnce
+} from '../../services/gamma'
 
 const GammaMain = () => {
   const { t } = useTranslation()
@@ -122,16 +121,16 @@ const GammaMain = () => {
         checkNumberOfPacks()
       }
     })
-  }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [gammaCardsContract, walletAddress]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchInventory()
-  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!walletAddress) return
     checkNumberOfPacks()
-  }, [walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(
     () => {
@@ -181,7 +180,7 @@ const GammaMain = () => {
       }
     },
     // prettier-ignore
-    [ //eslint-disable-line react-hooks/exhaustive-deps
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     cardInfoOpened,
@@ -205,7 +204,7 @@ const GammaMain = () => {
       }
     },
     // prettier-ignore
-    [ //eslint-disable-line react-hooks/exhaustive-deps
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress, 
     gammaPacksContract,
     cardInfoOpened,
@@ -259,7 +258,7 @@ const GammaMain = () => {
     cardInfoOpened,
     albumInfoOpened
   ]
-  ) //eslint-disable-line react-hooks/exhaustive-deps
+  ) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFinishAlbum = useCallback(
     async () => {
@@ -290,7 +289,7 @@ const GammaMain = () => {
       }
     },
     // prettier-ignore
-    [ //eslint-disable-line react-hooks/exhaustive-deps
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     paginationObj,
@@ -352,7 +351,7 @@ const GammaMain = () => {
                 Swal.showValidationMessage(`${t('quantity_invalid')}`)
               }
             }
-            return { wallet: wallet, amount: amount }
+            return { wallet, amount }
           }
         })
 
@@ -369,7 +368,7 @@ const GammaMain = () => {
             )
             await transaction.wait()
           } else {
-            let packsNumber = []
+            const packsNumber = []
             for (let index = 0; index < qttyPacks; index++) {
               packsNumber.push(ethers.BigNumber.from(packs[index]).toNumber())
             }
@@ -392,7 +391,7 @@ const GammaMain = () => {
       }
     },
     // prettier-ignore
-    [ //eslint-disable-line react-hooks/exhaustive-deps
+    [ // eslint-disable-line react-hooks/exhaustive-deps
     walletAddress,
     gammaPacksContract,
     numberOfPacks,
@@ -400,7 +399,7 @@ const GammaMain = () => {
     cardInfoOpened,
     albumInfoOpened
   ]
-  ) //eslint-disable-line react-hooks/exhaustive-deps
+  ) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOpenPack = useCallback(
     async () => {
@@ -469,9 +468,9 @@ const GammaMain = () => {
           startLoading()
           setPackIsOpen(true)
 
-          let packsNumber = []
-          let packsData = []
-          let signatures = []
+          const packsNumber = []
+          const packsData = []
+          const signatures = []
           let packsCardsNumbers = []
           const qttyPacksToOpen = result.value
 
@@ -620,7 +619,7 @@ const GammaMain = () => {
       const packsToBuy = result.value
       await buyPacksContract(packsToBuy)
     }
-  }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaPacksContract, cardInfoOpened, albumInfoOpened]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsSelectAll = useCallback(async () => {
     if (cardsQttyToBurn >= repeatedCardsQtty) {
@@ -637,7 +636,7 @@ const GammaMain = () => {
     selectAllRepeatedCardsToBurn(60)
     stopLoading()
     emitSuccess(t('burn_select_all_confirm'), 5000)
-  }, [currentAlbum, cardsQttyToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentAlbum, cardsQttyToBurn]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsUndoAll = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
@@ -672,7 +671,7 @@ const GammaMain = () => {
         emitError(t('burn_undo_all_error'))
       }
     }
-  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCards = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
@@ -726,7 +725,7 @@ const GammaMain = () => {
         emitError(t('burn_error'))
       }
     }
-  }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentAlbum, cardsQttyToBurn, walletAddress, gammaPacksContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleBurnCardsCancel = useCallback(async () => {
     if (cardsQttyToBurn === 0) {
@@ -755,7 +754,7 @@ const GammaMain = () => {
       cleanBurnObjects()
       switchAlbum(ALBUMS.ALBUM_INVENTORY)
     }
-  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentAlbum, cardsQttyToBurn, cardsToBurn]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const NotConnected = () => (
     <div className='alpha'>
@@ -788,106 +787,80 @@ const GammaMain = () => {
   )
 
   const InfofoRightInventory = () => (
-    <>
-      <div className='gammaRightPack'>
-        {numberOfPacks === 0 || cardInfoOpened ? (
+    <div className='gammaRightPack'>
+      {numberOfPacks === 0 || cardInfoOpened ? (
+        <div className='gammaRightPack__content__disabled'>
+          <h1 className='pack_number_disabled'>{numberOfPacks}</h1>
+        </div>
+      ) : (
+        <div className='gammaRightPack__content'>
+          <h1 className='pack_number'>{numberOfPacks}</h1>
+        </div>
+      )}
+      <div className='gammaRightPack__actions'>
+        {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
           <>
-            <div className={'gammaRightPack__content__disabled'}>
-              <h1 className={'pack_number_disabled'}>{numberOfPacks}</h1>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={'gammaRightPack__content'}>
-              <h1 className={'pack_number'}>{numberOfPacks}</h1>
-            </div>
-          </>
-        )}
-        <div className='gammaRightPack__actions'>
-          {numberOfPacks === 0 || cardInfoOpened || albumInfoOpened ? (
-            <>
-              {cardInfoOpened || albumInfoOpened ? (
-                <div className={'gammaRightPack__actions__buyPack_disabled'}>
-                  <Image
-                    src={'/images/gamma/buyPackOff.png'}
-                    alt='buy pack'
-                    height='40'
-                    width='40'
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={() => {
-                    handleBuyPack()
-                  }}
-                  className={'gammaRightPack__actions__buyPack'}
-                >
-                  <Image
-                    src={'/images/gamma/buyPackOn.png'}
-                    alt='buy pack'
-                    height='40'
-                    width='40'
-                  />
-                </div>
-              )}
-              <div className='gammaRightPack__actions__openPack_disabled'>
-                <Image
-                  src={'/images/gamma/openPackOff.png'}
-                  alt='open pack'
-                  height='50'
-                  width='50'
-                />
+            {cardInfoOpened || albumInfoOpened ? (
+              <div className='gammaRightPack__actions__buyPack_disabled'>
+                <Image src='/images/gamma/buyPackOff.png' alt='buy pack' height='40' width='40' />
               </div>
-              <div className='gammaRightPack__actions__transferPack_disabled'>
-                <Image
-                  src={'/images/gamma/transferPackOff.png'}
-                  alt='open pack'
-                  height='40'
-                  width='40'
-                />
-              </div>
-            </>
-          ) : (
-            <>
+            ) : (
               <div
                 onClick={() => {
                   handleBuyPack()
                 }}
-                className={'gammaRightPack__actions__buyPack'}
+                className='gammaRightPack__actions__buyPack'
               >
-                <Image src={'/images/gamma/buyPackOn.png'} alt='buy pack' height='40' width='40' />
+                <Image src='/images/gamma/buyPackOn.png' alt='buy pack' height='40' width='40' />
               </div>
-              <div
-                onClick={() => {
-                  handleOpenPack()
-                }}
-                className='gammaRightPack__actions__openPack'
-              >
-                <Image
-                  src={'/images/gamma/openPackOn.png'}
-                  alt='open pack'
-                  height='50'
-                  width='50'
-                />
-              </div>
-              <div
-                onClick={() => {
-                  handleTransferPack()
-                }}
-                className='gammaRightPack__actions__openPack'
-              >
-                <Image
-                  src={'/images/gamma/transferPackOn.png'}
-                  alt='open pack'
-                  height='40'
-                  width='40'
-                />
-              </div>
-            </>
-          )}
-        </div>
+            )}
+            <div className='gammaRightPack__actions__openPack_disabled'>
+              <Image src='/images/gamma/openPackOff.png' alt='open pack' height='50' width='50' />
+            </div>
+            <div className='gammaRightPack__actions__transferPack_disabled'>
+              <Image
+                src='/images/gamma/transferPackOff.png'
+                alt='open pack'
+                height='40'
+                width='40'
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              onClick={() => {
+                handleBuyPack()
+              }}
+              className='gammaRightPack__actions__buyPack'
+            >
+              <Image src='/images/gamma/buyPackOn.png' alt='buy pack' height='40' width='40' />
+            </div>
+            <div
+              onClick={() => {
+                handleOpenPack()
+              }}
+              className='gammaRightPack__actions__openPack'
+            >
+              <Image src='/images/gamma/openPackOn.png' alt='open pack' height='50' width='50' />
+            </div>
+            <div
+              onClick={() => {
+                handleTransferPack()
+              }}
+              className='gammaRightPack__actions__openPack'
+            >
+              <Image
+                src='/images/gamma/transferPackOn.png'
+                alt='open pack'
+                height='40'
+                width='40'
+              />
+            </div>
+          </>
+        )}
       </div>
-    </>
+    </div>
   )
 
   const InfoRightAlbum120 = () => {
@@ -915,9 +888,8 @@ const GammaMain = () => {
           )}
         </div>
       )
-    } else {
-      return <></>
     }
+    return <></>
   }
 
   const InfoRightAlbumToBurn = () => (
@@ -932,54 +904,42 @@ const GammaMain = () => {
   )
 
   const InfoRightAlbumBurnSelection = () => (
-    <>
-      <div className='gammaRightBurn'>
-        <div className={'gammaRightBurn__content'}>
-          <h1 className={'pack_number'}>{cardsQttyToBurn}</h1>
-        </div>
-        <div className='gammaRightBurn__actions'>
-          {cardsQttyToBurn < repeatedCardsQtty && cardsQttyToBurn < 60 ? (
-            <div
-              onClick={() => {
-                handleBurnCardsSelectAll()
-              }}
-              className={'gammaRightBurn__actions__selectAll'}
-            >
-              <Image
-                src={'/images/gamma/selectAllOn.png'}
-                alt='select all'
-                height='40'
-                width='40'
-              />
-            </div>
-          ) : (
-            <div className={'gammaRightBurn__actions__selectAll_disabled'}>
-              <Image
-                src={'/images/gamma/selectAllOff.png'}
-                alt='select all'
-                height='40'
-                width='40'
-              />
-            </div>
-          )}
-
-          {cardsQttyToBurn === 0 ? (
-            <div className='gammaRightBurn__actions__undo_disabled'>
-              <Image src={'/images/gamma/undoOff.png'} alt='undo all' height='40' width='40' />
-            </div>
-          ) : (
-            <div
-              onClick={() => {
-                handleBurnCardsUndoAll()
-              }}
-              className='gammaRightBurn__actions__undo'
-            >
-              <Image src={'/images/gamma/undoOn.png'} alt='undo all' height='40' width='40' />
-            </div>
-          )}
-        </div>
+    <div className='gammaRightBurn'>
+      <div className='gammaRightBurn__content'>
+        <h1 className='pack_number'>{cardsQttyToBurn}</h1>
       </div>
-    </>
+      <div className='gammaRightBurn__actions'>
+        {cardsQttyToBurn < repeatedCardsQtty && cardsQttyToBurn < 60 ? (
+          <div
+            onClick={() => {
+              handleBurnCardsSelectAll()
+            }}
+            className='gammaRightBurn__actions__selectAll'
+          >
+            <Image src='/images/gamma/selectAllOn.png' alt='select all' height='40' width='40' />
+          </div>
+        ) : (
+          <div className='gammaRightBurn__actions__selectAll_disabled'>
+            <Image src='/images/gamma/selectAllOff.png' alt='select all' height='40' width='40' />
+          </div>
+        )}
+
+        {cardsQttyToBurn === 0 ? (
+          <div className='gammaRightBurn__actions__undo_disabled'>
+            <Image src='/images/gamma/undoOff.png' alt='undo all' height='40' width='40' />
+          </div>
+        ) : (
+          <div
+            onClick={() => {
+              handleBurnCardsUndoAll()
+            }}
+            className='gammaRightBurn__actions__undo'
+          >
+            <Image src='/images/gamma/undoOn.png' alt='undo all' height='40' width='40' />
+          </div>
+        )}
+      </div>
+    </div>
   )
 
   const GammaPackInfoRight = () => {

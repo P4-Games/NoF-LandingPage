@@ -1,6 +1,7 @@
+import axios from 'axios'
+
 import connectToDatabase from '../../utils/db'
 import { storageUrlGamma } from '../../config'
-import axios from 'axios'
 
 const findUserByDiscordID = async (db, discordID) => {
   const collection = db.collection('users')
@@ -26,7 +27,7 @@ export default async function handler(req, res) {
       }
     })
 
-    const voted = response.data.voted
+    const { voted } = response.data
 
     if (voted) {
       // Consultar la base de datos para obtener los personajes del usuario
@@ -36,7 +37,7 @@ export default async function handler(req, res) {
       const user = await findUserByDiscordID(db, discordID)
 
       if (user) {
-        const characters = user.characters
+        const { characters } = user
 
         // Encontrar el primer personaje que falte en la lista del usuario
         let missingCharacter = null

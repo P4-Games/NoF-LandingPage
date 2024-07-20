@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import { getUserMissingCards } from './gamma'
+
 import { handleError } from './handleError'
+import { getUserMissingCards } from './gamma'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
   for (const wantedCard of wantedCardNumbers) {
@@ -85,11 +86,11 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
         }
 
         return {
-          offerId: offerId,
+          offerId,
           offerCard: parseInt(offerCard),
           wantedCards: cards,
-          offerWallet: offerWallet,
-          timeStamp: timeStamp,
+          offerWallet,
+          timeStamp,
           auto: wantedCards.length === 0,
           // Desde que un usuario, creó una oferta, pudo haber completado cartas
           // por lo que getUserMissingCards no devolverá nada, quedando inválida.

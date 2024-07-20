@@ -1,42 +1,7 @@
-// import { graphUrl } from '../config'
 import { ethers } from 'ethers'
+
 import { handleError } from './handleError'
 
-/*
-const query = `
-  query getSeasonWinners {
-    winners(first: 1000) {
-      season
-      winner
-      position
-      blockTimestamp
-    }
-  }
-`
-*/
-
-/*
-export const fetchWinnersQuery = async () => {
-  try {
-    const response = await fetch(graphUrl, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        query
-      })
-    })
-    const json = await response.json()
-    return json
-  } catch (e) {
-    console.error({
-      e
-    })
-    return false
-  }
-}
-*/
 export const createNewSeason = async (alphaContract, name, price, amount = 60, folder = 'T1') => {
   try {
     const estimatedGas = await alphaContract.estimateGas.newSeason(

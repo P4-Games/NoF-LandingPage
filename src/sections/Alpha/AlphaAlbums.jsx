@@ -1,24 +1,22 @@
+import Swal from 'sweetalert2'
+import 'swiper/swiper-bundle.css'
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/effect-fade'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import SwiperCore, {
+  A11y,
   Autoplay,
+  Parallax,
+  Scrollbar,
   Navigation,
   Pagination,
-  Scrollbar,
-  A11y,
-  Parallax,
   EffectCards
 } from 'swiper'
-import Swal from 'sweetalert2'
-import { storageUrlAlpha } from '../../config'
-import { useTranslation } from 'next-i18next'
-import CustomImage from '../../components/CustomImage'
+
 import { useWeb3Context } from '../../hooks'
+import { storageUrlAlpha } from '../../config'
+import CustomImage from '../../components/CustomImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
 
@@ -62,7 +60,7 @@ const AlphaAlbums = ({ albums, setSeasonName }) => {
         {albums && (
           <div>
             <div className='alpha_albums_season'>
-              <img alt='alpha-full' src={'/images/common/marco.png'} />
+              <img alt='alpha-full' src='/images/common/marco.png' />
               <span className='alpha_albums_season_name'>
                 {seasonNameAlbum || 'Number One Fan'}
               </span>

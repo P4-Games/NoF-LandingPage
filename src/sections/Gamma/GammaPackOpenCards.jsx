@@ -1,9 +1,10 @@
 import gsap from 'gsap'
-import PropTypes from 'prop-types'
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js'
-import { Draggable } from 'gsap/dist/Draggable'
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { motion } from 'framer-motion'
+import { Draggable } from 'gsap/dist/Draggable'
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger.js'
+
 import { storageUrlGamma } from '../../config'
 
 const GammaPackOpenCards = ({ openPackage, cardsNumbers }) => {

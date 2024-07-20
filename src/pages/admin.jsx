@@ -1,7 +1,8 @@
 import React from 'react'
-import { adminAccounts } from '../config'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+import { adminAccounts } from '../config'
 import { useWeb3Context } from '../hooks'
 
 const Admin = () => {

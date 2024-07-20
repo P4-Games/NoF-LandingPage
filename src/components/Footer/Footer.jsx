@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { useLayoutContext } from '../../hooks'
 import FooterButtons from './FooterButtons'
+import { useLayoutContext } from '../../hooks'
 
 function Footer() {
   const { mobile, turnNextPage, turnPrevPage } = useLayoutContext()
@@ -14,20 +14,14 @@ function Footer() {
     <div className='footer'>
       {!mobile && (
         <>
-          <div className='footer__insert' onClick={openNewWindow}>
-            <></>
-          </div>
-          <div className='footer__handle__green' onClick={turnPrevPage}>
-            <></>
-          </div>
+          <div className='footer__insert' onClick={openNewWindow} />
+          <div className='footer__handle__green' onClick={turnPrevPage} />
         </>
       )}
       <FooterButtons />
       {!mobile && (
         <>
-          <div className='footer__handle__red' onClick={turnNextPage}>
-            <></>
-          </div>
+          <div className='footer__handle__red' onClick={turnNextPage} />
           <div className='footer__text'>
             <p>
               Number One Fan &<br />

@@ -1,6 +1,6 @@
 import React from 'react'
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 const OfflineMain = () => {
   const { t } = useTranslation()

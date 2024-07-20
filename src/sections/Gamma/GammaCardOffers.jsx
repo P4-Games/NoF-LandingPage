@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
-import CustomImage from '../../components/CustomImage'
+import React, { useState, useEffect } from 'react'
+
 import { storageUrlGamma } from '../../config'
-import { emitError, emitInfo } from '../../utils/alert'
-import FlipBook from '../../components/FlipBook'
-import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
-import GammaCardExchange from './GammaCardExchange'
-import { getAccountAddressText } from '../../utils/stringUtils'
 import { hasCard } from '../../services/gamma'
+import FlipBook from '../../components/FlipBook'
+import GammaCardExchange from './GammaCardExchange'
+import CustomImage from '../../components/CustomImage'
+import { emitInfo, emitError } from '../../utils/alert'
+import { getAccountAddressText } from '../../utils/stringUtils'
+import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaCardOffers = (props) => {
   const { handleFinishInfoCard, offerData } = props
@@ -45,7 +46,7 @@ const GammaCardOffers = (props) => {
   useEffect(() => {
     if (!paginationObj) return
 
-    let _pagedOffers = []
+    const _pagedOffers = []
     let _pagedOffer = {}
 
     for (let index = 0; index < offerData.length; index++) {
@@ -63,7 +64,7 @@ const GammaCardOffers = (props) => {
 
     _pagedOffers.user = paginationObj.user
     setPagedOffers(_pagedOffers)
-  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [paginationObj]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const userHasCard = (item) => {
     if (!paginationObj) return false
@@ -147,13 +148,13 @@ const GammaCardOffers = (props) => {
               {item === -1 ? (
                 <CustomImage src='/images/gamma/Nofy.png' alt='img' />
               ) : (
-                <React.Fragment>
+                <>
                   <CustomImage src={`${storageUrlGamma}/T1/${item}.png`} alt='img' />
                   {paginationObj.user[item]?.quantity > 1 && (
                     <div className='quantity'>X: {paginationObj.user[item]?.quantity}</div>
                   )}
                   <div className='number'>{paginationObj.user[item]?.name || '0'}</div>
-                </React.Fragment>
+                </>
               )}
             </div>
           ))}
@@ -212,7 +213,7 @@ const GammaCardOffers = (props) => {
   const BookOffer = () => (
     <FlipBook
       startPage={currentPage}
-      showClose={true}
+      showClose
       onCloseClick={handleCloseButtonClick}
       pages={getPages()}
     />
@@ -221,7 +222,7 @@ const GammaCardOffers = (props) => {
   return loading ? (
     <></>
   ) : (
-    <React.Fragment>
+    <>
       {!showExchangeCards && <BookOffer />}
 
       {showExchangeCards && (
@@ -232,7 +233,7 @@ const GammaCardOffers = (props) => {
           selectedCardNumber={selectedCardNumber}
         />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

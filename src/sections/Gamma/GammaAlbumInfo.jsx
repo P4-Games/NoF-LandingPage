@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Swal from 'sweetalert2'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
+import React, { useState, useEffect } from 'react'
 import { MdOutlineLocalOffer } from 'react-icons/md'
 
 import { storageUrlGamma } from '../../config'
 import { hasCard } from '../../services/gamma'
-import { checkInputAddress } from '../../utils/InputValidators'
-import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
 import FlipBook from '../../components/FlipBook'
+import { checkInputAddress } from '../../utils/InputValidators'
+import { emitInfo, emitError, emitSuccess } from '../../utils/alert'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
 const GammaAlbumInfo = (props) => {
@@ -43,11 +43,11 @@ const GammaAlbumInfo = (props) => {
     ToggleShowDefaultButtons(true)
     updateShowButtons([true, true, true, true])
     updateFooterButtonsClasses([null, null, null, null])
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     verifyUserHasCard()
-  }, [walletAddress, gammaCardsContract]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, gammaCardsContract]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleTransferClick = async () => {
     try {
@@ -143,9 +143,9 @@ const GammaAlbumInfo = (props) => {
 
   const BookCard = () => (
     <FlipBook
-      showClose={true}
+      showClose
       onCloseClick={handleCloseButtonClick}
-      pages={[<Page1 key={'page-1'} />, <Page2 key={'page-2'} />]}
+      pages={[<Page1 key='page-1' />, <Page2 key='page-2' />]}
     />
   )
 

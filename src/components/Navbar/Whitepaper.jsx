@@ -1,6 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
 
 function Whitepaper({ defaultClassName = 'navbar__center__li__whitepaper' }) {

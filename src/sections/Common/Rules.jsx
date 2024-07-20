@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
+
 import FlipBook from '../../components/FlipBook'
 
 const Rules = ({ type, setShowRules }) => {
@@ -52,9 +53,9 @@ const Rules = ({ type, setShowRules }) => {
 
   return (
     <FlipBook
-      showClose={true}
+      showClose
       onCloseClick={handleCloseButton}
-      pages={[<ContentPageLeft key={'page-1'} />, <ContentPageRight key={'page-1'} />]}
+      pages={[<ContentPageLeft key='page-1' />, <ContentPageRight key='page-1' />]}
     />
   )
 }

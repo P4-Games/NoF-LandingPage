@@ -18,18 +18,18 @@ const getUsersRank = async () => {
     // Comparar el rango de medallas de los usuarios
     if (aMedalRank > bMedalRank) {
       return -1
-    } else if (aMedalRank < bMedalRank) {
-      return 1
-    } else {
-      // Si los usuarios tienen el mismo rango de medallas, comparar por cantidad de personajes
-      if (a.characters.length > b.characters.length) {
-        return -1
-      } else if (a.characters.length < b.characters.length) {
-        return 1
-      } else {
-        return 0 // Los usuarios son iguales en rango de medallas y cantidad de personajes
-      }
     }
+    if (aMedalRank < bMedalRank) {
+      return 1
+    }
+    // Si los usuarios tienen el mismo rango de medallas, comparar por cantidad de personajes
+    if (a.characters.length > b.characters.length) {
+      return -1
+    }
+    if (a.characters.length < b.characters.length) {
+      return 1
+    }
+    return 0 // Los usuarios son iguales en rango de medallas y cantidad de personajes
   })
 
   // Limitar el ranking a los primeros 10 jugadores

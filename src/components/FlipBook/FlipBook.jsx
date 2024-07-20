@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
+
 import HTMLFlipBook from './HtmlFlipBook'
 import { useLayoutContext } from '../../hooks'
 
@@ -48,8 +49,8 @@ const FlipBook = (props) => {
           minHeight={350}
           maxHeight={600}
           swipeDistance={30}
-          showPageCorners={true}
-          autoSize={true}
+          showPageCorners
+          autoSize
           startPage={startPage}
           ref={bookRef}
           usePortrait={windowSize.size}
@@ -74,12 +75,12 @@ const FlipBook = (props) => {
             >
               <div className='hero__top__album__book__page__page-content'>
                 {index % 2 === 0 ? (
-                  <React.Fragment>{content}</React.Fragment>
+                  <>{content}</>
                 ) : (
-                  <React.Fragment>
+                  <>
                     {showClose && <CloseButton />}
                     {content}
-                  </React.Fragment>
+                  </>
                 )}
               </div>
             </div>

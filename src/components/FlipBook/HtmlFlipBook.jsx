@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 // import { PageFlip } from 'page-flip'
 import { PageFlip } from 'book-flip'
+import React, { useRef, useState, useEffect, useCallback, useImperativeHandle } from 'react'
 
 const HTMLFlipBookForward = React.forwardRef((props, ref) => {
   const htmlElementRef = useRef(null)
@@ -17,7 +17,7 @@ const HTMLFlipBookForward = React.forwardRef((props, ref) => {
     if (pageFlip.current) {
       pageFlip.current.clear()
     }
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const removeHandlers = useCallback(() => {
     const flip = pageFlip.current
@@ -29,7 +29,7 @@ const HTMLFlipBookForward = React.forwardRef((props, ref) => {
       flip.off('init')
       flip.off('update')
     }
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     childRef.current = []
@@ -54,7 +54,7 @@ const HTMLFlipBookForward = React.forwardRef((props, ref) => {
       }
     }
     removeHandlers()
-  }, [props.children]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.children]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const setHandlers = () => {
@@ -98,7 +98,7 @@ const HTMLFlipBookForward = React.forwardRef((props, ref) => {
 
       setHandlers()
     }
-  }, [pages]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [pages]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div ref={htmlElementRef} className={props.className} style={props.style}>

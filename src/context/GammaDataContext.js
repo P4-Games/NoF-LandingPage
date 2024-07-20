@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { useState, useEffect, useContext, createContext } from 'react'
+
 import { Web3Context } from './Web3Context'
 import { getCardsByUser } from '../services/gamma'
 
@@ -61,7 +62,7 @@ const GammaDataContextProvider = ({ children }) => {
 
     generatePaginationObjToBurn(true)
 
-    for (let key in paginationObj.user) {
+    for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
         paginationObj.user[key].name != '120' &&
@@ -73,7 +74,7 @@ const GammaDataContextProvider = ({ children }) => {
 
         if (total + itemQttyRepeated > limit) {
           itemQttyRepeatedCorrected = total + itemQttyRepeated - limit
-          itemQttyRepeated = itemQttyRepeated - itemQttyRepeatedCorrected
+          itemQttyRepeated -= itemQttyRepeatedCorrected
         }
         total += itemQttyRepeated
         _cardsToBurn = _cardsToBurn.concat(Array(itemQttyRepeated).fill(parseInt(cardNumber)))
@@ -98,7 +99,7 @@ const GammaDataContextProvider = ({ children }) => {
   const getUniqueCardsQtty = () => {
     if (!paginationObj || !paginationObj.user) return
     let total = 0
-    for (let key in paginationObj.user) {
+    for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 0 &&
         paginationObj.user[key].name != '120' &&
@@ -113,7 +114,7 @@ const GammaDataContextProvider = ({ children }) => {
   const getRepeatedCardsQtty = () => {
     if (!paginationObj || !paginationObj.user) return
     let total = 0
-    for (let key in paginationObj.user) {
+    for (const key in paginationObj.user) {
       if (
         paginationObj.user[key].quantity > 1 &&
         paginationObj.user[key].name != '120' &&
@@ -148,14 +149,14 @@ const GammaDataContextProvider = ({ children }) => {
   useEffect(() => {
     refreshPaginationObj()
     setCurrentAlbum(ALBUMS.ALBUM_INVENTORY)
-  }, [gammaCardsContract, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [gammaCardsContract, walletAddress]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setAlbums120Qtty(getAlbums120Qtty())
     setAlbums60Qtty(getAlbums60Qtty())
     setUniqueCardsQtty(getUniqueCardsQtty())
     setRepeatedCardsQtty(getRepeatedCardsQtty())
-  }, [paginationObj]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [paginationObj]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <GammaDataContext.Provider

@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useLayoutContext } from '../../hooks'
-import Loading from '../Loading'
+
 import NofHead from '../Head'
 import Navbar from '../Navbar'
 import Footer from '../Footer'
+import Loading from '../Loading'
+import { useLayoutContext } from '../../hooks'
 
 const Layout = ({ children }) => {
   const { loading } = useLayoutContext()

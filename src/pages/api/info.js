@@ -72,12 +72,12 @@ const calculateRank = (users) =>
     // Comparar los rangos de medallas
     if (aMedalRank > bMedalRank) {
       return -1
-    } else if (aMedalRank < bMedalRank) {
-      return 1
-    } else {
-      // Si los rangos de medallas son iguales, comparar la cantidad de personajes
-      return compareCharacters(a, b)
     }
+    if (aMedalRank < bMedalRank) {
+      return 1
+    }
+    // Si los rangos de medallas son iguales, comparar la cantidad de personajes
+    return compareCharacters(a, b)
   })
 
 /**
@@ -111,11 +111,11 @@ const countMedals = (medals, medalType) => medals.filter((medal) => medal === me
 const compareCharacters = (a, b) => {
   if (a.characters.length > b.characters.length) {
     return -1
-  } else if (a.characters.length < b.characters.length) {
-    return 1
-  } else {
-    return 0
   }
+  if (a.characters.length < b.characters.length) {
+    return 1
+  }
+  return 0
 }
 
 /**

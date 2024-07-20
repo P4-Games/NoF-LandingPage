@@ -1,5 +1,7 @@
 const cache = new Map()
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export const fetchWithRetry = async (key, requestFunc, retries = 5, delay = 2000) => {
   // Verifica si el resultado ya está en caché
   if (cache.has(key)) {
@@ -8,20 +10,33 @@ export const fetchWithRetry = async (key, requestFunc, retries = 5, delay = 2000
   }
 
   console.log('NO from cache: ', key)
-  for (let i = 0; i < retries; i++) {
+
+  // Crear un array de intentos
+  const attempts = Array.from({ length: retries }, (_, index) => index)
+
+  // Manejar reintentos secuenciales usando reduce
+  const resultRetries = await attempts.reduce(async (prevPromise, attempt) => {
     try {
-      const result = await requestFunc()
+      // Espera el resultado de requestFunc
+      const resolvedValue = await prevPromise
+      const resultRequestFunc = await requestFunc()
+
       // Guarda el resultado en caché
-      cache.set(key, result)
-      console.log('save in cache:', key, result)
-      return result
+      cache.set(key, resultRequestFunc)
+      console.log('save in cache:', key, resultRequestFunc)
+      return resultRequestFunc
     } catch (error) {
-      console.log('retry: ', key, i + 1)
-      if (error.code === -32005 && i < retries - 1) {
-        await new Promise((resolve) => setTimeout(resolve, delay))
-      } else {
-        throw error
+      console.log('retry: ', key, attempt + 1)
+
+      if (error.code === -32005 && attempt < retries - 1) {
+        // Solo esperar entre reintentos si aún no se han agotado todos los intentos
+        await sleep(delay)
+        return prevPromise
       }
+      // Si el error no es recuperable o hemos agotado los intentos, lanzar el error
+      throw error
     }
-  }
+  }, Promise.reject()) // Iniciar con una promesa rechazada
+
+  return resultRetries
 }

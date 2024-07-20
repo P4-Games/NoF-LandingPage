@@ -1,6 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function NofTown({ defaultClassName = 'navbar__center__li__noftown' }) {
   return (

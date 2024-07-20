@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types'
-import { createContext, useEffect } from 'react'
-import { useLocalStorage } from '../hooks'
-import getLanguagePresets, { languagePresets } from '../utils/getLanguagePresets'
-import { defaultSettings } from '../config'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import { useEffect, createContext } from 'react'
 import spanishLocalization from 'moment/locale/es'
 import englishLocalization from 'moment/locale/en-gb'
 import portugueseLocalization from 'moment/locale/pt-br'
+
+import { useLocalStorage } from '../hooks'
+import { defaultSettings } from '../config'
+import getLanguagePresets, { languagePresets } from '../utils/getLanguagePresets'
 
 const initialState = {
   ...defaultSettings,
@@ -65,7 +66,7 @@ function SettingsProvider({ children }) {
         .replace('/en/', '/')
         .replace('/es/', '/')
         .replace('/br/', '/')
-      const resultUrl = getUrl.protocol + '//' + getUrl.host + '/' + newLng + '/' + pathName
+      const resultUrl = `${getUrl.protocol}//${getUrl.host}/${newLng}/${pathName}`
       window.location = resultUrl
     }
   }
@@ -96,4 +97,4 @@ function SettingsProvider({ children }) {
   )
 }
 
-export { SettingsProvider, SettingsContext }
+export { SettingsContext, SettingsProvider }

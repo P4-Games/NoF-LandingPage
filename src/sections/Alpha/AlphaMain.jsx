@@ -1,31 +1,32 @@
-import { useState, useEffect, useCallback } from 'react'
-import { ethers } from 'ethers'
-import 'swiper/css/bundle'
-import Swiper from 'swiper/bundle'
-import AlphaAlbums from './AlphaAlbums'
-import Rules from '../Common/Rules'
-import { storageUrlAlpha } from '../../config'
-import {
-  createNewSeason,
-  buyPack,
-  getAlbumData,
-  checkPacks,
-  getSeasonFolder,
-  getUserCards,
-  getWinnersBySeason,
-  getAuthorized,
-  transferCard,
-  pasteCard,
-  getSeasonPlayers
-} from '../../services/alpha'
-import { checkApproved, checkBalance, authorizeDaiContract } from '../../services/dai'
-import CustomImage from '../../components/CustomImage'
+// import 'swiper/css/bundle'
 import Swal from 'sweetalert2'
-import { emitError, emitSuccess, emitInfo } from '../../utils/alert'
-
+import { ethers } from 'ethers'
+import 'swiper/swiper-bundle.css'
+import { Swiper } from 'swiper/react'
 import { useTranslation } from 'next-i18next'
-import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { useState, useEffect, useCallback } from 'react'
+
+import Rules from '../Common/Rules'
+import AlphaAlbums from './AlphaAlbums'
+import { storageUrlAlpha } from '../../config'
+import CustomImage from '../../components/CustomImage'
 import { fetchWithRetry } from '../../services/middleware'
+import { useWeb3Context, useLayoutContext } from '../../hooks'
+import { emitInfo, emitError, emitSuccess } from '../../utils/alert'
+import { checkBalance, checkApproved, authorizeDaiContract } from '../../services/dai'
+import {
+  buyPack,
+  pasteCard,
+  checkPacks,
+  getAlbumData,
+  getUserCards,
+  transferCard,
+  getAuthorized,
+  createNewSeason,
+  getSeasonFolder,
+  getSeasonPlayers,
+  getWinnersBySeason
+} from '../../services/alpha'
 
 const lives = [
   '/images/alpha/vida0.png',
@@ -81,7 +82,7 @@ const AlphaMain = () => {
       if (!walletAddress || !isValidNetwork || !alphaContract || !seasonNames) return
       startLoading()
 
-      let albumsArr = []
+      const albumsArr = []
       for (let i = 0; i < seasonNames.length; i++) {
         const album = await alphaContract.getCardsByUserBySeason(walletAddress, seasonNames[i])
         for (let j = 0; j < album.length; j++) {
@@ -98,7 +99,7 @@ const AlphaMain = () => {
       console.error({ ex })
       emitError(t('alpha_fetch_albums_error'))
     }
-  }, [walletAddress, isValidNetwork, alphaContract, seasonNames, t]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, isValidNetwork, alphaContract, seasonNames, t]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchSeasonData = useCallback(async () => {
     try {
@@ -118,7 +119,7 @@ const AlphaMain = () => {
       }
 
       // Usa fetchWithRetry para realizar la solicitud
-      let seasonData = await fetchWithRetry(key, requestFunc)
+      const seasonData = await fetchWithRetry(key, requestFunc)
 
       // let seasonData = await alphaContract.getSeasonData()
 
@@ -173,16 +174,16 @@ const AlphaMain = () => {
       console.error(ex)
       emitError(t('alpha_fetch_season_data_error'))
     }
-  }, [walletAddress, isValidNetwork, alphaContract, t]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, isValidNetwork, alphaContract, t]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchAlbums()
-  }, [isValidNetwork, albums]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [isValidNetwork, albums]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchSeasonData()
     setShowMain(false)
-  }, [walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletAddress, isValidNetwork]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     swiper = new Swiper('.swiper-container', {
@@ -242,7 +243,7 @@ const AlphaMain = () => {
       }
       if (seasonName.length > 16) {
         seasonNameElem.style.fontSize = '0.6rem'
-        seasonNameElem.innerText = seasonNameElem.innerText.substring(0, 16) + '...'
+        seasonNameElem.innerText = `${seasonNameElem.innerText.substring(0, 16)}...`
       }
     }
   }, [seasonName])
@@ -256,17 +257,16 @@ const AlphaMain = () => {
       setShowMain(true)
       stopLoading()
     }, 500)
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getOpenseaUrl = useCallback(() => {
     const currentNetwork = getCurrentNetwork()
     if (currentNetwork) {
       const baseUrl = currentNetwork.config.chainOpenSeaBaseUrl
-      const chainName = currentNetwork.config.chainName
+      const { chainName } = currentNetwork.config
       return `${baseUrl}/assets/${chainName}/${alphaContract?.address}`
-    } else {
-      return ''
     }
+    return ''
   }, [alphaContract])
 
   const handleCreateNewSeason = async () => {
@@ -309,7 +309,7 @@ const AlphaMain = () => {
             Swal.showValidationMessage(`${t('alpha_season_price_error')}`)
           }
 
-          return { name: name, price: price }
+          return { name, price }
         }
       })
 
@@ -342,7 +342,7 @@ const AlphaMain = () => {
         return
       }
 
-      setDisableTransfer(checkPacksResult.length == 0 ? false : true)
+      setDisableTransfer(checkPacksResult.length != 0)
       const cards = await getUserCards(alphaContract, address, seasonName)
 
       if (!cards) {
@@ -383,8 +383,8 @@ const AlphaMain = () => {
         const baseUrl = `${storageUrlAlpha}/${seasonFolder || 'T1'}`
         setAlbumImage(
           completion < 5
-            ? `${baseUrl}/${albumData[0].number + '.png'}`
-            : `${baseUrl}/${albumData[0].number + 'F.png'}`
+            ? `${baseUrl}/${`${albumData[0].number}.png`}`
+            : `${baseUrl}/${`${albumData[0].number}F.png`}`
         )
         if (completion >= 5) {
           try {
@@ -409,22 +409,21 @@ const AlphaMain = () => {
         }
 
         return cards
-      } else {
-        stopLoading()
-        if (!isBuyingPack) {
-          Swal.fire({
-            text: `${t('alpha_no_cards_error_text')}`,
-            icon: 'info',
-            showDenyButton: false,
-            showCancelButton: false,
-            color: 'black',
-            background: 'white',
-            customClass: {
-              image: 'cardalertimg',
-              input: 'alertinput'
-            }
-          })
-        }
+      }
+      stopLoading()
+      if (!isBuyingPack) {
+        Swal.fire({
+          text: `${t('alpha_no_cards_error_text')}`,
+          icon: 'info',
+          showDenyButton: false,
+          showCancelButton: false,
+          color: 'black',
+          background: 'white',
+          customClass: {
+            image: 'cardalertimg',
+            input: 'alertinput'
+          }
+        })
       }
     } catch (ex) {
       stopLoading()
@@ -458,7 +457,6 @@ const AlphaMain = () => {
         setDisableBuyPackButton(false)
         stopLoading()
         emitInfo(t('no_mas_packs'))
-        return
       } else {
         const balance = await checkBalance(daiContract, walletAddress, packPrice)
         if (balance) {
@@ -490,7 +488,6 @@ const AlphaMain = () => {
                   setDisableBuyPackButton(false)
                   stopLoading()
                   emitError(t('alpha_buy_pack_error'))
-                  return
                 } else {
                   setPack(pack)
                   setDisableBuyPackButton(false)
@@ -503,7 +500,6 @@ const AlphaMain = () => {
                 setDisableBuyPackButton(false)
                 stopLoading()
                 emitError(t('alpha_buy_pack_error'))
-                return
               }
             } else {
               try {
@@ -516,14 +512,12 @@ const AlphaMain = () => {
                   emitError(t('alpha_buy_pack_error'))
                   setDisableBuyPackButton(false)
                   stopLoading()
-                  return
                 } else {
                   const pack = await buyPack(alphaContract, price, name)
                   if (!pack) {
                     setDisableBuyPackButton(false)
                     stopLoading()
                     emitError(t('alpha_buy_pack_error'))
-                    return
                   } else {
                     setPack(pack)
                     setDisableBuyPackButton(false)
@@ -536,7 +530,6 @@ const AlphaMain = () => {
                 setDisableBuyPackButton(false)
                 stopLoading()
                 emitError(t('alpha_buy_pack_error'))
-                return
               }
             }
           }
@@ -544,14 +537,12 @@ const AlphaMain = () => {
           setDisableBuyPackButton(false)
           stopLoading()
           emitInfo(t('no_dai'))
-          return
         }
       }
     } catch (err) {
       console.error({ err })
       stopLoading()
       emitError(t('alpha_buy_pack_error'))
-      return
     }
   }
 
@@ -589,7 +580,7 @@ const AlphaMain = () => {
     const playersOptions = players
       .filter((player) => player != walletAddress)
       .reduce(
-        (obj, player) => ({ ...obj, [player]: player.slice(0, 6) + '...' + player.slice(-6) }),
+        (obj, player) => ({ ...obj, [player]: `${player.slice(0, 6)}...${player.slice(-6)}` }),
         {}
       )
     if (Object.keys(playersOptions).length < 9) {
@@ -687,7 +678,7 @@ const AlphaMain = () => {
               {!error && seasonNames && seasonNames.length && seasonName && !showMain && (
                 <>
                   <div className='alpha_season'>
-                    <img alt='marco' src={'/images/common/marco.png'} />
+                    <img alt='marco' src='/images/common/marco.png' />
                     <span className='alpha_season_name'>{seasonName}</span>
                     <select
                       value={seasonName}
