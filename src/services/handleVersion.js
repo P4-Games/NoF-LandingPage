@@ -1,4 +1,4 @@
-import RenderResult from "next/dist/server/render-result"
+import RenderResult from 'next/dist/server/render-result'
 
 export const getProductVersion = async () => {
   try {
