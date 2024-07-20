@@ -259,7 +259,7 @@ export const NETWORKS = {
         d: 11155111
       },
       chainCurrency: 'ETH',
-      ChainRpcUrl: 'https://sepolia.gateway.tenderly.co',
+      ChainRpcUrl: 'https://1rpc.io/sepolia',
       chainExplorerUrl: 'https://sepolia.etherscan.io',
       chainOpenSeaBaseUrl: 'https://testnets.opensea.io',
       chainNftUrl: '',
