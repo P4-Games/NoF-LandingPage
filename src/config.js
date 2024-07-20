@@ -52,7 +52,7 @@ export const storageUrlGamma =
   process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
-export const nofVersion = process.env.NEXT_PUBLIC_NOF_VERSION || 'v0.1.219'
+export const nofVersion = process.env.NOF_VERSION || 'v0.1.219'
 
 // ------------------------------------------------------------------
 // calculated variables

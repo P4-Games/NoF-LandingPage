@@ -30,7 +30,7 @@ steps:
       - NEXT_PUBLIC_STORAGE_URL_ALPHA=${_NEXT_PUBLIC_STORAGE_URL_ALPHA}
       - NEXT_PUBLIC_STORAGE_URL_GAMMA=${_NEXT_PUBLIC_STORAGE_URL_GAMMA}
       - NEXT_PUBLIC_ADMIN_ACCOUNTS=${_NEXT_PUBLIC_ADMIN_ACCOUNTS}
-      - NEXT_PUBLIC_NOF_VERSION=${_NEXT_PUBLIC_NOF_VERSION}
+      - NOF_VERSION=${_NOF_VERSION}
 
   # build the container images
   - name: "gcr.io/cloud-builders/docker"
@@ -61,7 +61,7 @@ steps:
       "--build-arg", "NEXT_PUBLIC_STORAGE_URL_ALPHA=${_NEXT_PUBLIC_STORAGE_URL_ALPHA}",
       "--build-arg", "NEXT_PUBLIC_STORAGE_URL_GAMMA=${_NEXT_PUBLIC_STORAGE_URL_GAMMA}",
       "--build-arg", "NEXT_PUBLIC_ADMIN_ACCOUNTS=${_NEXT_PUBLIC_ADMIN_ACCOUNTS}",
-      "--build-arg", "NEXT_PUBLIC_NOF_VERSION=${_NEXT_PUBLIC_NOF_VERSION}",
+      "--build-arg", "NOF_VERSION=${_NOF_VERSION}",
       "."
     ]
 

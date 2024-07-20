@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Just set product versión in environment without TAG source code!
+# This script is used in .github\workflows\gcp.yml
+
 VERSION=""
 
 # get parameters
@@ -12,7 +15,7 @@ done
 
 # get highest tag number, and add v0.1.0 if doesn't exist
 git fetch --prune --unshallow 2>/dev/null
-CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
+CURRENT_VERSION=$(git describe --abbrev=0 --tags 2>/dev/null)
 
 if [[ $CURRENT_VERSION == '' ]]
 then
@@ -31,9 +34,12 @@ VNUM3=${CURRENT_VERSION_PARTS[2]}
 if [[ $VERSION == 'major' ]]
 then
   VNUM1=v$((VNUM1+1))
+  VNUM2=0
+  VNUM3=0
 elif [[ $VERSION == 'minor' ]]
 then
   VNUM2=$((VNUM2+1))
+  VNUM3=0
 elif [[ $VERSION == 'patch' ]]
 then
   VNUM3=$((VNUM3+1))
@@ -46,20 +52,11 @@ fi
 NEW_TAG="$VNUM1.$VNUM2.$VNUM3"
 echo "($VERSION) updating $CURRENT_VERSION to $NEW_TAG"
 
-# get current hash and see if it already has a tag
-GIT_COMMIT=`git rev-parse HEAD`
-NEEDS_TAG=`git describe --contains $GIT_COMMIT 2>/dev/null`
+# set tag in environment to use in frontend
+NOF_VERSION=$NEW_TAG
+echo "NOF_VERSION=$NEW_TAG"
 
-# only tag if no tag already
-if [ -z "$NEEDS_TAG" ]; then
-  echo "Tagged with $NEW_TAG"
-  git tag $NEW_TAG
-  git push --tags
-  git push
-else
-  echo "Already a tag on this commit"
-fi
-
-echo "git-tag=$NEW_TAG" >> $GITHUB_OUTPUT
+# write tag to GITHUB_ENV for use in GitHub Actions
+echo "NOF_VERSION=$NEW_TAG" >> $GITHUB_ENV
 
 exit 0

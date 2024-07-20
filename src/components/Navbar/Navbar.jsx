@@ -10,7 +10,7 @@ import AccountInfo from './AccountInfo.jsx'
 import NotificationInfo from './NotificationInfo.jsx'
 import LanguageSelection from '../LanguageSelection'
 import { useLayoutContext, useWeb3Context, useNotificationContext } from '../../hooks'
-import { nofVersion } from '../../config.js'
+import { getProductVersion } from '../../services/handleVersion.js'
 
 function Navbar() {
   const { t } = useTranslation()
@@ -25,6 +25,7 @@ function Navbar() {
   const [notificationsNbrClass, setNotificationsNbrClass] = useState('notification__badge__1')
   const { notifications, getNotificationsByUser } = useNotificationContext()
   const { walletAddress } = useWeb3Context()
+  const [productVersion, setProductVersion] = useState('1.0.0')
 
   const accountRef = useRef(null)
   const notificationRef = useRef(null)
@@ -65,6 +66,14 @@ function Navbar() {
     // setNotificationsNbr(20)
     // setNotificationsNbrClass(20 > 9 ? 'notification__badge__2' : 'notification__badge__1')
   }, [notifications, walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  const fetchVersion = async () => {
+    const version = await getProductVersion()
+    return version
+  }
+
+  useEffect(() => {
+    fetchVersion().then(setProductVersion)
+  }, [productVersion]) //eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -89,7 +98,7 @@ function Navbar() {
       <Link href='/'>
         <Image src={'/images/navbar/logo-1.png'} alt='nof' height='60' width='120' />
       </Link>
-      <span className='navbar__left__nof__version'>{nofVersion}</span>
+      <span className='navbar__left__nof__version'>{productVersion}</span>
     </div>
   )
 
