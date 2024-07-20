@@ -109,9 +109,9 @@ const AlphaMain = () => {
       console.log('fetchSeasonData 2', alphaContract.address)
       console.log('fetchSeasonData 2', alphaContract)
 
-       // Define la función de solicitud
-       const key = `fetchSeasonData-${walletAddress}`
-       const requestFunc = async () => {
+      // Define la función de solicitud
+      const key = `fetchSeasonData-${walletAddress}`
+      const requestFunc = async () => {
         const seasonData = await alphaContract.getSeasonData()
         console.log('fetchSeasonData 3', seasonData)
         return seasonData
@@ -119,9 +119,9 @@ const AlphaMain = () => {
 
       // Usa fetchWithRetry para realizar la solicitud
       let seasonData = await fetchWithRetry(key, requestFunc)
-      
+
       // let seasonData = await alphaContract.getSeasonData()
- 
+
       if (seasonData) {
         let currentSeason
         let currentPrice

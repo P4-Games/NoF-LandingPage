@@ -189,7 +189,7 @@ function Web3ContextProvider({ children }) {
           { item: 'TICKET_ID', value: ticketId, valueShort: getAccountAddressText(ticketId) }
         ])
       })
-      */ 
+      */
 
       setDaiContract(daiContractInstance)
       setAlphaContract(alphaContractInstance)

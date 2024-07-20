@@ -42,7 +42,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       console.error({ e })
     }
   }, [walletAddress, daiContract, isValidNetwork])
-  
+
   const fetchBalance = useCallback(async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
@@ -56,7 +56,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   useEffect(() => {
     fetchTokenName()
   }, [walletAddress, daiContract, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
-
 
   useEffect(() => {
     fetchBalance()

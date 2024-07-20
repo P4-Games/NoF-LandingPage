@@ -76,7 +76,6 @@ function Navbar() {
     fetchVersion().then(setProductVersion)
   }, [productVersion]) //eslint-disable-line react-hooks/exhaustive-deps
 
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => {

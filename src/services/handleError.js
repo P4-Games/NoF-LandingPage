@@ -6,7 +6,6 @@ export const handleError = async (wallet, operation, errorMsg) => {
   }
 }
 
-/*
 export const handleError2 = async (wallet, operation, errorMsg) => {
   try {
     console.error({ errorMsg })
@@ -29,4 +28,3 @@ export const handleError2 = async (wallet, operation, errorMsg) => {
     console.log('error en _handleError', ex)
   }
 }
-*/
