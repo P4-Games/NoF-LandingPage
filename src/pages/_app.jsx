@@ -14,7 +14,9 @@ import { NotificationProvider } from '../context/NotificationContext'
 import { SettingsProvider } from '../context/SettingsContext'
 import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
+
 function MyApp({ Component, pageProps }) {
+  /*
   useEffect(() => {
     if ('serviceWorker' in navigator && window && !window.location.hostname.includes('localhost')) {
       window.addEventListener('load', function () {
@@ -29,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       })
     }
   }, [])
+  */
 
   return (
     <SettingsProvider>
