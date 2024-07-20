@@ -20,10 +20,9 @@ async function resizeAndSaveImages() {
       await image.writeAsync(`${basePath}/T2/${filename}`)
     }
 
-    console.log('Images resized and saved successfully.')
+    console.info('Images resized and saved successfully.')
   } catch (error) {
-    console.log(error)
-    console.log('An error occurred while processing the images.')
+    console.error('An error occurred while processing the images.', error)
   }
 }
 
