@@ -23,8 +23,10 @@ export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'testing').toLowe
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
+/*
 export const graphUrl =
   process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+*/
 
 export const MAIL_CONFIG = {
   client: process.env.MAIL_CLIENT || 'sendgrid',
