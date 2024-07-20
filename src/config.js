@@ -95,9 +95,12 @@ export const NETWORKS = {
   hardhat: {
     config: {
       enabled: 'true',
-      environment: 'development',
+      environments: ['development'],
       chainName: 'localhost',
-      chainId: '0x539',
+      chainId: {
+        h: '0x539',
+        d: 1337
+      },
       chainCurrency: 'ETH',
       ChainRpcUrl: 'http://localhost:8545',
       chainExplorerUrl: 'http://localhost:8545',
@@ -118,9 +121,12 @@ export const NETWORKS = {
   amoy: {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'amoy',
-      chainId: '0x13882',
+      chainId: {
+        h: '0x13882',
+        d: 80002
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://rpc-amoy.polygon.technology',
       chainExplorerUrl: 'https://www.oklink.com/amoy',
@@ -140,9 +146,12 @@ export const NETWORKS = {
   mumbai: {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'mumbai',
-      chainId: '0x13881',
+      chainId: {
+        h: '0x13881',
+        d: 80001
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://rpc-mumbai.maticvigil.com',
       chainExplorerUrl: 'https://mumbai.polygonscan.com',
@@ -163,9 +172,12 @@ export const NETWORKS = {
   'bsc-testnet': {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'bsc-testnet',
-      chainId: '0x61',
+      chainId: {
+        h: '0x61',
+        d: 97
+      },
       chainCurrency: 'tBNB',
       ChainRpcUrl: 'https://bsc-testnet-dataseed.bnbchain.org',
       chainExplorerUrl: 'https://testnet.bscscan.com',
@@ -185,9 +197,12 @@ export const NETWORKS = {
   'opbnb-testnet': {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'opBNB-testnet',
-      chainId: '0x15eb',
+      chainId: {
+        h: '0x15eb',
+        d: 5611
+      },
       chainCurrency: 'tBNB',
       ChainRpcUrl: 'https://opbnb-testnet-rpc.bnbchain.org',
       chainExplorerUrl: 'https://opbnb-testnet.bscscan.com',
@@ -207,9 +222,12 @@ export const NETWORKS = {
   matic: {
     config: {
       enabled: 'true',
-      environment: 'production',
+      environments: ['production'],
       chainName: 'matic',
-      chainId: '0x89',
+      chainId: {
+        h: '0x89',
+        d: 137
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://polygon-mainnet.infura.io',
       chainExplorerUrl: 'https://polygonscan.com',
@@ -229,9 +247,12 @@ export const NETWORKS = {
   sepolia: {
     config: {
       enabled: 'true',
-      environment: 'production',
+      environments: ['production', 'testing'],
       chainName: 'sepolia',
-      chainId: '0xaa36a7',
+      chainId: {
+        h: '0xaa36a7',
+        d: 11155111
+      },
       chainCurrency: 'ETH',
       ChainRpcUrl: 'https://sepolia.gateway.tenderly.co',
       chainExplorerUrl: 'https://sepolia.etherscan.io',
