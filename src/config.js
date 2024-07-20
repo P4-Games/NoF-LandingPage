@@ -14,6 +14,9 @@
 // server-side environment variables
 // ------------------------------------------------------------------
 */
+
+import { removeQuotes } from './utils/stringUtils'
+
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'testing').toLowerCase()
 
@@ -272,8 +275,3 @@ export const NETWORKS = {
 }
 
 // ------------------------------------------------------------------
-
-function removeQuotes(text) {
-  if (text === '' || !text) return text
-  return text.replace(/['"]/g, '')
-}
