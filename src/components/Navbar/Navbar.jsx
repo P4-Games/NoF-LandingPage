@@ -10,6 +10,7 @@ import AccountInfo from './AccountInfo.jsx'
 import NotificationInfo from './NotificationInfo.jsx'
 import LanguageSelection from '../LanguageSelection'
 import { useLayoutContext, useWeb3Context, useNotificationContext } from '../../hooks'
+import { nofVersion } from '../../config.js'
 
 function Navbar() {
   const { t } = useTranslation()
@@ -88,6 +89,7 @@ function Navbar() {
       <Link href='/'>
         <Image src={'/images/navbar/logo-1.png'} alt='nof' height='60' width='120' />
       </Link>
+      <span className='navbar__left__nof__version'>{nofVersion}</span>
     </div>
   )
 

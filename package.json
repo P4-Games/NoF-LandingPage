@@ -22,7 +22,9 @@
     "git-config": "git config --global core.autocrlf true",
     "git-log": "git log --oneline --decorate",
     "gitp": "git log --pretty=”%s”",
-    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\""
+    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\"",
+    "docker:build": "bash ./scripts/docker-build.sh",
+    "docker:run": "bash docker run -d -p 3000:3000 --name my-nextjs-container my-nextjs-app"
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^14.0.1",
