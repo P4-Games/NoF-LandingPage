@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
-import Swal from 'sweetalert2'
-import { HiOutlineClipboardDocument } from 'react-icons/hi2'
+import Link from 'next/link'
+import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
+import { AiOutlineBank, AiOutlineSend } from 'react-icons/ai'
 import { GoLinkExternal } from 'react-icons/go'
-import { AiOutlineSend, AiOutlineBank } from 'react-icons/ai'
+import { HiOutlineClipboardDocument } from 'react-icons/hi2'
+import Swal from 'sweetalert2'
 
-import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { getBalance, getTokenName, transfer, mintDai } from '../../services/dai'
+import { useLayoutContext, useWeb3Context } from '../../hooks'
+import { getBalance, getTokenName, mintDai, transfer } from '../../services/dai'
 import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
-import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
+import { checkFloatValue1GTValue2, checkInputAddress } from '../../utils/InputValidators'
 import { getAccountAddressText } from '../../utils/stringUtils'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
@@ -21,6 +21,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     disconnectWallet,
     getCurrentNetwork,
     isValidNetwork,
+    isValidNetworkForAlpha,
     enabledNetworkNames,
     daiContract,
     isConnected
@@ -276,8 +277,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       </div>
 
       <div className='account__info__icon__container'>
-        {(currentNwk?.config.environment == 'testing' ||
-          currentNwk?.config.chainName == 'sepolia') && (
+        {(isValidNetworkForAlpha || isValidNetwork) && (
           <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
         )}
         <AiOutlineSend
