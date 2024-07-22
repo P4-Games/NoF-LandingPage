@@ -1,8 +1,8 @@
 {
   "name": "nof-landing",
-  "version": "0.1.0",
   "license": "MIT",
   "private": true,
+  "version": "0.1.219",
   "proxy": "https://gamma-microservice-7bteynlhua-uc.a.run.app",
   "scripts": {
     "dev": "next dev",
@@ -11,21 +11,25 @@
     "create-env": "printenv > .env",
     "serve": "yarn build && npm i -g http-server && http-server ./.next",
     "export": "yarn build && next export -o _static",
-    "clear-all": "rm -rf .next _static node_modules",
-    "re-start": "rm -rf .next node_modules && yarn install && yarn dev",
-    "re-build": "rm -rf .next node_modules && yarn install && yarn build",
-    "lint": "next lint",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.scss .",
-    "prettier": "./node_modules/.bin/prettier --write \"{,!(node_modules)/**/}*.{js,jsx,md,scss,tsx}\"",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && rm -rf .next/ && npm install && npm install -g generate-changelog yarn install-peerdeps",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx}\"",
+    "prettier": "prettier --write \"src/**/*.{js,jsx}\"",
+    "rm:all": "rm -rf node_modules .next out dist build",
+    "re:start": "yarn rm:all && yarn install && yarn dev",
+    "re:build": "yarn rm:all && yarn install && yarn build",
+    "re:build-npm": "npm run rm:all && npm install && npm run build",
+    "dev:ts": "yarn dev & yarn ts:watch",
     "git-prune": "git remote prune origin",
     "git-config": "git config --global core.autocrlf true",
     "git-log": "git log --oneline --decorate",
     "gitp": "git log --pretty=”%s”",
-    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\""
+    "commitlint-check-comit-msg": "npx --no-install commitlint --edit \"$1\"",
+    "pre-commit": "npm run prettier && npm run lint:fix && npm run commitlint-check-comit-msg",
+    "inspect": "cross-env NODE_OPTIONS=\"--inspect --trace-warnings\" next dev",
+    "docker:build": "bash ./scripts/docker-build.sh",
+    "docker:run": "bash docker run -d -p 3000:3000 --name my-nextjs-container my-nextjs-app"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "^14.0.1",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@sendgrid/mail": "^8.1.0",
     "@walletconnect/web3-provider": "^1.8.0",
@@ -44,7 +48,7 @@
     "next-i18next": "^15.0.0",
     "next-pwa": "^5.6.0",
     "nodemailer": "^6.9.8",
-    "prettier": "^3.0.3",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-card-flip": "^1.2.2",
     "react-dom": "18.2.0",
@@ -54,7 +58,7 @@
     "sharp": "0.32.6",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.6.15",
-    "swiper": "^8.4.5",
+    "swiper": "8.4.5",
     "swr": "^2.0.3",
     "url-loader": "^4.1.1",
     "use-local-storage": "^2.3.6",
@@ -63,11 +67,23 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.1",
-    "eslint-config-prettier": "^9.0.0",
+    "@next/eslint-plugin-next": "^14.0.4",
+    "eslint": "^8.55.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-perfectionist": "^2.5.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
     "file-loader": "^6.2.0",
-    "pre-commit": "^1.2.2"
+    "husky": "^8.0.3",
+    "pre-commit": "^1.2.2",
+    "prettier": "^3.1.0"
   },
   "cacheDirectories": [
     ".next/cache"
@@ -85,16 +101,13 @@
     ]
   },
   "engines": {
-    "node": "^16 || ^17 || ^18",
-    "npm": "^8.1.0 || ^8.5.0 || ^9.8.1",
-    "yarn": "^1.22.10 || ^1.22.19"
+    "node": ">=16.0.0",
+    "npm": ">=8.1.0",
+    "yarn": ">=1.22.10"
   },
-  "pre-commit": {
-    "precommit.silent": true,
-    "run": [
-      "commitlint-check-comit-msg",
-      "lint:fix",
-      "prettier"
-    ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
   }
 }

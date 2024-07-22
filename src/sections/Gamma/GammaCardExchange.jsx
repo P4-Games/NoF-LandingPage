@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect } from 'react'
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types'
-import CustomImage from '../../components/CustomImage'
-import { storageUrlGamma } from '../../config'
-import { emitError, emitSuccess, emitWarning } from '../../utils/alert'
 import { useTranslation } from 'next-i18next'
+import React, { useEffect, useCallback } from 'react'
+
+import { storageUrlGamma } from '../../config'
+import CustomImage from '../../components/CustomImage'
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { confirmOfferExchange, hasCard } from '../../services/gamma'
 import { getAccountAddressText } from '../../utils/stringUtils'
+import { hasCard, confirmOfferExchange } from '../../services/gamma'
+import { emitError, emitSuccess, emitWarning } from '../../utils/alert'
 
 const GammaCardExchange = (props) => {
   const { handleFinishCardExchange, offerData, selectedOfferId, selectedCardNumber } = props
@@ -31,11 +33,11 @@ const GammaCardExchange = (props) => {
       null
     ])
     updateButtonFunctions(2, handleCancelClick)
-  }, [handleCancelClick]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleCancelClick]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     updateButtonFunctions(1, handleConfirmClick)
-  }, [handleConfirmClick]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleConfirmClick]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const userOfferHasCard = (item, userOfferWalletAddress) => {
     let result = false
@@ -95,12 +97,12 @@ const GammaCardExchange = (props) => {
       console.error({ e })
       emitError(t('offer_exchange_error'))
     }
-  }, [selectedOfferId, selectedCardNumber]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [selectedOfferId, selectedCardNumber]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCancelClick = useCallback(() => {
     ToggleShowDefaultButtons(true)
     handleFinishCardExchange(false)
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const CardItem = ({ cardNumber, text, wallet, you = false }) => (
     <div className='gamma__cards__exchange__item'>
@@ -133,9 +135,9 @@ const GammaCardExchange = (props) => {
         <div className='gamma__cards__exchange__container'>
           <CardItem
             cardNumber={selectedCardNumber}
-            text={'exhange_cards_to_send'}
+            text='exhange_cards_to_send'
             wallet={walletAddress}
-            you={true}
+            you
           />
           <div className='gamma__cards__exchange__center'>
             <p className='gamma__cards__exchange__transfer'>{`${t('offer_exchange_title')}`}</p>
@@ -143,7 +145,7 @@ const GammaCardExchange = (props) => {
           {selectedOfferId && (
             <CardItem
               cardNumber={getSelectedOffer(selectedOfferId).offerCard}
-              text={'exhange_cards_to_receive'}
+              text='exhange_cards_to_receive'
               wallet={getSelectedOffer(selectedOfferId).offerWallet}
             />
           )}

@@ -1,21 +1,15 @@
-import { createContext, useState, useEffect, useContext } from 'react'
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/jsx-no-constructed-context-values */
 import PropTypes from 'prop-types'
 import { v4 as uuidv4 } from 'uuid'
-import { Web3Context } from './Web3Context'
+import { useState, createContext } from 'react'
+// import { Web3Context } from './Web3Context'
 
 export const NotificationContext = createContext()
 
-export const NotificationProvider = ({ children }) => {
+export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([])
-  const { walletAddress } = useContext(Web3Context)
-
-  const getNotificationsByUser = (user) => {
-    if (!user) return notifications
-    const myNotifications = notifications.filter(
-      (notification) => notification.walletAddress === user && notification.deleted === false
-    )
-    return filterUniqueNotifications(myNotifications)
-  }
+  // const { walletAddress } = useContext(Web3Context)
 
   const filterUniqueNotifications = (notificationList) => {
     const uniqueIdentifiers = new Set()
@@ -29,18 +23,28 @@ export const NotificationProvider = ({ children }) => {
     })
   }
 
+  const getNotificationsByUser = (user) => {
+    if (!user || !notifications.length) return notifications
+    const myNotifications = notifications.filter(
+      (notification) => notification.walletAddress === user && notification.deleted === false
+    )
+    return filterUniqueNotifications(myNotifications)
+  }
+
+  /*
   useEffect(() => {
     const filteredNotifications = getNotificationsByUser(walletAddress)
     setNotifications(filteredNotifications)
   }, [walletAddress]) //eslint-disable-line react-hooks/exhaustive-deps
+  */
 
   const addNotification = (user, message, data) => {
     const date = new Date().toLocaleString()
     const newNotification = {
       id: uuidv4(),
-      date: date,
+      date,
       walletAddress: user,
-      message: message,
+      message,
       data: data || [],
       read: false,
       deleted: false

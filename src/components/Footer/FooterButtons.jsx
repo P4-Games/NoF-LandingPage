@@ -1,5 +1,9 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react'
 import Link from 'next/link'
+
 import { useLayoutContext } from '../../hooks'
 
 function FooterButtons() {
@@ -45,9 +49,7 @@ function FooterButtons() {
           className={
             (footerButtonsClasses && footerButtonsClasses[0]) ?? 'footer__buttons__bluebtn_custom'
           }
-        >
-          <></>
-        </div>
+        />
       )}
       {showButtons[1] && buttonFunctions && buttonFunctions[1] && (
         <div
@@ -57,9 +59,7 @@ function FooterButtons() {
           className={
             (footerButtonsClasses && footerButtonsClasses[1]) ?? 'footer__buttons__greenbtn_custom'
           }
-        >
-          <></>
-        </div>
+        />
       )}
       {showButtons[2] && buttonFunctions && buttonFunctions[2] && (
         <div
@@ -69,9 +69,7 @@ function FooterButtons() {
           className={
             (footerButtonsClasses && footerButtonsClasses[2]) ?? 'footer__buttons__redbtn_custom'
           }
-        >
-          <></>
-        </div>
+        />
       )}
       {showButtons[3] && buttonFunctions && buttonFunctions[3] && (
         <div
@@ -81,9 +79,7 @@ function FooterButtons() {
           className={
             (footerButtonsClasses && footerButtonsClasses[3]) ?? 'footer__buttons__yellowbtn_custom'
           }
-        >
-          <></>
-        </div>
+        />
       )}
     </div>
   )

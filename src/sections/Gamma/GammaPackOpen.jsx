@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types'
-import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { useRef, useEffect } from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import GammaPackOpenCards from './GammaPackOpenCards'
+
 import { storageUrlGamma } from '../../config'
 import { useLayoutContext } from '../../hooks'
+import GammaPackOpenCards from './GammaPackOpenCards'
 
 const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumbers }) => {
   const starshineRef = useRef(null)
@@ -42,62 +43,58 @@ const GammaPackOpen = ({ setPackIsOpen, openPackage, setOpenPackage, cardsNumber
   }, [])
 
   return (
-    <>
-      <div className='packcontainer'>
-        <div id='starshine' ref={starshineRef}>
-          <div className='template shine' ref={templateRef} />
-        </div>
-        <motion.div
-          animate={openPackage ? { display: 'none' } : ''}
-          transition={{ delay: 5 }}
-          className={loading ? 'pack packloader' : 'pack'}
-        >
-          <motion.img
-            animate={
-              openPackage
-                ? {
-                    opacity: 0,
-                    x: -275,
-                    zIndex: 111111
-                  }
-                : ''
-            }
-            transition={{ duration: 2, delay: 0 }}
-            id='top'
-            src='/images/gamma/SobreTop.png'
-            alt=''
-          />
-          <motion.img
-            animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
-            transition={{ duration: 1, delay: 3 }}
-            id='bottom'
-            src='/images/gamma/SobreBottom.png'
-            alt=''
-          />
-          {cardsNumbers && (
-            <motion.img
-              animate={openPackage ? { y: -100 } : ''}
-              transition={{ duration: 3, delay: 1 }}
-              id='imagetest'
-              src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`}
-              alt='img'
-            />
-          )}
-        </motion.div>
-        {!loading && (
-          <AiOutlineCloseCircle
-            onClick={() => {
-              setPackIsOpen(false)
-              setOpenPackage(false)
-            }}
-            className='closebutton'
-          />
-        )}
-        {openPackage && (
-          <GammaPackOpenCards openPackage={openPackage} cardsNumbers={cardsNumbers} />
-        )}
+    <div className='packcontainer'>
+      <div id='starshine' ref={starshineRef}>
+        <div className='template shine' ref={templateRef} />
       </div>
-    </>
+      <motion.div
+        animate={openPackage ? { display: 'none' } : ''}
+        transition={{ delay: 5 }}
+        className={loading ? 'pack packloader' : 'pack'}
+      >
+        <motion.img
+          animate={
+            openPackage
+              ? {
+                  opacity: 0,
+                  x: -275,
+                  zIndex: 111111
+                }
+              : ''
+          }
+          transition={{ duration: 2, delay: 0 }}
+          id='top'
+          src='/images/gamma/SobreTop.png'
+          alt=''
+        />
+        <motion.img
+          animate={openPackage ? { opacity: 0, zIndex: 111111 } : ''}
+          transition={{ duration: 1, delay: 3 }}
+          id='bottom'
+          src='/images/gamma/SobreBottom.png'
+          alt=''
+        />
+        {cardsNumbers && (
+          <motion.img
+            animate={openPackage ? { y: -100 } : ''}
+            transition={{ duration: 3, delay: 1 }}
+            id='imagetest'
+            src={`${storageUrlGamma}/T1/${cardsNumbers && cardsNumbers[0]}.png`}
+            alt='img'
+          />
+        )}
+      </motion.div>
+      {!loading && (
+        <AiOutlineCloseCircle
+          onClick={() => {
+            setPackIsOpen(false)
+            setOpenPackage(false)
+          }}
+          className='closebutton'
+        />
+      )}
+      {openPackage && <GammaPackOpenCards openPackage={openPackage} cardsNumbers={cardsNumbers} />}
+    </div>
   )
 }
 

@@ -21,6 +21,7 @@ hardhat.config.ts
 # misc
 .DS_Store
 *.pem
+.todo.md
 
 # debug
 npm-debug.log*

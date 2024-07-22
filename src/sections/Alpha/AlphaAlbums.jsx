@@ -1,28 +1,30 @@
-import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
+/* eslint-disable import/no-unresolved */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @next/next/no-img-element */
 import 'swiper/css'
-import 'swiper/css/effect-fade'
+import Swal from 'sweetalert2'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
+import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, {
+  A11y,
   Autoplay,
+  Parallax,
+  Scrollbar,
   Navigation,
   Pagination,
-  Scrollbar,
-  A11y,
-  Parallax,
   EffectCards
 } from 'swiper'
-import Swal from 'sweetalert2'
-import { storageUrlAlpha } from '../../config'
-import { useTranslation } from 'next-i18next'
-import CustomImage from '../../components/CustomImage'
+
 import { useWeb3Context } from '../../hooks'
-import { emitError, emitSuccess } from '../../utils/alert'
+import { storageUrlAlpha } from '../../config'
+import CustomImage from '../../components/CustomImage'
 
 SwiperCore.use([Parallax, Autoplay, Navigation, Pagination, Scrollbar, A11y])
-
 const AlphaAlbums = ({ albums, setSeasonName }) => {
   const { t } = useTranslation()
   const noAlbumMessage = t('juega_para_completar')
@@ -41,10 +43,9 @@ const AlphaAlbums = ({ albums, setSeasonName }) => {
       }
       setOpenSeaUrl(openSeaUrlGamma)
     }
-  }, [getCurrentNetwork, alphaContract])
+  }, [alphaContract])
 
   const handleRedirectAlbum = (album) => {
-    console.log('handleRedirectAlbum', album)
     if (album[0].completion === 5) {
       // Open the album on OpenSea if the completion status is 5
       window.open(`${openSeaUrl}/${album[0].tokenId}`, '_blank')
@@ -64,7 +65,7 @@ const AlphaAlbums = ({ albums, setSeasonName }) => {
         {albums && (
           <div>
             <div className='alpha_albums_season'>
-              <img alt='alpha-full' src={'/images/common/marco.png'} />
+              <img alt='alpha-full' src='/images/common/marco.png' />
               <span className='alpha_albums_season_name'>
                 {seasonNameAlbum || 'Number One Fan'}
               </span>

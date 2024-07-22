@@ -2,7 +2,7 @@ name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, feature/version-auto ]
 
 env:
   PROJECT_ID: number-one-fan
@@ -25,7 +25,12 @@ jobs:
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v0'
-      
+
+      - name: Set NOF_VERSION in environment
+        id: env-nof-version
+        run: |
+          bash ./scripts/product_version.sh -v patch
+
       - name: Build Docker Image
         run: docker build -t ${{ env.IMAGE_NAME }}:latest .
 

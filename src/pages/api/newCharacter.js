@@ -15,7 +15,8 @@ const getRandomCharacterID = async (db, channelId) => {
 
   if (characterID === null) {
     return null // Personaje ya fue reclamado
-  } else if (characterID === 0) {
+  }
+  if (characterID === 0) {
     return 0 // Número aleatorio no encontrado
   }
 

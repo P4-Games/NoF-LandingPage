@@ -1,18 +1,22 @@
-import React, { useState } from 'react'
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { FcCheckmark } from 'react-icons/fc'
-import { FaTrash } from 'react-icons/fa'
-import { FaUndo } from 'react-icons/fa'
-import { MdOutlineLocalOffer } from 'react-icons/md'
 import { useTranslation } from 'next-i18next'
-import { storageUrlGamma } from '../../config'
-import CustomImage from '../../components/CustomImage'
-import FlipBook from '../../components/FlipBook'
-import GammaCardInfo from './GammaCardInfo'
-import GammaAlbumInfo from './GammaAlbumInfo'
-import GammaCardOffers from './GammaCardOffers'
-import { emitInfo } from '../../utils/alert'
+import { FaUndo, FaTrash } from 'react-icons/fa'
+import { MdOutlineLocalOffer } from 'react-icons/md'
 
+import GammaCardInfo from './GammaCardInfo'
+import { emitInfo } from '../../utils/alert'
+import GammaAlbumInfo from './GammaAlbumInfo'
+import { storageUrlGamma } from '../../config'
+import GammaCardOffers from './GammaCardOffers'
+import FlipBook from '../../components/FlipBook'
+import CustomImage from '../../components/CustomImage'
 import { getOffersByCardNumber } from '../../services/offers'
 import { useWeb3Context, useLayoutContext, useGammaDataContext } from '../../hooks'
 
@@ -77,7 +81,7 @@ const GammaAlbum = (props) => {
 */
 
   function isCardNumberInCardsToBurn(cardNumber) {
-    return cardsToBurn.includes(parseInt(cardNumber))
+    return cardsToBurn.includes(parseInt(cardNumber, 10))
   }
 
   const handleOpenCardOffers = async () => {
@@ -145,7 +149,7 @@ const GammaAlbum = (props) => {
 
     setImageNumber(cardNumber)
 
-    if (parseInt(cardNumber) === 120 || parseInt(cardNumber) === 121) {
+    if (parseInt(cardNumber, 10) === 120 || parseInt(cardNumber, 10) === 121) {
       setAlbumInfoOpened(true)
       setAlbumInfo(true)
     } else {
@@ -168,8 +172,8 @@ const GammaAlbum = (props) => {
       paginationObjBurn.user[cardNumber]?.quantity < 3
     ) {
       /* Si la carta tiene oferta, el usuario se tiene que quedar con
-         un mínimo de 2 copias. 1 para Él, otra para la oferta. 
-         A partir de la 3ra. puede quemar.
+        un mínimo de 2 copias. 1 para Él, otra para la oferta. 
+        A partir de la 3ra. puede quemar.
       */
       emitInfo(t('burn_select_cart_offered', 5000))
       return
@@ -196,13 +200,12 @@ const GammaAlbum = (props) => {
         user: updatedUser
       }
     })
-    // paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity - 1
   }
 
   const handleCardBurnUndoClick = (cardNumber) => {
     setCurrentPage(getCurrentPage())
     setCardsQttyToBurn(cardsQttyToBurn - 1)
-    paginationObjBurn.user[cardNumber].quantity = paginationObjBurn.user[cardNumber].quantity + 1
+    paginationObjBurn.user[cardNumber].quantity += 1
 
     // se hace con index, dado que el array puede tener cardNumbers repetidos.
     const indexToRemove = cardsToBurn.indexOf(cardNumber)
@@ -445,9 +448,9 @@ const GammaAlbum = (props) => {
     index: PropTypes.number
   }
 
-  const getUserCardObject = (imageNumber) => {
+  const getUserCardObject = (imgNbr) => {
     const data = paginationObj
-      ? Object.values(paginationObj.user).find((entry) => entry.name === imageNumber.toString())
+      ? Object.values(paginationObj.user).find((entry) => entry.name === imgNbr.toString())
       : {}
     return data
   }
@@ -474,6 +477,8 @@ const GammaAlbum = (props) => {
       case ALBUMS.ALBUM_TO_BURN:
         _className = 'hero__top__album__toburn'
         qttyPages = 5
+        break
+      default:
         break
     }
 

@@ -1,4 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
 import OfflineMain from '../sections/Offline'
 
 const Offline = () => <OfflineMain />

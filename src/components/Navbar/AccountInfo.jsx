@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-unstable-nested-components */
 import Link from 'next/link'
-import { useTranslation } from 'next-i18next'
 import Swal from 'sweetalert2'
-import { HiOutlineClipboardDocument } from 'react-icons/hi2'
+import PropTypes from 'prop-types'
+import { useTranslation } from 'next-i18next'
 import { GoLinkExternal } from 'react-icons/go'
+import { HiOutlineClipboardDocument } from 'react-icons/hi2'
 import { AiOutlineSend, AiOutlineBank } from 'react-icons/ai'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import { useWeb3Context, useLayoutContext } from '../../hooks'
-import { getBalance, getTokenName, transfer, mintDai } from '../../services/dai'
-import { emitError, emitInfo, emitSuccess } from '../../utils/alert'
-import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
 import { getAccountAddressText } from '../../utils/stringUtils'
+import { emitInfo, emitError, emitSuccess } from '../../utils/alert'
+import { mintDai, transfer, getBalance, getTokenName } from '../../services/dai'
+import { checkInputAddress, checkFloatValue1GTValue2 } from '../../utils/InputValidators'
 
 const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   const { t } = useTranslation()
@@ -33,7 +37,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const currentNwk = getCurrentNetwork()
 
-  const fetchTokenName = async () => {
+  const fetchTokenName = useCallback(async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const token = await getTokenName(daiContract)
@@ -41,13 +45,9 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     } catch (e) {
       console.error({ e })
     }
-  }
+  }, [walletAddress, daiContract, isValidNetwork])
 
-  useEffect(() => {
-    fetchTokenName()
-  }, [showAccountInfo, tokenName, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchBalance = async () => {
+  const fetchBalance = useCallback(async () => {
     if (!walletAddress || !daiContract || !isValidNetwork) return
     try {
       const balance = await getBalance(daiContract, walletAddress)
@@ -55,11 +55,15 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
     } catch (e) {
       console.error({ e })
     }
-  }
+  }, [walletAddress, daiContract, isValidNetwork])
+
+  useEffect(() => {
+    fetchTokenName()
+  }, [walletAddress, daiContract, isValidNetwork]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchBalance()
-  }, [showAccountInfo, walletBalance, walletAddress, isValidNetwork]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [walletBalance, walletAddress, isValidNetwork]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text)
@@ -98,16 +102,11 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
           const amountInput = Swal.getPopup().querySelector('#amount')
           const amount = amountInput.value
 
-          if (isNaN(amount)) {
+          if (Number.isNaN(amount)) {
             amountInput.classList.add('swal2-inputerror')
             Swal.showValidationMessage(`${t('amount_invalid')}`)
-          } else {
-            if (isNaN(amount)) {
-              amountInput.classList.add('swal2-inputerror')
-              Swal.showValidationMessage(`${t('amount_invalid')}`)
-            }
           }
-          return { amount: amount }
+          return { amount }
         }
       })
 
@@ -174,7 +173,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
               Swal.showValidationMessage(`${t('quantity_invalid')}`)
             }
           }
-          return { wallet: wallet, amount: amount }
+          return { wallet, amount }
         }
       })
 
@@ -193,6 +192,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const ConnectButton = () => (
     <button
+      type='button'
       onClick={() => {
         connectWallet()
         setShowAccountInfo(false)
@@ -205,6 +205,7 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
 
   const DisconnectButton = () => (
     <button
+      type='button'
       onClick={() => {
         disconnectWallet()
         setShowAccountInfo(false)
@@ -230,16 +231,6 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
             : t('account_invalid_network').replace('{NETWORKS}', enabledNetworkNames)}
         </p>
       </div>
-      {/*!isValidNetwork && (
-        <div className='account__info__icon__container'>
-          <MdOutlinePublishedWithChanges
-            onClick={() => {
-              switchOrCreateNetwork()
-            }}
-            className='account__info__icon'
-          />
-        </div>
-      )*/}
     </div>
   )
 
@@ -276,8 +267,8 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
       </div>
 
       <div className='account__info__icon__container'>
-        {(currentNwk?.config.environment == 'testing' ||
-          currentNwk?.config.chainName == 'sepolia') && (
+        {(currentNwk?.config.environment === 'testing' ||
+          currentNwk?.config.chainName === 'sepolia') && (
           <AiOutlineBank onClick={() => handleMintDaiClick()} className='account__info__icon' />
         )}
         <AiOutlineSend
@@ -305,22 +296,22 @@ const AccountInfo = ({ showAccountInfo, setShowAccountInfo }) => {
   return (
     <div className={`account__info ${showAccountInfo ? 'active' : ''}`}>
       {isConnected ? (
-        <React.Fragment>
+        <>
           <div className='account__info__data'>
             <NetworkComponent />
             {isValidNetwork && (
-              <React.Fragment>
+              <>
                 <hr className='account__info__separator' />
                 <WalletComponent />
                 <BalanceComponent />
-              </React.Fragment>
+              </>
             )}
           </div>
           <hr className='account__info__separator' />
           <div className='account__info__disconnect__btn__container'>
             <DisconnectButton />
           </div>
-        </React.Fragment>
+        </>
       ) : (
         <div className='account__info__disconnect__btn__container'>
           <ConnectButton />

@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable spaced-comment */
+/* eslint-disable react/jsx-fragments */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-curly-brace-presence */
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/forbid-prop-types */
+import moment from 'moment'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'next-i18next'
-import moment from 'moment'
 import { VscMailRead } from 'react-icons/vsc'
-import { IoMailUnreadOutline } from 'react-icons/io5'
 import { RiDeleteBin2Line } from 'react-icons/ri'
+/* eslint-disable react/require-default-props */
+import React, { useState, useEffect } from 'react'
+import { IoMailUnreadOutline } from 'react-icons/io5'
 
-import { useWeb3Context, useNotificationContext, useSettingsContext } from '../../hooks'
+import { useWeb3Context, useSettingsContext, useNotificationContext } from '../../hooks'
 
 const NotificationInfo = ({ showNotificationInfo }) => {
   const { t } = useTranslation()
   const {
-    notifications,
     getNotificationsByUser,
     readNotification,
     deleteNotification,
@@ -28,7 +39,7 @@ const NotificationInfo = ({ showNotificationInfo }) => {
 
   useEffect(() => {
     setUpdatedNotifications(getNotificationsByUser(walletAddress))
-  }, [showNotificationInfo, notifications, walletAddress, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [showNotificationInfo, walletAddress, languageSetted]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const formatNotificationDate = (date) => {
     moment.locale(languageSetted)
@@ -102,6 +113,7 @@ const NotificationInfo = ({ showNotificationInfo }) => {
     deleteAllNotifications(walletAddress)
   }
 
+  // eslint-disable-next-line react/function-component-definition, react/no-unstable-nested-components
   const NotificationTitle = () =>
     updatedNotifications && updatedNotifications.length > 0 ? (
       <div className='notification__info__icon__and__link'>
@@ -137,10 +149,13 @@ const NotificationInfo = ({ showNotificationInfo }) => {
       </div>
     )
 
+  // eslint-disable-next-line react/function-component-definition
   const NotificationMessage = ({ notification }) => (
     <React.Fragment>
       <div className='notification__info__icon__and__link'>
         <div className='notification__info__link__container'>
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+          jsx-a11y/click-events-have-key-events
           <p
             className='notification__info__notification__message'
             onClick={(event) => {
@@ -186,25 +201,29 @@ const NotificationInfo = ({ showNotificationInfo }) => {
     </React.Fragment>
   )
 
-  const NotificationMessages = () => (
-    <React.Fragment>
-      {updatedNotifications.slice(0, 7).map((notification, index) => (
-        <NotificationMessage key={`notif-${index}`} notification={notification} />
-      ))}
-      {/*
+  function NotificationMessages() {
+    return (
+      <React.Fragment>
+        {updatedNotifications.slice(0, 7).map((notification, index) => (
+          <NotificationMessage key={`notif-${index}`} notification={notification} />
+        ))}
+        {/*
       <hr className='notification__info__separator' />
       <div className='notification__info__view__all'>{t('notification_view_all')}</div>
       */}
-    </React.Fragment>
-  )
+      </React.Fragment>
+    )
+  }
 
-  const NoMessages = () => (
-    <React.Fragment>
-      <div className='notification__info__icon__and__link'>
-        <p className='notification__info__no__messages'>{t('notification_no_messages')}</p>
-      </div>
-    </React.Fragment>
-  )
+  function NoMessages() {
+    return (
+      <React.Fragment>
+        <div className='notification__info__icon__and__link'>
+          <p className='notification__info__no__messages'>{t('notification_no_messages')}</p>
+        </div>
+      </React.Fragment>
+    )
+  }
 
   NotificationMessage.propTypes = {
     notification: PropTypes.object

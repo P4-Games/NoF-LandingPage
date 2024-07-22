@@ -1,5 +1,6 @@
 import nodeMailer from 'nodemailer'
 import sgMail from '@sendgrid/mail'
+
 import { MAIL_CONFIG, MAIL_CLIENT } from '../../../config'
 
 async function sendWithEthereal(subject, textContent, htmlContent, mailTo) {
@@ -15,7 +16,7 @@ async function sendWithEthereal(subject, textContent, htmlContent, mailTo) {
     const mailOptions = {
       from: MAIL_CONFIG.from,
       to: mailTo,
-      subject: subject,
+      subject,
       text: textContent,
       html: htmlContent
     }
@@ -27,11 +28,11 @@ async function sendWithEthereal(subject, textContent, htmlContent, mailTo) {
         return true
       })
       .catch((e) => {
-        console.error('mail error: ' + e.message)
+        console.error(`mail error: ${e.message}`)
         return false
       })
   } catch (e) {
-    console.error('mail error: ' + e.message)
+    console.error(`mail error: ${e.message}`)
     return false
   }
 }
@@ -41,7 +42,7 @@ async function sendWithSendGrid(subject, textContent, htmlContent, mailTo) {
     const data = {
       from: MAIL_CONFIG.sg_from,
       to: mailTo,
-      subject: subject,
+      subject,
       text: textContent,
       html: htmlContent
     }
@@ -53,11 +54,11 @@ async function sendWithSendGrid(subject, textContent, htmlContent, mailTo) {
         return true
       })
       .catch((e) => {
-        console.error('mail error: ' + e.message)
+        console.error(`mail error: ${e.message}`)
         return false
       })
   } catch (e) {
-    console.error('mail error: ' + e.message)
+    console.error(`mail error: ${e.message}`)
     return false
   }
 }
@@ -82,7 +83,7 @@ function getHtmlTemplate(content) {
 }
 
 export async function sendMail(subject, textContent, htmlContent, mailTo) {
-  var result = false
+  let result = false
 
   try {
     switch (MAIL_CONFIG.client) {
@@ -98,7 +99,7 @@ export async function sendMail(subject, textContent, htmlContent, mailTo) {
     }
     return result
   } catch (e) {
-    console.error('mail error: ' + e.message)
+    console.error(`mail error: ${e.message}`)
     return false
   }
 }

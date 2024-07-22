@@ -35,7 +35,7 @@ Create a .env file running the command in terminal
 touch .env
 ```
 
-The environment variables bellow needs to be set in the .env file when project is running locally:
+The environment variables bellow needs to be set in the .env:
 
 ```sh
 SKIP_PREFLIGHT_CHECK=true
@@ -49,6 +49,10 @@ GAMMA_SERVICE_URL='https://gamma-microservice-7bteynlhua-uc.a.run.app'
 GRAPH_URL='https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
 WALLET_CONNECT_PROJECT_ID={you project ID from walletconnect.com}
 CHAIN_NODE_PROVIDER_URL='https://polygon-mumbai.g.alchemy.com/v2/YOUR_API_KEY'
+NODE_PROVIDER_MUMBAI_URL='https://stylish-dawn-bush.bsc-testnet.quiknode.pro/{YOUR_NODE_PROVIDER_KEY}'
+NODE_PROVIDER_BSC_TESTNET_URL='https://bsc-testnet.nodereal.io/v1/{YOUR_NODE_PROVIDER_KEY}'
+NODE_PROVIDER_OPBNB_TESTNET='https://opbnb-testnet.nodereal.io/v1/{YOUR_NODE_PROVIDER_KEY}'
+NOF_VERSION='v0.0.0'
 
 # Client-side
 NEXT_PUBLIC_APP_ENV='development'
@@ -63,18 +67,12 @@ NEXT_PUBLIC_NOF_GAMMA_CARDS_HARDHAT_CONTRACT_ADDRESS=''
 NEXT_PUBLIC_NOF_GAMMA_PACKS_HARDHAT_CONTRACT_ADDRESS=''
 NEXT_PUBLIC_NOF_GAMMA_OFFERS_HARDHAT_CONTRACT_ADDRESS=''
 NEXT_PUBLIC_NOF_GAMMA_TICKETS_HARDHAT_CONTRACT_ADDRESS=''
-
-
 ```
 
-The source code of the smart contracts is located at [https://github.com/P4-Games/NoF-Smart-Contracts](https://github.com/P4-Games/NoF-Smart-Contracts). If you want to run them locally (example: on a hardhat or ganache node), after compiling them locally, change the addresses in the .env and set these options to network:
+The source code of the smart contracts is located at [https://github.com/P4-Games/NoF-Smart-Contracts](https://github.com/P4-Games/NoF-Smart-Contracts). 
 
-```sh
-NEXT_PUBLIC_CHAIN_NAME='localhost'
-NEXT_PUBLIC_CHAIN_ID='0x539'
-NEXT_PUBLIC_CHAIN_CURRENCY='ETH'
-NEXT_PUBLIC_CHAIN_RPC_URL='http://localhost:8545'
-```
+
+All the environment variables needed are in the [example_env](./example_env) file.
 
 # Quick commands
 

@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable react/jsx-filename-extension */
 import PropTypes from 'prop-types'
-import React, { useCallback, createContext, useEffect, useState, useRef } from 'react'
+import React, { useRef, useState, useEffect, useCallback, createContext } from 'react'
 
 const initialState = {
   windowSize: { size: false, mobile: false },
@@ -135,4 +137,4 @@ function LayoutProvider({ children }) {
   )
 }
 
-export { LayoutProvider, LayoutContext }
+export { LayoutContext, LayoutProvider }

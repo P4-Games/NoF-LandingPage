@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { appWithTranslation } from 'next-i18next'
+
 import '../styles/index.scss'
 import '../styles/alpha.scss'
 import '../styles/gamma.scss'
@@ -7,22 +9,21 @@ import '../styles/admin.scss'
 import '../styles/common.scss'
 import '../styles/offline.scss'
 import '../styles/gamma-flip-cards.scss'
-
-import { appWithTranslation } from 'next-i18next'
-import { Web3ContextProvider } from '../context/Web3Context'
-import { NotificationProvider } from '../context/NotificationContext'
-import { SettingsProvider } from '../context/SettingsContext'
-import { LayoutProvider } from '../context/LayoutContext'
 import Layout from '../components/Layout'
+import { LayoutProvider } from '../context/LayoutContext'
+import { Web3ContextProvider } from '../context/Web3Context'
+import { SettingsProvider } from '../context/SettingsContext'
+import { NotificationProvider } from '../context/NotificationContext'
+
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if ('serviceWorker' in navigator && window && !window.location.hostname.includes('localhost')) {
-      window.addEventListener('load', function () {
+      window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js', { type: 'module' }).then(
-          function (registration) {
-            console.log('Service Worker registration successful with scope: ', registration.scope)
+          (registration) => {
+            console.info('Service Worker registration successful with scope: ', registration.scope)
           },
-          function (err) {
+          (err) => {
             console.error('Service Worker registration failed: ', err)
           }
         )

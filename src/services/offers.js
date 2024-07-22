@@ -1,6 +1,8 @@
+/* eslint-disable no-restricted-syntax */
 import { v4 as uuidv4 } from 'uuid'
-import { getUserMissingCards } from './gamma'
+
 import { handleError } from './handleError'
+import { getUserMissingCards } from './gamma'
 
 export const createOffer = async (offersContract, cardNumber, wantedCardNumbers) => {
   for (const wantedCard of wantedCardNumbers) {
@@ -52,19 +54,6 @@ export const canAnyUserPublishOffer = async (offersContract) => {
   }
 }
 
-/*
-export const getOffersByUser = async (offersContract, userAddress) => {
-  try {
-    const trx = await offersContract.getOffersByUser(userAddress)
-    const result = await trx.wait()
-    return result
-  } catch (e) {
-    handleError(userAddress, 'getOffersByUser', e)
-    throw e
-  }
-}
-*/
-
 export const getOffersByCardNumber = async (offersContract, cardsContract, cardNumber) => {
   try {
     if (!offersContract) return
@@ -85,11 +74,11 @@ export const getOffersByCardNumber = async (offersContract, cardsContract, cardN
         }
 
         return {
-          offerId: offerId,
-          offerCard: parseInt(offerCard),
+          offerId,
+          offerCard: parseInt(offerCard, 10),
           wantedCards: cards,
-          offerWallet: offerWallet,
-          timeStamp: timeStamp,
+          offerWallet,
+          timeStamp,
           auto: wantedCards.length === 0,
           // Desde que un usuario, creó una oferta, pudo haber completado cartas
           // por lo que getUserMissingCards no devolverá nada, quedando inválida.

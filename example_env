@@ -20,6 +20,7 @@ NEXT_PUBLIC_APP_ENV='development'
 NEXT_PUBLIC_STORAGE_URL_ALPHA='https://storage.googleapis.com/nof-alpha'
 NEXT_PUBLIC_STORAGE_URL_GAMMA='https://storage.googleapis.com/nof-gamma'
 NEXT_PUBLIC_ADMIN_ACCOUNTS='0x...,0X....,0xfa3....' // accounts separated by a comma
+NOF_VERSION='v0.1.219'
 
 // Only por local environment to put contracts addresses from hardhat
 NEXT_PUBLIC_NOF_DAI_CONTRACT_CURRENT_ADDRESS=''

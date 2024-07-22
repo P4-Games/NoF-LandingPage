@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import connectToDatabase from '../../utils/db'
 
 export default async function handler(req, res) {

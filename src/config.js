@@ -2,7 +2,7 @@
 // Environment configuration
 // 
 // Environment variables are only available in the Node.js (server-side) environment, meaning they won't be exposed to the browser.
-// (You can't see with console.log(variable_name)!!!)
+// (You can't see with console log(variable_name)!!!)
 // 
 // In order to expose a variable to the browser (client-side) you have to prefix the variable with NEXT_PUBLIC_. 
 // The environment variables without that prefix are accessible in the nextJs backend (nodeJs) and UNDEFINED on the frontend 
@@ -14,14 +14,19 @@
 // server-side environment variables
 // ------------------------------------------------------------------
 */
+
+import { removeQuotes } from './utils/stringUtils'
+
 export const MONGODB = process.env.MONGODB || 'mongodb://localhost:27017'
 export const environment = (process.env.NEXT_PUBLIC_APP_ENV || 'testing').toLowerCase()
 
 export const gammaServiceUrl =
   process.env.GAMMA_SERVICE_URL || 'https://gamma-microservice-7bteynlhua-uc.a.run.app'
 
+/*
 export const graphUrl =
   process.env.GRAPH_URL || 'https://api.thegraph.com/subgraphs/name/tomasfrancizco/nof_polygon'
+*/
 
 export const MAIL_CONFIG = {
   client: process.env.MAIL_CLIENT || 'sendgrid',
@@ -30,7 +35,7 @@ export const MAIL_CONFIG = {
   sg_key: process.env.MAIL_SG_KEY,
   sg_from: process.env.MAIL_SG_FROM || 'no-reply@nof.town',
   ethereal_host: process.env.MAIL_ETHEREAL_HOST || 'smtp.ethereal.email',
-  ethereal_port: parseInt(process.env.MAIL_ETHEREAL_PORT || 587),
+  ethereal_port: parseInt(process.env.MAIL_ETHEREAL_PORT || 587, 10),
   ethereal_user: process.env.MAIL_ETHEREAL_USER,
   ethereal_pswd: process.env.MAIL_ETHEREAL_PSWD
 }
@@ -52,6 +57,7 @@ export const storageUrlGamma =
   process.env.NEXT_PUBLIC_STORAGE_URL_GAMMA || 'https://storage.googleapis.com/nof-gamma'
 export const adminAccounts =
   process.env.NEXT_PUBLIC_ADMIN_ACCOUNTS || '0x8a8F5e5ae88532c605921f320a92562c9599fB9E'
+export const nofVersion = process.env.NOF_VERSION || 'v0.1.219'
 
 // ------------------------------------------------------------------
 // calculated variables
@@ -94,9 +100,12 @@ export const NETWORKS = {
   hardhat: {
     config: {
       enabled: 'true',
-      environment: 'development',
+      environments: ['development'],
       chainName: 'localhost',
-      chainId: '0x539',
+      chainId: {
+        h: '0x539',
+        d: 1337
+      },
       chainCurrency: 'ETH',
       ChainRpcUrl: 'http://localhost:8545',
       chainExplorerUrl: 'http://localhost:8545',
@@ -117,9 +126,12 @@ export const NETWORKS = {
   amoy: {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'amoy',
-      chainId: '0x13882',
+      chainId: {
+        h: '0x13882',
+        d: 80002
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://rpc-amoy.polygon.technology',
       chainExplorerUrl: 'https://www.oklink.com/amoy',
@@ -139,9 +151,12 @@ export const NETWORKS = {
   mumbai: {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'mumbai',
-      chainId: '0x13881',
+      chainId: {
+        h: '0x13881',
+        d: 80001
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://rpc-mumbai.maticvigil.com',
       chainExplorerUrl: 'https://mumbai.polygonscan.com',
@@ -162,9 +177,12 @@ export const NETWORKS = {
   'bsc-testnet': {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'bsc-testnet',
-      chainId: '0x61',
+      chainId: {
+        h: '0x61',
+        d: 97
+      },
       chainCurrency: 'tBNB',
       ChainRpcUrl: 'https://bsc-testnet-dataseed.bnbchain.org',
       chainExplorerUrl: 'https://testnet.bscscan.com',
@@ -184,9 +202,12 @@ export const NETWORKS = {
   'opbnb-testnet': {
     config: {
       enabled: 'true',
-      environment: 'testing',
+      environments: ['testing'],
       chainName: 'opBNB-testnet',
-      chainId: '0x15eb',
+      chainId: {
+        h: '0x15eb',
+        d: 5611
+      },
       chainCurrency: 'tBNB',
       ChainRpcUrl: 'https://opbnb-testnet-rpc.bnbchain.org',
       chainExplorerUrl: 'https://opbnb-testnet.bscscan.com',
@@ -206,9 +227,12 @@ export const NETWORKS = {
   matic: {
     config: {
       enabled: 'true',
-      environment: 'production',
+      environments: ['production'],
       chainName: 'matic',
-      chainId: '0x89',
+      chainId: {
+        h: '0x89',
+        d: 137
+      },
       chainCurrency: 'MATIC',
       ChainRpcUrl: 'https://polygon-mainnet.infura.io',
       chainExplorerUrl: 'https://polygonscan.com',
@@ -228,11 +252,14 @@ export const NETWORKS = {
   sepolia: {
     config: {
       enabled: 'true',
-      environment: 'production',
+      environments: ['production', 'testing'],
       chainName: 'sepolia',
-      chainId: '0xaa36a7',
+      chainId: {
+        h: '0xaa36a7',
+        d: 11155111
+      },
       chainCurrency: 'ETH',
-      ChainRpcUrl: 'https://sepolia.gateway.tenderly.co',
+      ChainRpcUrl: 'https://1rpc.io/sepolia',
       chainExplorerUrl: 'https://sepolia.etherscan.io',
       chainOpenSeaBaseUrl: 'https://testnets.opensea.io',
       chainNftUrl: '',
@@ -250,8 +277,3 @@ export const NETWORKS = {
 }
 
 // ------------------------------------------------------------------
-
-function removeQuotes(text) {
-  if (text === '' || !text) return text
-  return text.replace(/['"]/g, '')
-}
